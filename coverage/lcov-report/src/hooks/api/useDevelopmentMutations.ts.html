@@ -1144,7 +1144,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;{ createDevelopment: Development }, { input: CreateDevelopmentInput }&gt;(</span>
     CREATE_DEVELOPMENT,
     {
@@ -1152,7 +1152,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // Invalidate and refetch developments list queries
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['developments'] });</span>
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['myDevelopments'] });</span>
-        
+&nbsp;
         // If we have a callback, call it with the new development
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(data, { input: data.data?.createDevelopment as any }, undefined as any);</span>
@@ -1172,7 +1172,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;{ updateDevelopment: Development }, { id: string; input: UpdateDevelopmentInput }&gt;(</span>
     UPDATE_DEVELOPMENT,
     {
@@ -1181,7 +1181,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['development', variables.id] });</span>
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['developments'] });</span>
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['myDevelopments'] });</span>
-        
+&nbsp;
         // If we have a callback, call it
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(data, variables, undefined as any);</span>
@@ -1201,7 +1201,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;</span>
     { updateDevelopmentLocation: Location }, 
     { developmentId: string; input: UpdateLocationInput }
@@ -1211,7 +1211,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       onSuccess: <span class="fstat-no" title="function not covered" >(d</span>ata: GraphQLResult&lt;{ updateDevelopmentLocation: Location }&gt;, variables: { developmentId: string; input: UpdateLocationInput }) =&gt; {
         // Invalidate and refetch development detail
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['development', variables.developmentId] });</span>
-        
+&nbsp;
         // If we have a callback, call it
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(data, variables, undefined as any);</span>
@@ -1231,14 +1231,14 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;{ addProfessionalTeamMember: any }, TeamMemberInput&gt;(</span>
     ADD_PROFESSIONAL_TEAM_MEMBER,
     {
       onSuccess: <span class="fstat-no" title="function not covered" >(d</span>ata: GraphQLResult&lt;{ addProfessionalTeamMember: any }&gt;, variables: TeamMemberInput) =&gt; {
         // Invalidate and refetch development detail
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['development', variables.developmentId] });</span>
-        
+&nbsp;
         // If we have a callback, call it
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(data, variables, undefined as any);</span>
@@ -1258,7 +1258,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;</span>
     { updateTeamMemberStatus: any }, 
     { teamMemberId: string; status: string }
@@ -1269,7 +1269,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // Since we don't know which development this team member belongs to,
         // we'll invalidate all development queries
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['development'] });</span>
-        
+&nbsp;
         // If we have a callback, call it
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(undefined as any, undefined as any, undefined as any);</span>
@@ -1289,14 +1289,14 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;{ addProjectMilestone: any }, MilestoneInput&gt;(</span>
     ADD_PROJECT_MILESTONE,
     {
       onSuccess: <span class="fstat-no" title="function not covered" >(d</span>ata: GraphQLResult&lt;{ addProjectMilestone: any }&gt;, variables: MilestoneInput) =&gt; {
         // Invalidate and refetch development detail
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['development', variables.developmentId] });</span>
-        
+&nbsp;
         // If we have a callback, call it
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(data, variables, undefined as any);</span>
@@ -1316,7 +1316,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   &gt;, 'mutationFn'&gt;
 ) {
   const queryClient = <span class="cstat-no" title="statement not covered" >useQueryClient();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return useGraphQLMutation&lt;</span>
     { updateMilestoneStatus: any }, 
     { milestoneId: string; status: string; actualDate?: string }
@@ -1327,7 +1327,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // Since we don't know which development this milestone belongs to,
         // we'll invalidate all development queries
 <span class="cstat-no" title="statement not covered" >        queryClient.invalidateQueries({ queryKey: ['development'] });</span>
-        
+&nbsp;
         // If we have a callback, call it
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (options?.onSuccess) {</span>
 <span class="cstat-no" title="statement not covered" >          options.onSuccess(undefined as any, undefined as any, undefined as any);</span>
@@ -1354,7 +1354,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/103</span>
+                <span class='fraction'>0/101</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/97</span>
+                <span class='fraction'>0/95</span>
             </div>
         
             
@@ -1430,8 +1430,7 @@
 <a name='L1365'></a><a href='#L1365'>1365</a>
 <a name='L1366'></a><a href='#L1366'>1366</a>
 <a name='L1367'></a><a href='#L1367'>1367</a>
-<a name='L1368'></a><a href='#L1368'>1368</a>
-<a name='L1369'></a><a href='#L1369'>1369</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L1368'></a><a href='#L1368'>1368</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1585,7 +1584,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1773,7 +1772,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2917,15 +2915,15 @@ interface Development {
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >UnitDetailPage() {</span></span>
   const params = <span class="cstat-no" title="statement not covered" >useParams();</span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [unit, setUnit] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit | null&gt;(null);</span>
-  const [unitTypes, setUnitTypes] = <span class="cstat-no" title="statement not covered" >useState&lt;UnitType[]&gt;([]);</span>
-  const [development, setDevelopment] = <span class="cstat-no" title="statement not covered" >useState&lt;Development | null&gt;(null);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('details');</span>
-  const [isEditing, setIsEditing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
+  const [unitsetUnit] = <span class="cstat-no" title="statement not covered" >useState&lt;Unit | null&gt;(null);</span>
+  const [unitTypessetUnitTypes] = <span class="cstat-no" title="statement not covered" >useState&lt;UnitType[]&gt;([]);</span>
+  const [developmentsetDevelopment] = <span class="cstat-no" title="statement not covered" >useState&lt;Development | null&gt;(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('details');</span>
+  const [isEditingsetIsEditing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
   // Form values
-  const [formValues, setFormValues] = <span class="cstat-no" title="statement not covered" >useState({</span>
+  const [formValuessetFormValues] = <span class="cstat-no" title="statement not covered" >useState({</span>
     unitNumber: '',
     block: '',
     floor: 0,
@@ -2942,7 +2940,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     unitTypeId: '',
     features: [] as string[]
   });
-  
+&nbsp;
   // Fetch unit data
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const fetchData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
@@ -2953,16 +2951,16 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         // For now, we'll generate mock data
 <span class="cstat-no" title="statement not covered" >        generateMockData();</span>
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error('Error fetching unit data:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        generateMockData();</span>
       } finally {
 <span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
       }
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    fetchData();</span>
   }, [params.id, params.unitId]);
-  
+&nbsp;
   // Generate mock data
   const generateMockData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Mock unit types
@@ -2972,22 +2970,22 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       { id: 'ut3', name: '4 Bedroom Detached', bedrooms: 4, bathrooms: 3, area: 140, priceFrom: 525000 },
       { id: 'ut4', name: '2 Bedroom Duplex', bedrooms: 2, bathrooms: 2, area: 85, priceFrom: 365000 }
     ];
-    
+&nbsp;
     // Parse unit number from the unitId parameter
     const unitNumber = <span class="cstat-no" title="statement not covered" >String(params.unitId).replace('unit', '');</span>
     const unitIndex = <span class="cstat-no" title="statement not covered" >parseInt(unitNumber);</span>
-    
+&nbsp;
     // Determine block and floor based on unit number
     const blockIndex = <span class="cstat-no" title="statement not covered" >Math.floor((unitIndex - 1) / 25);</span>
     const blocks = <span class="cstat-no" title="statement not covered" >['A', 'B', 'C', 'D'];</span>
     const block = <span class="cstat-no" title="statement not covered" >blocks[blockIndex % blocks.length];</span>
     const floor = <span class="cstat-no" title="statement not covered" >Math.floor((unitIndex - 1) % 25 / 5) + 1;</span>
     const unitNum = <span class="cstat-no" title="statement not covered" >`${block}${floor}${((unitIndex - 1) % 5) + 1}`;</span>
-    
+&nbsp;
     // Determine unit type
     const unitTypeIndex = <span class="cstat-no" title="statement not covered" >(blockIndex + floor) % mockUnitTypes.length;</span>
     const unitType = <span class="cstat-no" title="statement not covered" >mockUnitTypes[unitTypeIndex];</span>
-    
+&nbsp;
     // Determine status based on unit number
     let status;
 <span class="cstat-no" title="statement not covered" >    if (unitIndex &lt;= 40) {</span>
@@ -3003,15 +3001,15 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     } else {
 <span class="cstat-no" title="statement not covered" >      status = 'WITHDRAWN';</span>
     }
-    
+&nbsp;
     // Calculate price with variation
     const priceVariation = <span class="cstat-no" title="statement not covered" >(Math.random() * 0.1) - 0.05; /</span>/ -5% to +5%
     const currentPrice = <span class="cstat-no" title="statement not covered" >Math.round(unitType.priceFrom * (1 + priceVariation));</span>
-    
+&nbsp;
     // Generate reservations and sales if applicable
     const reservations = <span class="cstat-no" title="statement not covered" >[];</span>
     const sales = <span class="cstat-no" title="statement not covered" >[];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (status === 'RESERVED' || status === 'SALE_AGREED') {</span>
 <span class="cstat-no" title="statement not covered" >      reservations.push({</span>
         id: `res${unitIndex}`,
@@ -3030,7 +3028,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         }
       });
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (status === 'SOLD' || status === 'COMPLETED') {</span>
 <span class="cstat-no" title="statement not covered" >      sales.push({</span>
         id: `sale${unitIndex}`,
@@ -3061,19 +3059,19 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         htbAmount: Math.random() &gt; 0.7 ? Math.round(currentPrice * 0.05) : undefined
       });
     }
-    
+&nbsp;
     // Features
     const features = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.random() &gt; 0.5) <span class="cstat-no" title="statement not covered" >features.push('South-facing garden');</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.random() &gt; 0.6) <span class="cstat-no" title="statement not covered" >features.push('Premium kitchen finishes');</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.random() &gt; 0.7) <span class="cstat-no" title="statement not covered" >features.push('Built-in wardrobes');</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.random() &gt; 0.8) <span class="cstat-no" title="statement not covered" >features.push('Premium bathroom fixtures');</span></span>
-    
+&nbsp;
     // Orientation options
     const orientations = <span class="cstat-no" title="statement not covered" >['North', 'South', 'East', 'West'];</span>
     const aspects = <span class="cstat-no" title="statement not covered" >['Front', 'Rear', 'Dual'];</span>
     const viewTypes = <span class="cstat-no" title="statement not covered" >['Park', 'Street', 'Garden', 'Communal'];</span>
-    
+&nbsp;
     // Create the unit
     const mockUnit: Unit = <span class="cstat-no" title="statement not covered" >{</span>
       id: `unit${unitIndex}`,
@@ -3098,7 +3096,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       reservations,
       sales
     };
-    
+&nbsp;
     // Set state
 <span class="cstat-no" title="statement not covered" >    setUnit(mockUnit);</span>
 <span class="cstat-no" title="statement not covered" >    setUnitTypes(mockUnitTypes);</span>
@@ -3106,7 +3104,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       id: params.id as string,
       name: 'Fitzgerald Gardens'
     });
-    
+&nbsp;
     // Set form values
 <span class="cstat-no" title="statement not covered" >    setFormValues({</span>
       unitNumber: mockUnit.unitNumber,
@@ -3126,7 +3124,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       features: mockUnit.features
     });
   };
-  
+&nbsp;
   // Handle form input changes
   const handleInputChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement&gt;) =&gt; {</span>
     const { name, value } = <span class="cstat-no" title="statement not covered" >e.target;</span>
@@ -3135,14 +3133,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       [name]: value
     }));
   };
-  
+&nbsp;
   // Handle form submission
   const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.FormEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
-    
+&nbsp;
     // In a real app, this would be an API call to update the unit
-<span class="cstat-no" title="statement not covered" >    console.log('Form values to submit:', formValues);</span>
-    
+&nbsp;
     // Update the unit data locally for now
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (unit) {</span>
       const updatedUnit = <span class="cstat-no" title="statement not covered" >{</span>
@@ -3163,13 +3160,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         unitTypeId: formValues.unitTypeId,
         features: formValues.features
       };
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setUnit(updatedUnit);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setIsEditing(false);</span>
   };
-  
+&nbsp;
   // Get status badge class
   const getStatusBadgeClass = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>tatus: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    switch (status) {</span>
@@ -3189,7 +3186,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >        return 'bg-gray-100 text-gray-800';</span>
     }
   };
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (loading) {</span>
     return (
       &lt;div className="flex items-center justify-center min-h-screen"&gt;
@@ -3200,7 +3197,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!unit) {</span>
     return (
       &lt;div className="flex items-center justify-center min-h-screen"&gt;
@@ -3213,7 +3210,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
   return (
     &lt;div className="min-h-screen bg-gray-50 pb-12"&gt;
       {/* Header */}
@@ -3233,7 +3230,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;ChevronRight className="h-4 w-4" /&gt;
               &lt;span className="text-gray-900"&gt;Unit {unit.unitNumber}&lt;/span&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="flex justify-between items-start"&gt;
               &lt;div&gt;
                 &lt;h1 className="text-3xl font-bold text-gray-900"&gt;Unit {unit.unitNumber}&lt;/h1&gt;
@@ -3248,7 +3245,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/span&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex space-x-3"&gt;
                 {!isEditing ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                  &lt;&gt;</span>
@@ -3294,7 +3291,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8"&gt;
         &lt;div className="border-b border-gray-200"&gt;
           &lt;nav className="-mb-px flex space-x-8"&gt;
-            {['details', 'reservations', 'sales', 'documents', 'history'].map(<span class="fstat-no" title="function not covered" >(t</span>ab) =&gt; (
+            {['details', 'reservations', 'sales', 'documents', 'history'].map(<span class="fstat-no" title="function not covered" >(t</span>ab: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;button</span>
                 key={tab}
                 onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etActiveTab(tab)}</span>
@@ -3506,7 +3503,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;textarea
                       name="features"
                       value={formValues.features.join('\n')}
-                      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormValues({...formValues, features: e.target.value.split('\n').filter(<span class="fstat-no" title="function not covered" >f =&gt; <span class="cstat-no" title="statement not covered" >f</span>.trim() !== '')}</span>)}</span>
+                      onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormValues({...formValues, features: e.target.value.split('\n').filter(<span class="fstat-no" title="function not covered" >f =&gt; <span class="cstat-no" title="statement not covered" >f</span>.trim() !== '')}</span>)}</span>
                       placeholder="Enter features, one per line"
                       className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
                     /&gt;
@@ -3573,7 +3570,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                           &lt;/div&gt;
                         &lt;/div&gt;
                       &lt;/div&gt;
-                      
+&nbsp;
                       &lt;div&gt;
                         &lt;h3 className="text-sm font-medium text-gray-500"&gt;Unit Specifications&lt;/h3&gt;
                         &lt;div className="mt-2 space-y-2"&gt;
@@ -3610,7 +3607,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                           &lt;/div&gt;
                         &lt;/div&gt;
                       &lt;/div&gt;
-                      
+&nbsp;
                       &lt;div&gt;
                         &lt;h3 className="text-sm font-medium text-gray-500"&gt;Dates &amp; Deadlines&lt;/h3&gt;
                         &lt;div className="mt-2 space-y-2"&gt;
@@ -3643,7 +3640,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* Floorplan */}
                 &lt;div className="bg-white shadow rounded-lg overflow-hidden"&gt;
                   &lt;div className="p-6"&gt;
@@ -3660,7 +3657,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &lt;/button&gt;
                       &lt;/div&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div className="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg flex items-center justify-center"&gt;
                       {/* This would be an actual image in a real implementation */}
                       &lt;div className="text-center"&gt;
@@ -3674,7 +3671,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* Features */}
                 &lt;div className="bg-white shadow rounded-lg overflow-hidden"&gt;
                   &lt;div className="p-6"&gt;
@@ -3685,10 +3682,10 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         Add Feature
                       &lt;/button&gt;
                     &lt;/div&gt;
-                    
-                    {unit.features.length &gt; 0 ? (
+&nbsp;
+                    {unit.features.length&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                      &lt;ul className="space-y-2"&gt;</span>
-                        {unit.features.map(<span class="fstat-no" title="function not covered" >(f</span>eature, index) =&gt; (
+                        {unit.features.map(<span class="fstat-no" title="function not covered" >(f</span>eatureindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                          &lt;li key={index} c</span>lassName="flex items-center"&gt;
                             &lt;Check className="h-5 w-5 text-green-500 mr-2" /&gt;
                             &lt;span className="text-gray-700"&gt;{feature}&lt;/span&gt;
@@ -3704,7 +3701,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             )}
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {/* Reservations Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'reservations' &amp;&amp; (</span>
           &lt;div className="space-y-8"&gt;
@@ -3724,8 +3721,8 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     Create Reservation
                   &lt;/button&gt;
                 &lt;/div&gt;
-                
-                {unit.reservations.length &gt; 0 ? (
+&nbsp;
+                {unit.reservations.length&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                  &lt;div className="overflow-x-auto"&gt;</span>
                     &lt;table className="min-w-full divide-y divide-gray-200"&gt;
                       &lt;thead className="bg-gray-50"&gt;
@@ -3751,7 +3748,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &lt;/tr&gt;
                       &lt;/thead&gt;
                       &lt;tbody className="bg-white divide-y divide-gray-200"&gt;
-                        {unit.reservations.map(<span class="fstat-no" title="function not covered" >(r</span>eservation) =&gt; (
+                        {unit.reservations.map(<span class="fstat-no" title="function not covered" >(r</span>eservation: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                          &lt;tr key={reservation.id} c</span>lassName="hover:bg-gray-50"&gt;
                             &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"&gt;
                               {new Date(reservation.reservationDate).toLocaleDateString()}
@@ -3776,7 +3773,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                             &lt;/td&gt;
                             &lt;td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"&gt;
                               {new Date(reservation.expiryDate).toLocaleDateString()}
-                              {<span class="branch-0 cbranch-no" title="branch not covered" >new Date(reservation.expiryDate) &lt; new Date() &amp;&amp; (</span>
+                              {<span class="branch-0 cbranch-no" title="branch not covered" >new Date(reservation.expiryDate) &lt;new Date() &amp;&amp; (</span>
                                 &lt;span className="ml-2 text-red-500"&gt;Expired&lt;/span&gt;
                               )}
                             &lt;/td&gt;
@@ -3819,7 +3816,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {/* Sales Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'sales' &amp;&amp; (</span>
           &lt;div className="space-y-8"&gt;
@@ -3839,10 +3836,10 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     Create Sale
                   &lt;/button&gt;
                 &lt;/div&gt;
-                
-                {unit.sales.length &gt; 0 ? (
+&nbsp;
+                {unit.sales.length&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                  &lt;div className="space-y-8"&gt;</span>
-                    {unit.sales.map(<span class="fstat-no" title="function not covered" >(s</span>ale) =&gt; (
+                    {unit.sales.map(<span class="fstat-no" title="function not covered" >(s</span>ale: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;div key={sale.id} c</span>lassName="border rounded-lg overflow-hidden"&gt;
                         &lt;div className="bg-gray-50 px-6 py-4 border-b"&gt;
                           &lt;div className="flex justify-between items-center"&gt;
@@ -3856,7 +3853,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                             &lt;/span&gt;
                           &lt;/div&gt;
                         &lt;/div&gt;
-                        
+&nbsp;
                         &lt;div className="px-6 py-4"&gt;
                           &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;
                             {/* Buyer Details */}
@@ -3892,7 +3889,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                                 )}
                               &lt;/div&gt;
                             &lt;/div&gt;
-                            
+&nbsp;
                             {/* Financial Details */}
                             &lt;div&gt;
                               &lt;h4 className="text-sm font-medium text-gray-500 mb-2"&gt;Financial Details&lt;/h4&gt;
@@ -3941,7 +3938,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                                 )}
                               &lt;/div&gt;
                             &lt;/div&gt;
-                            
+&nbsp;
                             {/* Status &amp; Timeline */}
                             &lt;div&gt;
                               &lt;h4 className="text-sm font-medium text-gray-500 mb-2"&gt;Status &amp; Timeline&lt;/h4&gt;
@@ -3988,7 +3985,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                             &lt;/div&gt;
                           &lt;/div&gt;
                         &lt;/div&gt;
-                        
+&nbsp;
                         &lt;div className="bg-gray-50 px-6 py-4 border-t"&gt;
                           &lt;div className="flex justify-end space-x-3"&gt;
                             &lt;button className="px-3 py-1.5 bg-white border border-gray-300 rounded text-sm font-medium text-gray-700 hover:bg-gray-50"&gt;
@@ -4033,7 +4030,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {/* Documents Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'documents' &amp;&amp; (</span>
           &lt;div className="space-y-8"&gt;
@@ -4046,7 +4043,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     Upload Document
                   &lt;/button&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="text-center py-16"&gt;
                   &lt;div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100"&gt;
                     &lt;FileText className="h-6 w-6 text-gray-600" /&gt;
@@ -4069,14 +4066,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {/* History Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'history' &amp;&amp; (</span>
           &lt;div className="space-y-8"&gt;
             &lt;div className="bg-white shadow rounded-lg"&gt;
               &lt;div className="p-6"&gt;
                 &lt;h2 className="text-lg font-semibold text-gray-900 mb-4"&gt;Unit History&lt;/h2&gt;
-                
+&nbsp;
                 &lt;div className="flow-root"&gt;
                   &lt;ul className="-mb-8"&gt;
                     &lt;li&gt;
@@ -4174,7 +4171,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/47</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/47</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -256,12 +256,7 @@
 <a name='L191'></a><a href='#L191'>191</a>
 <a name='L192'></a><a href='#L192'>192</a>
 <a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a>
-<a name='L199'></a><a href='#L199'>199</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L194'></a><a href='#L194'>194</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -310,7 +305,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -366,7 +361,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -436,8 +430,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -455,8 +447,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NextRequest, NextResponse } from <span class="cstat-no" title="statement not covered" >'next/server';</span>
@@ -483,7 +473,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const reservationId = <span class="cstat-no" title="statement not covered" >params.id;</span>
-    
+&nbsp;
     // Get reservation from database
     const reservation = <span class="cstat-no" title="statement not covered" >await getLegalReservation(reservationId);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservation) {</span>
@@ -494,7 +484,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     // Check access permissions
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canAccessReservation(session.user?.id, reservation)) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canAccessReservation(session.user?.idreservation)) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: 'Access denied' },
         { status: 403 }
@@ -508,7 +498,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     });
 &nbsp;
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error fetching legal reservation:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to fetch reservation' },
       { status: 500 }
@@ -544,7 +534,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     // Check access permissions
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canUpdateReservation(session.user?.id, existingReservation)) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canUpdateReservation(session.user?.idexistingReservation)) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: 'Update access denied' },
         { status: 403 }
@@ -552,7 +542,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     // Update reservation
-    const updatedReservation = <span class="cstat-no" title="statement not covered" >await updateLegalReservation(reservationId, updates);</span>
+    const updatedReservation = <span class="cstat-no" title="statement not covered" >await updateLegalReservation(reservationIdupdates);</span>
 &nbsp;
     // Log audit event
 <span class="cstat-no" title="statement not covered" >    await logReservationUpdate(reservationId, updates, session.user?.id);</span>
@@ -564,8 +554,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     });
 &nbsp;
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error updating legal reservation:', error);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error instanceof z.ZodError) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: 'Invalid request data', details: error.errors },
@@ -583,7 +572,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 async function <span class="fstat-no" title="function not covered" >getLegalReservation(r</span>eservationId: string) {
   // Integration with your existing database
   // This would query your actual database using Prisma or your ORM
-  
+&nbsp;
   // Mock data for now - replace with actual database query
 <span class="cstat-no" title="statement not covered" >  return {</span>
     id: reservationId,
@@ -592,19 +581,19 @@ async function <span class="fstat-no" title="function not covered" >getLegalRese
     buyerId: 'buyer_123',
     status: 'BOOKING_INITIATED',
     legalStage: 'DRAFT',
-    
+&nbsp;
     deposit: {
       amount: 5000,
       status: 'PENDING',
       escrowAccount: 'ESC_PROP_001'
     },
-    
+&nbsp;
     termsAccepted: {
       accepted: false
     },
-    
+&nbsp;
     auditLog: [],
-    
+&nbsp;
     createdAt: new Date(),
     updatedAt: new Date()
   };
@@ -634,8 +623,6 @@ async function <span class="fstat-no" title="function not covered" >updateLegalR
   //   data: updatedData
   // });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  console.log('Updated legal reservation:', reservationId, updatedData);</span>
-  
   // Return updated reservation
 <span class="cstat-no" title="statement not covered" >  return {</span>
     id: reservationId,
@@ -654,8 +641,6 @@ async function <span class="fstat-no" title="function not covered" >logReservati
     source: 'API'
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  console.log('Audit event:', auditEvent);</span>
-  
   // await auditService.log(auditEvent);
 }</pre></td></tr></table></pre>
 
@@ -664,7 +649,7 @@ async function <span class="fstat-no" title="function not covered" >logReservati
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -144,21 +144,7 @@
 <a name='L79'></a><a href='#L79'>79</a>
 <a name='L80'></a><a href='#L80'>80</a>
 <a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -166,14 +152,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -220,18 +198,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -247,7 +214,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -258,52 +230,44 @@ import { prisma } from <span class="cstat-no" title="statement not covered" >'@/
 &nbsp;
 export default async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >sitemap(): Promise&lt;MetadataRoute.Sitemap&gt; {</span></span>
   const baseUrl = <span class="cstat-no" title="statement not covered" >'https://prop.ie'</span>
-  
+&nbsp;
   // Static pages
   const staticPages = <span class="cstat-no" title="statement not covered" >[</span>
     {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
-      priority: 1,
-    },
+      priority: 1},
     {
       url: `${baseUrl}/properties/search`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
+      priority: 0.9},
     {
       url: `${baseUrl}/developments`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
+      priority: 0.8},
     {
       url: `${baseUrl}/first-time-buyers`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
+      priority: 0.8},
     {
       url: `${baseUrl}/solutions/developers`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
+      priority: 0.7},
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
+      priority: 0.6},
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
-  ]
+      priority: 0.6}]
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  try {</span>
     // Dynamic pages - Properties
@@ -311,38 +275,32 @@ export default async function <span class="cstat-no" title="statement not covere
       where: { status: 'AVAILABLE' },
       select: {
         id: true,
-        updatedAt: true,
-      },
+        updatedAt: true},
       take: 1000, // Limit for performance
     })
 &nbsp;
-    const propertyPages = <span class="cstat-no" title="statement not covered" >properties.map(<span class="fstat-no" title="function not covered" >(p</span>roperty) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    const propertyPages = <span class="cstat-no" title="statement not covered" >properties.map(<span class="fstat-no" title="function not covered" >(p</span>roperty: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
       url: `${baseUrl}/properties/${property.id}`,
       lastModified: property.updatedAt,
       changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }))
+      priority: 0.7}))
 &nbsp;
     // Dynamic pages - Developments
     const developments = <span class="cstat-no" title="statement not covered" >await prisma.development.findMany({</span>
       where: { status: 'ACTIVE' },
       select: {
         id: true,
-        updatedAt: true,
-      },
-      take: 500,
-    })
+        updatedAt: true},
+      take: 500})
 &nbsp;
-    const developmentPages = <span class="cstat-no" title="statement not covered" >developments.map(<span class="fstat-no" title="function not covered" >(d</span>evelopment) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    const developmentPages = <span class="cstat-no" title="statement not covered" >developments.map(<span class="fstat-no" title="function not covered" >(d</span>evelopment: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
       url: `${baseUrl}/developments/${development.id}`,
       lastModified: development.updatedAt,
       changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    }))
+      priority: 0.8}))
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return [...staticPages, ...propertyPages, ...developmentPages]</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error generating sitemap:', error)</span>
 <span class="cstat-no" title="statement not covered" >    return staticPages</span>
   }
 }
@@ -355,7 +313,7 @@ export const <span class="cstat-no" title="statement not covered" >revalidate </
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

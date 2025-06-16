@@ -249,16 +249,7 @@
 <a name='L184'></a><a href='#L184'>184</a>
 <a name='L185'></a><a href='#L185'>185</a>
 <a name='L186'></a><a href='#L186'>186</a>
-<a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a>
-<a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a>
-<a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L187'></a><a href='#L187'>187</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -364,15 +355,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -386,17 +368,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -556,23 +538,20 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   
   // Base test cases that ensure good coverage
   const baseTestCases = <span class="cstat-no" title="statement not covered" >[</span>
-    { id: 1, name: 'Standard case', value: 'normal' },
-  ];
+    { id: 1, name: 'Standard case', value: 'normal' }];
   
   // Edge cases for better branch coverage
   const edgeCases = <span class="cstat-no" title="statement not covered" >includeEdgeCases ? [</span>
     { id: 2, name: 'Empty case', value: '' },
     { id: 3, name: 'Null case', value: null },
     { id: 4, name: 'Undefined case', value: undefined },
-    { id: 5, name: 'Boundary case', value: Number.MAX_SAFE_INTEGER },
-  ] : [];
+    { id: 5, name: 'Boundary case', value: Number.MAX_SAFE_INTEGER }] : [];
   
   // Error states to test error handling code paths
   const errorStates = <span class="cstat-no" title="statement not covered" >includeErrorStates ? [</span>
     { id: 6, name: 'Error case', value: 'error', error: new Error('Test error') },
     { id: 7, name: 'Network error', value: 'network-error', error: new Error('Network error') },
-    { id: 8, name: 'Timeout error', value: 'timeout', error: new Error('Timeout') },
-  ] : [];
+    { id: 8, name: 'Timeout error', value: 'timeout', error: new Error('Timeout') }] : [];
   
   // Permutations for exhaustive testing
   const permutations = <span class="cstat-no" title="statement not covered" >includeAllPermutations ? [</span>
@@ -581,22 +560,16 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     { id: 11, name: 'Number zero', value: 0 },
     { id: 12, name: 'Negative number', value: -1 },
     { id: 13, name: 'Array empty', value: [] },
-    { id: 14, name: 'Array with values', value: [1, 2, 3] },
+    { id: 14, name: 'Array with values', value: [1, 23] },
     { id: 15, name: 'Object empty', value: {} },
-    { id: 16, name: 'Object with values', value: { key: 'value' } },
-  ] : [];
+    { id: 16, name: 'Object with values', value: { key: 'value' } }] : [];
   
 <span class="cstat-no" title="statement not covered" >  return [...baseTestCases, ...edgeCases, ...errorStates, ...permutations];</span>
 }
 &nbsp;
 /**
- * Helper function to confirm all branches of an async function are covered
- * 
- * Usage:
- * ```
- * it('covers all branches', async () =&gt; {
- *   await testAsyncBranches(
- *     async (input) =&gt; myFunction(input),
+ * Helper async function totestAsyncBranches(
+ *     async (input: any) =&gt; myFunction(input),
  *     ['success', 'error', 'empty']
  *   );
  * });
@@ -655,7 +628,7 @@ export const <span class="cstat-no" title="statement not covered" >apiCoverageMo
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

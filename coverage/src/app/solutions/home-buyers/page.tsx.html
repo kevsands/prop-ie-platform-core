@@ -2161,7 +2161,7 @@ import {
 } from <span class="cstat-no" title="statement not covered" >'lucide-react';</span>
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >HomeBuyersPage() {</span></span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('search');</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('search');</span>
 &nbsp;
   return (
     &lt;div className="min-h-screen bg-white"&gt;
@@ -2291,7 +2291,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
           {/* Tab Navigation */}
           &lt;div className="flex flex-wrap justify-center mb-8 border-b"&gt;
-            {['search', 'finance', 'insights', 'support', 'legal'].map(<span class="fstat-no" title="function not covered" >(t</span>ab) =&gt; (
+            {['search', 'finance', 'insights', 'support', 'legal'].map(<span class="fstat-no" title="function not covered" >(t</span>ab: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;button</span>
                 key={tab}
                 onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etActiveTab(tab)}</span>
@@ -2849,7 +2849,7 @@ function <span class="fstat-no" title="function not covered" >FinanceTab() {</sp
           Understand your buying power and get mortgage-ready with our comprehensive financial tools
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-3 gap-8"&gt;
         &lt;FinanceFeature 
           icon={&lt;Calculator /&gt;}
@@ -2895,7 +2895,7 @@ function <span class="fstat-no" title="function not covered" >InsightsTab() {</s
           Make informed decisions with real-time market data and professional insights
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-2 gap-8"&gt;
         &lt;InsightFeature 
           icon={&lt;TrendingUp /&gt;}
@@ -2931,7 +2931,7 @@ function <span class="fstat-no" title="function not covered" >SupportTab() {</sp
           From first search to moving in, our team of experts is here to help
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-3 gap-8"&gt;
         &lt;SupportFeature 
           icon={&lt;Users /&gt;}
@@ -2977,7 +2977,7 @@ function <span class="fstat-no" title="function not covered" >LegalTab() {</span
           Navigate the legal aspects of buying with confidence
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-2 gap-12"&gt;
         &lt;div className="space-y-6"&gt;
           &lt;LegalFeature 
@@ -3036,7 +3036,7 @@ function <span class="fstat-no" title="function not covered" >ProgramCard({</spa
       &lt;h3 className="text-2xl font-bold mb-2"&gt;{title}&lt;/h3&gt;
       &lt;p className={`mb-6 ${featured ? 'text-blue-100' : 'text-gray-600'}`}&gt;{description}&lt;/p&gt;
       &lt;ul className="space-y-3 mb-8"&gt;
-        {benefits.map(<span class="fstat-no" title="function not covered" >(b</span>enefit, index) =&gt; (
+        {benefits.map(<span class="fstat-no" title="function not covered" >(b</span>enefitindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;li key={index} c</span>lassName="flex items-center"&gt;
             &lt;CheckCircle className={`h-5 w-5 mr-3 ${featured ? 'text-blue-300' : 'text-green-500'}`} /&gt;
             &lt;span&gt;{benefit}&lt;/span&gt;
@@ -3069,7 +3069,7 @@ function <span class="fstat-no" title="function not covered" >SuccessStoryCard({
     &lt;div className="bg-white rounded-xl shadow-lg overflow-hidden"&gt;
       &lt;div className="p-6"&gt;
         &lt;div className="flex items-center mb-4"&gt;
-          {[...Array(5)].map(<span class="fstat-no" title="function not covered" >(_</span>, i) =&gt; (
+          {[...Array(5)].map(<span class="fstat-no" title="function not covered" >(_</span>i: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;Star key={i} c</span>lassName="h-5 w-5 text-yellow-400 fill-current" /&gt;
           ))}
         &lt;/div&gt;
@@ -3147,8 +3147,8 @@ function <span class="fstat-no" title="function not covered" >LegalFeature({</sp
 }
 &nbsp;
 function <span class="fstat-no" title="function not covered" >FAQItem({</span> question, answer }: { question: string; answer: string }) {
-  const [isOpen, setIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
+  const [isOpensetIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
   return (
     &lt;div className="border-b border-gray-200 pb-6"&gt;
       &lt;button
@@ -3177,7 +3177,7 @@ function <span class="fstat-no" title="function not covered" >CustomizationCard(
       &lt;h3 className="text-xl font-bold mb-2"&gt;{title}&lt;/h3&gt;
       &lt;p className="text-purple-100 mb-4"&gt;{description}&lt;/p&gt;
       &lt;ul className="space-y-2"&gt;
-        {features.map(<span class="fstat-no" title="function not covered" >(f</span>eature, index) =&gt; (
+        {features.map(<span class="fstat-no" title="function not covered" >(f</span>eatureindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;li key={index} c</span>lassName="flex items-center"&gt;
             &lt;CheckCircle className="h-4 w-4 text-purple-300 mr-2" /&gt;
             &lt;span className="text-sm"&gt;{feature}&lt;/span&gt;
@@ -3193,7 +3193,7 @@ function <span class="fstat-no" title="function not covered" >CustomizationCard(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

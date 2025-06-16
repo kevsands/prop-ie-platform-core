@@ -230,16 +230,7 @@
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -266,12 +257,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -330,7 +316,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -338,9 +323,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -400,7 +383,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -439,9 +421,7 @@ const TokenizationSchema = <span class="cstat-no" title="statement not covered" 
     address: z.string(),
     type: z.string(),
     bedrooms: z.number(),
-    totalValue: z.number(),
-  }),
-});
+    totalValue: z.number()})});
 &nbsp;
 // Initialize blockchain service
 const blockchainService = <span class="cstat-no" title="statement not covered" >new PropertyTokenizationService({</span>
@@ -449,18 +429,15 @@ const blockchainService = <span class="cstat-no" title="statement not covered" >
     mainnet: process.env.MAINNET_RPC_URL!,
     polygon: process.env.POLYGON_RPC_URL!,
     arbitrum: process.env.ARBITRUM_RPC_URL!,
-    testnet: process.env.TESTNET_RPC_URL!,
-  },
+    testnet: process.env.TESTNET_RPC_URL!},
   contractAddresses: {
     mainnet: process.env.MAINNET_CONTRACT_ADDRESS!,
     polygon: process.env.POLYGON_CONTRACT_ADDRESS!,
     arbitrum: process.env.ARBITRUM_CONTRACT_ADDRESS!,
-    testnet: process.env.TESTNET_CONTRACT_ADDRESS!,
-  },
+    testnet: process.env.TESTNET_CONTRACT_ADDRESS!},
   privateKey: process.env.BLOCKCHAIN_PRIVATE_KEY!,
   infuraKey: process.env.INFURA_KEY,
-  alchemyKey: process.env.ALCHEMY_KEY,
-});
+  alchemyKey: process.env.ALCHEMY_KEY});
 &nbsp;
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >POST(</span></span>request: NextRequest) {
 <span class="cstat-no" title="statement not covered" >  try {</span>
@@ -503,16 +480,14 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       property: property as any,
       totalShares,
       pricePerShare: BigInt(pricePerShare),
-      chain,
-    });
+      chain});
 &nbsp;
     // Log the tokenization event
 <span class="cstat-no" title="statement not covered" >    logger.info('Property tokenized', {</span>
       propertyId,
       chain,
       totalShares,
-      userId: session.user.id,
-    });
+      userId: session.user.id});
 &nbsp;
     // Return success response
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({</span>
@@ -520,8 +495,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       propertyId,
       chain,
       contractAddress: process.env[`${chain.toUpperCase()}_CONTRACT_ADDRESS`],
-      message: 'Property successfully tokenized',
-    });
+      message: 'Property successfully tokenized'});
 &nbsp;
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    logger.error('Tokenization failed:', error);</span>
@@ -578,8 +552,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({</span>
       property: propertyDetails,
       userHoldings,
-      chain,
-    });
+      chain});
 &nbsp;
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    logger.error('Failed to get tokenized property:', error);</span>
@@ -598,7 +571,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

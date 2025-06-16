@@ -902,16 +902,16 @@ interface FeaturedPropertiesResult {
 &nbsp;
 // Custom hook for fetching featured properties
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useFeaturedProperties(</span></span>): FeaturedPropertiesResult {
-  const [properties, setProperties] = <span class="cstat-no" title="statement not covered" >useState&lt;Property[]&gt;([]);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [propertiessetProperties] = <span class="cstat-no" title="statement not covered" >useState&lt;Property[]&gt;([]);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
   const { data: session } = <span class="cstat-no" title="statement not covered" >useSession();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const fetchProperties = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        setLoading(true);</span>
-        
+&nbsp;
         // In a real app, you'd make an API call here
         // const response = await fetch('/api/properties/featured', {
         //   headers: {
@@ -920,7 +920,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // });
         // if (!response.ok) throw new Error('Failed to fetch properties');
         // const data = await response.json();
-        
+&nbsp;
         // For now, using mock data
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >          setProperties(mockProperties);</span>
@@ -946,16 +946,16 @@ interface ProjectPropertiesResult {
 &nbsp;
 // Custom hook for fetching properties by project slug
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useProjectProperties(</span></span>projectSlug: string): ProjectPropertiesResult {
-  const [properties, setProperties] = <span class="cstat-no" title="statement not covered" >useState&lt;Property[]&gt;([]);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [propertiessetProperties] = <span class="cstat-no" title="statement not covered" >useState&lt;Property[]&gt;([]);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
   const { data: session } = <span class="cstat-no" title="statement not covered" >useSession();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const fetchProjectProperties = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        setLoading(true);</span>
-        
+&nbsp;
         // In a real app, you'd make an API call here
         // const response = await fetch(`/api/projects/${projectSlug}/properties`, {
         //   headers: {
@@ -964,7 +964,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // });
         // if (!response.ok) throw new Error('Failed to fetch project properties');
         // const data = await response.json();
-        
+&nbsp;
         // For now, filter mock data by project slug
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
           const filteredProperties = <span class="cstat-no" title="statement not covered" >mockProperties.filter(</span>
@@ -980,7 +980,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    fetchProjectProperties();</span>
-  }, [projectSlug, session]);
+  }, [projectSlugsession]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return { properties, loading, error };</span>
 }
@@ -993,16 +993,16 @@ interface PropertyDetailsResult {
 &nbsp;
 // Custom hook for fetching property details by ID
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >usePropertyDetails(</span></span>projectSlug: string, propertyId: string): PropertyDetailsResult {
-  const [property, setProperty] = <span class="cstat-no" title="statement not covered" >useState&lt;Property | null&gt;(null);</span>
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [propertysetProperty] = <span class="cstat-no" title="statement not covered" >useState&lt;Property | null&gt;(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
   const { data: session } = <span class="cstat-no" title="statement not covered" >useSession();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const fetchPropertyDetails = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        setLoading(true);</span>
-        
+&nbsp;
         // In a real app, you'd make an API call here
         // const response = await fetch(`/api/projects/${projectSlug}/properties/${propertyId}`, {
         //   headers: {
@@ -1011,19 +1011,19 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // });
         // if (!response.ok) throw new Error('Failed to fetch property details');
         // const data = await response.json();
-        
+&nbsp;
         // For now, find in mock data
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
           const foundProperty = <span class="cstat-no" title="statement not covered" >mockProperties.find(</span>
 <span class="fstat-no" title="function not covered" >            property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.id === propertyId &amp;&amp; property.projectSlug === projectSlug</span>
           );
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          if (foundProperty) {</span>
 <span class="cstat-no" title="statement not covered" >            setProperty(foundProperty);</span>
           } else {
 <span class="cstat-no" title="statement not covered" >            setError('Property not found');</span>
           }
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          setLoading(false);</span>
         }, 500);
       } catch (err) {
@@ -1033,7 +1033,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    fetchPropertyDetails();</span>
-  }, [projectSlug, propertyId, session]);
+  }, [projectSlug, propertyIdsession]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return { property, loading, error };</span>
 }
@@ -1045,24 +1045,24 @@ interface SearchPropertiesResult extends PropertyListResponse {
 &nbsp;
 // Custom hook for searching properties with filters
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useSearchProperties(</span></span>params: PropertySearchParams): SearchPropertiesResult {
-  const [result, setResult] = <span class="cstat-no" title="statement not covered" >useState&lt;PropertyListResponse&gt;({</span>
+  const [resultsetResult] = <span class="cstat-no" title="statement not covered" >useState&lt;PropertyListResponse&gt;({</span>
     properties: [],
     totalCount: 0,
     currentPage: 1,
     totalPages: 0
   });
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
   const { data: session } = <span class="cstat-no" title="statement not covered" >useSession();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const searchProperties = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        setLoading(true);</span>
-        
+&nbsp;
         // In a real app, you'd make an API call here
         // const queryParams = new URLSearchParams();
-        // Object.entries(params).forEach(([key, value]) =&gt; {
+        // Object.entries(params).forEach(([keyvalue]) =&gt; {
         //   if (value !== undefined) queryParams.set(key, value.toString());
         // });
         // const response = await fetch(`/api/properties/search?${queryParams}`, {
@@ -1072,48 +1072,48 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         // });
         // if (!response.ok) throw new Error('Failed to search properties');
         // const data = await response.json();
-        
+&nbsp;
         // For now, filter mock data
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
           let filteredProperties = <span class="cstat-no" title="statement not covered" >[...mockProperties];</span>
-          
+&nbsp;
           // Apply filters
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.projectSlug) {</span>
 <span class="cstat-no" title="statement not covered" >            filteredProperties = filteredProperties.filter(</span>
 <span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.projectSlug === params.projectSlug</span>
             );
           }
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.minPrice) {</span>
 <span class="cstat-no" title="statement not covered" >            filteredProperties = filteredProperties.filter(</span>
-<span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.price &gt;= params.minPrice!</span>
+<span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.price&gt;= params.minPrice!</span>
             );
           }
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.maxPrice) {</span>
 <span class="cstat-no" title="statement not covered" >            filteredProperties = filteredProperties.filter(</span>
 <span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.price &lt;= params.maxPrice!</span>
             );
           }
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.minBedrooms) {</span>
 <span class="cstat-no" title="statement not covered" >            filteredProperties = filteredProperties.filter(</span>
-<span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.bedrooms &gt;= params.minBedrooms!</span>
+<span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>roperty.bedrooms&gt;= params.minBedrooms!</span>
             );
           }
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.type?.length) {</span>
 <span class="cstat-no" title="statement not covered" >            filteredProperties = filteredProperties.filter(</span>
 <span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>arams.type?.includes(property.type)</span>
             );
           }
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.status?.length) {</span>
 <span class="cstat-no" title="statement not covered" >            filteredProperties = filteredProperties.filter(</span>
 <span class="fstat-no" title="function not covered" >              property =&gt; <span class="cstat-no" title="statement not covered" >p</span>arams.status?.includes(property.status)</span>
             );
           }
-          
+&nbsp;
           // Apply query search
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.query) {</span>
             const query = <span class="cstat-no" title="statement not covered" >params.query.toLowerCase();</span>
@@ -1124,11 +1124,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 || addressStr.includes(query);
             });
           }
-          
+&nbsp;
           // Sort
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (params.sort) {</span>
             const key = <span class="cstat-no" title="statement not covered" >params.sort </span>as keyof Property;
-<span class="cstat-no" title="statement not covered" >            filteredProperties.sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            filteredProperties.sort(<span class="fstat-no" title="function not covered" >(a</span>b: any) =&gt; {</span>
               const aVal = <span class="cstat-no" title="statement not covered" >a[key];</span>
               const bVal = <span class="cstat-no" title="statement not covered" >b[key];</span>
 <span class="cstat-no" title="statement not covered" >              <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof aVal === 'string' &amp;&amp; typeof bVal === 'string') {</span>
@@ -1144,23 +1144,23 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >              return 0;</span>
             });
           }
-          
+&nbsp;
           const page = <span class="cstat-no" title="statement not covered" >params.page || 1;</span>
           const limit = <span class="cstat-no" title="statement not covered" >params.limit || 10;</span>
           const totalCount = <span class="cstat-no" title="statement not covered" >filteredProperties.length;</span>
           const totalPages = <span class="cstat-no" title="statement not covered" >Math.ceil(totalCount / limit);</span>
-          
+&nbsp;
           const startIndex = <span class="cstat-no" title="statement not covered" >(page - 1) * limit;</span>
           const endIndex = <span class="cstat-no" title="statement not covered" >startIndex + limit;</span>
-          const paginatedProperties = <span class="cstat-no" title="statement not covered" >filteredProperties.slice(startIndex, endIndex);</span>
-          
+          const paginatedProperties = <span class="cstat-no" title="statement not covered" >filteredProperties.slice(startIndexendIndex);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          setResult({ </span>
             properties: paginatedProperties, 
             totalCount, 
             currentPage: page, 
             totalPages 
           });
-          
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          setLoading(false);</span>
         }, 500);
       } catch (err) {
@@ -1170,7 +1170,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    searchProperties();</span>
-  }, [params, session]);
+  }, [paramssession]);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return { ...result, loading, error };</span>
 }</pre></td></tr></table></pre>
@@ -1180,7 +1180,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

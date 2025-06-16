@@ -788,8 +788,8 @@ const useDevelopmentBySlug = <span class="cstat-no" title="statement not covered
  * Simplified GraphQL Tester component for build testing
  */
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >GraphQLTester() {</span></span>
-  const [developmentId, setDevelopmentId] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
-  const [developmentSlug, setDevelopmentSlug] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
+  const [developmentIdsetDevelopmentId] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
+  const [developmentSlugsetDevelopmentSlug] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;('');</span>
 &nbsp;
   // Mock GraphQL queries using the simplified hooks above
   const { 
@@ -825,7 +825,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;/div&gt;
 &nbsp;
       &lt;h1 className="text-2xl font-bold mb-6"&gt;GraphQL Connection Tester&lt;/h1&gt;
-      
+&nbsp;
       {/* Test Controls */}
       &lt;div className="bg-white p-4 rounded shadow-md mb-6"&gt;
         &lt;h2 className="text-lg font-semibold mb-2"&gt;Test Controls&lt;/h2&gt;
@@ -836,7 +836,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;input
                 type="text"
                 value={developmentId}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDevelopmentId(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setDevelopmentId(e.target.value)}</span>
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Enter development ID"
               /&gt;
@@ -849,14 +849,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="flex-1"&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Development Slug&lt;/label&gt;
             &lt;div className="flex"&gt;
               &lt;input
                 type="text"
                 value={developmentSlug}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDevelopmentSlug(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setDevelopmentSlug(e.target.value)}</span>
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Enter development slug"
               /&gt;
@@ -869,7 +869,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;All Developments&lt;/label&gt;
             &lt;button
@@ -881,14 +881,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Developments List */}
       &lt;div className="mb-8"&gt;
         &lt;h2 className="text-xl font-semibold mb-4"&gt;All Developments&lt;/h2&gt;
-        
+&nbsp;
         &lt;div&gt;
           &lt;p className="mb-4 text-gray-600"&gt;Found {developmentsData.developments?.length || 0} developments&lt;/p&gt;
-          
+&nbsp;
           &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;
             {developmentsData.developments?.map(<span class="fstat-no" title="function not covered" >development =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;DevelopmentCardConnected </span>
@@ -899,18 +899,18 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Development Detail by ID */}
       {developmentId &amp;&amp; developmentData &amp;&amp; (
         &lt;div className="mb-8"&gt;
           &lt;h2 className="text-xl font-semibold mb-4"&gt;Development by ID: {developmentId}&lt;/h2&gt;
-          
+&nbsp;
           &lt;div className="bg-white rounded-lg shadow-md p-6"&gt;
             &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;
               &lt;div&gt;
                 &lt;h3 className="text-lg font-bold text-gray-900"&gt;{developmentData.name}&lt;/h3&gt;
                 &lt;p className="text-gray-600 mt-2"&gt;{developmentData.description}&lt;/p&gt;
-                
+&nbsp;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >developmentData.location </span>&amp;&amp; (
                   &lt;div className="mt-4"&gt;
                     &lt;p className="text-sm font-medium text-gray-500"&gt;Location&lt;/p&gt;
@@ -919,12 +919,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/p&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 &lt;div className="mt-4"&gt;
                   &lt;p className="text-sm font-medium text-gray-500"&gt;Status&lt;/p&gt;
                   &lt;p className="text-gray-800"&gt;{developmentData.status}&lt;/p&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="mt-4"&gt;
                   &lt;p className="text-sm font-medium text-gray-500"&gt;Units&lt;/p&gt;
                   &lt;p className="text-gray-800"&gt;
@@ -932,7 +932,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/p&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div&gt;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >developmentData.mainImage </span>&amp;&amp; (
                   &lt;div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden"&gt;
@@ -943,7 +943,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     /&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >developmentData.priceRange </span>&amp;&amp; (
                   &lt;div className="mt-4"&gt;
                     &lt;p className="text-sm font-medium text-gray-500"&gt;Price Range&lt;/p&gt;
@@ -964,7 +964,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

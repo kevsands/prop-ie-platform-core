@@ -509,9 +509,7 @@
 <a name='L444'></a><a href='#L444'>444</a>
 <a name='L445'></a><a href='#L445'>445</a>
 <a name='L446'></a><a href='#L446'>446</a>
-<a name='L447'></a><a href='#L447'>447</a>
-<a name='L448'></a><a href='#L448'>448</a>
-<a name='L449'></a><a href='#L449'>449</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L447'></a><a href='#L447'>447</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -527,9 +525,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -975,16 +971,14 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from <span class="cstat-no" title="statement not covered" >'@/components/ui/dropdown-menu';</span>
+  DropdownMenuTrigger} from <span class="cstat-no" title="statement not covered" >'@/components/ui/dropdown-menu';</span>
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-} from <span class="cstat-no" title="statement not covered" >'@/components/ui/navigation-menu';</span>
+  NavigationMenuTrigger} from <span class="cstat-no" title="statement not covered" >'@/components/ui/navigation-menu';</span>
 import { cn } from <span class="cstat-no" title="statement not covered" >'@/lib/utils';</span>
 import {
   HomeIcon,
@@ -1016,7 +1010,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
   const pathname = <span class="cstat-no" title="statement not covered" >usePathname();</span>
   const { user, signOut } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { transactions } = <span class="cstat-no" title="statement not covered" >useTransaction();</span>
-  const [notifications, setNotifications] = <span class="cstat-no" title="statement not covered" >useState(3); /</span>/ Mock notifications
+  const [notificationssetNotifications] = <span class="cstat-no" title="statement not covered" >useState(3); /</span>/ Mock notifications
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 &nbsp;
@@ -1242,7 +1236,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
 &nbsp;
             &lt;NavigationMenu className="ml-10"&gt;
               &lt;NavigationMenuList&gt;
-                {navigationItems.map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; (
+                {navigationItems.map(<span class="fstat-no" title="function not covered" >(i</span>tem: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;NavigationMenuItem key={item.href}&gt;</span>
                     {item.children ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                      &lt;&gt;</span>
@@ -1250,7 +1244,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
                           &lt;span className="flex items-center"&gt;
                             {item.icon}
                             &lt;span className="ml-2"&gt;{item.label}&lt;/span&gt;
-                            {item.badge !== undefined &amp;&amp; item.badge &gt; 0 &amp;&amp; (
+                            {item.badge !== undefined &amp;&amp; item.badge&gt; 0 &amp;&amp; (
                               &lt;Badge className="ml-2" variant="secondary" size="sm"&gt;
                                 {item.badge}
                               &lt;/Badge&gt;
@@ -1259,7 +1253,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
                         &lt;/NavigationMenuTrigger&gt;
                         &lt;NavigationMenuContent&gt;
                           &lt;ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2"&gt;
-                            {item.children.map(<span class="fstat-no" title="function not covered" >(c</span>hild) =&gt; (
+                            {item.children.map(<span class="fstat-no" title="function not covered" >(c</span>hild: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                              &lt;li key={child.href}&gt;</span>
                                 &lt;NavigationMenuLink asChild&gt;
                                   &lt;Link
@@ -1290,7 +1284,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
                       &gt;
                         {item.icon}
                         &lt;span className="ml-2"&gt;{item.label}&lt;/span&gt;
-                        {item.badge !== undefined &amp;&amp; item.badge &gt; 0 &amp;&amp; (
+                        {item.badge !== undefined &amp;&amp; item.badge&gt; 0 &amp;&amp; (
                           &lt;Badge className="ml-2" variant="secondary" size="sm"&gt;
                             {item.badge}
                           &lt;/Badge&gt;
@@ -1310,7 +1304,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
               &lt;DropdownMenuTrigger asChild&gt;
                 &lt;Button variant="ghost" size="icon" className="relative"&gt;
                   &lt;BellIcon className="h-4 w-4" /&gt;
-                  {<span class="branch-0 cbranch-no" title="branch not covered" >notifications &gt; 0 &amp;&amp; (</span>
+                  {<span class="branch-0 cbranch-no" title="branch not covered" >notifications&gt; 0 &amp;&amp; (</span>
                     &lt;Badge 
                       className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center"
                       variant="destructive"
@@ -1414,7 +1408,7 @@ export const <span class="cstat-no" title="statement not covered" >SmartNav:</sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

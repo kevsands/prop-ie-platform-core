@@ -1004,8 +1004,8 @@ interface Transaction {
 }
 &nbsp;
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >SolicitorTransactionFlow({</span></span> transactionId }: { transactionId: string }) {
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('overview');</span>
-  
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('overview');</span>
+&nbsp;
   // Mock transaction data
   const transaction: Transaction = <span class="cstat-no" title="statement not covered" >{</span>
     id: transactionId,
@@ -1202,7 +1202,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 &nbsp;
         &lt;TabsContent value="overview" className="mt-6"&gt;
           &lt;div className="space-y-4"&gt;
-            {legalSteps.map(<span class="fstat-no" title="function not covered" >(s</span>tep) =&gt; (
+            {legalSteps.map(<span class="fstat-no" title="function not covered" >(s</span>tep: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;Card key={step.id} c</span>lassName={`p-4 ${step.status === 'in-progress' ? 'border-primary' : ''}`}&gt;
                 &lt;div className="flex items-start justify-between"&gt;
                   &lt;div className="flex items-start gap-3"&gt;
@@ -1210,7 +1210,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                     &lt;div className="flex-1"&gt;
                       &lt;h3 className="font-semibold"&gt;{step.title}&lt;/h3&gt;
                       &lt;p className="text-sm text-gray-600 mt-1"&gt;{step.description}&lt;/p&gt;
-                      
+&nbsp;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >step.deadline </span>&amp;&amp; (
                         &lt;div className="flex items-center gap-2 mt-2"&gt;
                           &lt;CalendarIcon className="h-4 w-4 text-gray-400" /&gt;
@@ -1219,7 +1219,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                           &lt;/span&gt;
                         &lt;/div&gt;
                       )}
-                      
+&nbsp;
                       {/* Document Summary */}
                       &lt;div className="mt-3 flex flex-wrap gap-2"&gt;
                         {step.documents.map(<span class="fstat-no" title="function not covered" >doc =&gt; (</span>
@@ -1244,7 +1244,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                       )}
                     &lt;/div&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center gap-2"&gt;
                     &lt;Badge variant={
                       step.priority === 'high' ? 'destructive' : 
@@ -1278,11 +1278,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                             Uploaded: {new Date(doc.uploadedAt).toLocaleDateString()}
                           &lt;/p&gt;
                         )}
-                        {doc.issues &amp;&amp; doc.issues.length &gt; 0 &amp;&amp; (
+                        {doc.issues &amp;&amp; doc.issues.length&gt; 0 &amp;&amp; (
                           &lt;div className="mt-2"&gt;
                             &lt;p className="text-sm font-medium text-red-600"&gt;Issues:&lt;/p&gt;
                             &lt;ul className="text-sm text-red-600 list-disc list-inside"&gt;
-                              {doc.issues.map(<span class="fstat-no" title="function not covered" >(i</span>ssue, idx) =&gt; (
+                              {doc.issues.map(<span class="fstat-no" title="function not covered" >(i</span>ssueidx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                                &lt;li key={idx}&gt;{i</span>ssue}&lt;/li&gt;
                               ))}
                             &lt;/ul&gt;
@@ -1310,7 +1310,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           &lt;div className="relative"&gt;
             &lt;div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200"&gt;&lt;/div&gt;
             &lt;div className="space-y-8"&gt;
-              {legalSteps.map(<span class="fstat-no" title="function not covered" >(s</span>tep, index) =&gt; (
+              {legalSteps.map(<span class="fstat-no" title="function not covered" >(s</span>tepindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;div key={step.id} c</span>lassName="relative flex items-start"&gt;
                   &lt;div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-white border-4 border-gray-200"&gt;
                     {getStatusIcon(step.status)}
@@ -1390,7 +1390,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

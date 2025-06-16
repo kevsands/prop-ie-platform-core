@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/57</span>
+                <span class='fraction'>0/56</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/45</span>
+                <span class='fraction'>0/44</span>
             </div>
         
             
@@ -186,7 +186,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -264,17 +264,17 @@ import { mockTasks, mockAlerts, TaskItem, AlertItem } from <span class="cstat-no
 &nbsp;
 // Custom hook for fetching dashboard data
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useDashboardData() {</span></span>
-  const [tasks, setTasks] = <span class="cstat-no" title="statement not covered" >useState&lt;TaskItem[]&gt;([]);</span>
-  const [alerts, setAlerts] = <span class="cstat-no" title="statement not covered" >useState&lt;AlertItem[]&gt;([]);</span>
-  const [isLoading, setIsLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [taskssetTasks] = <span class="cstat-no" title="statement not covered" >useState&lt;TaskItem[]&gt;([]);</span>
+  const [alertssetAlerts] = <span class="cstat-no" title="statement not covered" >useState&lt;AlertItem[]&gt;([]);</span>
+  const [isLoadingsetIsLoading] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const fetchDashboardData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        setIsLoading(true);</span>
 <span class="cstat-no" title="statement not covered" >        setError(null);</span>
-        
+&nbsp;
         // In production, these would be API calls
         // Use setTimeout to simulate network delay
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -283,7 +283,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >          setIsLoading(false);</span>
         }, 500);
       } catch (err) {
-<span class="cstat-no" title="statement not covered" >        console.error('Error fetching dashboard data:', err);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        setError('Failed to load dashboard data');</span>
 <span class="cstat-no" title="statement not covered" >        setIsLoading(false);</span>
       }
@@ -308,13 +308,13 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
     const diffTime = <span class="cstat-no" title="statement not covered" >due.getTime() - now.getTime();</span>
     const diffDays = <span class="cstat-no" title="statement not covered" >Math.ceil(diffTime / (1000 * 60 * 60 * 24));</span>
-<span class="cstat-no" title="statement not covered" >    return diffDays &gt;= 0 &amp;&amp; diffDays &lt;= 3; /</span>/ Due within next 3 days
+<span class="cstat-no" title="statement not covered" >    return diffDays&gt;= 0 &amp;&amp; diffDays &lt;= 3; /</span>/ Due within next 3 days
   };
 &nbsp;
   const isOverdue = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>ueDate: string) =&gt; {</span>
     const due = <span class="cstat-no" title="statement not covered" >new Date(dueDate);</span>
     const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
-<span class="cstat-no" title="statement not covered" >    return due &lt; now;</span>
+<span class="cstat-no" title="statement not covered" >    return due &lt;now;</span>
   };
 &nbsp;
   // Mark an alert as read
@@ -361,7 +361,7 @@ export type { TaskItem, AlertItem };</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/77</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/74</span>
+                <span class='fraction'>0/68</span>
             </div>
         
             
@@ -362,9 +362,7 @@
 <a name='L297'></a><a href='#L297'>297</a>
 <a name='L298'></a><a href='#L298'>298</a>
 <a name='L299'></a><a href='#L299'>299</a>
-<a name='L300'></a><a href='#L300'>300</a>
-<a name='L301'></a><a href='#L301'>301</a>
-<a name='L302'></a><a href='#L302'>302</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L300'></a><a href='#L300'>300</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -414,16 +412,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -532,7 +530,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -584,7 +582,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -630,7 +627,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -658,7 +654,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -715,12 +711,12 @@ const createAlertSchema = <span class="cstat-no" title="statement not covered" >
 &nbsp;
 // Helper functions (mocked)
 async function <span class="fstat-no" title="function not covered" >scheduleAlertCheck(a</span>lertId: string) {
-<span class="cstat-no" title="statement not covered" >  console.log(`Scheduling alert check for alert ID: ${alertId}`);</span>
+&nbsp;
   // In a real implementation, this might schedule a job in a queue
 }
 &nbsp;
 async function <span class="fstat-no" title="function not covered" >sendAlertConfirmation(a</span>lert: any) {
-<span class="cstat-no" title="statement not covered" >  console.log(`Sending confirmation for alert: ${alert.name}`);</span>
+&nbsp;
   // In a real implementation, this would send a notification to the user
 }
 &nbsp;
@@ -813,11 +809,11 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
     // Filter mocked alerts based on query parameters
     let filteredAlerts = <span class="cstat-no" title="statement not covered" >[...mockAlerts];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (status) {</span>
 <span class="cstat-no" title="statement not covered" >      filteredAlerts = filteredAlerts.filter(<span class="fstat-no" title="function not covered" >alert =&gt; <span class="cstat-no" title="statement not covered" >a</span>lert.status === status);</span></span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type) {</span>
 <span class="cstat-no" title="statement not covered" >      filteredAlerts = filteredAlerts.filter(<span class="fstat-no" title="function not covered" >alert =&gt; <span class="cstat-no" title="statement not covered" >a</span>lert.type === type);</span></span>
     }
@@ -833,7 +829,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(formattedAlerts);</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error fetching property alerts:', error);</span>
+&nbsp;
     const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Failed to fetch property alerts';</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: errorMessage },
@@ -885,7 +881,6 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    console.error('Error creating property alert:', error);</span>
     const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Failed to create property alert';</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: errorMessage },
@@ -911,7 +906,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
     // Mock alert update (would verify ownership in a real implementation)
     const body: any = <span class="cstat-no" title="statement not covered" >await request.json();</span>
-    
+&nbsp;
     // Return mock updated alert
     const updatedAlert = <span class="cstat-no" title="statement not covered" >{</span>
       id: alertId,
@@ -929,7 +924,6 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       );
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    console.error('Error updating property alert:', error);</span>
     const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Failed to update property alert';</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: errorMessage },
@@ -959,7 +953,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       message: `Alert ${alertId} deleted successfully`
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error deleting property alert:', error);</span>
+&nbsp;
     const errorMessage = <span class="cstat-no" title="statement not covered" >error instanceof Error ? error.message : 'Failed to delete property alert';</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: errorMessage },
@@ -973,7 +967,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

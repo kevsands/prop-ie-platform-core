@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/83</span>
+                <span class='fraction'>0/80</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/78</span>
+                <span class='fraction'>0/75</span>
             </div>
         
             
@@ -341,9 +341,7 @@
 <a name='L276'></a><a href='#L276'>276</a>
 <a name='L277'></a><a href='#L277'>277</a>
 <a name='L278'></a><a href='#L278'>278</a>
-<a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L279'></a><a href='#L279'>279</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -362,7 +360,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -410,7 +407,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -528,7 +525,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -617,7 +614,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -640,8 +636,7 @@ const PaymentUpdateSchema = <span class="cstat-no" title="statement not covered"
   paidDate: z.string().datetime().optional(),
   reference: z.string().optional(),
   method: z.enum(['BANK_TRANSFER', 'CREDIT_CARD', 'DEBIT_CARD', 'CASH', 'CHEQUE', 'MORTGAGE_DRAWDOWN']).optional(),
-  description: z.string().optional(),
-});
+  description: z.string().optional()});
 &nbsp;
 const prisma = <span class="cstat-no" title="statement not covered" >new PrismaClient();</span>
 &nbsp;
@@ -663,7 +658,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const params = <span class="cstat-no" title="statement not covered" >await context.params;</span>
-    
+&nbsp;
     // Check if user can access this transaction
     const canAccess = <span class="cstat-no" title="statement not covered" >await canAccessTransaction(session, params.id);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canAccess) {</span>
@@ -690,7 +685,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(payment);</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error fetching payment:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to fetch payment' },
       { status: 500 }
@@ -716,7 +711,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const params = <span class="cstat-no" title="statement not covered" >await context.params;</span>
-    
+&nbsp;
     // Check if user can access this transaction
     const canAccess = <span class="cstat-no" title="statement not covered" >await canAccessTransaction(session, params.id);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canAccess) {</span>
@@ -808,7 +803,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(updatedPayment);</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error updating payment:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to update payment' },
       { status: 500 }
@@ -834,7 +829,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const params = <span class="cstat-no" title="statement not covered" >await context.params;</span>
-    
+&nbsp;
     // Check if user can access this transaction
     const canAccess = <span class="cstat-no" title="statement not covered" >await canAccessTransaction(session, params.id);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!canAccess) {</span>
@@ -894,10 +889,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({</span>
       message: 'Payment cancelled successfully',
-      paymentId: params.paymentId,
-    });
+      paymentId: params.paymentId});
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error cancelling payment:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to cancel payment' },
       { status: 500 }
@@ -910,7 +904,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../../../prettify.js"></script>
         <script>

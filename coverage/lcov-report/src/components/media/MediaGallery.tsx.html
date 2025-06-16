@@ -678,21 +678,21 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
   layout = <span class="branch-0 cbranch-no" title="branch not covered" >'grid',</span>
   className = <span class="branch-0 cbranch-no" title="branch not covered" >'',</span>
   title = <span class="branch-0 cbranch-no" title="branch not covered" >'Media Gallery',</span>
-  emptyMessage = <span class="branch-0 cbranch-no" title="branch not covered" >'No media files available',</span>
+  emptyMessage = <span class="branch-0 cbranch-no" title="branch not covered" >'No media files available'</span>
 }) =&gt; {
   const [selectedFile, setSelectedFile] = <span class="cstat-no" title="statement not covered" >useState&lt;MediaFile | null&gt;(null);</span>
-  
+&nbsp;
   // Generate human-readable size string
   const formatFileSize = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>izeInBytes: number): string =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (sizeInBytes &lt; 1024) {</span>
+<span class="cstat-no" title="statement not covered" >    if (sizeInBytes &lt;1024) {</span>
 <span class="cstat-no" title="statement not covered" >      return `${sizeInBytes} B`;</span>
-    } else <span class="cstat-no" title="statement not covered" >if (sizeInBytes &lt; 1024 * 1024) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (sizeInBytes &lt;1024 * 1024) {</span>
 <span class="cstat-no" title="statement not covered" >      return `${(sizeInBytes / 1024).toFixed(1)} KB`;</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`;</span>
     }
   };
-  
+&nbsp;
   // Get file type icon
   const getFileIcon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: MediaFile) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (file.type === 'application/pdf') {</span>
@@ -703,7 +703,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
       return &lt;FiFile className="text-gray-500" size={20} /&gt;;
     }
   };
-  
+&nbsp;
   // Determine image size classes
   const getImageSizeClass = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    switch (imageSize) {</span>
@@ -713,7 +713,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
       default: <span class="cstat-no" title="statement not covered" >return 'h-32 w-32';</span>
     }
   };
-  
+&nbsp;
   // Handle file removal
   const handleRemove = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: MediaFile, e: React.MouseEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.stopPropagation();</span>
@@ -721,11 +721,11 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >      onRemove(file.id);</span>
     }
   };
-  
+&nbsp;
   // Handle download
   const handleDownload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: MediaFile, e: React.MouseEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.stopPropagation();</span>
-    
+&nbsp;
     // Create a download link
     const url = <span class="cstat-no" title="statement not covered" >file.preview || URL.createObjectURL(file);</span>
     const a = <span class="cstat-no" title="statement not covered" >document.createElement('a');</span>
@@ -734,29 +734,29 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
 <span class="cstat-no" title="statement not covered" >    document.body.appendChild(a);</span>
 <span class="cstat-no" title="statement not covered" >    a.click();</span>
 <span class="cstat-no" title="statement not covered" >    document.body.removeChild(a);</span>
-    
+&nbsp;
     // Clean up URL object if we created one
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!file.preview) {</span>
 <span class="cstat-no" title="statement not covered" >      URL.revokeObjectURL(url);</span>
     }
   };
-  
+&nbsp;
   // Open file preview
   const openPreview = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: MediaFile) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setSelectedFile(file);</span>
   };
-  
+&nbsp;
   // Close file preview
   const closePreview = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setSelectedFile(null);</span>
   };
-  
+&nbsp;
   return (
     &lt;div className={`media-gallery ${className}`}&gt;
       {<span class="branch-0 cbranch-no" title="branch not covered" >title &amp;&amp; (</span>
         &lt;h3 className="text-sm font-medium text-gray-700 mb-2"&gt;{title}&lt;/h3&gt;
       )}
-      
+&nbsp;
       {files.length === 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >        &lt;div className="p-4 border border-gray-200 rounded-md text-center text-gray-500"&gt;</span>
           {emptyMessage}
@@ -766,7 +766,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
           {/* Grid Layout */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >layout === 'grid' &amp;&amp; (</span>
             &lt;div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"&gt;
-              {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; (
+              {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;div </span>
                   key={file.id} 
                   className="relative border border-gray-200 rounded-md p-2 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -793,21 +793,21 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                       &lt;div className="text-xs text-gray-500 mt-1"&gt;{formatFileSize(file.size)}&lt;/div&gt;
                     &lt;/div&gt;
                   )}
-                  
+&nbsp;
                   {<span class="branch-0 cbranch-no" title="branch not covered" >!viewOnly &amp;&amp; (</span>
                     &lt;button
                       type="button"
-                      onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleRemove(file, e)}</span>
+                      onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleRemove(file, e)}</span>
                       className="absolute top-1 right-1 bg-white rounded-full p-1 shadow-sm hover:bg-gray-100 text-red-500"
                       aria-label="Remove file"
                     &gt;
                       &lt;FiX size={16} /&gt;
                     &lt;/button&gt;
                   )}
-                  
+&nbsp;
                   &lt;button
                     type="button"
-                    onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(file, e)}</span>
+                    onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(file, e)}</span>
                     className="absolute top-1 left-1 bg-white rounded-full p-1 shadow-sm hover:bg-gray-100 text-blue-500"
                     aria-label="Download file"
                   &gt;
@@ -817,11 +817,11 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
               ))}
             &lt;/div&gt;
           )}
-          
+&nbsp;
           {/* List Layout */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >layout === 'list' &amp;&amp; (</span>
             &lt;ul className="divide-y divide-gray-200 border border-gray-200 rounded-md"&gt;
-              {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; (
+              {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;li </span>
                   key={file.id} 
                   className="pl-3 pr-4 py-3 flex items-center justify-between text-sm hover:bg-gray-50 cursor-pointer"
@@ -836,7 +836,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                     &lt;button
                       type="button"
                       className="text-blue-600 hover:text-blue-500"
-                      onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(file, e)}</span>
+                      onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(file, e)}</span>
                       aria-label="Download file"
                     &gt;
                       &lt;FiDownload size={18} /&gt;
@@ -845,7 +845,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                       &lt;button
                         type="button"
                         className="text-red-600 hover:text-red-500"
-                        onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleRemove(file, e)}</span>
+                        onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleRemove(file, e)}</span>
                         aria-label="Remove file"
                       &gt;
                         &lt;FiX size={18} /&gt;
@@ -858,15 +858,15 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
           )}
         &lt;/&gt;
       )}
-      
+&nbsp;
       {/* Preview Modal */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >selectedFile &amp;&amp; (</span>
         &lt;div className="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true"&gt;
           &lt;div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"&gt;
             &lt;div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onClick={closePreview}&gt;&lt;/div&gt;
-            
+&nbsp;
             &lt;span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"&gt;&amp;#8203;&lt;/span&gt;
-            
+&nbsp;
             &lt;div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full"&gt;
               &lt;div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4"&gt;
                 &lt;div className="sm:flex sm:items-start"&gt;
@@ -883,7 +883,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                         &lt;FiX size={24} /&gt;
                       &lt;/button&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div className="mt-2 flex justify-center"&gt;
                       {selectedFile.type.startsWith('image/') &amp;&amp; selectedFile.preview ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                        &lt;div className="max-h-[70vh] overflow-auto"&gt;</span>
@@ -911,7 +911,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                           &lt;button
                             type="button"
                             className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(selectedFile, e)}</span>
+                            onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(selectedFile, e)}</span>
                           &gt;
                             &lt;FiDownload className="mr-2" /&gt;
                             Download
@@ -922,7 +922,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"&gt;
                 &lt;button
                   type="button"
@@ -934,7 +934,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
                 &lt;button
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#2B5273] text-base font-medium text-white hover:bg-[#1E3142] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(selectedFile, e)}</span>
+                  onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleDownload(selectedFile, e)}</span>
                 &gt;
                   &lt;FiDownload className="mr-2" /&gt;
                   Download
@@ -955,7 +955,7 @@ const MediaGallery: React.FC&lt;MediaGalleryProps&gt; = <span class="cstat-no" t
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

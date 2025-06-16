@@ -222,12 +222,7 @@
 <a name='L157'></a><a href='#L157'>157</a>
 <a name='L158'></a><a href='#L158'>158</a>
 <a name='L159'></a><a href='#L159'>159</a>
-<a name='L160'></a><a href='#L160'>160</a>
-<a name='L161'></a><a href='#L161'>161</a>
-<a name='L162'></a><a href='#L162'>162</a>
-<a name='L163'></a><a href='#L163'>163</a>
-<a name='L164'></a><a href='#L164'>164</a>
-<a name='L165'></a><a href='#L165'>165</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L160'></a><a href='#L160'>160</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -287,6 +282,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -300,20 +304,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -340,7 +331,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -448,8 +438,7 @@ class MockDatabase {
       name: 'Admin User',
       role: 'admin',
       status: 'active',
-      createdAt: new Date(),
-    });
+      createdAt: new Date()});
 &nbsp;
     // Add mock developments
 <span class="cstat-no" title="statement not covered" >    this.developments.set('fitzgerald-gardens', {</span>
@@ -460,8 +449,7 @@ class MockDatabase {
       status: 'available',
       totalUnits: 24,
       availableUnits: 8,
-      createdAt: new Date(),
-    });
+      createdAt: new Date()});
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.developments.set('ballymakenny-view', {</span>
       id: 'ballymakenny-view',
@@ -471,8 +459,7 @@ class MockDatabase {
       status: 'available',
       totalUnits: 36,
       availableUnits: 12,
-      createdAt: new Date(),
-    });
+      createdAt: new Date()});
 &nbsp;
     // Add mock properties
 <span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >1; i</span> &lt;= 10; i++) {</span>
@@ -487,8 +474,7 @@ class MockDatabase {
         size: 1000 + (i * 100),
         status: 'available',
         images: [`/images/properties/property-${i}.jpg`],
-        createdAt: new Date(),
-      });
+        createdAt: new Date()});
     }
   }
 &nbsp;
@@ -506,9 +492,8 @@ class MockDatabase {
     const user: User = <span class="cstat-no" title="statement not covered" >{</span>
       ...data,
       id,
-      createdAt: new Date(),
-    };
-<span class="cstat-no" title="statement not covered" >    this.users.set(id, user);</span>
+      createdAt: new Date()};
+<span class="cstat-no" title="statement not covered" >    this.users.set(iduser);</span>
 <span class="cstat-no" title="statement not covered" >    return user;</span>
   }
 &nbsp;
@@ -542,7 +527,7 @@ class MockDatabase {
 <span class="cstat-no" title="statement not covered" >        properties = properties.filter(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.type === filters.type)</span>;</span>
       }
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.minPrice) {</span>
-<span class="cstat-no" title="statement not covered" >        properties = properties.filter(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.price &gt;= filters.minPrice!</span>);</span>
+<span class="cstat-no" title="statement not covered" >        properties = properties.filter(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.price&gt;= filters.minPrice!</span>);</span>
       }
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.maxPrice) {</span>
 <span class="cstat-no" title="statement not covered" >        properties = properties.filter(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.price &lt;= filters.maxPrice!</span>);</span>
@@ -562,7 +547,7 @@ const mockDb = <span class="cstat-no" title="statement not covered" >new MockDat
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

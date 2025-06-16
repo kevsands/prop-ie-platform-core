@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/89</span>
+                <span class='fraction'>0/85</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/87</span>
+                <span class='fraction'>0/83</span>
             </div>
         
             
@@ -307,8 +307,7 @@
 <a name='L242'></a><a href='#L242'>242</a>
 <a name='L243'></a><a href='#L243'>243</a>
 <a name='L244'></a><a href='#L244'>244</a>
-<a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L245'></a><a href='#L245'>245</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -362,7 +361,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -418,7 +417,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -430,7 +428,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -491,7 +489,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -547,7 +545,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -561,7 +559,7 @@ import { getServerSession } from <span class="cstat-no" title="statement not cov
  * GET handler for users endpoint
  * Retrieves users with optional filtering
  * 
- * - GET /api/users - Get all users with optional filters (role, search)
+ * - GET /api/users - Get all users with optional filters (rolesearch)
  * - GET /api/users?id=xyz - Get a specific user by ID
  * - GET /api/users?email=xyz - Get a specific user by email
  */
@@ -569,11 +567,11 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const session = <span class="cstat-no" title="statement not covered" >await getServerSession();</span>
     const { searchParams } = <span class="cstat-no" title="statement not covered" >new URL(request.url);</span>
-    
+&nbsp;
     // Check if requesting a specific user
     const id = <span class="cstat-no" title="statement not covered" >searchParams.get("id");</span>
     const email = <span class="cstat-no" title="statement not covered" >searchParams.get("email");</span>
-    
+&nbsp;
     // If ID is provided, get user by ID
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (id) {</span>
       const user = <span class="cstat-no" title="statement not covered" >await userService.getUserById(id);</span>
@@ -582,7 +580,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       }
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(user);</span>
     }
-    
+&nbsp;
     // If email is provided, get user by email
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (email) {</span>
       const user = <span class="cstat-no" title="statement not covered" >await userService.getUserByEmail(email);</span>
@@ -591,23 +589,23 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       }
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(user);</span>
     }
-    
+&nbsp;
     // Otherwise, get all users with optional filters
     const role = <span class="cstat-no" title="statement not covered" >searchParams.get("role");</span>
     const search = <span class="cstat-no" title="statement not covered" >searchParams.get("search");</span>
-    
+&nbsp;
     // Check if user has permission to list all users
     // Implement proper permission check based on your app's requirements
     // For demo purposes, allow access to demo accounts
-    
+&nbsp;
     const filters: { role?: string; search?: string } = <span class="cstat-no" title="statement not covered" >{};</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (role) <span class="cstat-no" title="statement not covered" >filters.role = role;</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (search) <span class="cstat-no" title="statement not covered" >filters.search = search;</span></span>
-    
+&nbsp;
     const users = <span class="cstat-no" title="statement not covered" >await userService.getUsers(filters);</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(users);</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error("Error in users GET handler:", error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: "Internal server error" },
       { status: 500 }
@@ -623,7 +621,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const session = <span class="cstat-no" title="statement not covered" >await getServerSession();</span>
     const body: any = <span class="cstat-no" title="statement not covered" >await request.json();</span>
-    
+&nbsp;
     // Validate required fields
     const { name, email, password, role } = <span class="cstat-no" title="statement not covered" >body;</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!name || !email || !password || !role) {</span>
@@ -632,7 +630,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 400 }
       );
     }
-    
+&nbsp;
     // Check if the role is valid
     const validRoles = <span class="cstat-no" title="statement not covered" >["buyer", "solicitor", "developer", "admin"];</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!validRoles.includes(role)) {</span>
@@ -641,7 +639,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 400 }
       );
     }
-    
+&nbsp;
     // Check if admin permission is required
     // For demo purposes, we're simplifying this check
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (role === "admin") {</span>
@@ -654,16 +652,15 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         );
       }
     }
-    
+&nbsp;
     // Create the user
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const newUser = <span class="cstat-no" title="statement not covered" >await userService.createUser({</span>
         name,
         email,
         password,
-        role,
-      });
-      
+        role});
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(newUser, { status: 201 });</span>
     } catch (err: any) {
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (err.message === "User with this email already exists") {</span>
@@ -675,7 +672,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >      throw err;</span>
     }
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error("Error in users POST handler:", error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: "Internal server error" },
       { status: 500 }
@@ -693,14 +690,14 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     const session = <span class="cstat-no" title="statement not covered" >await getServerSession();</span>
     const { searchParams } = <span class="cstat-no" title="statement not covered" >new URL(request.url);</span>
     const id = <span class="cstat-no" title="statement not covered" >searchParams.get("id");</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: "User ID is required" },
         { status: 400 }
       );
     }
-    
+&nbsp;
     // Get existing user to check permissions
     const existingUser = <span class="cstat-no" title="statement not covered" >await userService.getUserById(id);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!existingUser) {</span>
@@ -709,7 +706,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 404 }
       );
     }
-    
+&nbsp;
     // Check permissions - only admins or the user themselves
     // This should be enhanced with proper permission checks
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!session) {</span>
@@ -718,25 +715,25 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 401 }
       );
     }
-    
+&nbsp;
     const body: any = <span class="cstat-no" title="statement not covered" >await request.json();</span>
-    
+&nbsp;
     // Remove fields that shouldn't be updated directly
     const { id: _, createdAt, updatedAt, ...updateData } = <span class="cstat-no" title="statement not covered" >body;</span>
-    
+&nbsp;
     // Update the user
-    const updatedUser = <span class="cstat-no" title="statement not covered" >await userService.updateUser(id, updateData);</span>
-    
+    const updatedUser = <span class="cstat-no" title="statement not covered" >await userService.updateUser(idupdateData);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!updatedUser) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: "Failed to update user" },
         { status: 500 }
       );
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(updatedUser);</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error("Error in users PUT handler:", error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: "Internal server error" },
       { status: 500 }
@@ -754,14 +751,14 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     const session = <span class="cstat-no" title="statement not covered" >await getServerSession();</span>
     const { searchParams } = <span class="cstat-no" title="statement not covered" >new URL(request.url);</span>
     const id = <span class="cstat-no" title="statement not covered" >searchParams.get("id");</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: "User ID is required" },
         { status: 400 }
       );
     }
-    
+&nbsp;
     // Get existing user to check permissions
     const existingUser = <span class="cstat-no" title="statement not covered" >await userService.getUserById(id);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!existingUser) {</span>
@@ -770,7 +767,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 404 }
       );
     }
-    
+&nbsp;
     // Check permissions - only admins should delete users
     // This should be enhanced with proper permission checks
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!session) {</span>
@@ -779,20 +776,20 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 401 }
       );
     }
-    
+&nbsp;
     // Delete the user
     const deleted = <span class="cstat-no" title="statement not covered" >await userService.deleteUser(id);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!deleted) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: "Failed to delete user" },
         { status: 500 }
       );
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({ success: true });</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error("Error in users DELETE handler:", error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: "Internal server error" },
       { status: 500 }
@@ -805,7 +802,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

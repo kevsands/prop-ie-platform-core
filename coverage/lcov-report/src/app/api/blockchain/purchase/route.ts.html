@@ -240,15 +240,7 @@
 <a name='L175'></a><a href='#L175'>175</a>
 <a name='L176'></a><a href='#L176'>176</a>
 <a name='L177'></a><a href='#L177'>177</a>
-<a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a>
-<a name='L185'></a><a href='#L185'>185</a>
-<a name='L186'></a><a href='#L186'>186</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L178'></a><a href='#L178'>178</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -269,11 +261,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -359,7 +347,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -369,9 +356,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -417,7 +402,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -451,8 +435,7 @@ const logger = <span class="cstat-no" title="statement not covered" >new Logger(
 const PurchaseSchema = <span class="cstat-no" title="statement not covered" >z.object({</span>
   propertyId: z.string(),
   shares: z.number().min(1),
-  chain: z.enum(['mainnet', 'polygon', 'arbitrum', 'testnet']),
-});
+  chain: z.enum(['mainnet', 'polygon', 'arbitrum', 'testnet'])});
 &nbsp;
 // Initialize blockchain service
 const blockchainService = <span class="cstat-no" title="statement not covered" >new PropertyTokenizationService({</span>
@@ -460,18 +443,15 @@ const blockchainService = <span class="cstat-no" title="statement not covered" >
     mainnet: process.env.MAINNET_RPC_URL!,
     polygon: process.env.POLYGON_RPC_URL!,
     arbitrum: process.env.ARBITRUM_RPC_URL!,
-    testnet: process.env.TESTNET_RPC_URL!,
-  },
+    testnet: process.env.TESTNET_RPC_URL!},
   contractAddresses: {
     mainnet: process.env.MAINNET_CONTRACT_ADDRESS!,
     polygon: process.env.POLYGON_CONTRACT_ADDRESS!,
     arbitrum: process.env.ARBITRUM_CONTRACT_ADDRESS!,
-    testnet: process.env.TESTNET_CONTRACT_ADDRESS!,
-  },
+    testnet: process.env.TESTNET_CONTRACT_ADDRESS!},
   privateKey: process.env.BLOCKCHAIN_PRIVATE_KEY!,
   infuraKey: process.env.INFURA_KEY,
-  alchemyKey: process.env.ALCHEMY_KEY,
-});
+  alchemyKey: process.env.ALCHEMY_KEY});
 &nbsp;
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >POST(</span></span>request: NextRequest) {
 <span class="cstat-no" title="statement not covered" >  try {</span>
@@ -501,8 +481,8 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     const { propertyId, shares, chain } = <span class="cstat-no" title="statement not covered" >validationResult.data;</span>
 &nbsp;
     // Get property details to calculate price
-    const property = <span class="cstat-no" title="statement not covered" >await blockchainService.getTokenizedProperty(propertyId, chain);</span>
-    
+    const property = <span class="cstat-no" title="statement not covered" >await blockchainService.getTokenizedProperty(propertyIdchain);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!property) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: 'Property not found' },
@@ -518,7 +498,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const availableShares = <span class="cstat-no" title="statement not covered" >parseInt(property.availableShares);</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (shares &gt; availableShares) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (shares&gt; availableShares) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { 
           error: 'Insufficient shares available',
@@ -541,8 +521,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       propertyId,
       shares,
       buyer: session.user.id,
-      chain,
-    });
+      chain});
 &nbsp;
     // Log the purchase event
 <span class="cstat-no" title="statement not covered" >    logger.info('Shares purchased', {</span>
@@ -551,8 +530,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       tokenId,
       userId: session.user.id,
       chain,
-      totalPrice: totalPrice.toString(),
-    });
+      totalPrice: totalPrice.toString()});
 &nbsp;
     // Return success response
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({</span>
@@ -560,8 +538,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       tokenId,
       shares,
       totalPrice: totalPrice.toString(),
-      message: `Successfully purchased ${shares} shares`,
-    });
+      message: `Successfully purchased ${shares} shares`});
 &nbsp;
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    logger.error('Share purchase failed:', error);</span>
@@ -593,7 +570,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     // Get user's holdings across all properties
     // Use user ID as the identifier - the blockchain service should map this to a wallet address
     const userAddress = <span class="cstat-no" title="statement not covered" >session.user.id;</span>
-    
+&nbsp;
     // In production, we'd query user's tokens from the blockchain
     // For now, return mock data structure
     const holdings: any[] = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -605,8 +582,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       holdings,
       userAddress,
       chain,
-      stats,
-    });
+      stats});
 &nbsp;
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    logger.error('Failed to get user holdings:', error);</span>
@@ -625,7 +601,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

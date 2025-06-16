@@ -658,7 +658,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
         {/* User Flow Diagrams */}
         &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"&gt;
-          {userFlows.map(<span class="fstat-no" title="function not covered" >(f</span>low) =&gt; (
+          {userFlows.map(<span class="fstat-no" title="function not covered" >(f</span>low: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;Card key={flow.role}&gt;</span>
               &lt;CardHeader&gt;
                 &lt;CardTitle className="flex items-center"&gt;
@@ -668,13 +668,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/CardHeader&gt;
               &lt;CardContent&gt;
                 &lt;div className="space-y-3"&gt;
-                  {flow.journey.map(<span class="fstat-no" title="function not covered" >(s</span>tep, index) =&gt; (
+                  {flow.journey.map(<span class="fstat-no" title="function not covered" >(s</span>tepindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;div key={index} c</span>lassName="flex items-center"&gt;
                       &lt;div className={`p-2 rounded-lg ${flow.color} text-white`}&gt;
                         {step.icon}
                       &lt;/div&gt;
                       &lt;span className="ml-3 text-sm font-medium"&gt;{step.step}&lt;/span&gt;
-                      {<span class="branch-0 cbranch-no" title="branch not covered" >index &lt; flow.journey.length - 1 &amp;&amp; (</span>
+                      {<span class="branch-0 cbranch-no" title="branch not covered" >index &lt;flow.journey.length - 1 &amp;&amp; (</span>
                         &lt;ArrowRight className="ml-auto h-4 w-4 text-gray-400" /&gt;
                       )}
                     &lt;/div&gt;
@@ -693,12 +693,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/CardHeader&gt;
           &lt;CardContent&gt;
             &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;
-              {navigationComponents.map(<span class="fstat-no" title="function not covered" >(c</span>omponent) =&gt; (
+              {navigationComponents.map(<span class="fstat-no" title="function not covered" >(c</span>omponent: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;div key={component.name} c</span>lassName="border rounded-lg p-4"&gt;
                   &lt;h3 className="font-semibold mb-2"&gt;{component.name}&lt;/h3&gt;
                   &lt;p className="text-sm text-gray-600 mb-3"&gt;{component.description}&lt;/p&gt;
                   &lt;div className="space-y-1"&gt;
-                    {component.features.map(<span class="fstat-no" title="function not covered" >(f</span>eature, index) =&gt; (
+                    {component.features.map(<span class="fstat-no" title="function not covered" >(f</span>eatureindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;div key={index} c</span>lassName="text-sm flex items-center"&gt;
                         &lt;div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"&gt;&lt;/div&gt;
                         {feature}
@@ -719,20 +719,20 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/CardHeader&gt;
           &lt;CardContent&gt;
             &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"&gt;
-              {integrationPoints.map(<span class="fstat-no" title="function not covered" >(p</span>oint) =&gt; (
+              {integrationPoints.map(<span class="fstat-no" title="function not covered" >(p</span>oint: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;div key={point.context} c</span>lassName="text-center"&gt;
                   &lt;div className={`w-20 h-20 mx-auto rounded-full ${point.color} text-white flex items-center justify-center mb-3`}&gt;
                     &lt;span className="font-semibold text-sm"&gt;{point.context}&lt;/span&gt;
                   &lt;/div&gt;
                   &lt;div className="space-y-1"&gt;
-                    {point.provides.map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; (
+                    {point.provides.map(<span class="fstat-no" title="function not covered" >(i</span>temindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;p key={index} c</span>lassName="text-xs text-gray-600"&gt;{item}&lt;/p&gt;
                     ))}
                   &lt;/div&gt;
                 &lt;/div&gt;
               ))}
             &lt;/div&gt;
-            
+&nbsp;
             {/* Connection Lines */}
             &lt;div className="mt-8 p-6 bg-gray-100 rounded-lg"&gt;
               &lt;h4 className="font-semibold mb-4 text-center"&gt;Data Flow&lt;/h4&gt;
@@ -799,7 +799,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

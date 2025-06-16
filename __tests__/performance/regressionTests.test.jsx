@@ -15,6 +15,7 @@
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '../../src/context/AuthContext';
+import { PerformanceMonitor } from '../../src/utils/performance/monitor';
 import fs from 'fs';
 import path from 'path';
 // Component imports
@@ -131,25 +132,16 @@ const renderWithProviders = (ui) => {
     </QueryClientProvider>);
 };
 // Main test suite
-// Mock performance monitor
-jest.mock('../../src/utils/performance', () => ({
-  performanceMonitor: {
-    startTiming: jest.fn(() => performance.now()),
-    endTiming: jest.fn(() => performance.now()),
-    recordComponentRenderTime: jest.fn(),
-    recordUserJourneyStep: jest.fn()
-  }
-}));
-
-// Import performance monitor after mocking
-const { performanceMonitor } = require('../../src/utils/performance');
-
 describe('Performance Regression Tests', () => {
+    // Performance monitoring instance
+    let performanceMonitor;
     // Load baseline values
     let baselines = getBaselines();
     // Store new measurements for baseline updates
     const newMeasurements = {};
     beforeAll(() => {
+        // Create performance monitor instance
+        performanceMonitor = new PerformanceMonitor();
         // Enable more precise timing
         jest.spyOn(performance, 'now').mockImplementation(() => {
             return process.hrtime.bigint() / BigInt(1000000);

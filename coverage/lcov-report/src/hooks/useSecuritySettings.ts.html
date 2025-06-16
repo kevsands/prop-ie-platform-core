@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/24</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/23</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
@@ -180,15 +180,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -196,6 +188,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -204,6 +197,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -232,7 +232,7 @@
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useSecuritySettings(</span></span>) {
   const [loading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
+&nbsp;
   // Mock MFA status
   const mfaStatus = <span class="cstat-no" title="statement not covered" >{</span>
     enabled: true,
@@ -241,13 +241,13 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     totpVerified: true,
     recoveryCodes: true
   };
-  
+&nbsp;
   // Mock feature flags
   const mfaEnabled = <span class="cstat-no" title="statement not covered" >true;</span>
   const sessionFingerprintingEnabled = <span class="cstat-no" title="statement not covered" >true;</span>
   const auditLoggingEnabled = <span class="cstat-no" title="statement not covered" >true;</span>
   const riskBasedAuthEnabled = <span class="cstat-no" title="statement not covered" >false;</span>
-  
+&nbsp;
   // Mock security metrics
   const securityScore = <span class="cstat-no" title="statement not covered" >85;</span>
   const securityRecommendations = <span class="cstat-no" title="statement not covered" >[</span>
@@ -255,37 +255,37 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     'Review recent account activity regularly'
   ];
   const trustedDevicesCount = <span class="cstat-no" title="statement not covered" >2;</span>
-  
+&nbsp;
   /**
    * Mock function to clear all trusted devices
    */
   const clearAllTrustedDevices = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    console.log('clearAllTrustedDevices called');</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
-  
+&nbsp;
   /**
    * Mock function to disable MFA
    */
   const disableMFA = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    console.log('disableMFA called');</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
-  
+&nbsp;
   /**
    * Mock function to check if user can disable MFA
    */
   const canDisableMFA = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): boolean =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    return true;</span>
   };
-  
+&nbsp;
   /**
    * Mock function to calculate security score
    */
   const calculateSecurityScore = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    console.log('calculateSecurityScore called');</span>
+&nbsp;
   };
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     loading,
     mfaStatus,
@@ -310,7 +310,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -402,7 +402,7 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!prismaUser) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 <span class="cstat-no" title="statement not covered" >    return mapPrismaUserToUser(prismaUser);</span>
   }
-  
+&nbsp;
   /**
    * Get a user by email
    * @param email User email
@@ -413,7 +413,7 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!prismaUser) <span class="cstat-no" title="statement not covered" >return null;</span></span>
 <span class="cstat-no" title="statement not covered" >    return mapPrismaUserToUser(prismaUser);</span>
   }
-  
+&nbsp;
   /**
    * Create a new user
    * @param data User creation data
@@ -429,7 +429,7 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
   }): Promise&lt;User&gt; {
     // Convert UserRole enum values to string values for storage
     const roleStrings = <span class="cstat-no" title="statement not covered" >data.roles.map(<span class="fstat-no" title="function not covered" >role =&gt; <span class="cstat-no" title="statement not covered" >r</span>ole.toString());</span></span>
-    
+&nbsp;
     const prismaUser = <span class="cstat-no" title="statement not covered" >await userDb.create({</span>
       email: data.email,
       firstName: data.firstName,
@@ -438,10 +438,10 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
       phone: data.phone,
       roles: roleStrings
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return mapPrismaUserToUser(prismaUser);</span>
   }
-  
+&nbsp;
   /**
    * Update a user's profile
    * @param id User ID
@@ -454,10 +454,10 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
     phone?: string;
     avatar?: string;
   }): Promise&lt;User&gt; {
-    const prismaUser = <span class="cstat-no" title="statement not covered" >await userDb.update(id, data);</span>
+    const prismaUser = <span class="cstat-no" title="statement not covered" >await userDb.update(iddata);</span>
 <span class="cstat-no" title="statement not covered" >    return mapPrismaUserToUser(prismaUser);</span>
   }
-  
+&nbsp;
   /**
    * Update a user's status
    * @param id User ID
@@ -468,7 +468,7 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
     const prismaUser = <span class="cstat-no" title="statement not covered" >await userDb.update(id, { status });</span>
 <span class="cstat-no" title="statement not covered" >    return mapPrismaUserToUser(prismaUser);</span>
   }
-  
+&nbsp;
   /**
    * List users with filtering
    * @param options Filter options
@@ -489,13 +489,13 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
   }&gt; {
     const { page = <span class="branch-0 cbranch-no" title="branch not covered" >1,</span> limit = <span class="branch-0 cbranch-no" title="branch not covered" >50,</span> ...filterOptions } = <span class="cstat-no" title="statement not covered" >options || {};</span>
     const offset = <span class="cstat-no" title="statement not covered" >(page - 1) * limit;</span>
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await userDb.list({</span>
       ...filterOptions,
       limit,
       offset
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       users: result.users.map(mapPrismaUserToUser),
       totalCount: result.totalCount,
@@ -504,7 +504,7 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
       limit
     };
   }
-  
+&nbsp;
   /**
    * Authenticate a user with email and password
    * @param email User email
@@ -513,25 +513,25 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
    */
 <span class="fstat-no" title="function not covered" >  async a</span>uthenticate(email: string, password: string): Promise&lt;AuthResponse&gt; {
     const user = <span class="cstat-no" title="statement not covered" >await this.getUserByEmail(email);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         success: false,
         message: 'Invalid email or password'
       };
     }
-    
+&nbsp;
     // In a real implementation, we would verify the password hash here
     // This is just a placeholder for demonstration purposes
     const passwordValid = <span class="cstat-no" title="statement not covered" >true; /</span>/ Replace with actual password verification
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!passwordValid) {</span>
 <span class="cstat-no" title="statement not covered" >      return {</span>
         success: false,
         message: 'Invalid email or password'
       };
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       success: true,
       user,
@@ -547,7 +547,7 @@ export class <span class="cstat-no" title="statement not covered" >UserService <
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

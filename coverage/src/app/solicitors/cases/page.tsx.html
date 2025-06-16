@@ -1470,11 +1470,11 @@ const mockCases: LegalCase[] = <span class="cstat-no" title="statement not cover
 ];
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >SolicitorCases() {</span></span>
-  const [selectedCase, setSelectedCase] = <span class="cstat-no" title="statement not covered" >useState&lt;LegalCase | null&gt;(null);</span>
-  const [statusFilter, setStatusFilter] = <span class="cstat-no" title="statement not covered" >useState&lt;'all' | LegalCase['status']&gt;('all');</span>
-  const [searchTerm, setSearchTerm] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [showDocumentModal, setShowDocumentModal] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [selectedDocument, setSelectedDocument] = <span class="cstat-no" title="statement not covered" >useState&lt;Document | null&gt;(null);</span>
+  const [selectedCasesetSelectedCase] = <span class="cstat-no" title="statement not covered" >useState&lt;LegalCase | null&gt;(null);</span>
+  const [statusFiltersetStatusFilter] = <span class="cstat-no" title="statement not covered" >useState&lt;'all' | LegalCase['status']&gt;('all');</span>
+  const [searchTermsetSearchTerm] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [showDocumentModalsetShowDocumentModal] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [selectedDocumentsetSelectedDocument] = <span class="cstat-no" title="statement not covered" >useState&lt;Document | null&gt;(null);</span>
 &nbsp;
   // Handle opening a case
   const handleOpenCase = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(l</span>egalCase: LegalCase) =&gt; {</span>
@@ -1562,14 +1562,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 placeholder="Search cases..."
                 className="pl-10 pr-4 py-2 border rounded-md w-full"
                 value={searchTerm}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchTerm(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setSearchTerm(e.target.value)}</span>
               /&gt;
               &lt;FiSearch className="absolute left-3 top-3 text-gray-400" /&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;select
               value={statusFilter}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setStatusFilter(e.target.value as 'all' | LegalCase['status'])}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setStatusFilter(e.target.value as 'all' | LegalCase['status'])}</span>
               className="pl-4 pr-10 py-2 border rounded-md w-full sm:w-40"
             &gt;
               &lt;option value="all"&gt;All Cases&lt;/option&gt;
@@ -1588,7 +1588,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;div className="space-y-3"&gt;
               {filteredCases.map(<span class="fstat-no" title="function not covered" >legalCase =&gt; {</span>
                 const statusInfo = <span class="cstat-no" title="statement not covered" >getCaseStatusInfo(legalCase.status);</span>
-                
+&nbsp;
 <span class="cstat-no" title="statement not covered" >                return (</span>
                   &lt;div 
                     key={legalCase.id}
@@ -1605,7 +1605,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                     &lt;p className="text-sm text-gray-600 mb-1"&gt;{legalCase.propertyAddress}&lt;/p&gt;
                     &lt;p className="text-sm text-gray-500 mb-3"&gt;Agent: {legalCase.agentName}&lt;/p&gt;
-                    
+&nbsp;
                     &lt;div className="flex justify-between text-sm"&gt;
                       &lt;div className="flex items-center text-gray-500"&gt;
                         &lt;FiCalendar className="mr-1" size={14} /&gt;
@@ -1644,7 +1644,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 Back to cases
               &lt;/button&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="bg-white rounded-lg shadow overflow-hidden"&gt;
               &lt;div className="p-6 border-b"&gt;
                 &lt;div className="flex justify-between items-start"&gt;
@@ -1656,7 +1656,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     {getCaseStatusInfo(selectedCase.status).label}
                   &lt;/span&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 text-sm"&gt;
                   &lt;div&gt;
                     &lt;p className="text-gray-500"&gt;Developer&lt;/p&gt;
@@ -1676,13 +1676,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="px-6 py-4 border-b bg-gray-50"&gt;
                 &lt;h3 className="text-lg font-semibold mb-2"&gt;Documents&lt;/h3&gt;
                 &lt;div className="space-y-2"&gt;
                   {selectedCase.documents.map(<span class="fstat-no" title="function not covered" >document =&gt; {</span>
                     const docStatusInfo = <span class="cstat-no" title="statement not covered" >getDocumentStatusInfo(document.status);</span>
-                    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >                    return (</span>
                       &lt;div 
                         key={document.id}
@@ -1704,14 +1704,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                       &lt;/div&gt;
                     );
                   })}
-                  
+&nbsp;
                   &lt;button className="mt-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md flex items-center text-sm w-full justify-center"&gt;
                     &lt;FiPaperclip className="mr-2" /&gt;
                     Upload Document
                   &lt;/button&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="p-6 border-b"&gt;
                 &lt;h3 className="text-lg font-semibold mb-2"&gt;Tasks&lt;/h3&gt;
                 &lt;div className="space-y-2"&gt;
@@ -1748,14 +1748,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                       &lt;/div&gt;
                     &lt;/div&gt;
                   ))}
-                  
+&nbsp;
                   &lt;button className="mt-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md flex items-center text-sm w-full justify-center"&gt;
                     &lt;FiFilePlus className="mr-2" /&gt;
                     Add Task
                   &lt;/button&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="p-6 flex justify-between"&gt;
                 &lt;Link 
                   href={`/solicitors/cases/${selectedCase.id}/details`}
@@ -1763,7 +1763,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &gt;
                   View Full Details
                 &lt;/Link&gt;
-                
+&nbsp;
                 &lt;div className="space-x-2"&gt;
                   &lt;Link
                     href={`/solicitors/cases/${selectedCase.id}/chat`}
@@ -1772,7 +1772,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;FiMessageCircle className="mr-2" /&gt;
                     Message Client
                   &lt;/Link&gt;
-                  
+&nbsp;
                   &lt;button
                     className="px-4 py-2 bg-[#2B5273] text-white rounded-md flex items-center text-sm"
                   &gt;
@@ -1801,20 +1801,20 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/svg&gt;
               &lt;/button&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="flex-1 overflow-auto p-4 bg-gray-100 flex items-center justify-center"&gt;
               &lt;div className="bg-white shadow-lg w-full max-w-md aspect-[3/4] flex items-center justify-center"&gt;
                 &lt;p className="text-gray-500"&gt;Document preview would appear here&lt;/p&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="p-4 border-t flex justify-between"&gt;
               &lt;div&gt;
                 &lt;span className={`px-2 py-1 rounded-full text-xs font-medium ${getDocumentStatusInfo(selectedDocument.status).color}`}&gt;
                   {getDocumentStatusInfo(selectedDocument.status).label}
                 &lt;/span&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="space-x-2"&gt;
                 &lt;button
                   className="px-4 py-2 bg-white border border-red-500 text-red-500 rounded-md text-sm"
@@ -1840,7 +1840,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

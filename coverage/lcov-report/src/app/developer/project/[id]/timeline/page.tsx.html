@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/23</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/23</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -437,13 +437,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -676,15 +676,15 @@ interface ProjectTimelinePageProps {
 const ProjectTimelinePageClient = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> projectId }: { projectId: string }) =&gt; {</span>
   // State for active view
   const [activeView, setActiveView] = <span class="cstat-no" title="statement not covered" >useState&lt;'timeline' | 'milestones' | 'critical-path'&gt;('timeline');</span>
-  
+&nbsp;
   // State for task filters
   const [filterPhase, setFilterPhase] = <span class="cstat-no" title="statement not covered" >useState&lt;ProjectPhase | 'all'&gt;('all');</span>
   const [filterAssignee, setFilterAssignee] = <span class="cstat-no" title="statement not covered" >useState&lt;string | 'all'&gt;('all');</span>
   const [filterStatus, setFilterStatus] = <span class="cstat-no" title="statement not covered" >useState&lt;TaskStatus | 'all'&gt;('all');</span>
-  
+&nbsp;
   // State for task selection
   const [selectedTask, setSelectedTask] = <span class="cstat-no" title="statement not covered" >useState&lt;TimelineTask | null&gt;(null);</span>
-  
+&nbsp;
   // Fetch project details
   const { data: projectData, isLoading: projectLoading } = <span class="cstat-no" title="statement not covered" >useQuery({</span>
     queryKey: ['project-details', projectId],
@@ -703,13 +703,13 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
 &nbsp;
   // Handle task click
   const handleTaskClick = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>ask: TimelineTask) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    console.log('Task clicked:', task);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setSelectedTask(task);</span>
   };
 &nbsp;
   // Handle milestone click
   const handleMilestoneClick = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(m</span>ilestone: TimelineTask) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    console.log('Milestone clicked:', milestone);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setSelectedTask(milestone);</span>
   };
 &nbsp;
@@ -779,7 +779,7 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
           &lt;/button&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Timeline View - simplified for build testing */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >activeView === 'timeline' &amp;&amp; (</span>
         &lt;div className="mt-6"&gt;
@@ -797,7 +797,7 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
           &lt;/div&gt;
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {/* Milestones View - simplified for build testing */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >activeView === 'milestones' &amp;&amp; (</span>
         &lt;div className="mt-6"&gt;
@@ -810,7 +810,7 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
               &lt;/p&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="border rounded-lg p-8 text-center"&gt;
             &lt;div className="flex flex-col items-center justify-center py-12"&gt;
               &lt;Calendar className="h-16 w-16 text-gray-400 mb-4" /&gt;
@@ -825,7 +825,7 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
           &lt;/div&gt;
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {/* Critical Path View - simplified for build testing */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >activeView === 'critical-path' &amp;&amp; (</span>
         &lt;div className="mt-6"&gt;
@@ -838,7 +838,7 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
               &lt;/p&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="border rounded-lg p-8 text-center"&gt;
             &lt;div className="flex flex-col items-center justify-center py-12"&gt;
               &lt;Calendar className="h-16 w-16 text-gray-400 mb-4" /&gt;
@@ -859,7 +859,7 @@ const ProjectTimelinePageClient = <span class="cstat-no" title="statement not co
 &nbsp;
 export default async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >ProjectTimelinePage({</span></span> params }: ProjectTimelinePageProps) {
   const { id: projectId } = <span class="cstat-no" title="statement not covered" >await params;</span>
-  
+&nbsp;
   return &lt;ProjectTimelinePageClient projectId={projectId} /&gt;;
 }</pre></td></tr></table></pre>
 
@@ -868,7 +868,7 @@ export default async function <span class="cstat-no" title="statement not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>

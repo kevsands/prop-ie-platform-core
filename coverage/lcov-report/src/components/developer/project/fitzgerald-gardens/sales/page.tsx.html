@@ -927,38 +927,38 @@ interface FilterState {
 const generateMockSales = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): SalesRecord[] =&gt; {</span></span>
   const statuses = <span class="cstat-no" title="statement not covered" >['Inquiry', 'Viewing Booked', 'Reserved', 'Sale Agreed', 'Contracts Signed', 'Closed'];</span>
   const nextActions = <span class="cstat-no" title="statement not covered" >['Follow up call', 'Arrange viewing', 'Collect booking deposit', 'Send contracts', 'Chase signed contracts', 'Arrange closing'];</span>
-  
+&nbsp;
   const sales: SalesRecord[] = <span class="cstat-no" title="statement not covered" >[];</span>
-  
+&nbsp;
   // Generate 30 sales records
 <span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >1; i</span> &lt;= 30; i++) {</span>
     // Determine status
     const statusIndex = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * statuses.length);</span>
     const status = <span class="cstat-no" title="statement not covered" >statuses[statusIndex];</span>
-    
+&nbsp;
     // Determine next action based on status
     let nextActionIndex = <span class="cstat-no" title="statement not covered" >statusIndex;</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (status !== 'Closed') {</span>
 <span class="cstat-no" title="statement not covered" >      nextActionIndex = Math.min(statusIndex + 1, nextActions.length - 1);</span>
     }
     const nextAction = <span class="cstat-no" title="statement not covered" >status === 'Closed' ? 'None' : nextActions[nextActionIndex];</span>
-    
+&nbsp;
     // Generate due date for next action (between now and 30 days from now)
     const daysToAdd = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * 30);</span>
     const nextActionDue = <span class="cstat-no" title="statement not covered" >new Date();</span>
 <span class="cstat-no" title="statement not covered" >    nextActionDue.setDate(nextActionDue.getDate() + daysToAdd);</span>
-    
+&nbsp;
     // Generate unit number (01-97)
     const unitNum = <span class="cstat-no" title="statement not covered" >Math.floor(Math.random() * 97) + 1;</span>
     const unitNumber = <span class="cstat-no" title="statement not covered" >unitNum &lt;= 9 ? `0${unitNum}` : `${unitNum}`;</span>
-    
+&nbsp;
     // Generate price (250k-450k)
     const price = <span class="cstat-no" title="statement not covered" >250000 + Math.floor(Math.random() * 200000);</span>
-    
+&nbsp;
     // Determine deposits based on status
     const bookingDeposit = <span class="cstat-no" title="statement not covered" >status === 'Inquiry' || status === 'Viewing Booked' ? 0 : Math.round(price * 0.015);</span>
     const contractDeposit = <span class="cstat-no" title="statement not covered" >status === 'Inquiry' || status === 'Viewing Booked' || status === 'Reserved' ? 0 : Math.round(price * 0.045);</span>
-    
+&nbsp;
     // Generate customer details
     const firstNames = <span class="cstat-no" title="statement not covered" >['John', 'Mary', 'James', 'Sarah', 'Michael', 'Emma', 'David', 'Laura'];</span>
     const lastNames = <span class="cstat-no" title="statement not covered" >['Murphy', 'Kelly', 'O\'Sullivan', 'Walsh', 'Smith', 'Jones', 'Ryan', 'O\'Brien'];</span>
@@ -967,7 +967,7 @@ const generateMockSales = <span class="cstat-no" title="statement not covered" >
     const customer = <span class="cstat-no" title="statement not covered" >`${firstName} ${lastName}`;</span>
     const email = <span class="cstat-no" title="statement not covered" >`${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`;</span>
     const phone = <span class="cstat-no" title="statement not covered" >`+353 ${Math.floor(Math.random() * 90) + 10} ${Math.floor(Math.random() * 9000000) + 1000000}`;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    sales.push({</span>
       id: `sale-${i}`,
       unitNumber,
@@ -982,39 +982,39 @@ const generateMockSales = <span class="cstat-no" title="statement not covered" >
       nextActionDue
     });
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return sales;</span>
 };
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >FitzgeraldGardensSales() {</span></span>
-  const [sales, setSales] = <span class="cstat-no" title="statement not covered" >useState&lt;SalesRecord[]&gt;([]);</span>
-  const [filteredSales, setFilteredSales] = <span class="cstat-no" title="statement not covered" >useState&lt;SalesRecord[]&gt;([]);</span>
-  const [filters, setFilters] = <span class="cstat-no" title="statement not covered" >useState&lt;FilterState&gt;({</span>
+  const [salessetSales] = <span class="cstat-no" title="statement not covered" >useState&lt;SalesRecord[]&gt;([]);</span>
+  const [filteredSalessetFilteredSales] = <span class="cstat-no" title="statement not covered" >useState&lt;SalesRecord[]&gt;([]);</span>
+  const [filterssetFilters] = <span class="cstat-no" title="statement not covered" >useState&lt;FilterState&gt;({</span>
     status: 'all',
     nextActionDue: 'all',
     depositStatus: 'all',
     unitNumber: ''
   });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // In a real app, this would fetch from API
     const mockSales = <span class="cstat-no" title="statement not covered" >generateMockSales();</span>
 <span class="cstat-no" title="statement not covered" >    setSales(mockSales);</span>
 <span class="cstat-no" title="statement not covered" >    setFilteredSales(mockSales);</span>
   }, []);
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Apply filters
     let result = <span class="cstat-no" title="statement not covered" >[...sales];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.status !== 'all') {</span>
 <span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.status === filters.status)</span>;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.nextActionDue !== 'all') {</span>
       const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
 <span class="cstat-no" title="statement not covered" >      if (filters.nextActionDue === 'overdue') {</span>
-<span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.nextActionDue &lt; now);</span></span>
+<span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.nextActionDue &lt;now);</span></span>
       } else <span class="cstat-no" title="statement not covered" >if (filters.nextActionDue === 'today') {</span>
 <span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; {</span></span>
           const dueDate = <span class="cstat-no" title="statement not covered" >new Date(sale.nextActionDue);</span>
@@ -1024,30 +1024,30 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         const weekLater = <span class="cstat-no" title="statement not covered" >new Date();</span>
 <span class="cstat-no" title="statement not covered" >        weekLater.setDate(now.getDate() + 7);</span>
 <span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >          return sale.nextActionDue &gt;= now &amp;&amp; sale.nextActionDue &lt;= weekLater;</span>
+<span class="cstat-no" title="statement not covered" >          return sale.nextActionDue&gt;= now &amp;&amp; sale.nextActionDue &lt;= weekLater;</span>
         });
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.depositStatus !== 'all') {</span>
 <span class="cstat-no" title="statement not covered" >      if (filters.depositStatus === 'booking-received') {</span>
-<span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.bookingDeposit &gt; 0);</span></span>
+<span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.bookingDeposit&gt; 0);</span></span>
       } else <span class="cstat-no" title="statement not covered" >if (filters.depositStatus === 'contract-received') {</span>
-<span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.contractDeposit &gt; 0);</span></span>
+<span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.contractDeposit&gt; 0);</span></span>
       } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (filters.depositStatus === 'no-deposits') {</span>
 <span class="cstat-no" title="statement not covered" >        result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; <span class="cstat-no" title="statement not covered" >s</span>ale.bookingDeposit === 0 &amp;&amp; sale.contractDeposit === 0);</span></span>
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.unitNumber) {</span>
 <span class="cstat-no" title="statement not covered" >      result = result.filter(<span class="fstat-no" title="function not covered" >sale =&gt; </span></span>
 <span class="cstat-no" title="statement not covered" >        sale.unitNumber.toLowerCase().includes(filters.unitNumber.toLowerCase())</span>
       );
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setFilteredSales(result);</span>
-  }, [filters, sales]);
-  
+  }, [filterssales]);
+&nbsp;
   const handleFilterChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLSelectElement | HTMLInputElement&gt;) =&gt; {</span>
     const { name, value } = <span class="cstat-no" title="statement not covered" >e.target;</span>
 <span class="cstat-no" title="statement not covered" >    setFilters({</span>
@@ -1055,7 +1055,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       [name]: value
     });
   };
-  
+&nbsp;
   const exportToCSV = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Create CSV content
     const headers = <span class="cstat-no" title="statement not covered" >['Unit', 'Customer', 'Email', 'Phone', 'Status', 'Booking Deposit', 'Contract Deposit', 'Price', 'Next Action', 'Next Action Due'];</span>
@@ -1071,12 +1071,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       sale.nextAction,
       sale.nextActionDue.toISOString().split('T')[0]
     ]);
-    
+&nbsp;
     const csvContent = <span class="cstat-no" title="statement not covered" >[</span>
       headers.join(','),
       ...rows.map(<span class="fstat-no" title="function not covered" >row =&gt; <span class="cstat-no" title="statement not covered" >r</span>ow.join(','))</span>
     ].join('\n');
-    
+&nbsp;
     // Create download link
     const blob = <span class="cstat-no" title="statement not covered" >new Blob([csvContent], { type: 'text/csv' });</span>
     const url = <span class="cstat-no" title="statement not covered" >URL.createObjectURL(blob);</span>
@@ -1086,32 +1086,32 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >    a.click();</span>
 <span class="cstat-no" title="statement not covered" >    URL.revokeObjectURL(url);</span>
   };
-  
+&nbsp;
   // Format currency helper function
   const formatCurrency = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>mount: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return `€${amount.toLocaleString()}`;</span>
   };
-  
+&nbsp;
   // Format date helper function
   const formatDate = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>ate: Date) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return date.toLocaleDateString('en-IE', { year: 'numeric', month: 'short', day: 'numeric' });</span>
   };
-  
+&nbsp;
   // Get style for action due date
   const getActionDueStyle = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>ate: Date) =&gt; {</span>
     const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
     const timeDiff = <span class="cstat-no" title="statement not covered" >date.getTime() - now.getTime();</span>
     const daysDiff = <span class="cstat-no" title="statement not covered" >Math.floor(timeDiff / (1000 * 3600 * 24));</span>
-    
-<span class="cstat-no" title="statement not covered" >    if (daysDiff &lt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (daysDiff &lt;0) {</span>
 <span class="cstat-no" title="statement not covered" >      return 'text-red-600 font-bold';</span>
-    } else <span class="cstat-no" title="statement not covered" >if (daysDiff &lt; 3) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (daysDiff &lt;3) {</span>
 <span class="cstat-no" title="statement not covered" >      return 'text-orange-500 font-bold';</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      return 'text-gray-700';</span>
     }
   };
-  
+&nbsp;
   return (
     &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"&gt;
       &lt;div className="flex items-center justify-between mb-8"&gt;
@@ -1137,7 +1137,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/Link&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Filters */}
       &lt;div className="bg-white rounded-lg shadow-md p-6 mb-8"&gt;
         &lt;div className="flex items-center mb-4"&gt;
@@ -1148,7 +1148,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/span&gt;
           &lt;h2 className="text-lg font-semibold"&gt;Filter Sales&lt;/h2&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="grid grid-cols-1 md:grid-cols-4 gap-4"&gt;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Status&lt;/label&gt;
@@ -1167,7 +1167,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;option value="Closed"&gt;Closed&lt;/option&gt;
             &lt;/select&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Next Action Due&lt;/label&gt;
             &lt;select
@@ -1182,7 +1182,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;option value="week"&gt;Due This Week&lt;/option&gt;
             &lt;/select&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Deposit Status&lt;/label&gt;
             &lt;select
@@ -1197,7 +1197,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;option value="no-deposits"&gt;No Deposits Received&lt;/option&gt;
             &lt;/select&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;Unit Number&lt;/label&gt;
             &lt;input
@@ -1211,7 +1211,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Sales Table */}
       &lt;div className="bg-white rounded-lg shadow-md overflow-hidden"&gt;
         &lt;div className="overflow-x-auto"&gt;
@@ -1228,7 +1228,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/tr&gt;
             &lt;/thead&gt;
             &lt;tbody className="bg-white divide-y divide-gray-200"&gt;
-              {filteredSales.map(<span class="fstat-no" title="function not covered" >(s</span>ale) =&gt; (
+              {filteredSales.map(<span class="fstat-no" title="function not covered" >(s</span>ale: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;tr key={sale.id}&gt;</span>
                   &lt;td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"&gt;
                     {sale.unitNumber}
@@ -1248,14 +1248,14 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/span&gt;
                   &lt;/td&gt;
                   &lt;td className="px-6 py-4 whitespace-nowrap text-sm"&gt;
-                    {sale.bookingDeposit &gt; 0 ? (
+                    {sale.bookingDeposit&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                      &lt;span className="text-green-600 font-medium"&gt;{formatCurrency(sale.bookingDeposit)}&lt;/span&gt;</span>
                     ) : (
                       &lt;span className="text-gray-400"&gt;Not Received&lt;/span&gt;
                     )}
                   &lt;/td&gt;
                   &lt;td className="px-6 py-4 whitespace-nowrap text-sm"&gt;
-                    {sale.contractDeposit &gt; 0 ? (
+                    {sale.contractDeposit&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                      &lt;span className="text-green-600 font-medium"&gt;{formatCurrency(sale.contractDeposit)}&lt;/span&gt;</span>
                     ) : (
                       &lt;span className="text-gray-400"&gt;Not Received&lt;/span&gt;
@@ -1315,7 +1315,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>

@@ -339,10 +339,10 @@ import { Calculator, Euro, Home, PiggyBank, Info, ArrowRight } from <span class=
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >BuyerCalculatorPage() {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [income, setIncome] = <span class="cstat-no" title="statement not covered" >useState(50000);</span>
-  const [deposit, setDeposit] = <span class="cstat-no" title="statement not covered" >useState(30000);</span>
-  const [expenses, setExpenses] = <span class="cstat-no" title="statement not covered" >useState(1000);</span>
-  const [htbAmount, setHtbAmount] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
+  const [incomesetIncome] = <span class="cstat-no" title="statement not covered" >useState(50000);</span>
+  const [depositsetDeposit] = <span class="cstat-no" title="statement not covered" >useState(30000);</span>
+  const [expensessetExpenses] = <span class="cstat-no" title="statement not covered" >useState(1000);</span>
+  const [htbAmountsetHtbAmount] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
 &nbsp;
   const calculateAffordability = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const monthlyIncome = <span class="cstat-no" title="statement not covered" >income / 12;</span>
@@ -357,7 +357,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     &lt;div className="max-w-4xl mx-auto px-4 py-6"&gt;
       &lt;div className="bg-white rounded-xl shadow-sm p-6"&gt;
         &lt;h1 className="text-2xl font-bold mb-6"&gt;Affordability Calculator&lt;/h1&gt;
-        
+&nbsp;
         &lt;div className="grid md:grid-cols-2 gap-6"&gt;
           &lt;div className="space-y-4"&gt;
             &lt;div&gt;
@@ -367,11 +367,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;input
                 type="number"
                 value={income}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setIncome(Number(e.target.value))}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setIncome(Number(e.target.value))}</span>
                 className="w-full px-4 py-2 border rounded-lg"
               /&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;
                 Saved Deposit (€)
@@ -379,11 +379,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;input
                 type="number"
                 value={deposit}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDeposit(Number(e.target.value))}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setDeposit(Number(e.target.value))}</span>
                 className="w-full px-4 py-2 border rounded-lg"
               /&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;
                 Monthly Expenses (€)
@@ -391,11 +391,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;input
                 type="number"
                 value={expenses}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setExpenses(Number(e.target.value))}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setExpenses(Number(e.target.value))}</span>
                 className="w-full px-4 py-2 border rounded-lg"
               /&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;
                 HTB Benefit (€)
@@ -403,7 +403,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;input
                 type="number"
                 value={htbAmount}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setHtbAmount(Number(e.target.value))}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setHtbAmount(Number(e.target.value))}</span>
                 className="w-full px-4 py-2 border rounded-lg"
               /&gt;
               &lt;button
@@ -414,13 +414,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="bg-blue-50 rounded-lg p-6"&gt;
             &lt;h2 className="text-xl font-bold mb-4"&gt;Your Buying Power&lt;/h2&gt;
             &lt;div className="text-3xl font-bold text-blue-600 mb-4"&gt;
               €{affordablePrice.toLocaleString()}
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="space-y-3 text-sm"&gt;
               &lt;div className="flex items-center justify-between"&gt;
                 &lt;span className="text-gray-600"&gt;Loan Amount:&lt;/span&gt;
@@ -435,7 +435,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;span className="font-medium"&gt;€{htbAmount.toLocaleString()}&lt;/span&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="mt-6 p-4 bg-blue-100 rounded-lg"&gt;
               &lt;div className="flex items-start gap-2"&gt;
                 &lt;Info className="w-5 h-5 text-blue-600 flex-shrink-0" /&gt;
@@ -447,7 +447,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="mt-6 flex gap-4"&gt;
           &lt;button
             onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>outer.push('/properties')}</span>
@@ -472,7 +472,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

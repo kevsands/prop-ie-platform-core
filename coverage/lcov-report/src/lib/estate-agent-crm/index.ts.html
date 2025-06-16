@@ -1087,7 +1087,7 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
   ): Promise&lt;PropertyMatch[]&gt; {
     const lead = <span class="cstat-no" title="statement not covered" >await this.getLeadById(leadId);</span>
     const properties = <span class="cstat-no" title="statement not covered" >await this.getAllProperties();</span>
-    
+&nbsp;
     const defaultCriteria: MatchingCriteria = <span class="cstat-no" title="statement not covered" >criteria || {</span>
       location: { weight: 0.3 },
       price: { weight: 0.25, tolerance: 10 },
@@ -1098,14 +1098,14 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
 &nbsp;
     const matches: PropertyMatch[] = <span class="cstat-no" title="statement not covered" >properties.map(<span class="fstat-no" title="function not covered" >property =&gt; {</span></span>
       const scores = <span class="cstat-no" title="statement not covered" >{</span>
-        location: this.calculateLocationScore(lead, property),
+        location: this.calculateLocationScore(leadproperty),
         price: this.calculatePriceScore(lead, property, defaultCriteria.price.tolerance || 10),
-        bedrooms: this.calculateBedroomsScore(lead, property),
-        propertyType: this.calculatePropertyTypeScore(lead, property),
-        size: this.calculateSizeScore(lead, property)
+        bedrooms: this.calculateBedroomsScore(leadproperty),
+        propertyType: this.calculatePropertyTypeScore(leadproperty),
+        size: this.calculateSizeScore(leadproperty)
       };
 &nbsp;
-      const totalScore = <span class="cstat-no" title="statement not covered" >Object.entries(scores).reduce(<span class="fstat-no" title="function not covered" >(s</span>um, [key, score]) =&gt; {</span>
+      const totalScore = <span class="cstat-no" title="statement not covered" >Object.entries(scores).reduce(<span class="fstat-no" title="function not covered" >(s</span>um, [keyscore]) =&gt; {</span>
         const weight = <span class="cstat-no" title="statement not covered" >defaultCriteria[key as keyof MatchingCriteria].weight;</span>
 <span class="cstat-no" title="statement not covered" >        return sum + (score * weight);</span>
       }, 0);
@@ -1119,7 +1119,7 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
       };
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return matches.sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; <span class="cstat-no" title="statement not covered" >b.score - a.score)</span>;</span>
+<span class="cstat-no" title="statement not covered" >    return matches.sort(<span class="fstat-no" title="function not covered" >(a</span>b: any) =&gt; <span class="cstat-no" title="statement not covered" >b.score - a.score)</span>;</span>
   }
 &nbsp;
   private <span class="fstat-no" title="function not covered" >calculateLocationScore(l</span>ead: Lead, property: Property): number {
@@ -1131,32 +1131,32 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
   private <span class="fstat-no" title="function not covered" >calculatePriceScore(l</span>ead: Lead, property: Property, tolerance: number): number {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!lead.requirements) <span class="cstat-no" title="statement not covered" >return 0.5;</span></span>
     const { minBudget = <span class="branch-0 cbranch-no" title="branch not covered" >0,</span> maxBudget = <span class="branch-0 cbranch-no" title="branch not covered" >Infinity </span>} = <span class="cstat-no" title="statement not covered" >lead.requirements;</span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (property.price &gt;= minBudget &amp;&amp; property.price &lt;= maxBudget) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (property.price&gt;= minBudget &amp;&amp; property.price &lt;= maxBudget) {</span>
 <span class="cstat-no" title="statement not covered" >      return 1;</span>
     }
-    
+&nbsp;
     const toleranceAmount = <span class="cstat-no" title="statement not covered" >maxBudget * (tolerance / 100);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (property.price &lt;= maxBudget + toleranceAmount) {</span>
 <span class="cstat-no" title="statement not covered" >      return 0.7;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return 0.2;</span>
   }
 &nbsp;
   private <span class="fstat-no" title="function not covered" >calculateBedroomsScore(l</span>ead: Lead, property: Property): number {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!lead.requirements) <span class="cstat-no" title="statement not covered" >return 0.5;</span></span>
     const { minBedrooms = <span class="branch-0 cbranch-no" title="branch not covered" >0,</span> maxBedrooms = <span class="branch-0 cbranch-no" title="branch not covered" >Infinity </span>} = <span class="cstat-no" title="statement not covered" >lead.requirements;</span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (property.bedrooms &gt;= minBedrooms &amp;&amp; property.bedrooms &lt;= maxBedrooms) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (property.bedrooms&gt;= minBedrooms &amp;&amp; property.bedrooms &lt;= maxBedrooms) {</span>
 <span class="cstat-no" title="statement not covered" >      return 1;</span>
     }
-    
+&nbsp;
     const diff = <span class="cstat-no" title="statement not covered" >Math.min(</span>
       Math.abs(property.bedrooms - minBedrooms),
       Math.abs(property.bedrooms - maxBedrooms)
     );
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return Math.max(0, 1 - (diff * 0.2));</span>
   }
 &nbsp;
@@ -1172,12 +1172,12 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
 &nbsp;
   private <span class="fstat-no" title="function not covered" >generateMatchReasons(s</span>cores: Record&lt;string, number&gt;): string[] {
     const reasons: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (scores.location &gt;= 0.8) <span class="cstat-no" title="statement not covered" >reasons.push('Perfect location match');</span></span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (scores.price &gt;= 0.8) <span class="cstat-no" title="statement not covered" >reasons.push('Within budget');</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (scores.location&gt;= 0.8) <span class="cstat-no" title="statement not covered" >reasons.push('Perfect location match');</span></span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (scores.price&gt;= 0.8) <span class="cstat-no" title="statement not covered" >reasons.push('Within budget');</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (scores.bedrooms === 1) <span class="cstat-no" title="statement not covered" >reasons.push('Exact bedroom count');</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (scores.propertyType === 1) <span class="cstat-no" title="statement not covered" >reasons.push('Preferred property type');</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return reasons;</span>
   }
 &nbsp;
@@ -1388,7 +1388,7 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
         id: '1',
         name: 'Welcome Email',
         subject: 'Welcome to our property search!',
-        body: 'Hi {{firstName}}, welcome to our service...',
+        body: 'Hi {firstName}, welcome to our service...',
         variables: ['firstName', 'lastName'],
         category: 'welcome',
         createdAt: new Date(),
@@ -1408,7 +1408,7 @@ export class <span class="cstat-no" title="statement not covered" >EstateAgentCR
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

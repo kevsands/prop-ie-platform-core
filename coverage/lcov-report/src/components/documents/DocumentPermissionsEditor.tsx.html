@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/108</span>
+                <span class='fraction'>0/107</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/100</span>
+                <span class='fraction'>0/99</span>
             </div>
         
             
@@ -617,7 +617,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1003,23 +1003,23 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
   document,
   onSave
 }) =&gt; {
-  const [isLoading, setIsLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [success, setSuccess] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  
+  const [isLoadingsetIsLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [successsetSuccess] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+&nbsp;
   // Initialize permissions from document
-  const [isPublic, setIsPublic] = <span class="cstat-no" title="statement not covered" >useState(document.permissions?.isPublic || false);</span>
-  const [sensitivity, setSensitivity] = <span class="cstat-no" title="statement not covered" >useState(document.metadata?.sensitivity || 'standard');</span>
-  const [canView, setCanView] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canView || []);</span>
-  const [canEdit, setCanEdit] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canEdit || []);</span>
-  const [canDelete, setCanDelete] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canDelete || []);</span>
-  const [canShare, setCanShare] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canShare || []);</span>
-  
+  const [isPublicsetIsPublic] = <span class="cstat-no" title="statement not covered" >useState(document.permissions?.isPublic || false);</span>
+  const [sensitivitysetSensitivity] = <span class="cstat-no" title="statement not covered" >useState(document.metadata?.sensitivity || 'standard');</span>
+  const [canViewsetCanView] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canView || []);</span>
+  const [canEditsetCanEdit] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canEdit || []);</span>
+  const [canDeletesetCanDelete] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canDelete || []);</span>
+  const [canSharesetCanShare] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;(document.permissions?.canShare || []);</span>
+&nbsp;
   // Form state for adding users
-  const [newUserId, setNewUserId] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [newUserName, setNewUserName] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [newUserPermission, setNewUserPermission] = <span class="cstat-no" title="statement not covered" >useState&lt;'view' | 'edit' | 'delete' | 'share'&gt;('view');</span>
-  
+  const [newUserIdsetNewUserId] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [newUserNamesetNewUserName] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [newUserPermissionsetNewUserPermission] = <span class="cstat-no" title="statement not covered" >useState&lt;'view' | 'edit' | 'delete' | 'share'&gt;('view');</span>
+&nbsp;
   // Update form when document changes
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (document?.permissions) {</span>
@@ -1031,14 +1031,14 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
 <span class="cstat-no" title="statement not covered" >      setCanShare(document.permissions.canShare || []);</span>
     }
   }, [document]);
-  
+&nbsp;
   // Handle form submission
   const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: React.FormEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
 <span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
 <span class="cstat-no" title="statement not covered" >    setSuccess(null);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Update permissions
       const updatedPermissions: DocumentPermissions = <span class="cstat-no" title="statement not covered" >{</span>
@@ -1049,9 +1049,9 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
         canShare,
         canSign: document.permissions?.canSign || []
       };
-      
-      const permissionsResult = <span class="cstat-no" title="statement not covered" >await documentService.updatePermissions(document.id, updatedPermissions);</span>
-      
+&nbsp;
+      const permissionsResult = <span class="cstat-no" title="statement not covered" >await documentService.updatePermissions(document.idupdatedPermissions);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!permissionsResult.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(permissionsResult.message || 'Failed to update permissions');</span>
       }
@@ -1063,71 +1063,71 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
           sensitivity
         }
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setSuccess('Permissions updated successfully');</span>
 <span class="cstat-no" title="statement not covered" >      setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >        onSave();</span>
       }, 1500);
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error updating permissions:', err);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setError(err instanceof Error ? err.message : 'An error occurred');</span>
     } finally {
 <span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
     }
   };
-  
+&nbsp;
   // Handle adding a user
   const handleAddUser = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.FormEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!newUserId.trim()) {</span>
 <span class="cstat-no" title="statement not covered" >      setError('User ID is required');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
     // Add user to selected permission list
 <span class="cstat-no" title="statement not covered" >    switch (newUserPermission) {</span>
       case 'view':
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!canView.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >          setCanView([...canView, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >          setCanView([...canViewnewUserId]);</span>
         }
 <span class="cstat-no" title="statement not covered" >        break;</span>
       case 'edit':
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!canEdit.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >          setCanEdit([...canEdit, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >          setCanEdit([...canEditnewUserId]);</span>
           // Also add to view permissions if not already there
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!canView.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >            setCanView([...canView, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >            setCanView([...canViewnewUserId]);</span>
           }
         }
 <span class="cstat-no" title="statement not covered" >        break;</span>
       case 'delete':
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!canDelete.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >          setCanDelete([...canDelete, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >          setCanDelete([...canDeletenewUserId]);</span>
           // Also add to view permissions if not already there
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!canView.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >            setCanView([...canView, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >            setCanView([...canViewnewUserId]);</span>
           }
         }
 <span class="cstat-no" title="statement not covered" >        break;</span>
       case 'share':
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!canShare.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >          setCanShare([...canShare, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >          setCanShare([...canSharenewUserId]);</span>
           // Also add to view permissions if not already there
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!canView.includes(newUserId)) {</span>
-<span class="cstat-no" title="statement not covered" >            setCanView([...canView, newUserId]);</span>
+<span class="cstat-no" title="statement not covered" >            setCanView([...canViewnewUserId]);</span>
           }
         }
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
-    
+&nbsp;
     // Reset form
 <span class="cstat-no" title="statement not covered" >    setNewUserId('');</span>
 <span class="cstat-no" title="statement not covered" >    setNewUserName('');</span>
 <span class="cstat-no" title="statement not covered" >    setNewUserPermission('view');</span>
 <span class="cstat-no" title="statement not covered" >    setError(null);</span>
   };
-  
+&nbsp;
   // Handle removing a user from a permission
   const removeUserPermission = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(u</span>serId: string, permissionType: 'view' | 'edit' | 'delete' | 'share') =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    switch (permissionType) {</span>
@@ -1149,10 +1149,10 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
   };
-  
+&nbsp;
   // Get all unique users
   const allUsers = <span class="cstat-no" title="statement not covered" >Array.from(new Set([...canView, ...canEdit, ...canDelete, ...canShare]));</span>
-  
+&nbsp;
   return (
     &lt;form onSubmit={handleSubmit} className="space-y-6"&gt;
       {/* Visibility Section */}
@@ -1173,9 +1173,9 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                 onCheckedChange={setIsPublic}
               /&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;Separator /&gt;
-            
+&nbsp;
             &lt;div&gt;
               &lt;Label className="text-base mb-2 block"&gt;Sensitivity Level&lt;/Label&gt;
               &lt;RadioGroup value={sensitivity} onValueChange={setSensitivity} className="space-y-2"&gt;
@@ -1188,7 +1188,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                     &lt;/p&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="flex items-start space-x-2"&gt;
                   &lt;RadioGroupItem value="standard" id="sensitivity-standard" className="mt-1" /&gt;
                   &lt;div&gt;
@@ -1198,7 +1198,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                     &lt;/p&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="flex items-start space-x-2"&gt;
                   &lt;RadioGroupItem value="confidential" id="sensitivity-confidential" className="mt-1" /&gt;
                   &lt;div&gt;
@@ -1213,7 +1213,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
           &lt;/CardContent&gt;
         &lt;/Card&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* User Permissions Section */}
       &lt;div&gt;
         &lt;h3 className="text-sm font-medium mb-3"&gt;User Permissions&lt;/h3&gt;
@@ -1228,7 +1228,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                     id="new-user-id"
                     placeholder="Enter user ID or email"
                     value={newUserId}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setNewUserId(e.target.value)}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setNewUserId(e.target.value)}</span>
                   /&gt;
                 &lt;/div&gt;
                 &lt;div className="w-full sm:w-48"&gt;
@@ -1237,7 +1237,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                     id="new-user-name"
                     placeholder="Display name (optional)"
                     value={newUserName}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setNewUserName(e.target.value)}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setNewUserName(e.target.value)}</span>
                   /&gt;
                 &lt;/div&gt;
                 &lt;div className="w-full sm:w-40"&gt;
@@ -1246,7 +1246,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                     id="new-user-permission"
                     className="w-full px-3 py-2 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     value={newUserPermission}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setNewUserPermission(e.target.value as any)}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setNewUserPermission(e.target.value as any)}</span>
                   &gt;
                     &lt;option value="view"&gt;Can View&lt;/option&gt;
                     &lt;option value="edit"&gt;Can Edit&lt;/option&gt;
@@ -1264,7 +1264,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                   Add User
                 &lt;/Button&gt;
               &lt;/div&gt;
-              
+&nbsp;
               {<span class="branch-0 cbranch-no" title="branch not covered" >error &amp;&amp; (</span>
                 &lt;p className="text-sm text-destructive mt-2"&gt;
                   &lt;AlertCircle className="h-4 w-4 inline-block mr-1" /&gt;
@@ -1272,9 +1272,9 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                 &lt;/p&gt;
               )}
             &lt;/div&gt;
-            
+&nbsp;
             &lt;Separator /&gt;
-            
+&nbsp;
             {/* User Permissions List */}
             {allUsers.length === 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >              &lt;div className="text-center py-4"&gt;</span>
@@ -1298,7 +1298,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                         &lt;p className="text-sm font-medium"&gt;{userId}&lt;/p&gt;
                       &lt;/div&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div className="flex flex-wrap gap-2 mt-2 sm:mt-0"&gt;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >canView.includes(userId) &amp;&amp; (</span>
                         &lt;Badge 
@@ -1317,7 +1317,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                           &lt;/Button&gt;
                         &lt;/Badge&gt;
                       )}
-                      
+&nbsp;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >canEdit.includes(userId) &amp;&amp; (</span>
                         &lt;Badge 
                           variant="outline" 
@@ -1335,7 +1335,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                           &lt;/Button&gt;
                         &lt;/Badge&gt;
                       )}
-                      
+&nbsp;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >canShare.includes(userId) &amp;&amp; (</span>
                         &lt;Badge 
                           variant="outline" 
@@ -1353,7 +1353,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
                           &lt;/Button&gt;
                         &lt;/Badge&gt;
                       )}
-                      
+&nbsp;
                       {<span class="branch-0 cbranch-no" title="branch not covered" >canDelete.includes(userId) &amp;&amp; (</span>
                         &lt;Badge 
                           variant="outline" 
@@ -1379,7 +1379,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
           &lt;/CardContent&gt;
         &lt;/Card&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="flex justify-end gap-2"&gt;
         &lt;Button 
           type="button" 
@@ -1389,7 +1389,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
         &gt;
           Cancel
         &lt;/Button&gt;
-        
+&nbsp;
         &lt;Button 
           type="submit"
           disabled={isLoading}
@@ -1407,7 +1407,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
           )}
         &lt;/Button&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Success message */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >success &amp;&amp; (</span>
         &lt;div className="bg-green-50 border border-green-200 text-green-800 rounded-md p-3 flex items-center"&gt;
@@ -1426,7 +1426,7 @@ const DocumentPermissionsEditor: React.FC&lt;DocumentPermissionsEditorProps&gt; 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

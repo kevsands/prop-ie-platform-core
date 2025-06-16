@@ -677,7 +677,7 @@ export const <span class="cstat-no" title="statement not covered" >mockDevelopme
     status: 'Selling',
     statusColor: 'green',
     priceRange: '€450,000 - €650,000',
-    bedrooms: [1, 2, 3]
+    bedrooms: [1, 23]
   },
   {
     id: 'dev-2',
@@ -688,13 +688,13 @@ export const <span class="cstat-no" title="statement not covered" >mockDevelopme
     status: 'Selling',
     statusColor: 'green',
     priceRange: '€375,000 - €495,000',
-    bedrooms: [3, 4]
+    bedrooms: [34]
   }
 ];
 &nbsp;
 // Mock data service functions that return Promises
 export const <span class="cstat-no" title="statement not covered" >mockGetTasks </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): Promise&lt;TaskItem[]&gt; =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      resolve(mockTasks);</span>
     }, 300);
@@ -702,7 +702,7 @@ export const <span class="cstat-no" title="statement not covered" >mockGetTasks 
 };
 &nbsp;
 export const <span class="cstat-no" title="statement not covered" >mockGetAlerts </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): Promise&lt;AlertItem[]&gt; =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      resolve(mockAlerts);</span>
     }, 300);
@@ -710,7 +710,7 @@ export const <span class="cstat-no" title="statement not covered" >mockGetAlerts
 };
 &nbsp;
 export const <span class="cstat-no" title="statement not covered" >mockGetUser </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(): Promise&lt;typeof mockUser&gt; =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      resolve(mockUser);</span>
     }, 300);
@@ -719,33 +719,33 @@ export const <span class="cstat-no" title="statement not covered" >mockGetUser <
 &nbsp;
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >getDevelopments(</span></span>filters?: Partial&lt;DevelopmentFilters&gt;): Development[] {
   let filteredDevelopments = <span class="cstat-no" title="statement not covered" >[...mockDevelopments];</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (filters) {</span>
     // Apply location filter with null check
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.location) {</span>
 <span class="cstat-no" title="statement not covered" >      filteredDevelopments = filteredDevelopments</span>
         .filter(<span class="fstat-no" title="function not covered" >dev =&gt; <span class="cstat-no" title="statement not covered" >d</span>ev.location.toLowerCase().includes(filters.location?.toLowerCase() || ''));</span>
     }
-    
+&nbsp;
     // Apply price range filter
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.priceRange) {</span>
 <span class="cstat-no" title="statement not covered" >      filteredDevelopments = filteredDevelopments</span>
         .filter(<span class="fstat-no" title="function not covered" >dev =&gt; <span class="cstat-no" title="statement not covered" >d</span>ev.priceRange === filters.priceRange)</span>;
     }
-    
+&nbsp;
     // Apply bedrooms filter
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.bedrooms) {</span>
 <span class="cstat-no" title="statement not covered" >      filteredDevelopments = filteredDevelopments</span>
         .filter(<span class="fstat-no" title="function not covered" >dev =&gt; <span class="cstat-no" title="statement not covered" >d</span>ev.bedrooms?.includes(filters.bedrooms!) || false);</span>
     }
-    
+&nbsp;
     // Apply status filter
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.status) {</span>
 <span class="cstat-no" title="statement not covered" >      filteredDevelopments = filteredDevelopments</span>
         .filter(<span class="fstat-no" title="function not covered" >dev =&gt; <span class="cstat-no" title="statement not covered" >d</span>ev.status === filters.status)</span>;
     }
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return filteredDevelopments;</span>
 }</pre></td></tr></table></pre>
 
@@ -754,7 +754,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

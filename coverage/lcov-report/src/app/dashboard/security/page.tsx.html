@@ -111,36 +111,10 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -156,8 +130,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Suspense } from <span class="cstat-no" title="statement not covered" >'react';</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from <span class="cstat-no" title="statement not covered" >'react';</span>
+import { Suspense } from 'react';
 import { getSecurityMetrics, getSecurityEvents, getAnomalyDetections } from <span class="cstat-no" title="statement not covered" >'@/lib/security/securityAnalyticsServer';</span>
 import SecurityDashboardClient from <span class="cstat-no" title="statement not covered" >'./SecurityDashboardClient';</span>
 import { SecurityMetricsSkeleton } from <span class="cstat-no" title="statement not covered" >'@/components/security/SecurityMetricsSkeleton';</span>
@@ -176,19 +177,19 @@ import { SecurityMetricsSkeleton } from <span class="cstat-no" title="statement 
  */
 export default async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >SecurityDashboardPage() {</span></span>
   // Fetch initial data on the server for improved performance and SEO
-  const [metrics, events, anomalies] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
+  const [metrics, eventsanomalies] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
     getSecurityMetrics({ timeframe: 'last_24_hours' }),
     getSecurityEvents({ limit: 10 }),
     getAnomalyDetections({ includeResolved: false })
   ]);
-  
+&nbsp;
   return (
     &lt;div className="container mx-auto px-4 py-8"&gt;
       &lt;h1 className="text-3xl font-bold mb-6"&gt;Security Dashboard&lt;/h1&gt;
       &lt;p className="text-gray-600 mb-8"&gt;
         Monitor your security posture and respond to threats with our real-time security dashboard.
       &lt;/p&gt;
-      
+&nbsp;
       &lt;Suspense fallback={&lt;SecurityMetricsSkeleton /&gt;}&gt;
         &lt;SecurityDashboardClient 
           initialMetrics={metrics}
@@ -203,15 +204,14 @@ export default async function <span class="cstat-no" title="statement not covere
 // Add metadata for SEO
 export const <span class="cstat-no" title="statement not covered" >metadata </span>= <span class="cstat-no" title="statement not covered" >{</span>
   title: 'Security Dashboard | PropIE AWS Platform',
-  description: 'Monitor and respond to security events and threats in real-time',
-};</pre></td></tr></table></pre>
+  description: 'Monitor and respond to security events and threats in real-time'};</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -2083,7 +2083,7 @@ import {
 } from <span class="cstat-no" title="statement not covered" >'lucide-react';</span>
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DeveloperPlatformPage() {</span></span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('overview');</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('overview');</span>
 &nbsp;
   return (
     &lt;div className="min-h-screen bg-white"&gt;
@@ -2204,7 +2204,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
           {/* Tab Navigation */}
           &lt;div className="flex flex-wrap justify-center mb-8 border-b"&gt;
-            {['overview', 'development', 'project', 'sales', 'buyer', 'analytics'].map(<span class="fstat-no" title="function not covered" >(t</span>ab) =&gt; (
+            {['overview', 'development', 'project', 'sales', 'buyer', 'analytics'].map(<span class="fstat-no" title="function not covered" >(t</span>ab: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;button</span>
                 key={tab}
                 onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etActiveTab(tab)}</span>
@@ -2495,7 +2495,7 @@ function <span class="fstat-no" title="function not covered" >DevelopmentTab() {
           Streamline contractor management, tender processes, and project forecasting with AI-powered tools
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"&gt;
         {/* Contractor Management */}
         &lt;div className="space-y-6"&gt;
@@ -2630,7 +2630,7 @@ function <span class="fstat-no" title="function not covered" >DevelopmentTab() {
         &lt;h4 className="text-2xl font-bold mb-8 text-center"&gt;
           Development Appraisal &amp; Forecasting
         &lt;/h4&gt;
-        
+&nbsp;
         &lt;div className="grid md:grid-cols-3 gap-6"&gt;
           &lt;div className="bg-white rounded-xl shadow-lg p-6"&gt;
             &lt;Calculator className="h-10 w-10 text-blue-600 mb-4" /&gt;
@@ -2712,7 +2712,7 @@ function <span class="fstat-no" title="function not covered" >DevelopmentTab() {
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="bg-white rounded-xl p-6 shadow-lg"&gt;
               &lt;h6 className="font-semibold mb-4"&gt;AI-Powered Insights&lt;/h6&gt;
               &lt;div className="space-y-3"&gt;
@@ -2752,7 +2752,7 @@ function <span class="fstat-no" title="function not covered" >ProjectTab() {</sp
           Manage every aspect of your development project with powerful tools designed for the construction industry
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-3 gap-8"&gt;
         &lt;FeatureCard 
           icon={&lt;Upload /&gt;}
@@ -2798,7 +2798,7 @@ function <span class="fstat-no" title="function not covered" >SalesTab() {</span
           Modern sales tools that help you sell faster, manage leads better, and close more deals
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-2 gap-8"&gt;
         &lt;div className="space-y-6"&gt;
           &lt;SalesFeature 
@@ -2839,7 +2839,7 @@ function <span class="fstat-no" title="function not covered" >BuyerTab() {</span
           Give your buyers a premium digital experience that drives satisfaction and accelerates sales
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-3 gap-8"&gt;
         &lt;BuyerFeature 
           icon={&lt;Smartphone /&gt;}
@@ -2885,7 +2885,7 @@ function <span class="fstat-no" title="function not covered" >AnalyticsTab() {</
           Comprehensive analytics and reporting tools to optimize your development strategy
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid md:grid-cols-2 gap-12"&gt;
         &lt;div className="space-y-8"&gt;
           &lt;AnalyticsFeature 
@@ -3031,7 +3031,7 @@ function <span class="fstat-no" title="function not covered" >PricingCard({</spa
         &lt;span className={`text-sm ${highlighted ? 'text-blue-200' : 'text-gray-500'}`}&gt; {period}&lt;/span&gt;
       &lt;/div&gt;
       &lt;ul className="space-y-3 mb-8"&gt;
-        {features.map(<span class="fstat-no" title="function not covered" >(f</span>eature, index) =&gt; (
+        {features.map(<span class="fstat-no" title="function not covered" >(f</span>eatureindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;li key={index} c</span>lassName="flex items-center"&gt;
             &lt;CheckCircle className={`h-5 w-5 mr-3 ${highlighted ? 'text-blue-300' : 'text-green-500'}`} /&gt;
             &lt;span&gt;{feature}&lt;/span&gt;
@@ -3053,8 +3053,8 @@ function <span class="fstat-no" title="function not covered" >PricingCard({</spa
 }
 &nbsp;
 function <span class="fstat-no" title="function not covered" >FAQItem({</span> question, answer }: { question: string; answer: string }) {
-  const [isOpen, setIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
+  const [isOpensetIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
   return (
     &lt;div className="border-b border-gray-200 pb-6"&gt;
       &lt;button
@@ -3076,7 +3076,7 @@ function <span class="fstat-no" title="function not covered" >FAQItem({</span> q
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/59</span>
+                <span class='fraction'>0/57</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/54</span>
+                <span class='fraction'>0/52</span>
             </div>
         
             
@@ -276,10 +276,7 @@
 <a name='L211'></a><a href='#L211'>211</a>
 <a name='L212'></a><a href='#L212'>212</a>
 <a name='L213'></a><a href='#L213'>213</a>
-<a name='L214'></a><a href='#L214'>214</a>
-<a name='L215'></a><a href='#L215'>215</a>
-<a name='L216'></a><a href='#L216'>216</a>
-<a name='L217'></a><a href='#L217'>217</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L214'></a><a href='#L214'>214</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -318,7 +315,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -327,9 +323,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -403,7 +397,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -510,11 +504,11 @@ const initialCategories: MediaCategory[] = <span class="cstat-no" title="stateme
 ];
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DeveloperMediaPage() {</span></span>
-  const [categories, setCategories] = <span class="cstat-no" title="statement not covered" >useState&lt;MediaCategory[]&gt;(initialCategories);</span>
-  const [isLoading, setIsLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [isSaving, setIsSaving] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [projectId, setProjectId] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;("fitzgerald-gardens"); /</span>/ For demo purposes
-  const [saveMessage, setSaveMessage] = <span class="cstat-no" title="statement not covered" >useState&lt;{ type: 'success' | 'error', text: string } | null&gt;(null);</span>
+  const [categoriessetCategories] = <span class="cstat-no" title="statement not covered" >useState&lt;MediaCategory[]&gt;(initialCategories);</span>
+  const [isLoadingsetIsLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [isSavingsetIsSaving] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [projectIdsetProjectId] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;("fitzgerald-gardens"); /</span>/ For demo purposes
+  const [saveMessagesetSaveMessage] = <span class="cstat-no" title="statement not covered" >useState&lt;{ type: 'success' | 'error', text: string } | null&gt;(null);</span>
 &nbsp;
   // Load media from API
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -523,35 +517,32 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >      try {</span>
         // Fetch media from API
         const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/projects/${projectId}/media`);</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >          throw new Error(`Failed to load media: ${response.status}`);</span>
         }
-        
+&nbsp;
         const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (data.categories &amp;&amp; Array.isArray(data.categories)) {</span>
 <span class="cstat-no" title="statement not covered" >          setCategories(data.categories);</span>
         }
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error('Error loading media:', error);</span>
-        
+&nbsp;
         // Fallback to mock data for demonstration
         const mockImageUrls = <span class="cstat-no" title="statement not covered" >[</span>
           '/images/developments/fitzgerald-gardens.jpg',
           '/images/developments/ballymakenny-view.jpg',
-          '/images/developments/riverside-manor.jpg',
-        ];
-        
+          '/images/developments/riverside-manor.jpg'];
+&nbsp;
         // Create mock media files
-        const mockDevelopmentImages = <span class="cstat-no" title="statement not covered" >mockImageUrls.map(<span class="fstat-no" title="function not covered" >(u</span>rl, index) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+        const mockDevelopmentImages = <span class="cstat-no" title="statement not covered" >mockImageUrls.map(<span class="fstat-no" title="function not covered" >(u</span>rlindex: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
           name: `development-image-${index + 1}.jpg`,
           size: 1024 * 1024 * (1 + Math.random()),
           type: 'image/jpeg',
           preview: url,
-          id: `dev-img-${index + 1}`,
-        } as MediaFile));
-        
+          id: `dev-img-${index + 1}`} as MediaFile));
+&nbsp;
         // Update categories with mock files
 <span class="cstat-no" title="statement not covered" >        setCategories(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.map(<span class="fstat-no" title="function not covered" >category =&gt; {</span></span></span>
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (category.id === 'development-images') {</span>
@@ -563,7 +554,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >        setIsLoading(false);</span>
       }
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    loadProjectMedia();</span>
   }, [projectId]);
 &nbsp;
@@ -576,7 +567,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           : category
       )
     );
-    
+&nbsp;
     // Show success message
 <span class="cstat-no" title="statement not covered" >    setSaveMessage({ type: 'success', text: `${files.length} files added to ${categoryId}` });</span>
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSaveMessage(null), 3</span>000);</span>
@@ -595,13 +586,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
   // Handle adding a new category
   const handleAddCategory = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>ategory: MediaCategory) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setCategories(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, category]);</span></span>
+<span class="cstat-no" title="statement not covered" >    setCategories(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prevcategory]);</span></span>
   };
 &nbsp;
   // Handle saving all changes
   const handleSaveAll = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setIsSaving(true);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Send data to the API
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/projects/${projectId}/media`, {</span>
@@ -609,17 +600,17 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ categories })
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(`Failed to save media: ${response.status}`);</span>
       }
-      
+&nbsp;
       const result = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
       // Show success message
 <span class="cstat-no" title="statement not covered" >      setSaveMessage({ type: 'success', text: 'All media saved successfully' });</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error saving media:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setSaveMessage({ type: 'error', text: 'Failed to save media' });</span>
     } finally {
 <span class="cstat-no" title="statement not covered" >      setIsSaving(false);</span>
@@ -631,7 +622,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     &lt;div className="p-6 max-w-7xl mx-auto"&gt;
       &lt;div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between"&gt;
         &lt;h1 className="text-2xl font-bold text-gray-900 mb-2 sm:mb-0"&gt;Development Media Management&lt;/h1&gt;
-        
+&nbsp;
         &lt;div className="flex items-center space-x-2"&gt;
           &lt;button
             type="button"
@@ -653,7 +644,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/button&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Project selection would go here in a real app */}
       &lt;div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200"&gt;
         &lt;h2 className="text-lg font-medium text-gray-900 mb-2"&gt;Project: Fitzgerald Gardens&lt;/h2&gt;
@@ -661,7 +652,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           Manage all media assets for this development, including marketing images, floor plans, and brochures.
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Notification message */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >saveMessage &amp;&amp; (</span>
         &lt;div className={`mb-6 p-4 rounded-md ${
@@ -670,7 +661,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           {saveMessage.text}
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {isLoading ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >        &lt;div className="flex items-center justify-center h-96 bg-white rounded-lg shadow"&gt;</span>
           &lt;div className="flex flex-col items-center"&gt;
@@ -698,7 +689,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           className="mb-8"
         /&gt;
       )}
-      
+&nbsp;
       &lt;div className="bg-blue-50 border border-blue-200 rounded-md p-4 mt-8"&gt;
         &lt;h3 className="text-md font-medium text-blue-800 mb-2"&gt;Media Management Guidelines&lt;/h3&gt;
         &lt;ul className="list-disc pl-5 text-sm text-blue-700 space-y-1"&gt;
@@ -718,7 +709,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

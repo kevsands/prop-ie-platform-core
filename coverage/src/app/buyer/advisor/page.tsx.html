@@ -420,13 +420,10 @@
 <a name='L355'></a><a href='#L355'>355</a>
 <a name='L356'></a><a href='#L356'>356</a>
 <a name='L357'></a><a href='#L357'>357</a>
-<a name='L358'></a><a href='#L358'>358</a>
-<a name='L359'></a><a href='#L359'>359</a>
-<a name='L360'></a><a href='#L360'>360</a>
-<a name='L361'></a><a href='#L361'>361</a>
-<a name='L362'></a><a href='#L362'>362</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L358'></a><a href='#L358'>358</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -524,11 +521,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -785,9 +777,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from <span class="cstat-no" title="statement not covered" >'react';</span>
+<span class="cstat-no" title="statement not covered" >'use client';</span>
 &nbsp;
-import { useState } from <span class="cstat-no" title="statement not covered" >'react';</span>
+import { useState } from 'react';
 import { MessageCircle, Phone, Video, Calendar, User, Star, Clock, Check, ChevronRight, ArrowRight, Award, Briefcase } from <span class="cstat-no" title="statement not covered" >'lucide-react';</span>
 import { format } from <span class="cstat-no" title="statement not covered" >'date-fns';</span>
 &nbsp;
@@ -816,11 +809,11 @@ interface TimeSlot {
 }
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >AdvisorPage() {</span></span>
-  const [selectedAdvisor, setSelectedAdvisor] = <span class="cstat-no" title="statement not covered" >useState&lt;Advisor | null&gt;(null);</span>
-  const [selectedDate, setSelectedDate] = <span class="cstat-no" title="statement not covered" >useState&lt;Date | null&gt;(null);</span>
-  const [selectedTime, setSelectedTime] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [consultationType, setConsultationType] = <span class="cstat-no" title="statement not covered" >useState&lt;'video' | 'phone' | 'in-person'&gt;('video');</span>
-  
+  const [selectedAdvisorsetSelectedAdvisor] = <span class="cstat-no" title="statement not covered" >useState&lt;Advisor | null&gt;(null);</span>
+  const [selectedDatesetSelectedDate] = <span class="cstat-no" title="statement not covered" >useState&lt;Date | null&gt;(null);</span>
+  const [selectedTimesetSelectedTime] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [consultationTypesetConsultationType] = <span class="cstat-no" title="statement not covered" >useState&lt;'video' | 'phone' | 'in-person'&gt;('video');</span>
+&nbsp;
   // Mock advisors data
   const advisors: Advisor[] = <span class="cstat-no" title="statement not covered" >[</span>
     {
@@ -872,7 +865,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       successStories: 180
     }
   ];
-  
+&nbsp;
   // Mock time slots
   const timeSlots: TimeSlot[] = <span class="cstat-no" title="statement not covered" >[</span>
     { id: '1', date: new Date(Date.now() + 24 * 60 * 60 * 1000), time: '09:00 AM', available: true },
@@ -882,18 +875,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     { id: '5', date: new Date(Date.now() + 24 * 60 * 60 * 1000), time: '3:00 PM', available: true },
     { id: '6', date: new Date(Date.now() + 24 * 60 * 60 * 1000), time: '4:00 PM', available: true }
   ];
-  
+&nbsp;
   const handleBooking = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (selectedAdvisor &amp;&amp; selectedDate &amp;&amp; selectedTime) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log('Booking:', {</span>
-        advisor: selectedAdvisor.name,
-        date: selectedDate,
-        time: selectedTime,
-        type: consultationType
-      });
+&nbsp;
     }
   };
-  
+&nbsp;
   return (
     &lt;div className="flex-1 p-8"&gt;
       &lt;div className="max-w-7xl mx-auto"&gt;
@@ -902,7 +890,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;h1 className="text-3xl font-bold text-gray-900"&gt;Expert Property Advisors&lt;/h1&gt;
           &lt;p className="text-gray-600 mt-1"&gt;Get personalized guidance from our team of property experts&lt;/p&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* How it Works */}
         &lt;div className="bg-blue-50 rounded-xl p-8 mb-8"&gt;
           &lt;h2 className="text-xl font-semibold text-gray-900 mb-6"&gt;How Expert Consultation Works&lt;/h2&gt;
@@ -937,10 +925,10 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Advisors Grid */}
         &lt;div className="grid md:grid-cols-3 gap-6 mb-8"&gt;
-          {advisors.map(<span class="fstat-no" title="function not covered" >(a</span>dvisor) =&gt; (
+          {advisors.map(<span class="fstat-no" title="function not covered" >(a</span>dvisor: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;div </span>
               key={advisor.id}
               className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -965,21 +953,21 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;p className="text-gray-700 mb-4"&gt;{advisor.bio}&lt;/p&gt;
-                
+&nbsp;
                 &lt;div className="space-y-3 text-sm"&gt;
                   &lt;div&gt;
                     &lt;p className="font-medium text-gray-900 mb-1"&gt;Specializations:&lt;/p&gt;
                     &lt;div className="flex flex-wrap gap-2"&gt;
-                      {advisor.specialization.map(<span class="fstat-no" title="function not covered" >(s</span>pec, index) =&gt; (
+                      {advisor.specialization.map(<span class="fstat-no" title="function not covered" >(s</span>pecindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                        &lt;span key={index} c</span>lassName="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs"&gt;
                           {spec}
                         &lt;/span&gt;
                       ))}
                     &lt;/div&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center justify-between"&gt;
                     &lt;div className="flex items-center gap-2"&gt;
                       &lt;Briefcase className="h-4 w-4 text-gray-500" /&gt;
@@ -990,13 +978,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                       &lt;span className="text-gray-600"&gt;{advisor.successStories} success stories&lt;/span&gt;
                     &lt;/div&gt;
                   &lt;/div&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center gap-2"&gt;
                     &lt;Clock className="h-4 w-4 text-gray-500" /&gt;
                     &lt;span className="text-gray-600"&gt;{advisor.responseTime}&lt;/span&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;button className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"&gt;
                   Book Consultation
                 &lt;/button&gt;
@@ -1004,7 +992,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           ))}
         &lt;/div&gt;
-        
+&nbsp;
         {/* Booking Modal */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >selectedAdvisor &amp;&amp; (</span>
           &lt;div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"&gt;
@@ -1022,7 +1010,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/button&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="p-6"&gt;
                 {/* Consultation Type */}
                 &lt;div className="mb-6"&gt;
@@ -1063,12 +1051,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/button&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* Date Selection */}
                 &lt;div className="mb-6"&gt;
                   &lt;h3 className="text-lg font-semibold text-gray-900 mb-4"&gt;Select Date&lt;/h3&gt;
                   &lt;div className="grid grid-cols-7 gap-2"&gt;
-                    {[...Array(7)].map(<span class="fstat-no" title="function not covered" >(_</span>, index) =&gt; {
+                    {[...Array(7)].map(<span class="fstat-no" title="function not covered" >(_</span>index: any) =&gt; {
                       const date = <span class="cstat-no" title="statement not covered" >new Date(Date.now() + (index + 1) * 24 * 60 * 60 * 1000);</span>
 <span class="cstat-no" title="statement not covered" >                      return (</span>
                         &lt;button
@@ -1087,12 +1075,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     })}
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* Time Selection */}
                 &lt;div className="mb-6"&gt;
                   &lt;h3 className="text-lg font-semibold text-gray-900 mb-4"&gt;Available Times&lt;/h3&gt;
                   &lt;div className="grid grid-cols-3 gap-3"&gt;
-                    {timeSlots.map(<span class="fstat-no" title="function not covered" >(s</span>lot) =&gt; (
+                    {timeSlots.map(<span class="fstat-no" title="function not covered" >(s</span>lot: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;button</span>
                         key={slot.id}
                         onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSelectedTime(slot.time)}</span>
@@ -1110,7 +1098,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     ))}
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {/* Booking Summary */}
                 {selectedDate &amp;&amp; selectedTime &amp;&amp; (
                   &lt;div className="bg-gray-50 rounded-lg p-4 mb-6"&gt;
@@ -1131,7 +1119,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 &lt;button
                   onClick={handleBooking}
                   disabled={!selectedDate || !selectedTime}
@@ -1153,7 +1141,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

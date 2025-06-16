@@ -661,16 +661,16 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
       sitePlanFiles: []
     }
   });
-  
-  const [files, setFiles] = <span class="cstat-no" title="statement not covered" >useState&lt;File[]&gt;([]);</span>
-  const [uploading, setUploading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [uploadError, setUploadError] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  
+&nbsp;
+  const [filessetFiles] = <span class="cstat-no" title="statement not covered" >useState&lt;File[]&gt;([]);</span>
+  const [uploadingsetUploading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [uploadErrorsetUploadError] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+&nbsp;
   const handleFileChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setUploadError('');</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (e.target.files) {</span>
       const fileArray = <span class="cstat-no" title="statement not covered" >Array.from(e.target.files);</span>
-      
+&nbsp;
       // Check if any file is not an allowed type or is too large
       const invalidFile = <span class="cstat-no" title="statement not covered" >fileArray.find(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
         const extension = <span class="cstat-no" title="statement not covered" >file.name.split('.').pop()?.toLowerCase();</span>
@@ -678,28 +678,28 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
         const isValidSize = <span class="cstat-no" title="statement not covered" >file.size &lt;= 20 * 1024 * 1024; /</span>/ 20MB
 <span class="cstat-no" title="statement not covered" >        return !isValidType || !isValidSize;</span>
       });
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (invalidFile) {</span>
 <span class="cstat-no" title="statement not covered" >        setUploadError('Some files have invalid types or are too large. Please check and try again.');</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setFiles(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, ...fileArray]);</span></span>
     }
   };
-  
+&nbsp;
   const removeFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>ndex: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setFiles(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.filter(<span class="fstat-no" title="function not covered" >(_</span>, i) =&gt; <span class="cstat-no" title="statement not covered" >i !== index));</span></span></span>
+<span class="cstat-no" title="statement not covered" >    setFiles(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.filter(<span class="fstat-no" title="function not covered" >(_</span>i: any) =&gt; <span class="cstat-no" title="statement not covered" >i !== index));</span></span></span>
   };
-  
+&nbsp;
   const handleFormSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>ata: SitePlanData) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (files.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      setUploadError('Please upload at least one site plan document');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setUploading(true);</span>
-    
+&nbsp;
     // In a real application, you would upload the files to your server here
     // For now, we'll simulate a delay and then call onSubmit
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -710,10 +710,10 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
 <span class="cstat-no" title="statement not covered" >      setUploading(false);</span>
     }, 1000);
   };
-  
+&nbsp;
   const getFileIcon = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: File) =&gt; {</span>
     const extension = <span class="cstat-no" title="statement not covered" >file.name.split('.').pop()?.toLowerCase();</span>
-    
+&nbsp;
     const props: IconBaseProps = <span class="cstat-no" title="statement not covered" >{</span>
       className: extension === 'pdf' ? 'text-red-500' : 
                  ['jpg', 'jpeg', 'png'].includes(extension || '') ? 'text-blue-500' :
@@ -739,7 +739,7 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
   return (
     &lt;div className="bg-white rounded-lg shadow-md p-6"&gt;
       &lt;h2 className="text-xl font-semibold text-gray-900 mb-6"&gt;Site Plan&lt;/h2&gt;
-      
+&nbsp;
       &lt;form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6"&gt;
         &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;
           {/* Site Area */}
@@ -769,7 +769,7 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
               &lt;p className="mt-1 text-sm text-red-600"&gt;{errors.siteArea.message}&lt;/p&gt;
             )}
           &lt;/div&gt;
-          
+&nbsp;
           {/* Site Coverage */}
           &lt;div&gt;
             &lt;label htmlFor="siteCoverage" className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -798,7 +798,7 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
               &lt;p className="mt-1 text-sm text-red-600"&gt;{errors.siteCoverage.message}&lt;/p&gt;
             )}
           &lt;/div&gt;
-          
+&nbsp;
           {/* Floor Area */}
           &lt;div&gt;
             &lt;label htmlFor="floorArea" className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -827,13 +827,13 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
             )}
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* File Upload */}
         &lt;div className="mt-6"&gt;
           &lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;
             Site Plan Documents*
           &lt;/label&gt;
-          
+&nbsp;
           &lt;div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"&gt;
             &lt;div className="space-y-1 text-center"&gt;
               {FiUpload({ className: "mx-auto h-12 w-12 text-gray-400", size: 48 })}
@@ -857,7 +857,7 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
               &lt;/p&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {<span class="branch-0 cbranch-no" title="branch not covered" >uploadError &amp;&amp; (</span>
             &lt;div className="mt-2 flex items-center text-sm text-red-600"&gt;
               {FiAlertCircle({ className: "mr-1", size: 16 })}
@@ -865,13 +865,13 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
             &lt;/div&gt;
           )}
         &lt;/div&gt;
-        
+&nbsp;
         {/* File List */}
-        {<span class="branch-0 cbranch-no" title="branch not covered" >files.length &gt; 0 &amp;&amp; (</span>
+        {<span class="branch-0 cbranch-no" title="branch not covered" >files.length&gt; 0 &amp;&amp; (</span>
           &lt;div className="mt-4"&gt;
             &lt;h3 className="text-sm font-medium text-gray-700 mb-2"&gt;Uploaded Files:&lt;/h3&gt;
             &lt;ul className="divide-y divide-gray-200 border border-gray-200 rounded-md"&gt;
-              {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile, index) =&gt; (
+              {files.map(<span class="fstat-no" title="function not covered" >(f</span>ileindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;li key={index} c</span>lassName="pl-3 pr-4 py-3 flex items-center justify-between text-sm"&gt;
                   &lt;div className="flex items-center"&gt;
                     {getFileIcon(file)}
@@ -891,7 +891,7 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
             &lt;/ul&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         &lt;div className="flex justify-end"&gt;
           &lt;button
             type="submit"
@@ -925,7 +925,7 @@ const SitePlanUpload: React.FC&lt;SitePlanUploadProps&gt; = <span class="cstat-n
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

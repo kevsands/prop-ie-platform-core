@@ -909,42 +909,42 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     isLoading, 
     error 
   } = <span class="cstat-no" title="statement not covered" >useHTB();</span>
-  
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState&lt;TabType&gt;("details");</span>
-  const [actionError, setActionError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  const [actionSuccess, setActionSuccess] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
-  
+&nbsp;
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState&lt;TabType&gt;("details");</span>
+  const [actionErrorsetActionError] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [actionSuccesssetActionSuccess] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (claimId) {</span>
 <span class="cstat-no" title="statement not covered" >      fetchClaimById(claimId, "developer");</span>
     }
-  }, [claimId, fetchClaimById]);
-  
+  }, [claimIdfetchClaimById]);
+&nbsp;
   const handleTabChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>ab: TabType) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setActiveTab(tab);</span>
     // Clear any action messages when changing tabs
 <span class="cstat-no" title="statement not covered" >    setActionError(null);</span>
 <span class="cstat-no" title="statement not covered" >    setActionSuccess(null);</span>
   };
-  
+&nbsp;
   const handleActionSuccess = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(m</span>essage: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setActionSuccess(message);</span>
 <span class="cstat-no" title="statement not covered" >    setActionError(null);</span>
     // Refresh claim data
 <span class="cstat-no" title="statement not covered" >    fetchClaimById(claimId, "developer");</span>
   };
-  
+&nbsp;
   const handleActionError = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>rror: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setActionError(error);</span>
 <span class="cstat-no" title="statement not covered" >    setActionSuccess(null);</span>
   };
-  
+&nbsp;
   // Determine available actions based on claim status
   const getAvailableActions = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!selectedDeveloperClaim) <span class="cstat-no" title="statement not covered" >return {};</span></span>
-    
+&nbsp;
     const status = <span class="cstat-no" title="statement not covered" >selectedDeveloperClaim.status;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       canProcessAccessCode: status === HTBClaimStatus.SUBMITTED,
       canUpdateClaimCode: status === HTBClaimStatus.ACCESS_CODE_APPROVED,
@@ -956,7 +956,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       canUploadDocument: true, // Always available
     };
   };
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (isLoading) {</span>
     return (
       &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;
@@ -967,7 +967,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {</span>
     return (
       &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;
@@ -996,7 +996,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!selectedDeveloperClaim) {</span>
     return (
       &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;
@@ -1025,9 +1025,9 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
   const availableActions = <span class="cstat-no" title="statement not covered" >getAvailableActions();</span>
-  
+&nbsp;
   return (
     &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;
       &lt;div className="mb-6 flex justify-between items-center"&gt;
@@ -1046,10 +1046,10 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           Back to Claims
         &lt;/button&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Tab Navigation */}
       &lt;ClaimTabs activeTab={activeTab} onTabChange={handleTabChange} /&gt;
-      
+&nbsp;
       {/* Action Notifications */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >actionSuccess &amp;&amp; (</span>
         &lt;div className="mt-4 mb-6 bg-green-50 border-l-4 border-green-400 p-4 rounded"&gt;
@@ -1065,7 +1065,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           &lt;/div&gt;
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {<span class="branch-0 cbranch-no" title="branch not covered" >actionError &amp;&amp; (</span>
         &lt;div className="mt-4 mb-6 bg-red-50 border-l-4 border-red-400 p-4 rounded"&gt;
           &lt;div className="flex"&gt;
@@ -1080,19 +1080,19 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
           &lt;/div&gt;
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {/* Tab Content */}
       &lt;div className="mt-6"&gt;
         {/* Details Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === "details" &amp;&amp; (</span>
           &lt;ClaimDetails claim={selectedDeveloperClaim} /&gt;
         )}
-        
+&nbsp;
         {/* Documents Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === "documents" &amp;&amp; (</span>
           &lt;div className="space-y-6"&gt;
             &lt;ClaimDocuments documents={selectedDeveloperClaim.documents || []} /&gt;
-            
+&nbsp;
             &lt;div className="bg-white shadow sm:rounded-lg"&gt;
               &lt;div className="px-4 py-5 sm:p-6"&gt;
                 &lt;h3 className="text-lg leading-6 font-medium text-gray-900"&gt;
@@ -1112,12 +1112,12 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             &lt;/div&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {/* Notes Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === "notes" &amp;&amp; (</span>
           &lt;div className="space-y-6"&gt;
             &lt;ClaimNotes notes={selectedDeveloperClaim.notes || []} /&gt;
-            
+&nbsp;
             &lt;div className="bg-white shadow sm:rounded-lg"&gt;
               &lt;div className="px-4 py-5 sm:p-6"&gt;
                 &lt;h3 className="text-lg leading-6 font-medium text-gray-900"&gt;
@@ -1137,7 +1137,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             &lt;/div&gt;
           &lt;/div&gt;
         )}
-        
+&nbsp;
         {/* Actions Tab */}
         {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === "actions" &amp;&amp; (</span>
           &lt;div className="space-y-6"&gt;
@@ -1161,7 +1161,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {/* Update Claim Code */}
             {<span class="branch-0 cbranch-no" title="branch not covered" >availableActions.canUpdateClaimCode </span>&amp;&amp; (
               &lt;div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200"&gt;
@@ -1182,7 +1182,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {/* Request Funds */}
             {<span class="branch-0 cbranch-no" title="branch not covered" >availableActions.canRequestFunds </span>&amp;&amp; (
               &lt;div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200"&gt;
@@ -1203,7 +1203,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {/* Mark Funds Received */}
             {<span class="branch-0 cbranch-no" title="branch not covered" >availableActions.canMarkFundsReceived </span>&amp;&amp; (
               &lt;div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200"&gt;
@@ -1225,7 +1225,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {/* Mark Deposit Applied */}
             {<span class="branch-0 cbranch-no" title="branch not covered" >availableActions.canMarkDepositApplied </span>&amp;&amp; (
               &lt;div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200"&gt;
@@ -1246,7 +1246,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {/* Complete Claim */}
             {<span class="branch-0 cbranch-no" title="branch not covered" >availableActions.canCompleteClaim </span>&amp;&amp; (
               &lt;div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200"&gt;
@@ -1267,7 +1267,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {/* No Actions Available */}
             {<span class="branch-0 cbranch-no" title="branch not covered" >!Object.values(availableActions).some(<span class="fstat-no" title="function not covered" >value =&gt; <span class="cstat-no" title="statement not covered" >v</span>alue === true) &amp;&amp; (</span></span>
               &lt;div className="bg-white overflow-hidden shadow rounded-lg"&gt;
@@ -1288,7 +1288,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

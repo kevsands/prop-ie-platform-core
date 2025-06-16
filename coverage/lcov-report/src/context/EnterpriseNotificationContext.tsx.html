@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/25</span>
+                <span class='fraction'>0/25</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.31% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/19</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -147,11 +147,9 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,7 +168,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,11 +178,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -191,6 +185,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -235,7 +233,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from <span class="cstat-no" title="statement not covered" >'react';</span>
 &nbsp;
 interface Notification {
   id: string;
@@ -255,7 +253,7 @@ interface EnterpriseNotificationContextType {
   clearNotifications: () =&gt; void;
 }
 &nbsp;
-const defaultContext: EnterpriseNotificationContextType = {
+const defaultContext: EnterpriseNotificationContextType = <span class="cstat-no" title="statement not covered" >{</span>
   notifications: [],
   unreadCount: 0,
   addNotification: <span class="fstat-no" title="function not covered" >() =&gt; {}</span>,
@@ -264,24 +262,23 @@ const defaultContext: EnterpriseNotificationContextType = {
   clearNotifications: <span class="fstat-no" title="function not covered" >() =&gt; {}</span>,
 };
 &nbsp;
-const EnterpriseNotificationContext = createContext&lt;EnterpriseNotificationContextType&gt;(defaultContext);
+const EnterpriseNotificationContext = <span class="cstat-no" title="statement not covered" >createContext&lt;EnterpriseNotificationContextType&gt;(defaultContext);</span>
 &nbsp;
-export const useEnterpriseNotifications = () =&gt; useContext(EnterpriseNotificationContext);
+export const <span class="cstat-no" title="statement not covered" >useEnterpriseNotifications </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >u</span>seContext(EnterpriseNotificationContext);</span></span>
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >EnterpriseNotificationProvider:</span> React.FC&lt;{ children: ReactNode }&gt; = <span class="fstat-no" title="function not covered" >({</span> children }) =&gt; {
+export const <span class="cstat-no" title="statement not covered" >EnterpriseNotificationProvider:</span> React.FC&lt;{ children: ReactNode }&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> children }) =&gt; {</span>
   const [notifications, setNotifications] = <span class="cstat-no" title="statement not covered" >useState&lt;Notification[]&gt;([]);</span>
 &nbsp;
   const unreadCount = <span class="cstat-no" title="statement not covered" >notifications.filter(<span class="fstat-no" title="function not covered" >n =&gt; <span class="cstat-no" title="statement not covered" >!</span>n.read)</span>.length;</span>
 &nbsp;
   const addNotification = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> title, message, type }: Omit&lt;Notification, 'id' | 'timestamp' | 'read'&gt;) =&gt; {</span>
     const newNotification: Notification = <span class="cstat-no" title="statement not covered" >{</span>
-      id: Math.random().toString(36).substring(2, 9),
+      id: Math.random().toString(36).substring(29),
       title,
       message,
       type,
       read: false,
-      timestamp: new Date(),
-    };
+      timestamp: new Date()};
     
 <span class="cstat-no" title="statement not covered" >    setNotifications(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>newNotification, ...prev]);</span></span>
   };
@@ -306,14 +303,14 @@ export const <span class="cstat-no" title="statement not covered" >EnterpriseNot
 &nbsp;
   return (
     &lt;EnterpriseNotificationContext.Provider 
-      value={{ 
+      value={ 
         notifications, 
         unreadCount, 
         addNotification, 
         markAsRead, 
         markAllAsRead, 
         clearNotifications 
-      }}
+      }
     &gt;
       {children}
     &lt;/EnterpriseNotificationContext.Provider&gt;
@@ -325,7 +322,7 @@ export const <span class="cstat-no" title="statement not covered" >EnterpriseNot
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

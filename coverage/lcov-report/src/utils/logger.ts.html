@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/9</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -96,20 +96,6 @@
 <a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,44 +109,58 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">/**
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Simple logger utility
  */
-export class Logger {
+export class <span class="cstat-no" title="statement not covered" >Logger </span>{
   private context: string;
 &nbsp;
-  constructor(context: string) {
-    this.context = context;
+<span class="fstat-no" title="function not covered" >  constructor(c</span>ontext: string) {
+<span class="cstat-no" title="statement not covered" >    this.context = context;</span>
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >debug(m</span>essage: string, data?: any): void {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (process.env.NODE_ENV === 'development') {</span>
-<span class="cstat-no" title="statement not covered" >      console.debug(`[${this.context}] ${message}`, data ? data : '');</span>
+&nbsp;
     }
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >info(m</span>essage: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    console.info(`[${this.context}] ${message}`, data ? data : '');</span>
+&nbsp;
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >warn(m</span>essage: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    console.warn(`[${this.context}] ${message}`, data ? data : '');</span>
+&nbsp;
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >error(m</span>essage: string, data?: any): void {
-<span class="cstat-no" title="statement not covered" >    console.error(`[${this.context}] ${message}`, data ? data : '');</span>
+&nbsp;
   }
 }
 &nbsp;
 // Export a default instance for backwards compatibility
-<span class="cstat-no" title="statement not covered" >export default n</span>ew Logger('Default');</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >n</span>ew Logger('Default');</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

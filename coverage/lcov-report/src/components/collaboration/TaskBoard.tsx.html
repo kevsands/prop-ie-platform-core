@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/77</span>
+                <span class='fraction'>0/75</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/72</span>
+                <span class='fraction'>0/70</span>
             </div>
         
             
@@ -451,14 +451,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -467,28 +463,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -775,16 +775,16 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      setLoading(true);</span>
       const tasksData = <span class="cstat-no" title="statement not covered" >await collaborationService.getTasks(projectId);</span>
-      
+&nbsp;
       // Group tasks by status
       const grouped = <span class="cstat-no" title="statement not covered" >columns.map(<span class="fstat-no" title="function not covered" >column =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
         ...column,
         tasks: tasksData.filter(<span class="fstat-no" title="function not covered" >(t</span>ask: any) =&gt; <span class="cstat-no" title="statement not covered" >task.status === column.id)</span>
       }));
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setColumns(grouped);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching tasks:', error);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
     }
@@ -805,25 +805,25 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Update task status
 <span class="cstat-no" title="statement not covered" >      await collaborationService.updateTask(draggedTask.id, { status: columnId });</span>
-      
+&nbsp;
       // Update local state
 <span class="cstat-no" title="statement not covered" >      setColumns(<span class="fstat-no" title="function not covered" >prevColumns =&gt; {</span></span>
         const newColumns = <span class="cstat-no" title="statement not covered" >prevColumns.map(<span class="fstat-no" title="function not covered" >column =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
           ...column,
           tasks: column.tasks.filter(<span class="fstat-no" title="function not covered" >(t</span>ask: any) =&gt; <span class="cstat-no" title="statement not covered" >task.id !== draggedTask.id)</span>
         }));
-        
+&nbsp;
         const targetColumn = <span class="cstat-no" title="statement not covered" >newColumns.find(<span class="fstat-no" title="function not covered" >col =&gt; <span class="cstat-no" title="statement not covered" >c</span>ol.id === columnId);</span></span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (targetColumn) {</span>
 <span class="cstat-no" title="statement not covered" >          targetColumn.tasks.push({ ...draggedTask, status: columnId });</span>
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return newColumns;</span>
       });
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error updating task:', error);</span>
+&nbsp;
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setDraggedTask(null);</span>
   };
 &nbsp;
@@ -848,7 +848,7 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
         ...taskData,
         projectId
       } as Omit&lt;DialogTask, 'id' | 'createdAt' | 'updatedAt'&gt;);
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      fetchTasks();</span>
 <span class="cstat-no" title="statement not covered" >      setCreateTaskOpen(false);</span>
     } catch (error) {
@@ -877,12 +877,12 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
 &nbsp;
       {/* Kanban Board */}
       &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"&gt;
-        {columns.map(<span class="fstat-no" title="function not covered" >(c</span>olumn) =&gt; (
+        {columns.map(<span class="fstat-no" title="function not covered" >(c</span>olumn: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >          &lt;div</span>
             key={column.id}
             className="bg-gray-50 rounded-lg p-4"
             onDragOver={handleDragOver}
-            onDrop={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleDrop(e, column.id)}</span>
+            onDrop={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleDrop(e, column.id)}</span>
           &gt;
             &lt;div className="flex justify-between items-center mb-4"&gt;
               &lt;h3 className="font-semibold text-gray-700"&gt;{column.title}&lt;/h3&gt;
@@ -931,7 +931,7 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
                           &lt;Calendar className="h-3 w-3" /&gt;
                           {new Date(task.dueDate).toLocaleDateString()}
                         &lt;/div&gt;
-                        {<span class="branch-0 cbranch-no" title="branch not covered" >task.comments?.length &gt; 0 &amp;&amp; (</span>
+                        {<span class="branch-0 cbranch-no" title="branch not covered" >task.comments?.length&gt; 0 &amp;&amp; (</span>
                           &lt;div className="flex items-center gap-1"&gt;
                             &lt;MessageSquare className="h-3 w-3" /&gt;
                             {task.comments.length}
@@ -956,7 +956,7 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
               Add a new task to the project board
             &lt;/DialogDescription&gt;
           &lt;/DialogHeader&gt;
-          &lt;form onSubmit={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+          &lt;form onSubmit={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >            e.preventDefault();</span>
             const formData = <span class="cstat-no" title="statement not covered" >new FormData(e.currentTarget);</span>
 <span class="cstat-no" title="statement not covered" >            createNewTask({</span>
@@ -1069,7 +1069,7 @@ export const <span class="cstat-no" title="statement not covered" >TaskBoard: Re
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -149,16 +149,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -217,7 +215,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">/**
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * First-Time Buyer Promotion Component
  * 
  * This component displays information about First-Time Buyer services on the main buyer dashboard.
@@ -226,21 +226,21 @@
 &nbsp;
 'use client';
 &nbsp;
-import React from 'react';
+import React from <span class="cstat-no" title="statement not covered" >'react';</span>
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { FiHome, FiClipboard, FiTool, FiFileText } from 'react-icons/fi';
-import { FeatherIcon } from '@/components/ui/feather-icon';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from <span class="cstat-no" title="statement not covered" >'@/components/ui/card';</span>
+import { Button } from <span class="cstat-no" title="statement not covered" >'@/components/ui/button';</span>
+import { FiHome, FiClipboard, FiTool, FiFileText } from <span class="cstat-no" title="statement not covered" >'react-icons/fi';</span>
+import { FeatherIcon } from <span class="cstat-no" title="statement not covered" >'@/components/ui/feather-icon';</span>
 &nbsp;
-const FirstTimeBuyerPromotion = () =&gt; {
+const FirstTimeBuyerPromotion = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   return (
     &lt;Card className="border border-blue-200 bg-blue-50"&gt;
       &lt;CardHeader className="pb-2"&gt;
         &lt;CardTitle className="text-xl text-blue-800"&gt;First-Time Buyer Services&lt;/CardTitle&gt;
         &lt;CardDescription&gt;Specialized tools to guide you through your home buying journey&lt;/CardDescription&gt;
       &lt;/CardHeader&gt;
-      
+&nbsp;
       &lt;CardContent&gt;
         &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"&gt;
           &lt;div className="flex items-start space-x-3"&gt;
@@ -252,7 +252,7 @@ const FirstTimeBuyerPromotion = () =&gt; {
               &lt;p className="text-sm text-blue-700"&gt;Track your progress from planning to moving in&lt;/p&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="flex items-start space-x-3"&gt;
             &lt;div className="bg-blue-100 p-2 rounded-full"&gt;
               &lt;FeatherIcon icon={FiClipboard} className="h-5 w-5 text-blue-700" /&gt;
@@ -262,7 +262,7 @@ const FirstTimeBuyerPromotion = () =&gt; {
               &lt;p className="text-sm text-blue-700"&gt;Reserve your dream home and manage deposit payments&lt;/p&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="flex items-start space-x-3"&gt;
             &lt;div className="bg-blue-100 p-2 rounded-full"&gt;
               &lt;FeatherIcon icon={FiTool} className="h-5 w-5 text-blue-700" /&gt;
@@ -272,7 +272,7 @@ const FirstTimeBuyerPromotion = () =&gt; {
               &lt;p className="text-sm text-blue-700"&gt;Report and track property issues after completion&lt;/p&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="flex items-start space-x-3"&gt;
             &lt;div className="bg-blue-100 p-2 rounded-full"&gt;
               &lt;FeatherIcon icon={FiFileText} className="h-5 w-5 text-blue-700" /&gt;
@@ -284,7 +284,7 @@ const FirstTimeBuyerPromotion = () =&gt; {
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/CardContent&gt;
-      
+&nbsp;
       &lt;CardFooter&gt;
         &lt;Button className="w-full bg-blue-600 hover:bg-blue-700"&gt;
           Get Started
@@ -294,14 +294,14 @@ const FirstTimeBuyerPromotion = () =&gt; {
   );
 };
 &nbsp;
-export default FirstTimeBuyerPromotion;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >F</span>irstTimeBuyerPromotion;</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

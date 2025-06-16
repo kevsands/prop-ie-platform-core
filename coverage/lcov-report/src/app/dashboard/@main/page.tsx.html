@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -317,7 +317,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -487,14 +487,14 @@ const useAuth = <span class="cstat-no" title="statement not covered" ><span clas
  */
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DashboardOverview() {</span></span>
   const { user } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-  const [stats, setStats] = <span class="cstat-no" title="statement not covered" >useState({</span>
+  const [statssetStats] = <span class="cstat-no" title="statement not covered" >useState({</span>
     properties: 0,
     documents: 0,
     purchases: 0,
     notifications: 0
   });
-  const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  
+  const [loadingsetLoading] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // In a real app, fetch dashboard data from API
     const fetchDashboardData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async () =&gt; {</span></span>
@@ -511,11 +511,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 <span class="cstat-no" title="statement not covered" >          setLoading(false);</span>
         }, 1000);
       } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error('Error fetching dashboard data:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        setLoading(false);</span>
       }
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    fetchDashboardData();</span>
   }, []);
 &nbsp;
@@ -535,7 +535,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           Welcome back, {user?.firstName || 'User'}. Here's what's happening with your account.
         &lt;/p&gt;
       &lt;/header&gt;
-      
+&nbsp;
       &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"&gt;
         {/* Stats cards */}
         &lt;div className="bg-white rounded-lg shadow p-6"&gt;
@@ -549,7 +549,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="bg-white rounded-lg shadow p-6"&gt;
           &lt;div className="flex items-center"&gt;
             &lt;div className="p-3 rounded-full bg-green-100 text-green-600 mr-4"&gt;
@@ -561,7 +561,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="bg-white rounded-lg shadow p-6"&gt;
           &lt;div className="flex items-center"&gt;
             &lt;div className="p-3 rounded-full bg-purple-100 text-purple-600 mr-4"&gt;
@@ -573,7 +573,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="bg-white rounded-lg shadow p-6"&gt;
           &lt;div className="flex items-center"&gt;
             &lt;div className="p-3 rounded-full bg-red-100 text-red-600 mr-4"&gt;
@@ -586,7 +586,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;
         {/* Recent activity section */}
         &lt;div className="bg-white rounded-lg shadow overflow-hidden"&gt;
@@ -619,7 +619,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/ul&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Quick actions section */}
         &lt;div className="bg-white rounded-lg shadow overflow-hidden"&gt;
           &lt;div className="px-6 py-4 border-b"&gt;
@@ -652,7 +652,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

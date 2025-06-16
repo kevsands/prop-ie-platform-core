@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/60</span>
+                <span class='fraction'>0/58</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/57</span>
+                <span class='fraction'>0/55</span>
             </div>
         
             
@@ -383,20 +383,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -410,7 +410,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -662,7 +662,7 @@ export const <span class="cstat-no" title="statement not covered" >DrawingManage
       const data = <span class="cstat-no" title="statement not covered" >await collaborationService.getDrawings(projectId);</span>
 <span class="cstat-no" title="statement not covered" >      setDrawings(data);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error fetching drawings:', error);</span>
+&nbsp;
     } finally {
 <span class="cstat-no" title="statement not covered" >      setLoading(false);</span>
     }
@@ -689,7 +689,7 @@ export const <span class="cstat-no" title="statement not covered" >DrawingManage
 &nbsp;
   const handleUpload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (f</span>ile: File) =&gt; {</span>
     // Mock upload implementation
-<span class="cstat-no" title="statement not covered" >    console.log('Uploading file:', file.name);</span>
+&nbsp;
     // In a real implementation, this would upload to S3 and create a database record
 <span class="cstat-no" title="statement not covered" >    setUploadModalOpen(false);</span>
 <span class="cstat-no" title="statement not covered" >    fetchDrawings(); /</span>/ Refresh the list
@@ -740,7 +740,7 @@ export const <span class="cstat-no" title="statement not covered" >DrawingManage
               &lt;Input
                 placeholder="Search drawings..."
                 value={searchTerm}
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchTerm(e.target.value)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setSearchTerm(e.target.value)}</span>
               /&gt;
             &lt;/div&gt;
             &lt;Select value={filter} onValueChange={setFilter}&gt;
@@ -765,7 +765,7 @@ export const <span class="cstat-no" title="statement not covered" >DrawingManage
         &lt;/div&gt;
       ) : (
         &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"&gt;
-          {filteredDrawings.map(<span class="fstat-no" title="function not covered" >(d</span>rawing) =&gt; (
+          {filteredDrawings.map(<span class="fstat-no" title="function not covered" >(d</span>rawing: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >            &lt;Card key={drawing.id} c</span>lassName="hover:shadow-lg transition-shadow"&gt;
               &lt;CardHeader&gt;
                 &lt;div className="flex justify-between items-start"&gt;
@@ -830,7 +830,7 @@ export const <span class="cstat-no" title="statement not covered" >DrawingManage
                 id="drawing-file" 
                 type="file" 
                 accept=".pdf,.dwg,.dxf,.png,.jpg"
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; {
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; {
                   const file = <span class="cstat-no" title="statement not covered" >e.target.files?.[0];</span>
 <span class="cstat-no" title="statement not covered" >                  <span class="missing-if-branch" title="if path not taken" >I</span>if (file) <span class="cstat-no" title="statement not covered" >handleUpload(file);</span></span>
                 }}
@@ -907,7 +907,7 @@ export const <span class="cstat-no" title="statement not covered" >DrawingManage
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

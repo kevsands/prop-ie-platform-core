@@ -437,30 +437,7 @@
 <a name='L372'></a><a href='#L372'>372</a>
 <a name='L373'></a><a href='#L373'>373</a>
 <a name='L374'></a><a href='#L374'>374</a>
-<a name='L375'></a><a href='#L375'>375</a>
-<a name='L376'></a><a href='#L376'>376</a>
-<a name='L377'></a><a href='#L377'>377</a>
-<a name='L378'></a><a href='#L378'>378</a>
-<a name='L379'></a><a href='#L379'>379</a>
-<a name='L380'></a><a href='#L380'>380</a>
-<a name='L381'></a><a href='#L381'>381</a>
-<a name='L382'></a><a href='#L382'>382</a>
-<a name='L383'></a><a href='#L383'>383</a>
-<a name='L384'></a><a href='#L384'>384</a>
-<a name='L385'></a><a href='#L385'>385</a>
-<a name='L386'></a><a href='#L386'>386</a>
-<a name='L387'></a><a href='#L387'>387</a>
-<a name='L388'></a><a href='#L388'>388</a>
-<a name='L389'></a><a href='#L389'>389</a>
-<a name='L390'></a><a href='#L390'>390</a>
-<a name='L391'></a><a href='#L391'>391</a>
-<a name='L392'></a><a href='#L392'>392</a>
-<a name='L393'></a><a href='#L393'>393</a>
-<a name='L394'></a><a href='#L394'>394</a>
-<a name='L395'></a><a href='#L395'>395</a>
-<a name='L396'></a><a href='#L396'>396</a>
-<a name='L397'></a><a href='#L397'>397</a>
-<a name='L398'></a><a href='#L398'>398</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L375'></a><a href='#L375'>375</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -478,35 +455,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -875,8 +829,7 @@ import {
   BriefcaseIcon,
   ClipboardDocumentCheckIcon,
   SparklesIcon,
-  TruckIcon,
-} from <span class="cstat-no" title="statement not covered" >'@heroicons/react/24/outline';</span>
+  TruckIcon} from <span class="cstat-no" title="statement not covered" >'@heroicons/react/24/outline';</span>
 import { useBuyerJourney } from <span class="cstat-no" title="statement not covered" >'@/hooks/useBuyerJourney';</span>
 import { BuyerPhase } from <span class="cstat-no" title="statement not covered" >'@/types/buyer-journey';</span>
 &nbsp;
@@ -893,14 +846,11 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Get mortgage pre-approval',
       'Research government schemes',
       'Find a solicitor',
-      'Set your budget',
-    ],
+      'Set your budget'],
     actions: [
       { label: 'Affordability Calculator', href: '/buyer/calculator' },
       { label: 'Government Schemes', href: '/buyer/htb' },
-      { label: 'Find Solicitor', href: '/solicitors' },
-    ],
-  },
+      { label: 'Find Solicitor', href: '/solicitors' }]},
   {
     phase: BuyerPhase.FINANCING,
     title: 'Secure Financing',
@@ -912,14 +862,11 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Apply for Help to Buy',
       'Get mortgage approval',
       'Finalize deposit amount',
-      'Review loan offer',
-    ],
+      'Review loan offer'],
     actions: [
       { label: 'Apply for Mortgage', href: '/buyer/mortgage' },
       { label: 'HTB Application', href: '/buyer/htb/new' },
-      { label: 'Document Upload', href: '/buyer/documents' },
-    ],
-  },
+      { label: 'Document Upload', href: '/buyer/documents' }]},
   {
     phase: BuyerPhase.PROPERTY_SEARCH,
     title: 'Find Your Home',
@@ -931,14 +878,11 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Schedule viewings',
       'Compare properties',
       'Select preferred unit',
-      'Review development details',
-    ],
+      'Review development details'],
     actions: [
       { label: 'Browse Properties', href: '/properties' },
       { label: 'Book Viewing', href: '/buyer/viewings' },
-      { label: 'Compare Units', href: '/buyer/saved-properties' },
-    ],
-  },
+      { label: 'Compare Units', href: '/buyer/saved-properties' }]},
   {
     phase: BuyerPhase.RESERVATION,
     title: 'Reserve Your Home',
@@ -950,14 +894,11 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Sign reservation agreement',
       'Receive reservation confirmation',
       'Submit customization choices',
-      'Review timeline',
-    ],
+      'Review timeline'],
     actions: [
       { label: 'Pay Deposit', href: '/buyer/payment-methods' },
       { label: 'Customize Unit', href: '/buyer/customization' },
-      { label: 'View Timeline', href: '/buyer/purchase/timeline' },
-    ],
-  },
+      { label: 'View Timeline', href: '/buyer/purchase/timeline' }]},
   {
     phase: BuyerPhase.LEGAL_PROCESS,
     title: 'Legal Process',
@@ -969,14 +910,11 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Complete legal searches',
       'Review title documents',
       'Finalize mortgage drawdown',
-      'Schedule closing date',
-    ],
+      'Schedule closing date'],
     actions: [
       { label: 'Sign Contracts', href: '/buyer/contracts' },
       { label: 'Legal Documents', href: '/buyer/documents' },
-      { label: 'Contact Solicitor', href: '/buyer/messages' },
-    ],
-  },
+      { label: 'Contact Solicitor', href: '/buyer/messages' }]},
   {
     phase: BuyerPhase.CONSTRUCTION,
     title: 'Construction Progress',
@@ -988,14 +926,11 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Review progress photos',
       'Schedule site visits',
       'Confirm customizations',
-      'Prepare for handover',
-    ],
+      'Prepare for handover'],
     actions: [
       { label: 'View Progress', href: '/buyer/purchase/progress' },
       { label: 'Construction Updates', href: '/buyer/purchase/updates' },
-      { label: 'Schedule Visit', href: '/buyer/appointments' },
-    ],
-  },
+      { label: 'Schedule Visit', href: '/buyer/appointments' }]},
   {
     phase: BuyerPhase.COMPLETION,
     title: 'Closing &amp; Handover',
@@ -1007,29 +942,25 @@ const journeySteps = <span class="cstat-no" title="statement not covered" >[</sp
       'Sign closing documents',
       'Transfer funds',
       'Receive keys',
-      'Complete snagging list',
-    ],
+      'Complete snagging list'],
     actions: [
       { label: 'Schedule Walkthrough', href: '/buyer/appointments' },
       { label: 'Closing Checklist', href: '/buyer/checklists' },
-      { label: 'Snagging List', href: '/buyer/purchase/snagging' },
-    ],
-  },
-];
+      { label: 'Snagging List', href: '/buyer/purchase/snagging' }]}];
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >CompleteBuyerFlowPage() {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
   const { journey, updateJourneyPhase } = <span class="cstat-no" title="statement not covered" >useBuyerJourney();</span>
-  const [selectedPhase, setSelectedPhase] = <span class="cstat-no" title="statement not covered" >useState(journey?.currentPhase || BuyerPhase.PLANNING);</span>
-  
+  const [selectedPhasesetSelectedPhase] = <span class="cstat-no" title="statement not covered" >useState(journey?.currentPhase || BuyerPhase.PLANNING);</span>
+&nbsp;
   const currentStepIndex = <span class="cstat-no" title="statement not covered" >journeySteps.findIndex(<span class="fstat-no" title="function not covered" >step =&gt; <span class="cstat-no" title="statement not covered" >s</span>tep.phase === selectedPhase);</span></span>
   const progress = <span class="cstat-no" title="statement not covered" >((currentStepIndex + 1) / journeySteps.length) * 100;</span>
 &nbsp;
   const getPhaseStatus = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>hase: BuyerPhase) =&gt; {</span>
     const stepIndex = <span class="cstat-no" title="statement not covered" >journeySteps.findIndex(<span class="fstat-no" title="function not covered" >step =&gt; <span class="cstat-no" title="statement not covered" >s</span>tep.phase === phase);</span></span>
     const currentIndex = <span class="cstat-no" title="statement not covered" >journeySteps.findIndex(<span class="fstat-no" title="function not covered" >step =&gt; <span class="cstat-no" title="statement not covered" >s</span>tep.phase === journey?.currentPhase);</span></span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (stepIndex &lt; currentIndex) <span class="cstat-no" title="statement not covered" >return 'complete';</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (stepIndex &lt;currentIndex) <span class="cstat-no" title="statement not covered" >return 'complete';</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (stepIndex === currentIndex) <span class="cstat-no" title="statement not covered" >return 'active';</span></span>
 <span class="cstat-no" title="statement not covered" >    return 'pending';</span>
   };
@@ -1059,13 +990,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
           &lt;Progress value={progress} className="h-3" /&gt;
           &lt;div className="grid grid-cols-7 mt-6 relative"&gt;
-            {journeySteps.map(<span class="fstat-no" title="function not covered" >(s</span>tep, index) =&gt; {
+            {journeySteps.map(<span class="fstat-no" title="function not covered" >(s</span>tepindex: any) =&gt; {
               const status = <span class="cstat-no" title="statement not covered" >getPhaseStatus(step.phase);</span>
               const Icon = <span class="cstat-no" title="statement not covered" >step.icon;</span>
-              
+&nbsp;
 <span class="cstat-no" title="statement not covered" >              return (</span>
                 &lt;div key={step.phase} className="relative"&gt;
-                  {<span class="branch-0 cbranch-no" title="branch not covered" >index &gt; 0 &amp;&amp; (</span>
+                  {<span class="branch-0 cbranch-no" title="branch not covered" >index&gt; 0 &amp;&amp; (</span>
                     &lt;div
                       className={`absolute top-6 -left-1/2 right-1/2 h-0.5 ${
                         status === 'complete' ? 'bg-green-500' : 'bg-gray-300'
@@ -1108,12 +1039,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;div className="grid gap-8 lg:grid-cols-3"&gt;
         {/* Current Phase Card */}
         &lt;div className="lg:col-span-2"&gt;
-          {journeySteps.map(<span class="fstat-no" title="function not covered" >(s</span>tep) =&gt; {
+          {journeySteps.map(<span class="fstat-no" title="function not covered" >(s</span>tep: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (step.phase !== selectedPhase) <span class="cstat-no" title="statement not covered" >return null;</span></span>
-            
+&nbsp;
             const Icon = <span class="cstat-no" title="statement not covered" >step.icon;</span>
             const status = <span class="cstat-no" title="statement not covered" >getPhaseStatus(step.phase);</span>
-            
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            return (</span>
               &lt;Card key={step.phase} className="border-2"&gt;
                 &lt;CardHeader&gt;
@@ -1146,7 +1077,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;div&gt;
                       &lt;h3 className="font-semibold text-lg mb-4"&gt;Tasks to Complete&lt;/h3&gt;
                       &lt;div className="space-y-3"&gt;
-                        {step.tasks.map(<span class="fstat-no" title="function not covered" >(t</span>ask, index) =&gt; (
+                        {step.tasks.map(<span class="fstat-no" title="function not covered" >(t</span>askindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                          &lt;div key={index} c</span>lassName="flex items-center space-x-3"&gt;
                             &lt;div
                               className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
@@ -1171,7 +1102,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;div&gt;
                       &lt;h3 className="font-semibold text-lg mb-4"&gt;Take Action&lt;/h3&gt;
                       &lt;div className="grid gap-3 sm:grid-cols-2"&gt;
-                        {step.actions.map(<span class="fstat-no" title="function not covered" >(a</span>ction, index) =&gt; (
+                        {step.actions.map(<span class="fstat-no" title="function not covered" >(a</span>ctionindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                          &lt;Button</span>
                             key={index}
                             variant="outline"
@@ -1261,7 +1192,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

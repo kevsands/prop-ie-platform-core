@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.52% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/17</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/15</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -171,7 +171,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -186,10 +186,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -241,15 +241,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,10 +251,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
 /**
  * Amplify Data Service - Simplified Version for Build Testing
@@ -271,7 +271,7 @@
  * This is a simplified data service for build testing purposes.
  */
 &nbsp;
-import { customizationOptions } from '../data/customizationOptions';
+import { customizationOptions } from <span class="cstat-no" title="statement not covered" >'../data/customizationOptions';</span>
 &nbsp;
 // Types
 export interface CustomizationData {
@@ -286,10 +286,10 @@ export interface CustomizationData {
 }
 &nbsp;
 // Mock data for development
-const mockCustomizations: Record&lt;string, CustomizationData&gt; = {};
+const mockCustomizations: Record&lt;string, CustomizationData&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
 &nbsp;
 // Mock for the DataService when database isn't available
-export const <span class="cstat-no" title="statement not covered" >DataService </span>= {
+export const <span class="cstat-no" title="statement not covered" >DataService </span>= <span class="cstat-no" title="statement not covered" >{</span>
   // Get room options
   getRooms: <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return [</span>
@@ -299,7 +299,7 @@ export const <span class="cstat-no" title="statement not covered" >DataService <
       { id: 'bathroom', name: 'Bathroom', icon: '🚿' }
     ];
   },
-  
+&nbsp;
   // Get categories
   getCategories: <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return [</span>
@@ -309,7 +309,7 @@ export const <span class="cstat-no" title="statement not covered" >DataService <
       { id: 'furniture', name: 'Furniture' }
     ];
   },
-  
+&nbsp;
   // Get customization options
   getCustomizationOptions: <span class="fstat-no" title="function not covered" >async (r</span>oomId: string, categoryId?: string) =&gt; {
     // Default response structure with explicit return type
@@ -325,29 +325,29 @@ export const <span class="cstat-no" title="statement not covered" >DataService <
       fixtures: [],
       furniture: []
     };
-    
+&nbsp;
     // Check if we have options for this room
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (roomId &amp;&amp; customizationOptions[roomId as keyof typeof customizationOptions]) {</span>
       // Add available categories
       const roomOptions = <span class="cstat-no" title="statement not covered" >customizationOptions[roomId as keyof typeof customizationOptions];</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      Object.keys(roomOptions).forEach(<span class="fstat-no" title="function not covered" >cat =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >        response[cat] = roomOptions[cat as keyof typeof roomOptions];</span>
       });
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return response;</span>
   },
-  
+&nbsp;
   // Save customization data
   saveCustomization: <span class="fstat-no" title="function not covered" >async (d</span>ata: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log('Saving customization data:', data);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       success: true,
       customizationId: `custom-${Date.now()}`
     };
   },
-  
+&nbsp;
   // Get saved customization
   getCustomization: <span class="fstat-no" title="function not covered" >async (i</span>d?: string) =&gt; {
     // Mock response
@@ -363,14 +363,14 @@ export const <span class="cstat-no" title="statement not covered" >DataService <
   }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default D</span>ataService;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >D</span>ataService;</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

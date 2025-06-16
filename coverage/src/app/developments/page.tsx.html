@@ -340,11 +340,7 @@
 <a name='L275'></a><a href='#L275'>275</a>
 <a name='L276'></a><a href='#L276'>276</a>
 <a name='L277'></a><a href='#L277'>277</a>
-<a name='L278'></a><a href='#L278'>278</a>
-<a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a>
-<a name='L282'></a><a href='#L282'>282</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L278'></a><a href='#L278'>278</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -358,11 +354,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -636,8 +628,7 @@ import Image from <span class="cstat-no" title="statement not covered" >'next/im
 &nbsp;
 export const <span class="cstat-no" title="statement not covered" >metadata:</span> Metadata = <span class="cstat-no" title="statement not covered" >{</span>
   title: 'Developments | Prop.ie',
-  description: 'Browse our property developments across Ireland',
-};
+  description: 'Browse our property developments across Ireland'};
 &nbsp;
 // Updated development data to match what's displayed on the properties page
 const allDevelopments = <span class="cstat-no" title="statement not covered" >[</span>
@@ -649,7 +640,7 @@ const allDevelopments = <span class="cstat-no" title="statement not covered" >[<
     status: 'Selling Fast',
     startingPrice: '€395,000',
     priceRange: '€395,000 - €575,000',
-    bedrooms: [2, 3, 4],
+    bedrooms: [2, 34],
     bathrooms: 2,
     energyRating: 'A2',
     availability: 'Move in from Winter 2025',
@@ -661,8 +652,7 @@ const allDevelopments = <span class="cstat-no" title="statement not covered" >[<
     ],
     features: ['Energy Efficient', 'Modern Design', 'Secure Parking', 'Landscaped Gardens'],
     unitsAvailable: 12,
-    totalUnits: 48,
-  },
+    totalUnits: 48},
   {
     id: 'ballymakenny-view',
     name: 'Ballymakenny View',
@@ -671,7 +661,7 @@ const allDevelopments = <span class="cstat-no" title="statement not covered" >[<
     status: 'Coming Soon',
     startingPrice: '€285,000',
     priceRange: '€285,000 - €425,000',
-    bedrooms: [3, 4],
+    bedrooms: [34],
     bathrooms: 2,
     energyRating: 'A3',
     availability: 'Launching Summer 2025',
@@ -683,8 +673,7 @@ const allDevelopments = <span class="cstat-no" title="statement not covered" >[<
     ],
     features: ['Family Friendly', 'Near Schools', 'Private Gardens', 'Quiet Location'],
     unitsAvailable: 36,
-    totalUnits: 36,
-  },
+    totalUnits: 36},
   {
     id: 'ellwood',
     name: 'Ellwood',
@@ -693,7 +682,7 @@ const allDevelopments = <span class="cstat-no" title="statement not covered" >[<
     status: 'Now Selling',
     startingPrice: '€415,000',
     priceRange: '€415,000 - €650,000',
-    bedrooms: [1, 2, 3],
+    bedrooms: [1, 23],
     bathrooms: 2,
     energyRating: 'A1',
     availability: 'Available Now',
@@ -705,8 +694,7 @@ const allDevelopments = <span class="cstat-no" title="statement not covered" >[<
     ],
     features: ['Riverside Views', 'Premium Finishes', 'Concierge Service', 'Gym &amp; Spa'],
     unitsAvailable: 8,
-    totalUnits: 24,
-  }
+    totalUnits: 24}
 ];
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DevelopmentsPage() {</span></span>
@@ -730,7 +718,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;section className="py-16 md:py-20"&gt;
         &lt;div className="container mx-auto px-4"&gt;
           &lt;div className="grid grid-cols-1 lg:grid-cols-3 gap-8"&gt;
-            {allDevelopments.map(<span class="fstat-no" title="function not covered" >(d</span>evelopment) =&gt; (
+            {allDevelopments.map(<span class="fstat-no" title="function not covered" >(d</span>evelopment: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;Link</span>
                 key={development.id}
                 href={`/developments/${development.id}`}
@@ -762,7 +750,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;p className="text-gray-600 mb-4 line-clamp-2"&gt;
                     {development.description}
                   &lt;/p&gt;
-                  
+&nbsp;
                   &lt;div className="flex items-center text-gray-500 mb-4"&gt;
                     &lt;svg className="h-5 w-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
                       &lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"&gt;&lt;/path&gt;
@@ -777,12 +765,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                         &lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"&gt;&lt;/path&gt;
                       &lt;/svg&gt;
                       &lt;span className="text-gray-700"&gt;
-                        {development.bedrooms.length &gt; 1 
+                        {development.bedrooms.length&gt; 1 
                           ? `${Math.min(...development.bedrooms)}-${Math.max(...development.bedrooms)} Bed`
                           : `${development.bedrooms[0]} Bed`}
                       &lt;/span&gt;
                     &lt;/div&gt;
-                    
+&nbsp;
                     &lt;div className="flex items-center bg-green-100 px-3 py-1 rounded-full text-sm"&gt;
                       &lt;svg className="h-4 w-4 mr-1.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;
                         &lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"&gt;&lt;/path&gt;
@@ -790,7 +778,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                       &lt;span className="text-green-700"&gt;BER {development.energyRating}&lt;/span&gt;
                     &lt;/div&gt;
 &nbsp;
-                    {<span class="branch-0 cbranch-no" title="branch not covered" >development.unitsAvailable &gt; 0 &amp;&amp; (</span>
+                    {<span class="branch-0 cbranch-no" title="branch not covered" >development.unitsAvailable&gt; 0 &amp;&amp; (</span>
                       &lt;div className="flex items-center bg-blue-100 px-3 py-1 rounded-full text-sm"&gt;
                         &lt;span className="text-blue-700"&gt;
                           {development.unitsAvailable} units available
@@ -913,7 +901,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -568,14 +568,14 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
     queryKey: ['legal-reservation', reservationId],
     queryFn: <span class="fstat-no" title="function not covered" >async (): Promise&lt;LegalReservation&gt; =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/legal/reservations/${reservationId}`);</span>
       const data: LegalTransactionApiResponse&lt;LegalReservation&gt; = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to fetch reservation');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data!;</span>
     },
     enabled: !!reservationId,
@@ -587,19 +587,19 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
   const updateReservation = <span class="cstat-no" title="statement not covered" >useMutation({</span>
     mutationFn: <span class="fstat-no" title="function not covered" >async (u</span>pdates: Partial&lt;LegalReservation&gt;) =&gt; {
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch(`/api/legal/reservations/${reservationId}`, {</span>
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ updates })
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to update reservation');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
     onSuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -618,16 +618,16 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params)
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to initiate booking');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
-    onSuccess: <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
+    onSuccess: <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; {
       // Cache the new reservation
 <span class="cstat-no" title="statement not covered" >      queryClient.setQueryData(['legal-reservation', data.reservationId], data);</span>
     }
@@ -637,7 +637,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
   const confirmDeposit = <span class="cstat-no" title="statement not covered" >useMutation({</span>
     mutationFn: <span class="fstat-no" title="function not covered" >async (p</span>arams: { paymentIntentId: string; amount: number }) =&gt; {
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/deposit/confirm', {</span>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -646,13 +646,13 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
           ...params
         })
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to confirm deposit');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
     onSuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -664,7 +664,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
   const nominateSolicitor = <span class="cstat-no" title="statement not covered" >useMutation({</span>
     mutationFn: <span class="fstat-no" title="function not covered" >async (s</span>olicitorDetails: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/buyer/solicitor', {</span>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -673,13 +673,13 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
           solicitorDetails
         })
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to nominate solicitor');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
     onSuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -691,19 +691,19 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
   const generateContract = <span class="cstat-no" title="statement not covered" >useMutation({</span>
     mutationFn: <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/contracts/generate', {</span>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reservationId })
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to generate contract');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
     onSuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -715,7 +715,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
   const initiateSigning = <span class="cstat-no" title="statement not covered" >useMutation({</span>
     mutationFn: <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/contracts/sign', {</span>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -724,13 +724,13 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
           contractConfirmed: true
         })
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to initiate signing');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
     onSuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -742,7 +742,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
   const finalizeContract = <span class="cstat-no" title="statement not covered" >useMutation({</span>
     mutationFn: <span class="fstat-no" title="function not covered" >async (p</span>arams: { envelopeId: string; signedContractUrl?: string }) =&gt; {
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!reservationId) <span class="cstat-no" title="statement not covered" >throw new Error('Reservation ID required');</span></span>
-      
+&nbsp;
       const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/contracts/finalize', {</span>
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -751,13 +751,13 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
           ...params
         })
       });
-      
+&nbsp;
       const data: LegalTransactionApiResponse = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!data.success) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error(data.error || 'Failed to finalize contract');</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return data.data;</span>
     },
     onSuccess: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
@@ -772,7 +772,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
     reservation,
     isLoading,
     error,
-    
+&nbsp;
     // Mutations
     initiateBooking,
     confirmDeposit,
@@ -781,7 +781,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
     initiateSigning,
     finalizeContract,
     updateReservation,
-    
+&nbsp;
     // Loading states
     isInitiatingBooking: initiateBooking.isPending,
     isConfirmingDeposit: confirmDeposit.isPending,
@@ -790,7 +790,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
     isInitiatingSigning: initiateSigning.isPending,
     isFinalizingContract: finalizeContract.isPending,
     isUpdating: updateReservation.isPending,
-    
+&nbsp;
     // Helper functions
     isStep: <span class="fstat-no" title="function not covered" >(s</span>tep: string) =&gt; <span class="cstat-no" title="statement not covered" >reservation?.status === step,</span>
     canProceedToStep: <span class="fstat-no" title="function not covered" >(s</span>tep: string) =&gt; {
@@ -805,7 +805,7 @@ export const <span class="cstat-no" title="statement not covered" >useLegalTrans
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

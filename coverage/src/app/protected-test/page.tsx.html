@@ -465,7 +465,7 @@ const useAuth = <span class="cstat-no" title="statement not covered" ><span clas
  */
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >ProtectedTestPage() {</span></span>
   const { user, mfaEnabled, securityLevel } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-  
+&nbsp;
   return (
     &lt;div className="container mx-auto p-6"&gt;
       &lt;div className="bg-amber-50 p-3 mb-4 rounded text-amber-800 text-sm"&gt;
@@ -474,7 +474,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;/div&gt;
 &nbsp;
       &lt;h1 className="text-3xl font-bold mb-8"&gt;Protected Route Testing&lt;/h1&gt;
-      
+&nbsp;
       &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;
         {/* Basic Protection (Authentication Only) */}
         &lt;ProtectedRoute&gt;
@@ -484,7 +484,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;p className="text-sm text-gray-600"&gt;No special roles or permissions required.&lt;/p&gt;
           &lt;/div&gt;
         &lt;/ProtectedRoute&gt;
-        
+&nbsp;
         {/* Role-Based Protection (Admin Only) */}
         &lt;ProtectedRoute 
           requiredRole="ADMIN"
@@ -496,7 +496,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;p className="text-sm text-gray-600"&gt;Only visible to administrators.&lt;/p&gt;
           &lt;/div&gt;
         &lt;/ProtectedRoute&gt;
-        
+&nbsp;
         {/* Role-Based Protection (Developer Only) */}
         &lt;ProtectedRoute 
           requiredRole="DEVELOPER"
@@ -508,7 +508,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;p className="text-sm text-gray-600"&gt;Only visible to developers.&lt;/p&gt;
           &lt;/div&gt;
         &lt;/ProtectedRoute&gt;
-        
+&nbsp;
         {/* Permission-Based Protection */}
         &lt;ProtectedRoute 
           requiredPermission="read:all"
@@ -520,7 +520,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;p className="text-sm text-gray-600"&gt;Requires specific permissions.&lt;/p&gt;
           &lt;/div&gt;
         &lt;/ProtectedRoute&gt;
-        
+&nbsp;
         {/* MFA Protection */}
         &lt;ProtectedRoute 
           enforceMFA={true}
@@ -532,7 +532,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;p className="text-sm text-gray-600"&gt;Requires multi-factor authentication.&lt;/p&gt;
           &lt;/div&gt;
         &lt;/ProtectedRoute&gt;
-        
+&nbsp;
         {/* Security Level Protection */}
         &lt;ProtectedRoute 
           securityLevel="medium"
@@ -545,11 +545,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/ProtectedRoute&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* User Information Panel */}
       &lt;div className="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg"&gt;
         &lt;h2 className="text-2xl font-semibold mb-4"&gt;Your Authentication Status&lt;/h2&gt;
-        
+&nbsp;
         &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-4"&gt;
           &lt;div&gt;
             &lt;h3 className="font-medium text-gray-700"&gt;User Information&lt;/h3&gt;
@@ -560,7 +560,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;li&gt;&lt;span className="font-medium"&gt;ID:&lt;/span&gt; {user?.id || 'Not available'}&lt;/li&gt;
             &lt;/ul&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div&gt;
             &lt;h3 className="font-medium text-gray-700"&gt;Security Status&lt;/h3&gt;
             &lt;ul className="mt-2 space-y-1 text-sm"&gt;
@@ -578,9 +578,9 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/li&gt;
               &lt;li&gt;
                 &lt;span className="font-medium"&gt;Permissions:&lt;/span&gt; 
-                {user?.permissions &amp;&amp; user.permissions.length &gt; 0 ? (
+                {user?.permissions &amp;&amp; user.permissions.length&gt; 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                  &lt;ul className="ml-4 mt-1"&gt;</span>
-                    {user.permissions.map(<span class="fstat-no" title="function not covered" >(p</span>erm, i) =&gt; (
+                    {user.permissions.map(<span class="fstat-no" title="function not covered" >(p</span>ermi: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;li key={i} c</span>lassName="text-xs"&gt;{perm}&lt;/li&gt;
                     ))}
                   &lt;/ul&gt;
@@ -601,7 +601,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

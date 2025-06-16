@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/21</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -310,8 +310,7 @@
 <a name='L245'></a><a href='#L245'>245</a>
 <a name='L246'></a><a href='#L246'>246</a>
 <a name='L247'></a><a href='#L247'>247</a>
-<a name='L248'></a><a href='#L248'>248</a>
-<a name='L249'></a><a href='#L249'>249</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -369,7 +368,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -596,36 +594,35 @@ const useAuth = <span class="cstat-no" title="statement not covered" ><span clas
  */
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >UserProfile() {</span></span>
   const { user } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
-  const [isEditing, setIsEditing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [formData, setFormData] = <span class="cstat-no" title="statement not covered" >useState({</span>
+  const [isEditingsetIsEditing] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [formDatasetFormData] = <span class="cstat-no" title="statement not covered" >useState({</span>
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
     email: user?.email || '',
     phone: '',
     address: ''
   });
-  
+&nbsp;
   const handleChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
     const { name, value } = <span class="cstat-no" title="statement not covered" >e.target;</span>
-<span class="cstat-no" title="statement not covered" >    setFormData(<span class="fstat-no" title="function not covered" >(p</span>rev) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    setFormData(<span class="fstat-no" title="function not covered" >(p</span>rev: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
       ...prev,
       [name]: value
     }));
   };
-  
+&nbsp;
   const handleSubmit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (e</span>: React.FormEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
-    
+&nbsp;
     // In a real app, this would save the profile data
-<span class="cstat-no" title="statement not covered" >    console.log('Profile data to save:', formData);</span>
-    
+&nbsp;
     // Simulating API call
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      setIsEditing(false);</span>
       // Would update auth context with new user data here
     }, 1000);
   };
-  
+&nbsp;
   return (
     &lt;div className="p-6"&gt;
       &lt;header className="mb-8"&gt;
@@ -634,7 +631,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           View and update your personal information
         &lt;/p&gt;
       &lt;/header&gt;
-      
+&nbsp;
       &lt;div className="bg-white rounded-lg shadow overflow-hidden"&gt;
         &lt;div className="px-6 py-4 border-b flex justify-between items-center"&gt;
           &lt;h3 className="font-medium text-gray-900"&gt;Personal Information&lt;/h3&gt;
@@ -645,7 +642,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             {isEditing ? 'Cancel' : 'Edit'}
           &lt;/button&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="p-6"&gt;
           {isEditing ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >            &lt;form onSubmit={handleSubmit} className="space-y-6"&gt;</span>
@@ -663,7 +660,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="lastName" className="block text-sm font-medium text-gray-700"&gt;
                     Last name
@@ -677,7 +674,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="email" className="block text-sm font-medium text-gray-700"&gt;
                     Email address
@@ -692,7 +689,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     disabled
                   /&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div&gt;
                   &lt;label htmlFor="phone" className="block text-sm font-medium text-gray-700"&gt;
                     Phone number
@@ -707,7 +704,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   /&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div&gt;
                 &lt;label htmlFor="address" className="block text-sm font-medium text-gray-700"&gt;
                   Address
@@ -721,7 +718,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
                 /&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-end"&gt;
                 &lt;button
                   type="button"
@@ -748,28 +745,28 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     : 'Not provided'}
                 &lt;/dd&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4"&gt;
                 &lt;dt className="text-sm font-medium text-gray-500"&gt;Email address&lt;/dt&gt;
                 &lt;dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"&gt;
                   {user?.email || 'Not provided'}
                 &lt;/dd&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4"&gt;
                 &lt;dt className="text-sm font-medium text-gray-500"&gt;Phone number&lt;/dt&gt;
                 &lt;dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"&gt;
                   {formData.phone || 'Not provided'}
                 &lt;/dd&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4"&gt;
                 &lt;dt className="text-sm font-medium text-gray-500"&gt;Address&lt;/dt&gt;
                 &lt;dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"&gt;
                   {formData.address || 'Not provided'}
                 &lt;/dd&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4"&gt;
                 &lt;dt className="text-sm font-medium text-gray-500"&gt;Account type&lt;/dt&gt;
                 &lt;dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"&gt;
@@ -786,7 +783,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           )}
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="mt-6 bg-white rounded-lg shadow overflow-hidden"&gt;
         &lt;div className="px-6 py-4 border-b"&gt;
           &lt;h3 className="font-medium text-gray-900"&gt;Security&lt;/h3&gt;
@@ -814,7 +811,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

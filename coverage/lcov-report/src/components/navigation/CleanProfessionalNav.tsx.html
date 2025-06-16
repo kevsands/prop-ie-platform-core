@@ -1598,7 +1598,7 @@ const DropdownMenu = <span class="cstat-no" title="statement not covered" ><span
 }) =&gt; {
   const pathname = <span class="cstat-no" title="statement not covered" >usePathname();</span>
   const isActive = <span class="cstat-no" title="statement not covered" >pathname === item.href || pathname?.startsWith(item.href + '/');</span>
-  
+&nbsp;
   return (
     &lt;div 
       className="relative"
@@ -1622,7 +1622,7 @@ const DropdownMenu = <span class="cstat-no" title="statement not covered" ><span
           /&gt;
         )}
       &lt;/Link&gt;
-      
+&nbsp;
       {<span class="branch-0 cbranch-no" title="branch not covered" >item.sections </span>&amp;&amp; (
         &lt;div 
           className={`absolute left-0 mt-2 w-[1000px] bg-white rounded-lg shadow-xl border border-gray-200 z-50 transition-all duration-200 ${
@@ -1631,13 +1631,13 @@ const DropdownMenu = <span class="cstat-no" title="statement not covered" ><span
           &lt;div className="flex"&gt;
             &lt;div className="flex-1 p-6"&gt;
               &lt;div className="grid grid-cols-4 gap-8"&gt;
-                {item.sections.map(<span class="fstat-no" title="function not covered" >(s</span>ection, idx) =&gt; (
+                {item.sections.map(<span class="fstat-no" title="function not covered" >(s</span>ectionidx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;div key={idx}&gt;</span>
                     &lt;h3 className="text-xs font-bold text-gray-700 uppercase mb-4"&gt;
                       {section.title}
                     &lt;/h3&gt;
                     &lt;ul className="space-y-3"&gt;
-                      {section.items.map(<span class="fstat-no" title="function not covered" >(l</span>ink, linkIdx) =&gt; (
+                      {section.items.map(<span class="fstat-no" title="function not covered" >(l</span>inklinkIdx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                        &lt;li key={linkIdx}&gt;</span>
                           &lt;Link
                             href={link.href}
@@ -1664,7 +1664,7 @@ const DropdownMenu = <span class="cstat-no" title="statement not covered" ><span
                 ))}
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             {<span class="branch-0 cbranch-no" title="branch not covered" >item.featuredContent </span>&amp;&amp; (
               &lt;div className="w-80 bg-gray-50 p-6"&gt;
                 &lt;h3 className="font-semibold text-gray-900 mb-4"&gt;
@@ -1684,7 +1684,7 @@ const DropdownMenu = <span class="cstat-no" title="statement not covered" ><span
               &lt;/div&gt;
             )}
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="bg-gray-50 px-6 py-3 border-t border-gray-200"&gt;
             &lt;p className="text-sm text-gray-500"&gt;
               Need help? &lt;Link href="/contact" className="text-[#2B5273] hover:underline"&gt;Contact our team&lt;/Link&gt;
@@ -1698,20 +1698,20 @@ const DropdownMenu = <span class="cstat-no" title="statement not covered" ><span
 &nbsp;
 // Main navigation component
 export const <span class="cstat-no" title="statement not covered" >CleanProfessionalNav </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-  const [scrolled, setScrolled] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [mobileMenuOpen, setMobileMenuOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [activeDropdown, setActiveDropdown] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+  const [scrolledsetScrolled] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [mobileMenuOpensetMobileMenuOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [activeDropdownsetActiveDropdown] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
   const { user, isAuthenticated } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { role } = <span class="cstat-no" title="statement not covered" >useUserRole();</span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
   const dropdownTimeoutRef = <span class="cstat-no" title="statement not covered" >useRef&lt;NodeJS.Timeout | null&gt;(null);</span>
   const navigationItems: NavigationItem[] = <span class="cstat-no" title="statement not covered" >getNavigationItems();</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const handleScroll = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      setScrolled(window.scrollY &gt; 20);</span>
+<span class="cstat-no" title="statement not covered" >      setScrolled(window.scrollY&gt; 20);</span>
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    window.addEventListener('scroll', handleScroll);</span>
 <span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      window.removeEventListener('scroll', handleScroll);</span>
@@ -1720,20 +1720,20 @@ export const <span class="cstat-no" title="statement not covered" >CleanProfessi
       }
     };
   }, []);
-  
+&nbsp;
   const handleDropdownEnter = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(l</span>abel: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (dropdownTimeoutRef.current) {</span>
 <span class="cstat-no" title="statement not covered" >      clearTimeout(dropdownTimeoutRef.current);</span>
     }
 <span class="cstat-no" title="statement not covered" >    setActiveDropdown(label);</span>
   };
-  
+&nbsp;
   const handleDropdownLeave = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    dropdownTimeoutRef.current = setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      setActiveDropdown(null);</span>
     }, 100);
   };
-  
+&nbsp;
   return (
     &lt;nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
@@ -1752,10 +1752,10 @@ export const <span class="cstat-no" title="statement not covered" >CleanProfessi
               className="h-8 w-auto"
             /&gt;
           &lt;/Link&gt;
-          
+&nbsp;
           {/* Navigation Links */}
           &lt;div className="hidden lg:flex lg:items-center lg:space-x-8"&gt;
-            {navigationItems.map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; (
+            {navigationItems.map(<span class="fstat-no" title="function not covered" >(i</span>tem: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;DropdownMenu</span>
                 key={item.label}
                 item={item}
@@ -1765,19 +1765,19 @@ export const <span class="cstat-no" title="statement not covered" >CleanProfessi
               /&gt;
             ))}
           &lt;/div&gt;
-          
+&nbsp;
           {/* Right side actions */}
           &lt;div className="flex items-center space-x-4"&gt;
             {/* Search */}
             &lt;button className="p-2 hover:bg-gray-100 rounded-lg transition-colors"&gt;
               &lt;Search className="h-5 w-5 text-gray-600" /&gt;
             &lt;/button&gt;
-            
+&nbsp;
             {/* Notifications */}
             &lt;button className="p-2 hover:bg-gray-100 rounded-lg transition-colors"&gt;
               &lt;Bell className="h-5 w-5 text-gray-600" /&gt;
             &lt;/button&gt;
-            
+&nbsp;
             {/* User Menu / Auth */}
             {isAuthenticated ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >              &lt;div className="relative group"&gt;</span>
@@ -1787,7 +1787,7 @@ export const <span class="cstat-no" title="statement not covered" >CleanProfessi
                   &lt;/span&gt;
                   &lt;ChevronDown className="h-4 w-4 text-gray-600" /&gt;
                 &lt;/button&gt;
-                
+&nbsp;
                 &lt;div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"&gt;
                   &lt;Link
                     href="/dashboard"
@@ -1826,7 +1826,7 @@ export const <span class="cstat-no" title="statement not covered" >CleanProfessi
                 &lt;/Link&gt;
               &lt;/&gt;
             )}
-            
+&nbsp;
             {/* Mobile menu button */}
             &lt;button
               onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etMobileMenuOpen(!mobileMenuOpen)}</span>
@@ -1841,12 +1841,12 @@ export const <span class="cstat-no" title="statement not covered" >CleanProfessi
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Mobile menu */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >mobileMenuOpen &amp;&amp; (</span>
         &lt;div className="lg:hidden bg-white border-t border-gray-200"&gt;
           &lt;div className="px-4 py-4 space-y-2"&gt;
-            {navigationItems.map(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; (
+            {navigationItems.map(<span class="fstat-no" title="function not covered" >(i</span>tem: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;Link</span>
                 key={item.label}
                 href={item.href}
@@ -1876,7 +1876,7 @@ const ShoppingCart = ({ className }: { className?: string }) =&gt; (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

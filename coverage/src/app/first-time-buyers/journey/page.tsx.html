@@ -1408,8 +1408,8 @@ const documentRequirements = <span class="cstat-no" title="statement not covered
   {
     category: 'Address Verification',
     documents: [
-      { name: 'Utility bill (&lt; 3 months)', required: true, uploaded: false },
-      { name: 'Bank statement (&lt; 3 months)', required: true, uploaded: false }
+      { name: 'Utility bill (&lt;3 months)', required: true, uploaded: false },
+      { name: 'Bank statement (&lt;3 months)', required: true, uploaded: false }
     ]
   },
   {
@@ -1442,9 +1442,9 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
   const { user } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { journeyPhase } = <span class="cstat-no" title="statement not covered" >useBuyerJourney();</span>
-  const [activeStage, setActiveStage] = <span class="cstat-no" title="statement not covered" >useState('preparation');</span>
-  const [tasksCompleted, setTasksCompleted] = <span class="cstat-no" title="statement not covered" >useState&lt;Record&lt;string, boolean&gt;&gt;({});</span>
-  const [documentsUploaded, setDocumentsUploaded] = <span class="cstat-no" title="statement not covered" >useState&lt;Record&lt;string, boolean&gt;&gt;({});</span>
+  const [activeStagesetActiveStage] = <span class="cstat-no" title="statement not covered" >useState('preparation');</span>
+  const [tasksCompletedsetTasksCompleted] = <span class="cstat-no" title="statement not covered" >useState&lt;Record&lt;string, boolean&gt;&gt;({});</span>
+  const [documentsUploadedsetDocumentsUploaded] = <span class="cstat-no" title="statement not covered" >useState&lt;Record&lt;string, boolean&gt;&gt;({});</span>
 &nbsp;
   const toggleTaskCompletion = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>askId: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setTasksCompleted(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
@@ -1454,7 +1454,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   };
 &nbsp;
   const calculateProgress = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-    const totalTasks = <span class="cstat-no" title="statement not covered" >journeyStages.reduce(<span class="fstat-no" title="function not covered" >(a</span>cc, stage) =&gt; <span class="cstat-no" title="statement not covered" >acc + stage.tasks.length,</span> 0);</span>
+    const totalTasks = <span class="cstat-no" title="statement not covered" >journeyStages.reduce(<span class="fstat-no" title="function not covered" >(a</span>ccstage: any) =&gt; <span class="cstat-no" title="statement not covered" >acc + stage.tasks.length0)</span>;</span>
     const completedTasks = <span class="cstat-no" title="statement not covered" >Object.values(tasksCompleted).filter(Boolean).length;</span>
 <span class="cstat-no" title="statement not covered" >    return Math.round((completedTasks / totalTasks) * 100);</span>
   };
@@ -1487,7 +1487,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;div className="bg-white py-6 border-b"&gt;
         &lt;div className="container mx-auto px-4"&gt;
           &lt;div className="flex items-center justify-between overflow-x-auto"&gt;
-            {journeyStages.map(<span class="fstat-no" title="function not covered" >(s</span>tage, index) =&gt; (
+            {journeyStages.map(<span class="fstat-no" title="function not covered" >(s</span>tageindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={stage.id} c</span>lassName="flex items-center"&gt;
                 &lt;button
                   onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etActiveStage(stage.id)}</span>
@@ -1514,7 +1514,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/div&gt;
                   &lt;span className="text-sm font-medium"&gt;{stage.title}&lt;/span&gt;
                 &lt;/button&gt;
-                {<span class="branch-0 cbranch-no" title="branch not covered" >index &lt; journeyStages.length - 1 &amp;&amp; (</span>
+                {<span class="branch-0 cbranch-no" title="branch not covered" >index &lt;journeyStages.length - 1 &amp;&amp; (</span>
                   &lt;div className={`w-16 h-0.5 mx-2 ${
                     isStageComplete(stage.id) ? 'bg-green-400' : 'bg-gray-300'
                   }`} /&gt;
@@ -1530,7 +1530,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         &lt;div className="grid grid-cols-1 lg:grid-cols-3 gap-8"&gt;
           {/* Tasks Section */}
           &lt;div className="lg:col-span-2"&gt;
-            {journeyStages.map(<span class="fstat-no" title="function not covered" >(s</span>tage) =&gt; (
+            {journeyStages.map(<span class="fstat-no" title="function not covered" >(s</span>tage: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div</span>
                 key={stage.id}
                 className={`mb-8 ${activeStage !== stage.id ? 'hidden' : ''}`}
@@ -1547,7 +1547,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/div&gt;
 &nbsp;
                   &lt;div className="space-y-4"&gt;
-                    {stage.tasks.map(<span class="fstat-no" title="function not covered" >(t</span>ask) =&gt; (
+                    {stage.tasks.map(<span class="fstat-no" title="function not covered" >(t</span>ask: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;div</span>
                         key={task.id}
                         className={`border rounded-lg p-4 transition ${
@@ -1597,13 +1597,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 Document Requirements
               &lt;/h3&gt;
               &lt;div className="space-y-4"&gt;
-                {documentRequirements.map(<span class="fstat-no" title="function not covered" >(c</span>ategory) =&gt; (
+                {documentRequirements.map(<span class="fstat-no" title="function not covered" >(c</span>ategory: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;div key={category.category}&gt;</span>
                     &lt;h4 className="font-medium text-gray-700 mb-2"&gt;
                       {category.category}
                     &lt;/h4&gt;
                     &lt;div className="space-y-2"&gt;
-                      {category.documents.map(<span class="fstat-no" title="function not covered" >(d</span>oc) =&gt; (
+                      {category.documents.map(<span class="fstat-no" title="function not covered" >(d</span>oc: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                        &lt;div</span>
                           key={doc.name}
                           className="flex items-center text-sm"
@@ -1729,7 +1729,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

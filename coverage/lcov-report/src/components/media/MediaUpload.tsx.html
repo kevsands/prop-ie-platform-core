@@ -426,8 +426,7 @@
 <a name='L361'></a><a href='#L361'>361</a>
 <a name='L362'></a><a href='#L362'>362</a>
 <a name='L363'></a><a href='#L363'>363</a>
-<a name='L364'></a><a href='#L364'>364</a>
-<a name='L365'></a><a href='#L365'>365</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L364'></a><a href='#L364'>364</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -461,7 +460,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -836,17 +834,16 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
   showPreview = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
   previewSize = <span class="branch-0 cbranch-no" title="branch not covered" >'md',</span>
   multiple = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
-  className = <span class="branch-0 cbranch-no" title="branch not covered" >'',</span>
-}) =&gt; {
-  const [uploadError, setUploadError] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;(error || '');</span>
-  const [editingFile, setEditingFile] = <span class="cstat-no" title="statement not covered" >useState&lt;MediaFile | null&gt;(null);</span>
+  className = <span class="branch-0 cbranch-no" title="branch not covered" >''}</span>) =&gt; {
+  const [uploadErrorsetUploadError] = <span class="cstat-no" title="statement not covered" >useState&lt;string&gt;(error || '');</span>
+  const [editingFilesetEditingFile] = <span class="cstat-no" title="statement not covered" >useState&lt;MediaFile | null&gt;(null);</span>
   const fileInputRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLInputElement&gt;(null);</span>
-  
+&nbsp;
   // Generate human-readable size string
   const formatFileSize = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>izeInBytes: number): string =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (sizeInBytes &lt; 1024) {</span>
+<span class="cstat-no" title="statement not covered" >    if (sizeInBytes &lt;1024) {</span>
 <span class="cstat-no" title="statement not covered" >      return `${sizeInBytes} B`;</span>
-    } else <span class="cstat-no" title="statement not covered" >if (sizeInBytes &lt; 1024 * 1024) {</span>
+    } else <span class="cstat-no" title="statement not covered" >if (sizeInBytes &lt;1024 * 1024) {</span>
 <span class="cstat-no" title="statement not covered" >      return `${(sizeInBytes / 1024).toFixed(1)} KB`;</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      return `${(sizeInBytes / (1024 * 1024)).toFixed(1)} MB`;</span>
@@ -855,15 +852,15 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
 &nbsp;
   // File validation
   const validateFiles = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ileList: File[]): { valid: boolean; message: string } =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (fileList.length + files.length &gt; maxFiles) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (fileList.length + files.length&gt; maxFiles) {</span>
 <span class="cstat-no" title="statement not covered" >      return { valid: false, message: `You can upload a maximum of ${maxFiles} files.` };</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (const file of fileList) {</span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size &gt; maxSizeInMB * 1024 * 1024) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size&gt; maxSizeInMB * 1024 * 1024) {</span>
 <span class="cstat-no" title="statement not covered" >        return { valid: false, message: `File ${file.name} exceeds the ${maxSizeInMB}MB size limit.` };</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!allowedTypes.includes(file.type)) {</span>
 <span class="cstat-no" title="statement not covered" >        return { valid: false, message: `File type ${file.type} is not supported.` };</span>
       }
@@ -875,11 +872,11 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
   // Handle file selection
   const handleFileChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setUploadError('');</span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (e.target.files &amp;&amp; e.target.files.length &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (e.target.files &amp;&amp; e.target.files.length&gt; 0) {</span>
       const fileArray = <span class="cstat-no" title="statement not covered" >Array.from(e.target.files);</span>
       const validation = <span class="cstat-no" title="statement not covered" >validateFiles(fileArray);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!validation.valid) {</span>
 <span class="cstat-no" title="statement not covered" >        setUploadError(validation.message);</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
@@ -888,20 +885,20 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
       // Create MediaFile objects with preview URLs for images
       const mediaFiles: MediaFile[] = <span class="cstat-no" title="statement not covered" >fileArray.map(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
         const mediaFile = <span class="cstat-no" title="statement not covered" >file as MediaFile;</span>
-        
+&nbsp;
         // Add preview URL for images
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (file.type.startsWith('image/')) {</span>
 <span class="cstat-no" title="statement not covered" >          mediaFile.preview = URL.createObjectURL(file);</span>
         }
-        
+&nbsp;
         // Add unique ID
-<span class="cstat-no" title="statement not covered" >        mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;</span>
-        
+<span class="cstat-no" title="statement not covered" >        mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(29)}`;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return mediaFile;</span>
       });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      onFilesChange([...files, ...mediaFiles]);</span>
-      
+&nbsp;
       // Reset the input value to allow selecting the same file again
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (fileInputRef.current) {</span>
 <span class="cstat-no" title="statement not covered" >        fileInputRef.current.value = '';</span>
@@ -912,33 +909,33 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
   // Handle file removal
   const removeFile = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>dToRemove: string) =&gt; {</span>
     const newFiles = <span class="cstat-no" title="statement not covered" >files.filter(<span class="fstat-no" title="function not covered" >file =&gt; <span class="cstat-no" title="statement not covered" >f</span>ile.id !== idToRemove);</span></span>
-    
+&nbsp;
     // Revoke object URL to prevent memory leaks
     const removedFile = <span class="cstat-no" title="statement not covered" >files.find(<span class="fstat-no" title="function not covered" >file =&gt; <span class="cstat-no" title="statement not covered" >f</span>ile.id === idToRemove);</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (removedFile?.preview) {</span>
 <span class="cstat-no" title="statement not covered" >      URL.revokeObjectURL(removedFile.preview);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    onFilesChange(newFiles);</span>
   };
-  
+&nbsp;
   // Handle opening the editor for an image
   const handleEditImage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ile: MediaFile) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (file.type.startsWith('image/')) {</span>
 <span class="cstat-no" title="statement not covered" >      setEditingFile(file);</span>
     }
   };
-  
+&nbsp;
   // Handle saving edited image
   const handleSaveEditedImage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>ditedFile: MediaFile) =&gt; {</span>
     const newFiles = <span class="cstat-no" title="statement not covered" >files.map(<span class="fstat-no" title="function not covered" >file =&gt; </span></span>
 <span class="cstat-no" title="statement not covered" >      file.id === editedFile.id ? editedFile : file</span>
     );
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    onFilesChange(newFiles);</span>
 <span class="cstat-no" title="statement not covered" >    setEditingFile(null);</span>
   };
-  
+&nbsp;
   // Handle canceling image edit
   const handleCancelEdit = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setEditingFile(null);</span>
@@ -960,7 +957,7 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
       return &lt;FiFile {...props} /&gt;;
     }
   };
-  
+&nbsp;
   // Determine preview size classes
   const getPreviewSizeClass = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    switch (previewSize) {</span>
@@ -980,11 +977,11 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
   const handleDrop = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.DragEvent&lt;HTMLDivElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
 <span class="cstat-no" title="statement not covered" >    e.stopPropagation();</span>
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (e.dataTransfer.files &amp;&amp; e.dataTransfer.files.length &gt; 0) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (e.dataTransfer.files &amp;&amp; e.dataTransfer.files.length&gt; 0) {</span>
       const fileArray = <span class="cstat-no" title="statement not covered" >Array.from(e.dataTransfer.files);</span>
       const validation = <span class="cstat-no" title="statement not covered" >validateFiles(fileArray);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!validation.valid) {</span>
 <span class="cstat-no" title="statement not covered" >        setUploadError(validation.message);</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
@@ -993,15 +990,15 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
       // Create MediaFile objects with preview URLs for images
       const mediaFiles: MediaFile[] = <span class="cstat-no" title="statement not covered" >fileArray.map(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
         const mediaFile = <span class="cstat-no" title="statement not covered" >file as MediaFile;</span>
-        
+&nbsp;
         // Add preview URL for images
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (file.type.startsWith('image/')) {</span>
 <span class="cstat-no" title="statement not covered" >          mediaFile.preview = URL.createObjectURL(file);</span>
         }
-        
+&nbsp;
         // Add unique ID
-<span class="cstat-no" title="statement not covered" >        mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;</span>
-        
+<span class="cstat-no" title="statement not covered" >        mediaFile.id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(29)}`;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return mediaFile;</span>
       });
 &nbsp;
@@ -1014,7 +1011,7 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
       &lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;
         {label}
       &lt;/label&gt;
-      
+&nbsp;
       &lt;div 
         className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
         onDragOver={handleDragOver}
@@ -1041,28 +1038,28 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
           &lt;p className="text-xs text-gray-500"&gt;
             {helpText}
           &lt;/p&gt;
-          {<span class="branch-0 cbranch-no" title="branch not covered" >files.length &gt; 0 &amp;&amp; (</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >files.length&gt; 0 &amp;&amp; (</span>
             &lt;p className="text-xs text-gray-500"&gt;
               {files.length} of {maxFiles} files uploaded
             &lt;/p&gt;
           )}
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {(uploadError || error) &amp;&amp; (
         &lt;div className="mt-2 flex items-center text-sm text-red-600"&gt;
           &lt;FiAlertCircle className="mr-1" /&gt;
           {uploadError || error}
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {/* File Preview Section */}
-      {showPreview &amp;&amp; files.length &gt; 0 &amp;&amp; !editingFile &amp;&amp; (
+      {showPreview &amp;&amp; files.length&gt; 0 &amp;&amp; !editingFile &amp;&amp; (
         &lt;div className="mt-4"&gt;
           &lt;h3 className="text-sm font-medium text-gray-700 mb-2"&gt;Uploaded Files:&lt;/h3&gt;
-          
+&nbsp;
           &lt;div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"&gt;
-            {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; (
+            {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={file.id} c</span>lassName="relative border border-gray-200 rounded-md p-2"&gt;
                 {file.type.startsWith('image/') &amp;&amp; file.preview ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                  &lt;div className="flex flex-col items-center"&gt;</span>
@@ -1095,7 +1092,7 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
                     &lt;div className="text-xs text-gray-500 mt-1"&gt;{formatFileSize(file.size)}&lt;/div&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 &lt;button
                   type="button"
                   onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >r</span>emoveFile(file.id as string)}</span>
@@ -1109,7 +1106,7 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
           &lt;/div&gt;
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {/* Image Editor */}
       {<span class="branch-0 cbranch-no" title="branch not covered" >editingFile &amp;&amp; (</span>
         &lt;div className="mt-4 p-4 border border-gray-200 rounded-lg"&gt;
@@ -1124,13 +1121,13 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
           /&gt;
         &lt;/div&gt;
       )}
-      
+&nbsp;
       {/* Simple List View (Alternative to Preview Grid) */}
-      {!showPreview &amp;&amp; files.length &gt; 0 &amp;&amp; (
+      {!showPreview &amp;&amp; files.length&gt; 0 &amp;&amp; (
         &lt;div className="mt-4"&gt;
           &lt;h3 className="text-sm font-medium text-gray-700 mb-2"&gt;Uploaded Files:&lt;/h3&gt;
           &lt;ul className="divide-y divide-gray-200 border border-gray-200 rounded-md"&gt;
-            {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; (
+            {files.map(<span class="fstat-no" title="function not covered" >(f</span>ile: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;li key={file.id} c</span>lassName="pl-3 pr-4 py-3 flex items-center justify-between text-sm"&gt;
                 &lt;div className="flex items-center"&gt;
                   {getFileIcon(file)}
@@ -1162,7 +1159,7 @@ const MediaUpload: React.FC&lt;MediaUploadProps&gt; = <span class="cstat-no" tit
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

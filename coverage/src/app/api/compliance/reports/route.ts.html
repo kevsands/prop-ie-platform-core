@@ -633,25 +633,25 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
   const status = <span class="cstat-no" title="statement not covered" >searchParams.get('status');</span>
   const period = <span class="cstat-no" title="statement not covered" >searchParams.get('period');</span>
   const type = <span class="cstat-no" title="statement not covered" >searchParams.get('type');</span>
-  
+&nbsp;
   let filtered = <span class="cstat-no" title="statement not covered" >[...regulatoryReports];</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (regulation) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >report =&gt; <span class="cstat-no" title="statement not covered" >r</span>eport.regulation === regulation);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (status) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >report =&gt; <span class="cstat-no" title="statement not covered" >r</span>eport.status === status);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (period) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >report =&gt; <span class="cstat-no" title="statement not covered" >r</span>eport.period.includes(period));</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (type) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >report =&gt; <span class="cstat-no" title="statement not covered" >r</span>eport.type === type);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return NextResponse.json(filtered);</span>
 }
 &nbsp;
@@ -674,9 +674,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         }
       ]
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    regulatoryReports.push(newReport);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(newReport, { status: 201 });</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
@@ -690,7 +690,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const body = <span class="cstat-no" title="statement not covered" >await request.json() as any;</span>
     const { id, ...updates } = <span class="cstat-no" title="statement not covered" >body;</span>
-    
+&nbsp;
     const reportIndex = <span class="cstat-no" title="statement not covered" >regulatoryReports.findIndex(<span class="fstat-no" title="function not covered" >report =&gt; <span class="cstat-no" title="statement not covered" >r</span>eport.id === id);</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (reportIndex === -1) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
@@ -698,7 +698,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 404 }
       );
     }
-    
+&nbsp;
     const existingReport = <span class="cstat-no" title="statement not covered" >regulatoryReports[reportIndex];</span>
     const updatedReport = <span class="cstat-no" title="statement not covered" >{</span>
       ...existingReport,
@@ -713,9 +713,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         }
       ]
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    regulatoryReports[reportIndex] = updatedReport;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(updatedReport);</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
@@ -728,14 +728,14 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DELETE(</span></span>request: NextRequest) {
   const { searchParams } = <span class="cstat-no" title="statement not covered" >new URL(request.url);</span>
   const id = <span class="cstat-no" title="statement not covered" >searchParams.get('id');</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!id) {</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Report ID required' },
       { status: 400 }
     );
   }
-  
+&nbsp;
   const reportIndex = <span class="cstat-no" title="statement not covered" >regulatoryReports.findIndex(<span class="fstat-no" title="function not covered" >report =&gt; <span class="cstat-no" title="statement not covered" >r</span>eport.id === id);</span></span>
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (reportIndex === -1) {</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
@@ -743,9 +743,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       { status: 404 }
     );
   }
-  
-  const deletedReport = <span class="cstat-no" title="statement not covered" >regulatoryReports.splice(reportIndex, 1)[0];</span>
-  
+&nbsp;
+  const deletedReport = <span class="cstat-no" title="statement not covered" >regulatoryReports.splice(reportIndex1)[0];</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return NextResponse.json(deletedReport);</span>
 }</pre></td></tr></table></pre>
 
@@ -754,7 +754,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

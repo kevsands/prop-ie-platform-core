@@ -911,7 +911,7 @@ import {
  */
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >ReservationPage() {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('overview');</span>
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('overview');</span>
 &nbsp;
   // Mock reservation data
   const reservation = <span class="cstat-no" title="statement not covered" >{</span>
@@ -1036,7 +1036,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             {/* Tabs */}
             &lt;div className="bg-white rounded-lg shadow-sm"&gt;
               &lt;div className="flex border-b"&gt;
-                {['overview', 'documents', 'timeline'].map(<span class="fstat-no" title="function not covered" >(t</span>ab) =&gt; (
+                {['overview', 'documents', 'timeline'].map(<span class="fstat-no" title="function not covered" >(t</span>ab: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;button</span>
                     key={tab}
                     onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etActiveTab(tab)}</span>
@@ -1125,7 +1125,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'documents' &amp;&amp; (</span>
                   &lt;div className="space-y-4"&gt;
                     &lt;h3 className="font-semibold mb-4"&gt;Your Documents&lt;/h3&gt;
-                    {reservation.documents.map(<span class="fstat-no" title="function not covered" >(d</span>oc) =&gt; (
+                    {reservation.documents.map(<span class="fstat-no" title="function not covered" >(d</span>oc: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;div key={doc.id} c</span>lassName="flex items-center justify-between p-4 bg-gray-50 rounded-lg"&gt;
                         &lt;div className="flex items-center gap-3"&gt;
                           &lt;FileText className="w-5 h-5 text-blue-600" /&gt;
@@ -1147,7 +1147,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;div className="space-y-4"&gt;
                     &lt;h3 className="font-semibold mb-4"&gt;Reservation Timeline&lt;/h3&gt;
                     &lt;div className="space-y-4"&gt;
-                      {reservation.timeline.map(<span class="fstat-no" title="function not covered" >(e</span>vent, index) =&gt; (
+                      {reservation.timeline.map(<span class="fstat-no" title="function not covered" >(e</span>ventindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                        &lt;div key={index} c</span>lassName="flex items-start gap-4"&gt;
                           &lt;div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                             event.status === 'completed' ? 'bg-green-100 text-green-600' :
@@ -1199,7 +1199,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;dd className="font-medium"&gt;{reservation.deposit.dueDate.toLocaleDateString()}&lt;/dd&gt;
                 &lt;/div&gt;
               &lt;/dl&gt;
-              
+&nbsp;
               &lt;button className="w-full mt-6 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"&gt;
                 Pay Remaining Deposit
               &lt;/button&gt;
@@ -1216,7 +1216,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/div&gt;
                   &lt;ChevronRight className="w-4 h-4 text-gray-400" /&gt;
                 &lt;/button&gt;
-                
+&nbsp;
                 &lt;button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"&gt;
                   &lt;div className="flex items-center gap-3"&gt;
                     &lt;MessageSquare className="w-5 h-5 text-blue-600" /&gt;
@@ -1224,7 +1224,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/div&gt;
                   &lt;ChevronRight className="w-4 h-4 text-gray-400" /&gt;
                 &lt;/button&gt;
-                
+&nbsp;
                 &lt;button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"&gt;
                   &lt;div className="flex items-center gap-3"&gt;
                     &lt;Calculator className="w-5 h-5 text-blue-600" /&gt;
@@ -1232,7 +1232,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/div&gt;
                   &lt;ChevronRight className="w-4 h-4 text-gray-400" /&gt;
                 &lt;/button&gt;
-                
+&nbsp;
                 &lt;button className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"&gt;
                   &lt;div className="flex items-center gap-3"&gt;
                     &lt;Briefcase className="w-5 h-5 text-blue-600" /&gt;
@@ -1288,7 +1288,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

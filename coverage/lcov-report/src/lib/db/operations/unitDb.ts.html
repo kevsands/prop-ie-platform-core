@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/80</span>
+                <span class='fraction'>0/80</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">3.89% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/77</span>
+                <span class='fraction'>0/77</span>
             </div>
         
             
@@ -304,12 +304,12 @@
 <a name='L239'></a><a href='#L239'>239</a>
 <a name='L240'></a><a href='#L240'>240</a>
 <a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
+<a name='L242'></a><a href='#L242'>242</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -545,12 +545,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span></td><td class="text"><pre class="prettyprint lang-js">import { query } from '../connection';
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { query } from <span class="cstat-no" title="statement not covered" >'../connection';</span>
 &nbsp;
 /**
  * Unit database operations
  */
-export const unitDb = {
+export const <span class="cstat-no" title="statement not covered" >unitDb </span>= <span class="cstat-no" title="statement not covered" >{</span>
   /**
    * Get unit by ID
    * @param id Unit ID
@@ -563,10 +563,10 @@ export const unitDb = {
       LEFT JOIN developments d ON u.development_id = d.id
       WHERE u.id = $1
     `, [id]);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return result.rows[0] || null;</span>
   },
-  
+&nbsp;
   /**
    * Get units by development ID
    * @param developmentId Development ID
@@ -577,33 +577,33 @@ export const unitDb = {
     let whereClause = <span class="cstat-no" title="statement not covered" >'u.development_id = $1';</span>
     const params: any[] = <span class="cstat-no" title="statement not covered" >[developmentId];</span>
     let paramIndex = <span class="cstat-no" title="statement not covered" >2;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filters) {</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.status) {</span>
 <span class="cstat-no" title="statement not covered" >        whereClause += ` AND u.status = $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >        params.push(filters.status);</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.type) {</span>
 <span class="cstat-no" title="statement not covered" >        whereClause += ` AND u.type = $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >        params.push(filters.type);</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.minBedrooms !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >        whereClause += ` AND u.bedrooms &gt;= $${paramIndex++}`;</span>
+<span class="cstat-no" title="statement not covered" >        whereClause += ` AND u.bedrooms&gt;= $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >        params.push(filters.minBedrooms);</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.maxBedrooms !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >        whereClause += ` AND u.bedrooms &lt;= $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >        params.push(filters.maxBedrooms);</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filters.isAvailable) {</span>
 <span class="cstat-no" title="statement not covered" >        whereClause += ` AND u.status IN ('AVAILABLE', 'UNDER_CONSTRUCTION')`;</span>
       }
     }
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await query(`</span>
       SELECT u.*, d.name AS development_name
       FROM units u
@@ -611,10 +611,10 @@ export const unitDb = {
       WHERE ${whereClause}
       ORDER BY u.unit_number ASC
     `, params);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return result.rows;</span>
   },
-  
+&nbsp;
   /**
    * List units with filtering
    * @param options Filter options including development ID, status, etc.
@@ -625,59 +625,59 @@ export const unitDb = {
       developmentId, status, type, minBedrooms, maxBedrooms, 
       minPrice, maxPrice, limit = <span class="branch-0 cbranch-no" title="branch not covered" >20,</span> offset = <span class="branch-0 cbranch-no" title="branch not covered" >0 </span>
     } = <span class="cstat-no" title="statement not covered" >options;</span>
-    
+&nbsp;
     let whereClause = <span class="cstat-no" title="statement not covered" >'1=1';</span>
     const params: any[] = <span class="cstat-no" title="statement not covered" >[];</span>
     let paramIndex = <span class="cstat-no" title="statement not covered" >1;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (developmentId) {</span>
 <span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.development_id = $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(developmentId);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (status) {</span>
 <span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.status = $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(status);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (type) {</span>
 <span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.type = $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(type);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (minBedrooms !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.bedrooms &gt;= $${paramIndex++}`;</span>
+<span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.bedrooms&gt;= $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(minBedrooms);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (maxBedrooms !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.bedrooms &lt;= $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(maxBedrooms);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (minPrice !== undefined) {</span>
-<span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.current_price &gt;= $${paramIndex++}`;</span>
+<span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.current_price&gt;= $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(minPrice);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (maxPrice !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      whereClause += ` AND u.current_price &lt;= $${paramIndex++}`;</span>
 <span class="cstat-no" title="statement not covered" >      params.push(maxPrice);</span>
     }
-    
+&nbsp;
     // Count total matching units
     const countResult = <span class="cstat-no" title="statement not covered" >await query(`</span>
       SELECT COUNT(*) AS total
       FROM units u
       WHERE ${whereClause}
     `, params);
-    
+&nbsp;
     const totalCount = <span class="cstat-no" title="statement not covered" >parseInt(countResult.rows[0]?.total || '0');</span>
-    
+&nbsp;
     // Get units with pagination
 <span class="cstat-no" title="statement not covered" >    params.push(limit);</span>
 <span class="cstat-no" title="statement not covered" >    params.push(offset);</span>
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await query(`</span>
       SELECT u.*, d.name as development_name, d.id as development_id
       FROM units u
@@ -686,13 +686,13 @@ export const unitDb = {
       ORDER BY u.created_at DESC
       LIMIT $${paramIndex++} OFFSET $${paramIndex++}
     `, params);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       units: result.rows,
       totalCount
     };
   },
-  
+&nbsp;
   /**
    * Create a new unit
    * @param unitData Unit data
@@ -706,7 +706,7 @@ export const unitDb = {
       floor_plan_url, main_image_url, gallery_images, features, energy_rating,
       is_featured, is_customizable, customization_deadline
     } = <span class="cstat-no" title="statement not covered" >unitData;</span>
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await query(`</span>
       INSERT INTO units (
         development_id, name, unit_number, description, type, status,
@@ -725,10 +725,10 @@ export const unitDb = {
       floor_plan_url, main_image_url, gallery_images, features, energy_rating,
       is_featured, is_customizable, customization_deadline
     ]);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return result.rows[0];</span>
   },
-  
+&nbsp;
   /**
    * Update a unit
    * @param id Unit ID
@@ -738,18 +738,18 @@ export const unitDb = {
 <span class="fstat-no" title="function not covered" >  async u</span>pdate(id: string, unitData: any): Promise&lt;any&gt; {
     const keys = <span class="cstat-no" title="statement not covered" >Object.keys(unitData);</span>
     const values = <span class="cstat-no" title="statement not covered" >Object.values(unitData);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (keys.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      return this.getById(id);</span>
     }
-    
-    const setClause = <span class="cstat-no" title="statement not covered" >keys.map(<span class="fstat-no" title="function not covered" >(k</span>ey, i) =&gt; <span class="cstat-no" title="statement not covered" >`${key} = $${i + 2}`)</span>.join(', ');</span>
+&nbsp;
+    const setClause = <span class="cstat-no" title="statement not covered" >keys.map(<span class="fstat-no" title="function not covered" >(k</span>eyi: any) =&gt; <span class="cstat-no" title="statement not covered" >`${key} = $${i + 2}`)</span>.join(', ');</span>
     const queryText = <span class="cstat-no" title="statement not covered" >`UPDATE units SET ${setClause} WHERE id = $1 RETURNING *`;</span>
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await query(queryText, [id, ...values]);</span>
 <span class="cstat-no" title="statement not covered" >    return result.rows[0];</span>
   },
-  
+&nbsp;
   /**
    * Get rooms for a unit
    * @param unitId Unit ID
@@ -760,10 +760,10 @@ export const unitDb = {
       'SELECT * FROM unit_rooms WHERE unit_id = $1',
       [unitId]
     );
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return result.rows;</span>
   },
-  
+&nbsp;
   /**
    * Get customization options for a unit
    * @param unitId Unit ID
@@ -773,27 +773,27 @@ export const unitDb = {
 <span class="fstat-no" title="function not covered" >  async g</span>etCustomizationOptions(unitId: string, categoryFilter?: string): Promise&lt;any[]&gt; {
     let queryText = <span class="cstat-no" title="statement not covered" >'SELECT * FROM unit_customization_options WHERE unit_id = $1';</span>
     const params = <span class="cstat-no" title="statement not covered" >[unitId];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (categoryFilter) {</span>
 <span class="cstat-no" title="statement not covered" >      queryText += ' AND category = $2';</span>
 <span class="cstat-no" title="statement not covered" >      params.push(categoryFilter);</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    queryText += ' ORDER BY category, name';</span>
-    
-    const result = <span class="cstat-no" title="statement not covered" >await query(queryText, params);</span>
+&nbsp;
+    const result = <span class="cstat-no" title="statement not covered" >await query(queryTextparams);</span>
 <span class="cstat-no" title="statement not covered" >    return result.rows;</span>
   }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default u</span>nitDb;</pre></td></tr></table></pre>
+<span class="cstat-no" title="statement not covered" >export default <span class="cstat-no" title="statement not covered" >u</span>nitDb;</span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

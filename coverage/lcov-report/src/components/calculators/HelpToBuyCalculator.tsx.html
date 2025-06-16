@@ -502,8 +502,7 @@
 <a name='L437'></a><a href='#L437'>437</a>
 <a name='L438'></a><a href='#L438'>438</a>
 <a name='L439'></a><a href='#L439'>439</a>
-<a name='L440'></a><a href='#L440'>440</a>
-<a name='L441'></a><a href='#L441'>441</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L440'></a><a href='#L440'>440</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -695,7 +694,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -955,97 +953,97 @@ import { Info, Calculator, CheckCircle, AlertCircle, Euro } from <span class="cs
  */
 export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalculator </span>= <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
   // State for form inputs
-  const [propertyPrice, setPropertyPrice] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(350000);</span>
-  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [isNewBuild, setIsNewBuild] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [taxYear1, setTaxYear1] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
-  const [taxYear2, setTaxYear2] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
-  const [taxYear3, setTaxYear3] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
-  const [taxYear4, setTaxYear4] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
-  const [uscYear1, setUscYear1] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
-  const [uscYear2, setUscYear2] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
-  const [uscYear3, setUscYear3] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
-  const [uscYear4, setUscYear4] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
-  const [dirtPaid, setDirtPaid] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
-  const [depositAmount, setDepositAmount] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(35000);</span>
-  
+  const [propertyPricesetPropertyPrice] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(350000);</span>
+  const [isFirstTimeBuyersetIsFirstTimeBuyer] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [isNewBuildsetIsNewBuild] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [taxYear1setTaxYear1] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
+  const [taxYear2setTaxYear2] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
+  const [taxYear3setTaxYear3] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
+  const [taxYear4setTaxYear4] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(8000);</span>
+  const [uscYear1setUscYear1] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
+  const [uscYear2setUscYear2] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
+  const [uscYear3setUscYear3] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
+  const [uscYear4setUscYear4] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(1600);</span>
+  const [dirtPaidsetDirtPaid] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
+  const [depositAmountsetDepositAmount] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(35000);</span>
+&nbsp;
   // State for calculation results
-  const [htbAmount, setHtbAmount] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
-  const [eligibility, setEligibility] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
-  const [eligibilityWarnings, setEligibilityWarnings] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
-  const [eligibilityErrors, setEligibilityErrors] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
-  const [loanAmount, setLoanAmount] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
-  const [totalTaxPaid, setTotalTaxPaid] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
-  
+  const [htbAmountsetHtbAmount] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
+  const [eligibilitysetEligibility] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean&gt;(true);</span>
+  const [eligibilityWarningssetEligibilityWarnings] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
+  const [eligibilityErrorssetEligibilityErrors] = <span class="cstat-no" title="statement not covered" >useState&lt;string[]&gt;([]);</span>
+  const [loanAmountsetLoanAmount] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
+  const [totalTaxPaidsetTotalTaxPaid] = <span class="cstat-no" title="statement not covered" >useState&lt;number&gt;(0);</span>
+&nbsp;
   // Constants for Irish Help-to-Buy scheme (2025)
   const HTB_MAX_PROPERTY_VALUE = <span class="cstat-no" title="statement not covered" >500000;</span>
   const HTB_MAX_RELIEF = <span class="cstat-no" title="statement not covered" >30000;</span>
   const HTB_RELIEF_PERCENTAGE = <span class="cstat-no" title="statement not covered" >0.10; /</span>/ 10% of purchase price
   const HTB_MIN_PROPERTY_VALUE = <span class="cstat-no" title="statement not covered" >100000; /</span>/ Minimum property value for HTB
-  
+&nbsp;
   // Calculate the Help-to-Buy amount and eligibility
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    setEligibilityWarnings([]);</span>
 <span class="cstat-no" title="statement not covered" >    setEligibilityErrors([]);</span>
     let isEligible = <span class="cstat-no" title="statement not covered" >true;</span>
-    
+&nbsp;
     // Check eligibility criteria
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!isFirstTimeBuyer) {</span>
 <span class="cstat-no" title="statement not covered" >      isEligible = false;</span>
 <span class="cstat-no" title="statement not covered" >      setEligibilityErrors(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, 'You must be a first-time buyer to qualify for the Help-to-Buy scheme.']);</span></span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!isNewBuild) {</span>
 <span class="cstat-no" title="statement not covered" >      isEligible = false;</span>
 <span class="cstat-no" title="statement not covered" >      setEligibilityErrors(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, 'The property must be a new build or self-build to qualify for HTB.']);</span></span>
     }
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (propertyPrice &gt; HTB_MAX_PROPERTY_VALUE) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (propertyPrice&gt; HTB_MAX_PROPERTY_VALUE) {</span>
 <span class="cstat-no" title="statement not covered" >      isEligible = false;</span>
 <span class="cstat-no" title="statement not covered" >      setEligibilityErrors(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, `The property value must not exceed €${HTB_MAX_PROPERTY_VALUE.toLocaleString()}.`]);</span></span>
     }
-    
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (propertyPrice &lt; HTB_MIN_PROPERTY_VALUE) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (propertyPrice &lt;HTB_MIN_PROPERTY_VALUE) {</span>
 <span class="cstat-no" title="statement not covered" >      isEligible = false;</span>
 <span class="cstat-no" title="statement not covered" >      setEligibilityErrors(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, `The property value must be at least €${HTB_MIN_PROPERTY_VALUE.toLocaleString()}.`]);</span></span>
     }
-    
+&nbsp;
     // Calculate total taxes paid in last 4 years (Irish rules)
     const totalIncomeTax = <span class="cstat-no" title="statement not covered" >taxYear1 + taxYear2 + taxYear3 + taxYear4;</span>
     const totalUSC = <span class="cstat-no" title="statement not covered" >uscYear1 + uscYear2 + uscYear3 + uscYear4;</span>
     const totalTaxes = <span class="cstat-no" title="statement not covered" >totalIncomeTax + totalUSC + dirtPaid;</span>
 <span class="cstat-no" title="statement not covered" >    setTotalTaxPaid(totalTaxes);</span>
-    
+&nbsp;
     // Calculate HTB relief according to Irish rules
-    let calculatedRelief = Math.min(
+    const calculatedRelief = Math.min(
       propertyPrice * HTB_RELIEF_PERCENTAGE,  // 10% of property price
       totalTaxes,                              // Can't exceed taxes paid
       HTB_MAX_RELIEF                           // Maximum relief amount
     );
-    
+&nbsp;
     // Warnings for low tax paid
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (totalTaxes &lt; propertyPrice * HTB_RELIEF_PERCENTAGE &amp;&amp; isEligible) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (totalTaxes &lt;propertyPrice * HTB_RELIEF_PERCENTAGE &amp;&amp; isEligible) {</span>
 <span class="cstat-no" title="statement not covered" >      setEligibilityWarnings(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, </span></span>
         `Your HTB amount is limited by the taxes you've paid (€${totalTaxes.toLocaleString()}). The maximum possible would be €${(propertyPrice * HTB_RELIEF_PERCENTAGE).toLocaleString()}.`
       ]);
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setEligibility(isEligible);</span>
 <span class="cstat-no" title="statement not covered" >    setHtbAmount(isEligible ? calculatedRelief : 0);</span>
-    
+&nbsp;
     // Calculate loan amount
     const totalDownPayment = <span class="cstat-no" title="statement not covered" >depositAmount + (isEligible ? calculatedRelief : 0);</span>
     const calculatedLoanAmount = <span class="cstat-no" title="statement not covered" >propertyPrice - totalDownPayment;</span>
-<span class="cstat-no" title="statement not covered" >    setLoanAmount(calculatedLoanAmount &gt; 0 ? calculatedLoanAmount : 0);</span>
-    
+<span class="cstat-no" title="statement not covered" >    setLoanAmount(calculatedLoanAmount&gt; 0 ? calculatedLoanAmount : 0);</span>
+&nbsp;
   }, [propertyPrice, isFirstTimeBuyer, isNewBuild, taxYear1, taxYear2, taxYear3, taxYear4, 
-      uscYear1, uscYear2, uscYear3, uscYear4, dirtPaid, depositAmount]);
-  
+      uscYear1, uscYear2, uscYear3, uscYear4, dirtPaiddepositAmount]);
+&nbsp;
   // Format currency in Euro
   const formatCurrency = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(a</span>mount: number): string =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return `€${amount.toLocaleString('en-IE', { maximumFractionDigits: 0 })}`;</span>
   };
-  
+&nbsp;
   return (
     &lt;div className="bg-white rounded-lg shadow-lg p-6 max-w-5xl mx-auto"&gt;
       &lt;div className="mb-6"&gt;
@@ -1056,12 +1054,12 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
           Calculate your Help-to-Buy refund under Irish Revenue rules (2025)
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-8"&gt;
         {/* Input form */}
         &lt;div&gt;
           &lt;h3 className="text-xl font-semibold mb-4 text-gray-900"&gt;Property &amp; Buyer Details&lt;/h3&gt;
-          
+&nbsp;
           &lt;div className="space-y-4"&gt;
             {/* Property price */}
             &lt;div&gt;
@@ -1075,7 +1073,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                 &lt;input
                   type="number"
                   value={propertyPrice}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setPropertyPrice(Number(e.target.value))}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setPropertyPrice(Number(e.target.value))}</span>
                   className="border border-gray-300 rounded-md pl-10 py-2 pr-3 w-full focus:ring-blue-500 focus:border-blue-500"
                   placeholder="350000"
                   min="0"
@@ -1083,13 +1081,13 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                   step="1000"
                 /&gt;
               &lt;/div&gt;
-              {<span class="branch-0 cbranch-no" title="branch not covered" >propertyPrice &gt; HTB_MAX_PROPERTY_VALUE &amp;&amp; (</span>
+              {<span class="branch-0 cbranch-no" title="branch not covered" >propertyPrice&gt; HTB_MAX_PROPERTY_VALUE &amp;&amp; (</span>
                 &lt;p className="mt-1 text-sm text-red-600"&gt;
                   Exceeds HTB maximum of €{HTB_MAX_PROPERTY_VALUE.toLocaleString()}
                 &lt;/p&gt;
               )}
             &lt;/div&gt;
-            
+&nbsp;
             {/* Deposit amount */}
             &lt;div&gt;
               &lt;label className="block text-sm font-medium text-gray-700 mb-1"&gt;
@@ -1102,7 +1100,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                 &lt;input
                   type="number"
                   value={depositAmount}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDepositAmount(Number(e.target.value))}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setDepositAmount(Number(e.target.value))}</span>
                   className="border border-gray-300 rounded-md pl-10 py-2 pr-3 w-full focus:ring-blue-500 focus:border-blue-500"
                   placeholder="35000"
                   min="0"
@@ -1113,7 +1111,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                 Your cash contribution (excluding HTB)
               &lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             {/* Checkboxes */}
             &lt;div className="space-y-3"&gt;
               &lt;div className="flex items-center"&gt;
@@ -1121,20 +1119,20 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                   id="first-time-buyer"
                   type="checkbox"
                   checked={isFirstTimeBuyer}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setIsFirstTimeBuyer(e.target.checked)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setIsFirstTimeBuyer(e.target.checked)}</span>
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 /&gt;
                 &lt;label htmlFor="first-time-buyer" className="ml-2 block text-sm text-gray-700"&gt;
                   I am a first-time buyer
                 &lt;/label&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex items-center"&gt;
                 &lt;input
                   id="new-build"
                   type="checkbox"
                   checked={isNewBuild}
-                  onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setIsNewBuild(e.target.checked)}</span>
+                  onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setIsNewBuild(e.target.checked)}</span>
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 /&gt;
                 &lt;label htmlFor="new-build" className="ml-2 block text-sm text-gray-700"&gt;
@@ -1142,7 +1140,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                 &lt;/label&gt;
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             {/* Tax paid section */}
             &lt;div className="mt-6"&gt;
               &lt;h4 className="text-lg font-medium text-gray-900 mb-3"&gt;
@@ -1151,14 +1149,13 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
               &lt;p className="text-sm text-gray-500 mb-4"&gt;
                 Enter Income Tax, USC, and DIRT paid to Revenue
               &lt;/p&gt;
-              
+&nbsp;
               {/* Tax years */}
               {[
                 { year: 1, tax: taxYear1, setTax: setTaxYear1, usc: uscYear1, setUsc: setUscYear1 },
                 { year: 2, tax: taxYear2, setTax: setTaxYear2, usc: uscYear2, setUsc: setUscYear2 },
                 { year: 3, tax: taxYear3, setTax: setTaxYear3, usc: uscYear3, setUsc: setUscYear3 },
-                { year: 4, tax: taxYear4, setTax: setTaxYear4, usc: uscYear4, setUsc: setUscYear4 },
-              ].map(<span class="fstat-no" title="function not covered" >({</span> year, tax, setTax, usc, setUsc }) =&gt; (
+                { year: 4, tax: taxYear4, setTax: setTaxYear4, usc: uscYear4, setUsc: setUscYear4 }].map(<span class="fstat-no" title="function not covered" >({</span> year, tax, setTax, usc, setUsc }) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;div key={year} c</span>lassName="grid grid-cols-2 gap-2 mb-3"&gt;
                   &lt;div&gt;
                     &lt;label className="block text-xs font-medium text-gray-600 mb-1"&gt;
@@ -1171,7 +1168,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                       &lt;input
                         type="number"
                         value={tax}
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setTax(Number(e.target.value))}</span>
+                        onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setTax(Number(e.target.value))}</span>
                         className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
                         min="0"
                         step="100"
@@ -1189,7 +1186,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                       &lt;input
                         type="number"
                         value={usc}
-                        onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setUsc(Number(e.target.value))}</span>
+                        onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setUsc(Number(e.target.value))}</span>
                         className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
                         min="0"
                         step="100"
@@ -1198,7 +1195,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                   &lt;/div&gt;
                 &lt;/div&gt;
               ))}
-              
+&nbsp;
               {/* DIRT */}
               &lt;div className="mt-3"&gt;
                 &lt;label className="block text-xs font-medium text-gray-600 mb-1"&gt;
@@ -1211,14 +1208,14 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                   &lt;input
                     type="number"
                     value={dirtPaid}
-                    onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDirtPaid(Number(e.target.value))}</span>
+                    onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setDirtPaid(Number(e.target.value))}</span>
                     className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
                     min="0"
                     step="10"
                   /&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mt-4 p-3 bg-blue-50 rounded-md"&gt;
                 &lt;p className="text-sm font-medium text-blue-900"&gt;
                   Total Taxes: {formatCurrency(totalTaxPaid)}
@@ -1227,11 +1224,11 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Results */}
         &lt;div&gt;
           &lt;h3 className="text-xl font-semibold mb-4 text-gray-900"&gt;Your HTB Calculation&lt;/h3&gt;
-          
+&nbsp;
           {/* Eligibility status */}
           &lt;div className={`p-4 rounded-lg mb-6 ${
             eligibility ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
@@ -1246,18 +1243,18 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                 &lt;h4 className={`font-semibold ${eligibility ? 'text-green-700' : 'text-red-700'}`}&gt;
                   {eligibility ? 'You are eligible for the Help-to-Buy scheme' : 'You are not eligible for the Help-to-Buy scheme'}
                 &lt;/h4&gt;
-                
-                {<span class="branch-0 cbranch-no" title="branch not covered" >eligibilityErrors.length &gt; 0 &amp;&amp; (</span>
+&nbsp;
+                {<span class="branch-0 cbranch-no" title="branch not covered" >eligibilityErrors.length&gt; 0 &amp;&amp; (</span>
                   &lt;ul className="mt-2 space-y-1"&gt;
-                    {eligibilityErrors.map(<span class="fstat-no" title="function not covered" >(e</span>rror, index) =&gt; (
+                    {eligibilityErrors.map(<span class="fstat-no" title="function not covered" >(e</span>rrorindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;li key={index} c</span>lassName="text-sm text-red-600"&gt;{error}&lt;/li&gt;
                     ))}
                   &lt;/ul&gt;
                 )}
-                
-                {eligibilityWarnings.length &gt; 0 &amp;&amp; eligibility &amp;&amp; (
+&nbsp;
+                {eligibilityWarnings.length&gt; 0 &amp;&amp; eligibility &amp;&amp; (
                   &lt;ul className="mt-2 space-y-1"&gt;
-                    {eligibilityWarnings.map(<span class="fstat-no" title="function not covered" >(w</span>arning, index) =&gt; (
+                    {eligibilityWarnings.map(<span class="fstat-no" title="function not covered" >(w</span>arningindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                      &lt;li key={index} c</span>lassName="text-sm text-yellow-700"&gt;{warning}&lt;/li&gt;
                     ))}
                   &lt;/ul&gt;
@@ -1265,50 +1262,50 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
               &lt;/div&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* HTB calculation breakdown */}
           &lt;div className="bg-gray-50 rounded-lg p-4"&gt;
             &lt;h4 className="font-semibold mb-4 text-blue-900"&gt;Purchase Breakdown&lt;/h4&gt;
-            
+&nbsp;
             &lt;div className="space-y-3"&gt;
               &lt;div className="flex justify-between"&gt;
                 &lt;span className="text-gray-600"&gt;Property Price:&lt;/span&gt;
                 &lt;span className="font-medium"&gt;{formatCurrency(propertyPrice)}&lt;/span&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-between"&gt;
                 &lt;span className="text-gray-600"&gt;Your Cash Deposit:&lt;/span&gt;
                 &lt;span className="font-medium"&gt;{formatCurrency(depositAmount)}&lt;/span&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className={`flex justify-between pb-3 border-b ${!eligibility ? 'opacity-50' : ''}`}&gt;
                 &lt;span className="text-gray-600"&gt;Help-to-Buy Refund:&lt;/span&gt;
                 &lt;span className={`font-medium ${eligibility ? 'text-green-600' : 'text-gray-400'}`}&gt;
                   {formatCurrency(htbAmount)}
                 &lt;/span&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-between pt-3"&gt;
                 &lt;span className="text-gray-700 font-medium"&gt;Total Deposit:&lt;/span&gt;
                 &lt;span className="font-bold text-blue-900"&gt;
                   {formatCurrency(depositAmount + htbAmount)}
                 &lt;/span&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-between"&gt;
                 &lt;span className="text-gray-600"&gt;Deposit Percentage:&lt;/span&gt;
                 &lt;span className="font-medium"&gt;
                   {((depositAmount + htbAmount) / propertyPrice * 100).toFixed(1)}%
                 &lt;/span&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="flex justify-between pt-3 border-t"&gt;
                 &lt;span className="text-gray-700 font-medium"&gt;Mortgage Required:&lt;/span&gt;
                 &lt;span className="font-bold text-blue-900"&gt;{formatCurrency(loanAmount)}&lt;/span&gt;
               &lt;/div&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* How HTB is calculated */}
           &lt;div className="mt-6 bg-blue-50 rounded-lg p-4"&gt;
             &lt;h4 className="font-semibold text-blue-900 mb-2"&gt;How HTB is Calculated&lt;/h4&gt;
@@ -1324,7 +1321,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
               Your HTB amount: {formatCurrency(htbAmount)}
             &lt;/p&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Next steps */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >eligibility &amp;&amp; (</span>
             &lt;div className="mt-6"&gt;
@@ -1335,7 +1332,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
                 &lt;li&gt;Share your HTB number with your solicitor&lt;/li&gt;
                 &lt;li&gt;HTB will be paid directly to your solicitor at closing&lt;/li&gt;
               &lt;/ol&gt;
-              
+&nbsp;
               &lt;div className="mt-4 space-y-2"&gt;
                 &lt;a 
                   href="https://www.revenue.ie/en/property/help-to-buy-incentive/index.aspx" 
@@ -1363,7 +1360,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
           )}
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Legal disclaimer */}
       &lt;div className="mt-8 p-4 bg-gray-100 rounded-lg"&gt;
         &lt;div className="flex items-start"&gt;
@@ -1390,7 +1387,7 @@ export const <span class="cstat-no" title="statement not covered" >HelpToBuyCalc
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

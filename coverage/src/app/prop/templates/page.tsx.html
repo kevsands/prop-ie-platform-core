@@ -302,10 +302,7 @@
 <a name='L237'></a><a href='#L237'>237</a>
 <a name='L238'></a><a href='#L238'>238</a>
 <a name='L239'></a><a href='#L239'>239</a>
-<a name='L240'></a><a href='#L240'>240</a>
-<a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a>
-<a name='L243'></a><a href='#L243'>243</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L240'></a><a href='#L240'>240</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -382,7 +379,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -407,8 +403,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -624,41 +618,38 @@ const useDocumentTemplates = <span class="cstat-no" title="statement not covered
   };
 };
 &nbsp;
-&nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >DocumentTemplatesPage() {</span></span>
   // Explicitly type params to include orgSlug
   const params = <span class="cstat-no" title="statement not covered" >useParams() as { orgSlug: string };</span>
   const { orgSlug } = <span class="cstat-no" title="statement not covered" >params;</span>
-  const [searchQuery, setSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [filterCategory, setFilterCategory] = <span class="cstat-no" title="statement not covered" >useState('all');</span>
-  
+  const [searchQuerysetSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [filterCategorysetFilterCategory] = <span class="cstat-no" title="statement not covered" >useState('all');</span>
+&nbsp;
   const { templates, isLoading, error } = <span class="cstat-no" title="statement not covered" >useDocumentTemplates(orgSlug);</span>
   const { hasPermission } = <span class="cstat-no" title="statement not covered" >usePermissions();</span>
-  
+&nbsp;
   const canCreateTemplate = <span class="cstat-no" title="statement not covered" >hasPermission('templates', 'create');</span>
   const canEditTemplate = <span class="cstat-no" title="statement not covered" >hasPermission('templates', 'update');</span>
   const canDeleteTemplate = <span class="cstat-no" title="statement not covered" >hasPermission('templates', 'delete');</span>
-  
+&nbsp;
   // Filter templates based on search and category
   const filteredTemplates = <span class="cstat-no" title="statement not covered" >templates?.filter(<span class="fstat-no" title="function not covered" >(t</span>emplate: DocumentTemplate) =&gt; {</span>
     const matchesSearch = <span class="cstat-no" title="statement not covered" >template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||</span>
                         template.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = <span class="cstat-no" title="statement not covered" >filterCategory === 'all' || template.category === filterCategory;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return matchesSearch &amp;&amp; matchesCategory;</span>
   }) || [];
-  
+&nbsp;
   const categories = <span class="cstat-no" title="statement not covered" >[</span>
     { id: 'sales', name: 'Sales Documents' },
     { id: 'legal', name: 'Legal Documents' },
     { id: 'marketing', name: 'Marketing Materials' },
     { id: 'construction', name: 'Construction Documents' },
-    { id: 'handover', name: 'Handover Documents' },
-  ];
-  
+    { id: 'handover', name: 'Handover Documents' }];
+&nbsp;
   if (isLoading) return &lt;div className="p-10 text-center"&gt;Loading document templates...&lt;/div&gt;;
   if (error) return &lt;div className="p-10 text-center text-red-600"&gt;Error loading templates: {error.message}&lt;/div&gt;;
-  
   return (
     &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"&gt;
       &lt;div className="flex items-center justify-between mb-8"&gt;
@@ -675,7 +666,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/Link&gt;
         )}
       &lt;/div&gt;
-      
+&nbsp;
       {/* Search and Filters */}
       &lt;div className="bg-white rounded-lg shadow-md p-6 mb-8"&gt;
         &lt;div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"&gt;
@@ -686,17 +677,17 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;input
               type="text"
               value={searchQuery}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
               placeholder="Search templates..."
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
             /&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="flex items-center gap-2"&gt;
             &lt;FiFilter className="text-gray-500" /&gt;
             &lt;select
               value={filterCategory}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFilterCategory(e.target.value)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFilterCategory(e.target.value)}</span>
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2B5273]"
             &gt;
               &lt;option value="all"&gt;All Categories&lt;/option&gt;
@@ -707,7 +698,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Templates List */}
       {filteredTemplates.length === 0 ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >        &lt;div className="text-center py-16 bg-gray-50 rounded-lg"&gt;</span>
@@ -750,9 +741,9 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     )}
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;p className="mt-2 text-sm text-gray-600"&gt;{template.description}&lt;/p&gt;
-                
+&nbsp;
                 &lt;div className="mt-4 flex flex-wrap gap-2"&gt;
                   {template.tags?.map(<span class="fstat-no" title="function not covered" >(t</span>ag: string, index: number) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;span key={index} c</span>lassName="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"&gt;
@@ -760,7 +751,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/span&gt;
                   ))}
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="mt-6 pt-4 border-t border-gray-200"&gt;
                   &lt;div className="grid grid-cols-2 gap-4 text-sm"&gt;
                     &lt;div&gt;
@@ -773,7 +764,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="mt-6"&gt;
                   &lt;Link 
                     href={`/${orgSlug}/templates/${template.id}`}
@@ -796,7 +787,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

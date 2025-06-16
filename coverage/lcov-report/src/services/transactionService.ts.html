@@ -1970,7 +1970,7 @@ class TransactionService extends EventEmitter {
     const date = <span class="cstat-no" title="statement not covered" >new Date();</span>
     const year = <span class="cstat-no" title="statement not covered" >date.getFullYear();</span>
     const month = <span class="cstat-no" title="statement not covered" >String(date.getMonth() + 1).padStart(2, '0');</span>
-    const random = <span class="cstat-no" title="statement not covered" >Math.random().toString(36).substring(2, 8).toUpperCase();</span>
+    const random = <span class="cstat-no" title="statement not covered" >Math.random().toString(36).substring(28).toUpperCase();</span>
 <span class="cstat-no" title="statement not covered" >    return `PROP-${year}${month}-${random}`;</span>
   }
 &nbsp;
@@ -1978,7 +1978,7 @@ class TransactionService extends EventEmitter {
 <span class="fstat-no" title="function not covered" >  async c</span>reateTransaction(data: TransactionCreate): Promise&lt;Transaction&gt; {
     const referenceNumber = <span class="cstat-no" title="statement not covered" >this.generateReferenceNumber();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return await this.prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return await this.prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x: any) =&gt; {</span>
       // Create the main transaction
       const transaction = <span class="cstat-no" title="statement not covered" >await tx.transaction.create({</span>
         data: {
@@ -2013,7 +2013,7 @@ class TransactionService extends EventEmitter {
 &nbsp;
       // Create standard milestones
       const milestones = <span class="cstat-no" title="statement not covered" >await Promise.all(</span>
-        STANDARD_MILESTONES.map(<span class="fstat-no" title="function not covered" >(m</span>ilestone) =&gt;
+        STANDARD_MILESTONES.map(<span class="fstat-no" title="function not covered" >(m</span>ilestone: any) =&gt;
 <span class="cstat-no" title="statement not covered" >          tx.transactionMilestone.create({</span>
             data: {
               transactionId: transaction.id,
@@ -2030,7 +2030,7 @@ class TransactionService extends EventEmitter {
       );
 &nbsp;
       // Create initial tasks
-<span class="cstat-no" title="statement not covered" >      await this.createInitialTasks(tx, transaction.id, data);</span>
+<span class="cstat-no" title="statement not covered" >      await this.createInitialTasks(tx, transaction.iddata);</span>
 &nbsp;
       // Send initial notification
 <span class="cstat-no" title="statement not covered" >      await tx.transactionNotification.create({</span>
@@ -2060,7 +2060,7 @@ class TransactionService extends EventEmitter {
 &nbsp;
   // Update transaction
 <span class="fstat-no" title="function not covered" >  async u</span>pdateTransaction(id: string, data: TransactionUpdate, performedBy: string): Promise&lt;Transaction&gt; {
-<span class="cstat-no" title="statement not covered" >    return await this.prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return await this.prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x: any) =&gt; {</span>
       // Get current transaction
       const currentTransaction = <span class="cstat-no" title="statement not covered" >await tx.transaction.findUnique({</span>
         where: { id }
@@ -2171,7 +2171,7 @@ class TransactionService extends EventEmitter {
       case TransactionStatus.SALE_AGREED:
         // Calculate 10% contractual deposit
         const depositAmount = <span class="cstat-no" title="statement not covered" >transaction.agreedPrice ? transaction.agreedPrice * 0.1 : 0;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        await tx.transactionPayment.create({</span>
           data: {
             transactionId: transaction.id,
@@ -2284,7 +2284,7 @@ class TransactionService extends EventEmitter {
 <span class="cstat-no" title="statement not covered" >        break;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(updates).length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(updates).length&gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      await tx.transactionTimeline.update({</span>
         where: { transactionId },
         data: updates
@@ -2305,7 +2305,7 @@ class TransactionService extends EventEmitter {
       const milestoneIndex = <span class="cstat-no" title="statement not covered" >milestone.order - 1;</span>
       let status: TransactionMilestoneStatus;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (milestoneIndex &lt; currentStageIndex) {</span>
+<span class="cstat-no" title="statement not covered" >      if (milestoneIndex &lt;currentStageIndex) {</span>
 <span class="cstat-no" title="statement not covered" >        status = 'COMPLETED';</span>
       } else <span class="cstat-no" title="statement not covered" >if (milestoneIndex === currentStageIndex) {</span>
 <span class="cstat-no" title="statement not covered" >        status = 'IN_PROGRESS';</span>
@@ -2365,7 +2365,7 @@ class TransactionService extends EventEmitter {
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    await Promise.all(</span>
-      tasks.map(<span class="fstat-no" title="function not covered" >(t</span>ask) =&gt;
+      tasks.map(<span class="fstat-no" title="function not covered" >(t</span>ask: any) =&gt;
 <span class="cstat-no" title="statement not covered" >        tx.transactionTask.create({</span>
           data: {
             transactionId,
@@ -2422,7 +2422,7 @@ class TransactionService extends EventEmitter {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filter.unitId) <span class="cstat-no" title="statement not covered" >where.unitId = filter.unitId;</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filter.status) <span class="cstat-no" title="statement not covered" >where.status = filter.status;</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filter.stage) <span class="cstat-no" title="statement not covered" >where.stage = filter.stage;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (filter.createdAfter || filter.createdBefore) {</span>
 <span class="cstat-no" title="statement not covered" >      where.createdAt = {};</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (filter.createdAfter) <span class="cstat-no" title="statement not covered" >where.createdAt.gte = filter.createdAfter;</span></span>
@@ -2455,13 +2455,13 @@ class TransactionService extends EventEmitter {
 &nbsp;
     const stageOrder = <span class="cstat-no" title="statement not covered" >Object.values(TransactionStage);</span>
     const currentIndex = <span class="cstat-no" title="statement not covered" >stageOrder.indexOf(transaction.stage);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (currentIndex === stageOrder.length - 1) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error('Transaction is already at final stage');</span>
     }
 &nbsp;
     const nextStage = <span class="cstat-no" title="statement not covered" >stageOrder[currentIndex + 1];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return await this.updateTransaction(id, { stage: nextStage }, performedBy);</span>
   }
 &nbsp;
@@ -2595,7 +2595,7 @@ class TransactionService extends EventEmitter {
 &nbsp;
     // In real implementation, send actual notifications
 <span class="cstat-no" title="statement not covered" >    this.emit('notification:created', { transactionId, notification: newNotification });</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return newNotification;</span>
   }
 &nbsp;
@@ -2716,7 +2716,7 @@ export const <span class="cstat-no" title="statement not covered" >transactionSe
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

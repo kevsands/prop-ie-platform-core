@@ -436,10 +436,7 @@
 <a name='L371'></a><a href='#L371'>371</a>
 <a name='L372'></a><a href='#L372'>372</a>
 <a name='L373'></a><a href='#L373'>373</a>
-<a name='L374'></a><a href='#L374'>374</a>
-<a name='L375'></a><a href='#L375'>375</a>
-<a name='L376'></a><a href='#L376'>376</a>
-<a name='L377'></a><a href='#L377'>377</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L374'></a><a href='#L374'>374</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -466,9 +463,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -851,8 +845,7 @@ const mockCases: LegalCase[] = <span class="cstat-no" title="statement not cover
     status: 'in_progress',
     price: 395000,
     startDate: '2023-06-15',
-    dueDate: '2023-07-30',
-  },
+    dueDate: '2023-07-30'},
   {
     id: '2',
     clientName: 'Sarah O\'Connor',
@@ -862,8 +855,7 @@ const mockCases: LegalCase[] = <span class="cstat-no" title="statement not cover
     status: 'review',
     price: 450000,
     startDate: '2023-05-20',
-    dueDate: '2023-07-05',
-  },
+    dueDate: '2023-07-05'},
   {
     id: '3',
     clientName: 'Michael Kelly',
@@ -873,8 +865,7 @@ const mockCases: LegalCase[] = <span class="cstat-no" title="statement not cover
     status: 'new',
     price: 320000,
     startDate: '2023-06-25',
-    dueDate: '2023-08-10',
-  }
+    dueDate: '2023-08-10'}
 ];
 &nbsp;
 // Mock participants
@@ -1002,28 +993,28 @@ const mockMessages: Record&lt;string, ChatMessage[]&gt; = <span class="cstat-no"
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >SolicitorCaseChat() {</span></span>
   const params = <span class="cstat-no" title="statement not covered" >useParams();</span>
   const caseId = <span class="cstat-no" title="statement not covered" >params?.id as string;</span>
-  
+&nbsp;
   // Get the case, participants, and messages
   const legalCase = <span class="cstat-no" title="statement not covered" >mockCases.find(<span class="fstat-no" title="function not covered" >c =&gt; <span class="cstat-no" title="statement not covered" >c</span>.id === caseId);</span></span>
   const participants = <span class="cstat-no" title="statement not covered" >mockParticipants[caseId] || [];</span>
-  const [messages, setMessages] = <span class="cstat-no" title="statement not covered" >useState&lt;ChatMessage[]&gt;(mockMessages[caseId] || []);</span>
-  
+  const [messagessetMessages] = <span class="cstat-no" title="statement not covered" >useState&lt;ChatMessage[]&gt;(mockMessages[caseId] || []);</span>
+&nbsp;
   // Get the current user (for this demo, always the solicitor)
   const currentUser = <span class="cstat-no" title="statement not covered" >participants.find(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.role === 'solicitor') || p</span>articipants[0];</span>
-  
+&nbsp;
   // Handle send message
   const handleSendMessage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>ontent: string, files?: File[]) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!content.trim() &amp;&amp; (!files || files.length === 0)) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
     // Create attachments from files (mock implementation)
-    const attachments: Attachment[] | undefined = <span class="cstat-no" title="statement not covered" >files?.map(<span class="fstat-no" title="function not covered" >(f</span>ile, index) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    const attachments: Attachment[] | undefined = <span class="cstat-no" title="statement not covered" >files?.map(<span class="fstat-no" title="function not covered" >(f</span>ileindex: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
       id: `new-att-${Date.now()}-${index}`,
       name: file.name,
       type: file.type.startsWith('image/') ? 'image' : 'document',
       url: '#', // In a real app, this would be a URL after uploading
       size: `${(file.size / 1024).toFixed(1)} KB`
     }));
-    
+&nbsp;
     // Create the new message
     const newMessage: ChatMessage = <span class="cstat-no" title="statement not covered" >{</span>
       id: `m${Date.now()}`,
@@ -1033,16 +1024,16 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       attachments,
       status: 'sent'
     };
-    
+&nbsp;
     // Update messages
-<span class="cstat-no" title="statement not covered" >    setMessages([...messages, newMessage]);</span>
-    
+<span class="cstat-no" title="statement not covered" >    setMessages([...messagesnewMessage]);</span>
+&nbsp;
     // In a real app, we would:
     // 1. Send the message to the backend
     // 2. Upload any attachments
     // 3. Update the UI with the new message once confirmed
     // 4. Handle status updates (sent → delivered → read)
-    
+&nbsp;
     // Simulate message status updates
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      setMessages(<span class="fstat-no" title="function not covered" >prev =&gt; </span></span>
@@ -1051,7 +1042,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         )
       );
     }, 1000);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      setMessages(<span class="fstat-no" title="function not covered" >prev =&gt; </span></span>
 <span class="cstat-no" title="statement not covered" >        prev.map(<span class="fstat-no" title="function not covered" >m =&gt; </span></span>
@@ -1060,7 +1051,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       );
     }, 2000);
   };
-  
+&nbsp;
   // If case not found
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!legalCase) {</span>
     return (
@@ -1079,10 +1070,10 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       &lt;/div&gt;
     );
   }
-  
+&nbsp;
   // Get the client (buyer) participant
   const clientParticipant = <span class="cstat-no" title="statement not covered" >participants.find(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.role === 'buyer');</span></span>
-  
+&nbsp;
   return (
     &lt;div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8"&gt;
       &lt;div className="mb-6"&gt;
@@ -1093,7 +1084,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;FiArrowLeft className="mr-2" /&gt;
           Back to Case
         &lt;/Link&gt;
-        
+&nbsp;
         &lt;h1 className="text-2xl font-bold mt-2"&gt;
           Chat with {clientParticipant?.name || 'Client'}
         &lt;/h1&gt;
@@ -1101,7 +1092,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           {legalCase.propertyAddress}
         &lt;/p&gt;
       &lt;/div&gt;
-      
+&nbsp;
       &lt;div className="grid grid-cols-1 lg:grid-cols-3 gap-6"&gt;
         &lt;div className="lg:col-span-2"&gt;
           &lt;ChatComponent
@@ -1112,33 +1103,33 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             title={`Chat with ${clientParticipant?.name || 'Client'}`}
           /&gt;
         &lt;/div&gt;
-        
+&nbsp;
         &lt;div className="bg-white rounded-lg border overflow-hidden"&gt;
           &lt;div className="p-4 border-b bg-gray-50"&gt;
             &lt;h2 className="font-semibold"&gt;Case Information&lt;/h2&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="p-4"&gt;
             &lt;div className="mb-4"&gt;
               &lt;h3 className="text-sm text-gray-500"&gt;Property&lt;/h3&gt;
               &lt;p className="font-medium"&gt;{legalCase.propertyAddress}&lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="mb-4"&gt;
               &lt;h3 className="text-sm text-gray-500"&gt;Client&lt;/h3&gt;
               &lt;p className="font-medium"&gt;{legalCase.clientName}&lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="mb-4"&gt;
               &lt;h3 className="text-sm text-gray-500"&gt;Agent&lt;/h3&gt;
               &lt;p className="font-medium"&gt;{legalCase.agentName}&lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="mb-4"&gt;
               &lt;h3 className="text-sm text-gray-500"&gt;Status&lt;/h3&gt;
               &lt;p className="font-medium capitalize"&gt;{legalCase.status.replace('_', ' ')}&lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="mb-6"&gt;
               &lt;h3 className="text-sm text-gray-500"&gt;Due Date&lt;/h3&gt;
               &lt;p className="font-medium"&gt;
@@ -1149,10 +1140,10 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 })}
               &lt;/p&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="border-t pt-4"&gt;
               &lt;h3 className="font-medium mb-2"&gt;Recent Documents&lt;/h3&gt;
-              
+&nbsp;
               &lt;div className="space-y-2"&gt;
                 &lt;div className="border rounded p-3 flex items-center"&gt;
                   &lt;FiFileText className="text-[#2B5273] mr-3" size={20} /&gt;
@@ -1164,7 +1155,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;FiDownload size={18} /&gt;
                   &lt;/button&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 &lt;div className="border rounded p-3 flex items-center"&gt;
                   &lt;FiFileText className="text-[#2B5273] mr-3" size={20} /&gt;
                   &lt;div className="flex-1"&gt;
@@ -1176,7 +1167,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;/button&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               &lt;div className="mt-3"&gt;
                 &lt;Link 
                   href={`/solicitors/cases/${caseId}/documents`}
@@ -1198,7 +1189,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>

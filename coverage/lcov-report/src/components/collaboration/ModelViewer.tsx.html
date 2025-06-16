@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/39</span>
+                <span class='fraction'>0/37</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/38</span>
+                <span class='fraction'>0/36</span>
             </div>
         
             
@@ -425,12 +425,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -663,8 +663,8 @@ interface ModelViewerProps {
 // Mock 3D model component
 const Model: React.FC&lt;{ url?: string }&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> url }) =&gt; {</span>
   const meshRef = <span class="cstat-no" title="statement not covered" >useRef&lt;THREE.Mesh&gt;(null);</span>
-  
-<span class="cstat-no" title="statement not covered" >  useFrame(<span class="fstat-no" title="function not covered" >(s</span>tate, delta) =&gt; {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  useFrame(<span class="fstat-no" title="function not covered" >(s</span>tate, delta: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (meshRef.current) {</span>
 <span class="cstat-no" title="statement not covered" >      meshRef.current.rotation.y += delta * 0.2;</span>
     }
@@ -707,12 +707,12 @@ export const <span class="cstat-no" title="statement not covered" >ModelViewer: 
 &nbsp;
   const handleExportView = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Mock export functionality
-<span class="cstat-no" title="statement not covered" >    console.log('Exporting current view...');</span>
+&nbsp;
   };
 &nbsp;
   const handleUploadModel = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     // Mock upload functionality
-<span class="cstat-no" title="statement not covered" >    console.log('Opening file upload dialog...');</span>
+&nbsp;
   };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
@@ -811,7 +811,7 @@ export const <span class="cstat-no" title="statement not covered" >ModelViewer: 
                   &lt;/Button&gt;
                   &lt;Slider
                     value={[zoom]}
-                    onValueChange={<span class="fstat-no" title="function not covered" >(v</span>alues) =&gt; <span class="cstat-no" title="statement not covered" >setZoom(values[0])}</span>
+                    onValueChange={<span class="fstat-no" title="function not covered" >(v</span>alues: any) =&gt; <span class="cstat-no" title="statement not covered" >setZoom(values[0])}</span>
                     min={50}
                     max={200}
                     step={10}
@@ -859,7 +859,7 @@ export const <span class="cstat-no" title="statement not covered" >ModelViewer: 
             &lt;/CardHeader&gt;
             &lt;CardContent&gt;
               &lt;div className="space-y-2"&gt;
-                {['All Layers', 'Structure', 'MEP', 'Interior', 'Exterior'].map(<span class="fstat-no" title="function not covered" >(l</span>ayer) =&gt; (
+                {['All Layers', 'Structure', 'MEP', 'Interior', 'Exterior'].map(<span class="fstat-no" title="function not covered" >(l</span>ayer: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                  &lt;label</span>
                     key={layer}
                     className="flex items-center justify-between p-2 rounded hover:bg-gray-50 cursor-pointer"
@@ -870,7 +870,7 @@ export const <span class="cstat-no" title="statement not covered" >ModelViewer: 
                       name="layer"
                       value={layer.toLowerCase().replace(' ', '-')}
                       checked={selectedLayer === layer.toLowerCase().replace(' ', '-')}
-                      onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSelectedLayer(e.target.value)}</span>
+                      onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setSelectedLayer(e.target.value)}</span>
                       className="h-4 w-4"
                     /&gt;
                   &lt;/label&gt;
@@ -916,7 +916,7 @@ export const <span class="cstat-no" title="statement not covered" >ModelViewer: 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

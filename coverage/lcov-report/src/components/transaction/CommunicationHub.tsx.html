@@ -491,9 +491,7 @@
 <a name='L426'></a><a href='#L426'>426</a>
 <a name='L427'></a><a href='#L427'>427</a>
 <a name='L428'></a><a href='#L428'>428</a>
-<a name='L429'></a><a href='#L429'>429</a>
-<a name='L430'></a><a href='#L430'>430</a>
-<a name='L431'></a><a href='#L431'>431</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L429'></a><a href='#L429'>429</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -511,9 +509,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -941,16 +937,14 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from <span class="cstat-no" title="statement not covered" >'@/components/ui/tooltip';</span>
+  TooltipTrigger} from <span class="cstat-no" title="statement not covered" >'@/components/ui/tooltip';</span>
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import { useToast } from <span class="cstat-no" title="statement not covered" >'@/components/ui/use-toast';</span>
 import {
   MessageSquareIcon,
@@ -982,14 +976,14 @@ export const <span class="cstat-no" title="statement not covered" >Communication
   const { user } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { sendMessage } = <span class="cstat-no" title="statement not covered" >useTransaction();</span>
   const { toast } = <span class="cstat-no" title="statement not covered" >useToast();</span>
-  
-  const [newMessage, setNewMessage] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [searchQuery, setSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
-  const [attachments, setAttachments] = <span class="cstat-no" title="statement not covered" >useState&lt;File[]&gt;([]);</span>
-  const [isTyping, setIsTyping] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [isSending, setIsSending] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [notifications, setNotifications] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
-  
+&nbsp;
+  const [newMessagesetNewMessage] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [searchQuerysetSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [attachmentssetAttachments] = <span class="cstat-no" title="statement not covered" >useState&lt;File[]&gt;([]);</span>
+  const [isTypingsetIsTyping] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [isSendingsetIsSending] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [notificationssetNotifications] = <span class="cstat-no" title="statement not covered" >useState(true);</span>
+&nbsp;
   const messagesEndRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLDivElement&gt;(null);</span>
   const fileInputRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLInputElement&gt;(null);</span>
   const textareaRef = <span class="cstat-no" title="statement not covered" >useRef&lt;HTMLTextAreaElement&gt;(null);</span>
@@ -1007,7 +1001,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
   );
 &nbsp;
   // Group messages by date
-  const groupedMessages = <span class="cstat-no" title="statement not covered" >filteredMessages.reduce(<span class="fstat-no" title="function not covered" >(a</span>cc, message) =&gt; {</span>
+  const groupedMessages = <span class="cstat-no" title="statement not covered" >filteredMessages.reduce(<span class="fstat-no" title="function not covered" >(a</span>ccmessage: any) =&gt; {</span>
     const date = <span class="cstat-no" title="statement not covered" >format(new Date(message.timestamp), 'yyyy-MM-dd');</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!acc[date]) {</span>
 <span class="cstat-no" title="statement not covered" >      acc[date] = [];</span>
@@ -1044,16 +1038,16 @@ export const <span class="cstat-no" title="statement not covered" >Communication
 <span class="cstat-no" title="statement not covered" >    setIsSending(true);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      await sendMessage(transaction.id, newMessage.trim(), attachments);</span>
-      
+&nbsp;
       // Clear form
 <span class="cstat-no" title="statement not covered" >      setNewMessage('');</span>
 <span class="cstat-no" title="statement not covered" >      setAttachments([]);</span>
-      
+&nbsp;
       // Reset textarea height
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (textareaRef.current) {</span>
 <span class="cstat-no" title="statement not covered" >        textareaRef.current.style.height = 'auto';</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      toast({</span>
         title: "Message sent",
         description: "Your message has been delivered"
@@ -1072,12 +1066,12 @@ export const <span class="cstat-no" title="statement not covered" >Communication
   // Handle file attachment
   const handleFileAttachment = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>iles: FileList | null) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!files) <span class="cstat-no" title="statement not covered" >return;</span></span>
-    
+&nbsp;
     const newFiles = <span class="cstat-no" title="statement not covered" >Array.from(files);</span>
     const maxSize = <span class="cstat-no" title="statement not covered" >5 * 1024 * 1024; /</span>/ 5MB
-    
+&nbsp;
     const validFiles = <span class="cstat-no" title="statement not covered" >newFiles.filter(<span class="fstat-no" title="function not covered" >file =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size &gt; maxSize) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size&gt; maxSize) {</span>
 <span class="cstat-no" title="statement not covered" >        toast({</span>
           title: "File too large",
           description: `${file.name} exceeds 5MB limit`,
@@ -1087,13 +1081,13 @@ export const <span class="cstat-no" title="statement not covered" >Communication
       }
 <span class="cstat-no" title="statement not covered" >      return true;</span>
     });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setAttachments(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>...prev, ...validFiles]);</span></span>
   };
 &nbsp;
   // Remove attachment
   const removeAttachment = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>ndex: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setAttachments(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.filter(<span class="fstat-no" title="function not covered" >(_</span>, i) =&gt; <span class="cstat-no" title="statement not covered" >i !== index));</span></span></span>
+<span class="cstat-no" title="statement not covered" >    setAttachments(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >p</span>rev.filter(<span class="fstat-no" title="function not covered" >(_</span>i: any) =&gt; <span class="cstat-no" title="statement not covered" >i !== index));</span></span></span>
   };
 &nbsp;
   // Handle Enter key
@@ -1107,7 +1101,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
   // Auto-resize textarea
   const handleTextareaChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>: React.ChangeEvent&lt;HTMLTextAreaElement&gt;) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setNewMessage(e.target.value);</span>
-    
+&nbsp;
     // Auto-resize
     const textarea = <span class="cstat-no" title="statement not covered" >e.target;</span>
 <span class="cstat-no" title="statement not covered" >    textarea.style.height = 'auto';</span>
@@ -1138,14 +1132,14 @@ export const <span class="cstat-no" title="statement not covered" >Communication
             &lt;MessageSquareIcon className="h-5 w-5" /&gt;
             Communication Hub
           &lt;/CardTitle&gt;
-          
+&nbsp;
           &lt;div className="flex items-center gap-2"&gt;
             {/* Participants count */}
             &lt;Badge variant="secondary" className="flex items-center gap-1"&gt;
               &lt;UsersIcon className="h-3 w-3" /&gt;
               {transaction.participants.length} Participants
             &lt;/Badge&gt;
-            
+&nbsp;
             {/* Notifications toggle */}
             &lt;TooltipProvider&gt;
               &lt;Tooltip&gt;
@@ -1179,7 +1173,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
             &lt;Input
               placeholder="Search messages..."
               value={searchQuery}
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
               className="pl-10"
             /&gt;
           &lt;/div&gt;
@@ -1188,7 +1182,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
         {/* Messages Area */}
         &lt;ScrollArea className="h-[500px]"&gt;
           &lt;div className="p-4 space-y-6"&gt;
-            {Object.entries(groupedMessages).map(<span class="fstat-no" title="function not covered" >([</span>date, messages]) =&gt; (
+            {Object.entries(groupedMessages).map(<span class="fstat-no" title="function not covered" >([</span>datemessages]) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={date}&gt;</span>
                 {/* Date Header */}
                 &lt;div className="flex items-center justify-center mb-4"&gt;
@@ -1199,7 +1193,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
 &nbsp;
                 {/* Messages */}
                 &lt;div className="space-y-4"&gt;
-                  {messages.map(<span class="fstat-no" title="function not covered" >(m</span>essage) =&gt; {
+                  {messages.map(<span class="fstat-no" title="function not covered" >(m</span>essage: any) =&gt; {
                     const participant = <span class="cstat-no" title="statement not covered" >getParticipant(message.senderId);</span>
                     const isOwnMessage = <span class="cstat-no" title="statement not covered" >message.senderId === user?.id;</span>
 &nbsp;
@@ -1240,11 +1234,11 @@ export const <span class="cstat-no" title="statement not covered" >Communication
                               }`}
                             &gt;
                               &lt;p className="text-sm whitespace-pre-wrap"&gt;{message.content}&lt;/p&gt;
-                              
+&nbsp;
                               {/* Attachments */}
-                              {message.attachments &amp;&amp; message.attachments.length &gt; 0 &amp;&amp; (
+                              {message.attachments &amp;&amp; message.attachments.length&gt; 0 &amp;&amp; (
                                 &lt;div className="mt-2 space-y-1"&gt;
-                                  {message.attachments.map(<span class="fstat-no" title="function not covered" >(a</span>ttachment, index) =&gt; (
+                                  {message.attachments.map(<span class="fstat-no" title="function not covered" >(a</span>ttachmentindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                                    &lt;div</span>
                                       key={index}
                                       className={`flex items-center gap-2 p-2 rounded ${
@@ -1279,9 +1273,9 @@ export const <span class="cstat-no" title="statement not covered" >Communication
         {/* Input Area */}
         &lt;div className="border-t p-4"&gt;
           {/* Attachments Preview */}
-          {<span class="branch-0 cbranch-no" title="branch not covered" >attachments.length &gt; 0 &amp;&amp; (</span>
+          {<span class="branch-0 cbranch-no" title="branch not covered" >attachments.length&gt; 0 &amp;&amp; (</span>
             &lt;div className="mb-3 flex flex-wrap gap-2"&gt;
-              {attachments.map(<span class="fstat-no" title="function not covered" >(f</span>ile, index) =&gt; (
+              {attachments.map(<span class="fstat-no" title="function not covered" >(f</span>ileindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;div key={index} c</span>lassName="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-sm"&gt;
                   {file.type.startsWith('image/') ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                    &lt;ImageIcon className="h-4 w-4" /&gt;</span>
@@ -1315,15 +1309,15 @@ export const <span class="cstat-no" title="statement not covered" >Communication
                 rows={1}
               /&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;input
               ref={fileInputRef}
               type="file"
               multiple
               className="hidden"
-              onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileAttachment(e.target.files)}</span>
+              onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileAttachment(e.target.files)}</span>
             /&gt;
-            
+&nbsp;
             &lt;Button
               size="icon"
               variant="ghost"
@@ -1331,7 +1325,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
             &gt;
               &lt;PaperclipIcon className="h-4 w-4" /&gt;
             &lt;/Button&gt;
-            
+&nbsp;
             &lt;Button
               size="icon"
               onClick={handleSendMessage}
@@ -1360,7 +1354,7 @@ export const <span class="cstat-no" title="statement not covered" >Communication
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

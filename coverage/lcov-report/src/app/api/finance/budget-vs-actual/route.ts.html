@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/38</span>
+                <span class='fraction'>0/36</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/38</span>
+                <span class='fraction'>0/36</span>
             </div>
         
             
@@ -244,9 +244,7 @@
 <a name='L179'></a><a href='#L179'>179</a>
 <a name='L180'></a><a href='#L180'>180</a>
 <a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a>
-<a name='L184'></a><a href='#L184'>184</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L182'></a><a href='#L182'>182</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -343,7 +341,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -371,7 +368,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -379,7 +375,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -423,7 +419,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -453,7 +449,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     const { searchParams } = <span class="cstat-no" title="statement not covered" >new URL(request.url);</span>
     const projectId = <span class="cstat-no" title="statement not covered" >searchParams.get('projectId');</span>
     const category = <span class="cstat-no" title="statement not covered" >searchParams.get('category');</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!projectId) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: 'Project ID is required' },
@@ -523,26 +519,25 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         budgetValue: 450000,
         actualValue: 400000,
         category: 'Revenue'
-      },
-    ];
+      }];
 &nbsp;
     // Filter by category if specified
     const filteredData = <span class="cstat-no" title="statement not covered" >category </span>
       ? budgetVsActualData.filter(<span class="fstat-no" title="function not covered" >item =&gt; <span class="cstat-no" title="statement not covered" >i</span>tem.category === category)</span>
       : budgetVsActualData;
-    
+&nbsp;
     // Calculate summary metrics
     const summary = <span class="cstat-no" title="statement not covered" >{</span>
-      totalBudget: filteredData.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, item) =&gt; <span class="cstat-no" title="statement not covered" >sum + item.budgetValue,</span> 0),
-      totalActual: filteredData.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, item) =&gt; <span class="cstat-no" title="statement not covered" >sum + item.actualValue,</span> 0),
-      variance: filteredData.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, item) =&gt; <span class="cstat-no" title="statement not covered" >sum + (item.actualValue - item.budgetValue</span>), 0),
+      totalBudget: filteredData.reduce(<span class="fstat-no" title="function not covered" >(s</span>umitem: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + item.budgetValue0)</span>,
+      totalActual: filteredData.reduce(<span class="fstat-no" title="function not covered" >(s</span>umitem: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + item.actualValue0)</span>,
+      variance: filteredData.reduce(<span class="fstat-no" title="function not covered" >(s</span>umitem: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + (item.actualValue - item.budgetValue</span>), 0),
       overBudgetItems: filteredData.filter(<span class="fstat-no" title="function not covered" >item =&gt; </span>
-<span class="cstat-no" title="statement not covered" >        (item.invertComparison &amp;&amp; item.actualValue &gt; item.budgetValue) || </span>
-        (!item.invertComparison &amp;&amp; item.actualValue &lt; item.budgetValue)
+<span class="cstat-no" title="statement not covered" >        (item.invertComparison &amp;&amp; item.actualValue&gt; item.budgetValue) || </span>
+        (!item.invertComparison &amp;&amp; item.actualValue &lt;item.budgetValue)
       ).length,
       underBudgetItems: filteredData.filter(<span class="fstat-no" title="function not covered" >item =&gt; </span>
-<span class="cstat-no" title="statement not covered" >        (item.invertComparison &amp;&amp; item.actualValue &lt; item.budgetValue) || </span>
-        (!item.invertComparison &amp;&amp; item.actualValue &gt; item.budgetValue)
+<span class="cstat-no" title="statement not covered" >        (item.invertComparison &amp;&amp; item.actualValue &lt;item.budgetValue) || </span>
+        (!item.invertComparison &amp;&amp; item.actualValue&gt; item.budgetValue)
       ).length
     };
 &nbsp;
@@ -552,8 +547,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       { month: 'Feb', budget: 185000, actual: 190000 },
       { month: 'Mar', budget: 190000, actual: 195000 },
       { month: 'Apr', budget: 200000, actual: 205000 },
-      { month: 'May', budget: 210000, actual: 220000 },
-    ];
+      { month: 'May', budget: 210000, actual: 220000 }];
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({</span>
       projectId,
@@ -562,7 +556,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       monthlyBreakdown
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error fetching budget vs actual data:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to fetch budget vs actual data' },
       { status: 500 }
@@ -589,7 +583,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     // Parse request body
     const body: any = <span class="cstat-no" title="statement not covered" >await request.json();</span>
     const { projectId, itemId, budgetValue } = <span class="cstat-no" title="statement not covered" >body;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!projectId || !itemId || budgetValue === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: 'Missing required fields' },
@@ -606,7 +600,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       itemId
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error updating budget item:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to update budget item' },
       { status: 500 }
@@ -619,7 +613,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

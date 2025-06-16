@@ -763,7 +763,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >    if (action === 'login') {</span>
       // Validate login request
       const validatedData = <span class="cstat-no" title="statement not covered" >loginSchema.parse(body);</span>
-      
+&nbsp;
       // Perform login
       const tokens = <span class="cstat-no" title="statement not covered" >await authService.login(validatedData);</span>
 &nbsp;
@@ -788,7 +788,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     } else <span class="cstat-no" title="statement not covered" >if (action === 'register') {</span>
       // Validate registration request
       const validatedData = <span class="cstat-no" title="statement not covered" >registerSchema.parse(body);</span>
-      
+&nbsp;
       // Register user
       const user = <span class="cstat-no" title="statement not covered" >await authService.register(validatedData);</span>
 &nbsp;
@@ -802,7 +802,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     } else <span class="cstat-no" title="statement not covered" >if (action === 'refresh') {</span>
       // Get refresh token from cookie or body
       const refreshToken = <span class="cstat-no" title="statement not covered" >request.cookies.get('refreshToken')?.value || body.refreshToken;</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!refreshToken) {</span>
 <span class="cstat-no" title="statement not covered" >        return NextResponse.json(</span>
           { success: false, error: 'Refresh token required' },
@@ -834,7 +834,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     } else <span class="cstat-no" title="statement not covered" >if (action === 'logout') {</span>
       // Get user ID from token or session
       const authorization = <span class="cstat-no" title="statement not covered" >request.headers.get('authorization');</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!authorization || !authorization.startsWith('Bearer ')) {</span>
 <span class="cstat-no" title="statement not covered" >        return NextResponse.json(</span>
           { success: false, error: 'Authentication required' },
@@ -843,7 +843,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       }
 &nbsp;
       const token = <span class="cstat-no" title="statement not covered" >authorization.substring(7);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      try {</span>
         const payload = <span class="cstat-no" title="statement not covered" >await authService.verifyToken(token);</span>
 <span class="cstat-no" title="statement not covered" >        await authService.logout(payload.userId);</span>
@@ -855,7 +855,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        response.cookies.delete('refreshToken');</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        return response;</span>
       } catch (error) {
 <span class="cstat-no" title="statement not covered" >        return NextResponse.json(</span>
@@ -888,7 +888,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >GET(</span></span>request: NextRequest) {
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const authorization = <span class="cstat-no" title="statement not covered" >request.headers.get('authorization');</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!authorization || !authorization.startsWith('Bearer ')) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { success: false, error: 'Authentication required' },
@@ -897,7 +897,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const token = <span class="cstat-no" title="statement not covered" >authorization.substring(7);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const payload = <span class="cstat-no" title="statement not covered" >await authService.verifyToken(token);</span>
       const user = <span class="cstat-no" title="statement not covered" >await authService.getUserById(payload.userId);</span>
@@ -934,7 +934,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >PATCH(</span></span>request: NextRequest) {
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const authorization = <span class="cstat-no" title="statement not covered" >request.headers.get('authorization');</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!authorization || !authorization.startsWith('Bearer ')) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { success: false, error: 'Authentication required' },
@@ -944,30 +944,30 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
     const token = <span class="cstat-no" title="statement not covered" >authorization.substring(7);</span>
     const body: ProfileUpdateBody = <span class="cstat-no" title="statement not covered" >await request.json();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const payload = <span class="cstat-no" title="statement not covered" >await authService.verifyToken(token);</span>
-      
+&nbsp;
       // Extract and transform the ProfileUpdateBody into User fields
       const userUpdates: any = <span class="cstat-no" title="statement not covered" >{};</span>
-      
+&nbsp;
       // Map name to firstName and lastName
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (body.name !== undefined) {</span>
         const nameParts = <span class="cstat-no" title="statement not covered" >body.name.split(' ');</span>
 <span class="cstat-no" title="statement not covered" >        userUpdates.firstName = nameParts[0];</span>
 <span class="cstat-no" title="statement not covered" >        userUpdates.lastName = nameParts.slice(1).join(' ') || nameParts[0];</span>
       }
-      
+&nbsp;
       // Map phoneNumber to phone
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (body.phoneNumber !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >        userUpdates.phone = body.phoneNumber;</span>
       }
-      
+&nbsp;
       // Map companyName to organization
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (body.companyName !== undefined) {</span>
 <span class="cstat-no" title="statement not covered" >        userUpdates.organization = body.companyName;</span>
       }
-      
+&nbsp;
       // Map notification preferences to the preferences JSON field
       const notificationPreferences = <span class="cstat-no" title="statement not covered" >{</span>
         pushNotifications: body.pushNotifications,
@@ -976,26 +976,26 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         documentUpdates: body.documentUpdates,
         marketingCommunications: body.marketingCommunications
       };
-      
+&nbsp;
       // Remove undefined notification values
 <span class="cstat-no" title="statement not covered" >      Object.keys(notificationPreferences).forEach(<span class="fstat-no" title="function not covered" >key =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (notificationPreferences[key as keyof typeof notificationPreferences] === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >          delete notificationPreferences[key as keyof typeof notificationPreferences];</span>
         }
       });
-      
+&nbsp;
       // If there are notification preferences to update, merge them with existing preferences
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(notificationPreferences).length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (Object.keys(notificationPreferences).length&gt; 0) {</span>
         const currentUser = <span class="cstat-no" title="statement not covered" >await authService.getUserById(payload.userId);</span>
         const currentPreferences = <span class="cstat-no" title="statement not covered" >currentUser?.preferences || {};</span>
-        
+&nbsp;
         // Safely handle the Prisma Json type
         const preferences = <span class="cstat-no" title="statement not covered" >typeof currentPreferences === 'object' &amp;&amp; currentPreferences !== null</span>
           ? currentPreferences as Record&lt;string, any&gt;
           : {};
-        
+&nbsp;
         const currentNotifications = <span class="cstat-no" title="statement not covered" >preferences.notifications || {};</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        userUpdates.preferences = {</span>
           ...preferences,
           notifications: {
@@ -1005,8 +1005,8 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         };
       }
 &nbsp;
-      const updatedUser = <span class="cstat-no" title="statement not covered" >await authService.updateProfile(payload.userId, userUpdates);</span>
-      
+      const updatedUser = <span class="cstat-no" title="statement not covered" >await authService.updateProfile(payload.userIduserUpdates);</span>
+&nbsp;
       // Remove sensitive fields
       const { password, ...safeUser } = <span class="cstat-no" title="statement not covered" >updatedUser;</span>
 &nbsp;
@@ -1033,7 +1033,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

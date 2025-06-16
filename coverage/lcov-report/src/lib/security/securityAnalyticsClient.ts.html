@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/36</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/33</span>
+                <span class='fraction'>0/32</span>
             </div>
         
             
@@ -692,7 +692,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -877,9 +877,9 @@ export enum <span class="cstat-no" title="statement not covered" >AnalyticsTimef
  */
 class SimpleAnalyticsService {
   private <span class="cstat-no" title="statement not covered" >eventHandlers: Map&lt;string, Set&lt;(data: any) =&gt; void&gt;&gt; = new Map();</span>
-  
+&nbsp;
 <span class="fstat-no" title="function not covered" >  constructor() {</span>}
-  
+&nbsp;
   /**
    * Get security metrics (mock implementation)
    */
@@ -908,7 +908,7 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+&nbsp;
   /**
    * Get security events (mock implementation)
    */
@@ -932,7 +932,7 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+&nbsp;
   /**
    * Get anomaly detections (mock implementation)
    */
@@ -948,7 +948,7 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+&nbsp;
   /**
    * Get threat indicators (mock implementation)
    */
@@ -965,19 +965,19 @@ class SimpleAnalyticsService {
       }
     ];
   }
-  
+&nbsp;
   /**
    * Get security snapshot (mock implementation)
    */
 <span class="fstat-no" title="function not covered" >  async g</span>etSecuritySnapshot(options: SecurityAnalyticsOptions = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: Promise&lt;SecuritySnapshot&gt; {
     // Use existing mock functions
-    const [metrics, events, anomalies, threats] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
+    const [metrics, events, anomaliesthreats] = <span class="cstat-no" title="statement not covered" >await Promise.all([</span>
       this.getMetrics(options),
       this.getEvents(options),
       this.getAnomalies(options),
       this.getThreats(options)
     ]);
-    
+&nbsp;
     // Calculate alert counts
     const alertCount = <span class="cstat-no" title="statement not covered" >{</span>
       low: events.filter(<span class="fstat-no" title="function not covered" >e =&gt; <span class="cstat-no" title="statement not covered" >e</span>.severity === 'low').l</span>ength,
@@ -987,7 +987,7 @@ class SimpleAnalyticsService {
             threats.filter(<span class="fstat-no" title="function not covered" >t =&gt; <span class="cstat-no" title="statement not covered" >t</span>.severity === 'high').l</span>ength,
       critical: events.filter(<span class="fstat-no" title="function not covered" >e =&gt; <span class="cstat-no" title="statement not covered" >e</span>.severity === 'critical').l</span>ength
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       timestamp: new Date(),
       metrics,
@@ -999,7 +999,7 @@ class SimpleAnalyticsService {
       alertCount
     };
   }
-  
+&nbsp;
   /**
    * Get performance metrics (mock implementation)
    */
@@ -1023,15 +1023,15 @@ class SimpleAnalyticsService {
       }
     };
   }
-  
+&nbsp;
   /**
    * Refresh data (mock implementation)
    */
 <span class="fstat-no" title="function not covered" >  async r</span>efreshData(types: string[] = <span class="branch-0 cbranch-no" title="branch not covered" >[])</span>: Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log('Security data refreshed', types);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return;</span>
   }
-  
+&nbsp;
   /**
    * Register event handler (mock implementation)
    */
@@ -1040,10 +1040,10 @@ class SimpleAnalyticsService {
     let handlers = <span class="cstat-no" title="statement not covered" >this.eventHandlers.get(eventType);</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!handlers) {</span>
 <span class="cstat-no" title="statement not covered" >      handlers = new Set();</span>
-<span class="cstat-no" title="statement not covered" >      this.eventHandlers.set(eventType, handlers);</span>
+<span class="cstat-no" title="statement not covered" >      this.eventHandlers.set(eventTypehandlers);</span>
     }
 <span class="cstat-no" title="statement not covered" >    handlers.add(handler);</span>
-    
+&nbsp;
     // Return unsubscribe function
 <span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
       const handlers = <span class="cstat-no" title="statement not covered" >this.eventHandlers.get(eventType);</span>
@@ -1052,7 +1052,7 @@ class SimpleAnalyticsService {
       }
     };
   }
-  
+&nbsp;
   /**
    * Unregister event handler (mock implementation)
    */
@@ -1078,7 +1078,7 @@ export const <span class="cstat-no" title="statement not covered" >SecurityAnaly
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -1085,11 +1085,11 @@ import { getFeaturedProperties } from <span class="cstat-no" title="statement no
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Home() {</span></span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
-  const [activeTab, setActiveTab] = <span class="cstat-no" title="statement not covered" >useState('buyers');</span>
-  const [isMenuOpen, setIsMenuOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
+  const [activeTabsetActiveTab] = <span class="cstat-no" title="statement not covered" >useState('buyers');</span>
+  const [isMenuOpensetIsMenuOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
   const featuredProperties = <span class="cstat-no" title="statement not covered" >getFeaturedProperties();</span>
-  
+&nbsp;
   const formatPrice = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(p</span>rice: number): string =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    return new Intl.NumberFormat('en-IE', {</span>
       style: 'currency',
@@ -1097,7 +1097,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       maximumFractionDigits: 0
     }).format(price);
   };
-  
+&nbsp;
   return (
     &lt;div className="min-h-screen bg-white"&gt;
       {/* Hero Section */}
@@ -1106,7 +1106,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         &lt;div className="absolute inset-0 bg-gradient-to-r from-[#1E3142]/80 to-[#2B5273]/50"&gt;
           &lt;div className="absolute inset-0 bg-black/30"&gt;&lt;/div&gt;
         &lt;/div&gt;
-        
+&nbsp;
         {/* Navigation */}
         &lt;div className="relative z-10"&gt;
           &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;
@@ -1114,7 +1114,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;div className="flex items-center"&gt;
                 &lt;div className="text-white font-bold text-2xl"&gt;Prop.ie&lt;/div&gt;
               &lt;/div&gt;
-              
+&nbsp;
               {/* Desktop Navigation */}
               &lt;div className="hidden md:flex items-center space-x-8"&gt;
                 &lt;Link href="/properties" className="text-white hover:text-gray-200"&gt;Properties&lt;/Link&gt;
@@ -1129,7 +1129,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   Register
                 &lt;/Link&gt;
               &lt;/div&gt;
-              
+&nbsp;
               {/* Mobile Navigation Button */}
               &lt;div className="md:hidden"&gt;
                 &lt;button 
@@ -1144,7 +1144,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/div&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Mobile Navigation Menu */}
           {<span class="branch-0 cbranch-no" title="branch not covered" >isMenuOpen &amp;&amp; (</span>
             &lt;div className="md:hidden bg-white shadow-lg absolute top-16 inset-x-0 z-20"&gt;
@@ -1195,7 +1195,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             &lt;/div&gt;
           )}
         &lt;/div&gt;
-        
+&nbsp;
         {/* Hero Content */}
         &lt;div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center"&gt;
           &lt;div className="max-w-3xl"&gt;
@@ -1222,7 +1222,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* Featured Properties Section */}
       &lt;div className="py-16 bg-gray-50"&gt;
         &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;
@@ -1232,9 +1232,9 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               Discover our selection of premium properties at Fitzgerald Gardens
             &lt;/p&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"&gt;
-            {featuredProperties.map(<span class="fstat-no" title="function not covered" >(p</span>roperty) =&gt; (
+            {featuredProperties.map(<span class="fstat-no" title="function not covered" >(p</span>roperty: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div </span>
                 key={property.id}
                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
@@ -1288,7 +1288,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/div&gt;
             ))}
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="mt-12 text-center"&gt;
             &lt;Link 
               href="/properties"
@@ -1302,7 +1302,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-      
+&nbsp;
       {/* User Type Tabs Section */}
       &lt;div className="py-16"&gt;
         &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;
@@ -1312,7 +1312,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               Tailored solutions for every stakeholder in the property journey
             &lt;/p&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Tabs */}
           &lt;div className="flex justify-center mb-8"&gt;
             &lt;div className="border border-gray-200 rounded-lg flex"&gt;
@@ -1358,7 +1358,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Tab Content */}
           &lt;div className="bg-white rounded-xl shadow-md overflow-hidden"&gt;
             {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'buyers' &amp;&amp; (</span>
@@ -1414,7 +1414,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'investors' &amp;&amp; (</span>
               &lt;div className="md:flex"&gt;
                 &lt;div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2"&gt;
@@ -1468,7 +1468,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'developers' &amp;&amp; (</span>
               &lt;div className="md:flex"&gt;
                 &lt;div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2"&gt;
@@ -1522,7 +1522,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/div&gt;
               &lt;/div&gt;
             )}
-            
+&nbsp;
             {<span class="branch-0 cbranch-no" title="branch not covered" >activeTab === 'agents' &amp;&amp; (</span>
               &lt;div className="md:flex"&gt;
                 &lt;div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2"&gt;
@@ -1588,7 +1588,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

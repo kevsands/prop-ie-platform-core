@@ -647,7 +647,11 @@
 <a name='L582'></a><a href='#L582'>582</a>
 <a name='L583'></a><a href='#L583'>583</a>
 <a name='L584'></a><a href='#L584'>584</a>
-<a name='L585'></a><a href='#L585'>585</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L585'></a><a href='#L585'>585</a>
+<a name='L586'></a><a href='#L586'>586</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -655,11 +659,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1233,7 +1235,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
-import { useState, useEffect } from <span class="cstat-no" title="statement not covered" >'react';</span>
+import React from <span class="cstat-no" title="statement not covered" >'react';</span>
+&nbsp;
+import { useState, useEffect } from 'react';
 import { motion } from <span class="cstat-no" title="statement not covered" >'framer-motion';</span>
 import { FiUser, FiBriefcase, FiFileText, FiCheckCircle, FiXCircle, FiClock, FiAlertCircle, FiEye, FiShield, FiTrendingUp } from <span class="cstat-no" title="statement not covered" >'react-icons/fi';</span>
 import { Card } from <span class="cstat-no" title="statement not covered" >'@/components/ui/card';</span>
@@ -1250,8 +1254,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from <span class="cstat-no" title="statement not covered" >'@/components/ui/dialog';</span>
+  DialogTrigger} from <span class="cstat-no" title="statement not covered" >'@/components/ui/dialog';</span>
 import { toast } from <span class="cstat-no" title="statement not covered" >'sonner';</span>
 import { format } from <span class="cstat-no" title="statement not covered" >'date-fns';</span>
 &nbsp;
@@ -1321,7 +1324,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             url: '#',
             uploadedAt: new Date('2024-01-15'),
             verified: false,
-            aiScore: 92,
+            aiScore: 92
           },
           {
             id: 'doc2',
@@ -1330,13 +1333,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             url: '#',
             uploadedAt: new Date('2024-01-15'),
             verified: false,
-            aiScore: 88,
-          },
+            aiScore: 88
+          }
         ],
         riskScore: 15,
-        aiAnalysis: 'Low risk profile. Established company with 10+ years in business. Clean financial records.',
+        aiAnalysis: 'Low risk profile. Established company with 10+ years in business. Clean financial records.'
       },
-      submittedAt: new Date('2024-01-15'),
+      submittedAt: new Date('2024-01-15')
     },
     {
       id: '2',
@@ -1349,7 +1352,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         email: 'contact@metrobuild.ie',
         phone: '+353 1 987 6543',
         country: 'Ireland',
-        documents: [],
+        documents: []
       },
       project: {
         id: 'p1',
@@ -1364,7 +1367,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             url: '#',
             uploadedAt: new Date('2024-01-14'),
             verified: false,
-            aiScore: 95,
+            aiScore: 95
           },
           {
             id: 'doc4',
@@ -1373,13 +1376,13 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             url: '#',
             uploadedAt: new Date('2024-01-14'),
             verified: false,
-            aiScore: 90,
-          },
-        ],
+            aiScore: 90
+          }
+        ]
       },
       submittedAt: new Date('2024-01-14'),
-      reviewedBy: 'Admin User',
-    },
+      reviewedBy: 'Admin User'
+    }
   ]);
 &nbsp;
   const [selectedVerification, setSelectedVerification] = <span class="cstat-no" title="statement not covered" >useState&lt;VerificationRequest | null&gt;(null);</span>
@@ -1404,11 +1407,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             phone: '+353 1 000 0000',
             country: 'Ireland',
             documents: [],
-            riskScore: Math.floor(Math.random() * 100),
+            riskScore: Math.floor(Math.random() * 100)
           },
-          submittedAt: new Date(),
+          submittedAt: new Date()
         };
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        setVerifications(<span class="fstat-no" title="function not covered" >prev =&gt; <span class="cstat-no" title="statement not covered" >[</span>newVerification, ...prev]);</span></span>
 <span class="cstat-no" title="statement not covered" >        toast.info('New verification request received');</span>
       }
@@ -1420,7 +1423,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   const handleAIAnalysis = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (v</span>erification: VerificationRequest) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setIsAnalyzing(true);</span>
 <span class="cstat-no" title="statement not covered" >    setSelectedVerification(verification);</span>
-    
+&nbsp;
     // Simulate AI analysis
 <span class="cstat-no" title="statement not covered" >    setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
       const insights: AIInsight[] = <span class="cstat-no" title="statement not covered" >[</span>
@@ -1428,28 +1431,28 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           id: '1',
           type: 'success',
           title: 'Valid Registration',
-          description: 'Company registration documents match official records',
+          description: 'Company registration documents match official records'
         },
         {
           id: '2',
           type: 'info',
           title: 'Financial Health',
-          description: 'Revenue growth of 23% year-over-year, healthy cash flow',
+          description: 'Revenue growth of 23% year-over-year, healthy cash flow'
         },
         {
           id: '3',
           type: 'warning',
           title: 'Previous Project Delay',
-          description: 'One project experienced 3-month delay in 2022',
+          description: 'One project experienced 3-month delay in 2022'
         },
         {
           id: '4',
           type: 'success',
           title: 'Compliance Check',
-          description: 'No regulatory violations or outstanding issues',
-        },
+          description: 'No regulatory violations or outstanding issues'
+        }
       ];
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      setAiInsights(insights);</span>
 <span class="cstat-no" title="statement not covered" >      setIsAnalyzing(false);</span>
     }, 2000);
@@ -1496,7 +1499,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
   const getRiskBadge = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(s</span>core?: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!score) <span class="cstat-no" title="statement not covered" >return null;</span></span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (score &lt; 30) {</span>
       return &lt;Badge variant="success"&gt;Low Risk ({score}%)&lt;/Badge&gt;;
     } else <span class="cstat-no" title="statement not covered" >if (score &lt; 70) {</span>
@@ -1579,7 +1582,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/TabsList&gt;
 &nbsp;
           &lt;TabsContent value="all" className="space-y-4"&gt;
-            {verifications.map(<span class="fstat-no" title="function not covered" >(v</span>erification) =&gt; (
+            {verifications.map(<span class="fstat-no" title="function not covered" >(v</span>erification: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;motion.div</span>
                 key={verification.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -1677,7 +1680,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                                 {(verification.type === 'developer' 
                                   ? verification.developer.documents 
                                   : verification.project?.documents || []
-                                ).map(<span class="fstat-no" title="function not covered" >(d</span>oc) =&gt; (
+                                ).map(<span class="fstat-no" title="function not covered" >(d</span>oc: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                                  &lt;div key={doc.id} c</span>lassName="flex items-center justify-between p-3 bg-gray-50 rounded-lg"&gt;
                                     &lt;div className="flex items-center gap-3"&gt;
                                       &lt;FiFileText className="w-5 h-5 text-gray-500" /&gt;
@@ -1715,11 +1718,11 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                                 &lt;/motion.div&gt;
                                 &lt;p className="text-gray-600"&gt;Running AI analysis...&lt;/p&gt;
                               &lt;/div&gt;
-                            ) : <span class="branch-0 cbranch-no" title="branch not covered" >aiInsights.length &gt; 0 &amp;&amp; (</span>
+                            ) : <span class="branch-0 cbranch-no" title="branch not covered" >aiInsights.length&gt; 0 &amp;&amp; (</span>
                               &lt;div&gt;
                                 &lt;h4 className="font-medium text-gray-900 mb-3"&gt;AI Insights&lt;/h4&gt;
                                 &lt;div className="space-y-2"&gt;
-                                  {aiInsights.map(<span class="fstat-no" title="function not covered" >(i</span>nsight) =&gt; (
+                                  {aiInsights.map(<span class="fstat-no" title="function not covered" >(i</span>nsight: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                                    &lt;div key={insight.id} c</span>lassName={`p-3 rounded-lg ${
                                       insight.type === 'success' ? 'bg-green-50' :
                                       insight.type === 'warning' ? 'bg-yellow-50' :
@@ -1751,7 +1754,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                                 id="notes"
                                 placeholder="Add any notes about this verification..."
                                 value={reviewNotes}
-                                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setReviewNotes(e.target.value)}</span>
+                                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setReviewNotes(e.target.value)}</span>
                                 className="mt-1"
                                 rows={4}
                               /&gt;
@@ -1789,7 +1792,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/TabsContent&gt;
 &nbsp;
           &lt;TabsContent value="pending"&gt;
-            {verifications.filter(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.status === 'pending').m</span>ap(<span class="fstat-no" title="function not covered" >(v</span>erification) =&gt; (
+            {verifications.filter(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.status === 'pending').m</span>ap(<span class="fstat-no" title="function not covered" >(v</span>erification: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;Card key={verification.id} c</span>lassName="p-6"&gt;
                 {/* Same card content as above */}
               &lt;/Card&gt;
@@ -1797,7 +1800,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/TabsContent&gt;
 &nbsp;
           &lt;TabsContent value="under_review"&gt;
-            {verifications.filter(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.status === 'under_review').m</span>ap(<span class="fstat-no" title="function not covered" >(v</span>erification) =&gt; (
+            {verifications.filter(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.status === 'under_review').m</span>ap(<span class="fstat-no" title="function not covered" >(v</span>erification: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;Card key={verification.id} c</span>lassName="p-6"&gt;
                 {/* Same card content as above */}
               &lt;/Card&gt;
@@ -1805,7 +1808,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
           &lt;/TabsContent&gt;
 &nbsp;
           &lt;TabsContent value="completed"&gt;
-            {verifications.filter(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.status === 'approved' || v.status === 'rejected').m</span>ap(<span class="fstat-no" title="function not covered" >(v</span>erification) =&gt; (
+            {verifications.filter(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.status === 'approved' || v.status === 'rejected').m</span>ap(<span class="fstat-no" title="function not covered" >(v</span>erification: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;Card key={verification.id} c</span>lassName="p-6"&gt;
                 {/* Same card content as above */}
               &lt;/Card&gt;
@@ -1822,7 +1825,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

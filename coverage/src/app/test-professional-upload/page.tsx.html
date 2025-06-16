@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/29</span>
+                <span class='fraction'>0/27</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/27</span>
+                <span class='fraction'>0/25</span>
             </div>
         
             
@@ -242,8 +242,7 @@
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
 <a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L180'></a><a href='#L180'>180</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -259,7 +258,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -284,7 +282,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -429,11 +427,11 @@ import React, { useState, useRef } from <span class="cstat-no" title="statement 
 import { Upload, X, FileText } from <span class="cstat-no" title="statement not covered" >'lucide-react';</span>
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >TestProfessionalUploadPage() {</span></span>
-  const [files, setFiles] = <span class="cstat-no" title="statement not covered" >useState({</span>
+  const [filessetFiles] = <span class="cstat-no" title="statement not covered" >useState({</span>
     license: null as File | null,
     insurance: null as File | null
   });
-  
+&nbsp;
   const fileInputRefs = <span class="cstat-no" title="statement not covered" >{</span>
     license: useRef&lt;HTMLInputElement&gt;(null),
     insurance: useRef&lt;HTMLInputElement&gt;(null)
@@ -441,8 +439,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
 &nbsp;
   const handleFileUpload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ield: 'license' | 'insurance', file: File | null) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (file) {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(`Uploading ${field}:`, file.name, file.size, file.type);</span>
-      
+&nbsp;
       // Validate file type
       const allowedTypes = <span class="cstat-no" title="statement not covered" >['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];</span>
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!allowedTypes.includes(file.type)) {</span>
@@ -451,7 +448,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
       }
 &nbsp;
       // Validate file size (10MB max)
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size &gt; 10 * 1024 * 1024) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (file.size&gt; 10 * 1024 * 1024) {</span>
 <span class="cstat-no" title="statement not covered" >        alert('File size must be less than 10MB');</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
@@ -464,12 +461,12 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   };
 &nbsp;
   const handleFileRemove = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(f</span>ield: 'license' | 'insurance') =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    console.log(`Removing ${field}`);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    setFiles(<span class="fstat-no" title="function not covered" >prev =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
       ...prev,
       [field]: null
     }));
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (fileInputRefs[field]?.current) {</span>
 <span class="cstat-no" title="statement not covered" >      fileInputRefs[field].current.value = '';</span>
     }
@@ -479,7 +476,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     &lt;div className="min-h-screen bg-gray-50 p-8"&gt;
       &lt;div className="max-w-2xl mx-auto"&gt;
         &lt;h1 className="text-3xl font-bold mb-8"&gt;Test Professional Document Upload&lt;/h1&gt;
-        
+&nbsp;
         &lt;div className="bg-white p-6 rounded-lg shadow space-y-6"&gt;
           {/* License Upload */}
           &lt;div&gt;
@@ -526,7 +523,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 className="hidden"
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileUpload('license', e.target.files?.[0] || null)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileUpload('license', e.target.files?.[0] || null)}</span>
               /&gt;
             &lt;/div&gt;
           &lt;/div&gt;
@@ -576,7 +573,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 className="hidden"
-                onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >handleFileUpload('insurance', e.target.files?.[0] || null)}</span>
+                onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >handleFileUpload('insurance', e.target.files?.[0] || null)}</span>
               /&gt;
             &lt;/div&gt;
           &lt;/div&gt;
@@ -596,7 +593,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   size: files.insurance.size,
                   type: files.insurance.type
                 } : null
-              }, null, 2)}
+              }, null2)}
             &lt;/pre&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -610,7 +607,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

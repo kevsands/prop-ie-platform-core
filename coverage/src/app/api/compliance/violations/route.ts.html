@@ -575,31 +575,31 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
   const status = <span class="cstat-no" title="statement not covered" >searchParams.get('status');</span>
   const startDate = <span class="cstat-no" title="statement not covered" >searchParams.get('startDate');</span>
   const endDate = <span class="cstat-no" title="statement not covered" >searchParams.get('endDate');</span>
-  
+&nbsp;
   let filtered = <span class="cstat-no" title="statement not covered" >[...complianceViolations];</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (category) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >violation =&gt; <span class="cstat-no" title="statement not covered" >v</span>iolation.category === category);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (severity) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >violation =&gt; <span class="cstat-no" title="statement not covered" >v</span>iolation.severity === severity);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (status) {</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >violation =&gt; <span class="cstat-no" title="statement not covered" >v</span>iolation.status === status);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (startDate) {</span>
     const start = <span class="cstat-no" title="statement not covered" >new Date(startDate);</span>
-<span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >violation =&gt; <span class="cstat-no" title="statement not covered" >v</span>iolation.detectedDate &gt;= start);</span></span>
+<span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >violation =&gt; <span class="cstat-no" title="statement not covered" >v</span>iolation.detectedDate&gt;= start);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (endDate) {</span>
     const end = <span class="cstat-no" title="statement not covered" >new Date(endDate);</span>
 <span class="cstat-no" title="statement not covered" >    filtered = filtered.filter(<span class="fstat-no" title="function not covered" >violation =&gt; <span class="cstat-no" title="statement not covered" >v</span>iolation.detectedDate &lt;= end);</span></span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return NextResponse.json(filtered);</span>
 }
 &nbsp;
@@ -618,9 +618,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         content: 'Violation reported'
       }]
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    complianceViolations.push(newViolation);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(newViolation, { status: 201 });</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
@@ -634,7 +634,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const body = <span class="cstat-no" title="statement not covered" >await request.json() as any;</span>
     const { id, ...updates } = <span class="cstat-no" title="statement not covered" >body;</span>
-    
+&nbsp;
     const violationIndex = <span class="cstat-no" title="statement not covered" >complianceViolations.findIndex(<span class="fstat-no" title="function not covered" >v =&gt; <span class="cstat-no" title="statement not covered" >v</span>.id === id);</span></span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (violationIndex === -1) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
@@ -642,9 +642,9 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         { status: 404 }
       );
     }
-    
+&nbsp;
     const existingViolation = <span class="cstat-no" title="statement not covered" >complianceViolations[violationIndex];</span>
-    
+&nbsp;
     // Add note if status changed
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (updates.status &amp;&amp; updates.status !== existingViolation.status) {</span>
 <span class="cstat-no" title="statement not covered" >      updates.notes = [</span>
@@ -656,12 +656,12 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         }
       ];
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    complianceViolations[violationIndex] = {</span>
       ...existingViolation,
       ...updates
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(complianceViolations[violationIndex]);</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
@@ -676,7 +676,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/85</span>
+                <span class='fraction'>0/81</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/85</span>
+                <span class='fraction'>0/81</span>
             </div>
         
             
@@ -338,8 +338,7 @@
 <a name='L273'></a><a href='#L273'>273</a>
 <a name='L274'></a><a href='#L274'>274</a>
 <a name='L275'></a><a href='#L275'>275</a>
-<a name='L276'></a><a href='#L276'>276</a>
-<a name='L277'></a><a href='#L277'>277</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L276'></a><a href='#L276'>276</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -415,7 +414,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -465,7 +464,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -537,7 +535,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -609,7 +607,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -657,7 +655,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
     const { searchParams } = <span class="cstat-no" title="statement not covered" >new URL(request.url);</span>
     const params = <span class="cstat-no" title="statement not covered" >Object.fromEntries(searchParams.entries());</span>
-    
+&nbsp;
     // Validate filter parameters
     const validatedParams = <span class="cstat-no" title="statement not covered" >filterSchema.parse(params);</span>
     const { page, limit, ...filter } = <span class="cstat-no" title="statement not covered" >validatedParams;</span>
@@ -672,11 +670,11 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
     // Get transactions
     const transactions = <span class="cstat-no" title="statement not covered" >await transactionService.getTransactions(filter);</span>
-    
+&nbsp;
     // Paginate results
     const startIndex = <span class="cstat-no" title="statement not covered" >(page - 1) * limit;</span>
     const endIndex = <span class="cstat-no" title="statement not covered" >startIndex + limit;</span>
-    const paginatedTransactions = <span class="cstat-no" title="statement not covered" >transactions.slice(startIndex, endIndex);</span>
+    const paginatedTransactions = <span class="cstat-no" title="statement not covered" >transactions.slice(startIndexendIndex);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json({</span>
       success: true,
@@ -691,7 +689,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       }
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error fetching transactions:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { success: false, error: 'Failed to fetch transactions' },
       { status: 500 }
@@ -719,7 +717,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     const body = <span class="cstat-no" title="statement not covered" >await request.json();</span>
-    
+&nbsp;
     // Validate request body
     const validatedData = <span class="cstat-no" title="statement not covered" >createTransactionSchema.parse(body);</span>
 &nbsp;
@@ -741,8 +739,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: transaction
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error creating transaction:', error);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error instanceof z.ZodError) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { success: false, error: 'Invalid request data', details: error.errors },
@@ -813,7 +810,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: updatedTransaction
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error updating transaction:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { success: false, error: 'Failed to update transaction' },
       { status: 500 }
@@ -885,7 +882,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: cancelledTransaction
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error cancelling transaction:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { success: false, error: 'Failed to cancel transaction' },
       { status: 500 }
@@ -898,7 +895,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -1294,7 +1294,7 @@ const faqs = <span class="cstat-no" title="statement not covered" >[</span>
 ];
 &nbsp;
 export default function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >PropChoiceHowItWorksPage() {</span></span>
-  const [expandedFAQ, setExpandedFAQ] = <span class="cstat-no" title="statement not covered" >useState&lt;number | null&gt;(null);</span>
+  const [expandedFAQsetExpandedFAQ] = <span class="cstat-no" title="statement not covered" >useState&lt;number | null&gt;(null);</span>
 &nbsp;
   return (
     &lt;div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50"&gt;
@@ -1370,7 +1370,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             Choose complete furniture solutions for every room
           &lt;/p&gt;
           &lt;div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8"&gt;
-            {roomPacks.map(<span class="fstat-no" title="function not covered" >(p</span>ack, idx) =&gt; (
+            {roomPacks.map(<span class="fstat-no" title="function not covered" >(p</span>ackidx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div </span>
                 key={idx} 
                 className={`relative ${
@@ -1408,7 +1408,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   {pack.description}
                 &lt;/p&gt;
                 &lt;ul className="space-y-2"&gt;
-                  {pack.features.map(<span class="fstat-no" title="function not covered" >(f</span>eature, bIdx) =&gt; (
+                  {pack.features.map(<span class="fstat-no" title="function not covered" >(f</span>eaturebIdx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;li key={bIdx} c</span>lassName="flex items-center gap-2 text-sm"&gt;
                       &lt;CheckCircle className={`${
                         pack.isSpecial ? 'text-yellow-400' : 
@@ -1580,7 +1580,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             Add the latest technology and luxury finishes to your home
           &lt;/p&gt;
           &lt;div className="grid md:grid-cols-2 gap-8 mb-12"&gt;
-            {smartFeatures.map(<span class="fstat-no" title="function not covered" >(f</span>eature, idx) =&gt; (
+            {smartFeatures.map(<span class="fstat-no" title="function not covered" >(f</span>eatureidx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={idx} c</span>lassName="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all"&gt;
                 &lt;div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white mb-4"&gt;
                   {React.createElement(feature.icon, { size: 28 })}
@@ -1588,7 +1588,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;h3 className="text-xl font-semibold mb-2"&gt;{feature.title}&lt;/h3&gt;
                 &lt;p className="text-gray-600 mb-4"&gt;{feature.description}&lt;/p&gt;
                 &lt;ul className="space-y-2"&gt;
-                  {feature.features.map(<span class="fstat-no" title="function not covered" >(f</span>, bIdx) =&gt; (
+                  {feature.features.map(<span class="fstat-no" title="function not covered" >(f</span>bIdx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;li key={bIdx} c</span>lassName="flex items-center gap-2 text-sm"&gt;
                       &lt;CheckCircle className="text-green-400" size={16} /&gt;
                       &lt;span className="text-gray-700"&gt;{f}&lt;/span&gt;
@@ -1597,7 +1597,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;/ul&gt;
               &lt;/div&gt;
             ))}
-            {premiumUpgrades.map(<span class="fstat-no" title="function not covered" >(u</span>pgrade, idx) =&gt; (
+            {premiumUpgrades.map(<span class="fstat-no" title="function not covered" >(u</span>pgradeidx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={idx} c</span>lassName="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all"&gt;
                 &lt;div className="w-14 h-14 rounded-xl bg-gradient-to-r from-yellow-500 to-pink-500 flex items-center justify-center text-white mb-4"&gt;
                   {React.createElement(upgrade.icon, { size: 28 })}
@@ -1605,7 +1605,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                 &lt;h3 className="text-xl font-semibold mb-2"&gt;{upgrade.title}&lt;/h3&gt;
                 &lt;p className="text-gray-600 mb-4"&gt;{upgrade.description}&lt;/p&gt;
                 &lt;ul className="space-y-2"&gt;
-                  {upgrade.features.map(<span class="fstat-no" title="function not covered" >(f</span>, bIdx) =&gt; (
+                  {upgrade.features.map(<span class="fstat-no" title="function not covered" >(f</span>bIdx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                    &lt;li key={bIdx} c</span>lassName="flex items-center gap-2 text-sm"&gt;
                       &lt;CheckCircle className="text-green-400" size={16} /&gt;
                       &lt;span className="text-gray-700"&gt;{f}&lt;/span&gt;
@@ -1664,7 +1664,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         &lt;div className="max-w-4xl mx-auto px-4"&gt;
           &lt;h2 className="text-4xl font-bold text-center mb-12"&gt;What Buyers Say&lt;/h2&gt;
           &lt;div className="grid md:grid-cols-2 gap-8"&gt;
-            {testimonials.map(<span class="fstat-no" title="function not covered" >(t</span>, idx) =&gt; (
+            {testimonials.map(<span class="fstat-no" title="function not covered" >(t</span>idx: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={idx} c</span>lassName="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 shadow-lg flex flex-col items-center text-center"&gt;
                 &lt;div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white mb-4"&gt;
                   &lt;Award className="w-8 h-8" /&gt;
@@ -1686,7 +1686,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         &lt;div className="max-w-4xl mx-auto px-4"&gt;
           &lt;h2 className="text-4xl font-bold text-center mb-12"&gt;Frequently Asked Questions&lt;/h2&gt;
           &lt;div className="space-y-4"&gt;
-            {faqs.map(<span class="fstat-no" title="function not covered" >(f</span>aq, index) =&gt; (
+            {faqs.map(<span class="fstat-no" title="function not covered" >(f</span>aqindex: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >              &lt;div key={index} c</span>lassName="border rounded-xl overflow-hidden"&gt;
                 &lt;button
                   onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etExpandedFAQ(expandedFAQ === index ? null : index)}</span>
@@ -1732,7 +1732,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

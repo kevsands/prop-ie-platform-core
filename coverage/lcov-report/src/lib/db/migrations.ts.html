@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.37% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/93</span>
+                <span class='fraction'>0/93</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.49% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/91</span>
+                <span class='fraction'>0/91</span>
             </div>
         
             
@@ -288,12 +288,11 @@
 <a name='L223'></a><a href='#L223'>223</a>
 <a name='L224'></a><a href='#L224'>224</a>
 <a name='L225'></a><a href='#L225'>225</a>
-<a name='L226'></a><a href='#L226'>226</a>
-<a name='L227'></a><a href='#L227'>227</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<a name='L226'></a><a href='#L226'>226</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -502,8 +501,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -515,11 +513,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { promises as fs } from 'fs';
-import { join } from 'path';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { promises as fs } from <span class="cstat-no" title="statement not covered" >'fs';</span>
+import { join } from <span class="cstat-no" title="statement not covered" >'path';</span>
 import { Pool } from 'pg';
-import { getEnvironmentVariable } from '../environment';
-import { logger } from '../security/auditLogger';
+import { getEnvironmentVariable } from <span class="cstat-no" title="statement not covered" >'../environment';</span>
+import { logger } from <span class="cstat-no" title="statement not covered" >'../security/auditLogger';</span>
 &nbsp;
 /**
  * Database migration manager for PropIE AWS platform
@@ -566,7 +564,7 @@ export class <span class="cstat-no" title="statement not covered" >MigrationMana
       const result = <span class="cstat-no" title="statement not covered" >await this.pool.query(</span>
         'SELECT version FROM schema_migrations ORDER BY version ASC'
       );
-<span class="cstat-no" title="statement not covered" >      return result.rows.map(<span class="fstat-no" title="function not covered" >(r</span>ow) =&gt; <span class="cstat-no" title="statement not covered" >row.version)</span>;</span>
+<span class="cstat-no" title="statement not covered" >      return result.rows.map(<span class="fstat-no" title="function not covered" >(r</span>ow: any) =&gt; <span class="cstat-no" title="statement not covered" >row.version)</span>;</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      logger.error('Failed to get applied migrations', { error });</span>
 <span class="cstat-no" title="statement not covered" >      throw error;</span>
@@ -581,7 +579,7 @@ export class <span class="cstat-no" title="statement not covered" >MigrationMana
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const files = <span class="cstat-no" title="statement not covered" >await fs.readdir(this.migrationsDir);</span>
 <span class="cstat-no" title="statement not covered" >      return files</span>
-        .filter(<span class="fstat-no" title="function not covered" >(f</span>ile) =&gt; <span class="cstat-no" title="statement not covered" >file.endsWith('.sql'))</span>
+        .filter(<span class="fstat-no" title="function not covered" >(f</span>ile: any) =&gt; <span class="cstat-no" title="statement not covered" >file.endsWith('.sql'))</span>
         .sort();
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      logger.error('Failed to get available migrations', { error, migrationsDir: this.migrationsDir });</span>
@@ -595,45 +593,45 @@ export class <span class="cstat-no" title="statement not covered" >MigrationMana
    */
 <span class="fstat-no" title="function not covered" >  async r</span>unMigrations(): Promise&lt;string[]&gt; {
 <span class="cstat-no" title="statement not covered" >    await this.initMigrationsTable();</span>
-    
+&nbsp;
     const appliedMigrations = <span class="cstat-no" title="statement not covered" >await this.getAppliedMigrations();</span>
     const availableMigrations = <span class="cstat-no" title="statement not covered" >await this.getAvailableMigrations();</span>
-    
+&nbsp;
     const pendingMigrations = <span class="cstat-no" title="statement not covered" >availableMigrations.filter(</span>
-<span class="fstat-no" title="function not covered" >      (m</span>igration) =&gt; <span class="cstat-no" title="statement not covered" >!appliedMigrations.includes(migration.split('_')[0])</span>
+<span class="fstat-no" title="function not covered" >      (m</span>igration: any) =&gt; <span class="cstat-no" title="statement not covered" >!appliedMigrations.includes(migration.split('_')[0])</span>
     );
-    
+&nbsp;
     const applied: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (pendingMigrations.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('No pending migrations to apply');</span>
 <span class="cstat-no" title="statement not covered" >      return applied;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    logger.info(`Found ${pendingMigrations.length} pending migrations`);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    for (const migration of pendingMigrations) {</span>
       const client = <span class="cstat-no" title="statement not covered" >await this.pool.connect();</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      try {</span>
 <span class="cstat-no" title="statement not covered" >        await client.query('BEGIN');</span>
-        
-        const migrationPath = <span class="cstat-no" title="statement not covered" >join(this.migrationsDir, migration);</span>
+&nbsp;
+        const migrationPath = <span class="cstat-no" title="statement not covered" >join(this.migrationsDirmigration);</span>
         const sql = <span class="cstat-no" title="statement not covered" >await fs.readFile(migrationPath, 'utf8');</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        logger.info(`Applying migration: ${migration}`);</span>
 <span class="cstat-no" title="statement not covered" >        await client.query(sql);</span>
-        
+&nbsp;
         const version = <span class="cstat-no" title="statement not covered" >migration.split('_')[0];</span>
         const description = <span class="cstat-no" title="statement not covered" >migration.split('_').slice(1).join('_').replace('.sql', '');</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        await client.query(</span>
-          'INSERT INTO schema_migrations (version, description) VALUES ($1, $2)',
-          [version, description]
+          'INSERT INTO schema_migrations (versiondescription) VALUES ($1, $2)',
+          [versiondescription]
         );
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        await client.query('COMMIT');</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        applied.push(version);</span>
 <span class="cstat-no" title="statement not covered" >        logger.info(`Successfully applied migration: ${migration}`);</span>
       } catch (error) {
@@ -644,7 +642,7 @@ export class <span class="cstat-no" title="statement not covered" >MigrationMana
 <span class="cstat-no" title="statement not covered" >        client.release();</span>
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return applied;</span>
   }
 &nbsp;
@@ -654,36 +652,36 @@ export class <span class="cstat-no" title="statement not covered" >MigrationMana
    */
 <span class="fstat-no" title="function not covered" >  async g</span>enerateSeedData(force = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span>: Promise&lt;void&gt; {
     const environment = <span class="cstat-no" title="statement not covered" >getEnvironmentVariable('NODE_ENV', 'development');</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (environment !== 'development' &amp;&amp; !force) {</span>
 <span class="cstat-no" title="statement not covered" >      logger.warn('Seed data generation requested in non-development environment');</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    
+&nbsp;
     const client = <span class="cstat-no" title="statement not covered" >await this.pool.connect();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
       // Find seed migration files
       const seedFiles = <span class="cstat-no" title="statement not covered" >(await this.getAvailableMigrations())</span>
         .filter(<span class="fstat-no" title="function not covered" >file =&gt; <span class="cstat-no" title="statement not covered" >f</span>ile.includes('seed'));</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (seedFiles.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.info('No seed files found');</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      logger.info(`Applying ${seedFiles.length} seed files`);</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      await client.query('BEGIN');</span>
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      for (const seedFile of seedFiles) {</span>
-        const seedPath = <span class="cstat-no" title="statement not covered" >join(this.migrationsDir, seedFile);</span>
+        const seedPath = <span class="cstat-no" title="statement not covered" >join(this.migrationsDirseedFile);</span>
         const sql = <span class="cstat-no" title="statement not covered" >await fs.readFile(seedPath, 'utf8');</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        logger.info(`Applying seed file: ${seedFile}`);</span>
 <span class="cstat-no" title="statement not covered" >        await client.query(sql);</span>
       }
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      await client.query('COMMIT');</span>
 <span class="cstat-no" title="statement not covered" >      logger.info('Successfully applied seed data');</span>
     } catch (error) {
@@ -704,32 +702,31 @@ export class <span class="cstat-no" title="statement not covered" >MigrationMana
     pendingMigrations: string[];
   }&gt; {
 <span class="cstat-no" title="statement not covered" >    await this.initMigrationsTable();</span>
-    
+&nbsp;
     const result = <span class="cstat-no" title="statement not covered" >await this.pool.query(</span>
       'SELECT version, applied_at, description FROM schema_migrations ORDER BY version ASC'
     );
-    
+&nbsp;
     const appliedMigrations = <span class="cstat-no" title="statement not covered" >result.rows;</span>
-    const appliedVersions = <span class="cstat-no" title="statement not covered" >appliedMigrations.map(<span class="fstat-no" title="function not covered" >(m</span>) =&gt; <span class="cstat-no" title="statement not covered" >m.version)</span>;</span>
-    
+    const appliedVersions = <span class="cstat-no" title="statement not covered" >appliedMigrations.map(<span class="fstat-no" title="function not covered" >(m</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >m.version)</span>;</span>
+&nbsp;
     const availableMigrations = <span class="cstat-no" title="statement not covered" >await this.getAvailableMigrations();</span>
     const pendingMigrations = <span class="cstat-no" title="statement not covered" >availableMigrations</span>
-      .filter(<span class="fstat-no" title="function not covered" >(m</span>igration) =&gt; <span class="cstat-no" title="statement not covered" >!appliedVersions.includes(migration.split('_')[0]))</span>
-      .map(<span class="fstat-no" title="function not covered" >(m</span>igration) =&gt; {
+      .filter(<span class="fstat-no" title="function not covered" >(m</span>igration: any) =&gt; <span class="cstat-no" title="statement not covered" >!appliedVersions.includes(migration.split('_')[0]))</span>
+      .map(<span class="fstat-no" title="function not covered" >(m</span>igration: any) =&gt; {
         const version = <span class="cstat-no" title="statement not covered" >migration.split('_')[0];</span>
         const description = <span class="cstat-no" title="statement not covered" >migration.split('_').slice(1).join('_').replace('.sql', '');</span>
 <span class="cstat-no" title="statement not covered" >        return `${version} - ${description}`;</span>
       });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return {</span>
       appliedMigrations,
-      pendingMigrations,
-    };
+      pendingMigrations};
   }
 }
 &nbsp;
 // Singleton instance
-let migrationManager: MigrationManager | null = null;
+let migrationManager: MigrationManager | null = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
 /**
  * Get migration manager instance
@@ -748,7 +745,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

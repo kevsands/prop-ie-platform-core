@@ -193,12 +193,7 @@
 <a name='L128'></a><a href='#L128'>128</a>
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -227,9 +222,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -253,7 +246,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -263,7 +255,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -284,7 +275,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -360,9 +350,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     expiresIn: JWT_ACCESS_EXPIRY,
     audience: 'prop-ie',
     issuer: 'prop-ie-auth',
-    subject: payload.userId,
-  });
-  
+    subject: payload.userId});
+&nbsp;
   const refreshToken = <span class="cstat-no" title="statement not covered" >jwt.sign(</span>
     { userId: payload.userId, sessionId: payload.sessionId },
     JWT_REFRESH_SECRET,
@@ -370,10 +359,9 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       expiresIn: JWT_REFRESH_EXPIRY,
       audience: 'prop-ie',
       issuer: 'prop-ie-auth',
-      subject: payload.userId,
-    }
+      subject: payload.userId}
   );
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     accessToken,
     refreshToken,
@@ -386,9 +374,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(token, JWT_SECRET, {</span>
       audience: 'prop-ie',
-      issuer: 'prop-ie-auth',
-    }) as JWTPayload;
-    
+      issuer: 'prop-ie-auth'}) as JWTPayload;
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return decoded;</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    throw new Error('Invalid access token');</span>
@@ -399,9 +386,8 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(token, JWT_REFRESH_SECRET, {</span>
       audience: 'prop-ie',
-      issuer: 'prop-ie-auth',
-    }) as { userId: string; sessionId: string };
-    
+      issuer: 'prop-ie-auth'}) as { userId: string; sessionId: string };
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return decoded;</span>
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    throw new Error('Invalid refresh token');</span>
@@ -411,20 +397,19 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 // Token refresh
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >refreshTokens(</span></span>refreshToken: string): Promise&lt;TokenPair&gt; {
   const { userId, sessionId } = <span class="cstat-no" title="statement not covered" >verifyRefreshToken(refreshToken);</span>
-  
+&nbsp;
   // Here you would typically:
   // 1. Verify the session is still valid
   // 2. Get the latest user data
   // 3. Check if the user is still active
-  
+&nbsp;
   // For now, we'll create a new token pair
   const payload: JWTPayload = <span class="cstat-no" title="statement not covered" >{</span>
     userId,
     email: '', // You'd fetch this from database
     roles: [], // You'd fetch this from database
-    sessionId,
-  };
-  
+    sessionId};
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return generateTokenPair(payload);</span>
 }
 &nbsp;
@@ -459,9 +444,9 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 // Cleanup expired sessions (run periodically)
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >cleanupExpiredSessions(</span></span>): void {
   const now = <span class="cstat-no" title="statement not covered" >new Date();</span>
-<span class="cstat-no" title="statement not covered" >  for (const [sessionId, session] of activeSessions.entries()) {</span>
+<span class="cstat-no" title="statement not covered" >  for (const [sessionIdsession] of activeSessions.entries()) {</span>
     const sessionAge = <span class="cstat-no" title="statement not covered" >now.getTime() - session.createdAt.getTime();</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (sessionAge &gt; 7 * 24 * 60 * 60 * 1000) { // 7 days</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (sessionAge&gt; 7 * 24 * 60 * 60 * 1000) { // 7 days</span>
 <span class="cstat-no" title="statement not covered" >      activeSessions.delete(sessionId);</span>
     }
   }
@@ -475,7 +460,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

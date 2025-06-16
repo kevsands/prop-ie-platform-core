@@ -1297,18 +1297,18 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
   theme = <span class="branch-0 cbranch-no" title="branch not covered" >'light', </span>
   isTransparent = <span class="branch-0 cbranch-no" title="branch not covered" >false </span>
 }) =&gt; {
-  const [mobileMenuOpen, setMobileMenuOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [searchOpen, setSearchOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  const [searchQuery, setSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
+  const [mobileMenuOpensetMobileMenuOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [searchOpensetSearchOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [searchQuerysetSearchQuery] = <span class="cstat-no" title="statement not covered" >useState('');</span>
   const { role, setRole } = <span class="cstat-no" title="statement not covered" >useUserRole();</span>
   const pathname = <span class="cstat-no" title="statement not covered" >usePathname();</span>
   const router = <span class="cstat-no" title="statement not covered" >useRouter();</span>
   const { user, isAuthenticated, signOut } = <span class="cstat-no" title="statement not covered" >useAuth();</span>
   const { transactions, getTransactionCount } = <span class="cstat-no" title="statement not covered" >useTransaction();</span>
-  
-  const [activeDropdown, setActiveDropdown] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
+&nbsp;
+  const [activeDropdownsetActiveDropdown] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
   const timeoutRef = <span class="cstat-no" title="statement not covered" >useRef&lt;NodeJS.Timeout | null&gt;(null);</span>
-  const [scrolled, setScrolled] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+  const [scrolledsetScrolled] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
 &nbsp;
   // Developments data
   const developments: Development[] = <span class="cstat-no" title="statement not covered" >[</span>
@@ -1352,9 +1352,9 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     const handleScroll = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >      setScrolled(window.scrollY &gt; 20);</span>
+<span class="cstat-no" title="statement not covered" >      setScrolled(window.scrollY&gt; 20);</span>
     };
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    window.addEventListener('scroll', handleScroll);</span>
 <span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      window.removeEventListener('scroll', handleScroll);</span>
@@ -1371,7 +1371,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
         ? 'bg-transparent' 
         : 'bg-white shadow-sm'
   }`;
-  
+&nbsp;
   const textColorClass = 
 <span class="cstat-no" title="statement not covered" >    scrolled </span>
       ? 'text-gray-800'
@@ -1386,7 +1386,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
     }
 <span class="cstat-no" title="statement not covered" >    setActiveDropdown(dropdown);</span>
   };
-  
+&nbsp;
   const handleDropdownLeave = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    timeoutRef.current = setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      setActiveDropdown(null);</span>
@@ -1443,10 +1443,10 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                   /&gt;
                 &lt;/div&gt;
               &lt;/Link&gt;
-              
+&nbsp;
               &lt;div className="hidden lg:ml-8 lg:flex lg:space-x-6"&gt;
                 {/* Main consumer-focused navigation */}
-                
+&nbsp;
                 {/* Developments - Primary Focus */}
                 &lt;div 
                   className="relative" 
@@ -1459,13 +1459,13 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                     Our Developments
                     &lt;ChevronDown className={`ml-1 h-4 w-4 transition-transform ${activeDropdown === 'developments' ? 'rotate-180' : ''}`} /&gt;
                   &lt;/button&gt;
-                  
+&nbsp;
                   &lt;div className={`absolute z-10 mt-2 w-screen max-w-4xl rounded-xl shadow-xl bg-white left-1/2 transform -translate-x-1/2 transition-all duration-200 ${
                     activeDropdown === 'developments' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-10px] pointer-events-none'
                   }`}&gt;
                     &lt;div className="p-6"&gt;
                       &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;
-                        {developments.map(<span class="fstat-no" title="function not covered" >(d</span>ev) =&gt; (
+                        {developments.map(<span class="fstat-no" title="function not covered" >(d</span>ev: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                          &lt;Link</span>
                             key={dev.id}
                             href={`/developments/${dev.id}`}
@@ -1502,7 +1502,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                           &lt;/Link&gt;
                         ))}
                       &lt;/div&gt;
-                      
+&nbsp;
                       {/* Quick Actions */}
                       &lt;div className="mt-6 pt-6 border-t border-gray-200"&gt;
                         &lt;div className="grid grid-cols-3 gap-4"&gt;
@@ -1553,7 +1553,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                     Buyer Journey
                     &lt;ChevronDown className={`ml-1 h-4 w-4 transition-transform ${activeDropdown === 'buyer-journey' ? 'rotate-180' : ''}`} /&gt;
                   &lt;/button&gt;
-                  
+&nbsp;
                   &lt;div className={`absolute z-10 mt-2 w-96 rounded-xl shadow-xl bg-white right-0 transition-all duration-200 ${
                     activeDropdown === 'buyer-journey' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-10px] pointer-events-none'
                   }`}&gt;
@@ -1568,7 +1568,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                             &lt;p className="text-sm text-gray-600"&gt;Our simple 5-step buying process&lt;/p&gt;
                           &lt;/div&gt;
                         &lt;/Link&gt;
-                        
+&nbsp;
                         &lt;Link href="/help-to-buy" className="flex items-center p-3 rounded-lg hover:bg-gray-50"&gt;
                           &lt;div className="h-10 w-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mr-3"&gt;
                             &lt;Heart className="h-5 w-5" /&gt;
@@ -1578,7 +1578,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                             &lt;p className="text-sm text-gray-600"&gt;Government schemes &amp; assistance&lt;/p&gt;
                           &lt;/div&gt;
                         &lt;/Link&gt;
-                        
+&nbsp;
                         &lt;Link href="/mortgage-calculator" className="flex items-center p-3 rounded-lg hover:bg-gray-50"&gt;
                           &lt;div className="h-10 w-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mr-3"&gt;
                             &lt;Calculator className="h-5 w-5" /&gt;
@@ -1588,7 +1588,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                             &lt;p className="text-sm text-gray-600"&gt;Calculate your monthly payments&lt;/p&gt;
                           &lt;/div&gt;
                         &lt;/Link&gt;
-                        
+&nbsp;
                         &lt;Link href="/buyer-guide" className="flex items-center p-3 rounded-lg hover:bg-gray-50"&gt;
                           &lt;div className="h-10 w-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-3"&gt;
                             &lt;BedDouble className="h-5 w-5" /&gt;
@@ -1635,7 +1635,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                 )}
               &lt;/div&gt;
             &lt;/div&gt;
-            
+&nbsp;
             &lt;div className="hidden md:flex md:items-center md:space-x-4"&gt;
               {/* Call to Action */}
               &lt;Link
@@ -1645,7 +1645,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                 &lt;Calendar className="h-4 w-4 mr-2" /&gt;
                 Book a Viewing
               &lt;/Link&gt;
-              
+&nbsp;
               {/* Phone */}
               &lt;a
                 href="tel:+353123456789"
@@ -1654,7 +1654,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                 &lt;Phone className="h-4 w-4 mr-2" /&gt;
                 Call Us
               &lt;/a&gt;
-              
+&nbsp;
               {/* Search */}
               &lt;button 
                 onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSearchOpen(true)}</span>
@@ -1662,7 +1662,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
               &gt;
                 &lt;Search className="h-5 w-5" /&gt;
               &lt;/button&gt;
-              
+&nbsp;
               {/* User Menu */}
               {isAuthenticated ? (
 <span class="branch-0 cbranch-no" title="branch not covered" >                &lt;div className="flex items-center space-x-3"&gt;</span>
@@ -1696,7 +1696,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                 &lt;/div&gt;
               )}
             &lt;/div&gt;
-            
+&nbsp;
             {/* Mobile menu button */}
             &lt;div className="flex items-center lg:hidden"&gt;
               &lt;button
@@ -1720,7 +1720,7 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
         }`}&gt;
           &lt;div className="pt-2 pb-3 space-y-1 overflow-y-auto"&gt;
             &lt;MobileNavSection title="Our Developments"&gt;
-              {developments.map(<span class="fstat-no" title="function not covered" >(d</span>ev) =&gt; (
+              {developments.map(<span class="fstat-no" title="function not covered" >(d</span>ev: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;MobileNavLink key={dev.id} h</span>ref={`/developments/${dev.id}`}&gt;
                   &lt;div className="flex items-center justify-between"&gt;
                     &lt;span&gt;{dev.name}&lt;/span&gt;
@@ -1729,19 +1729,19 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
                 &lt;/MobileNavLink&gt;
               ))}
             &lt;/MobileNavSection&gt;
-            
+&nbsp;
             &lt;MobileNavLink href="/properties"&gt;Find Your Home&lt;/MobileNavLink&gt;
-            
+&nbsp;
             &lt;MobileNavSection title="Buyer Journey"&gt;
               &lt;MobileNavLink href="/how-it-works"&gt;How It Works&lt;/MobileNavLink&gt;
               &lt;MobileNavLink href="/help-to-buy"&gt;Help to Buy&lt;/MobileNavLink&gt;
               &lt;MobileNavLink href="/mortgage-calculator"&gt;Mortgage Calculator&lt;/MobileNavLink&gt;
               &lt;MobileNavLink href="/buyer-guide"&gt;First-Time Buyer Guide&lt;/MobileNavLink&gt;
             &lt;/MobileNavSection&gt;
-            
+&nbsp;
             &lt;MobileNavLink href="/about"&gt;About Us&lt;/MobileNavLink&gt;
             &lt;MobileNavLink href="/contact"&gt;Contact&lt;/MobileNavLink&gt;
-            
+&nbsp;
             {/* Mobile CTAs */}
             &lt;div className="px-4 py-3 space-y-2"&gt;
               &lt;Link
@@ -1760,12 +1760,12 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/nav&gt;
-      
+&nbsp;
       {/* Search Overlay */}
       &lt;div className={`fixed inset-0 bg-black z-50 flex items-start justify-center transition-opacity duration-300 ${
         searchOpen ? 'bg-opacity-50 opacity-100' : 'bg-opacity-0 opacity-0 pointer-events-none'
       }`} onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSearchOpen(false)}&gt;</span>
-        &lt;div className="bg-white w-full max-w-3xl mt-20 rounded-lg shadow-xl overflow-hidden" onClick={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >e.stopPropagation()}&gt;</span>
+        &lt;div className="bg-white w-full max-w-3xl mt-20 rounded-lg shadow-xl overflow-hidden" onClick={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >e.stopPropagation()}&gt;</span>
           &lt;div className="p-4 border-b border-gray-200 flex items-center"&gt;
             &lt;Search className="h-5 w-5 text-gray-400 mr-3" /&gt;
             &lt;input
@@ -1780,12 +1780,12 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
               &lt;X className="h-5 w-5" /&gt;
             &lt;/button&gt;
           &lt;/div&gt;
-          
+&nbsp;
           {/* Quick Search Links */}
           &lt;div className="p-4"&gt;
             &lt;div className="text-sm text-gray-500 mb-3"&gt;Popular Searches&lt;/div&gt;
             &lt;div className="grid grid-cols-2 gap-3"&gt;
-              {developments.map(<span class="fstat-no" title="function not covered" >(d</span>ev) =&gt; (
+              {developments.map(<span class="fstat-no" title="function not covered" >(d</span>ev: any) =&gt; (
 <span class="cstat-no" title="statement not covered" >                &lt;Link</span>
                   key={dev.id}
                   href={`/developments/${dev.id}`}
@@ -1831,8 +1831,8 @@ export const <span class="cstat-no" title="statement not covered" >ConversionFoc
 &nbsp;
 // Mobile navigation components
 function <span class="fstat-no" title="function not covered" >MobileNavSection({</span> title, children }: { title: string, children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-  
+  const [isOpensetIsOpen] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
+&nbsp;
   return (
     &lt;div className="border-b border-gray-100"&gt;
       &lt;button
@@ -1864,7 +1864,7 @@ function <span class="fstat-no" title="function not covered" >MobileNavLink({</s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

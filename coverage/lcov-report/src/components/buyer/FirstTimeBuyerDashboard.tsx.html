@@ -624,8 +624,7 @@
 <a name='L559'></a><a href='#L559'>559</a>
 <a name='L560'></a><a href='#L560'>560</a>
 <a name='L561'></a><a href='#L561'>561</a>
-<a name='L562'></a><a href='#L562'>562</a>
-<a name='L563'></a><a href='#L563'>563</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L562'></a><a href='#L562'>562</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -667,7 +666,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1233,8 +1231,7 @@ const BuyerJourneyPhaseDisplay = <span class="cstat-no" title="statement not cov
     { id: 'FINANCING', label: 'Financing', color: 'bg-purple-500' },
     { id: 'SEARCHING', label: 'Searching', color: 'bg-yellow-500' },
     { id: 'BUYING', label: 'Buying', color: 'bg-orange-500' },
-    { id: 'MOVED_IN', label: 'Moved In', color: 'bg-green-500' },
-  ];
+    { id: 'MOVED_IN', label: 'Moved In', color: 'bg-green-500' }];
 &nbsp;
   const currentPhaseIndex = <span class="cstat-no" title="statement not covered" >phases.findIndex(<span class="fstat-no" title="function not covered" >p =&gt; <span class="cstat-no" title="statement not covered" >p</span>.id === phase);</span></span>
   const progress = <span class="cstat-no" title="statement not covered" >((currentPhaseIndex + 1) / phases.length) * 100;</span>
@@ -1282,7 +1279,7 @@ const ReservationCard = <span class="cstat-no" title="statement not covered" ><s
     PENDING: 'bg-yellow-200 text-yellow-800',
     CONFIRMED: 'bg-blue-200 text-blue-800',
     CANCELLED: 'bg-red-200 text-red-800',
-    COMPLETED: 'bg-green-200 text-green-800',
+    COMPLETED: 'bg-green-200 text-green-800'
   };
 &nbsp;
   return (
@@ -1343,7 +1340,7 @@ const MortgageTrackingCard = <span class="cstat-no" title="statement not covered
     AIP_RECEIVED: { label: 'AIP Received', color: 'bg-blue-200 text-blue-800' },
     AIP_EXPIRED: { label: 'AIP Expired', color: 'bg-red-200 text-red-800' },
     MORTGAGE_OFFERED: { label: 'Mortgage Offered', color: 'bg-green-200 text-green-800' },
-    MORTGAGE_COMPLETED: { label: 'Mortgage Completed', color: 'bg-green-200 text-green-800' },
+    MORTGAGE_COMPLETED: { label: 'Mortgage Completed', color: 'bg-green-200 text-green-800' }
   };
 &nbsp;
   const status = <span class="cstat-no" title="statement not covered" >statusDisplay[mortgageTracking.status];</span>
@@ -1438,7 +1435,7 @@ const SnagListCard = <span class="cstat-no" title="statement not covered" ><span
             &lt;/div&gt;
             &lt;Progress value={progress} className="h-2" /&gt;
           &lt;/div&gt;
-          
+&nbsp;
           &lt;div className="space-y-2"&gt;
             &lt;p className="text-sm font-medium"&gt;Recent items:&lt;/p&gt;
             {snagList.items.slice(0, 3).map(<span class="fstat-no" title="function not covered" >(i</span>tem: SnagItem) =&gt; (
@@ -1529,7 +1526,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     useMyReservations, 
     useMyMortgageTracking,
     useMySnagLists,
-    useHomePackItems,
+    useHomePackItems 
   } = <span class="cstat-no" title="statement not covered" >useBuyerAPI();</span>
 &nbsp;
   // Fetch buyer data
@@ -1538,17 +1535,17 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     isLoading: isLoadingProfile, 
     error: profileError 
   } = <span class="cstat-no" title="statement not covered" >useMyBuyerProfile();</span>
-  
+&nbsp;
   const { 
     data: reservations, 
     isLoading: isLoadingReservations 
   } = <span class="cstat-no" title="statement not covered" >useMyReservations();</span>
-  
+&nbsp;
   const { 
     data: mortgageTracking,
     isLoading: isLoadingMortgage
   } = <span class="cstat-no" title="statement not covered" >useMyMortgageTracking();</span>
-  
+&nbsp;
   const { 
     data: snagLists,
     isLoading: isLoadingSnagLists 
@@ -1558,7 +1555,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
   const activeProperty = <span class="cstat-no" title="statement not covered" >reservations &amp;&amp; reservations.length &gt; 0 </span>
     ? reservations.find(<span class="fstat-no" title="function not covered" >(r</span>: Reservation) =&gt; <span class="cstat-no" title="statement not covered" >r.status === ReservationStatus.CONFIRMED || r.status === ReservationStatus.COMPLETED)</span>?.property
     : null;
-  
+&nbsp;
   const { 
     data: homePackItems,
     isLoading: isLoadingHomePackItems 
@@ -1623,7 +1620,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                   &lt;p className="font-medium"&gt;{user?.name || 'N/A'}&lt;/p&gt;
                   &lt;p&gt;{user?.email || 'N/A'}&lt;/p&gt;
                 &lt;/div&gt;
-                
+&nbsp;
                 {<span class="branch-0 cbranch-no" title="branch not covered" >buyerProfile.preferences </span>&amp;&amp; (
                   &lt;div&gt;
                     &lt;h3 className="text-sm font-medium text-gray-500"&gt;Your Preferences&lt;/h3&gt;
@@ -1637,7 +1634,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
                     &lt;/div&gt;
                   &lt;/div&gt;
                 )}
-                
+&nbsp;
                 {buyerProfile.governmentSchemes &amp;&amp; Object.keys(buyerProfile.governmentSchemes).length &gt; 0 &amp;&amp; (
                   &lt;div&gt;
                     &lt;h3 className="text-sm font-medium text-gray-500"&gt;Government Schemes&lt;/h3&gt;
@@ -1756,7 +1753,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

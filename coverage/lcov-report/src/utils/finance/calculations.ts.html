@@ -1220,7 +1220,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (a.currency !== b.currency) {</span>
 <span class="cstat-no" title="statement not covered" >    throw new Error(`Cannot add monetary amounts with different currencies: ${a.currency} and ${b.currency}`);</span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     amount: a.amount + b.amount,
     currency: a.currency
@@ -1234,7 +1234,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (a.currency !== b.currency) {</span>
 <span class="cstat-no" title="statement not covered" >    throw new Error(`Cannot subtract monetary amounts with different currencies: ${a.currency} and ${b.currency}`);</span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return {</span>
     amount: a.amount - b.amount,
     currency: a.currency
@@ -1265,7 +1265,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
     maximumFractionDigits: 2,
     ...options
   });
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return formatter.format(amount.amount);</span>
 }
 &nbsp;
@@ -1282,7 +1282,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   discountRate: number,
   periods: number
 ): number {
-<span class="cstat-no" title="statement not covered" >  return futureValue / Math.pow(1 + discountRate, periods);</span>
+<span class="cstat-no" title="statement not covered" >  return futureValue / Math.pow(1 + discountRateperiods);</span>
 }
 &nbsp;
 /**
@@ -1300,11 +1300,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ): number {
   // NPV = Initial Investment + Sum of PV of all future cash flows
   let npv = <span class="cstat-no" title="statement not covered" >initialInvestment;</span>
-  
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; cashFlows.length; i++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;cashFlows.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    npv += calculatePresentValue(cashFlows[i], discountRate, i + 1);</span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return npv;</span>
 }
 &nbsp;
@@ -1325,35 +1325,35 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ): number {
   // Implementation of Newton-Raphson method to find IRR
   let irr = <span class="cstat-no" title="statement not covered" >guess;</span>
-  
-<span class="cstat-no" title="statement not covered" >  for (let iteration = <span class="cstat-no" title="statement not covered" >0; i</span>teration &lt; maxIterations; iteration++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let iteration = <span class="cstat-no" title="statement not covered" >0; i</span>teration &lt;maxIterations; iteration++) {</span>
     let npv = <span class="cstat-no" title="statement not covered" >0;</span>
     let derivativeNpv = <span class="cstat-no" title="statement not covered" >0;</span>
-    
-<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; cashFlows.length; i++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;cashFlows.length; i++) {</span>
       const flow = <span class="cstat-no" title="statement not covered" >cashFlows[i];</span>
-      const factor = <span class="cstat-no" title="statement not covered" >Math.pow(1 + irr, i);</span>
-      
+      const factor = <span class="cstat-no" title="statement not covered" >Math.pow(1 + irri);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      npv += flow / factor;</span>
 <span class="cstat-no" title="statement not covered" >      derivativeNpv -= i * flow / Math.pow(1 + irr, i + 1);</span>
     }
-    
+&nbsp;
     // Check if we've converged
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.abs(npv) &lt; tolerance) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.abs(npv) &lt;tolerance) {</span>
 <span class="cstat-no" title="statement not covered" >      return irr;</span>
     }
-    
+&nbsp;
     // Adjust our guess using Newton-Raphson formula
     const newIrr = <span class="cstat-no" title="statement not covered" >irr - npv / derivativeNpv;</span>
-    
+&nbsp;
     // Check for convergence based on the change in IRR
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.abs(newIrr - irr) &lt; tolerance) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (Math.abs(newIrr - irr) &lt;tolerance) {</span>
 <span class="cstat-no" title="statement not covered" >      return newIrr;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    irr = newIrr;</span>
   }
-  
+&nbsp;
   // If we've exceeded max iterations, return the best guess
 <span class="cstat-no" title="statement not covered" >  return irr;</span>
 }
@@ -1372,13 +1372,13 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   reinvestRate: number
 ): number {
   const n = <span class="cstat-no" title="statement not covered" >cashFlows.length - 1; /</span>/ Number of periods
-  
+&nbsp;
   // Separate positive and negative cash flows
   const negativeCashFlows: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
   const positiveCashFlows: number[] = <span class="cstat-no" title="statement not covered" >[];</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  cashFlows.forEach(<span class="fstat-no" title="function not covered" >cf =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >    if (cf &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >    if (cf &lt;0) {</span>
 <span class="cstat-no" title="statement not covered" >      negativeCashFlows.push(cf);</span>
 <span class="cstat-no" title="statement not covered" >      positiveCashFlows.push(0);</span>
     } else {
@@ -1386,23 +1386,23 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 <span class="cstat-no" title="statement not covered" >      positiveCashFlows.push(cf);</span>
     }
   });
-  
+&nbsp;
   // Calculate PV of negative cash flows
   let pvNegative = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; negativeCashFlows.length; i++) {</span>
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (negativeCashFlows[i] &lt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >      pvNegative += negativeCashFlows[i] / Math.pow(1 + financeRate, i);</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;negativeCashFlows.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (negativeCashFlows[i] &lt;0) {</span>
+<span class="cstat-no" title="statement not covered" >      pvNegative += negativeCashFlows[i] / Math.pow(1 + financeRatei);</span>
     }
   }
-  
+&nbsp;
   // Calculate FV of positive cash flows
   let fvPositive = <span class="cstat-no" title="statement not covered" >0;</span>
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; positiveCashFlows.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;positiveCashFlows.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (positiveCashFlows[i] &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >      fvPositive += positiveCashFlows[i] * Math.pow(1 + reinvestRate, n - i);</span>
     }
   }
-  
+&nbsp;
   // Calculate MIRR
 <span class="cstat-no" title="statement not covered" >  return Math.pow(Math.abs(fvPositive / pvNegative), 1 / n) - 1;</span>
 }
@@ -1420,18 +1420,18 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ): number {
   let remainingInvestment = <span class="cstat-no" title="statement not covered" >initialInvestment;</span>
   let periods = <span class="cstat-no" title="statement not covered" >0;</span>
-  
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; cashFlows.length; i++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;cashFlows.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    remainingInvestment -= cashFlows[i];</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (remainingInvestment &lt;= 0) {</span>
       // Payback occurs during this period - calculate fractional period
 <span class="cstat-no" title="statement not covered" >      return i + remainingInvestment / cashFlows[i];</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    periods++;</span>
   }
-  
+&nbsp;
   // If we haven't reached payback by the end of the cash flows
 <span class="cstat-no" title="statement not covered" >  return Infinity;</span>
 }
@@ -1451,19 +1451,19 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ): number {
   let remainingInvestment = <span class="cstat-no" title="statement not covered" >initialInvestment;</span>
   let periods = <span class="cstat-no" title="statement not covered" >0;</span>
-  
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; cashFlows.length; i++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;cashFlows.length; i++) {</span>
     const discountedCashFlow = <span class="cstat-no" title="statement not covered" >cashFlows[i] / Math.pow(1 + discountRate, i + 1);</span>
 <span class="cstat-no" title="statement not covered" >    remainingInvestment -= discountedCashFlow;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (remainingInvestment &lt;= 0) {</span>
       // Payback occurs during this period - calculate fractional period
 <span class="cstat-no" title="statement not covered" >      return i + remainingInvestment / discountedCashFlow;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    periods++;</span>
   }
-  
+&nbsp;
   // If we haven't reached payback by the end of the cash flows
 <span class="cstat-no" title="statement not covered" >  return Infinity;</span>
 }
@@ -1482,11 +1482,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   discountRate: number
 ): number {
   let pvCashFlows = <span class="cstat-no" title="statement not covered" >0;</span>
-  
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; cashFlows.length; i++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;cashFlows.length; i++) {</span>
 <span class="cstat-no" title="statement not covered" >    pvCashFlows += calculatePresentValue(cashFlows[i], discountRate, i + 1);</span>
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return pvCashFlows / initialInvestment;</span>
 }
 &nbsp;
@@ -1587,7 +1587,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ): { amount: number; percentage: number } {
   const amount = <span class="cstat-no" title="statement not covered" >actualAmount - plannedAmount;</span>
   const percentage = <span class="cstat-no" title="statement not covered" >plannedAmount !== 0 ? (amount / plannedAmount) * 100 : 0;</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return { amount, percentage };</span>
 }
 &nbsp;
@@ -1624,7 +1624,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 ): number {
   const monthlyRate = <span class="cstat-no" title="statement not covered" >annualInterestRate / 12;</span>
   const numPayments = <span class="cstat-no" title="statement not covered" >termYears * 12;</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -numPayments));</span>
 }
 &nbsp;
@@ -1648,16 +1648,16 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
 }&gt; {
   const monthlyRate = <span class="cstat-no" title="statement not covered" >annualInterestRate / 12;</span>
   const numPayments = <span class="cstat-no" title="statement not covered" >termYears * 12;</span>
-  const payment = <span class="cstat-no" title="statement not covered" >calculateMortgagePayment(principal, annualInterestRate, termYears);</span>
-  
+  const payment = <span class="cstat-no" title="statement not covered" >calculateMortgagePayment(principal, annualInterestRatetermYears);</span>
+&nbsp;
   const schedule = <span class="cstat-no" title="statement not covered" >[];</span>
   let balance = <span class="cstat-no" title="statement not covered" >principal;</span>
-  
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt; numPayments; i++) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0; i</span> &lt;numPayments; i++) {</span>
     const interestPayment = <span class="cstat-no" title="statement not covered" >balance * monthlyRate;</span>
     const principalPayment = <span class="cstat-no" title="statement not covered" >payment - interestPayment;</span>
 <span class="cstat-no" title="statement not covered" >    balance -= principalPayment;</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    schedule.push({</span>
       payment,
       principal: principalPayment,
@@ -1665,7 +1665,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
       balance
     });
   }
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  return schedule;</span>
 }
 &nbsp;
@@ -1712,7 +1712,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
  * @returns The total GDV
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >calculateGDV(</span></span>units: { price: number }[]): number {
-<span class="cstat-no" title="statement not covered" >  return units.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, unit) =&gt; <span class="cstat-no" title="statement not covered" >sum + unit.price,</span> 0);</span>
+<span class="cstat-no" title="statement not covered" >  return units.reduce(<span class="fstat-no" title="function not covered" >(s</span>umunit: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + unit.price0)</span>;</span>
 }
 &nbsp;
 /**
@@ -1762,7 +1762,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -667,9 +667,7 @@
 <a name='L602'></a><a href='#L602'>602</a>
 <a name='L603'></a><a href='#L603'>603</a>
 <a name='L604'></a><a href='#L604'>604</a>
-<a name='L605'></a><a href='#L605'>605</a>
-<a name='L606'></a><a href='#L606'>606</a>
-<a name='L607'></a><a href='#L607'>607</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L605'></a><a href='#L605'>605</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -764,9 +762,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1344,8 +1340,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
         { month: 'Mar', inflow: 2800000, outflow: 1900000 },
         { month: 'Apr', inflow: 3800000, outflow: 2200000 },
         { month: 'May', inflow: 4200000, outflow: 2400000 },
-        { month: 'Jun', inflow: 4500000, outflow: 2300000 },
-      ]
+        { month: 'Jun', inflow: 4500000, outflow: 2300000 }]
     },
     {
       id: '2',
@@ -1377,8 +1372,7 @@ export default function <span class="cstat-no" title="statement not covered" ><s
     { month: 'Mar', avgPrice: 462000, sales: 168, inventory: 862 },
     { month: 'Apr', avgPrice: 468000, sales: 175, inventory: 848 },
     { month: 'May', avgPrice: 475000, sales: 182, inventory: 835 },
-    { month: 'Jun', avgPrice: 482000, sales: 189, inventory: 820 },
-  ];
+    { month: 'Jun', avgPrice: 482000, sales: 189, inventory: 820 }];
 &nbsp;
   return (
     &lt;div className="p-6"&gt;
@@ -1573,8 +1567,8 @@ export default function <span class="cstat-no" title="statement not covered" ><s
               &lt;AreaChart data={projects[0].cashflow}&gt;
                 &lt;CartesianGrid strokeDasharray="3 3" /&gt;
                 &lt;XAxis dataKey="month" /&gt;
-                &lt;YAxis tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(1)}M`}</span> /&gt;
-                &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(2)}M`}</span> /&gt;
+                &lt;YAxis tickFormatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(1)}M`}</span> /&gt;
+                &lt;Tooltip formatter={<span class="fstat-no" title="function not covered" >(v</span>alue: any) =&gt; <span class="cstat-no" title="statement not covered" >`€${(value / 1000000).toFixed(2)}M`}</span> /&gt;
                 &lt;Legend /&gt;
                 &lt;Area type="monotone" dataKey="inflow" stackId="1" stroke="#10B981" fill="#10B981" name="Cash Inflow" /&gt;
                 &lt;Area type="monotone" dataKey="outflow" stackId="1" stroke="#EF4444" fill="#EF4444" name="Cash Outflow" /&gt;
@@ -1800,7 +1794,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
           &lt;input
             type="text"
             value={formData.name}
-            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, name: e.target.value })}</span>
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, name: e.target.value })}</span>
             className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           /&gt;
         &lt;/div&gt;
@@ -1811,7 +1805,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
           &lt;input
             type="text"
             value={formData.location}
-            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, location: e.target.value })}</span>
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, location: e.target.value })}</span>
             className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           /&gt;
         &lt;/div&gt;
@@ -1822,7 +1816,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
           &lt;input
             type="text"
             value={formData.landCost}
-            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, landCost: e.target.value })}</span>
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, landCost: e.target.value })}</span>
             className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             placeholder="€0"
           /&gt;
@@ -1834,7 +1828,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
           &lt;input
             type="text"
             value={formData.constructionCost}
-            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, constructionCost: e.target.value })}</span>
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, constructionCost: e.target.value })}</span>
             className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             placeholder="€0"
           /&gt;
@@ -1846,7 +1840,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
           &lt;input
             type="number"
             value={formData.units}
-            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, units: e.target.value })}</span>
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, units: e.target.value })}</span>
             className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           /&gt;
         &lt;/div&gt;
@@ -1857,7 +1851,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
           &lt;input
             type="text"
             value={formData.avgUnitPrice}
-            onChange={<span class="fstat-no" title="function not covered" >(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, avgUnitPrice: e.target.value })}</span>
+            onChange={<span class="fstat-no" title="function not covered" >(e</span>: any) =&gt; <span class="cstat-no" title="statement not covered" >setFormData({ ...formData, avgUnitPrice: e.target.value })}</span>
             className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             placeholder="€0"
           /&gt;
@@ -1888,7 +1882,7 @@ function <span class="fstat-no" title="function not covered" >NewAppraisalForm({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

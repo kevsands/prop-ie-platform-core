@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/130</span>
+                <span class='fraction'>0/126</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/130</span>
+                <span class='fraction'>0/126</span>
             </div>
         
             
@@ -624,9 +624,7 @@
 <a name='L559'></a><a href='#L559'>559</a>
 <a name='L560'></a><a href='#L560'>560</a>
 <a name='L561'></a><a href='#L561'>561</a>
-<a name='L562'></a><a href='#L562'>562</a>
-<a name='L563'></a><a href='#L563'>563</a>
-<a name='L564'></a><a href='#L564'>564</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L562'></a><a href='#L562'>562</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -735,7 +733,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -818,7 +816,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -873,7 +870,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1067,7 +1063,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1183,7 +1179,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1298,7 +1294,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: documents
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error fetching documents:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to fetch documents' },
       { status: 500 }
@@ -1359,7 +1355,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     // Add document with prisma transaction to handle document and activity creation
-    const result = <span class="cstat-no" title="statement not covered" >await prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x) =&gt; {</span>
+    const result = <span class="cstat-no" title="statement not covered" >await prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x: any) =&gt; {</span>
       // Create the document
       const document = <span class="cstat-no" title="statement not covered" >await tx.document.create({</span>
         data: {
@@ -1377,8 +1373,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
           signatureStatus: documentData.requiresSignature ? 'PENDING' : 'NOT_REQUIRED',
           isEncrypted: true,
           tags: [],
-          uploadedBy: session.user?.id || 'system',
-        }
+          uploadedBy: session.user?.id || 'system'}
       });
 &nbsp;
       // Create document activity record
@@ -1436,8 +1431,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: result
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error uploading document:', error);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (error instanceof z.ZodError) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { success: false, error: 'Invalid document data', details: error.errors },
@@ -1454,7 +1448,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 &nbsp;
 /**
  * PATCH /api/transactions/[id]/documents
- * Update document status (e.g., approve, reject, sign)
+ * Update document status (e.g., approve, rejectsign)
  */
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >PATCH(</span></span>
   request: NextRequest,
@@ -1515,22 +1509,22 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
           session.user?.role === 'ADMIN' || 
           (session.user?.role === 'DEVELOPER' &amp;&amp; transaction.development?.developerId === session.user.id) ||
           (session.user?.role === 'SOLICITOR' &amp;&amp; transaction.solicitorId === session.user.id);
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        newStatus = DocumentStatus.APPROVED;</span>
 <span class="cstat-no" title="statement not covered" >        activityType = 'EDITED';</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
-      
+&nbsp;
       case 'reject':
         // Only admin, developer, or solicitor can reject
 <span class="cstat-no" title="statement not covered" >        hasPermission = </span>
           session.user?.role === 'ADMIN' || 
           (session.user?.role === 'DEVELOPER' &amp;&amp; transaction.development?.developerId === session.user.id) ||
           (session.user?.role === 'SOLICITOR' &amp;&amp; transaction.solicitorId === session.user.id);
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        newStatus = DocumentStatus.REJECTED;</span>
 <span class="cstat-no" title="statement not covered" >        activityType = 'EDITED';</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
-      
+&nbsp;
       case 'sign':
         // User must be the intended signer (usually buyer)
 <span class="cstat-no" title="statement not covered" >        hasPermission = </span>
@@ -1540,19 +1534,19 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             (session.user?.role === 'DEVELOPER' &amp;&amp; transaction.development?.developerId === session.user.id) ||
             (session.user?.role === 'SOLICITOR' &amp;&amp; transaction.solicitorId === session.user.id)
           ));
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!signatureData) {</span>
 <span class="cstat-no" title="statement not covered" >          return NextResponse.json(</span>
             { error: 'Signature data is required for signing' },
             { status: 400 }
           );
         }
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        newStatus = DocumentStatus.SIGNED;</span>
-<span class="cstat-no" title="statement not covered" >        signatureStatus = document.signatures.length &gt; 0 ? 'COMPLETED' : 'PARTIALLY_SIGNED';</span>
+<span class="cstat-no" title="statement not covered" >        signatureStatus = document.signatures.length&gt; 0 ? 'COMPLETED' : 'PARTIALLY_SIGNED';</span>
 <span class="cstat-no" title="statement not covered" >        activityType = 'SIGNED';</span>
 <span class="cstat-no" title="statement not covered" >        break;</span>
-      
+&nbsp;
       default:
 <span class="cstat-no" title="statement not covered" >        return NextResponse.json(</span>
           { error: 'Invalid action' },
@@ -1568,7 +1562,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     // Perform the action using a transaction
-    const result = <span class="cstat-no" title="statement not covered" >await prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x) =&gt; {</span>
+    const result = <span class="cstat-no" title="statement not covered" >await prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x: any) =&gt; {</span>
       // Update document status
       const updatedDocument = <span class="cstat-no" title="statement not covered" >await tx.document.update({</span>
         where: { id: documentId },
@@ -1630,7 +1624,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: result
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error updating document:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to update document' },
       { status: 500 }
@@ -1701,7 +1695,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
     }
 &nbsp;
     // Soft delete implementation (mark as archived instead of actually deleting)
-    const result = <span class="cstat-no" title="statement not covered" >await prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x) =&gt; {</span>
+    const result = <span class="cstat-no" title="statement not covered" >await prisma.$transaction(<span class="fstat-no" title="function not covered" >async (t</span>x: any) =&gt; {</span>
       // Archive the document instead of deleting
       const archivedDocument = <span class="cstat-no" title="statement not covered" >await tx.document.update({</span>
         where: { id: documentId },
@@ -1746,7 +1740,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
       data: result
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error deleting document:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: 'Failed to delete document' },
       { status: 500 }
@@ -1759,7 +1753,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../../../../prettify.js"></script>
         <script>

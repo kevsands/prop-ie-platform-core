@@ -245,8 +245,8 @@ export async function testComponentStates(
   }
 
   // Setup callbacks to simulate test outcomes
-  const triggerSuccess: () => void = () => { };
-  const triggerError: (error: Error) => void = () => { };
+  let triggerSuccess: () => void = () => { };
+  let triggerError: (error: Error) => void = () => { };
 
   // Provide these callbacks to the test case setup
   setupTestCase(

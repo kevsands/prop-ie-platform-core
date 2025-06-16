@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/42</span>
+                <span class='fraction'>0/39</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/38</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
@@ -230,14 +230,7 @@
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -277,7 +270,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -327,21 +320,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -354,8 +346,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -382,10 +372,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -438,11 +424,11 @@ const auth = <span class="cstat-no" title="statement not covered" >{</span>
       const token = <span class="cstat-no" title="statement not covered" >authHeader?.startsWith('Bearer ') </span>
         ? authHeader.substring(7) 
         : null;
-      
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!token) {</span>
 <span class="cstat-no" title="statement not covered" >        return null;</span>
       }
-      
+&nbsp;
       // In a real implementation, verify the token
       // For this mock version, just return a mock user
 <span class="cstat-no" title="statement not covered" >      return {</span>
@@ -451,7 +437,7 @@ const auth = <span class="cstat-no" title="statement not covered" >{</span>
         roles: ['DEVELOPER', 'ADMIN']
       };
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Authentication error:', error);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
   },
@@ -463,11 +449,11 @@ const auth = <span class="cstat-no" title="statement not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user || !user.roles) {</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (permission === 'admin') {</span>
 <span class="cstat-no" title="statement not covered" >      return user.roles.includes('ADMIN');</span>
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return user.roles.includes(permission.toUpperCase());</span>
   }
 };
@@ -480,41 +466,40 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 <span class="cstat-no" title="statement not covered" >  try {</span>
     // Parse the metrics
     const { metrics } = <span class="cstat-no" title="statement not covered" >await req.json() as { metrics: ApiMetric[] };</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!Array.isArray(metrics)) {</span>
 <span class="cstat-no" title="statement not covered" >      return NextResponse.json(</span>
         { error: "Invalid metrics format" },
         { status: 400 }
       );
     }
-    
+&nbsp;
     // Get the current user if authenticated
     const user = <span class="cstat-no" title="statement not covered" >await auth.verifyAuth(req);</span>
     const userId = <span class="cstat-no" title="statement not covered" >user?.id;</span>
-    
+&nbsp;
     // Process each metric
     const processedMetrics = <span class="cstat-no" title="statement not covered" >metrics.map(<span class="fstat-no" title="function not covered" >metric =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span></span>
       ...metric,
       userId,
       userAgent: req.headers.get('user-agent') || undefined,
-      environment: process.env.NODE_ENV,
-    }));
-    
+      environment: process.env.NODE_ENV}));
+&nbsp;
     // In a real implementation, you would store these metrics
     // in a database, send them to a monitoring service, etc.
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (process.env.NODE_ENV === 'development') {</span>
-<span class="cstat-no" title="statement not covered" >      console.log(`Received ${metrics.length} API metrics`);</span>
+&nbsp;
     }
-    
+&nbsp;
     // Calculate summary statistics
     const totalRequests = <span class="cstat-no" title="statement not covered" >processedMetrics.length;</span>
-    const totalDuration = <span class="cstat-no" title="statement not covered" >processedMetrics.reduce(<span class="fstat-no" title="function not covered" >(s</span>um, m) =&gt; <span class="cstat-no" title="statement not covered" >sum + m.duration,</span> 0);</span>
+    const totalDuration = <span class="cstat-no" title="statement not covered" >processedMetrics.reduce(<span class="fstat-no" title="function not covered" >(s</span>umm: any) =&gt; <span class="cstat-no" title="statement not covered" >sum + m.duration0)</span>;</span>
     const averageDuration = <span class="cstat-no" title="statement not covered" >totalDuration / totalRequests;</span>
-    const slowRequests = <span class="cstat-no" title="statement not covered" >processedMetrics.filter(<span class="fstat-no" title="function not covered" >m =&gt; <span class="cstat-no" title="statement not covered" >m</span>.duration &gt; 1000).l</span>ength;</span>
+    const slowRequests = <span class="cstat-no" title="statement not covered" >processedMetrics.filter(<span class="fstat-no" title="function not covered" >m =&gt; <span class="cstat-no" title="statement not covered" >m</span>.duration&gt; 1000).l</span>ength;</span>
     const errorRequests = <span class="cstat-no" title="statement not covered" >processedMetrics.filter(<span class="fstat-no" title="function not covered" >m =&gt; <span class="cstat-no" title="statement not covered" >m</span>.status === 'error').l</span>ength;</span>
-    
+&nbsp;
     // TODO: Store metrics in database or send to monitoring service
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       {
         received: metrics.length,
@@ -523,14 +508,12 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
           averageDuration,
           slowRequests,
           errorRequests,
-          successRate: (totalRequests - errorRequests) / totalRequests,
-        }
+          successRate: (totalRequests - errorRequests) / totalRequests}
       },
       { status: 200 }
     );
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error('Error processing API metrics:', error);</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: "Failed to process metrics" },
       { status: 500 }
@@ -545,14 +528,14 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
 export async function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >GET(</span></span>req: NextRequest) {
   // Check if user is authorized to view metrics
   const user = <span class="cstat-no" title="statement not covered" >await auth.verifyAuth(req);</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (!user || !auth.hasPermission(user, 'admin')) {</span>
 <span class="cstat-no" title="statement not covered" >    return NextResponse.json(</span>
       { error: "Unauthorized" },
       { status: 403 }
     );
   }
-  
+&nbsp;
   // In a real implementation, you would retrieve metrics from a database
   // For now, return a placeholder response
 <span class="cstat-no" title="statement not covered" >  return NextResponse.json({</span>
@@ -563,26 +546,22 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
           averageDuration: 145.3,
           slowRequests: 23,
           errorRequests: 14,
-          successRate: 0.989,
-        },
+          successRate: 0.989},
         lastWeek: {
           totalRequests: 8732,
           averageDuration: 152.7,
           slowRequests: 167,
           errorRequests: 98,
-          successRate: 0.988,
-        }
+          successRate: 0.988}
       },
       topEndpoints: [
         { endpoint: '/api/properties', averageDuration: 132.4, requests: 283 },
         { endpoint: '/api/users/me', averageDuration: 87.2, requests: 201 },
-        { endpoint: '/api/projects', averageDuration: 210.1, requests: 187 },
-      ],
+        { endpoint: '/api/projects', averageDuration: 210.1, requests: 187 }],
       slowestEndpoints: [
         { endpoint: '/api/projects/123/sales', averageDuration: 876.3, requests: 45 },
         { endpoint: '/api/properties/search', averageDuration: 654.2, requests: 132 },
-        { endpoint: '/api/reports/financial', averageDuration: 543.1, requests: 23 },
-      ]
+        { endpoint: '/api/reports/financial', averageDuration: 543.1, requests: 23 }]
     }
   });
 }</pre></td></tr></table></pre>
@@ -592,7 +571,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:28.100Z
+                at 2025-06-15T18:50:48.918Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

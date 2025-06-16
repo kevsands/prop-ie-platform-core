@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/26</span>
+                <span class='fraction'>0/25</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/25</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
@@ -211,7 +211,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -298,12 +298,12 @@ interface FeatureFlagProps {
  * &lt;/FeatureFlag&gt;
  */
 export function <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >FeatureFlag(</span></span>{ name, fallback = <span class="branch-0 cbranch-no" title="branch not covered" >null,</span> children }: FeatureFlagProps) {
-  const [enabled, setEnabled] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean | null&gt;(null);</span>
-  const [error, setError] = <span class="cstat-no" title="statement not covered" >useState&lt;Error | null&gt;(null);</span>
-  
+  const [enabledsetEnabled] = <span class="cstat-no" title="statement not covered" >useState&lt;boolean | null&gt;(null);</span>
+  const [errorsetError] = <span class="cstat-no" title="statement not covered" >useState&lt;Error | null&gt;(null);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
     let isMounted = <span class="cstat-no" title="statement not covered" >true;</span>
-    
+&nbsp;
     async function <span class="fstat-no" title="function not covered" >checkFeatureFlag() {</span>
 <span class="cstat-no" title="statement not covered" >      try {</span>
         const isEnabled = <span class="cstat-no" title="statement not covered" >await isFeatureEnabled(name);</span>
@@ -312,30 +312,30 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
         }
       } catch (err) {
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (isMounted) {</span>
-<span class="cstat-no" title="statement not covered" >          console.error(`Error checking feature flag '${name}':`, err);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >          setError(err instanceof Error ? err : new Error(String(err)));</span>
 <span class="cstat-no" title="statement not covered" >          setEnabled(false); /</span>/ Default to disabled on error
         }
       }
     }
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    checkFeatureFlag();</span>
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      isMounted = false;</span>
     };
   }, [name]);
-  
+&nbsp;
   // Show nothing while loading to avoid flashes of content
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (enabled === null &amp;&amp; !error) {</span>
 <span class="cstat-no" title="statement not covered" >    return null;</span>
   }
-  
+&nbsp;
   // Show fallback on error or when feature is disabled
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (error || !enabled) {</span>
     return &lt;&gt;{fallback}&lt;/&gt;;
   }
-  
+&nbsp;
   // Show actual content when feature is enabled
   return &lt;&gt;{children}&lt;/&gt;;
 }
@@ -358,11 +358,11 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
   fallback?: React.ReactNode;
 }) {
   const currentEnv = <span class="cstat-no" title="statement not covered" >process.env.NEXT_PUBLIC_ENVIRONMENT || process.env.NODE_ENV || 'development';</span>
-  
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  <span class="missing-if-branch" title="if path not taken" >I</span>if (environments.includes(currentEnv)) {</span>
     return &lt;&gt;{children}&lt;/&gt;;
   }
-  
+&nbsp;
   return &lt;&gt;{fallback}&lt;/&gt;;
 }
 &nbsp;
@@ -373,7 +373,7 @@ export function <span class="cstat-no" title="statement not covered" ><span clas
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T22:15:25.812Z
+                at 2025-06-15T18:50:46.603Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
