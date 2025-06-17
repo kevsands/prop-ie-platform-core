@@ -160,7 +160,7 @@ const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry webpack plugin
   silent: true, // Suppresses source map uploading logs during build
   org: "prop-xo",
-  project: "javascript-nextjs",
+  project: "javascript-nextjs-gt",
 };
 
 // Export the final config with Sentry and bundle analyzer

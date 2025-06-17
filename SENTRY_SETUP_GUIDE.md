@@ -52,12 +52,13 @@ SENTRY_PROJECT=javascript-nextjs
 
 The following files have been set up:
 
-- ✅ **`sentry.client.config.ts`** - Client-side error monitoring
+- ✅ **`instrumentation-client.ts`** - Modern client-side error monitoring (recommended)
 - ✅ **`sentry.server.config.ts`** - Server-side error monitoring  
 - ✅ **`sentry.edge.config.ts`** - Edge runtime monitoring
-- ✅ **`instrumentation.ts`** - Automatic Sentry initialization
+- ✅ **`instrumentation.ts`** - Automatic Sentry initialization with onRequestError hook
 - ✅ **`next.config.js`** - Updated to conditionally enable Sentry
-- ✅ **`.env.local`** - Environment variables added
+- ✅ **`.env.local`** - Environment variables updated with new DSN
+- ✅ **Router instrumentation** - Navigation tracking enabled
 
 ## 🎮 Testing Sentry
 

@@ -31,3 +31,51 @@
 📤 Sentry eventId: 4a4a3d4168e5419582470d80b8b1706b
 ✅ Sentry flush completed
  GET /api/sentry-network-test 200 in 428ms
+   Reload env: .env.local
+ ✓ Compiled in 397ms (2585 modules)
+ ✓ Compiled in 128ms (2284 modules)
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+[@sentry/nextjs] ACTION REQUIRED: To instrument navigations, the Sentry SDK requires you to export an `onRouterTransitionStart` hook from your `instrumentation-client.(js|ts)` file. You can do so by adding `export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;` to the file.
+   ▲ Next.js 15.3.3
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.44:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · clientTraceMetadata
+
+ ✓ Starting...
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ✓ Ready in 8.8s
+ ○ Compiling /api/sentry-network-test ...
+ ✓ Compiled /api/sentry-network-test in 2.7s (1399 modules)
+🔍 Testing Sentry network connectivity...
+📤 Sentry eventId: 3176915ef3564164a5a2f3fd9afc6d92
+✅ Sentry flush completed
+ GET /api/sentry-network-test 200 in 2996ms
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 535ms (301 modules)
+ ○ Compiling /sentry-example-page ...
+ ✓ Compiled /sentry-example-page in 10.1s (5955 modules)
+ GET /sentry-example-page 200 in 10900ms
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (253kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled in 1369ms (5937 modules)
+ ✓ Compiled in 659ms (5937 modules)
+ ✓ Compiled /api/sentry-network-test in 269ms (3657 modules)
+🔍 Testing Sentry network connectivity...
+📤 Sentry eventId: 0459aef0cc484154b3b9583950656faf
+✅ Sentry flush completed
+ GET /api/sentry-network-test 200 in 614ms
+ ✓ Compiled in 1671ms (6256 modules)
+ ○ Compiling /api/sentry-comprehensive-test ...
+ ✓ Compiled /api/sentry-comprehensive-test in 646ms (5943 modules)
+🚀 Starting comprehensive Sentry verification test...
+✅ All Sentry tests completed successfully
+ GET /api/sentry-comprehensive-test 200 in 946ms
+ GET /sentry-example-page 200 in 340ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.7s (5967 modules)
+ GET / 200 in 3465ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 567ms (5974 modules)
+ GET /login 200 in 1085ms
+ GET /login 200 in 136ms

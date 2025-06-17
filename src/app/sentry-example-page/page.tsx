@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import * as Sentry from '@sentry/nextjs';
 
 export default function SentryExamplePage() {
+  const [testResult, setTestResult] = useState<string>('');
   const triggerError = () => {
     // This will cause an error that Sentry should catch
     // @ts-ignore
@@ -10,29 +12,46 @@ export default function SentryExamplePage() {
   };
 
   const triggerSpan = () => {
-    // Example of custom span instrumentation
+    // Example of custom span instrumentation following your guidelines
     Sentry.startSpan(
       {
         op: "ui.click",
-        name: "Test Button Click",
+        name: "PROP.ie Performance Test",
       },
       (span) => {
-        span.setAttribute("test", "sentry_verification");
-        span.setAttribute("user_action", "test_button_click");
+        const value = "prop.ie-platform";
+        const metric = "test-performance-trace";
+
+        // Metrics can be added to the span
+        span?.setAttribute("config", value);
+        span?.setAttribute("metric", metric);
+        span?.setAttribute("platform", "prop.ie");
+        span?.setAttribute("test_type", "performance_trace");
         
-        // Simulate some work
-        console.log("Testing Sentry span instrumentation");
+        // Simulate some work for the property platform
+        console.log("Testing Sentry span instrumentation for PROP.ie");
+        setTestResult('Performance trace sent! Check your Sentry Performance tab.');
       },
     );
   };
 
   const triggerLog = () => {
-    // Test logger functionality
+    // Test logger functionality following your examples
     const { logger } = Sentry;
-    logger.info("Testing Sentry logger integration", { 
-      test: true, 
+    
+    // Multiple log level examples for PROP.ie
+    logger.info("PROP.ie platform test completed", { 
+      platform: 'prop.ie',
+      test_type: 'sentry_integration',
       page: "sentry-example-page" 
     });
+    
+    logger.warn("Rate limit reached for endpoint", {
+      endpoint: "/api/test-sentry",
+      isPlatform: true,
+    });
+    
+    setTestResult('Multiple log levels sent! Check your Sentry Issues tab.');
   };
 
   return (
@@ -84,12 +103,20 @@ export default function SentryExamplePage() {
               <h3 className="font-semibold text-blue-800 mb-2">Project Details:</h3>
               <ul className="text-blue-700 space-y-1">
                 <li><strong>Organization:</strong> prop-xo</li>
-                <li><strong>Project:</strong> javascript-nextjs</li>
+                <li><strong>Project:</strong> javascript-nextjs-gt</li>
                 <li><strong>Environment:</strong> {process.env.NODE_ENV}</li>
                 <li><strong>DSN:</strong> Configured ✅</li>
                 <li><strong>Logging:</strong> Enabled ✅</li>
+                <li><strong>Tracing:</strong> Ready ✅</li>
               </ul>
             </div>
+            
+            {testResult && (
+              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <h3 className="font-semibold text-green-800 mb-2">Test Result:</h3>
+                <p className="text-green-700">{testResult}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
