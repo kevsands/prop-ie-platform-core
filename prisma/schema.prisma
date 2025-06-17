@@ -1485,13 +1485,15 @@ model BudgetLineItem {
   invoices           String // JSON array for SQLite compatibility
   purchaseOrders     String // JSON array for SQLite compatibility
   status             String
-  notes              String?       }
+  notes              String?
+}
 
 model FinancialTransaction {
   id                   String            @id @default(cuid())
   finance              DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId            String
-  amount               Decimal            currency             CurrencyCode
+  amount               Decimal
+  currency             CurrencyCode
   date                 DateTime
   description          String
   referenceNumber      String?
@@ -1507,7 +1509,8 @@ model FinancialTransaction {
   accountId            String?
   relatedTransactionId String?
   tags                 String // JSON array for SQLite compatibility
-  notes                String?            createdAt            DateTime          @default(now())
+  notes                String?
+  createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
 }
 
@@ -1533,19 +1536,30 @@ model FinancialReturns {
   id                      String            @id @default(cuid())
   finance                 DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId               String            @unique
-  totalRevenue            Decimal            totalRevenueCurrency    CurrencyCode
-  totalCost               Decimal            totalCostCurrency       CurrencyCode
-  grossProfit             Decimal            grossProfitCurrency     CurrencyCode
-  grossMargin             Decimal            netProfit               Decimal            netProfitCurrency       CurrencyCode
-  netMargin               Decimal            ror                     Decimal            roi                     Decimal            irr                     Decimal            paybackPeriod           Int
-  profitOnCost            Decimal            breakEvenPoint          Json?
+  totalRevenue            Decimal
+  totalRevenueCurrency    CurrencyCode
+  totalCost               Decimal
+  totalCostCurrency       CurrencyCode
+  grossProfit             Decimal
+  grossProfitCurrency     CurrencyCode
+  grossMargin             Decimal
+  netProfit               Decimal
+  netProfitCurrency       CurrencyCode
+  netMargin               Decimal
+  ror                     Decimal
+  roi                     Decimal
+  irr                     Decimal
+  paybackPeriod           Int
+  profitOnCost            Decimal
+  breakEvenPoint          Json?
   constructionStartDate   DateTime?
   constructionEndDate     DateTime?
   salesStartDate          DateTime?
   salesEndDate            DateTime?
   constructionDuration    Int
   salesDuration           Int
-  npv                     Decimal            npvCurrency             CurrencyCode
+  npv                     Decimal
+  npvCurrency             CurrencyCode
   sensitivity             Json?
   lastCalculated          DateTime
   calculatedBy            String
@@ -1556,7 +1570,8 @@ model CashFlowProjection {
   finance         DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId       String
   name            String
-  description     String?            startDate       DateTime
+  description     String?
+  startDate       DateTime
   endDate         DateTime
   frequency       String
   baseCurrency    CurrencyCode
@@ -1583,24 +1598,42 @@ model CashFlowPeriod {
   startDate                  DateTime
   endDate                    DateTime
   isActual                   Boolean
-  salesRevenue               Decimal             salesRevenueCurrency       CurrencyCode
-  rentalIncome               Decimal             rentalIncomeCurrency       CurrencyCode
-  fundingDrawdowns           Decimal             fundingDrawdownsCurrency   CurrencyCode
-  otherInflows               Decimal             otherInflowsCurrency       CurrencyCode
-  totalInflows               Decimal             totalInflowsCurrency       CurrencyCode
-  landCosts                  Decimal             landCostsCurrency          CurrencyCode
-  constructionCosts          Decimal             constructionCostsCurrency  CurrencyCode
-  professionalFees           Decimal             professionalFeesCurrency   CurrencyCode
-  marketingCosts             Decimal             marketingCostsCurrency     CurrencyCode
-  financeCosts               Decimal             financeCostsCurrency       CurrencyCode
-  legalFees                  Decimal             legalFeesCurrency          CurrencyCode
-  contingencyCosts           Decimal             contingencyCostsCurrency   CurrencyCode
-  taxPayments                Decimal             taxPaymentsCurrency        CurrencyCode
-  otherOutflows              Decimal             otherOutflowsCurrency      CurrencyCode
-  totalOutflows              Decimal             totalOutflowsCurrency      CurrencyCode
-  netCashFlow                Decimal             netCashFlowCurrency        CurrencyCode
-  cumulativeCashFlow         Decimal             cumulativeCashFlowCurrency CurrencyCode
-  notes                      String?             categories                 CashFlowCategory[]
+  salesRevenue               Decimal
+  salesRevenueCurrency       CurrencyCode
+  rentalIncome               Decimal
+  rentalIncomeCurrency       CurrencyCode
+  fundingDrawdowns           Decimal
+  fundingDrawdownsCurrency   CurrencyCode
+  otherInflows               Decimal
+  otherInflowsCurrency       CurrencyCode
+  totalInflows               Decimal
+  totalInflowsCurrency       CurrencyCode
+  landCosts                  Decimal
+  landCostsCurrency          CurrencyCode
+  constructionCosts          Decimal
+  constructionCostsCurrency  CurrencyCode
+  professionalFees           Decimal
+  professionalFeesCurrency   CurrencyCode
+  marketingCosts             Decimal
+  marketingCostsCurrency     CurrencyCode
+  financeCosts               Decimal
+  financeCostsCurrency       CurrencyCode
+  legalFees                  Decimal
+  legalFeesCurrency          CurrencyCode
+  contingencyCosts           Decimal
+  contingencyCostsCurrency   CurrencyCode
+  taxPayments                Decimal
+  taxPaymentsCurrency        CurrencyCode
+  otherOutflows              Decimal
+  otherOutflowsCurrency      CurrencyCode
+  totalOutflows              Decimal
+  totalOutflowsCurrency      CurrencyCode
+  netCashFlow                Decimal
+  netCashFlowCurrency        CurrencyCode
+  cumulativeCashFlow         Decimal
+  cumulativeCashFlowCurrency CurrencyCode
+  notes                      String?
+  categories                 CashFlowCategory[]
 }
 
 model CashFlowCategory {
