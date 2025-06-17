@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useContext } from 'react';
 import { BuyerJourney, BuyerPhase } from '@/types/buyer-journey';
-import { AuthContext } from '@/context/AuthContext';
+import { useAuth } from '@/context/ProductionAuthContext';
 import { useQuery, useMutation } from './useAppSync';
 import type { Property, Offer } from '../types/models';
 

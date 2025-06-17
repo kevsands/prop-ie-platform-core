@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/context/ProductionAuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function TestAuthStatusPage() {
-  const { user, isAuthenticated, hasRole, hasPermission, signOut } = useAuth();
+  const { user, isAuthenticated, hasRole, signOut } = useAuth();
   const router = useRouter();
 
   const testRoles = ['buyer', 'developer', 'agent', 'solicitor', 'admin', 'user'];
@@ -74,10 +74,8 @@ export default function TestAuthStatusPage() {
             {testPermissions.map(permission => (
               <div key={permission} className="flex items-center justify-between p-3 border rounded">
                 <span className="font-medium">{permission}</span>
-                <span className={`px-2 py-1 text-sm rounded ${
-                  hasPermission(permission) ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                }`}>
-                  {hasPermission(permission) ? 'Has Permission' : 'No Permission'}
+                <span className={`px-2 py-1 text-sm rounded bg-gray-100 text-gray-800`}>
+                  Permission Check N/A
                 </span>
               </div>
             ))}
