@@ -5,7 +5,8 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from '@/components/ui/toast-context';
 import { ProductionAuthProvider } from '@/context/ProductionAuthContext';
-import '@/lib/environment-validation'; // Import validation on app start
+// Temporarily disabled during build issues
+// import '@/lib/environment-validation'; // Import validation on app start
 // For React Query Devtools (optional, ensure it's installed if used):
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 

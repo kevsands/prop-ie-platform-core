@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/context/ProductionAuthContext';
 import { useTransaction } from '@/context/TransactionContext';
 
 interface BreadcrumbItem {

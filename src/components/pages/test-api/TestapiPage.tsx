@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/ProductionAuthContext";
 import api from "@/api";
 import { CustomizationProvider } from "@/context/CustomizationContext";
 

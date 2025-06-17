@@ -835,3 +835,446 @@ Import trace for requested module:
  GET /developer/timeline 200 in 3138ms
  ✓ Compiled /developer/timeline in 3.2s (6872 modules)
  GET /developer/timeline 200 in 272ms
+ GET /developer 200 in 114ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 1175ms (4056 modules)
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:409:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:135:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:146:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:234:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:278:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:409:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:135:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:146:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:234:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:278:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:409:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:135:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:146:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:234:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:278:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ○ Compiling /developer/overview ...
+ ✓ Compiled /developer/overview in 3.7s (7180 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ⨯ [Error: Cannot find module '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/overview/page.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/developer/overview'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js',
+  page: '/developer/projects/fitzgerald-gardens'
+}
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ GET /api/projects/fitzgerald-gardens 500 in 15819ms
+ GET /api/projects/ballymakenny-view 500 in 15818ms
+ GET /api/projects/ellwood 500 in 17258ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js',
+  page: '/api/projects/ballymakenny-view'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js',
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ GET /api/projects/ballymakenny-view 500 in 1507ms
+ GET /api/projects/fitzgerald-gardens 500 in 1652ms
+ GET /developer/overview 500 in 16030ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js',
+  page: '/api/projects/ellwood'
+}
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.3s (7184 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ GET /developer/projects/fitzgerald-gardens 500 in 14936ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/next.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/next.js'
+}
+ GET /api/projects/ellwood 500 in 2619ms
+ GET /_next/static/webpack/webpack.cbd0382c4132f391.hot-update.js 500 in 2422ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js',
+  page: '/developer/projects/fitzgerald-gardens'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ GET /developer/projects/fitzgerald-gardens 500 in 97ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/page.js',
+  page: '/developer'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ GET /developer 500 in 109ms
+ GET /developer/projects/fitzgerald-gardens 200 in 60ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js',
+  page: '/developer/projects/fitzgerald-gardens'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developer/projects/fitzgerald-gardens/page.js',
+  page: '/developer/projects/fitzgerald-gardens'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js'
+}
+ GET /developer/projects/fitzgerald-gardens 500 in 258ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/cache/webpack/client-development-fallback/0.pack.gz'
+ ✓ Compiled in 2.6s (3087 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1521ms (6910 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /_next/static/webpack/1fb769ca96ac64f6.webpack.hot-update.json 500 in 1680ms
+ GET /developer/projects/fitzgerald-gardens 500 in 1666ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /_next/static/chunks/fallback/webpack.js 500 in 50ms
+ GET /_next/static/chunks/fallback/main.js 500 in 49ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 49ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:201:28)
+    at <unknown> (.next/server/webpack-runtime.js:114:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:113:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:165:22)
+    at <unknown> (.next/server/app/_not-found/page.js:957:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:960:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 37ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 36ms
+ ✓ Compiled in 481ms (3090 modules)
+ ✓ Compiled in 1043ms (3087 modules)
+ ✓ Compiled in 1089ms (3087 modules)
+ ✓ Compiled in 475ms (3087 modules)
+ ✓ Compiled in 3s (6920 modules)
+ ✓ Compiled in 3.7s (6918 modules)
+ ✓ Compiled in 1039ms (3086 modules)
+ ✓ Compiled in 4.8s (6904 modules)

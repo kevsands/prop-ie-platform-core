@@ -282,8 +282,16 @@ if (typeof window === 'undefined') {
   const validator = EnvironmentValidator.getInstance();
   const status = validator.getStatus();
   
-  if (status === 'blocked' && process.env.NODE_ENV === 'production') {
+  // Only block in true production runtime, not during build time
+  const isProduction = process.env.NODE_ENV === 'production';
+  const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
+  const isActualDeployment = isProduction && !isBuildTime;
+  
+  if (status === 'blocked' && isActualDeployment) {
     validator.printReport();
     throw new Error('🚨 Production deployment blocked due to environment validation errors');
+  } else if (status !== 'ready') {
+    // Just print warnings during build/development
+    validator.printReport();
   }
 }

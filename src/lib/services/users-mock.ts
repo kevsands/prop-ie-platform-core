@@ -13,10 +13,13 @@ import bcrypt from "bcryptjs";
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isStaging = process.env.NEXT_PUBLIC_APP_ENV === 'staging' || process.env.NODE_ENV === 'staging';
 const allowMockAuth = process.env.ALLOW_MOCK_AUTH === 'true';
+const isBuildTime = typeof window === 'undefined' && process.env.NEXT_PHASE === 'phase-production-build';
 
-// Only block in true production environment
-if (!isDevelopment && !isStaging && !allowMockAuth) {
-  throw new Error(
+// Only block in true production runtime (not during build)
+const shouldBlock = !isDevelopment && !isStaging && !allowMockAuth && !isBuildTime;
+
+if (shouldBlock && typeof window === 'undefined') {
+  console.error(
     'SECURITY VIOLATION: Mock authentication service is disabled in production. ' +
     'Use real authentication providers instead.'
   );

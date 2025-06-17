@@ -1,13 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// Initialize Stripe with your test secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
-});
+// Initialize Stripe with proper error handling
+let stripe: Stripe | null = null;
+
+try {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (stripeKey && stripeKey !== 'your_stripe_secret_key_here') {
+    stripe = new Stripe(stripeKey, {
+      apiVersion: '2024-12-18.acacia',
+    });
+  }
+} catch (error) {
+  console.warn('Stripe initialization failed:', error);
+}
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Stripe is properly initialized
+    if (!stripe) {
+      return NextResponse.json({
+        success: false,
+        error: 'Payment service not configured. Please set STRIPE_SECRET_KEY environment variable.',
+        code: 'STRIPE_NOT_CONFIGURED'
+      }, { status: 503 });
+    }
+
     const { amount, currency = 'eur', description = 'Property payment', propertyId, paymentType } = await request.json();
 
     // Create payment intent
