@@ -79,3 +79,759 @@
  ✓ Compiled /login in 567ms (5974 modules)
  GET /login 200 in 1085ms
  GET /login 200 in 136ms
+ ✓ Compiled in 781ms (2323 modules)
+ GET /login 200 in 61ms
+ GET / 200 in 40ms
+ ○ Compiling /solicitor ...
+ ✓ Compiled /solicitor in 1646ms (6020 modules)
+ GET /solicitor 200 in 2294ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 669ms (6024 modules)
+ GET /solicitor/transactions 404 in 841ms
+ GET /solicitor/transactions 404 in 237ms
+ GET /solicitor 200 in 156ms
+ ○ Compiling /solicitor/overview ...
+ ✓ Compiled /solicitor/overview in 671ms (6051 modules)
+ GET /solicitor/overview 200 in 825ms
+ GET /solicitor/cases 404 in 14ms
+ GET /solicitor/cases 404 in 155ms
+ GET /solicitor/overview 200 in 198ms
+ GET /solicitor 200 in 25ms
+ ○ Compiling /buyer ...
+ ✓ Compiled /buyer in 707ms (6074 modules)
+ GET /buyer 200 in 1021ms
+ ○ Compiling /buyer/overview ...
+ ✓ Compiled /buyer/overview in 652ms (6095 modules)
+ GET /buyer/overview 200 in 765ms
+ ○ Compiling /buyer/journey ...
+ ✓ Compiled /buyer/journey in 597ms (6108 modules)
+ GET /buyer/journey 200 in 710ms
+ ✓ Compiled in 2.3s (6108 modules)
+ GET /buyer/journey 200 in 194ms
+ ✓ Compiled in 836ms (6108 modules)
+ GET /buyer/journey 200 in 170ms
+ ○ Compiling /_not-found ...
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled /_not-found in 2.6s (6399 modules)
+ GET /buyer/journey 404 in 2242ms
+✅ AWS Amplify configuration validated successfully
+ GET /buyer/journey 200 in 411ms
+ GET /buyer/journey 200 in 436ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1748ms (6399 modules)
+ GET /buyer/journey 200 in 1480ms
+✅ AWS Amplify configuration validated successfully
+ GET /buyer/journey 200 in 346ms
+ GET /buyer/journey 200 in 366ms
+ ✓ Compiled in 618ms (4768 modules)
+ ✓ Compiled in 510ms (4768 modules)
+ ✓ Compiled in 538ms (4768 modules)
+ ✓ Compiled in 1095ms (5042 modules)
+ ✓ Compiled in 650ms (5042 modules)
+ ✓ Compiled in 436ms (5042 modules)
+ ✓ Compiled in 444ms (5042 modules)
+ ✓ Compiled in 497ms (5042 modules)
+ ✓ Compiled in 487ms (5042 modules)
+ ✓ Compiled in 530ms (5042 modules)
+ ○ Compiling /developer ...
+ ✓ Compiled /developer in 1333ms (5077 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer 200 in 2045ms
+ ○ Compiling /api/projects/[id] ...
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ GET /developer/projects/fitzgerald-gardens 200 in 8733ms
+ GET /developer/projects/fitzgerald-gardens 200 in 25ms
+ GET /developer/projects/fitzgerald-gardens 200 in 24ms
+ GET /api/projects/ellwood 500 in 12452ms
+ GET /api/projects/ballymakenny-view 500 in 12451ms
+ GET /api/projects/fitzgerald-gardens 500 in 12452ms
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/ellwood'
+}
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ GET /api/projects/ellwood 500 in 298ms
+ GET /api/projects/ballymakenny-view 500 in 305ms
+ GET /api/projects/fitzgerald-gardens 500 in 305ms
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ GET /api/projects/fitzgerald-gardens 500 in 235ms
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/fitzgerald-gardens'
+}
+ GET /api/projects/fitzgerald-gardens 500 in 231ms
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ✓ Compiled /developer/projects/ellwood in 2.5s (6862 modules)
+ GET /developer/projects/ellwood 200 in 2843ms
+ GET /developer/projects/ellwood 200 in 28ms
+ ○ Compiling /api/projects/[id] ...
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/ellwood'
+}
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ GET /api/projects/ellwood 500 in 2150ms
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/ellwood'
+}
+ GET /api/projects/ellwood 500 in 314ms
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ GET /developer/projects/ballymakenny-view 200 in 980ms
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/ballymakenny-view'
+}
+ GET /api/projects/ballymakenny-view 500 in 272ms
+ ⨯ Error: Cannot find module '.prisma/client/default'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/@prisma/client/default.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at @prisma/client (.next/server/app/api/projects/[id]/route.js:393:18)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:10:72)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/connection.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/connection.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:130:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:16:69)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:141:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:6:64)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/base-repository.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/base-repository.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:229:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:19:74)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/lib/db/repositories/index.ts:1:21)
+    at <unknown> (rsc)/./src/lib/db/repositories/index.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:273:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:17:84)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13)
+    at eval (webpack-internal:///(rsc)/./src/app/api/projects/[id]/route.ts:1:21)
+    at <unknown> (rsc)/./src/app/api/projects/[id]/route.ts (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js:61:1)
+    at __webpack_require__ (.next/server/webpack-runtime.js:33:43)
+    at __webpack_require__.a (.next/server/webpack-runtime.js:108:13) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/projects/ballymakenny-view'
+}
+ GET /api/projects/ballymakenny-view 500 in 236ms
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ ⚠ ./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+
+./src/app/api/projects/[id]/route.ts
+Attempted import error: 'authOptions' is not exported from '@/lib/auth' (imported as 'authOptions').
+
+Import trace for requested module:
+./src/app/api/projects/[id]/route.ts
+ GET /developer/timeline 200 in 3138ms
+ ✓ Compiled /developer/timeline in 3.2s (6872 modules)
+ GET /developer/timeline 200 in 272ms
