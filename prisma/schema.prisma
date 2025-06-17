@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // PostgreSQL for enterprise production deployment
+  provider = "sqlite" // SQLite for development
   url      = env("DATABASE_URL")
 }
 
@@ -168,6 +168,21 @@ enum PaymentMethod {
   OTHER
 }
 
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+  PARTIALLY_PAID
+  REFUNDED
+}
+
+enum InvoiceType {
+  RECEIVABLE
+  PAYABLE
+}
+
 enum FundingType {
   DEVELOPMENT_LOAN
   SENIOR_DEBT
@@ -271,7 +286,7 @@ model User {
   lastName     String
   phone        String?
   password     String? // Hashed password if using local auth
-  roles        UserRole[]
+  roles        String // JSON array of roles for SQLite compatibility
   status       UserStatus @default(ACTIVE)
   kycStatus    KYCStatus  @default(NOT_STARTED)
   organization String?
@@ -310,6 +325,11 @@ model User {
   snagLists         SnagList[]
   mortgageTracking  MortgageTracking?
   buyerEvents       BuyerEvent[]
+
+  // Invoice relations
+  invoicesCreated   Invoice[]        @relation("InvoiceCreator")
+  invoicesApproved  Invoice[]        @relation("InvoiceApprover")
+  paymentsRecorded  InvoicePayment[] @relation("PaymentRecorder")
 }
 
 model UserPermission {
@@ -397,15 +417,15 @@ model BuyerPreference {
   id                     String      @id @default(cuid())
   journey                BuyerJourney @relation(fields: [journeyId], references: [id])
   journeyId              String      @unique
-  locations              String[]
+  locations              String // JSON array for SQLite compatibility
   maxDistanceToWork      Int?
   maxDistanceToSchool    Int?
   minBedrooms            Int?
   maxBedrooms            Int?
   minBathrooms           Int?
-  propertyTypes          String[]
-  mustHaveFeatures       String[]
-  niceToHaveFeatures     String[]
+  propertyTypes          String // JSON array for SQLite compatibility
+  mustHaveFeatures       String // JSON array for SQLite compatibility
+  niceToHaveFeatures     String // JSON array for SQLite compatibility
   budget                 BudgetInfo?
   lastUpdated            DateTime    @updatedAt
 }
@@ -572,8 +592,8 @@ model Development {
   financialsId String?
 
   mainImage      String
-  images         String[]
-  videos         String[]
+  images         String // JSON array for SQLite compatibility
+  videos         String // JSON array for SQLite compatibility
   sitePlanUrl    String?
   brochureUrl    String?
   virtualTourUrl String?
@@ -581,8 +601,8 @@ model Development {
 
   description      String
   shortDescription String?
-  features         String[]
-  amenities        String[]
+  features         String // JSON array for SQLite compatibility
+  amenities        String // JSON array for SQLite compatibility
   buildingSpecs    Json?
 
   buildingType   String?
@@ -592,8 +612,8 @@ model Development {
   updated        DateTime  @updatedAt
   publishedDate  DateTime?
   isPublished    Boolean   @default(false)
-  tags           String[]
-  awards         String[]
+  tags           String // JSON array for SQLite compatibility
+  awards         String // JSON array for SQLite compatibility
 
   documents               Document[]
   projects                Project[]
@@ -603,6 +623,8 @@ model Development {
   investments             Investment[]
   viewings                Viewing[]
   finance                 DevelopmentFinance?
+  invoicesAsProject       Invoice[]        @relation("InvoiceProject")
+  invoicesAsDevelopment   Invoice[]        @relation("InvoiceDevelopment")
 }
 
 model ProjectTimeline {
@@ -661,11 +683,11 @@ model Unit {
   status    UnitStatus
 
   berRating String
-  features  String[]
+  features  String // JSON array for SQLite compatibility
 
   primaryImage   String
-  images         String[]
-  floorplans     String[]
+  images         String // JSON array for SQLite compatibility
+  floorplans     String // JSON array for SQLite compatibility
   virtualTourUrl String?
 
   unitNumber         String?
@@ -707,8 +729,8 @@ model UnitOutdoorSpace {
   size        Float
   orientation String?
   description String?
-  features    String[]
-  images      String[]
+  features    String // JSON array for SQLite compatibility
+  images      String // JSON array for SQLite compatibility
 }
 
 enum OutdoorSpaceType {
@@ -729,8 +751,8 @@ model UnitRoom {
   size     Float
   length   Float?
   width    Float?
-  features String[]
-  images   String[]
+  features String // JSON array for SQLite compatibility
+  images   String // JSON array for SQLite compatibility
 }
 
 enum RoomType {
@@ -757,7 +779,7 @@ model UnitCustomizationOption {
   description           String
   baseOption            Boolean
   additionalCost        Float
-  images                String[]
+  images                String // JSON array for SQLite compatibility
   modelPath             String?
   installationTimeframe Int?
   supplierInfo          Json?
@@ -900,7 +922,7 @@ model MortgageTracking {
   aipExpiryDate     DateTime?
   formalOfferDate   DateTime?
   mortgageDocuments Document[] @relation("MortgageDocuments")
-  conditions        String[]
+  conditions        String // JSON array for SQLite compatibility
   notes             String?
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
@@ -927,7 +949,7 @@ model SnagItem {
   description    String
   location       String
   status         String    @default("pending")
-  images         String[]
+  images         String // JSON array for SQLite compatibility
   developerNotes String?
   fixedDate      DateTime?
   createdAt      DateTime  @default(now())
@@ -999,7 +1021,7 @@ model Sale {
 
   referenceNumber String
   metadata        Json?
-  tags            String[]
+  tags            String // JSON array for SQLite compatibility
 
   statusHistory   SaleStatusHistory[]
   timeline        SaleTimeline?
@@ -1061,7 +1083,7 @@ model Deposit {
   totalPaid               Float
   status                  String
   paymentMethod           String?
-  receiptDocumentIds      String[]
+  receiptDocumentIds      String // JSON array for SQLite compatibility
 }
 
 model MortgageDetails {
@@ -1078,7 +1100,7 @@ model MortgageDetails {
   broker                  String?
   brokerFee               Float?
   loanType                String
-  documentIds             String[]
+  documentIds             String // JSON array for SQLite compatibility
   notes                   String?
   applicationDate         DateTime?
   offerExpiryDate         DateTime?
@@ -1097,7 +1119,7 @@ model HTBDetails {
   amount              Float
   claimSubmissionDate DateTime?
   claimPaymentDate    DateTime?
-  documentIds         String[]
+  documentIds         String // JSON array for SQLite compatibility
   notes               String?
   accessCode          String?
   claimCode           String?
@@ -1109,7 +1131,7 @@ model SaleNote {
   sale      Sale     @relation(fields: [saleId], references: [id])
   saleId    String
   authorId  String
-  content   String   @db.Text
+  content   String
   timestamp DateTime @default(now())
   isPrivate Boolean  @default(false)
   category  String?
@@ -1152,7 +1174,7 @@ model Document {
   uploadedByName    String?
   uploadDate        DateTime  @default(now())
   expiryDate        DateTime?
-  tags              String[]
+  tags              String // JSON array for SQLite compatibility
   version           Int       @default(1)
   relatedTo         Json?
   metadata          Json?
@@ -1192,6 +1214,8 @@ model Document {
   investmentId        String?
   // investor            Investment? @relation("InvestorDocuments", fields: [investorId], references: [id])
   // investorId          String?
+  invoice             Invoice?            @relation("InvoiceDocuments", fields: [invoiceId], references: [id])
+  invoiceId           String?
 }
 
 model DocumentVersion {
@@ -1213,7 +1237,7 @@ model DocumentWorkflow {
   id            String   @id @default(cuid())
   name          String
   description   String?
-  documentTypes String[]
+  documentTypes String // JSON array for SQLite compatibility
   isDefault     Boolean  @default(false)
   created       DateTime @default(now())
   updated       DateTime @updatedAt
@@ -1258,7 +1282,7 @@ model DocumentCustomField {
   description       String?
   fieldType         String
   isRequired        Boolean  @default(false)
-  options           String[]
+  options           String // JSON array for SQLite compatibility
   defaultValue      String?
   validationRegex   String?
   validationMessage String?
@@ -1330,7 +1354,7 @@ model DevelopmentFinance {
   id                  String      @id @default(cuid())
   development         Development @relation(fields: [developmentId], references: [id])
   developmentId       String      @unique
-  projectCost         Decimal     @db.Decimal(12, 2)
+  projectCost         Decimal
   projectCostCurrency CurrencyCode
   reportingPeriod     String
   lockedBy            String?
@@ -1352,21 +1376,21 @@ model FundingSource {
   financeId       String
   name            String
   type            FundingType
-  amount          Decimal               @db.Decimal(12, 2)
+  amount          Decimal
   currency        CurrencyCode
-  interestRate    Decimal?              @db.Decimal(5, 2)
+  interestRate    Decimal?
   term            Int?
   termUnit        String?
   startDate       DateTime?
   endDate         DateTime?
-  ltvRatio        Decimal?              @db.Decimal(5, 2)
-  ltcRatio        Decimal?              @db.Decimal(5, 2)
-  covenants       String[]
+  ltvRatio        Decimal?
+  ltcRatio        Decimal?
+  covenants       String // JSON array for SQLite compatibility
   securityType    String?
   providerName    String
   providerContact String?
   status          FundingStatus
-  notes           String?               @db.Text
+  notes           String?
   drawdowns       Drawdown[]
   repayments      Repayment[]
   documents       Document[]            @relation("FundingSourceDocuments")
@@ -1376,29 +1400,29 @@ model Drawdown {
   id                String        @id @default(cuid())
   fundingSource     FundingSource @relation(fields: [fundingSourceId], references: [id])
   fundingSourceId   String
-  amount            Decimal       @db.Decimal(12, 2)
+  amount            Decimal
   currency          CurrencyCode
   date              DateTime
   status            TransactionStatus
   purpose           String
-  notes             String?       @db.Text
+  notes             String?
   transactionId     String?
-  conditions        String[]
+  conditions        String // JSON array for SQLite compatibility
 }
 
 model Repayment {
   id                String        @id @default(cuid())
   fundingSource     FundingSource @relation(fields: [fundingSourceId], references: [id])
   fundingSourceId   String
-  amount            Decimal       @db.Decimal(12, 2)
+  amount            Decimal
   currency          CurrencyCode
   date              DateTime
   status            TransactionStatus
   type              String
-  principalAmount   Decimal?      @db.Decimal(12, 2)
-  interestAmount    Decimal?      @db.Decimal(12, 2)
-  feesAmount        Decimal?      @db.Decimal(12, 2)
-  notes             String?       @db.Text
+  principalAmount   Decimal?
+  interestAmount    Decimal?
+  feesAmount        Decimal?
+  notes             String?
   transactionId     String?
 }
 
@@ -1407,11 +1431,11 @@ model DevelopmentBudget {
   finance               DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId             String            @unique
   name                  String
-  description           String?           @db.Text
-  totalBudget           Decimal           @db.Decimal(12, 2)
+  description           String?
+  totalBudget           Decimal
   currency              CurrencyCode
-  contingencyPercentage Decimal           @db.Decimal(5, 2)
-  contingencyAmount     Decimal           @db.Decimal(12, 2)
+  contingencyPercentage Decimal
+  contingencyAmount     Decimal
   startDate             DateTime
   endDate               DateTime
   version               Int
@@ -1419,7 +1443,7 @@ model DevelopmentBudget {
   createdBy             String
   approvedBy            String?
   approvedAt            DateTime?
-  notes                 String?           @db.Text
+  notes                 String?
   categories            BudgetCategory[]
   documents             Document[]        @relation("BudgetDocuments")
   createdAt             DateTime          @default(now())
@@ -1431,16 +1455,16 @@ model BudgetCategory {
   budget             DevelopmentBudget  @relation(fields: [budgetId], references: [id])
   budgetId           String
   name               String
-  description        String?            @db.Text
+  description        String?
   parentCategoryId   String?
-  plannedAmount      Decimal            @db.Decimal(12, 2)
-  actualAmount       Decimal            @db.Decimal(12, 2)
-  varianceAmount     Decimal            @db.Decimal(12, 2)
-  variancePercentage Decimal            @db.Decimal(5, 2)
+  plannedAmount      Decimal
+  actualAmount       Decimal
+  varianceAmount     Decimal
+  variancePercentage Decimal
   isMilestone        Boolean            @default(false)
   milestoneDate      DateTime?
   status             String
-  notes              String?            @db.Text
+  notes              String?
   items              BudgetLineItem[]
 }
 
@@ -1449,27 +1473,25 @@ model BudgetLineItem {
   category           BudgetCategory @relation(fields: [categoryId], references: [id])
   categoryId         String
   name               String
-  description        String?        @db.Text
-  quantity           Decimal        @db.Decimal(12, 2)
+  description        String?
+  quantity           Decimal
   unit               String
-  unitPrice          Decimal        @db.Decimal(12, 2)
-  plannedAmount      Decimal        @db.Decimal(12, 2)
-  actualAmount       Decimal        @db.Decimal(12, 2)
-  varianceAmount     Decimal        @db.Decimal(12, 2)
-  variancePercentage Decimal        @db.Decimal(5, 2)
+  unitPrice          Decimal
+  plannedAmount      Decimal
+  actualAmount       Decimal
+  varianceAmount     Decimal
+  variancePercentage Decimal
   responsible        String?
-  invoices           String[]
-  purchaseOrders     String[]
+  invoices           String // JSON array for SQLite compatibility
+  purchaseOrders     String // JSON array for SQLite compatibility
   status             String
-  notes              String?        @db.Text
-}
+  notes              String?       }
 
 model FinancialTransaction {
   id                   String            @id @default(cuid())
   finance              DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId            String
-  amount               Decimal           @db.Decimal(12, 2)
-  currency             CurrencyCode
+  amount               Decimal            currency             CurrencyCode
   date                 DateTime
   description          String
   referenceNumber      String?
@@ -1484,9 +1506,8 @@ model FinancialTransaction {
   invoiceId            String?
   accountId            String?
   relatedTransactionId String?
-  tags                 String[]
-  notes                String?           @db.Text
-  createdAt            DateTime          @default(now())
+  tags                 String // JSON array for SQLite compatibility
+  notes                String?            createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
 }
 
@@ -1512,30 +1533,19 @@ model FinancialReturns {
   id                      String            @id @default(cuid())
   finance                 DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId               String            @unique
-  totalRevenue            Decimal           @db.Decimal(12, 2)
-  totalRevenueCurrency    CurrencyCode
-  totalCost               Decimal           @db.Decimal(12, 2)
-  totalCostCurrency       CurrencyCode
-  grossProfit             Decimal           @db.Decimal(12, 2)
-  grossProfitCurrency     CurrencyCode
-  grossMargin             Decimal           @db.Decimal(5, 2)
-  netProfit               Decimal           @db.Decimal(12, 2)
-  netProfitCurrency       CurrencyCode
-  netMargin               Decimal           @db.Decimal(5, 2)
-  ror                     Decimal           @db.Decimal(5, 2)
-  roi                     Decimal           @db.Decimal(5, 2)
-  irr                     Decimal           @db.Decimal(5, 2)
-  paybackPeriod           Int
-  profitOnCost            Decimal           @db.Decimal(5, 2)
-  breakEvenPoint          Json?
+  totalRevenue            Decimal            totalRevenueCurrency    CurrencyCode
+  totalCost               Decimal            totalCostCurrency       CurrencyCode
+  grossProfit             Decimal            grossProfitCurrency     CurrencyCode
+  grossMargin             Decimal            netProfit               Decimal            netProfitCurrency       CurrencyCode
+  netMargin               Decimal            ror                     Decimal            roi                     Decimal            irr                     Decimal            paybackPeriod           Int
+  profitOnCost            Decimal            breakEvenPoint          Json?
   constructionStartDate   DateTime?
   constructionEndDate     DateTime?
   salesStartDate          DateTime?
   salesEndDate            DateTime?
   constructionDuration    Int
   salesDuration           Int
-  npv                     Decimal           @db.Decimal(12, 2)
-  npvCurrency             CurrencyCode
+  npv                     Decimal            npvCurrency             CurrencyCode
   sensitivity             Json?
   lastCalculated          DateTime
   calculatedBy            String
@@ -1546,8 +1556,7 @@ model CashFlowProjection {
   finance         DevelopmentFinance @relation(fields: [financeId], references: [id])
   financeId       String
   name            String
-  description     String?           @db.Text
-  startDate       DateTime
+  description     String?            startDate       DateTime
   endDate         DateTime
   frequency       String
   baseCurrency    CurrencyCode
@@ -1574,42 +1583,24 @@ model CashFlowPeriod {
   startDate                  DateTime
   endDate                    DateTime
   isActual                   Boolean
-  salesRevenue               Decimal            @db.Decimal(12, 2)
-  salesRevenueCurrency       CurrencyCode
-  rentalIncome               Decimal            @db.Decimal(12, 2)
-  rentalIncomeCurrency       CurrencyCode
-  fundingDrawdowns           Decimal            @db.Decimal(12, 2)
-  fundingDrawdownsCurrency   CurrencyCode
-  otherInflows               Decimal            @db.Decimal(12, 2)
-  otherInflowsCurrency       CurrencyCode
-  totalInflows               Decimal            @db.Decimal(12, 2)
-  totalInflowsCurrency       CurrencyCode
-  landCosts                  Decimal            @db.Decimal(12, 2)
-  landCostsCurrency          CurrencyCode
-  constructionCosts          Decimal            @db.Decimal(12, 2)
-  constructionCostsCurrency  CurrencyCode
-  professionalFees           Decimal            @db.Decimal(12, 2)
-  professionalFeesCurrency   CurrencyCode
-  marketingCosts             Decimal            @db.Decimal(12, 2)
-  marketingCostsCurrency     CurrencyCode
-  financeCosts               Decimal            @db.Decimal(12, 2)
-  financeCostsCurrency       CurrencyCode
-  legalFees                  Decimal            @db.Decimal(12, 2)
-  legalFeesCurrency          CurrencyCode
-  contingencyCosts           Decimal            @db.Decimal(12, 2)
-  contingencyCostsCurrency   CurrencyCode
-  taxPayments                Decimal            @db.Decimal(12, 2)
-  taxPaymentsCurrency        CurrencyCode
-  otherOutflows              Decimal            @db.Decimal(12, 2)
-  otherOutflowsCurrency      CurrencyCode
-  totalOutflows              Decimal            @db.Decimal(12, 2)
-  totalOutflowsCurrency      CurrencyCode
-  netCashFlow                Decimal            @db.Decimal(12, 2)
-  netCashFlowCurrency        CurrencyCode
-  cumulativeCashFlow         Decimal            @db.Decimal(12, 2)
-  cumulativeCashFlowCurrency CurrencyCode
-  notes                      String?            @db.Text
-  categories                 CashFlowCategory[]
+  salesRevenue               Decimal             salesRevenueCurrency       CurrencyCode
+  rentalIncome               Decimal             rentalIncomeCurrency       CurrencyCode
+  fundingDrawdowns           Decimal             fundingDrawdownsCurrency   CurrencyCode
+  otherInflows               Decimal             otherInflowsCurrency       CurrencyCode
+  totalInflows               Decimal             totalInflowsCurrency       CurrencyCode
+  landCosts                  Decimal             landCostsCurrency          CurrencyCode
+  constructionCosts          Decimal             constructionCostsCurrency  CurrencyCode
+  professionalFees           Decimal             professionalFeesCurrency   CurrencyCode
+  marketingCosts             Decimal             marketingCostsCurrency     CurrencyCode
+  financeCosts               Decimal             financeCostsCurrency       CurrencyCode
+  legalFees                  Decimal             legalFeesCurrency          CurrencyCode
+  contingencyCosts           Decimal             contingencyCostsCurrency   CurrencyCode
+  taxPayments                Decimal             taxPaymentsCurrency        CurrencyCode
+  otherOutflows              Decimal             otherOutflowsCurrency      CurrencyCode
+  totalOutflows              Decimal             totalOutflowsCurrency      CurrencyCode
+  netCashFlow                Decimal             netCashFlowCurrency        CurrencyCode
+  cumulativeCashFlow         Decimal             cumulativeCashFlowCurrency CurrencyCode
+  notes                      String?             categories                 CashFlowCategory[]
 }
 
 model CashFlowCategory {
@@ -1617,16 +1608,11 @@ model CashFlowCategory {
   period                  CashFlowPeriod   @relation(fields: [periodId], references: [id])
   periodId                String
   name                    String
-  description             String?          @db.Text
-  type                    String
-  plannedAmount           Decimal          @db.Decimal(12, 2)
-  plannedAmountCurrency   CurrencyCode
-  actualAmount            Decimal          @db.Decimal(12, 2)
-  actualAmountCurrency    CurrencyCode
-  variance                Decimal          @db.Decimal(12, 2)
-  varianceCurrency        CurrencyCode
-  variancePercentage      Decimal          @db.Decimal(5, 2)
-  parentCategoryId        String?
+  description             String?           type                    String
+  plannedAmount           Decimal           plannedAmountCurrency   CurrencyCode
+  actualAmount            Decimal           actualAmountCurrency    CurrencyCode
+  variance                Decimal           varianceCurrency        CurrencyCode
+  variancePercentage      Decimal           parentCategoryId        String?
   items                   CashFlowLineItem[]
 }
 
@@ -1635,46 +1621,31 @@ model CashFlowLineItem {
   category              CashFlowCategory @relation(fields: [categoryId], references: [id])
   categoryId            String
   name                  String
-  description           String?          @db.Text
-  type                  String
-  plannedAmount         Decimal          @db.Decimal(12, 2)
-  plannedAmountCurrency CurrencyCode
-  actualAmount          Decimal          @db.Decimal(12, 2)
-  actualAmountCurrency  CurrencyCode
-  variance              Decimal          @db.Decimal(12, 2)
-  varianceCurrency      CurrencyCode
-  variancePercentage    Decimal          @db.Decimal(5, 2)
-  date                  DateTime?
+  description           String?           type                  String
+  plannedAmount         Decimal           plannedAmountCurrency CurrencyCode
+  actualAmount          Decimal           actualAmountCurrency  CurrencyCode
+  variance              Decimal           varianceCurrency      CurrencyCode
+  variancePercentage    Decimal           date                  DateTime?
   transactionId         String?
   budgetLineItemId      String?
-  notes                 String?          @db.Text
-}
+  notes                 String?         }
 
 model CashFlowSummary {
   id                         String             @id @default(cuid())
   cashFlow                   CashFlowProjection @relation(fields: [cashFlowId], references: [id])
   cashFlowId                 String             @unique
-  totalInflows               Decimal            @db.Decimal(12, 2)
-  totalInflowsCurrency       CurrencyCode
-  totalOutflows              Decimal            @db.Decimal(12, 2)
-  totalOutflowsCurrency      CurrencyCode
-  netCashFlow                Decimal            @db.Decimal(12, 2)
-  netCashFlowCurrency        CurrencyCode
-  peakNegativeCashFlow       Decimal            @db.Decimal(12, 2)
-  peakNegativeCashFlowCurrency CurrencyCode
+  totalInflows               Decimal             totalInflowsCurrency       CurrencyCode
+  totalOutflows              Decimal             totalOutflowsCurrency      CurrencyCode
+  netCashFlow                Decimal             netCashFlowCurrency        CurrencyCode
+  peakNegativeCashFlow       Decimal             peakNegativeCashFlowCurrency CurrencyCode
   peakNegativeCashFlowPeriod Int
   breakEvenPeriod            Int
   cashFlowPositiveDate       DateTime?
   periodsWithNegativeCashFlow Int
   periodsWithPositiveCashFlow Int
-  npv                        Decimal            @db.Decimal(12, 2)
-  npvCurrency                CurrencyCode
-  irr                        Decimal            @db.Decimal(5, 2)
-  paybackPeriod              Int
-  profitability              Decimal            @db.Decimal(5, 2)
-  volatilityIndex            Decimal            @db.Decimal(5, 2)
-  liquidityRatio             Decimal            @db.Decimal(5, 2)
-  inflowDistribution         Json
+  npv                        Decimal             npvCurrency                CurrencyCode
+  irr                        Decimal             paybackPeriod              Int
+  profitability              Decimal             volatilityIndex            Decimal             liquidityRatio             Decimal             inflowDistribution         Json
   outflowDistribution        Json
   lastCalculated             DateTime
 }
@@ -1682,21 +1653,14 @@ model CashFlowSummary {
 model CashFlowScenario {
   id                             String             @id @default(cuid())
   name                           String
-  description                    String?            @db.Text
-  type                           String
+  description                    String?             type                           String
   // baseScenario                   CashFlowProjection @relation("BaseScenarioRelation", fields: [baseScenarioId], references: [id])
   baseScenarioId                 String
   modifiedAssumptions            Json
-  netCashFlowDifference          Decimal            @db.Decimal(12, 2)
-  netCashFlowDifferenceCurrency  CurrencyCode
-  netCashFlowDifferencePercentage Decimal           @db.Decimal(5, 2)
-  npvDifference                  Decimal            @db.Decimal(12, 2)
-  npvDifferenceCurrency          CurrencyCode
-  npvDifferencePercentage        Decimal            @db.Decimal(5, 2)
-  irrDifference                  Decimal            @db.Decimal(5, 2)
-  paybackPeriodDifference        Int
-  probabilityAssessment          Decimal?           @db.Decimal(5, 2)
-  scenarioSpecificMetrics        Json?
+  netCashFlowDifference          Decimal             netCashFlowDifferenceCurrency  CurrencyCode
+  netCashFlowDifferencePercentage Decimal            npvDifference                  Decimal             npvDifferenceCurrency          CurrencyCode
+  npvDifferencePercentage        Decimal             irrDifference                  Decimal             paybackPeriodDifference        Int
+  probabilityAssessment          Decimal?            scenarioSpecificMetrics        Json?
   createdBy                      String
   createdAt                      DateTime           @default(now())
   lastUpdated                    DateTime           @updatedAt
@@ -1710,7 +1674,7 @@ model Investment {
   investorId      String
   development     Development                   @relation(fields: [developmentId], references: [id])
   developmentId   String
-  unitIds         String[]
+  unitIds         String // JSON array for SQLite compatibility
   investmentType  String
   status          String
   amount          Float
@@ -1726,10 +1690,10 @@ model Investment {
   exitDate        DateTime?
   investmentVehicleId String?
   legalEntity     String?
-  coInvestorIds   String[]
+  coInvestorIds   String // JSON array for SQLite compatibility
   investmentAgreementId String
   termSheetId     String?
-  documentIds     String[]
+  documentIds     String // JSON array for SQLite compatibility
   currentValue    Float
   valuationDate   DateTime
   totalReturns    Float
@@ -1753,7 +1717,7 @@ model Distribution {
   description      String
   status           String
   paymentReference String?
-  documentIds      String[]
+  documentIds      String // JSON array for SQLite compatibility
   taxWithheld      Float?
   netAmount        Float
 }
@@ -1768,7 +1732,7 @@ model InvestmentUpdate {
   authorId         String
   isPublic         Boolean    @default(true)
   metrics          Json
-  documentIds      String[]
+  documentIds      String // JSON array for SQLite compatibility
   sentToInvestors  Boolean    @default(false)
   acknowledgements Json[]
 }
@@ -1791,16 +1755,16 @@ model InvestmentOpportunity {
   constructionStartDate   DateTime?
   estimatedCompletionDate DateTime
   estimatedExitDate       DateTime
-  highlights              String[]
-  riskFactors             String[]
-  images                  String[]
+  highlights              String // JSON array for SQLite compatibility
+  riskFactors             String // JSON array for SQLite compatibility
+  images                  String // JSON array for SQLite compatibility
   brochureUrl             String?
   financialProjectionsUrl String?
   investmentStructure     String
   feesStructure           Json
-  documentIds             String[]
+  documentIds             String // JSON array for SQLite compatibility
   visibleTo               String
-  selectedInvestorIds     String[]
+  selectedInvestorIds     String // JSON array for SQLite compatibility
   viewCount               Int         @default(0)
   interestedInvestors     Json[]
   commitments             Json[]
@@ -1828,7 +1792,7 @@ model Professional {
   userId           String   @unique
   companyId        String
   company          Company  @relation(fields: [companyId], references: [id])
-  specializations  String[]
+  specializations  String // JSON array for SQLite compatibility
   status           String
   licenseNumber    String?
   insuranceDetails Json?
@@ -1857,7 +1821,7 @@ model Company {
   companyNumber    String
   establishedDate  DateTime?
   insuranceDetails Json?
-  certifications   String[]
+  certifications   String // JSON array for SQLite compatibility
   created          DateTime  @default(now())
   updated          DateTime  @updatedAt
 
@@ -1870,7 +1834,7 @@ model ServiceArea {
   company   Company  @relation(fields: [companyId], references: [id])
   companyId String
   county    String
-  cities    String[]
+  cities    String // JSON array for SQLite compatibility
 }
 
 model Qualification {
@@ -1909,7 +1873,7 @@ model ProfessionalAppointment {
   status             String
   contractDocumentId String?
   feeStructure       Json?
-  responsibilities   String[]
+  responsibilities   String // JSON array for SQLite compatibility
   notes              String?
   created            DateTime     @default(now())
   updated            DateTime     @updatedAt
@@ -1998,7 +1962,7 @@ model ProjectPhase {
   actualStartDate      DateTime?
   actualEndDate        DateTime?
   completionPercentage Float     @default(0)
-  documentIds          String[]
+  documentIds          String // JSON array for SQLite compatibility
 
   milestones   ProjectMilestone2[]
   tasks        ProjectTask[]
@@ -2032,8 +1996,8 @@ model ProjectMilestone2 {
   notifyStakeholders Boolean       @default(true)
   responsiblePartyId String
   verificationMethod String
-  completionCriteria String[]
-  documentIds        String[]
+  completionCriteria String // JSON array for SQLite compatibility
+  documentIds        String // JSON array for SQLite compatibility
 
   dependencies ProjectMilestoneDependency2[] @relation("MilestoneDependsOn")
   dependents   ProjectMilestoneDependency2[] @relation("MilestoneDependedOnBy")
@@ -2071,7 +2035,7 @@ model ProjectTask {
   actualHours        Float?
   progressPercentage Float         @default(0)
   relatedTo          Json?
-  tags               String[]
+  tags               String // JSON array for SQLite compatibility
   created            DateTime      @default(now())
   updated            DateTime      @updatedAt
   isOnCriticalPath   Boolean       @default(false)
@@ -2082,7 +2046,7 @@ model ProjectTask {
   parentTask    ProjectTask?            @relation("SubtaskRelation", fields: [parentTaskId], references: [id])
   parentTaskId  String?
   comments      TaskComment[]
-  attachmentIds String[]
+  attachmentIds String // JSON array for SQLite compatibility
 }
 
 model ProjectTaskDependency {
@@ -2102,8 +2066,8 @@ model TaskComment {
   userId        String
   content       String
   timestamp     DateTime    @default(now())
-  attachmentIds String[]
-  mentions      String[]
+  attachmentIds String // JSON array for SQLite compatibility
+  mentions      String // JSON array for SQLite compatibility
   edited        Boolean     @default(false)
   editedAt      DateTime?
 }
@@ -2125,11 +2089,11 @@ model ProjectRisk {
   lastUpdated            DateTime @updatedAt
   updatedById            String
   mitigationStrategy     String
-  mitigationTaskIds      String[]
+  mitigationTaskIds      String // JSON array for SQLite compatibility
   contingencyPlan        String
   contingencyBudget      Float?
-  earlyWarningIndicators String[]
-  affectedAreas          String[]
+  earlyWarningIndicators String // JSON array for SQLite compatibility
+  affectedAreas          String // JSON array for SQLite compatibility
   riskRegisterRanking    Int
   isArchived             Boolean  @default(false)
 }
@@ -2153,10 +2117,10 @@ model ProjectIssue {
   impact               String
   rootCause            String?
   preventativeMeasures String?
-  relatedRiskIds       String[]
-  resolutionTaskIds    String[]
-  affectedUnitIds      String[]
-  documentIds          String[]
+  relatedRiskIds       String // JSON array for SQLite compatibility
+  resolutionTaskIds    String // JSON array for SQLite compatibility
+  affectedUnitIds      String // JSON array for SQLite compatibility
+  documentIds          String // JSON array for SQLite compatibility
   isEscalated          Boolean   @default(false)
   escalationLevel      Int?
   escalatedToId        String?
@@ -2171,7 +2135,7 @@ model IssueComment {
   userId        String
   content       String
   timestamp     DateTime     @default(now())
-  attachmentIds String[]
+  attachmentIds String // JSON array for SQLite compatibility
   isInternal    Boolean      @default(false)
   edited        Boolean      @default(false)
   editedAt      DateTime?
@@ -2193,9 +2157,9 @@ model ConstructionLog {
   safetyIncidents    Json[]
   qualityIssues      Json[]
   notes              String
-  photoIds           String[]
+  photoIds           String // JSON array for SQLite compatibility
   nextDayPlan        String
-  issues             String[]
+  issues             String // JSON array for SQLite compatibility
   submittedTimestamp DateTime  @default(now())
   approvedById       String?
   approvedTimestamp  DateTime?
@@ -2215,8 +2179,8 @@ model Inspection {
   status               String
   result               String?
   notes                String
-  photoIds             String[]
-  documentIds          String[]
+  photoIds             String // JSON array for SQLite compatibility
+  documentIds          String // JSON array for SQLite compatibility
   followUpRequired     Boolean   @default(false)
   followUpDate         DateTime?
   followUpInspectionId String?
@@ -2239,7 +2203,7 @@ model InspectionFinding {
   location             String
   severity             String
   action               String
-  photoIds             String[]
+  photoIds             String // JSON array for SQLite compatibility
   assignedToId         String?
   dueDate              DateTime?
   status               String
@@ -2259,11 +2223,11 @@ model ProjectUpdate {
   authorId             String
   timestamp            DateTime @default(now())
   type                 String
-  visibleTo            String[]
-  attachmentIds        String[]
-  affectedPhaseIds     String[]
-  affectedMilestoneIds String[]
-  tags                 String[]
+  visibleTo            String // JSON array for SQLite compatibility
+  attachmentIds        String // JSON array for SQLite compatibility
+  affectedPhaseIds     String // JSON array for SQLite compatibility
+  affectedMilestoneIds String // JSON array for SQLite compatibility
+  tags                 String // JSON array for SQLite compatibility
 }
 
 model Meeting {
@@ -2280,7 +2244,7 @@ model Meeting {
   virtualMeetingLink String?
   organizerId        String
   recurrence         Json?
-  documentIds        String[]
+  documentIds        String // JSON array for SQLite compatibility
   created            DateTime @default(now())
   updated            DateTime @updatedAt
   status             String
@@ -2308,7 +2272,7 @@ model AgendaItem {
   presenterId String
   duration    Int
   order       Int
-  documentIds String[]
+  documentIds String // JSON array for SQLite compatibility
   status      String
 }
 
@@ -2316,13 +2280,13 @@ model MeetingMinutes {
   id            String    @id @default(cuid())
   meeting       Meeting   @relation(fields: [meetingId], references: [id])
   meetingId     String    @unique
-  attendees     String[]
-  absentees     String[]
+  attendees     String // JSON array for SQLite compatibility
+  absentees     String // JSON array for SQLite compatibility
   discussions   Json[]
   approvedById  String?
   approvedDate  DateTime?
   distributedOn DateTime?
-  distributedTo String[]
+  distributedTo String // JSON array for SQLite compatibility
 
   actionItems MeetingActionItem[]
 }
@@ -2352,7 +2316,7 @@ model HealthAndSafetyPlan {
   lastReviewDate      DateTime
   nextReviewDate      DateTime
   responsiblePersonId String
-  riskAssessmentIds   String[]
+  riskAssessmentIds   String // JSON array for SQLite compatibility
 
   emergencyContacts EmergencyContact[]
   safetyInspections SafetyInspection[]
@@ -2386,7 +2350,7 @@ model SafetyInspection {
   score               Int?
   notes               String
   signature           String
-  documentIds         String[]
+  documentIds         String // JSON array for SQLite compatibility
 }
 
 model SafetyIncident {
@@ -2398,8 +2362,8 @@ model SafetyIncident {
   location                  String
   type                      String
   description               String
-  involved                  String[]
-  witnesses                 String[]
+  involved                  String // JSON array for SQLite compatibility
+  witnesses                 String // JSON array for SQLite compatibility
   injuries                  Json[]
   immediateActions          String
   rootCause                 String?
@@ -2410,7 +2374,7 @@ model SafetyIncident {
   status                    String
   investigationFindings     String?
   correctiveActions         Json[]
-  documentIds               String[]
+  documentIds               String // JSON array for SQLite compatibility
   reportedToAuthorities     Boolean             @default(false)
   reportedToAuthoritiesDate DateTime?
   authorityReference        String?
@@ -2426,7 +2390,7 @@ model TrainingRecord {
   trainingDate        DateTime
   expiryDate          DateTime?
   attendees           Json[]
-  documentIds         String[]
+  documentIds         String // JSON array for SQLite compatibility
   notes               String?
 }
 
@@ -2440,9 +2404,9 @@ model ToolboxTalk {
   duration            Int
   location            String
   content             String
-  attendees           String[]
-  signatures          String[]
-  documentIds         String[]
+  attendees           String // JSON array for SQLite compatibility
+  signatures          String // JSON array for SQLite compatibility
+  documentIds         String // JSON array for SQLite compatibility
   notes               String?
 }
 
@@ -2457,8 +2421,8 @@ model MarketingCampaign {
 
   description     String
   targetAudience  String
-  objectives      String[]
-  successCriteria String[]
+  objectives      String // JSON array for SQLite compatibility
+  successCriteria String // JSON array for SQLite compatibility
 
   startDate      DateTime
   endDate        DateTime?
@@ -2470,12 +2434,12 @@ model MarketingCampaign {
   performance Json
 
   createdById   String
-  assignedToIds String[]
+  assignedToIds String // JSON array for SQLite compatibility
   approvedById  String?
   created       DateTime @default(now())
   updated       DateTime @updatedAt
   notes         String?
-  tags          String[]
+  tags          String // JSON array for SQLite compatibility
 
   channels       MarketingChannel[]
   activities     MarketingActivity[]
@@ -2503,16 +2467,16 @@ model MarketingChannel {
 
   startDate     DateTime
   endDate       DateTime?
-  trackingCodes String[]
-  trackingUrls  String[]
+  trackingCodes String // JSON array for SQLite compatibility
+  trackingUrls  String // JSON array for SQLite compatibility
 
   platform        String?
   targetAudience  String?
   audienceSize    Int?
-  geographicFocus String[]
+  geographicFocus String // JSON array for SQLite compatibility
 
   notes String?
-  tags  String[]
+  tags  String // JSON array for SQLite compatibility
 
   creativeAssets CreativeAsset[]
   activities     MarketingActivity[]
@@ -2537,8 +2501,8 @@ model MarketingActivity {
   budget      Float
   actualSpend Float @default(0)
 
-  assignedToIds   String[]
-  externalVendors String[]
+  assignedToIds   String // JSON array for SQLite compatibility
+  externalVendors String // JSON array for SQLite compatibility
 
   metrics Json?
   results String?
@@ -2576,7 +2540,7 @@ model CreativeAsset {
   usage             String
   usageRights       String?
 
-  tags         String[]
+  tags         String // JSON array for SQLite compatibility
   dimensions   String?
   size         Int?
   thumbnailUrl String?
@@ -2610,9 +2574,9 @@ model Lead {
   assignedTo    User?   @relation("AssignedLeads", fields: [assignedToId], references: [id])
   assignedToId  String?
 
-  interestedInDevelopmentIds String[]
-  interestedInUnitIds        String[]
-  propertyType               String[]
+  interestedInDevelopmentIds String // JSON array for SQLite compatibility
+  interestedInUnitIds        String // JSON array for SQLite compatibility
+  propertyType               String // JSON array for SQLite compatibility
   bedrooms                   Int[]
   budget                     Json?
   desiredMoveInDate          DateTime?
@@ -2620,15 +2584,15 @@ model Lead {
   firstContactDate DateTime  @default(now())
   lastContactDate  DateTime?
   nextFollowUpDate DateTime?
-  documentIds      String[]
-  notes            String[]
+  documentIds      String // JSON array for SQLite compatibility
+  notes            String // JSON array for SQLite compatibility
 
   convertedToSaleId String?
   conversionDate    DateTime?
 
   created DateTime @default(now())
   updated DateTime @updatedAt
-  tags    String[]
+  tags    String // JSON array for SQLite compatibility
 
   statusHistory LeadStatusHistory[]
   interactions  LeadInteraction[]
@@ -2658,7 +2622,7 @@ model LeadInteraction {
   subject     String?
   content     String
   duration    Int?
-  documentIds String[]
+  documentIds String // JSON array for SQLite compatibility
   location    String?
 
   outcome              String?
@@ -2667,7 +2631,7 @@ model LeadInteraction {
   followUpAssignedToId String?
 
   sentiment String?
-  tags      String[]
+  tags      String // JSON array for SQLite compatibility
 }
 
 model Viewing {
@@ -2790,6 +2754,107 @@ model SLPParticipant {
   joinedAt        DateTime         @default(now())
   
   transaction     SLPTransaction   @relation(fields: [transactionId], references: [id])
+}
+
+// ======= INVOICE MANAGEMENT =======
+
+model Invoice {
+  id              String        @id @default(cuid())
+  number          String        @unique
+  type            InvoiceType
+  status          InvoiceStatus @default(DRAFT)
+  
+  // Client/Vendor Information
+  clientId        String?
+  clientName      String
+  clientEmail     String?
+  clientAddress   String?
+  
+  // Project Association
+  projectId       String?
+  project         Development?  @relation("InvoiceProject", fields: [projectId], references: [id])
+  developmentId   String?
+  development     Development?  @relation("InvoiceDevelopment", fields: [developmentId], references: [id])
+  
+  // Financial Details
+  subtotal        Float
+  taxRate         Float?
+  taxAmount       Float?
+  totalAmount     Float
+  currency        CurrencyCode  @default(EUR)
+  
+  // Dates
+  issueDate       DateTime      @default(now())
+  dueDate         DateTime
+  paidDate        DateTime?
+  
+  // Content
+  description     String
+  notes           String?
+  termsConditions String?
+  
+  // Payment Information
+  paymentMethod   PaymentMethod?
+  paymentReference String?
+  
+  // Metadata
+  createdBy       String
+  createdById     User?         @relation("InvoiceCreator", fields: [createdBy], references: [id])
+  approvedBy      String?
+  approvedById    User?         @relation("InvoiceApprover", fields: [approvedBy], references: [id])
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  lineItems       InvoiceLineItem[]
+  payments        InvoicePayment[]
+  documents       Document[]    @relation("InvoiceDocuments")
+  
+  @@map("invoices")
+}
+
+model InvoiceLineItem {
+  id          String  @id @default(cuid())
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId   String
+  
+  description String
+  quantity    Float
+  unitPrice   Float
+  lineTotal   Float
+  
+  // Optional categorization
+  category    String?
+  taxRate     Float?
+  
+  @@map("invoice_line_items")
+}
+
+model InvoicePayment {
+  id              String          @id @default(cuid())
+  invoice         Invoice         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId       String
+  
+  amount          Float
+  currency        CurrencyCode    @default(EUR)
+  paymentDate     DateTime        @default(now())
+  paymentMethod   PaymentMethod
+  
+  reference       String?
+  notes           String?
+  
+  // Status tracking
+  status          TransactionStatus @default(COMPLETED)
+  
+  // Metadata
+  recordedBy      String
+  recordedById    User?           @relation("PaymentRecorder", fields: [recordedBy], references: [id])
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@map("invoice_payments")
 }
 
 // ======= UserRole enum mapping =======

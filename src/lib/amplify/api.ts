@@ -6,7 +6,7 @@
  * handling, request/response interceptors, and automatic token refresh.
  */
 
-import { generateClient, GraphQLResult } from 'aws-amplify/api';
+import { generateClient, GraphQLResult, get, post, put, del } from 'aws-amplify/api';
 import { ensureAmplifyInitialized } from './index';
 import { Auth } from './auth';
 import { createClientCache } from './cache';
@@ -311,7 +311,6 @@ export class API {
    * Execute a REST API request
    */
   static async rest<T>(options: RestOptions): Promise<T> {
-    const client = this.getClient();
     const { 
       path, 
       method = 'GET', 
@@ -320,6 +319,14 @@ export class API {
       queryParams,
       cacheOptions
     } = options;
+    
+    // For local development, use direct fetch instead of Amplify REST API
+    const isLocalDevelopment = process.env.NODE_ENV === 'development' || 
+                               typeof window !== 'undefined' && window.location.hostname === 'localhost';
+    
+    if (isLocalDevelopment) {
+      return this.executeLocalRequest<T>(options);
+    }
     
     // Generate a cache key if caching is enabled for GET requests
     const isGetRequest = method === 'GET';
@@ -353,16 +360,46 @@ export class API {
         let response;
         switch (method) {
           case 'GET':
-            response = await client.get({ path, ...requestConfig });
+            response = await get({ 
+              apiName: 'PropAPI',
+              path,
+              options: {
+                headers: requestHeaders,
+                queryParams
+              }
+            });
             break;
           case 'POST':
-            response = await client.post({ path, ...requestConfig });
+            response = await post({ 
+              apiName: 'PropAPI',
+              path,
+              options: {
+                body,
+                headers: requestHeaders,
+                queryParams
+              }
+            });
             break;
           case 'PUT':
-            response = await client.put({ path, ...requestConfig });
+            response = await put({ 
+              apiName: 'PropAPI',
+              path,
+              options: {
+                body,
+                headers: requestHeaders,
+                queryParams
+              }
+            });
             break;
           case 'DELETE':
-            response = await client.delete({ path, ...requestConfig });
+            response = await del({ 
+              apiName: 'PropAPI',
+              path,
+              options: {
+                headers: requestHeaders,
+                queryParams
+              }
+            });
             break;
           case 'PATCH':
             // Custom implementation for PATCH
@@ -372,7 +409,9 @@ export class API {
             throw new ApiError(`Unsupported HTTP method: ${method}`);
         }
         
-        return response as T;
+        // Amplify v6 REST API functions return a response object with body
+        const responseData = response?.response?.body || response?.body || response;
+        return responseData as T;
       } catch (error: any) {
         console.error(`REST API request to ${path} failed:`, error);
         
@@ -405,23 +444,55 @@ export class API {
               let retryResponse;
               switch (method) {
                 case 'GET':
-                  retryResponse = await client.get({ path, ...retryConfig });
+                  retryResponse = await get({ 
+                    apiName: 'PropAPI',
+                    path,
+                    options: {
+                      headers: retryHeaders,
+                      queryParams
+                    }
+                  });
                   break;
                 case 'POST':
-                  retryResponse = await client.post({ path, ...retryConfig });
+                  retryResponse = await post({ 
+                    apiName: 'PropAPI',
+                    path,
+                    options: {
+                      body,
+                      headers: retryHeaders,
+                      queryParams
+                    }
+                  });
                   break;
                 case 'PUT':
-                  retryResponse = await client.put({ path, ...retryConfig });
+                  retryResponse = await put({ 
+                    apiName: 'PropAPI',
+                    path,
+                    options: {
+                      body,
+                      headers: retryHeaders,
+                      queryParams
+                    }
+                  });
                   break;
                 case 'DELETE':
-                  retryResponse = await client.delete({ path, ...retryConfig });
+                  retryResponse = await del({ 
+                    apiName: 'PropAPI',
+                    path,
+                    options: {
+                      headers: retryHeaders,
+                      queryParams
+                    }
+                  });
                   break;
                 case 'PATCH':
                   retryResponse = await this.executePatchRequest(path, retryConfig);
                   break;
               }
               
-              return retryResponse as T;
+              // Handle retry response data extraction
+              const retryResponseData = retryResponse?.response?.body || retryResponse?.body || retryResponse;
+              return retryResponseData as T;
             }
           } catch (refreshError) {
             // If refresh fails, throw the original error
@@ -455,6 +526,67 @@ export class API {
     }
   }
   
+  /**
+   * Execute local development request using fetch
+   */
+  private static async executeLocalRequest<T>(options: RestOptions): Promise<T> {
+    const { path, method = 'GET', body, headers = {}, queryParams } = options;
+    
+    // Build the URL for local development
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    let url = path.startsWith('http') ? path : `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+    
+    // Add query parameters
+    if (queryParams && Object.keys(queryParams).length > 0) {
+      const queryString = Object.entries(queryParams)
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+        .join('&');
+      url += `?${queryString}`;
+    }
+    
+    // Prepare headers
+    const requestHeaders: HeadersInit = {
+      'Content-Type': 'application/json',
+      ...headers,
+    };
+    
+    // Make the fetch request
+    const response = await fetch(url, {
+      method,
+      headers: requestHeaders,
+      body: body ? JSON.stringify(body) : undefined,
+      credentials: 'include',
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => 'Error text unavailable');
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch (e) {
+        errorData = { message: errorText };
+      }
+      
+      throw new ApiError(
+        errorData.message || `${method} request failed with status ${response.status}`,
+        {
+          path,
+          method,
+          statusCode: response.status,
+          originalError: errorData
+        }
+      );
+    }
+    
+    // Parse the response
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await response.json();
+    } else {
+      return await response.text() as T;
+    }
+  }
+
   /**
    * Custom implementation for PATCH requests
    * Until Amplify fully supports PATCH in the client

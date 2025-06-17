@@ -103,6 +103,8 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
       isDropdown: true,
       subItems: [
         { name: 'Financial Dashboard', href: '/developer/finance', icon: DollarSign },
+        { name: 'Financial Control', href: '/developer/financial-control', icon: CreditCard },
+        { name: 'Invoices', href: '/developer/invoices', icon: FileText },
         { name: 'Budget Management', href: '/developer/budget', icon: Calculator },
         { name: 'Cost Analysis', href: '/developer/costs', icon: BarChart3 },
         { name: 'ROI Tracking', href: '/developer/roi', icon: TrendingUp },
@@ -124,6 +126,7 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
 
     { name: 'Documents', href: '/developer/documents', icon: FileText },
     { name: 'Agent Communications', href: '/developer/agent-communications', icon: Users },
+    { name: 'Collaboration Hub', href: '/developer/collaboration', icon: MessageSquare },
     
     // Team Management
     {

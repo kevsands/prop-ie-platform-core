@@ -1283,3 +1283,1798 @@ Require stack:
  ✓ Compiled in 458ms (3086 modules)
  ✓ Compiled in 674ms (3086 modules)
  ✓ Compiled in 1179ms (3086 modules)
+📝 AWS Amplify Configuration Note: The following RECOMMENDED values are missing: Auth.Cognito.identityPoolId 
+Some features may have limited functionality.
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 436ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /solutions in 2.9s (4097 modules)
+ ✓ Compiled in 1617ms (3092 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/api/projects/[id]/route.js:871:47)
+    at Object.<anonymous> (.next/server/app/api/projects/[id]/route.js:874:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/api/projects/fitzgerald-gardens'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/page.js:1021:47)
+    at Object.<anonymous> (.next/server/app/page.js:1024:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/company/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/company/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/company'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/page.js:977:47)
+    at Object.<anonymous> (.next/server/app/solutions/page.js:980:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/properties/page.js:1008:47)
+    at Object.<anonymous> (.next/server/app/properties/page.js:1011:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/properties'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/projects/[id]/route.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /api/projects/fitzgerald-gardens 500 in 6139ms
+ GET /resources 500 in 6121ms
+ GET / 500 in 6122ms
+ GET /company 500 in 6121ms
+ GET /solutions 500 in 6122ms
+ GET /properties 500 in 6122ms
+ ○ Compiling /agents ...
+ ✓ Compiled /agents in 645ms (4148 modules)
+ ✓ Compiled in 2.8s (3084 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developers/page.js:977:47)
+    at Object.<anonymous> (.next/server/app/developers/page.js:980:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developers'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/login/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/login/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/login'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solicitors/page.js:977:47)
+    at Object.<anonymous> (.next/server/app/solicitors/page.js:980:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solicitors'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/agents/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/agents/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/agents'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/register/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/register/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/register'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developers/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developers/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developers/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developers/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developers/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /developers 500 in 3884ms
+ GET /solicitors 500 in 3894ms
+ GET /register 500 in 3909ms
+ GET /agents 500 in 3895ms
+ GET /login 500 in 3909ms
+ ○ Compiling /developments/[id] ...
+ ✓ Compiled /developments/[id] in 3.6s (7327 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developments/[id]/page.js:1100:47)
+    at Object.<anonymous> (.next/server/app/developments/[id]/page.js:1103:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developments/fitzgerald-gardens'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developments/[id]/page.js:1100:47)
+    at Object.<anonymous> (.next/server/app/developments/[id]/page.js:1103:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developments/ellwood'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/properties/search/page.js:1030:47)
+    at Object.<anonymous> (.next/server/app/properties/search/page.js:1033:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/properties/search'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/properties/[id]/page.js:1030:47)
+    at Object.<anonymous> (.next/server/app/properties/[id]/page.js:1033:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/properties/mortgage-calculator'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/properties/buying-guide/page.js:1019:47)
+    at Object.<anonymous> (.next/server/app/properties/buying-guide/page.js:1022:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/properties/buying-guide'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developments/[id]/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developments/[id]/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developments/[id]/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developments/[id]/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/developments/[id]/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /developments/fitzgerald-gardens 500 in 3831ms
+ GET /developments/ellwood 500 in 3831ms
+ GET /properties/search 500 in 3845ms
+ GET /properties/mortgage-calculator 500 in 3831ms
+ GET /properties/buying-guide 500 in 3846ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developments/[id]/page.js:1100:47)
+    at Object.<anonymous> (.next/server/app/developments/[id]/page.js:1103:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developments/ballymakenny-view'
+}
+ ○ Compiling /contact ...
+ ✓ Compiled /contact in 6.1s (8111 modules)
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /properties/house-types/apartments 500 in 6241ms
+ GET /developments/ballymakenny-view 500 in 6238ms
+ GET /properties/house-types/houses 500 in 6241ms
+ GET /properties/house-types/new-builds 500 in 6241ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/contact/page.js:1109:47)
+    at Object.<anonymous> (.next/server/app/contact/page.js:1112:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/contact'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /contact 500 in 6310ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /resources/buy-off-plan 500 in 53ms
+ ○ Compiling /solutions/professional-investors ...
+ ✓ Compiled /solutions/professional-investors in 4.3s (8163 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/customisation/how-it-works/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/customisation/how-it-works/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/customisation/how-it-works'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/first-time-buyers/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/solutions/first-time-buyers/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions/first-time-buyers'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/property-guides/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/property-guides/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources/property-guides'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/professional-investors/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/solutions/professional-investors/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions/professional-investors'
+}
+ ✓ Compiled in 3s (8163 modules)
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /customisation/how-it-works 500 in 7494ms
+ GET /solutions/first-time-buyers 500 in 7494ms
+ GET /resources/property-guides 500 in 7494ms
+ GET /solutions/professional-investors 500 in 7434ms
+ GET /solutions/institutional 500 in 7387ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /solutions/developers/analytics 500 in 38ms
+ ○ Compiling /solutions/developers/marketing ...
+ ✓ Compiled /solutions/developers/marketing in 3.4s (8217 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/estate-agents/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/solutions/estate-agents/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions/estate-agents'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/developers/sales/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/solutions/developers/sales/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions/developers/sales'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/developers/marketing/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/solutions/developers/marketing/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions/developers/marketing'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/solutions/developers/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/solutions/developers/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/solutions/developers'
+}
+ ✓ Compiled in 3.9s (8217 modules)
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /solutions/estate-agents 500 in 7550ms
+ GET /solutions/developers/sales 500 in 7550ms
+ GET /solutions/developers/marketing 500 in 7550ms
+ GET /solutions/developers 500 in 7551ms
+ GET /solutions/solicitors 500 in 7464ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /solutions/architects 500 in 59ms
+ ○ Compiling /resources/market-reports ...
+ ✓ Compiled /resources/market-reports in 3.7s (8249 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/property-guides/first-time-buyer-guide/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/property-guides/first-time-buyer-guide/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources/property-guides/first-time-buyer-guide'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/templates/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/templates/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources/templates'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/market-reports/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/market-reports/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources/market-reports'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/calculators/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/calculators/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources/calculators'
+}
+ ✓ Compiled in 3.4s (8249 modules)
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /resources/property-guides/first-time-buyer-guide 500 in 7252ms
+ GET /resources/templates 500 in 7252ms
+ GET /resources/market-reports 500 in 7252ms
+ GET /resources/calculators 500 in 7253ms
+ GET /resources/market-reports/q1-2024-market-review 500 in 7141ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /company/careers 500 in 84ms
+ GET /company/press 500 in 85ms
+ GET /company/testimonials 500 in 84ms
+ ○ Compiling /developer/documents ...
+ ✓ Compiled /developer/documents in 5.2s (8291 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/resources/calculators/mortgage-calculator/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/resources/calculators/mortgage-calculator/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/resources/calculators/mortgage-calculator'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/company/about/page.js:988:47)
+    at Object.<anonymous> (.next/server/app/company/about/page.js:991:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/company/about'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/resources/calculators/mortgage-calculator/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/resources/calculators/mortgage-calculator/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developer/documents/page.js:1063:47)
+    at Object.<anonymous> (.next/server/app/developer/documents/page.js:1066:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developer/documents'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developer/overview/page.js:1063:47)
+    at Object.<anonymous> (.next/server/app/developer/overview/page.js:1066:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developer/overview'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developer/page.js:1107:47)
+    at Object.<anonymous> (.next/server/app/developer/page.js:1110:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developer'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/resources/calculators/mortgage-calculator/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/resources/calculators/mortgage-calculator/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/resources/calculators/mortgage-calculator/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /resources/calculators/mortgage-calculator 500 in 8537ms
+ GET /company/about 500 in 8544ms
+ GET /developer/documents 500 in 8920ms
+ GET /developer/overview 500 in 8926ms
+ GET /developer 500 in 8926ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /developer/messages 500 in 152ms
+ GET /developer/profile 500 in 147ms
+ GET /developer/security 500 in 147ms
+ GET /developer/billing 500 in 146ms
+ ○ Compiling /developer/agent-communications ...
+ ✓ Compiled /developer/agent-communications in 15.7s (8310 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/_not-found/page.js:946:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:949:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+}
+ GET /developer/settings 500 in 15707ms
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (.next/server/app/developer/agent-communications/page.js:1140:47)
+    at Object.<anonymous> (.next/server/app/developer/agent-communications/page.js:1143:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/vendor-chunks/@swc.js',
+  page: '/developer/agent-communications'
+}
+ ⨯ Error: Cannot find module './8632.js'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/_not-found/page.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:275:28)
+    at <unknown> (.next/server/webpack-runtime.js:188:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:187:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:239:22)
+    at <unknown> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+    at Object.<anonymous> (webpack://prop-ie-aws-app/external%20commonjs%20%22react%22:1:0)
+> 1 | module.exports = require("react"); {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET /developer/agent-communications 500 in 16085ms
+[?25h

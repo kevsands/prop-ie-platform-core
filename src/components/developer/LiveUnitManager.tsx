@@ -13,7 +13,7 @@ import {
   Home,
   Building,
   MapPin,
-  DollarSign,
+  Euro,
   Clock,
   User,
   Phone,
@@ -33,19 +33,22 @@ import {
 } from 'lucide-react';
 import { UnitStatus, Unit } from '@/types/project';
 import { fitzgeraldGardensConfig } from '@/data/fitzgerald-gardens-config';
+import UnitEditModal from './UnitEditModal';
 
 interface LiveUnitManagerProps {
   units: Unit[];
-  onUnitUpdate: (unitId: string, updates: Partial<Unit>) => void;
-  onStatusUpdate: (unitId: string, status: UnitStatus, reason?: string) => void;
-  onPriceUpdate: (unitId: string, price: number, reason?: string) => void;
+  onUnitUpdate: (unitId: string, updates: Partial<Unit>) => Promise<boolean>;
+  onStatusUpdate: (unitId: string, status: UnitStatus, reason?: string) => Promise<boolean>;
+  onPriceUpdate: (unitId: string, price: number, reason?: string) => Promise<boolean>;
+  projectId: string;
 }
 
 export default function LiveUnitManager({
   units,
   onUnitUpdate,
   onStatusUpdate,
-  onPriceUpdate
+  onPriceUpdate,
+  projectId
 }: LiveUnitManagerProps) {
   const [selectedUnits, setSelectedUnits] = useState<Set<string>>(new Set());
   const [viewMode, setViewMode] = useState<'table' | 'grid' | 'kanban'>('table');
@@ -57,6 +60,12 @@ export default function LiveUnitManager({
   const [bulkStatusValue, setBulkStatusValue] = useState<UnitStatus>('available');
   const [bulkPriceAdjustment, setBulkPriceAdjustment] = useState('');
   const [priceAdjustmentType, setPriceAdjustmentType] = useState<'amount' | 'percentage'>('percentage');
+  
+  // Unit edit modal state
+  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalInitialTab, setModalInitialTab] = useState<'details' | 'buyer' | 'features' | 'media' | 'history' | 'settings'>('details');
   
   // Real data from configuration
   const config = fitzgeraldGardensConfig;
@@ -114,31 +123,86 @@ export default function LiveUnitManager({
   };
 
   // Handle bulk actions
-  const applyBulkAction = () => {
+  const applyBulkAction = async () => {
     const selectedUnitsList = Array.from(selectedUnits);
+    setIsLoading(true);
     
-    if (bulkAction === 'status') {
-      selectedUnitsList.forEach(unitId => {
-        onStatusUpdate(unitId, bulkStatusValue, 'Bulk status update');
-      });
-    } else if (bulkAction === 'price') {
-      selectedUnitsList.forEach(unitId => {
-        const unit = units.find(u => u.id === unitId);
-        if (unit) {
-          let newPrice = unit.pricing.currentPrice;
-          if (priceAdjustmentType === 'percentage') {
-            const adjustment = parseFloat(bulkPriceAdjustment) / 100;
-            newPrice = unit.pricing.currentPrice * (1 + adjustment);
-          } else {
-            newPrice = unit.pricing.currentPrice + parseFloat(bulkPriceAdjustment);
+    try {
+      if (bulkAction === 'status') {
+        await Promise.all(selectedUnitsList.map(unitId => 
+          onStatusUpdate(unitId, bulkStatusValue, 'Bulk status update')
+        ));
+      } else if (bulkAction === 'price') {
+        await Promise.all(selectedUnitsList.map(async unitId => {
+          const unit = units.find(u => u.id === unitId);
+          if (unit) {
+            let newPrice = unit.pricing.currentPrice;
+            if (priceAdjustmentType === 'percentage') {
+              const adjustment = parseFloat(bulkPriceAdjustment) / 100;
+              newPrice = unit.pricing.currentPrice * (1 + adjustment);
+            } else {
+              newPrice = unit.pricing.currentPrice + parseFloat(bulkPriceAdjustment);
+            }
+            return onPriceUpdate(unitId, Math.round(newPrice), 'Bulk price adjustment');
           }
-          onPriceUpdate(unitId, Math.round(newPrice), 'Bulk price adjustment');
-        }
-      });
+        }));
+      }
+    } catch (error) {
+      console.error('Bulk action failed:', error);
+    } finally {
+      setIsLoading(false);
+      setSelectedUnits(new Set());
+      setShowBulkActions(false);
     }
-    
-    setSelectedUnits(new Set());
-    setShowBulkActions(false);
+  };
+
+  // Handle unit actions
+  const handleEditUnit = (unit: Unit) => {
+    setSelectedUnit(unit);
+    setModalInitialTab('details');
+    setIsEditModalOpen(true);
+  };
+
+  const handleViewUnit = (unit: Unit) => {
+    // This could open a read-only view or the same modal in view mode
+    setSelectedUnit(unit);
+    setModalInitialTab('details');
+    setIsEditModalOpen(true);
+  };
+
+  const handleSettingsUnit = (unit: Unit) => {
+    // Open unit-specific settings - open directly to settings tab
+    setSelectedUnit(unit);
+    setModalInitialTab('settings');
+    setIsEditModalOpen(true);
+  };
+
+  // Handle buyer assignment (called from modal)
+  const handleBuyerAssign = async (unitId: string, buyerData: any): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/projects/${projectId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'buyer_assignment',
+          unitId,
+          buyerData
+        })
+      });
+
+      const result = await response.json();
+      return result.success;
+    } catch (error) {
+      console.error('Failed to assign buyer:', error);
+      return false;
+    }
+  };
+
+  const handleCloseModal = () => {
+    setSelectedUnit(null);
+    setIsEditModalOpen(false);
   };
 
   const getStatusColor = (status: UnitStatus) => {
@@ -446,14 +510,26 @@ export default function LiveUnitManager({
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center gap-2">
-                        <button className="text-blue-600 hover:text-blue-900">
+                        <button 
+                          onClick={() => handleViewUnit(unit)}
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 transition-colors"
+                          title="View Unit Details"
+                        >
                           <Eye size={16} />
                         </button>
-                        <button className="text-gray-600 hover:text-gray-900">
+                        <button 
+                          onClick={() => handleEditUnit(unit)}
+                          className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50 transition-colors"
+                          title="Edit Unit"
+                        >
                           <Edit3 size={16} />
                         </button>
-                        <button className="text-gray-600 hover:text-gray-900">
-                          <MoreHorizontal size={16} />
+                        <button 
+                          onClick={() => handleSettingsUnit(unit)}
+                          className="text-gray-600 hover:text-gray-900 p-1 rounded hover:bg-gray-50 transition-colors"
+                          title="Unit Settings"
+                        >
+                          <Settings size={16} />
                         </button>
                       </div>
                     </td>
@@ -517,6 +593,30 @@ export default function LiveUnitManager({
                   <p className="text-gray-500">{unit.buyer.solicitor}</p>
                 </div>
               )}
+              
+              <div className="mt-3 pt-3 border-t flex justify-center gap-2">
+                <button 
+                  onClick={() => handleViewUnit(unit)}
+                  className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 transition-colors"
+                  title="View Unit Details"
+                >
+                  <Eye size={14} />
+                </button>
+                <button 
+                  onClick={() => handleEditUnit(unit)}
+                  className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50 transition-colors"
+                  title="Edit Unit"
+                >
+                  <Edit3 size={14} />
+                </button>
+                <button 
+                  onClick={() => handleSettingsUnit(unit)}
+                  className="text-gray-600 hover:text-gray-900 p-1 rounded hover:bg-gray-50 transition-colors"
+                  title="Unit Settings"
+                >
+                  <Settings size={14} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -553,7 +653,7 @@ export default function LiveUnitManager({
                       <p className="text-sm text-gray-600 mb-2">{unit.type}</p>
                       <div className="text-sm text-gray-600">
                         <div className="flex items-center gap-1">
-                          <DollarSign size={12} />
+                          <Euro size={12} />
                           <span>€{unit.pricing.currentPrice.toLocaleString()}</span>
                         </div>
                         {unit.buyer && (
@@ -564,6 +664,39 @@ export default function LiveUnitManager({
                             </div>
                           </div>
                         )}
+                      </div>
+                      
+                      <div className="mt-2 pt-2 border-t flex justify-center gap-1">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleViewUnit(unit);
+                          }}
+                          className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50 transition-colors"
+                          title="View Unit Details"
+                        >
+                          <Eye size={12} />
+                        </button>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditUnit(unit);
+                          }}
+                          className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50 transition-colors"
+                          title="Edit Unit"
+                        >
+                          <Edit3 size={12} />
+                        </button>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSettingsUnit(unit);
+                          }}
+                          className="text-gray-600 hover:text-gray-900 p-1 rounded hover:bg-gray-50 transition-colors"
+                          title="Unit Settings"
+                        >
+                          <Settings size={12} />
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -583,6 +716,19 @@ export default function LiveUnitManager({
           </span>
         )}
       </div>
+
+      {/* Unit Edit Modal */}
+      <UnitEditModal
+        unit={selectedUnit}
+        isOpen={isEditModalOpen}
+        onClose={handleCloseModal}
+        onSave={onUnitUpdate}
+        onStatusUpdate={onStatusUpdate}
+        onPriceUpdate={onPriceUpdate}
+        onBuyerAssign={handleBuyerAssign}
+        projectId={projectId}
+        initialTab={modalInitialTab}
+      />
     </div>
   );
 }

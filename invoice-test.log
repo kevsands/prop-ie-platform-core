@@ -1,0 +1,130 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, using available port 3001 instead.
+   ▲ Next.js 15.3.3
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.44:3001
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · clientTraceMetadata
+
+ ✓ Starting...
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ✓ Ready in 5.7s
+ ○ Compiling /api/invoices/mock ...
+ ✓ Compiled /api/invoices/mock in 2.6s (1399 modules)
+ HEAD /api/invoices/mock 200 in 2889ms
+ ✓ Compiled /api/invoices/summary/mock in 477ms (1401 modules)
+ GET /api/invoices/summary/mock 200 in 706ms
+ ✓ Compiled /middleware in 196ms (301 modules)
+ ○ Compiling /developer/invoices ...
+ ✓ Compiled /developer/invoices in 7.7s (4981 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /developer/invoices 200 in 8588ms
+ ✓ Compiled in 592ms (1887 modules)
+ ✓ Compiled in 388ms (1887 modules)
+ ✓ Compiled in 404ms (1887 modules)
+ ✓ Compiled in 127ms (1873 modules)
+ ✓ Compiled in 162ms (1873 modules)
+ ✓ Compiled in 402ms (1887 modules)
+ ✓ Compiled in 402ms (1887 modules)
+ ✓ Compiled in 447ms (1887 modules)
+ ✓ Compiled in 426ms (1887 modules)
+ ✓ Compiled in 546ms (1890 modules)
+ ✓ Compiled in 495ms (1891 modules)
+ ✓ Compiled in 420ms (1891 modules)
+ ✓ Compiled in 432ms (1891 modules)
+ ✓ Compiled in 515ms (1896 modules)
+ ✓ Compiled in 417ms (1896 modules)
+ ✓ Compiled in 579ms (1896 modules)
+ ⨯ ./src/components/developer/InvoicePDFPreview.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/src/components/developer/InvoicePDFPreview.tsx[0m:72:1]
+ [2m69[0m |   };
+ [2m70[0m | 
+ [2m71[0m |   return (
+ [2m72[0m |     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    : [35;1m     ^^^[0m
+ [2m73[0m |       <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl mx-4 max-h-[95vh] overflow-hidden">
+ [2m74[0m |         {/* Header */}
+ [2m75[0m |         <div className="flex items-center justify-between p-6 border-b bg-gray-50">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/developer/InvoicePDFPreview.tsx
+./src/app/developer/invoices/page.tsx
+ ⨯ ./src/components/developer/InvoicePDFPreview.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/src/components/developer/InvoicePDFPreview.tsx[0m:72:1]
+ [2m69[0m |   };
+ [2m70[0m | 
+ [2m71[0m |   return (
+ [2m72[0m |     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    : [35;1m     ^^^[0m
+ [2m73[0m |       <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl mx-4 max-h-[95vh] overflow-hidden">
+ [2m74[0m |         {/* Header */}
+ [2m75[0m |         <div className="flex items-center justify-between p-6 border-b bg-gray-50">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/developer/InvoicePDFPreview.tsx
+./src/app/developer/invoices/page.tsx
+ ⨯ ./src/components/developer/InvoicePDFPreview.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/src/components/developer/InvoicePDFPreview.tsx[0m:72:1]
+ [2m69[0m |   };
+ [2m70[0m | 
+ [2m71[0m |   return (
+ [2m72[0m |     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    : [35;1m     ^^^[0m
+ [2m73[0m |       <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl mx-4 max-h-[95vh] overflow-hidden">
+ [2m74[0m |         {/* Header */}
+ [2m75[0m |         <div className="flex items-center justify-between p-6 border-b bg-gray-50">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/developer/InvoicePDFPreview.tsx
+./src/app/developer/invoices/page.tsx
+ ⨯ ./src/components/developer/InvoicePDFPreview.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/src/components/developer/InvoicePDFPreview.tsx[0m:72:1]
+ [2m69[0m |   };
+ [2m70[0m | 
+ [2m71[0m |   return (
+ [2m72[0m |     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    : [35;1m     ^^^[0m
+ [2m73[0m |       <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl mx-4 max-h-[95vh] overflow-hidden">
+ [2m74[0m |         {/* Header */}
+ [2m75[0m |         <div className="flex items-center justify-between p-6 border-b bg-gray-50">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/developer/InvoicePDFPreview.tsx
+./src/app/developer/invoices/page.tsx
+ ✓ Compiled in 712ms (1901 modules)
+ ✓ Compiled in 468ms (1901 modules)
+ ✓ Compiled in 404ms (1901 modules)
+ ✓ Compiled in 567ms (1904 modules)
+ ○ Compiling /developer/invoices ...
+ ✓ Compiled /developer/invoices in 1418ms (3091 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /developer/invoices 200 in 2199ms
+ ✓ Compiled /api/invoices/mock in 498ms (3109 modules)
+ GET /api/invoices/mock 200 in 800ms
+[?25h

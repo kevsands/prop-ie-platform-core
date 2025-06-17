@@ -31,9 +31,11 @@ import {
   Globe,
   Zap,
   DollarSign,
-  BarChart3
+  BarChart3,
+  Euro
 } from 'lucide-react';
 import { fitzgeraldGardensConfig } from '@/data/fitzgerald-gardens-config';
+import ComprehensiveTeamManagement from '@/components/developer/ComprehensiveTeamManagement';
 
 /**
  * Enterprise-Level Team Overview Dashboard
@@ -82,6 +84,7 @@ interface TeamCategory {
 }
 
 export default function DeveloperTeamOverview() {
+  const [showLegacyView, setShowLegacyView] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -101,6 +104,46 @@ export default function DeveloperTeamOverview() {
       teamEfficiency: 92.8
     };
   }, []);
+
+  // If showing the new comprehensive system, render it instead
+  if (!showLegacyView) {
+    return (
+      <div className="space-y-6">
+        {/* Toggle Header */}
+        <div className="flex items-center justify-between bg-white rounded-lg border p-4">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">Team Management</h1>
+            <p className="text-sm text-gray-600">Choose your team management view</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowLegacyView(false)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                !showLegacyView 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              Enterprise System
+            </button>
+            <button
+              onClick={() => setShowLegacyView(true)}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                showLegacyView 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              Legacy Overview
+            </button>
+          </div>
+        </div>
+
+        {/* Comprehensive Team Management System */}
+        <ComprehensiveTeamManagement mode="overview" />
+      </div>
+    );
+  }
 
   const quickActions: QuickAction[] = [
     {

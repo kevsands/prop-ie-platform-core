@@ -7,7 +7,7 @@ import {
   Users, 
   MapPin, 
   Calendar, 
-  DollarSign, 
+  Euro, 
   FileText, 
   Settings, 
   BarChart3,
@@ -15,6 +15,7 @@ import {
   Download,
   Share,
   Edit,
+  Edit3,
   Zap,
   Target,
   Clock,
@@ -44,13 +45,22 @@ import InvoiceManagement from '@/components/developer/InvoiceManagement';
 import AIPricingAnalytics from '@/components/developer/AIPricingAnalytics';
 import EnhancedProjectAnalytics from '@/components/developer/EnhancedProjectAnalytics';
 import LiveUnitManager from '@/components/developer/LiveUnitManager';
+import EnterpriseUnitManager from '@/components/developer/EnterpriseUnitManager';
 import ProjectTimelineDashboard from '@/components/developer/ProjectTimelineDashboard';
 import EnhancedTeamDashboard from '@/components/developer/EnhancedTeamDashboard';
+import ComprehensiveTeamManagement from '@/components/developer/ComprehensiveTeamManagement';
 import FinancialOverviewDashboard from '@/components/developer/FinancialOverviewDashboard';
 import AIMarketIntelligence from '@/components/developer/AIMarketIntelligence';
 import BuyerJourneyTracker from '@/components/developer/BuyerJourneyTracker';
 import InvestmentAnalysisTools from '@/components/developer/InvestmentAnalysisTools';
 import TransactionTriangleDashboard from '@/components/developer/TransactionTriangleDashboard';
+import EnhancedFinancialManagement from '@/components/developer/EnhancedFinancialManagement';
+import EnterpriseFinancialManager from '@/components/developer/EnterpriseFinancialManager';
+import EnterpriseAnalyticsEngine from '@/components/developer/EnterpriseAnalyticsEngine';
+import EnterpriseTransactionManager from '@/components/developer/EnterpriseTransactionManager';
+import EnterpriseTeamManager from '@/components/developer/EnterpriseTeamManager';
+import EnterpriseInvoiceManager from '@/components/developer/EnterpriseInvoiceManager';
+import EditableProjectOverview from '@/components/developer/EditableProjectOverview';
 import { UnitStatus } from '@/types/project';
 
 export default function FitzgeraldGardensProject() {
@@ -145,18 +155,23 @@ export default function FitzgeraldGardensProject() {
   const tabs = [
     { id: 'overview', label: 'Project Overview', icon: Home },
     { id: 'advanced-analytics', label: 'Advanced Analytics Hub', icon: Activity, external: true, href: '/developer/projects/fitzgerald-gardens/analytics' },
+    { id: 'enterprise-analytics', label: 'Enterprise Analytics Engine', icon: Cpu },
     { id: 'analytics', label: 'Enhanced Analytics', icon: BarChart3 },
     { id: 'intelligence', label: 'AI Market Intelligence', icon: Zap },
     { id: 'buyers', label: 'Buyer Journey Tracking', icon: UserCheck },
+    { id: 'enterprise-transactions', label: 'Enterprise Transaction Manager', icon: Receipt },
     { id: 'transactions', label: 'Live Transactions', icon: Activity },
     { id: 'investment', label: 'Investment Analysis', icon: Briefcase },
     { id: 'timeline', label: 'Project Timeline', icon: Calendar },
     { id: 'units', label: 'Unit Management', icon: Building2 },
-    { id: 'financials', label: 'Financial Overview', icon: DollarSign },
+    { id: 'financials', label: 'Financial Overview', icon: Euro },
+    { id: 'financial-management', label: 'Financial Management', icon: CreditCard },
     { id: 'pricing', label: 'AI Pricing Analytics', icon: Target },
     { id: 'media', label: 'Media & Plans', icon: Camera },
     { id: 'siteplan', label: 'Interactive Site Plan', icon: MapPin },
+    { id: 'enterprise-team', label: 'Enterprise Team Manager', icon: UserCheck },
     { id: 'team', label: 'Team Management', icon: Users },
+    { id: 'enterprise-invoices', label: 'Enterprise Invoice Manager', icon: CreditCard },
     { id: 'invoices', label: 'Invoice Management', icon: Receipt },
     { id: 'marketing', label: 'Marketing Display', icon: Globe }
   ];
@@ -190,7 +205,7 @@ export default function FitzgeraldGardensProject() {
                 <span className="text-gray-600">{project.timeline.progressPercentage}% Complete</span>
               </div>
               <div className="flex items-center gap-2">
-                <DollarSign size={16} className="text-purple-600" />
+                <Euro size={16} className="text-purple-600" />
                 <span className="text-gray-600">Total Value: €{(project.metrics.projectedRevenue / 1000000).toFixed(1)}M</span>
               </div>
             </div>
@@ -327,7 +342,7 @@ export default function FitzgeraldGardensProject() {
                     Analytics & Intelligence
                   </h4>
                   <ul className="space-y-1">
-                    {tabs.filter(tab => ['analytics', 'intelligence', 'pricing', 'investment'].includes(tab.id)).map((tab) => (
+                    {tabs.filter(tab => ['enterprise-analytics', 'analytics', 'intelligence', 'pricing', 'investment', 'financial-management'].includes(tab.id)).map((tab) => (
                       <li key={tab.id}>
                         {tab.external ? (
                           <Link
@@ -373,7 +388,7 @@ export default function FitzgeraldGardensProject() {
                     Sales & Customers
                   </h4>
                   <ul className="space-y-1">
-                    {tabs.filter(tab => ['buyers', 'transactions', 'marketing'].includes(tab.id)).map((tab) => (
+                    {tabs.filter(tab => ['buyers', 'enterprise-transactions', 'transactions', 'marketing'].includes(tab.id)).map((tab) => (
                       <li key={tab.id}>
                         <button
                           onClick={() => setActiveTab(tab.id)}
@@ -406,7 +421,7 @@ export default function FitzgeraldGardensProject() {
                     Team & Operations
                   </h4>
                   <ul className="space-y-1">
-                    {tabs.filter(tab => ['team', 'invoices', 'media', 'siteplan'].includes(tab.id)).map((tab) => (
+                    {tabs.filter(tab => ['enterprise-team', 'team', 'enterprise-invoices', 'invoices', 'media', 'siteplan'].includes(tab.id)).map((tab) => (
                       <li key={tab.id}>
                         <button
                           onClick={() => setActiveTab(tab.id)}
@@ -448,7 +463,8 @@ export default function FitzgeraldGardensProject() {
           <div className="flex-1 p-6 bg-white relative">
           {activeTab === 'overview' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Quick Overview Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 {/* Project Details */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-gray-900">Project Details</h3>
@@ -498,7 +514,43 @@ export default function FitzgeraldGardensProject() {
                   </div>
                 </div>
               </div>
+              
+              {/* Comprehensive Editable Project Management */}
+              <div className="border-t pt-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <Edit3 className="h-6 w-6 text-blue-600" />
+                  <h3 className="text-xl font-semibold text-gray-900">Comprehensive Project Management</h3>
+                </div>
+                <EditableProjectOverview
+                  projectId={project.id}
+                  onSave={async (data) => {
+                    try {
+                      const response = await fetch(`/api/projects/${project.id}/comprehensive`, {
+                        method: 'PUT',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                      });
+                      return response.ok;
+                    } catch (error) {
+                      console.error('Failed to save project data:', error);
+                      return false;
+                    }
+                  }}
+                />
+              </div>
             </div>
+          )}
+
+
+          {activeTab === 'enterprise-analytics' && (
+            <EnterpriseAnalyticsEngine
+              projectId={project.id}
+              onMetricsUpdate={(metrics) => {
+                console.log('Analytics metrics updated:', metrics);
+              }}
+            />
           )}
 
           {activeTab === 'analytics' && (
@@ -533,6 +585,28 @@ export default function FitzgeraldGardensProject() {
             />
           )}
 
+          {activeTab === 'enterprise-transactions' && (
+            <EnterpriseTransactionManager
+              projectId={project.id}
+              onTransactionUpdate={async (transactionId, updates) => {
+                try {
+                  const response = await fetch(`/api/projects/${project.id}/transactions/${transactionId}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updates)
+                  });
+                  const result = await response.json();
+                  return result.success;
+                } catch (error) {
+                  console.error('Failed to update transaction:', error);
+                  return false;
+                }
+              }}
+            />
+          )}
+
           {activeTab === 'transactions' && (
             <TransactionTriangleDashboard
               projectId={project.id}
@@ -559,14 +633,28 @@ export default function FitzgeraldGardensProject() {
           )}
 
           {activeTab === 'units' && (
-            <LiveUnitManager
-              units={units}
-              onUnitUpdate={(unitId, updates) => {
-                // Handle unit updates through the existing data service
-                console.log('Unit update:', unitId, updates);
+            <EnterpriseUnitManager
+              projectId={project.id}
+              onUnitUpdate={async (unitId, updates) => {
+                try {
+                  const response = await fetch(`/api/projects/${project.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      type: 'unit_update',
+                      unitId,
+                      updates
+                    })
+                  });
+                  const result = await response.json();
+                  return result.success;
+                } catch (error) {
+                  console.error('Failed to update unit:', error);
+                  return false;
+                }
               }}
-              onStatusUpdate={handleUnitStatusUpdate}
-              onPriceUpdate={updateUnitPrice}
             />
           )}
 
@@ -580,6 +668,12 @@ export default function FitzgeraldGardensProject() {
               soldUnits={soldUnits}
               reservedUnits={reservedUnits}
               totalUnits={totalUnits}
+            />
+          )}
+
+          {activeTab === 'financial-management' && (
+            <EnterpriseFinancialManager
+              projectId={project.id}
             />
           )}
 
@@ -683,8 +777,55 @@ export default function FitzgeraldGardensProject() {
             </div>
           )}
 
+          {activeTab === 'enterprise-team' && (
+            <EnterpriseTeamManager
+              projectId={project.id}
+              onTeamUpdate={async (memberId, updates) => {
+                try {
+                  const response = await fetch(`/api/projects/${project.id}/team/${memberId}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updates)
+                  });
+                  const result = await response.json();
+                  return result.success;
+                } catch (error) {
+                  console.error('Failed to update team member:', error);
+                  return false;
+                }
+              }}
+            />
+          )}
+
           {activeTab === 'team' && (
-            <EnhancedTeamDashboard />
+            <ComprehensiveTeamManagement 
+              projectId="fitzgerald-gardens" 
+              mode="project_specific" 
+            />
+          )}
+
+          {activeTab === 'enterprise-invoices' && (
+            <EnterpriseInvoiceManager
+              projectId={project.id}
+              onInvoiceUpdate={async (invoiceId, updates) => {
+                try {
+                  const response = await fetch(`/api/projects/${project.id}/invoices/${invoiceId}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updates)
+                  });
+                  const result = await response.json();
+                  return result.success;
+                } catch (error) {
+                  console.error('Failed to update invoice:', error);
+                  return false;
+                }
+              }}
+            />
           )}
 
           {activeTab === 'invoices' && (

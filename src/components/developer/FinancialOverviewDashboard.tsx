@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { 
-  DollarSign, 
+  Euro, 
   TrendingUp, 
   TrendingDown, 
   BarChart3, 
@@ -228,7 +228,7 @@ export default function FinancialOverviewDashboard({
       value: `€${(financialMetrics.currentRevenue / 1000000).toFixed(1)}M`,
       change: '+12.3%',
       trend: 'up',
-      icon: DollarSign,
+      icon: Euro,
       color: 'text-green-600',
       bgColor: 'bg-green-50'
     },
@@ -278,7 +278,7 @@ export default function FinancialOverviewDashboard({
             Financial Overview Dashboard
             {financialMetrics.isLiveData && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                <DollarSign size={12} className="mr-1" />
+                <Euro size={12} className="mr-1" />
                 Live Data
               </span>
             )}
