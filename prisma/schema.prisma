@@ -1654,31 +1654,46 @@ model CashFlowLineItem {
   category              CashFlowCategory @relation(fields: [categoryId], references: [id])
   categoryId            String
   name                  String
-  description           String?           type                  String
-  plannedAmount         Decimal           plannedAmountCurrency CurrencyCode
-  actualAmount          Decimal           actualAmountCurrency  CurrencyCode
-  variance              Decimal           varianceCurrency      CurrencyCode
-  variancePercentage    Decimal           date                  DateTime?
+  description           String?
+  type                  String
+  plannedAmount         Decimal
+  plannedAmountCurrency CurrencyCode
+  actualAmount          Decimal
+  actualAmountCurrency  CurrencyCode
+  variance              Decimal
+  varianceCurrency      CurrencyCode
+  variancePercentage    Decimal
+  date                  DateTime?
   transactionId         String?
   budgetLineItemId      String?
-  notes                 String?         }
+  notes                 String?
+}
 
 model CashFlowSummary {
   id                         String             @id @default(cuid())
   cashFlow                   CashFlowProjection @relation(fields: [cashFlowId], references: [id])
   cashFlowId                 String             @unique
-  totalInflows               Decimal             totalInflowsCurrency       CurrencyCode
-  totalOutflows              Decimal             totalOutflowsCurrency      CurrencyCode
-  netCashFlow                Decimal             netCashFlowCurrency        CurrencyCode
-  peakNegativeCashFlow       Decimal             peakNegativeCashFlowCurrency CurrencyCode
+  totalInflows               Decimal
+  totalInflowsCurrency       CurrencyCode
+  totalOutflows              Decimal
+  totalOutflowsCurrency      CurrencyCode
+  netCashFlow                Decimal
+  netCashFlowCurrency        CurrencyCode
+  peakNegativeCashFlow       Decimal
+  peakNegativeCashFlowCurrency CurrencyCode
   peakNegativeCashFlowPeriod Int
   breakEvenPeriod            Int
   cashFlowPositiveDate       DateTime?
   periodsWithNegativeCashFlow Int
   periodsWithPositiveCashFlow Int
-  npv                        Decimal             npvCurrency                CurrencyCode
-  irr                        Decimal             paybackPeriod              Int
-  profitability              Decimal             volatilityIndex            Decimal             liquidityRatio             Decimal             inflowDistribution         Json
+  npv                        Decimal
+  npvCurrency                CurrencyCode
+  irr                        Decimal
+  paybackPeriod              Int
+  profitability              Decimal
+  volatilityIndex            Decimal
+  liquidityRatio             Decimal
+  inflowDistribution         Json
   outflowDistribution        Json
   lastCalculated             DateTime
 }
@@ -1686,14 +1701,21 @@ model CashFlowSummary {
 model CashFlowScenario {
   id                             String             @id @default(cuid())
   name                           String
-  description                    String?             type                           String
+  description                    String?
+  type                           String
   // baseScenario                   CashFlowProjection @relation("BaseScenarioRelation", fields: [baseScenarioId], references: [id])
   baseScenarioId                 String
   modifiedAssumptions            Json
-  netCashFlowDifference          Decimal             netCashFlowDifferenceCurrency  CurrencyCode
-  netCashFlowDifferencePercentage Decimal            npvDifference                  Decimal             npvDifferenceCurrency          CurrencyCode
-  npvDifferencePercentage        Decimal             irrDifference                  Decimal             paybackPeriodDifference        Int
-  probabilityAssessment          Decimal?            scenarioSpecificMetrics        Json?
+  netCashFlowDifference          Decimal
+  netCashFlowDifferenceCurrency  CurrencyCode
+  netCashFlowDifferencePercentage Decimal
+  npvDifference                  Decimal
+  npvDifferenceCurrency          CurrencyCode
+  npvDifferencePercentage        Decimal
+  irrDifference                  Decimal
+  paybackPeriodDifference        Int
+  probabilityAssessment          Decimal?
+  scenarioSpecificMetrics        Json?
   createdBy                      String
   createdAt                      DateTime           @default(now())
   lastUpdated                    DateTime           @updatedAt
