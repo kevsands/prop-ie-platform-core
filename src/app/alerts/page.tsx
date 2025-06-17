@@ -5,7 +5,9 @@ import PropertyAlertsManager from '@/features/property-alerts/PropertyAlertsMana
 import { useSession } from 'next-auth/react';
 
 export default function PropertyAlertsPage() {
-  const { data: session, status } = useSession();
+  const sessionData = useSession();
+  const session = sessionData?.data;
+  const status = sessionData?.status || 'loading';
 
   if (status === 'loading') {
     return (
