@@ -1,45 +1,89 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { htbService } from '@/lib/services/htb-postgresql';
+import { HTBClaimStatus } from '@/types/htb';
 
+interface RouteParams {
+  params: { id: string };
+}
+
+/**
+ * GET - Get specific HTB claim by ID
+ */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: RouteParams
 ) {
-  // Mock HTB claim data
-  const mockClaim = {
-    id: params.id,
-    buyerId: 'mock-buyer-id',
-    propertyId: 'Fitzgerald Gardens - Unit 102',
-    propertyPrice: 400000,
-    propertyAddress: '102 Fitzgerald Gardens, Dublin',
-    status: 'ACCESS_CODE_RECEIVED',
-    requestedAmount: 30000,
-    approvedAmount: null,
-    accessCode: 'HTB-1234-ABCD-5678',
-    applicationDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    lastUpdatedDate: new Date().toISOString(),
-    documents: [],
-    notes: [],
-    statusHistory: [
-      {
-        id: 'status-1',
-        claimId: params.id,
-        previousStatus: null,
-        newStatus: 'INITIATED',
-        updatedBy: 'system',
-        updatedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-        notes: 'Application initiated'
-      },
-      {
-        id: 'status-2',
-        claimId: params.id,
-        previousStatus: 'INITIATED',
-        newStatus: 'ACCESS_CODE_RECEIVED',
-        updatedBy: 'system',
-        updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-        notes: 'Access code received from Revenue'
-      }
-    ]
-  };
+  try {
+    const { id } = await params;
+    
+    // Get claim from database
+    const claim = await htbService.getClaimById(id);
+    
+    if (!claim) {
+      return NextResponse.json({
+        error: 'HTB claim not found',
+        message: `Claim with ID '${id}' does not exist`
+      }, { status: 404 });
+    }
+    
+    return NextResponse.json(claim);
+    
+  } catch (error: any) {
+    console.error('Error fetching HTB claim:', error);
+    
+    return NextResponse.json({
+      error: 'Failed to fetch HTB claim',
+      message: error.message || 'Internal server error'
+    }, { status: 500 });
+  }
+}
 
-  return NextResponse.json(mockClaim);
+/**
+ * PUT - Update HTB claim status
+ */
+export async function PUT(
+  request: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const { id } = await params;
+    const body = await request.json();
+    
+    const { status, updatedBy, notes } = body;
+    
+    if (!status || !updatedBy) {
+      return NextResponse.json({
+        error: 'Missing required fields',
+        message: 'status and updatedBy are required'
+      }, { status: 400 });
+    }
+    
+    // Validate status is a valid HTB status
+    if (!Object.values(HTBClaimStatus).includes(status)) {
+      return NextResponse.json({
+        error: 'Invalid status',
+        message: `Status must be one of: ${Object.values(HTBClaimStatus).join(', ')}`
+      }, { status: 400 });
+    }
+    
+    // Update claim status
+    const updatedClaim = await htbService.updateClaimStatus(id, status, updatedBy, notes);
+    
+    if (!updatedClaim) {
+      return NextResponse.json({
+        error: 'HTB claim not found',
+        message: `Claim with ID '${id}' does not exist`
+      }, { status: 404 });
+    }
+    
+    return NextResponse.json(updatedClaim);
+    
+  } catch (error: any) {
+    console.error('Error updating HTB claim:', error);
+    
+    return NextResponse.json({
+      error: 'Failed to update HTB claim',
+      message: error.message || 'Internal server error'
+    }, { status: 500 });
+  }
 }

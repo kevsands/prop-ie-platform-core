@@ -140,10 +140,40 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
     acceptMarketing: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In real app, would make API call to register user
-    onNext();
+    
+    try {
+      // Call the real API to create user
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          password: formData.password,
+          role: 'buyer',
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+        }),
+      });
+
+      if (response.ok) {
+        const user = await response.json();
+        console.log('User created successfully:', user);
+        onNext();
+      } else {
+        const error = await response.json();
+        console.error('Failed to create user:', error);
+        alert('Failed to create account: ' + error.error);
+      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+      alert('Failed to create account. Please try again.');
+    }
   };
 
   return (

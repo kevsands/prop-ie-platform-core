@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-// Removed import for build testing;
 import sanitize from "@/lib/security/sanitize";
 import { verifyCSRFToken } from "@/components/security/CSRFToken";
 import { 
@@ -11,11 +10,7 @@ import {
 } from "@/types/document";
 import { z } from "zod";
 import { safeJsonParse, parseWithSchema } from "@/utils/safeJsonParser";
-import documentsService from "@/services/document-service";
-import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/db";
-// Import mock data for database fallback
-import { mockDocuments, getMockDocuments } from "@/lib/mock-data";
+import { documentsService } from "@/lib/services/documents-real";
 // Removed React imports and component definitions as they're not needed in a route handler
 
 // Define Zod schema for document requests
@@ -59,135 +54,80 @@ export async function GET(request: NextRequest) {
     const maxLimit = 100;
     const defaultLimit = 20;
     
-    // Extract common parameter values
-    const relatedType = searchParams.get("relatedTo.type") || 
-                       searchParams.get("entityType");
-    const relatedId = searchParams.get("relatedTo.id") || 
-                     searchParams.get("entityId");
+    // Extract parameter values
+    const ownerId = searchParams.get("ownerId") || searchParams.get("propertyId") || searchParams.get("userId");
+    const ownerType = searchParams.get("ownerType") || searchParams.get("entityType");
     const docType = searchParams.get("type");
-    const docStatus = searchParams.get("status");
+    const uploadedBy = searchParams.get("uploadedBy");
+    const isPublic = searchParams.get("isPublic");
+    const searchTerm = searchParams.get("searchTerm") || searchParams.get("search");
     
-    try {
-      // If ID is provided, get specific document
-      if (id) {
-        const document = await prisma.document.findUnique({
-          where: { id },
-          include: {
-            property: true,
-            uploadedBy: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                email: true
-              }
-            }
-          }
-        });
-        
-        if (!document) {
-          return NextResponse.json(
-            { error: "Document not found" },
-            { status: 404 }
-          );
-        }
-        return NextResponse.json(document);
+    // If ID is provided, get specific document
+    if (id) {
+      const document = await documentsService.getDocumentById(id);
+      
+      if (!document) {
+        return NextResponse.json(
+          { error: "Document not found" },
+          { status: 404 }
+        );
       }
-
-      // Otherwise, list documents with filters
-      const filters: Prisma.DocumentWhereInput = {
-        ...(searchParams.get("propertyId") && {
-          propertyId: sanitize.stripHtml(searchParams.get("propertyId") || "")
-        }),
-        ...(searchParams.get("userId") && {
-          uploadedById: sanitize.stripHtml(searchParams.get("userId") || "")
-        }),
-        ...(docType && {
-          type: sanitize.stripHtml(docType)
-        }),
-        ...(docStatus && {
-          status: sanitize.stripHtml(docStatus) as Prisma.DocumentStatus
-        }),
-        ...(searchParams.get("searchTerm") && {
-          title: {
-            contains: sanitize.stripHtml(searchParams.get("searchTerm") || ""),
-            mode: Prisma.QueryMode.insensitive
-          }
-        }),
-        ...(relatedType && relatedId && {
-          entityType: sanitize.stripHtml(relatedType),
-          entityId: sanitize.stripHtml(relatedId)
-        })
-      };
-
-      const limit = searchParams.get("limit") 
-        ? Math.min(parseInt(searchParams.get("limit") || ""), maxLimit) || defaultLimit 
-        : defaultLimit;
-      const offset = searchParams.get("offset") 
-        ? parseInt(sanitize.stripHtml(searchParams.get("offset") || "")) || 0 
-        : 0;
-
-      const [documents, total] = await Promise.all([
-        prisma.document.findMany({
-          where: filters,
-          skip: offset,
-          take: limit,
-          orderBy: { createdAt: 'desc' },
-          include: {
-            property: true,
-            uploadedBy: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                email: true
-              }
-            }
-          }
-        }),
-        prisma.document.count({ where: filters })
-      ]);
-
-      return NextResponse.json({
-        data: documents,
-        pagination: {
-          total,
-          page: Math.floor(offset / limit) + 1,
-          limit,
-          pages: Math.ceil(total / limit)
-        }
-      });
-    } catch (dbError) {
-      console.warn("Database error, falling back to mock data:", dbError);
-      
-      // Use mock data when database is unavailable
-      const mockFilters = {
-        relatedTo: {
-          type: relatedType,
-          id: relatedId
-        },
-        type: docType,
-        status: docStatus
-      };
-      
-      const mockResult = getMockDocuments(mockFilters);
-      
-      return NextResponse.json({
-        data: mockResult.documents,
-        pagination: {
-          total: mockResult.total,
-          page: mockResult.page,
-          limit: defaultLimit,
-          pages: mockResult.pages
-        }
-      });
+      return NextResponse.json(document);
     }
-  } catch (error) {
+
+    // Parse pagination parameters
+    const limit = searchParams.get("limit") 
+      ? Math.min(parseInt(searchParams.get("limit") || ""), maxLimit) || defaultLimit 
+      : defaultLimit;
+    const offset = searchParams.get("offset") 
+      ? parseInt(sanitize.stripHtml(searchParams.get("offset") || "")) || 0 
+      : 0;
+
+    // Build filters for real database service
+    const filters: any = {
+      limit,
+      offset
+    };
+    
+    if (ownerId) {
+      filters.ownerId = sanitize.stripHtml(ownerId);
+    }
+    if (ownerType) {
+      filters.ownerType = sanitize.stripHtml(ownerType);
+    }
+    if (docType) {
+      filters.type = sanitize.stripHtml(docType);
+    }
+    if (uploadedBy) {
+      filters.uploadedBy = sanitize.stripHtml(uploadedBy);
+    }
+    if (isPublic !== null && isPublic !== undefined) {
+      filters.isPublic = isPublic === 'true';
+    }
+    if (searchTerm) {
+      filters.search = sanitize.stripHtml(searchTerm);
+    }
+
+    // Get documents from real database
+    const result = await documentsService.getDocuments(filters);
+
+    return NextResponse.json({
+      data: result.documents,
+      pagination: {
+        total: result.total,
+        page: Math.floor(offset / limit) + 1,
+        limit,
+        pages: Math.ceil(result.total / limit)
+      },
+      message: "Documents retrieved successfully"
+    });
+    
+  } catch (error: any) {
     console.error("Error fetching documents:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: "Failed to fetch documents",
+      message: error.message || "Internal server error"
+    }, { status: 500 });
   }
 }
 
@@ -257,35 +197,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create document with Prisma
-    const document = await prisma.document.create({
-      data: {
-        title: validatedData.title,
-        type: validatedData.type,
-        url: safeUrl,
-        uploadedById: validatedData.uploadedBy,
-        propertyId: validatedData.propertyId,
-        status: validatedData.status,
-        metadata: validatedData.metadata,
-        category: validatedData.category,
-        entityType: validatedData.entityType,
-        entityId: validatedData.entityId,
-        description: validatedData.description
-      },
-      include: {
-        property: true,
-        uploadedBy: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true
-          }
-        }
-      }
+    // Create document with real database service
+    const document = await documentsService.createDocument({
+      title: validatedData.title,
+      description: validatedData.description,
+      type: validatedData.type,
+      url: safeUrl,
+      uploadedBy: validatedData.uploadedBy,
+      ownerId: validatedData.propertyId || validatedData.entityId,
+      ownerType: validatedData.entityType || (validatedData.propertyId ? 'property' : undefined),
+      tags: validatedData.metadata ? Object.keys(validatedData.metadata) : undefined,
+      isPublic: false, // Default to private for security
+      mimeType: undefined, // Could be extracted from file upload
+      size: undefined // Could be extracted from file upload
     });
 
-    return NextResponse.json({ data: document });
+    return NextResponse.json({ 
+      data: document,
+      message: "Document created successfully"
+    });
   } catch (error) {
     console.error("Error creating document:", error);
     return NextResponse.json(
@@ -369,33 +299,11 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Update document with Prisma
-    const document = await prisma.document.update({
-      where: { id: validatedData.id },
-      data: {
-        title: validatedData.title,
-        type: validatedData.type,
-        url: safeUrl,
-        uploadedById: validatedData.uploadedBy,
-        propertyId: validatedData.propertyId,
-        status: validatedData.status,
-        metadata: validatedData.metadata,
-        category: validatedData.category,
-        entityType: validatedData.entityType,
-        entityId: validatedData.entityId,
-        description: validatedData.description
-      },
-      include: {
-        property: true,
-        uploadedBy: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true
-          }
-        }
-      }
+    // Update document using documentsService
+    const document = await documentsService.updateDocument(validatedData.id!, {
+      title: validatedData.title,
+      type: validatedData.type,
+      description: validatedData.description
     });
 
     return NextResponse.json({ data: document });
@@ -436,10 +344,15 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Delete document with Prisma
-    await prisma.document.delete({
-      where: { id }
-    });
+    // Delete document using documentsService
+    const success = await documentsService.deleteDocument(id);
+    
+    if (!success) {
+      return NextResponse.json(
+        { error: "Document not found or could not be deleted" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

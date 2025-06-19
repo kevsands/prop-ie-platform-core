@@ -1,0 +1,22 @@
+[2025-06-18T19:38:17.843Z] INFO: [2025-06-18T19:38:17.841Z] 🚀 Enterprise Data Migration Initialized
+[2025-06-18T19:38:17.844Z] INFO: [2025-06-18T19:38:17.844Z] 
+🚀 ENTERPRISE DATA MIGRATION - PHASE 6
+[2025-06-18T19:38:17.845Z] INFO: [2025-06-18T19:38:17.845Z] =========================================
+[2025-06-18T19:38:17.845Z] INFO: [2025-06-18T19:38:17.845Z] Migration ID: data_migration_2025-06-18T19-38-17-839Z
+[2025-06-18T19:38:17.846Z] INFO: [2025-06-18T19:38:17.846Z] Target: localhost:5432/propie_dev
+[2025-06-18T19:38:17.847Z] INFO: [2025-06-18T19:38:17.847Z] 📊 Extracting source data from SQLite...
+[2025-06-18T19:38:17.850Z] INFO: [2025-06-18T19:38:17.850Z] ✓ Extracted 5 users from SQLite
+[2025-06-18T19:38:17.851Z] INFO: [2025-06-18T19:38:17.851Z] ✓ Source checksum: ca6326b9673485546acac49b3bdc4e13f3f043d0cf3f9c595514d4ea705e220d
+[2025-06-18T19:38:17.852Z] INFO: [2025-06-18T19:38:17.851Z] 
+📦 Migrating users to PostgreSQL...
+[2025-06-18T19:38:17.865Z] INFO: [2025-06-18T19:38:17.865Z]    1/5: test@prop.ie ✗ - PostgreSQL insert failed for test@prop.ie: invalid input value for enum user_role: "BUYER"
+[2025-06-18T19:38:17.889Z] INFO: [2025-06-18T19:38:17.889Z]    2/5: testuser3@example.com ✗ - PostgreSQL insert failed for testuser3@example.com: new row for relation "users" violates check constraint "phone_format"
+[2025-06-18T19:38:17.903Z] INFO: [2025-06-18T19:38:17.903Z]    3/5: admin@example.com ✗ - PostgreSQL insert failed for admin@example.com: new row for relation "users" violates check constraint "phone_format"
+[2025-06-18T19:38:17.919Z] INFO: [2025-06-18T19:38:17.919Z]    4/5: dev@prop.ie ✗ - PostgreSQL insert failed for dev@prop.ie: new row for relation "users" violates check constraint "phone_format"
+[2025-06-18T19:38:17.935Z] INFO: [2025-06-18T19:38:17.935Z]    5/5: test.flow@example.com ✗ - PostgreSQL insert failed for test.flow@example.com: new row for relation "users" violates check constraint "phone_format"
+[2025-06-18T19:38:17.935Z] INFO: [2025-06-18T19:38:17.935Z] 🔍 Verifying migration integrity...
+[2025-06-18T19:38:17.961Z] INFO: [2025-06-18T19:38:17.961Z] ✓ Found 0 migrated users in PostgreSQL
+[2025-06-18T19:38:17.962Z] INFO: [2025-06-18T19:38:17.962Z] 
+❌ DATA MIGRATION FAILED: Migration verification failed: User count mismatch: SQLite 5, PostgreSQL 0
+[2025-06-18T19:38:17.964Z] ERROR: 
+❌ Data migration failed: Migration verification failed: User count mismatch: SQLite 5, PostgreSQL 0

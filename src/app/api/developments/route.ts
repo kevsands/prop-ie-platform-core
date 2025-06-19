@@ -1,10 +1,10 @@
 /**
  * API Route: /api/developments
- * Handles development endpoints - ENTERPRISE ENABLED
+ * Handles development endpoints - REAL DATABASE ENABLED
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getDevelopments } from '@/lib/enterprise-data';
+import { developmentsService } from '@/lib/services/developments-real';
 
 export async function GET(request: NextRequest) {
   try {
@@ -12,19 +12,22 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
     const published = searchParams.get('published') !== 'false';
+    const search = searchParams.get('search') || undefined;
+    const status = searchParams.get('status') || undefined;
+    const city = searchParams.get('city') || undefined;
 
-    // Get developments from enterprise database
-    const developments = await getDevelopments();
-    
-    // Filter published if specified
-    const filteredDevelopments = published 
-      ? developments.filter(dev => dev.isPublished)
-      : developments;
+    // Get developments from real database
+    const developments = await developmentsService.getDevelopments({
+      isPublished: published,
+      search,
+      status,
+      city
+    });
 
     // Simple pagination
     const start = (page - 1) * limit;
     const end = start + limit;
-    const paginatedData = filteredDevelopments.slice(start, end);
+    const paginatedData = developments.slice(start, end);
 
     return NextResponse.json({
       data: paginatedData.map(dev => ({
@@ -44,20 +47,13 @@ export async function GET(request: NextRequest) {
         amenities: JSON.parse(dev.amenitiesData || '[]'),
         isPublished: dev.isPublished,
         createdAt: dev.createdAt,
-        updatedAt: dev.updatedAt,
-        developer: {
-          id: dev.developer.id,
-          companyName: dev.developer.companyName,
-          isVerified: dev.developer.isVerified
-        },
-        unitCount: dev.units.length,
-        availableUnits: dev.units.filter(u => u.status === 'AVAILABLE').length
+        updatedAt: dev.updatedAt
       })),
       pagination: {
-        total: filteredDevelopments.length,
+        total: developments.length,
         page,
         limit,
-        pages: Math.ceil(filteredDevelopments.length / limit)
+        pages: Math.ceil(developments.length / limit)
       },
       message: 'Developments retrieved successfully'
     });
@@ -76,41 +72,49 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // Validate required fields for development creation
-    const { name, description, location, status, totalUnits, developerId } = body;
+    const { name, description, location, city, county, status, totalUnits, developerId, mainImage } = body;
     
-    if (!name || !description || !location || !developerId) {
+    if (!name || !location || !city || !county || !developerId || !mainImage) {
       return NextResponse.json({
         error: 'Missing required fields',
-        message: 'name, description, location, and developerId are required'
+        message: 'name, location, city, county, developerId, and mainImage are required'
       }, { status: 400 });
     }
 
-    // Create a new development with structured data
-    const newDevelopment = {
-      id: `dev_${Date.now()}`,
+    // Create development using real database service
+    const newDevelopment = await developmentsService.createDevelopment({
       name,
       description,
       location,
+      city,
+      county,
+      eircode: body.eircode,
       status: status || 'PLANNING',
-      totalUnits: totalUnits || 0,
       developerId,
-      isPublished: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      images: body.images || [],
-      features: body.features || [],
-      amenities: body.amenities || [],
-      priceRange: body.priceRange || 'TBD',
-      availableUnits: totalUnits || 0
-    };
+      mainImage,
+      imagesData: body.images || [],
+      totalUnits: totalUnits || 0,
+      startingPrice: body.startingPrice,
+      avgPrice: body.avgPrice,
+      isPublished: body.isPublished || false,
+      featuresData: body.features || [],
+      amenitiesData: body.amenities || []
+    });
 
     return NextResponse.json({
       data: newDevelopment,
       message: 'Development created successfully'
     }, { status: 201 });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating development:', error);
+    
+    if (error.message === 'Development with this name already exists') {
+      return NextResponse.json({
+        error: 'Development with this name already exists'
+      }, { status: 409 });
+    }
+    
     return NextResponse.json({
       error: 'Failed to create development',
       message: 'Internal server error'

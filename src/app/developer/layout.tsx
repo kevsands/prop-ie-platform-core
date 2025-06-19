@@ -60,6 +60,7 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
       isDropdown: true,
       subItems: [
         { name: 'All Projects', href: '/developer/projects', icon: Building2 },
+        { name: 'Live Availability', href: '/developer/properties/availability', icon: TrendingUp },
         { name: 'Fitzgerald Gardens', href: '/developer/projects/fitzgerald-gardens', icon: Target },
         { name: 'Ellwood', href: '/developer/projects/ellwood', icon: Target },
         { name: 'Ballymakenny View', href: '/developer/projects/ballymakenny-view', icon: Target },
@@ -125,6 +126,7 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
     },
 
     { name: 'Documents', href: '/developer/documents', icon: FileText },
+    { name: 'System Health', href: '/developer/system/integration-test', icon: Activity },
     { name: 'Agent Communications', href: '/developer/agent-communications', icon: Users },
     { name: 'Collaboration Hub', href: '/developer/collaboration', icon: MessageSquare },
     
@@ -367,10 +369,16 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button className="p-2.5 hover:bg-gray-100 rounded-lg transition-colors relative">
+                <Link 
+                  href="/developer/notifications"
+                  className="p-2.5 hover:bg-gray-100 rounded-lg transition-colors relative"
+                >
                   <Bell size={20} className="text-gray-600" />
                   <span className="absolute top-1 right-1 w-2 h-2 bg-purple-500 rounded-full" />
-                </button>
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    3
+                  </span>
+                </Link>
                 <Link 
                   href="/developer/settings"
                   className="p-2.5 hover:bg-gray-100 rounded-lg transition-colors"

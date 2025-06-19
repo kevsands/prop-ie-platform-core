@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { SessionProtectedRoute } from '@/components/auth/SessionProtectedRoute';
 import { 
   Home, 
   TrendingUp, 
@@ -78,108 +79,60 @@ interface Property {
   image: string;
 }
 
-export default function BuyerOverview() {
+function BuyerOverview() {
   const [selectedTimeframe, setSelectedTimeframe] = useState('current');
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [loading, setLoading] = useState(true);
+  const [buyerMetrics, setBuyerMetrics] = useState<BuyerMetrics | null>(null);
+  const [recentTasks, setRecentTasks] = useState<Task[]>([]);
+  const [savedProperties, setSavedProperties] = useState<Property[]>([]);
 
-  // Enhanced buyer metrics
-  const buyerMetrics: BuyerMetrics = {
-    budget: 380000,
-    htbBenefit: 30000,
-    preApprovalAmount: 350000,
-    monthlyPayment: 1650,
-    savedProperties: 7,
-    documentsUploaded: 8,
-    verificationStatus: 'completed',
-    journeyProgress: 75,
-    tasksCompleted: 12,
-    totalTasks: 16,
-    nextAppointment: {
-      type: 'Mortgage Consultation',
-      date: 'Tomorrow at 2:00 PM',
-      location: 'Bank of Ireland, O\'Connell Street'
-    }
-  };
+  // Fetch buyer overview data
+  useEffect(() => {
+    const fetchBuyerData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/buyer/overview');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch buyer data');
+        }
+        
+        const data = await response.json();
+        
+        setBuyerMetrics(data.metrics);
+        setRecentTasks(data.tasks || []);
+        setSavedProperties(data.savedProperties || []);
+        setLastUpdated(new Date());
+      } catch (error) {
+        console.error('Error fetching buyer data:', error);
+        // Fallback to mock data for development
+        setBuyerMetrics({
+          budget: 380000,
+          htbBenefit: 30000,
+          preApprovalAmount: 350000,
+          monthlyPayment: 1650,
+          savedProperties: 7,
+          documentsUploaded: 8,
+          verificationStatus: 'completed',
+          journeyProgress: 75,
+          tasksCompleted: 12,
+          totalTasks: 16,
+          nextAppointment: {
+            type: 'Mortgage Consultation',
+            date: 'Tomorrow at 2:00 PM',
+            location: 'Bank of Ireland, O\'Connell Street'
+          }
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const recentTasks: Task[] = [
-    {
-      id: '1',
-      title: 'Complete Mortgage Application',
-      description: 'Submit final mortgage application with supporting documents',
-      status: 'in_progress',
-      priority: 'high',
-      dueDate: '2 days',
-      progress: 85,
-      category: 'financial'
-    },
-    {
-      id: '2',
-      title: 'Schedule Property Viewing',
-      description: 'Book viewing appointments for shortlisted properties',
-      status: 'pending',
-      priority: 'high',
-      dueDate: '3 days',
-      category: 'property'
-    },
-    {
-      id: '3',
-      title: 'HTB Application Review',
-      description: 'Review and submit Help-to-Buy scheme application',
-      status: 'pending',
-      priority: 'medium',
-      dueDate: '1 week',
-      category: 'financial'
-    },
-    {
-      id: '4',
-      title: 'Legal Advisor Selection',
-      description: 'Choose solicitor for property purchase process',
-      status: 'pending',
-      priority: 'medium',
-      dueDate: '2 weeks',
-      category: 'legal'
-    }
-  ];
+    fetchBuyerData();
+  }, []);
 
-  const savedProperties: Property[] = [
-    {
-      id: '1',
-      title: 'Fitzgerald Gardens - Unit 23',
-      price: 385000,
-      location: 'Cork, Ireland',
-      beds: 3,
-      baths: 2,
-      htbEligible: true,
-      developer: 'Premium Developments',
-      status: 'available',
-      image: '/api/placeholder/300/200'
-    },
-    {
-      id: '2',
-      title: 'Ellwood - Unit 15',
-      price: 420000,
-      location: 'Dublin, Ireland',
-      beds: 2,
-      baths: 2,
-      htbEligible: true,
-      developer: 'Dublin Properties Ltd',
-      status: 'reserved',
-      image: '/api/placeholder/300/200'
-    },
-    {
-      id: '3',
-      title: 'Ballymakenny View - Unit 8',
-      price: 365000,
-      location: 'Drogheda, Ireland',
-      beds: 3,
-      baths: 2,
-      htbEligible: true,
-      developer: 'Coastal Developments',
-      status: 'available',
-      image: '/api/placeholder/300/200'
-    }
-  ];
 
   const timeframes = [
     { value: 'current', label: 'Current Status' },
@@ -190,9 +143,20 @@ export default function BuyerOverview() {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setLastUpdated(new Date());
-    setRefreshing(false);
+    try {
+      const response = await fetch('/api/buyer/overview');
+      if (response.ok) {
+        const data = await response.json();
+        setBuyerMetrics(data.metrics);
+        setRecentTasks(data.tasks || []);
+        setSavedProperties(data.savedProperties || []);
+        setLastUpdated(new Date());
+      }
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   const formatCurrency = (amount: number) => {
@@ -244,6 +208,18 @@ export default function BuyerOverview() {
         return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
+
+  // Show loading state
+  if (loading || !buyerMetrics) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -679,5 +655,13 @@ export default function BuyerOverview() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BuyerOverviewPage() {
+  return (
+    <SessionProtectedRoute requiredRoles={['buyer', 'first_time_buyer']}>
+      <BuyerOverview />
+    </SessionProtectedRoute>
   );
 }

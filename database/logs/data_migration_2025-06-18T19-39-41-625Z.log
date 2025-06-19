@@ -1,0 +1,39 @@
+[2025-06-18T19:39:41.629Z] INFO: [2025-06-18T19:39:41.626Z] 🚀 Enterprise Data Migration Initialized
+[2025-06-18T19:39:41.629Z] INFO: [2025-06-18T19:39:41.629Z] 
+🚀 ENTERPRISE DATA MIGRATION - PHASE 6
+[2025-06-18T19:39:41.630Z] INFO: [2025-06-18T19:39:41.630Z] =========================================
+[2025-06-18T19:39:41.631Z] INFO: [2025-06-18T19:39:41.631Z] Migration ID: data_migration_2025-06-18T19-39-41-625Z
+[2025-06-18T19:39:41.632Z] INFO: [2025-06-18T19:39:41.632Z] Target: localhost:5432/propie_dev
+[2025-06-18T19:39:41.634Z] INFO: [2025-06-18T19:39:41.633Z] 📊 Extracting source data from SQLite...
+[2025-06-18T19:39:41.635Z] INFO: [2025-06-18T19:39:41.635Z] ✓ Extracted 5 users from SQLite
+[2025-06-18T19:39:41.636Z] INFO: [2025-06-18T19:39:41.636Z] ✓ Source checksum: ca6326b9673485546acac49b3bdc4e13f3f043d0cf3f9c595514d4ea705e220d
+[2025-06-18T19:39:41.636Z] INFO: [2025-06-18T19:39:41.636Z] 
+📦 Migrating users to PostgreSQL...
+[2025-06-18T19:39:41.671Z] INFO: [2025-06-18T19:39:41.671Z] ✓ Migrated user: test@prop.ie (03e5b837-6686-4aab-842b-703d33aec9e7)
+[2025-06-18T19:39:41.671Z] INFO: [2025-06-18T19:39:41.671Z]    1/5: test@prop.ie ✓
+[2025-06-18T19:39:41.674Z] INFO: [2025-06-18T19:39:41.674Z] ✓ Migrated user: testuser3@example.com (24bc3a74-d6ed-4fca-a7ff-8fc9baa650da)
+[2025-06-18T19:39:41.675Z] INFO: [2025-06-18T19:39:41.675Z]    2/5: testuser3@example.com ✓
+[2025-06-18T19:39:41.678Z] INFO: [2025-06-18T19:39:41.678Z] ✓ Migrated user: admin@example.com (55904538-7ccc-4d36-a5cc-a0054d984498)
+[2025-06-18T19:39:41.679Z] INFO: [2025-06-18T19:39:41.679Z]    3/5: admin@example.com ✓
+[2025-06-18T19:39:41.681Z] INFO: [2025-06-18T19:39:41.681Z] ✓ Migrated user: dev@prop.ie (e1c55b0d-0b70-495e-afa8-762f5b49150a)
+[2025-06-18T19:39:41.682Z] INFO: [2025-06-18T19:39:41.682Z]    4/5: dev@prop.ie ✓
+[2025-06-18T19:39:41.685Z] INFO: [2025-06-18T19:39:41.685Z] ✓ Migrated user: test.flow@example.com (d223dc16-919a-4d63-bb0b-44559e47fab2)
+[2025-06-18T19:39:41.685Z] INFO: [2025-06-18T19:39:41.685Z]    5/5: test.flow@example.com ✓
+[2025-06-18T19:39:41.687Z] INFO: [2025-06-18T19:39:41.687Z] 🔍 Verifying migration integrity...
+[2025-06-18T19:39:41.689Z] INFO: [2025-06-18T19:39:41.689Z] ✓ Found 5 migrated users in PostgreSQL
+[2025-06-18T19:39:41.690Z] INFO: [2025-06-18T19:39:41.690Z] ✅ Migration integrity verification PASSED
+[2025-06-18T19:39:41.692Z] INFO: [2025-06-18T19:39:41.692Z] ✓ All 5 users successfully migrated
+[2025-06-18T19:39:41.693Z] INFO: [2025-06-18T19:39:41.693Z] ✓ Migrated data checksum: 53f71b8aebd2d90e588af51737192fa8d5f7b6e977b85090b7cee551115b4a3e
+[2025-06-18T19:39:41.694Z] INFO: [2025-06-18T19:39:41.694Z] 📋 Migration report saved: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/reports/data_migration_report_data_migration_2025-06-18T19-39-41-625Z.json
+[2025-06-18T19:39:41.696Z] INFO: [2025-06-18T19:39:41.696Z] 
+🎉 DATA MIGRATION COMPLETED SUCCESSFULLY
+[2025-06-18T19:39:41.697Z] INFO: [2025-06-18T19:39:41.697Z] ======================================
+[2025-06-18T19:39:41.698Z] INFO: [2025-06-18T19:39:41.698Z] ✅ All 5 users migrated successfully
+[2025-06-18T19:39:41.699Z] INFO: [2025-06-18T19:39:41.699Z] ✅ Data integrity verified
+[2025-06-18T19:39:41.700Z] INFO: [2025-06-18T19:39:41.700Z] ✅ Audit trails created
+[2025-06-18T19:39:41.701Z] INFO: [2025-06-18T19:39:41.701Z] 
+Your PostgreSQL database is ready for production use!
+[2025-06-18T19:39:41.702Z] INFO: [2025-06-18T19:39:41.702Z] 
+Next step: Update application configuration to use PostgreSQL
+[2025-06-18T19:39:41.703Z] INFO: 
+✅ Data migration successful!

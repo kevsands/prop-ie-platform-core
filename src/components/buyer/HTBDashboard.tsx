@@ -55,27 +55,48 @@ interface HTBDashboardProps {
 export const HTBDashboard: React.FC<HTBDashboardProps> = ({ className = '' }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [htbApplication, setHtbApplication] = useState<HTBApplication | null>(null);
 
-  // Initialize Sentry performance monitoring
+  // Fetch HTB data and initialize Sentry monitoring
   useEffect(() => {
-    try {
-      // Track component initialization
-      Sentry.addBreadcrumb({
-        message: 'HTB Dashboard initialized',
-        level: 'info',
-        category: 'ui.component'
-      });
-      
-      Sentry.setTag('component', 'HTBDashboard');
-      Sentry.setContext('htb_application', {
-        status: 'in_progress',
-        amount: 30000
-      });
-      
-    } catch (error) {
-      Sentry.captureException(error);
-      setError('Failed to initialize HTB Dashboard');
-    }
+    const fetchHTBData = async () => {
+      try {
+        setLoading(true);
+        
+        // Track component initialization
+        Sentry.addBreadcrumb({
+          message: 'HTB Dashboard initialized',
+          level: 'info',
+          category: 'ui.component'
+        });
+        
+        Sentry.setTag('component', 'HTBDashboard');
+        
+        // Fetch HTB data from API
+        const response = await fetch('/api/buyer/htb');
+        if (!response.ok) {
+          throw new Error('Failed to fetch HTB data');
+        }
+        
+        const data = await response.json();
+        setHtbApplication(data.application);
+        
+        Sentry.setContext('htb_application', {
+          status: data.application.status,
+          amount: data.application.amount
+        });
+        
+      } catch (error) {
+        Sentry.captureException(error);
+        setError('Failed to load HTB data');
+        console.error('HTB data fetch error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHTBData();
   }, []);
 
   // Monitor tab changes with performance tracking
@@ -98,57 +119,6 @@ export const HTBDashboard: React.FC<HTBDashboardProps> = ({ className = '' }) =>
     }
   };
 
-  // Mock HTB application data
-  const htbApplication: HTBApplication = {
-    id: 'HTB-2024-001',
-    status: 'in_progress',
-    submissionDate: '2024-03-15',
-    amount: 30000,
-    property: {
-      id: '1',
-      title: 'Fitzgerald Gardens - Unit 23',
-      price: 385000,
-      developer: 'Premium Developments'
-    },
-    documents: [
-      { name: 'P60 Form (Year 1)', status: 'verified', uploadDate: '2024-03-10' },
-      { name: 'P60 Form (Year 2)', status: 'verified', uploadDate: '2024-03-10' },
-      { name: 'P60 Form (Year 3)', status: 'verified', uploadDate: '2024-03-10' },
-      { name: 'P60 Form (Year 4)', status: 'verified', uploadDate: '2024-03-10' },
-      { name: 'Bank Statements', status: 'uploaded', uploadDate: '2024-03-12' },
-      { name: 'Property Purchase Contract', status: 'required' },
-      { name: 'Solicitor Confirmation', status: 'required' }
-    ],
-    timeline: [
-      {
-        stage: 'Eligibility Check',
-        status: 'completed',
-        date: '2024-03-10',
-        description: 'Verified first-time buyer status and property eligibility'
-      },
-      {
-        stage: 'Document Upload',
-        status: 'completed',
-        date: '2024-03-12',
-        description: 'Uploaded required tax documents and bank statements'
-      },
-      {
-        stage: 'Application Review',
-        status: 'current',
-        description: 'Revenue reviewing submitted documentation'
-      },
-      {
-        stage: 'Approval',
-        status: 'pending',
-        description: 'Final approval and HTB certificate generation'
-      },
-      {
-        stage: 'Payment',
-        status: 'pending',
-        description: 'HTB refund paid to solicitor at property closing'
-      }
-    ]
-  };
 
   const getStatusColor = (status: HTBApplication['status']) => {
     switch (status) {
@@ -178,6 +148,31 @@ export const HTBDashboard: React.FC<HTBDashboardProps> = ({ className = '' }) =>
     { id: 'timeline', label: 'Timeline', icon: Clock },
     { id: 'calculator', label: 'Calculator', icon: Calculator }
   ];
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className={`bg-white rounded-xl shadow-lg border border-gray-200 ${className}`}>
+        <div className="p-6 text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading HTB data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state if no data
+  if (!htbApplication) {
+    return (
+      <div className={`bg-white rounded-xl shadow-lg border border-gray-200 ${className}`}>
+        <div className="p-6 text-center">
+          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">HTB Data Unavailable</h3>
+          <p className="text-gray-600">Unable to load Help-to-Buy application data.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`bg-white rounded-xl shadow-lg border border-gray-200 ${className}`}>

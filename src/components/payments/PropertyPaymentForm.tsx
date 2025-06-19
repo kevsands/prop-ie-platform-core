@@ -13,7 +13,7 @@ interface PaymentFormProps {
   propertyId: string;
   propertyName: string;
   amount: number;
-  paymentType: 'booking_deposit' | 'reservation_deposit' | 'completion_payment' | 'stage_payment';
+  paymentType: 'booking_deposit' | 'contractual_deposit' | 'completion_payment' | 'stage_payment' | 'upgrade_payment';
   description: string;
   onSuccess: (paymentResult: any) => void;
   onError: (error: any) => void;
@@ -40,7 +40,7 @@ function StripePaymentForm({
   const createPaymentIntent = async () => {
     setProcessing(true);
     try {
-      const response = await fetch('/api/test-payments', {
+      const response = await fetch('/api/payments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -51,18 +51,24 @@ function StripePaymentForm({
           paymentType,
           metadata: {
             propertyName,
-            buyerJourney: 'reservation'
+            buyerJourney: 'production_payment'
           }
         }),
       });
 
       const data = await response.json();
-      if (data.success) {
-        setPaymentIntent(data);
+      if (data.paymentIntent && data.paymentIntent.clientSecret) {
+        setPaymentIntent({
+          clientSecret: data.paymentIntent.clientSecret,
+          id: data.paymentIntent.id,
+          amount: data.paymentIntent.amount,
+          currency: data.paymentIntent.currency,
+          fees: data.fees
+        });
         setStep('payment');
       } else {
         setStep('error');
-        onError(data.error);
+        onError(data.error || 'Failed to create payment intent');
       }
     } catch (error) {
       setStep('error');
@@ -199,10 +205,14 @@ function StripePaymentForm({
           </div>
         </div>
 
-        <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800">
-          <p className="font-medium mb-2">Test Cards:</p>
-          <p>✅ Success: 4242 4242 4242 4242</p>
-          <p>❌ Decline: 4000 0000 0000 0002</p>
+        <div className="bg-green-50 p-4 rounded-lg text-sm text-green-800">
+          <div className="flex items-center mb-2">
+            <Lock className="h-4 w-4 mr-2" />
+            <span className="font-medium">Secure Payment Processing</span>
+          </div>
+          <p>• PCI DSS Level 1 compliant encryption</p>
+          <p>• Your card details are never stored on our servers</p>
+          <p>• 256-bit SSL encryption in transit</p>
         </div>
 
         <button

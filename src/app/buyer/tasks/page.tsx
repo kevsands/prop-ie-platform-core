@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { SessionProtectedRoute } from '@/components/auth/SessionProtectedRoute';
+import { TaskDashboard } from '@/components/tasks/TaskDashboard';
 import { 
   Target, 
   Clock, 
@@ -41,7 +43,7 @@ interface Task {
   notes?: string;
 }
 
-export default function TasksPage() {
+function TasksPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterCategory, setFilterCategory] = useState<string>('all');
@@ -529,7 +531,20 @@ export default function TasksPage() {
             </div>
           )}
         </div>
+
+        {/* New Task Dashboard Integration */}
+        <div className="mt-8">
+          <TaskDashboard />
+        </div>
       </div>
     </div>
+  );
+}
+
+export default function BuyerTasksPage() {
+  return (
+    <SessionProtectedRoute requiredRoles={['buyer', 'first_time_buyer']}>
+      <TasksPage />
+    </SessionProtectedRoute>
   );
 }

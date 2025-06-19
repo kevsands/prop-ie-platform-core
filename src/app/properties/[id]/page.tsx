@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BedDouble, Bath, Maximize, MapPin, CheckCircle, Euro, Calculator, X } from "lucide-react";
 import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
+import { PropertyPurchaseFlow } from '@/components/payments/PropertyPurchaseFlow';
 
 // Mock DataService for build testing
 const DataService = {
@@ -87,6 +88,7 @@ export default function PropertyDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showHTBCalculator, setShowHTBCalculator] = useState(false);
+  const [showPurchaseFlow, setShowPurchaseFlow] = useState(false);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -280,12 +282,12 @@ export default function PropertyDetailPage() {
             
             {/* Action Buttons */} 
             <div className="space-y-3">
-              <Link 
-                href={`/buyer/purchase/${property.id}`} 
-                className="block w-full text-center bg-green-600 text-white px-5 py-3 rounded-md hover:bg-green-700 transition-colors font-bold text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
+              <button 
+                onClick={() => setShowPurchaseFlow(true)}
+                className="w-full bg-green-600 text-white px-5 py-3 rounded-md hover:bg-green-700 transition-colors font-bold text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
               >
                 Buy Now - Reserve for €500
-              </Link>
+              </button>
               <button 
                 onClick={() => alert("Booking functionality not yet implemented.")} 
                 className="w-full bg-[#2B5273] text-white px-5 py-3 rounded-md hover:bg-[#1E3142] transition-colors font-medium text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
@@ -418,6 +420,29 @@ export default function PropertyDetailPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Property Purchase Flow Modal */}
+      {showPurchaseFlow && property && (
+        <PropertyPurchaseFlow
+          property={{
+            id: property.id,
+            title: property.title || property.name || 'Property',
+            price: property.price || 0,
+            location: property.address 
+              ? `${property.address.city || ''}${property.address.state ? `, ${property.address.state}` : ''}`
+              : property.developmentName || 'Location TBC',
+            beds: property.bedrooms || 0,
+            baths: property.bathrooms || 0,
+            developer: property.developmentName || 'Developer TBC',
+            htbEligible: property.htbEligible || false
+          }}
+          onClose={() => setShowPurchaseFlow(false)}
+          onComplete={(transactionId) => {
+            setShowPurchaseFlow(false);
+            alert(`Purchase successful! Transaction ID: ${transactionId}`);
+          }}
+        />
       )}
     </div>
   );

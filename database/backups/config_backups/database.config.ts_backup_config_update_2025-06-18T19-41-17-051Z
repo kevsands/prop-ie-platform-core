@@ -1,0 +1,324 @@
+/**
+ * Enterprise Database Configuration
+ * Supports multiple environments with connection pooling and monitoring
+ */
+
+import { Pool, PoolConfig } from 'pg';
+
+export interface DatabaseConfig extends PoolConfig {
+  // Connection settings
+  host: string;
+  port: number;
+  database: string;
+  user: string;
+  password: string;
+  
+  // SSL configuration
+  ssl?: {
+    rejectUnauthorized: boolean;
+    ca?: string;
+    cert?: string;
+    key?: string;
+  };
+  
+  // Connection pooling
+  max: number;
+  min: number;
+  idleTimeoutMillis: number;
+  connectionTimeoutMillis: number;
+  
+  // Enterprise features
+  statement_timeout: number;
+  query_timeout: number;
+  application_name: string;
+  
+  // Monitoring
+  log: boolean;
+  debug: boolean;
+}
+
+/**
+ * Environment-specific database configurations
+ */
+const configs: Record<string, DatabaseConfig> = {
+  development: {
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432'),
+    database: process.env.DB_NAME || 'propie_dev',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'postgres',
+    
+    // Development SSL (disabled for local)
+    ssl: process.env.DB_SSL === 'true' ? {
+      rejectUnauthorized: false
+    } : false,
+    
+    // Conservative connection pool for development
+    max: 10,
+    min: 2,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 5000,
+    
+    // Development timeouts
+    statement_timeout: 30000, // 30 seconds
+    query_timeout: 20000,     // 20 seconds
+    application_name: 'propie-dev',
+    
+    // Development monitoring
+    log: true,
+    debug: process.env.DB_DEBUG === 'true'
+  },
+
+  staging: {
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432'),
+    database: process.env.DB_NAME || 'propie_staging',
+    user: process.env.DB_USER || 'propie_app',
+    password: process.env.DB_PASSWORD!,
+    
+    // Staging SSL (required)
+    ssl: {
+      rejectUnauthorized: true,
+      ca: process.env.DB_SSL_CA
+    },
+    
+    // Staging connection pool
+    max: 25,
+    min: 5,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+    
+    // Staging timeouts
+    statement_timeout: 45000, // 45 seconds
+    query_timeout: 30000,     // 30 seconds
+    application_name: 'propie-staging',
+    
+    // Staging monitoring
+    log: true,
+    debug: false
+  },
+
+  production: {
+    host: process.env.DB_HOST!,
+    port: parseInt(process.env.DB_PORT || '5432'),
+    database: process.env.DB_NAME!,
+    user: process.env.DB_USER!,
+    password: process.env.DB_PASSWORD!,
+    
+    // Production SSL (mandatory)
+    ssl: {
+      rejectUnauthorized: true,
+      ca: process.env.DB_SSL_CA!,
+      cert: process.env.DB_SSL_CERT,
+      key: process.env.DB_SSL_KEY
+    },
+    
+    // Production connection pool (enterprise scale)
+    max: 100,
+    min: 10,
+    idleTimeoutMillis: 60000,
+    connectionTimeoutMillis: 15000,
+    
+    // Production timeouts
+    statement_timeout: 60000, // 60 seconds
+    query_timeout: 45000,     // 45 seconds
+    application_name: 'propie-production',
+    
+    // Production monitoring
+    log: false,
+    debug: false
+  }
+};
+
+/**
+ * Enterprise Database Connection Manager
+ */
+class DatabaseManager {
+  private static instance: DatabaseManager;
+  private pools: Map<string, Pool> = new Map();
+  private readonly environment: string;
+
+  private constructor() {
+    this.environment = process.env.NODE_ENV || 'development';
+    this.initializeConnections();
+  }
+
+  public static getInstance(): DatabaseManager {
+    if (!DatabaseManager.instance) {
+      DatabaseManager.instance = new DatabaseManager();
+    }
+    return DatabaseManager.instance;
+  }
+
+  private initializeConnections(): void {
+    const config = this.getConfig();
+    
+    // Primary connection pool
+    const primaryPool = new Pool(config);
+    
+    // Connection event handlers
+    primaryPool.on('connect', (client) => {
+      console.log(`[DB] New client connected (PID: ${client.processID})`);
+      
+      // Set session parameters for enterprise features
+      client.query(`
+        SET statement_timeout = ${config.statement_timeout};
+        SET application_name = '${config.application_name}';
+        SET timezone = 'UTC';
+      `).catch(err => console.error('[DB] Session setup error:', err));
+    });
+
+    primaryPool.on('error', (err) => {
+      console.error('[DB] Pool error:', err);
+      // In production, this would trigger alerts
+    });
+
+    primaryPool.on('remove', (client) => {
+      console.log(`[DB] Client removed (PID: ${client.processID})`);
+    });
+
+    this.pools.set('primary', primaryPool);
+
+    // Read-only replica pool (for production)
+    if (this.environment === 'production' && process.env.DB_READ_HOST) {
+      const readConfig = {
+        ...config,
+        host: process.env.DB_READ_HOST!,
+        max: 50, // Smaller pool for read operations
+        application_name: `${config.application_name}-readonly`
+      };
+      
+      const readPool = new Pool(readConfig);
+      this.pools.set('readonly', readPool);
+    }
+  }
+
+  private getConfig(): DatabaseConfig {
+    const config = configs[this.environment];
+    if (!config) {
+      throw new Error(`No database configuration found for environment: ${this.environment}`);
+    }
+
+    // Validate required environment variables for production
+    if (this.environment === 'production') {
+      const required = ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'];
+      for (const key of required) {
+        if (!process.env[key]) {
+          throw new Error(`Missing required environment variable: ${key}`);
+        }
+      }
+    }
+
+    return config;
+  }
+
+  /**
+   * Get database connection pool
+   */
+  public getPool(type: 'primary' | 'readonly' = 'primary'): Pool {
+    const pool = this.pools.get(type);
+    if (!pool) {
+      throw new Error(`Database pool not found: ${type}`);
+    }
+    return pool;
+  }
+
+  /**
+   * Execute query with automatic pool selection
+   */
+  public async query(text: string, params?: any[], useReadOnly: boolean = false): Promise<any> {
+    const poolType = useReadOnly && this.pools.has('readonly') ? 'readonly' : 'primary';
+    const pool = this.getPool(poolType);
+    
+    const start = Date.now();
+    try {
+      const result = await pool.query(text, params);
+      const duration = Date.now() - start;
+      
+      if (duration > 1000) { // Log slow queries (>1s)
+        console.warn(`[DB] Slow query detected (${duration}ms):`, text.substring(0, 100));
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('[DB] Query error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get connection pool statistics
+   */
+  public getPoolStats(): Record<string, any> {
+    const stats: Record<string, any> = {};
+    
+    for (const [name, pool] of this.pools) {
+      stats[name] = {
+        totalCount: pool.totalCount,
+        idleCount: pool.idleCount,
+        waitingCount: pool.waitingCount
+      };
+    }
+    
+    return stats;
+  }
+
+  /**
+   * Health check for monitoring
+   */
+  public async healthCheck(): Promise<{healthy: boolean, pools: Record<string, boolean>}> {
+    const results: Record<string, boolean> = {};
+    let allHealthy = true;
+
+    for (const [name, pool] of this.pools) {
+      try {
+        await pool.query('SELECT 1');
+        results[name] = true;
+      } catch (error) {
+        console.error(`[DB] Health check failed for pool ${name}:`, error);
+        results[name] = false;
+        allHealthy = false;
+      }
+    }
+
+    return {
+      healthy: allHealthy,
+      pools: results
+    };
+  }
+
+  /**
+   * Graceful shutdown
+   */
+  public async shutdown(): Promise<void> {
+    console.log('[DB] Shutting down database connections...');
+    
+    const shutdownPromises = Array.from(this.pools.values()).map(pool => 
+      pool.end().catch(err => console.error('[DB] Error during pool shutdown:', err))
+    );
+    
+    await Promise.all(shutdownPromises);
+    this.pools.clear();
+    console.log('[DB] Database shutdown complete');
+  }
+}
+
+// Export singleton instance
+export const db = DatabaseManager.getInstance();
+
+// Export pool directly for backward compatibility
+export const pool = db.getPool('primary');
+
+// Export configuration for external use
+export const dbConfig = configs[process.env.NODE_ENV || 'development'];
+
+// Graceful shutdown handler
+process.on('SIGTERM', async () => {
+  await db.shutdown();
+  process.exit(0);
+});
+
+process.on('SIGINT', async () => {
+  await db.shutdown();
+  process.exit(0);
+});

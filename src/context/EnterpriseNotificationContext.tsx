@@ -34,9 +34,9 @@ const EnterpriseNotificationContext = createContext<EnterpriseNotificationContex
 export const useEnterpriseNotifications = () => useContext(EnterpriseNotificationContext);
 
 export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notificationsList, setNotificationsList] = useState<Notification[]>([]);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notificationsList.filter(n => !n.read).length;
 
   const addNotification = ({ title, message, type }: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
     const newNotification: Notification = {
@@ -48,11 +48,11 @@ export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> =
       timestamp: new Date(),
     };
     
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotificationsList(prev => [newNotification, ...prev]);
   };
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => 
+    setNotificationsList(prev => 
       prev.map(notification => 
         notification.id === id ? { ...notification, read: true } : notification
       )
@@ -60,19 +60,19 @@ export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> =
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => 
+    setNotificationsList(prev => 
       prev.map(notification => ({ ...notification, read: true }))
     );
   };
 
   const clearNotifications = () => {
-    setNotifications([]);
+    setNotificationsList([]);
   };
 
   return (
     <EnterpriseNotificationContext.Provider 
       value={{ 
-        notifications, 
+        notifications: notificationsList, 
         unreadCount, 
         addNotification, 
         markAsRead, 

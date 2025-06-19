@@ -13,6 +13,8 @@ frontend:
         - npm run security-check || echo "Security check completed with warnings"
         - echo "🔧 Generating Prisma client for enterprise schema..."
         - npm run db:generate
+        - echo "📊 Setting up PostgreSQL production schema..."
+        - if [ "${AWS_BRANCH}" = "production" ]; then cp prisma/schema-production.prisma prisma/schema.prisma; fi
     build:
       commands:
         - echo "🏗️ Building PROP.ie Enterprise Platform for ${AWS_BRANCH}..."

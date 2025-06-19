@@ -1,9 +1,7 @@
 // src/app/api/auth/login/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { authService } from '@/services/authService';
-import { Logger } from '@/utils/logger';
-
-const logger = new Logger('AuthAPI');
+import { Auth } from '@/lib/auth';
+import { userService } from '@/lib/services/users-production';
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,29 +15,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // In development mode, allow mock login
-    if (process.env.NODE_ENV === 'development' && email.includes('@example.com')) {
-      // Development mock login
-      const mockRole = email.includes('admin') ? 'admin' :
-                      email.includes('developer') ? 'developer' :
-                      email.includes('solicitor') ? 'solicitor' :
-                      email.includes('agent') ? 'agent' : 'buyer';
+    // In development mode with mock auth enabled, check database for user
+    if (process.env.NODE_ENV === 'development' && process.env.ALLOW_MOCK_AUTH === 'true') {
+      console.log(`[DEV] Login attempt - Email: ${email}`);
       
-      const mockUser = {
-        id: `dev-user-${Math.random().toString(36).substring(2, 9)}`,
-        email,
-        firstName: email.split('@')[0],
-        lastName: 'User',
-        role: mockRole,
-        permissions: ['read', 'write']
-      };
+      // Try to find user in database
+      const user = await userService.getUserByEmail(email);
+      
+      if (!user) {
+        return NextResponse.json(
+          { error: 'User not found' },
+          { status: 401 }
+        );
+      }
+
+      // Update last login timestamp
+      await userService.updateLastLogin(user.id);
 
       const response = NextResponse.json({
-        user: mockUser,
-        token: 'dev-mode-dummy-token'
+        success: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          roles: user.roles,
+          status: user.status
+        },
+        token: `dev-token-${user.id}`,
+        message: '[DEV MODE] Login successful. In production, credentials would be validated.'
       });
 
-      response.cookies.set('auth-token', 'dev-mode-dummy-token', {
+      response.cookies.set('auth-token', `dev-token-${user.id}`, {
         httpOnly: true,
         secure: false,
         sameSite: 'lax',
@@ -49,43 +56,63 @@ export async function POST(request: NextRequest) {
       return response;
     }
 
-    // Production login with real authentication
-    const authResponse = await authService.login({ email, password });
+    // Production: Use AWS Cognito authentication
+    try {
+      const signInResult = await Auth.signIn({ username: email, password });
+      
+      if (!signInResult.isSignedIn) {
+        return NextResponse.json(
+          { error: 'Authentication failed' },
+          { status: 401 }
+        );
+      }
 
-    // Create response with token in header and cookie
-    const response = NextResponse.json({
-      user: authResponse.user,
-      token: authResponse.token
-    });
+      // Get user profile from database
+      const user = await userService.getUserByEmail(email);
+      
+      if (!user) {
+        return NextResponse.json(
+          { error: 'User profile not found' },
+          { status: 404 }
+        );
+      }
 
-    // Set auth cookie (httpOnly for security)
-    response.cookies.set('auth-token', authResponse.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
-    });
+      // Update last login timestamp
+      await userService.updateLastLogin(user.id);
 
-    // Set refresh token cookie
-    response.cookies.set('refresh-token', authResponse.refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 30 // 30 days
-    });
+      const response = NextResponse.json({
+        success: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          roles: user.roles,
+          status: user.status
+        },
+        message: 'Login successful'
+      });
 
-    return response;
-  } catch (error: any) {
-    logger.error('Login failed', { error });
-    
-    // Don't reveal specific errors for security
-    if (error.message === 'Invalid credentials') {
+      // Set auth cookie (httpOnly for security)
+      response.cookies.set('auth-token', signInResult.userId || 'authenticated', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7 // 7 days
+      });
+
+      return response;
+    } catch (cognitoError: any) {
+      console.error('Cognito login error:', cognitoError);
+      
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }
       );
     }
-
+  } catch (error: any) {
+    console.error('Login error:', error);
+    
     return NextResponse.json(
       { error: 'Login failed' },
       { status: 500 }

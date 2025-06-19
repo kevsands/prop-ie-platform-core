@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { User, Bell, Shield, Globe, Moon, Sun, ChevronRight, Check, Mail, Phone, AlertCircle, Lock, CreditCard, LogOut } from 'lucide-react';
 
 interface SettingSection {
@@ -177,92 +178,141 @@ export default function SettingsPage() {
       case 'notifications':
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900">Notification Preferences</h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">Notification Preferences</h2>
+              <Link 
+                href="/buyer/settings/notifications"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+              >
+                <Bell className="h-4 w-4" />
+                Advanced Settings
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
             
-            {/* Email Notifications */}
+            {/* Quick Overview */}
             <div className="bg-white rounded-lg border p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Mail className="h-5 w-5 text-gray-600" />
-                <h3 className="text-lg font-semibold text-gray-900">Email Notifications</h3>
-              </div>
-              <div className="space-y-3">
-                {Object.entries(notifications.email).map(([key, value]) => (
-                  <label key={key} className="flex items-center justify-between">
-                    <span className="text-gray-700">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                    </span>
-                    <button
-                      onClick={() => handleNotificationToggle('email', key)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        value ? 'bg-blue-600' : 'bg-gray-200'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          value ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </label>
-                ))}
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Overview</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <Bell className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">In-App Notifications</p>
+                      <p className="text-sm text-gray-600">Real-time updates within PROP.ie</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <Mail className="h-4 w-4 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">Email Notifications</p>
+                      <p className="text-sm text-gray-600">Important updates via email</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                      <Phone className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">SMS Alerts</p>
+                      <p className="text-sm text-gray-600">Urgent notifications via text</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                      <AlertCircle className="h-4 w-4 text-orange-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-gray-900">Push Notifications</p>
+                      <p className="text-sm text-gray-600">Browser and mobile alerts</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
-            {/* Push Notifications */}
+            {/* Quick toggles for most common settings */}
             <div className="bg-white rounded-lg border p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Bell className="h-5 w-5 text-gray-600" />
-                <h3 className="text-lg font-semibold text-gray-900">Push Notifications</h3>
-              </div>
-              <div className="space-y-3">
-                {Object.entries(notifications.push).map(([key, value]) => (
-                  <label key={key} className="flex items-center justify-between">
-                    <span className="text-gray-700">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                    </span>
-                    <button
-                      onClick={() => handleNotificationToggle('push', key)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        value ? 'bg-blue-600' : 'bg-gray-200'
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Settings</h3>
+              <div className="space-y-4">
+                <label className="flex items-center justify-between">
+                  <div>
+                    <span className="text-gray-900 font-medium">New Messages</span>
+                    <p className="text-sm text-gray-600">Get notified of new messages from professionals</p>
+                  </div>
+                  <button
+                    onClick={() => handleNotificationToggle('email', 'newProperties')}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      notifications.email.newProperties ? 'bg-blue-600' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        notifications.email.newProperties ? 'translate-x-6' : 'translate-x-1'
                       }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          value ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </label>
-                ))}
+                    />
+                  </button>
+                </label>
+                
+                <label className="flex items-center justify-between">
+                  <div>
+                    <span className="text-gray-900 font-medium">Payment Updates</span>
+                    <p className="text-sm text-gray-600">Important financial and payment notifications</p>
+                  </div>
+                  <button
+                    onClick={() => handleNotificationToggle('push', 'messages')}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      notifications.push.messages ? 'bg-blue-600' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        notifications.push.messages ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </label>
+                
+                <label className="flex items-center justify-between">
+                  <div>
+                    <span className="text-gray-900 font-medium">Task Reminders</span>
+                    <p className="text-sm text-gray-600">Reminders for important tasks and deadlines</p>
+                  </div>
+                  <button
+                    onClick={() => handleNotificationToggle('sms', 'importantUpdates')}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      notifications.sms.importantUpdates ? 'bg-blue-600' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        notifications.sms.importantUpdates ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </label>
               </div>
             </div>
             
-            {/* SMS Notifications */}
-            <div className="bg-white rounded-lg border p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Phone className="h-5 w-5 text-gray-600" />
-                <h3 className="text-lg font-semibold text-gray-900">SMS Notifications</h3>
-              </div>
-              <div className="space-y-3">
-                {Object.entries(notifications.sms).map(([key, value]) => (
-                  <label key={key} className="flex items-center justify-between">
-                    <span className="text-gray-700">
-                      {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                    </span>
-                    <button
-                      onClick={() => handleNotificationToggle('sms', key)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        value ? 'bg-blue-600' : 'bg-gray-200'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          value ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </label>
-                ))}
+            <div className="bg-blue-50 rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <Bell className="h-5 w-5 text-blue-600 mt-0.5" />
+                <div>
+                  <p className="text-blue-900 font-medium">Advanced Notification Management</p>
+                  <p className="text-blue-800 text-sm mt-1">
+                    For detailed control over notification categories, quiet hours, and delivery preferences, 
+                    use the Advanced Settings above.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -1,0 +1,92 @@
+[2025-06-18T19:33:23.721Z] INFO: [2025-06-18T19:33:23.718Z] 🏢 Enterprise Migration Orchestrator Initialized
+[2025-06-18T19:33:23.721Z] INFO: [2025-06-18T19:33:23.721Z] 
+🏢 ENTERPRISE DATABASE MIGRATION PREPARATION
+[2025-06-18T19:33:23.722Z] INFO: [2025-06-18T19:33:23.722Z] ============================================
+[2025-06-18T19:33:23.723Z] INFO: [2025-06-18T19:33:23.723Z] Migration ID: migration_2025-06-18T19-33-23-717Z
+[2025-06-18T19:33:23.724Z] INFO: [2025-06-18T19:33:23.724Z] Start Time: 2025-06-18T19:33:23.718Z
+[2025-06-18T19:33:23.724Z] INFO: [2025-06-18T19:33:23.724Z] 📍 CHECKPOINT: safety_checks - Running pre-migration safety verification
+[2025-06-18T19:33:23.725Z] INFO: [2025-06-18T19:33:23.725Z] 
+🛡️  PHASE 1: SAFETY CHECKS
+[2025-06-18T19:33:23.726Z] INFO: [2025-06-18T19:33:23.726Z] ===========================
+[2025-06-18T19:33:23.727Z] INFO: [2025-06-18T19:33:23.727Z] ✓ SQLite database is accessible
+[2025-06-18T19:33:23.728Z] INFO: [2025-06-18T19:33:23.728Z] ✓ PostgreSQL configuration found
+[2025-06-18T19:33:23.728Z] INFO: [2025-06-18T19:33:23.728Z] ✓ Database size: 0.02 MB
+[2025-06-18T19:33:23.729Z] INFO: [2025-06-18T19:33:23.729Z] ✓ Estimated space needed: 0.20 MB
+[2025-06-18T19:33:23.730Z] INFO: [2025-06-18T19:33:23.730Z] ✅ Phase 1 completed successfully
+[2025-06-18T19:33:23.731Z] INFO: [2025-06-18T19:33:23.731Z] 📍 CHECKPOINT: backup_creation - Creating comprehensive safety backups
+[2025-06-18T19:33:23.731Z] INFO: [2025-06-18T19:33:23.731Z] 
+💾 PHASE 2: BACKUP CREATION
+[2025-06-18T19:33:23.732Z] INFO: [2025-06-18T19:33:23.732Z] ============================
+[2025-06-18T19:33:23.733Z] INFO: 
+🛡️  ENTERPRISE SAFETY BACKUP STARTING
+[2025-06-18T19:33:23.733Z] INFO: =====================================
+[2025-06-18T19:33:23.735Z] INFO: 🔍 Verifying database integrity...
+[2025-06-18T19:33:23.736Z] INFO: ✓ Database integrity verified
+[2025-06-18T19:33:23.737Z] INFO: 📋 Creating file backup...
+[2025-06-18T19:33:23.739Z] INFO: ✓ File backup created: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/dev_backup_2025-06-18T19-33-23-733Z.db
+[2025-06-18T19:33:23.739Z] INFO: 📊 Exporting data to CSV...
+[2025-06-18T19:33:23.742Z] INFO: ✓ CSV export created: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/users_export_2025-06-18T19-33-23-733Z.csv
+[2025-06-18T19:33:23.743Z] INFO: ✓ Exported 5 user records
+[2025-06-18T19:33:23.744Z] INFO: 🔐 Creating data checksum...
+[2025-06-18T19:33:23.746Z] INFO: ✓ Data checksum created: ca6326b9673485546acac49b3bdc4e13f3f043d0cf3f9c595514d4ea705e220d
+[2025-06-18T19:33:23.746Z] INFO: ✓ Checksum file: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/data_checksum_2025-06-18T19-33-23-733Z.json
+[2025-06-18T19:33:23.747Z] INFO: 
+📋 BACKUP REPORT
+[2025-06-18T19:33:23.748Z] INFO: ================
+[2025-06-18T19:33:23.749Z] INFO: Original DB: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/dev.db
+[2025-06-18T19:33:23.750Z] INFO: Backup File: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/dev_backup_2025-06-18T19-33-23-733Z.db
+[2025-06-18T19:33:23.751Z] INFO: CSV Export: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/users_export_2025-06-18T19-33-23-733Z.csv
+[2025-06-18T19:33:23.752Z] INFO: Records: 5
+[2025-06-18T19:33:23.753Z] INFO: Checksum: ca6326b9673485546acac49b3bdc4e13f3f043d0cf3f9c595514d4ea705e220d
+[2025-06-18T19:33:23.754Z] INFO: Report: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/backup_report_2025-06-18T19-33-23-733Z.json
+[2025-06-18T19:33:23.755Z] INFO: 
+✓ BACKUP COMPLETED SUCCESSFULLY - Ready for PostgreSQL setup
+[2025-06-18T19:33:23.756Z] INFO: [2025-06-18T19:33:23.756Z] ✅ Phase 2 completed successfully
+[2025-06-18T19:33:23.758Z] INFO: [2025-06-18T19:33:23.758Z] 📍 CHECKPOINT: postgresql_testing - Verifying PostgreSQL connection and capabilities
+[2025-06-18T19:33:23.760Z] INFO: [2025-06-18T19:33:23.760Z] 
+🔗 PHASE 3: POSTGRESQL TESTING
+[2025-06-18T19:33:23.761Z] INFO: [2025-06-18T19:33:23.761Z] ===============================
+[2025-06-18T19:33:23.764Z] INFO: ✓ PostgreSQL configuration loaded
+[2025-06-18T19:33:23.765Z] INFO: 
+🏢 ENTERPRISE POSTGRESQL TESTING
+[2025-06-18T19:33:23.767Z] INFO: =================================
+[2025-06-18T19:33:23.768Z] INFO: Target: localhost:5432/propie_dev
+[2025-06-18T19:33:23.769Z] INFO: User: postgres
+[2025-06-18T19:33:23.770Z] INFO: 
+🧪 Testing: Basic Connection
+[2025-06-18T19:33:23.799Z] INFO: ✓ Basic Connection - PASSED
+[2025-06-18T19:33:23.799Z] INFO: 
+🧪 Testing: Database Permissions
+[2025-06-18T19:33:23.896Z] INFO: ✓ Database Permissions - PASSED
+[2025-06-18T19:33:23.896Z] INFO: 
+🧪 Testing: Required Extensions
+[2025-06-18T19:33:24.027Z] INFO: ✓ Required Extensions - PASSED
+[2025-06-18T19:33:24.028Z] INFO: 
+🧪 Testing: Connection Pooling
+[2025-06-18T19:33:24.045Z] INFO: ✓ Connection Pooling - PASSED
+[2025-06-18T19:33:24.047Z] INFO: 
+🧪 Testing: Performance Check
+[2025-06-18T19:33:24.064Z] INFO: ✓ Performance Check - PASSED
+[2025-06-18T19:33:24.065Z] INFO: 
+📋 POSTGRESQL TEST REPORT
+[2025-06-18T19:33:24.071Z] INFO: =========================
+[2025-06-18T19:33:24.073Z] INFO: Overall Status: all_tests_passed
+[2025-06-18T19:33:24.076Z] INFO: Tests Passed: 5/5
+[2025-06-18T19:33:24.078Z] INFO: 
+Detailed Report: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/postgresql_test_2025-06-18T19-33-24-065Z.json
+[2025-06-18T19:33:24.079Z] INFO: 
+🎉 ALL TESTS PASSED - PostgreSQL ready for enterprise migration!
+[2025-06-18T19:33:24.081Z] INFO: [2025-06-18T19:33:24.081Z] ✅ Phase 3 completed successfully
+[2025-06-18T19:33:24.083Z] INFO: [2025-06-18T19:33:24.083Z] 📍 CHECKPOINT: schema_creation - Creating PostgreSQL enterprise schema
+[2025-06-18T19:33:24.085Z] INFO: [2025-06-18T19:33:24.085Z] 
+🏗️  PHASE 4: SCHEMA CREATION
+[2025-06-18T19:33:24.088Z] INFO: [2025-06-18T19:33:24.088Z] ============================
+[2025-06-18T19:33:24.094Z] INFO: [2025-06-18T19:33:24.094Z] 📄 Executing enterprise schema creation...
+[2025-06-18T19:33:24.669Z] INFO: [2025-06-18T19:33:24.669Z] ❌ ERROR in schema_creation: CREATE INDEX CONCURRENTLY cannot run inside a transaction block
+[2025-06-18T19:33:24.669Z] INFO: [2025-06-18T19:33:24.669Z] 
+💥 MIGRATION PREPARATION FAILED
+[2025-06-18T19:33:24.671Z] INFO: [2025-06-18T19:33:24.671Z] ===============================
+[2025-06-18T19:33:24.673Z] INFO: [2025-06-18T19:33:24.673Z] Error: CREATE INDEX CONCURRENTLY cannot run inside a transaction block
+[2025-06-18T19:33:24.675Z] INFO: [2025-06-18T19:33:24.675Z] All operations were non-destructive. Your SQLite database is untouched.
+[2025-06-18T19:33:24.678Z] ERROR: 
+❌ Migration preparation failed: CREATE INDEX CONCURRENTLY cannot run inside a transaction block

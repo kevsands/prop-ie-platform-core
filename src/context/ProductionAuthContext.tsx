@@ -8,7 +8,8 @@
  */
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Auth, AuthUser, SignInResult, UserRole } from '@/lib/auth';
+import { Auth, AuthUser, SignInResult } from '@/lib/auth';
+import { UserRole, User } from '@/types/core/user';
 import { initializeAsync } from '@/lib/amplify';
 
 // Type alias for backward compatibility with existing component usage

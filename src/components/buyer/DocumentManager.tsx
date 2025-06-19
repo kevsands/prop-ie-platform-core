@@ -1,18 +1,44 @@
-"use client";
+'use client';
 
-import React from "react";
-import BuyerDocumentRepository from "@/components/buyer/documents/BuyerDocumentRepository";
-import { BuyerDocumentProvider } from "@/context/BuyerDocumentContext";
-import { useAuth } from "@/context/AuthContext";
-
-// Mock user ID (replace with real authentication later)
-const MOCK_USER_ID = 'user-123';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  Upload, 
+  FileText, 
+  CheckCircle, 
+  AlertCircle, 
+  Clock, 
+  Download, 
+  Trash2, 
+  Eye,
+  Search,
+  Plus,
+  Tag,
+  Calendar,
+  User,
+  AlertTriangle,
+  X
+} from 'lucide-react';
 
 export function DocumentManager() {
   const { user } = useAuth();
   
-  // Use the authenticated user's ID if available, otherwise use mock ID
-  const buyerId = user?.id || MOCK_USER_ID;
+  // Require authenticated user - redirect to login if not authenticated
+  if (!user?.id) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 text-center">
+        <h2 className="text-xl font-semibold mb-4">Authentication Required</h2>
+        <p className="text-gray-600 mb-4">Please log in to manage your documents.</p>
+        <button 
+          onClick={() => window.location.href = '/login'} 
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Go to Login
+        </button>
+      </div>
+    );
+  }
+  
+  const buyerId = user.id;
 
   return (
     <div>

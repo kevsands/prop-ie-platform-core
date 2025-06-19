@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { SessionProtectedRoute } from '@/components/auth/SessionProtectedRoute';
+import { PaymentDashboard } from '@/components/payments/PaymentDashboard';
 import { 
   CreditCard, 
   Calendar, 
@@ -63,7 +65,7 @@ interface PaymentSummary {
   };
 }
 
-export default function PaymentsPage() {
+function PaymentsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterType, setFilterType] = useState<string>('all');
@@ -489,6 +491,18 @@ export default function PaymentsPage() {
           ))}
         </div>
       </div>
+      {/* New Payment Dashboard Integration */}
+      <div className="mt-8">
+        <PaymentDashboard />
+      </div>
     </div>
+  );
+}
+
+export default function BuyerPaymentsPage() {
+  return (
+    <SessionProtectedRoute requiredRoles={['buyer', 'first_time_buyer']}>
+      <PaymentsPage />
+    </SessionProtectedRoute>
   );
 }
