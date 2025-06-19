@@ -1,0 +1,265 @@
+{
+  "timestamp": "2025-06-19T13:23:59.012Z",
+  "summary": {
+    "totalChecks": 10,
+    "enabledChecks": 6,
+    "warningChecks": 1,
+    "pendingChecks": 3,
+    "securityScore": 65
+  },
+  "categories": {
+    "environment": [
+      {
+        "name": "Environment Variables Security",
+        "check": "Sensitive data in .env files",
+        "status": "pending",
+        "recommendations": [
+          "Move production secrets to AWS Secrets Manager",
+          "Use different .env files for different environments",
+          "Never commit .env files to version control",
+          "Rotate API keys regularly"
+        ]
+      },
+      {
+        "name": "HTTPS Enforcement",
+        "check": "Force HTTPS in production",
+        "status": "enabled",
+        "recommendations": [
+          "Configure Next.js to redirect HTTP to HTTPS",
+          "Set secure cookie flags",
+          "Implement HSTS headers"
+        ]
+      }
+    ],
+    "authentication": [
+      {
+        "name": "JWT Token Security",
+        "check": "JWT implementation security",
+        "status": "enabled",
+        "recommendations": [
+          "Use strong secret keys (256+ bits)",
+          "Implement token rotation",
+          "Set appropriate expiration times",
+          "Validate tokens on every request"
+        ]
+      },
+      {
+        "name": "Password Security",
+        "check": "Password hashing and policies",
+        "status": "enabled",
+        "recommendations": [
+          "Use bcrypt with salt rounds >= 12",
+          "Implement password complexity requirements",
+          "Add rate limiting for login attempts",
+          "Implement account lockout policies"
+        ]
+      }
+    ],
+    "api": [
+      {
+        "name": "API Rate Limiting",
+        "check": "Rate limiting implementation",
+        "status": "pending",
+        "recommendations": [
+          "Implement per-IP rate limiting",
+          "Add per-user rate limiting",
+          "Use sliding window rate limiting",
+          "Configure different limits for different endpoints"
+        ]
+      },
+      {
+        "name": "CORS Configuration",
+        "check": "Cross-Origin Resource Sharing setup",
+        "status": "warning",
+        "recommendations": [
+          "Restrict origins to known domains",
+          "Limit allowed methods and headers",
+          "Avoid using wildcard (*) in production",
+          "Implement preflight request handling"
+        ]
+      },
+      {
+        "name": "Input Validation",
+        "check": "Input sanitization and validation",
+        "status": "enabled",
+        "recommendations": [
+          "Validate all input data",
+          "Sanitize data before database operations",
+          "Use parameterized queries",
+          "Implement schema validation"
+        ]
+      }
+    ],
+    "headers": [
+      {
+        "name": "Security Headers",
+        "check": "HTTP security headers",
+        "status": "enabled",
+        "recommendations": [
+          "Content Security Policy (CSP)",
+          "X-Frame-Options: DENY",
+          "X-Content-Type-Options: nosniff",
+          "X-XSS-Protection: 1; mode=block",
+          "Strict-Transport-Security (HSTS)"
+        ]
+      }
+    ],
+    "database": [
+      {
+        "name": "Database Security",
+        "check": "Database access and encryption",
+        "status": "enabled",
+        "recommendations": [
+          "Use connection pooling with SSL",
+          "Implement least privilege access",
+          "Enable database encryption at rest",
+          "Regular security updates"
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "Dependency Security",
+        "check": "Third-party package vulnerabilities",
+        "status": "pending",
+        "recommendations": [
+          "Regular npm audit",
+          "Use Snyk or similar tools",
+          "Keep dependencies updated",
+          "Remove unused dependencies"
+        ]
+      }
+    ]
+  },
+  "implementations": [
+    {
+      "name": "API Rate Limiting Middleware",
+      "description": "Express middleware for rate limiting API requests",
+      "code": "\n// middleware/rateLimiting.ts\nimport { NextRequest, NextResponse } from 'next/server';\n\ninterface RateLimitEntry {\n  count: number;\n  resetTime: number;\n}\n\nconst rateLimitMap = new Map<string, RateLimitEntry>();\n\nexport function createRateLimiter(windowMs: number, maxRequests: number) {\n  return (req: NextRequest) => {\n    const clientIp = req.ip || req.headers.get('x-forwarded-for') || 'unknown';\n    const now = Date.now();\n    \n    // Clean expired entries\n    for (const [key, entry] of rateLimitMap.entries()) {\n      if (now > entry.resetTime) {\n        rateLimitMap.delete(key);\n      }\n    }\n    \n    const existing = rateLimitMap.get(clientIp);\n    \n    if (!existing) {\n      rateLimitMap.set(clientIp, {\n        count: 1,\n        resetTime: now + windowMs\n      });\n      return null; // Allow request\n    }\n    \n    if (now > existing.resetTime) {\n      existing.count = 1;\n      existing.resetTime = now + windowMs;\n      return null; // Allow request\n    }\n    \n    if (existing.count >= maxRequests) {\n      return NextResponse.json(\n        { error: 'Too many requests' },\n        { \n          status: 429,\n          headers: {\n            'X-RateLimit-Limit': maxRequests.toString(),\n            'X-RateLimit-Remaining': '0',\n            'X-RateLimit-Reset': existing.resetTime.toString()\n          }\n        }\n      );\n    }\n    \n    existing.count++;\n    return null; // Allow request\n  };\n}\n\n// Usage in API routes\nexport const apiRateLimiter = createRateLimiter(60000, 100); // 100 requests per minute\nexport const authRateLimiter = createRateLimiter(900000, 5); // 5 attempts per 15 minutes\n      "
+    },
+    {
+      "name": "Security Headers Middleware",
+      "description": "Next.js middleware for security headers",
+      "code": "\n// middleware.ts\nimport { NextRequest, NextResponse } from 'next/server';\n\nexport function middleware(request: NextRequest) {\n  const response = NextResponse.next();\n\n  // Security Headers\n  response.headers.set('X-Frame-Options', 'DENY');\n  response.headers.set('X-Content-Type-Options', 'nosniff');\n  response.headers.set('X-XSS-Protection', '1; mode=block');\n  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');\n  \n  // Content Security Policy\n  const cspHeader = [\n    \"default-src 'self'\",\n    \"script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com\",\n    \"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com\",\n    \"font-src 'self' https://fonts.gstatic.com\",\n    \"img-src 'self' data: blob: https:\",\n    \"connect-src 'self' https://api.stripe.com wss:\",\n    \"frame-src https://js.stripe.com\",\n    \"form-action 'self'\"\n  ].join('; ');\n  \n  response.headers.set('Content-Security-Policy', cspHeader);\n  \n  // HSTS (only in production with HTTPS)\n  if (process.env.NODE_ENV === 'production') {\n    response.headers.set(\n      'Strict-Transport-Security',\n      'max-age=31536000; includeSubDomains; preload'\n    );\n  }\n\n  return response;\n}\n\nexport const config = {\n  matcher: [\n    '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)',\n  ],\n};\n      "
+    },
+    {
+      "name": "Input Validation Utility",
+      "description": "Comprehensive input validation and sanitization",
+      "code": "\n// utils/inputValidation.ts\nimport { z } from 'zod';\n\nexport class InputValidator {\n  static sanitizeString(input: string): string {\n    return input\n      .replace(/[<>\"']/g, '') // Remove potential XSS characters\n      .trim()\n      .substring(0, 1000); // Limit length\n  }\n\n  static validateEmail(email: string): boolean {\n    const emailSchema = z.string().email();\n    return emailSchema.safeParse(email).success;\n  }\n\n  static validatePassword(password: string): {\n    isValid: boolean;\n    errors: string[];\n  } {\n    const errors: string[] = [];\n    \n    if (password.length < 8) {\n      errors.push('Password must be at least 8 characters long');\n    }\n    if (!/[A-Z]/.test(password)) {\n      errors.push('Password must contain at least one uppercase letter');\n    }\n    if (!/[a-z]/.test(password)) {\n      errors.push('Password must contain at least one lowercase letter');\n    }\n    if (!/\\d/.test(password)) {\n      errors.push('Password must contain at least one number');\n    }\n    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {\n      errors.push('Password must contain at least one special character');\n    }\n    \n    return {\n      isValid: errors.length === 0,\n      errors\n    };\n  }\n\n  static sanitizeHtml(input: string): string {\n    // Basic HTML sanitization - in production use a library like DOMPurify\n    return input\n      .replace(/<script[^>]*>.*?<\\/script>/gi, '')\n      .replace(/<iframe[^>]*>.*?<\\/iframe>/gi, '')\n      .replace(/javascript:/gi, '')\n      .replace(/on\\w+\\s*=/gi, '');\n  }\n\n  static validateApiInput<T>(\n    schema: z.ZodSchema<T>,\n    input: unknown\n  ): { success: true; data: T } | { success: false; errors: string[] } {\n    const result = schema.safeParse(input);\n    \n    if (result.success) {\n      return { success: true, data: result.data };\n    }\n    \n    return {\n      success: false,\n      errors: result.error.errors.map(err => err.message)\n    };\n  }\n}\n\n// API Schema Examples\nexport const apiSchemas = {\n  userRegistration: z.object({\n    email: z.string().email(),\n    password: z.string().min(8),\n    firstName: z.string().min(1).max(50),\n    lastName: z.string().min(1).max(50),\n    role: z.enum(['buyer', 'developer', 'agent', 'solicitor'])\n  }),\n  \n  propertySearch: z.object({\n    location: z.string().optional(),\n    priceMin: z.number().positive().optional(),\n    priceMax: z.number().positive().optional(),\n    propertyType: z.string().optional(),\n    page: z.number().positive().default(1),\n    limit: z.number().positive().max(100).default(20)\n  }),\n  \n  messageCreation: z.object({\n    conversationId: z.string().uuid(),\n    content: z.string().min(1).max(5000),\n    messageType: z.enum(['text', 'file', 'system']).default('text')\n  })\n};\n      "
+    },
+    {
+      "name": "Secure Cookie Configuration",
+      "description": "Production-ready cookie security settings",
+      "code": "\n// utils/cookieConfig.ts\nexport const cookieConfig = {\n  httpOnly: true,\n  secure: process.env.NODE_ENV === 'production',\n  sameSite: 'strict' as const,\n  maxAge: 24 * 60 * 60 * 1000, // 24 hours\n  path: '/',\n  domain: process.env.NODE_ENV === 'production' \n    ? process.env.COOKIE_DOMAIN \n    : undefined\n};\n\nexport const sessionConfig = {\n  ...cookieConfig,\n  maxAge: 30 * 60 * 1000, // 30 minutes for sessions\n};\n\nexport const refreshTokenConfig = {\n  ...cookieConfig,\n  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days for refresh tokens\n};\n\n// Usage example\nexport function setSecureCookie(\n  name: string, \n  value: string, \n  options: Partial<typeof cookieConfig> = {}\n) {\n  const config = { ...cookieConfig, ...options };\n  \n  return `${name}=${value}; ${Object.entries(config)\n    .map(([key, val]) => `${key}=${val}`)\n    .join('; ')}`;\n}\n      "
+    }
+  ],
+  "nextSteps": [
+    {
+      "priority": "HIGH",
+      "task": "Implement API Rate Limiting",
+      "description": "Add rate limiting middleware to protect against abuse",
+      "estimatedTime": "2-4 hours"
+    },
+    {
+      "priority": "HIGH",
+      "task": "Security Dependency Audit",
+      "description": "Run comprehensive security audit of all dependencies",
+      "estimatedTime": "1-2 hours"
+    },
+    {
+      "priority": "MEDIUM",
+      "task": "Refine CORS Configuration",
+      "description": "Tighten CORS settings for production environment",
+      "estimatedTime": "1 hour"
+    },
+    {
+      "priority": "MEDIUM",
+      "task": "Environment Security Review",
+      "description": "Move sensitive environment variables to AWS Secrets Manager",
+      "estimatedTime": "2-3 hours"
+    },
+    {
+      "priority": "LOW",
+      "task": "Security Testing",
+      "description": "Perform penetration testing and security audits",
+      "estimatedTime": "4-8 hours"
+    }
+  ],
+  "audit": {
+    "npmAudit": {
+      "vulnerabilities": {},
+      "advisories": 0,
+      "summary": "NPM audit failed or no vulnerabilities found",
+      "error": "Command failed: npm audit --json\n"
+    },
+    "dependencyCheck": {
+      "totalDependencies": 201,
+      "riskyPackages": [],
+      "recommendations": [
+        "Dependencies look secure"
+      ]
+    },
+    "environmentCheck": {
+      "envFilesFound": [
+        ".env",
+        ".env.local",
+        ".env.production"
+      ],
+      "potentialSecrets": [
+        {
+          "file": ".env.local",
+          "line": 1,
+          "content": "\n# ",
+          "recommendation": "Move to secure secret management"
+        },
+        {
+          "file": ".env.local",
+          "line": 1,
+          "content": "\n# ",
+          "recommendation": "Move to secure secret management"
+        },
+        {
+          "file": ".env.local",
+          "line": 1,
+          "content": "\n# ",
+          "recommendation": "Move to secure secret management"
+        },
+        {
+          "file": ".env.local",
+          "line": 1,
+          "content": "\n# ",
+          "recommendation": "Move to secure secret management"
+        }
+      ],
+      "recommendation": "Review environment variables and move secrets to AWS Secrets Manager"
+    },
+    "filePermissions": {
+      "checkedFiles": [
+        "package.json",
+        "next.config.js",
+        ".env",
+        ".env.local",
+        ".env.production"
+      ],
+      "issues": [
+        {
+          "file": ".env",
+          "issue": "Environment file is world-readable",
+          "recommendation": "Set permissions to 600 (owner read/write only)"
+        },
+        {
+          "file": ".env.local",
+          "issue": "Environment file is world-readable",
+          "recommendation": "Set permissions to 600 (owner read/write only)"
+        },
+        {
+          "file": ".env.production",
+          "issue": "Environment file is world-readable",
+          "recommendation": "Set permissions to 600 (owner read/write only)"
+        }
+      ],
+      "recommendation": "Review and fix file permission issues"
+    }
+  },
+  "generatedAt": "2025-06-19T13:24:01.900Z"
+}

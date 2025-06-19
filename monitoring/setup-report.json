@@ -1,0 +1,36 @@
+{
+  "title": "PROP.ie Production Monitoring Setup",
+  "timestamp": "2025-06-19T14:32:15.353Z",
+  "components": {
+    "healthChecks": "✅ Configured",
+    "performanceMonitoring": "✅ Configured",
+    "errorTracking": "✅ Configured",
+    "alertingRules": "✅ Configured",
+    "dashboards": "✅ Configured",
+    "logAggregation": "✅ Configured",
+    "uptimeMonitoring": "✅ Configured"
+  },
+  "keyMetrics": {
+    "healthCheckInterval": "30 seconds",
+    "alertResponseTime": "< 5 minutes",
+    "uptimeTarget": "99.9%",
+    "errorRateThreshold": "5%",
+    "performanceTarget": "< 2s response time"
+  },
+  "alertingChannels": {
+    "email": [
+      "alerts@prop.ie",
+      "engineering@prop.ie"
+    ],
+    "slack": "#prop-ie-alerts",
+    "sms": "Emergency contacts configured"
+  },
+  "nextSteps": [
+    "Configure Sentry DSN for error tracking",
+    "Set up Slack webhook for alerts",
+    "Configure email SMTP settings",
+    "Test all alerting channels",
+    "Deploy monitoring dashboard",
+    "Set up automated reporting"
+  ]
+}

@@ -193,3 +193,6 @@ export function getDefaultQueryClient(): QueryClient {
   }
   return defaultQueryClient;
 }
+
+// Export the default query client instance
+export const queryClient = getDefaultQueryClient();

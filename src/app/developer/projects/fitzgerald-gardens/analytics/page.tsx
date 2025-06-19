@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, 
   BarChart3, 
@@ -16,11 +16,21 @@ import BuyerJourneyTracker from '@/components/developer/BuyerJourneyTracker';
 import { fitzgeraldGardensConfig } from '@/data/fitzgerald-gardens-config';
 import { realDataService } from '@/services/RealDataService';
 
+// Disable static generation for data service pages
+export const dynamic = 'force-dynamic';
+
 export default function FitzgeraldGardensAnalyticsPage() {
   const [activeTab, setActiveTab] = useState<'investment' | 'market' | 'competitive' | 'buyers' | 'overview'>('overview');
+  const [units, setUnits] = useState([]);
   
   const config = fitzgeraldGardensConfig;
-  const units = realDataService.getUnits();
+
+  // Load units on client side to avoid build-time service calls
+  useEffect(() => {
+    if (typeof realDataService?.getUnits === 'function') {
+      setUnits(realDataService.getUnits());
+    }
+  }, []);
 
   // Quick stats for overview
   const quickStats = {

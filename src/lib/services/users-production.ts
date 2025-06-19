@@ -1,626 +1,320 @@
 /**
- * Production User Service with AWS Cognito Integration
+ * Production User Service with PostgreSQL Integration
  * 
- * This service provides real user management operations using AWS Cognito
- * as the authentication provider and the database for user profile data.
+ * This service provides real user management operations using PostgreSQL
+ * via Prisma for all user operations.
  * 
  * Features:
- * - AWS Cognito user pool integration
+ * - PostgreSQL database integration via Prisma
  * - Role-based access control
  * - KYC status management
  * - User preferences and metadata
- * - Database-backed user profiles
+ * - Real database operations (no mock data)
  */
 
-import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
-import { User, UserRole, UserStatus, KYCStatus, UserPreferences, UserSummary } from '@/types/core/user';
-import { AuthUser } from '@/types/amplify/auth';
-import sqlite3 from 'sqlite3';
-import { join } from 'path';
+import { PrismaClient } from '@prisma/client';
+import { User, UserRole, UserStatus, KYCStatus } from '@/types/core/user';
 
-const { Database } = sqlite3;
+const prisma = new PrismaClient();
 
-// Database connection
-const dbPath = join(process.cwd(), 'dev.db');
-
-/**
- * Initialize users table if it doesn't exist
- */
-const initUsersTable = async (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const db = new Database(dbPath);
-    
-    db.run(`
-      CREATE TABLE IF NOT EXISTS users (
-        id TEXT PRIMARY KEY,
-        cognitoUserId TEXT UNIQUE NOT NULL,
-        email TEXT UNIQUE NOT NULL,
-        firstName TEXT NOT NULL,
-        lastName TEXT NOT NULL,
-        phone TEXT,
-        roles TEXT NOT NULL,
-        status TEXT NOT NULL DEFAULT 'pending',
-        kycStatus TEXT NOT NULL DEFAULT 'not_started',
-        organization TEXT,
-        position TEXT,
-        avatar TEXT,
-        preferences TEXT,
-        metadata TEXT,
-        created TEXT NOT NULL,
-        lastActive TEXT NOT NULL,
-        lastLogin TEXT,
-        updatedAt TEXT NOT NULL
-      )
-    `, (err) => {
-      db.close();
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-};
-
-/**
- * Input types for user operations
- */
-export interface CreateUserInput {
-  cognitoUserId: string;
+export interface CreateUserData {
   email: string;
   firstName: string;
   lastName: string;
   phone?: string;
-  roles: UserRole[];
+  role: UserRole;
   organization?: string;
   position?: string;
-  preferences?: UserPreferences;
-  metadata?: Record<string, any>;
 }
 
-export interface UpdateUserInput {
+export interface UpdateUserData {
   firstName?: string;
   lastName?: string;
   phone?: string;
-  roles?: UserRole[];
-  status?: UserStatus;
-  kycStatus?: KYCStatus;
   organization?: string;
   position?: string;
-  avatar?: string;
-  preferences?: UserPreferences;
-  metadata?: Record<string, any>;
+  status?: UserStatus;
+  kycStatus?: KYCStatus;
+}
+
+export interface UserFilters {
+  role?: string;
+  search?: string;
+  status?: UserStatus;
+  kycStatus?: KYCStatus;
 }
 
 /**
  * Production User Service
  */
-export const userService = {
+export class UserService {
   /**
-   * Get current authenticated user with enhanced profile data
+   * Get all users with optional filtering
    */
-  getCurrentUser: async (): Promise<User | null> => {
+  async getUsers(filters: UserFilters = {}) {
     try {
-      // In development mode with mock auth, return mock user
-      if (process.env.NODE_ENV === 'development' && process.env.ALLOW_MOCK_AUTH === 'true') {
-        return {
-          id: 'dev-user-123',
-          email: 'dev@prop.ie',
-          firstName: 'Development',
-          lastName: 'User',
-          phone: '+353 1 234 5678',
-          roles: [UserRole.DEVELOPER, UserRole.ADMIN],
-          status: UserStatus.ACTIVE,
-          kycStatus: KYCStatus.APPROVED,
-          organization: 'PROP.ie Development',
-          position: 'Full Stack Developer',
-          avatar: '/images/avatars/dev-user.png',
-          preferences: {
-            notifications: { email: true, sms: false, push: true },
-            theme: 'dark',
-            language: 'en',
-            timezone: 'Europe/Dublin'
-          },
-          created: new Date('2024-01-01'),
-          lastActive: new Date(),
-          lastLogin: new Date(),
-          metadata: { source: 'development', version: '1.0' }
-        };
+      const where: any = {};
+
+      // Apply role filter
+      if (filters.role) {
+        where.role = filters.role as UserRole;
       }
 
-      // Get Cognito user
-      const cognitoUser = await getCurrentUser();
-      const session = await fetchAuthSession();
-      
-      if (!cognitoUser.userId) {
-        return null;
+      // Apply status filter
+      if (filters.status) {
+        where.status = filters.status;
       }
 
-      // Get user profile from database
-      const dbUser = await userService.getUserByCognitoId(cognitoUser.userId);
-      
-      if (!dbUser) {
-        // User exists in Cognito but not in our database
-        // This might happen during migration or if there's a sync issue
-        console.warn(`User ${cognitoUser.userId} exists in Cognito but not in database`);
-        return null;
+      // Apply KYC status filter
+      if (filters.kycStatus) {
+        where.kycStatus = filters.kycStatus;
       }
 
-      // Update last active timestamp
-      await userService.updateLastActive(dbUser.id);
-
-      return dbUser;
-    } catch (error) {
-      console.error('Error getting current user:', error);
-      
-      // In development, fallback to mock user to keep development flowing
-      if (process.env.NODE_ENV === 'development') {
-        return {
-          id: 'fallback-user-123',
-          email: 'fallback@prop.ie',
-          firstName: 'Fallback',
-          lastName: 'User',
-          phone: '+353 1 234 5678',
-          roles: [UserRole.BUYER],
-          status: UserStatus.ACTIVE,
-          kycStatus: KYCStatus.NOT_STARTED,
-          created: new Date(),
-          lastActive: new Date(),
-          preferences: {
-            notifications: { email: true, sms: false, push: true },
-            theme: 'light',
-            language: 'en',
-            timezone: 'Europe/Dublin'
-          }
-        };
+      // Apply search filter (search in name and email)
+      if (filters.search) {
+        where.OR = [
+          { firstName: { contains: filters.search, mode: 'insensitive' } },
+          { lastName: { contains: filters.search, mode: 'insensitive' } },
+          { email: { contains: filters.search, mode: 'insensitive' } }
+        ];
       }
-      
-      return null;
-    }
-  },
 
-  /**
-   * Get user by Cognito user ID
-   */
-  getUserByCognitoId: async (cognitoUserId: string): Promise<User | null> => {
-    await initUsersTable();
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.get(
-        'SELECT * FROM users WHERE cognitoUserId = ?',
-        [cognitoUserId],
-        (err, row: any) => {
-          db.close();
-          
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          if (!row) {
-            resolve(null);
-            return;
-          }
-
-          resolve(userService.mapRowToUser(row));
+      const users = await prisma.user.findMany({
+        where,
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          phone: true,
+          role: true,
+          status: true,
+          kycStatus: true,
+          organization: true,
+          position: true,
+          avatar: true,
+          createdAt: true,
+          lastActiveAt: true,
+        },
+        orderBy: {
+          createdAt: 'desc'
         }
-      );
-    });
-  },
+      });
+
+      return users;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw new Error('Failed to fetch users');
+    }
+  }
 
   /**
    * Get user by ID
    */
-  getUserById: async (id: string): Promise<User | null> => {
-    await initUsersTable();
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.get(
-        'SELECT * FROM users WHERE id = ?',
-        [id],
-        (err, row: any) => {
-          db.close();
-          
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          if (!row) {
-            resolve(null);
-            return;
-          }
-
-          resolve(userService.mapRowToUser(row));
+  async getUserById(id: string) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id },
+        include: {
+          buyerProfile: true,
+          emergencyContacts: true,
+          kycDocuments: true,
         }
-      );
-    });
-  },
+      });
+
+      return user;
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+      throw new Error('Failed to fetch user');
+    }
+  }
 
   /**
    * Get user by email
    */
-  getUserByEmail: async (email: string): Promise<User | null> => {
-    await initUsersTable();
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.get(
-        'SELECT * FROM users WHERE email = ?',
-        [email],
-        (err, row: any) => {
-          db.close();
-          
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          if (!row) {
-            resolve(null);
-            return;
-          }
-
-          resolve(userService.mapRowToUser(row));
+  async getUserByEmail(email: string) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email },
+        include: {
+          buyerProfile: true,
+          emergencyContacts: true,
         }
-      );
-    });
-  },
-
-  /**
-   * Get all users with optional filtering
-   */
-  getUsers: async (filters?: {
-    role?: UserRole;
-    status?: UserStatus;
-    search?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{
-    users: User[];
-    total: number;
-  }> => {
-    await initUsersTable();
-    
-    let whereClause = '';
-    let params: any[] = [];
-    
-    if (filters) {
-      const conditions: string[] = [];
-      
-      if (filters.role) {
-        conditions.push('roles LIKE ?');
-        params.push(`%"${filters.role}"%`);
-      }
-      
-      if (filters.status) {
-        conditions.push('status = ?');
-        params.push(filters.status);
-      }
-      
-      if (filters.search) {
-        conditions.push('(firstName LIKE ? OR lastName LIKE ? OR email LIKE ?)');
-        const searchTerm = `%${filters.search}%`;
-        params.push(searchTerm, searchTerm, searchTerm);
-      }
-      
-      if (conditions.length > 0) {
-        whereClause = ' WHERE ' + conditions.join(' AND ');
-      }
-    }
-
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      // Get total count
-      db.get(
-        `SELECT COUNT(*) as total FROM users${whereClause}`,
-        params,
-        (err, countRow: any) => {
-          if (err) {
-            db.close();
-            reject(err);
-            return;
-          }
-
-          const total = countRow.total;
-          
-          // Get paginated results
-          let query = `SELECT * FROM users${whereClause} ORDER BY created DESC`;
-          
-          if (filters?.limit) {
-            query += ` LIMIT ${filters.limit}`;
-            if (filters?.offset) {
-              query += ` OFFSET ${filters.offset}`;
-            }
-          }
-          
-          db.all(query, params, (err, rows: any[]) => {
-            db.close();
-            
-            if (err) {
-              reject(err);
-              return;
-            }
-
-            const users = rows.map(row => userService.mapRowToUser(row));
-            resolve({ users, total });
-          });
-        }
-      );
-    });
-  },
-
-  /**
-   * Create a new user (called after Cognito registration)
-   */
-  createUser: async (userData: CreateUserInput): Promise<User> => {
-    await initUsersTable();
-    
-    const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const now = new Date().toISOString();
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.run(`
-        INSERT INTO users (
-          id, cognitoUserId, email, firstName, lastName, phone, roles, status, 
-          kycStatus, organization, position, preferences, metadata, created, 
-          lastActive, updatedAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `, [
-        userId,
-        userData.cognitoUserId,
-        userData.email,
-        userData.firstName,
-        userData.lastName,
-        userData.phone || null,
-        JSON.stringify(userData.roles),
-        UserStatus.PENDING,
-        KYCStatus.NOT_STARTED,
-        userData.organization || null,
-        userData.position || null,
-        userData.preferences ? JSON.stringify(userData.preferences) : null,
-        userData.metadata ? JSON.stringify(userData.metadata) : null,
-        now,
-        now,
-        now
-      ], function(err) {
-        if (err) {
-          db.close();
-          reject(err);
-          return;
-        }
-
-        // Fetch the created user
-        db.get(
-          'SELECT * FROM users WHERE id = ?',
-          [userId],
-          (err, row: any) => {
-            db.close();
-            
-            if (err) {
-              reject(err);
-              return;
-            }
-
-            resolve(userService.mapRowToUser(row));
-          }
-        );
       });
-    });
-  },
+
+      return user;
+    } catch (error) {
+      console.error('Error fetching user by email:', error);
+      throw new Error('Failed to fetch user');
+    }
+  }
 
   /**
-   * Update an existing user
+   * Create a new user
    */
-  updateUser: async (id: string, userData: UpdateUserInput): Promise<User | null> => {
-    await initUsersTable();
-    
-    const updateFields: string[] = [];
-    const params: any[] = [];
-    
-    if (userData.firstName !== undefined) {
-      updateFields.push('firstName = ?');
-      params.push(userData.firstName);
-    }
-    
-    if (userData.lastName !== undefined) {
-      updateFields.push('lastName = ?');
-      params.push(userData.lastName);
-    }
-    
-    if (userData.phone !== undefined) {
-      updateFields.push('phone = ?');
-      params.push(userData.phone);
-    }
-    
-    if (userData.roles !== undefined) {
-      updateFields.push('roles = ?');
-      params.push(JSON.stringify(userData.roles));
-    }
-    
-    if (userData.status !== undefined) {
-      updateFields.push('status = ?');
-      params.push(userData.status);
-    }
-    
-    if (userData.kycStatus !== undefined) {
-      updateFields.push('kycStatus = ?');
-      params.push(userData.kycStatus);
-    }
-    
-    if (userData.organization !== undefined) {
-      updateFields.push('organization = ?');
-      params.push(userData.organization);
-    }
-    
-    if (userData.position !== undefined) {
-      updateFields.push('position = ?');
-      params.push(userData.position);
-    }
-    
-    if (userData.avatar !== undefined) {
-      updateFields.push('avatar = ?');
-      params.push(userData.avatar);
-    }
-    
-    if (userData.preferences !== undefined) {
-      updateFields.push('preferences = ?');
-      params.push(userData.preferences ? JSON.stringify(userData.preferences) : null);
-    }
-    
-    if (userData.metadata !== undefined) {
-      updateFields.push('metadata = ?');
-      params.push(userData.metadata ? JSON.stringify(userData.metadata) : null);
-    }
-    
-    updateFields.push('updatedAt = ?');
-    params.push(new Date().toISOString());
-    
-    params.push(id); // For WHERE clause
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.run(
-        `UPDATE users SET ${updateFields.join(', ')} WHERE id = ?`,
-        params,
-        function(err) {
-          if (err) {
-            db.close();
-            reject(err);
-            return;
-          }
-
-          if (this.changes === 0) {
-            db.close();
-            resolve(null);
-            return;
-          }
-
-          // Fetch the updated user
-          db.get(
-            'SELECT * FROM users WHERE id = ?',
-            [id],
-            (err, row: any) => {
-              db.close();
-              
-              if (err) {
-                reject(err);
-                return;
-              }
-
-              resolve(row ? userService.mapRowToUser(row) : null);
-            }
-          );
+  async createUser(userData: CreateUserData) {
+    try {
+      const user = await prisma.user.create({
+        data: {
+          email: userData.email,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          phone: userData.phone,
+          role: userData.role,
+          organization: userData.organization,
+          position: userData.position,
+          status: UserStatus.PENDING,
+          kycStatus: KYCStatus.NOT_STARTED,
+          createdAt: new Date(),
+          lastActiveAt: new Date(),
         }
-      );
-    });
-  },
+      });
+
+      return user;
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw new Error('Failed to create user');
+    }
+  }
+
+  /**
+   * Update user by ID
+   */
+  async updateUser(id: string, updateData: UpdateUserData) {
+    try {
+      const user = await prisma.user.update({
+        where: { id },
+        data: {
+          ...updateData,
+          lastActiveAt: new Date(),
+        }
+      });
+
+      return user;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw new Error('Failed to update user');
+    }
+  }
+
+  /**
+   * Delete user by ID
+   */
+  async deleteUser(id: string) {
+    try {
+      await prisma.user.delete({
+        where: { id }
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw new Error('Failed to delete user');
+    }
+  }
+
+  /**
+   * Get user statistics
+   */
+  async getUserStats() {
+    try {
+      const totalUsers = await prisma.user.count();
+      
+      const usersByRole = await prisma.user.groupBy({
+        by: ['role'],
+        _count: {
+          role: true
+        }
+      });
+
+      const usersByStatus = await prisma.user.groupBy({
+        by: ['status'],
+        _count: {
+          status: true
+        }
+      });
+
+      const usersByKycStatus = await prisma.user.groupBy({
+        by: ['kycStatus'],
+        _count: {
+          kycStatus: true
+        }
+      });
+
+      return {
+        total: totalUsers,
+        byRole: usersByRole.reduce((acc, item) => {
+          acc[item.role] = item._count.role;
+          return acc;
+        }, {} as Record<string, number>),
+        byStatus: usersByStatus.reduce((acc, item) => {
+          acc[item.status] = item._count.status;
+          return acc;
+        }, {} as Record<string, number>),
+        byKycStatus: usersByKycStatus.reduce((acc, item) => {
+          acc[item.kycStatus] = item._count.kycStatus;
+          return acc;
+        }, {} as Record<string, number>),
+      };
+    } catch (error) {
+      console.error('Error fetching user stats:', error);
+      throw new Error('Failed to fetch user statistics');
+    }
+  }
 
   /**
    * Update user's last active timestamp
    */
-  updateLastActive: async (id: string): Promise<void> => {
-    await initUsersTable();
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.run(
-        'UPDATE users SET lastActive = ? WHERE id = ?',
-        [new Date().toISOString(), id],
-        (err) => {
-          db.close();
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
+  async updateLastActive(id: string) {
+    try {
+      await prisma.user.update({
+        where: { id },
+        data: {
+          lastActiveAt: new Date()
         }
-      );
-    });
-  },
-
-  /**
-   * Update user's last login timestamp
-   */
-  updateLastLogin: async (id: string): Promise<void> => {
-    await initUsersTable();
-    
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.run(
-        'UPDATE users SET lastLogin = ? WHERE id = ?',
-        [new Date().toISOString(), id],
-        (err) => {
-          db.close();
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        }
-      );
-    });
-  },
-
-  /**
-   * Get users by role
-   */
-  getUsersByRole: async (role: UserRole): Promise<UserSummary[]> => {
-    const { users } = await userService.getUsers({ role });
-    
-    return users.map(user => ({
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      fullName: `${user.firstName} ${user.lastName}`.trim(),
-      avatar: user.avatar,
-      roles: user.roles
-    }));
-  },
-
-  /**
-   * Check if user has specific role
-   */
-  hasRole: async (userId: string, role: UserRole): Promise<boolean> => {
-    const user = await userService.getUserById(userId);
-    return user ? user.roles.includes(role) : false;
-  },
-
-  /**
-   * Helper function to map database row to User interface
-   */
-  mapRowToUser: (row: any): User => {
-    return {
-      id: row.id,
-      email: row.email,
-      firstName: row.firstName,
-      lastName: row.lastName,
-      phone: row.phone,
-      roles: JSON.parse(row.roles),
-      status: row.status as UserStatus,
-      kycStatus: row.kycStatus as KYCStatus,
-      organization: row.organization,
-      position: row.position,
-      avatar: row.avatar,
-      preferences: row.preferences ? JSON.parse(row.preferences) : undefined,
-      created: new Date(row.created),
-      lastActive: new Date(row.lastActive),
-      lastLogin: row.lastLogin ? new Date(row.lastLogin) : undefined,
-      metadata: row.metadata ? JSON.parse(row.metadata) : undefined
-    };
+      });
+    } catch (error) {
+      console.error('Error updating last active:', error);
+      // Don't throw error for this operation as it's not critical
+    }
   }
-};
 
-export default userService;
+  /**
+   * Search users by various criteria
+   */
+  async searchUsers(query: string, limit: number = 10) {
+    try {
+      const users = await prisma.user.findMany({
+        where: {
+          OR: [
+            { firstName: { contains: query, mode: 'insensitive' } },
+            { lastName: { contains: query, mode: 'insensitive' } },
+            { email: { contains: query, mode: 'insensitive' } },
+            { organization: { contains: query, mode: 'insensitive' } }
+          ]
+        },
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          organization: true,
+          avatar: true
+        },
+        take: limit,
+        orderBy: {
+          lastName: 'asc'
+        }
+      });
+
+      return users;
+    } catch (error) {
+      console.error('Error searching users:', error);
+      throw new Error('Failed to search users');
+    }
+  }
+}
+
+// Export singleton instance
+export const userService = new UserService();

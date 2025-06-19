@@ -1,0 +1,820 @@
+
+> prop-ie-aws-app@0.1.0 start
+> next start
+
+   ▲ Next.js 15.3.3
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.44:3000
+
+ ✓ Starting...
+ ⚠ "next start" does not work with "output: standalone" configuration. Use "node .next/standalone/server.js" instead.
+ ✓ Ready in 2s
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+Bottleneck detected: user_overload - Severity: medium
+Bottleneck detected: approval_delay - Severity: high
+Performance alert: bottleneck - Property survey approvals are taking 40% longer than expected
+Bottleneck detected: dependency_chain - Severity: low
+Warning: The amplify-client.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+Connection pool usage is deprecated, use Prisma client instead
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+
+🔍 PROP.ie Environment Validation Report
+=====================================
+Environment: PRODUCTION
+Status: BLOCKED
+
+❌ ERRORS (Must be fixed):
+  🚨 PRODUCTION BLOCKER: Temporary Cognito credentials detected. Set real AWS Cognito User Pool ID.
+  🚨 PRODUCTION BLOCKER: Temporary Cognito Client ID detected. Set real AWS Cognito Client ID.
+  🚨 SECURITY RISK: Default NEXTAUTH_SECRET detected. Generate secure random string.
+  🚨 SECURITY RISK: Default JWT_SECRET detected. Generate secure random string.
+  🚨 PRODUCTION BLOCKER: localhost URL detected in production. Set real domain.
+  ❌ Missing NEXT_PUBLIC_COGNITO_REGION
+  🚨 PRODUCTION BLOCKER: localhost database detected in production. Use cloud database.
+
+⚠️ WARNINGS (Recommended):
+  🇮🇪 Consider using .ie domain for Irish property business credibility
+
+🚨 Environment validation failed! Fix errors before deploying.
+=====================================
+
+APM: Performance monitoring started
+Cache: Connected to Redis at localhost:6379
+Cache: Connected to Redis at localhost:6379
+Cache: Connected to Redis at localhost:6379
+Cache: Connected to Redis at localhost:6379
+Cache: Connected to Redis at localhost:6379
+✅ UnifiedProjectService initialized with comprehensive data
+ReferenceError: Navigation is not defined
+    at 71765 (.next/server/app/properties/[id]/viewing/page.js:23:13563)
+    at Function.t (.next/server/webpack-runtime.js:1:511)
+ ⨯ unhandledRejection:  ReferenceError: Navigation is not defined
+    at 71765 (.next/server/app/properties/[id]/viewing/page.js:23:13563)
+    at Function.t (.next/server/webpack-runtime.js:1:511)
+[ERROR] Failed to initialize migrations table {
+  error: Error: Connection terminated due to connection timeout
+      at async n.initMigrationsTable (.next/server/app/api/projects/[id]/route.js:26:4841)
+      at async n.runMigrations (.next/server/app/api/projects/[id]/route.js:32:570) {
+    [cause]: [Error: Connection terminated unexpectedly]
+  }
+}
+Migration initialization failed Error: Connection terminated due to connection timeout
+    at async n.initMigrationsTable (.next/server/app/api/projects/[id]/route.js:26:4841)
+    at async n.runMigrations (.next/server/app/api/projects/[id]/route.js:32:570) {
+  [cause]: [Error: Connection terminated unexpectedly]
+}

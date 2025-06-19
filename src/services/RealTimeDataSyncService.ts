@@ -6,6 +6,7 @@
  */
 
 import { EventEmitter } from 'events';
+import { webSocketPoolManager, ConnectionPool } from './WebSocketConnectionPool';
 
 // Real-time sync data types
 export interface SyncDataTypes {

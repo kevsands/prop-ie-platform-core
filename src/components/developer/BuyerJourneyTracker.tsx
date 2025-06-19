@@ -25,7 +25,7 @@ import {
   DollarSign,
   ArrowUpRight,
   ArrowDownRight,
-  Activity,
+  // Activity,
   Layers,
   Globe,
   Star,
@@ -721,7 +721,8 @@ export default function BuyerJourneyTracker({ projectId, units }: BuyerJourneyTr
                       <span>{buyer.journeyData.savedUnits.length} units saved</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Activity size={14} />
+                      {/* <Activity size={14} /> */}
+                      <Clock size={14} />
                       <span>{buyer.totalInteractions} interactions</span>
                     </div>
                   </div>

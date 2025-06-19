@@ -280,6 +280,29 @@ export interface ProjectStateUpdate {
 }
 
 // =============================================================================
+// PROJECT BUDGET TYPES
+// =============================================================================
+
+export interface ProjectBudget {
+  readonly id: string;
+  readonly projectId: string;
+  readonly totalBudget: number;
+  readonly spentAmount: number;
+  readonly remainingAmount: number;
+  readonly categories: ReadonlyArray<BudgetCategory>;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+}
+
+export interface BudgetCategory {
+  readonly id: string;
+  readonly name: string;
+  readonly allocatedAmount: number;
+  readonly spentAmount: number;
+  readonly description?: string;
+}
+
+// =============================================================================
 // ANALYTICS AND REPORTING TYPES
 // =============================================================================
 
@@ -332,19 +355,5 @@ export interface BusinessRules {
 }
 
 // =============================================================================
-// EXPORT ALL TYPES
+// EXPORT ALL TYPES - All types are exported directly above
 // =============================================================================
-
-export type {
-  Unit,
-  Project,
-  TeamMember,
-  Invoice,
-  FeeProposal,
-  ProfessionalAppointment,
-  UnitUpdateEvent,
-  ProjectStateUpdate,
-  SalesAnalytics,
-  MarketingMetrics,
-  BusinessRules
-};

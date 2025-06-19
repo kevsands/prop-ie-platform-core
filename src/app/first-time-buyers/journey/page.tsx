@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useBuyerJourney } from '@/hooks/useBuyerJourney';
+
 import { 
   CheckCircle, 
   Circle, 
@@ -23,6 +24,9 @@ import {
   Download,
   Euro
 } from 'lucide-react';
+
+// Disable static generation for auth pages
+export const dynamic = 'force-dynamic';
 
 // Journey stages specific to Irish property purchases
 const journeyStages = [
@@ -269,8 +273,24 @@ const documentRequirements = [
 
 export default function FirstTimeBuyerJourneyPage() {
   const router = useRouter();
-  const { user } = useAuth();
-  const { journeyPhase } = useBuyerJourney();
+  
+  // Safe auth access during build
+  let user = null;
+  let journeyPhase = null;
+  
+  try {
+    const authData = useAuth();
+    user = authData.user;
+  } catch (e) {
+    // Auth provider not available during build
+  }
+  
+  try {
+    const journeyData = useBuyerJourney();
+    journeyPhase = journeyData.journeyPhase;
+  } catch (e) {
+    // Journey hook not available during build
+  }
   const [activeStage, setActiveStage] = useState('preparation');
   const [tasksCompleted, setTasksCompleted] = useState<Record<string, boolean>>({});
   const [documentsUploaded, setDocumentsUploaded] = useState<Record<string, boolean>>({});

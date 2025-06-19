@@ -1,0 +1,75 @@
+[
+  {
+    "name": "High Response Time",
+    "condition": "avg_response_time > 2000ms for 5 minutes",
+    "severity": "warning",
+    "channels": [
+      "email",
+      "slack"
+    ]
+  },
+  {
+    "name": "Critical Error Rate",
+    "condition": "error_rate > 5% for 2 minutes",
+    "severity": "critical",
+    "channels": [
+      "email",
+      "slack",
+      "sms"
+    ]
+  },
+  {
+    "name": "Service Unavailable",
+    "condition": "availability < 99% for 1 minute",
+    "severity": "critical",
+    "channels": [
+      "email",
+      "slack",
+      "sms"
+    ]
+  },
+  {
+    "name": "Database Connection Issues",
+    "condition": "database_connections_failed > 3 for 1 minute",
+    "severity": "critical",
+    "channels": [
+      "email",
+      "slack",
+      "sms"
+    ]
+  },
+  {
+    "name": "Payment Processing Failure",
+    "condition": "payment_failure_rate > 2% for 5 minutes",
+    "severity": "high",
+    "channels": [
+      "email",
+      "slack"
+    ]
+  },
+  {
+    "name": "Memory Usage High",
+    "condition": "memory_usage > 80% for 10 minutes",
+    "severity": "warning",
+    "channels": [
+      "email"
+    ]
+  },
+  {
+    "name": "Disk Space Low",
+    "condition": "disk_usage > 85%",
+    "severity": "warning",
+    "channels": [
+      "email",
+      "slack"
+    ]
+  },
+  {
+    "name": "SSL Certificate Expiry",
+    "condition": "ssl_cert_expires_in < 30 days",
+    "severity": "warning",
+    "channels": [
+      "email"
+    ]
+  }
+]

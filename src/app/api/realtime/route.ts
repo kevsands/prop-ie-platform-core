@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { WebSocketServer } from 'ws';
 import { IncomingMessage } from 'http';
 import { Duplex } from 'stream';
+import { webSocketPoolManager } from '@/services/WebSocketConnectionPool';
 
 // WebSocket server instance
 let wss: WebSocketServer | null = null;

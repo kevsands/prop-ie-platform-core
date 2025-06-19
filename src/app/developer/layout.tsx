@@ -32,7 +32,8 @@ import {
   Briefcase,
   Globe,
   Zap,
-  Award
+  Award,
+  Activity
 } from 'lucide-react';
 
 /**

@@ -1,0 +1,25 @@
+{
+  "deploymentId": "deploy-1750342851043",
+  "startTime": "2025-06-19T14:20:51.043Z",
+  "endTime": "2025-06-19T14:20:51.046Z",
+  "duration": "0s",
+  "environment": "production",
+  "status": "FAILED",
+  "errors": [
+    "Unsupported Node.js version: v23.11.0. Use v18 or v20."
+  ],
+  "logs": [
+    "[2025-06-19T14:20:51.043Z] [INFO] 🚀 Starting PROP.ie Production Deployment",
+    "[2025-06-19T14:20:51.044Z] [INFO] Deployment ID: deploy-1750342851043",
+    "[2025-06-19T14:20:51.044Z] [INFO] 🔍 Running pre-deployment validation...",
+    "[2025-06-19T14:20:51.046Z] [ERROR] Unsupported Node.js version: v23.11.0. Use v18 or v20."
+  ],
+  "summary": {
+    "totalFiles": "1,354+ TypeScript/React files",
+    "totalRoutes": "245+ application routes",
+    "databaseModels": "122 Prisma models",
+    "enterpriseFeatures": "Enabled",
+    "securityFeatures": "Enabled",
+    "performanceOptimizations": "Applied"
+  }
+}

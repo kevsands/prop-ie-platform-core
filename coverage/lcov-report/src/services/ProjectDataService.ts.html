@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/241</span>
+                <span class='fraction'>0/234</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/209</span>
+                <span class='fraction'>0/202</span>
             </div>
         
             
@@ -1034,14 +1034,7 @@
 <a name='L969'></a><a href='#L969'>969</a>
 <a name='L970'></a><a href='#L970'>970</a>
 <a name='L971'></a><a href='#L971'>971</a>
-<a name='L972'></a><a href='#L972'>972</a>
-<a name='L973'></a><a href='#L973'>973</a>
-<a name='L974'></a><a href='#L974'>974</a>
-<a name='L975'></a><a href='#L975'>975</a>
-<a name='L976'></a><a href='#L976'>976</a>
-<a name='L977'></a><a href='#L977'>977</a>
-<a name='L978'></a><a href='#L978'>978</a>
-<a name='L979'></a><a href='#L979'>979</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L972'></a><a href='#L972'>972</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1205,10 +1198,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1226,13 +1217,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1247,7 +1235,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1964,7 +1951,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2182,10 +2168,8 @@ export class <span class="cstat-no" title="statement not covered" >ProjectDataSe
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      this.projects.set(projectId, updatedProject);</span>
       
-<span class="cstat-no" title="statement not covered" >      console.log(`✅ Unit ${unitId} buyer information updated successfully`);</span>
 <span class="cstat-no" title="statement not covered" >      return true;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error updating unit buyer:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return false;</span>
     }
   }
@@ -2204,13 +2188,10 @@ export class <span class="cstat-no" title="statement not covered" >ProjectDataSe
 <span class="cstat-no" title="statement not covered" >        try {</span>
 <span class="cstat-no" title="statement not covered" >          listener(update);</span>
         } catch (error) {
-<span class="cstat-no" title="statement not covered" >          console.error('Error in state update listener:', error);</span>
         }
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      console.log(`📡 State update broadcast for project ${update.projectId}:`, update.eventType);</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error broadcasting state update:', error);</span>
     }
   }
 &nbsp;
@@ -2224,7 +2205,6 @@ export class <span class="cstat-no" title="statement not covered" >ProjectDataSe
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      return project.units.find(<span class="fstat-no" title="function not covered" >unit =&gt; <span class="cstat-no" title="statement not covered" >u</span>nit.id === unitId) || n</span>ull;</span>
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Error getting unit by ID:', error);</span>
 <span class="cstat-no" title="statement not covered" >      return null;</span>
     }
   }
@@ -2942,7 +2922,6 @@ export class <span class="cstat-no" title="statement not covered" >ProjectDataSe
 <span class="cstat-no" title="statement not covered" >        try {</span>
 <span class="cstat-no" title="statement not covered" >          callback(event);</span>
         } catch (error) {
-<span class="cstat-no" title="statement not covered" >          console.error('Error in event listener:', error);</span>
         }
       });
     }
@@ -3004,7 +2983,7 @@ export const <span class="cstat-no" title="statement not covered" >projectDataSe
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-16T20:19:58.948Z
+                at 2025-06-19T14:29:04.561Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
