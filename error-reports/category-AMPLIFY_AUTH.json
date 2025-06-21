@@ -1,0 +1,58 @@
+[
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 322,
+    "colNum": 1,
+    "errorMessage": "error TS1128: Declaration or statement expected.",
+    "errorCode": "TS1128",
+    "category": "AMPLIFY_AUTH"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 322,
+    "colNum": 16,
+    "errorMessage": "error TS1109: Expression expected.",
+    "errorCode": "TS1109",
+    "category": "AMPLIFY_AUTH"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 325,
+    "colNum": 1,
+    "errorMessage": "error TS1128: Declaration or statement expected.",
+    "errorCode": "TS1128",
+    "category": "AMPLIFY_AUTH"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 328,
+    "colNum": 1,
+    "errorMessage": "error TS1128: Declaration or statement expected.",
+    "errorCode": "TS1128",
+    "category": "AMPLIFY_AUTH"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 331,
+    "colNum": 1,
+    "errorMessage": "error TS1128: Declaration or statement expected.",
+    "errorCode": "TS1128",
+    "category": "AMPLIFY_AUTH"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 334,
+    "colNum": 1,
+    "errorMessage": "error TS1128: Declaration or statement expected.",
+    "errorCode": "TS1128",
+    "category": "AMPLIFY_AUTH"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 334,
+    "colNum": 15,
+    "errorMessage": "error TS1109: Expression expected.",
+    "errorCode": "TS1109",
+    "category": "AMPLIFY_AUTH"
+  }
+]

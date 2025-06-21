@@ -1,0 +1,1029 @@
+{
+  "totalEndpoints": 103,
+  "withAuth": 68,
+  "withoutAuth": 35,
+  "potentiallyBroken": 16,
+  "endpoints": [
+    {
+      "route": "/analytics/activities",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "analytics/activities/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/analytics/developer",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "analytics/developer/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/analytics/export",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "analytics/export/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/analytics/property-performance",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "analytics/property-performance/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/analytics/sales-funnel",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "analytics/sales-funnel/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "auth/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth-disabled",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "auth-disabled/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth/[...nextauth]",
+      "methods": [
+        "Unknown"
+      ],
+      "hasAuth": false,
+      "file": "auth/[...nextauth]/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/auth/check-user",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "auth/check-user/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth/login",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "auth/login/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/auth/password-reset",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "auth/password-reset/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth/permissions",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "auth/permissions/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth/register",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "auth/register/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/auth/two-factor",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "auth/two-factor/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/auth/verify-email",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "auth/verify-email/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/blockchain/dividends",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "blockchain/dividends/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/blockchain/purchase",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "blockchain/purchase/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/blockchain/tokenize",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "blockchain/tokenize/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/blockchain/verify",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "blockchain/verify/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/booking/initiate",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "booking/initiate/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/buyer/solicitor",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "buyer/solicitor/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/cases",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "cases/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/compliance/audits",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "hasAuth": false,
+      "file": "compliance/audits/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/compliance/reports",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": false,
+      "file": "compliance/reports/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/compliance/requirements",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "compliance/requirements/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/compliance/violations",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "hasAuth": false,
+      "file": "compliance/violations/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/contractors",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "contractors/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/contracts/finalize",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "contracts/finalize/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/contracts/generate",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "contracts/generate/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/contracts/sign",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "contracts/sign/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/create-test-user",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "create-test-user/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/customization",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "customization/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/customization/calculate",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "customization/calculate/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/customization/options",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "customization/options/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/customization/pdf",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "customization/pdf/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/customizations",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "hasAuth": true,
+      "file": "customizations/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/deployment-status",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "deployment-status/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/deposit/confirm",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "deposit/confirm/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/developer/developments",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "developer/developments/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/developer/developments/[id]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": false,
+      "file": "developer/developments/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/developer/developments/[id]/units",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "developer/developments/[id]/units/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/developer/developments/[id]/units/[unitId]",
+      "methods": [
+        "GET",
+        "PUT"
+      ],
+      "hasAuth": false,
+      "file": "developer/developments/[id]/units/[unitId]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/developments",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "developments/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/developments/[id]",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "developments/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/documents",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "hasAuth": false,
+      "file": "documents/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/documents/sign",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "documents/sign/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/finance",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "finance/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/finance/budget-vs-actual",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "finance/budget-vs-actual/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/finance/projections",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "finance/projections/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/graphql",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "graphql/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/health",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "health/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/health/simple",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "health/simple/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/htb-claims",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "htb-claims/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/htb/buyer/claims",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "htb/buyer/claims/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/htb/buyer/claims/[id]",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "htb/buyer/claims/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/kyc/status",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "kyc/status/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/legal/reservations/[id]",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "legal/reservations/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/metrics",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "metrics/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/monitoring/api-metrics",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "monitoring/api-metrics/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/notifications",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "notifications/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/payments",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "hasAuth": false,
+      "file": "payments/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/payments/create-intent",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "payments/create-intent/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/ping",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "ping/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/projects",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "projects/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/projects/[id]",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "projects/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/projects/[id]/activity",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "projects/[id]/activity/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/projects/[id]/alerts",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "projects/[id]/alerts/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/projects/[id]/media",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "hasAuth": false,
+      "file": "projects/[id]/media/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/projects/[id]/sales",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "projects/[id]/sales/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/projects/[id]/timeline",
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "projects/[id]/timeline/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/properties",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "properties/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/properties/[id]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "properties/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/property-alerts",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "property-alerts/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/sales",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "sales/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/security/log",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "security/log/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/security/report",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "security/report/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/slp/[projectId]",
+      "methods": [
+        "Unknown"
+      ],
+      "hasAuth": true,
+      "file": "slp/[projectId]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/test",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "test/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/transactions",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "transactions/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/transactions/[id]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "transactions/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/transactions/[id]/documents",
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "transactions/[id]/documents/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/transactions/[id]/payment-process",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "transactions/[id]/payment-process/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/transactions/[id]/payments",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "transactions/[id]/payments/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/transactions/[id]/payments/[paymentId]",
+      "methods": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "transactions/[id]/payments/[paymentId]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/transactions/[id]/payments/receipt",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "transactions/[id]/payments/receipt/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/transactions/reservation",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "transactions/reservation/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/units",
+      "methods": [
+        "Unknown"
+      ],
+      "hasAuth": true,
+      "file": "units/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/users",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "hasAuth": true,
+      "file": "users/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/users/me",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": false,
+      "file": "users/me/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/developer/projects",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/developer/projects/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/kyc/aml-screening",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/kyc/aml-screening/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/kyc/complete",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/kyc/complete/route.ts",
+      "status": "Potentially Broken"
+    },
+    {
+      "route": "/v1/kyc/start",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/kyc/start/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/kyc/upload",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/kyc/upload/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/payments",
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "hasAuth": true,
+      "file": "v1/payments/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/payments/webhook",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "v1/payments/webhook/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/transactions",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/transactions/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/transactions/[id]",
+      "methods": [
+        "GET",
+        "PUT"
+      ],
+      "hasAuth": true,
+      "file": "v1/transactions/[id]/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/v1/transactions/[id]/transition",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "v1/transactions/[id]/transition/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/viewing-slots",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": true,
+      "file": "viewing-slots/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/webhooks/stripe",
+      "methods": [
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "webhooks/stripe/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/websocket",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "hasAuth": false,
+      "file": "websocket/route.ts",
+      "status": "Active"
+    },
+    {
+      "route": "/websocket/developer-analytics",
+      "methods": [
+        "GET"
+      ],
+      "hasAuth": true,
+      "file": "websocket/developer-analytics/route.ts",
+      "status": "Active"
+    }
+  ]
+}

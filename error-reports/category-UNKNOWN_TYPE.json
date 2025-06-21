@@ -1,0 +1,1250 @@
+[
+  {
+    "filePath": "src/app/api/websocket/route.ts",
+    "lineNum": 22,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/api/websocket/route.ts",
+    "lineNum": 104,
+    "colNum": 32,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 123,
+    "colNum": 31,
+    "errorMessage": "error TS18046: 'devData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 125,
+    "colNum": 17,
+    "errorMessage": "error TS18046: 'devData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 126,
+    "colNum": 19,
+    "errorMessage": "error TS18046: 'devData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 127,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'devData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 146,
+    "colNum": 33,
+    "errorMessage": "error TS18046: 'unitsData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 147,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'unitsData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 148,
+    "colNum": 24,
+    "errorMessage": "error TS18046: 'unitsData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 149,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'unitsData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/developments/[id]/units/page.tsx",
+    "lineNum": 152,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'unitsData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/prop-dashboard/page.tsx",
+    "lineNum": 195,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'unit' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/prop-dashboard/page.tsx",
+    "lineNum": 196,
+    "colNum": 16,
+    "errorMessage": "error TS18046: 'unit' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/prop-dashboard/page.tsx",
+    "lineNum": 197,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'unit' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/prop-dashboard/page.tsx",
+    "lineNum": 198,
+    "colNum": 19,
+    "errorMessage": "error TS18046: 'unit' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/developer/prop-dashboard/page.tsx",
+    "lineNum": 199,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'unit' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/monitoring/page.tsx",
+    "lineNum": 135,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'metrics' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/monitoring/page.tsx",
+    "lineNum": 136,
+    "colNum": 30,
+    "errorMessage": "error TS18046: 'metrics' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/monitoring/page.tsx",
+    "lineNum": 137,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'metrics' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/monitoring/page.tsx",
+    "lineNum": 138,
+    "colNum": 21,
+    "errorMessage": "error TS18046: 'metrics' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/monitoring/page.tsx",
+    "lineNum": 139,
+    "colNum": 24,
+    "errorMessage": "error TS18046: 'metrics' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 24,
+    "colNum": 27,
+    "errorMessage": "error TS18046: 'deploymentStatus' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 28,
+    "colNum": 13,
+    "errorMessage": "error TS18046: 'deploymentStatus' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 29,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'deploymentStatus' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 30,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'deploymentStatus' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 31,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'deploymentStatus' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 32,
+    "colNum": 15,
+    "errorMessage": "error TS18046: 'deploymentStatus' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/3d/RoomVisualizer.old.tsx",
+    "lineNum": 174,
+    "colNum": 9,
+    "errorMessage": "error TS18046: 'texture' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/3d/RoomVisualizer.old.tsx",
+    "lineNum": 174,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'texture' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/3d/RoomVisualizer.old.tsx",
+    "lineNum": 175,
+    "colNum": 9,
+    "errorMessage": "error TS18046: 'texture' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/ContractReview.tsx",
+    "lineNum": 71,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/HandoverScheduling.tsx",
+    "lineNum": 92,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/HandoverScheduling.tsx",
+    "lineNum": 117,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/PropertySelection.tsx",
+    "lineNum": 72,
+    "colNum": 16,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/SnaggingInspection.tsx",
+    "lineNum": 88,
+    "colNum": 19,
+    "errorMessage": "error TS18046: 'scheduleData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/SnaggingInspection.tsx",
+    "lineNum": 89,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'itemsData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/SnaggingInspection.tsx",
+    "lineNum": 114,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/TransactionFlow.tsx",
+    "lineNum": 116,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/TransactionFlow.tsx",
+    "lineNum": 120,
+    "colNum": 32,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/UnitReservation.tsx",
+    "lineNum": 57,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/UnitReservation.tsx",
+    "lineNum": 58,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/buyer-journey/UnitReservation.tsx",
+    "lineNum": 60,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/contractor/ContractorDirectory.tsx",
+    "lineNum": 87,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/kyc/KYCVerification.tsx",
+    "lineNum": 79,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/kyc/KYCVerification.tsx",
+    "lineNum": 107,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/kyc/KYCVerification.tsx",
+    "lineNum": 171,
+    "colNum": 17,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/kyc/KYCVerification.tsx",
+    "lineNum": 176,
+    "colNum": 17,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/kyc/KYCVerification.tsx",
+    "lineNum": 199,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/NotificationCenter.tsx",
+    "lineNum": 58,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 97,
+    "colNum": 24,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 98,
+    "colNum": 17,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 99,
+    "colNum": 16,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 100,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 101,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 102,
+    "colNum": 29,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 105,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 106,
+    "colNum": 26,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 107,
+    "colNum": 28,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 110,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 111,
+    "colNum": 28,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 112,
+    "colNum": 28,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionPayment.tsx",
+    "lineNum": 182,
+    "colNum": 35,
+    "errorMessage": "error TS18046: 'receiptData' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionTracker.tsx",
+    "lineNum": 361,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/components/transaction/TransactionTracker.tsx",
+    "lineNum": 364,
+    "colNum": 24,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 201,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 204,
+    "colNum": 41,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 226,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/AuthContext.tsx",
+    "lineNum": 251,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 148,
+    "colNum": 23,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 163,
+    "colNum": 29,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 178,
+    "colNum": 30,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 196,
+    "colNum": 23,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 239,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 259,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 287,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 330,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 352,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 380,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 407,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/context/TransactionContext.tsx",
+    "lineNum": 430,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 96,
+    "colNum": 13,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/examples/typed-graphql-example.tsx",
+    "lineNum": 178,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/examples/typed-graphql-example.tsx",
+    "lineNum": 178,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/examples/typed-graphql-example.tsx",
+    "lineNum": 179,
+    "colNum": 26,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/examples/typed-hook-example.ts",
+    "lineNum": 95,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/auth/AuthenticationFlow.tsx",
+    "lineNum": 152,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/properties/PropertyListingGrid.tsx",
+    "lineNum": 167,
+    "colNum": 21,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/properties/PropertyListingGrid.tsx",
+    "lineNum": 168,
+    "colNum": 18,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/properties/PropertyListingGrid.tsx",
+    "lineNum": 187,
+    "colNum": 42,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/properties/PropertyListingGrid.tsx",
+    "lineNum": 189,
+    "colNum": 18,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/properties/PropertyListingGrid.tsx",
+    "lineNum": 201,
+    "colNum": 26,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/features/viewing-scheduler/ViewingScheduler.tsx",
+    "lineNum": 343,
+    "colNum": 26,
+    "errorMessage": "error TS18046: 'slots' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 275,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 288,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 300,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 313,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 326,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 338,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 353,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 368,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 383,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 398,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 413,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useDocuments.ts",
+    "lineNum": 427,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'response' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useEnterpriseAuth.ts",
+    "lineNum": 192,
+    "colNum": 12,
+    "errorMessage": "error TS18046: 'userCheck' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useEnterpriseAuth.ts",
+    "lineNum": 196,
+    "colNum": 11,
+    "errorMessage": "error TS18046: 'userCheck' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useGraphQLMutations.ts",
+    "lineNum": 172,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useGraphQLMutations.ts",
+    "lineNum": 199,
+    "colNum": 34,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useMessaging.ts",
+    "lineNum": 146,
+    "colNum": 24,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useMessaging.ts",
+    "lineNum": 167,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useMessaging.ts",
+    "lineNum": 334,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useMessaging.ts",
+    "lineNum": 494,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useNotifications.ts",
+    "lineNum": 132,
+    "colNum": 24,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useNotifications.ts",
+    "lineNum": 147,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useNotifications.ts",
+    "lineNum": 356,
+    "colNum": 14,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/usePropertySearch.ts",
+    "lineNum": 124,
+    "colNum": 21,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/usePropertySearch.ts",
+    "lineNum": 125,
+    "colNum": 21,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/hooks/useSecureJWT.ts",
+    "lineNum": 74,
+    "colNum": 25,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/lib/features/featureFlags.ts",
+    "lineNum": 223,
+    "colNum": 28,
+    "errorMessage": "error TS18046: 'data' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/lib/features/featureFlags.ts",
+    "lineNum": 324,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'attributes' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/lib/features/featureFlags.ts",
+    "lineNum": 358,
+    "colNum": 23,
+    "errorMessage": "error TS18046: 'attributes' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 100,
+    "colNum": 47,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 133,
+    "colNum": 40,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 204,
+    "colNum": 48,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 216,
+    "colNum": 41,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 247,
+    "colNum": 57,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 278,
+    "colNum": 50,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 312,
+    "colNum": 51,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 339,
+    "colNum": 51,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 461,
+    "colNum": 51,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 504,
+    "colNum": 53,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 517,
+    "colNum": 45,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 530,
+    "colNum": 45,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 547,
+    "colNum": 49,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 562,
+    "colNum": 55,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 87,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 147,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 188,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 237,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 243,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 244,
+    "colNum": 18,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 245,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 514,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 566,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 617,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/documentService.ts",
+    "lineNum": 664,
+    "colNum": 20,
+    "errorMessage": "error TS18046: 'result' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 54,
+    "colNum": 48,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 107,
+    "colNum": 59,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 304,
+    "colNum": 56,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 334,
+    "colNum": 55,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 358,
+    "colNum": 53,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 382,
+    "colNum": 55,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 438,
+    "colNum": 53,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 461,
+    "colNum": 58,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 496,
+    "colNum": 22,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  },
+  {
+    "filePath": "src/services/notificationService.ts",
+    "lineNum": 503,
+    "colNum": 68,
+    "errorMessage": "error TS18046: 'error' is of type 'unknown'.",
+    "errorCode": "TS18046",
+    "category": "UNKNOWN_TYPE"
+  }
+]

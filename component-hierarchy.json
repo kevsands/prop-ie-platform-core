@@ -1,0 +1,4375 @@
+{
+  "components": [
+    {
+      "name": "DevelopmentsPage",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/pages/developments/DevelopmentsPage.tsx",
+      "lines": 1736,
+      "complexity": 18,
+      "importCount": 3
+    },
+    {
+      "name": "ROICalculator",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/finance/ROICalculator.tsx",
+      "lines": 1604,
+      "complexity": 38,
+      "importCount": 20
+    },
+    {
+      "name": "ScenarioComparison",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/finance/ScenarioComparison.tsx",
+      "lines": 1542,
+      "complexity": 57,
+      "importCount": 19
+    },
+    {
+      "name": "SolicitorPage",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/pages/solicitor/SolicitorPage.tsx",
+      "lines": 1337,
+      "complexity": 29,
+      "importCount": 3
+    },
+    {
+      "name": "MortgageCalculator",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/mortgage-calculator/MortgageCalculator.tsx",
+      "lines": 1284,
+      "complexity": 55,
+      "importCount": 16
+    },
+    {
+      "name": "ComplianceDashboard",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/compliance/ComplianceDashboard.tsx",
+      "lines": 1230,
+      "complexity": 57,
+      "importCount": 18
+    },
+    {
+      "name": "RegulatoryReportingSystem",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/compliance/RegulatoryReportingSystem.tsx",
+      "lines": 1178,
+      "complexity": 51,
+      "importCount": 16
+    },
+    {
+      "name": "RuntimeSecurityMonitor",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/security/RuntimeSecurityMonitor.tsx",
+      "lines": 1100,
+      "complexity": 53,
+      "importCount": 17
+    },
+    {
+      "name": "DevelopmentDetailConnected",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/development/DevelopmentDetailConnected.tsx",
+      "lines": 1061,
+      "complexity": 42,
+      "importCount": 4
+    },
+    {
+      "name": "PropertySearch",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/buyer/property/PropertySearch.tsx",
+      "lines": 989,
+      "complexity": 70,
+      "importCount": 10
+    },
+    {
+      "name": "TransactionParticipants",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/transactions/TransactionParticipants.tsx",
+      "lines": 937,
+      "complexity": 30,
+      "importCount": 16
+    },
+    {
+      "name": "SalesProgressTracker",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/sales/SalesProgressTracker.tsx",
+      "lines": 902,
+      "complexity": 35,
+      "importCount": 14
+    },
+    {
+      "name": "PropertyReservation",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/buyer/property/PropertyReservation.tsx",
+      "lines": 895,
+      "complexity": 39,
+      "importCount": 9
+    },
+    {
+      "name": "MortgageCalculator",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/buyer/financing/MortgageCalculator.tsx",
+      "lines": 844,
+      "complexity": 43,
+      "importCount": 7
+    },
+    {
+      "name": "MessagingCenter",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/messaging/MessagingCenter.tsx",
+      "lines": 839,
+      "complexity": 56,
+      "importCount": 18
+    },
+    {
+      "name": "TransactionMilestones",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/transactions/TransactionMilestones.tsx",
+      "lines": 827,
+      "complexity": 43,
+      "importCount": 22
+    },
+    {
+      "name": "AdminFinancialDashboard",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/admin/AdminFinancialDashboard.tsx",
+      "lines": 826,
+      "complexity": 41,
+      "importCount": 1
+    },
+    {
+      "name": "DataEncryptionService",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/security/DataEncryptionService.tsx",
+      "lines": 822,
+      "complexity": 27,
+      "importCount": 17
+    },
+    {
+      "name": "EnhancedSecurityDashboard",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/admin/EnhancedSecurityDashboard.tsx",
+      "lines": 815,
+      "complexity": 46,
+      "importCount": 8
+    },
+    {
+      "name": "DevelopmentDetail",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/development/DevelopmentDetail.tsx",
+      "lines": 814,
+      "complexity": 23,
+      "importCount": 5
+    },
+    {
+      "name": "InvestorMode",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/investor/InvestorMode.tsx",
+      "lines": 805,
+      "complexity": 15,
+      "importCount": 2
+    },
+    {
+      "name": "EnhancedMainNavigation",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/navigation/EnhancedMainNavigation.tsx",
+      "lines": 804,
+      "complexity": 40,
+      "importCount": 9
+    },
+    {
+      "name": "DocumentSecurity",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/document/DocumentSecurity.tsx",
+      "lines": 801,
+      "complexity": 31,
+      "importCount": 14
+    },
+    {
+      "name": "TransactionDocuments",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/transactions/TransactionDocuments.tsx",
+      "lines": 792,
+      "complexity": 48,
+      "importCount": 23
+    },
+    {
+      "name": "MainNavigationFixed",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/navigation/MainNavigationFixed.tsx",
+      "lines": 785,
+      "complexity": 43,
+      "importCount": 7
+    },
+    {
+      "name": "MainNavigation",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/navigation/MainNavigation.tsx",
+      "lines": 769,
+      "complexity": 42,
+      "importCount": 7
+    },
+    {
+      "name": "sidebar",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/ui/sidebar.tsx",
+      "lines": 765,
+      "complexity": 39,
+      "importCount": 12
+    },
+    {
+      "name": "ProfitabilityAnalysis",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/finance/ProfitabilityAnalysis.tsx",
+      "lines": 760,
+      "complexity": 25,
+      "importCount": 13
+    },
+    {
+      "name": "HelpToBuyClaimUpload",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/htb/HelpToBuyClaimUpload.tsx",
+      "lines": 759,
+      "complexity": 81,
+      "importCount": 1
+    },
+    {
+      "name": "ReadinessChecklist",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/buyer/ReadinessChecklist.tsx",
+      "lines": 757,
+      "complexity": 50,
+      "importCount": 5
+    },
+    {
+      "name": "PropertyListingGrid",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/properties/PropertyListingGrid.tsx",
+      "lines": 743,
+      "complexity": 57,
+      "importCount": 14
+    },
+    {
+      "name": "ReadinessChecklist",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/buyer/planning/ReadinessChecklist.tsx",
+      "lines": 735,
+      "complexity": 50,
+      "importCount": 6
+    },
+    {
+      "name": "data-table",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/ui/data-table.tsx",
+      "lines": 733,
+      "complexity": 49,
+      "importCount": 14
+    },
+    {
+      "name": "ProjectOverview",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/dashboard/ProjectOverview.tsx",
+      "lines": 727,
+      "complexity": 10,
+      "importCount": 14
+    },
+    {
+      "name": "DeveloperNew-projectPage",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/pages/developer/new-project/DeveloperNew-projectPage.tsx",
+      "lines": 712,
+      "complexity": 30,
+      "importCount": 1
+    },
+    {
+      "name": "UserRegistration",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/auth/UserRegistration.tsx",
+      "lines": 700,
+      "complexity": 50,
+      "importCount": 2
+    },
+    {
+      "name": "PerformanceDashboard",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/admin/PerformanceDashboard.tsx",
+      "lines": 696,
+      "complexity": 63,
+      "importCount": 9
+    },
+    {
+      "name": "AnalyticsDashboard",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/analytics/AnalyticsDashboard.tsx",
+      "lines": 676,
+      "complexity": 6,
+      "importCount": 8
+    },
+    {
+      "name": "ViewingScheduler",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/features/viewing-scheduler/ViewingScheduler.tsx",
+      "lines": 671,
+      "complexity": 26,
+      "importCount": 16
+    },
+    {
+      "name": "PurchaseFlow",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/property/PurchaseFlow.tsx",
+      "lines": 665,
+      "complexity": 8,
+      "importCount": 0
+    },
+    {
+      "name": "TransactionTracker",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/transaction/TransactionTracker.tsx",
+      "lines": 661,
+      "complexity": 35,
+      "importCount": 1
+    },
+    {
+      "name": "",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/HomePage.tsx",
+      "lines": 660,
+      "complexity": 28,
+      "importCount": 10
+    },
+    {
+      "name": "UltraModernNavigation",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/navigation/UltraModernNavigation.tsx",
+      "lines": 649,
+      "complexity": 58,
+      "importCount": 8
+    },
+    {
+      "name": "DocumentCenter",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/transaction/DocumentCenter.tsx",
+      "lines": 646,
+      "complexity": 41,
+      "importCount": 15
+    },
+    {
+      "name": "ProjectTimeline",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/timeline/ProjectTimeline.tsx",
+      "lines": 640,
+      "complexity": 61,
+      "importCount": 16
+    },
+    {
+      "name": "DocumentDetails",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/documents/DocumentDetails.tsx",
+      "lines": 637,
+      "complexity": 45,
+      "importCount": 16
+    },
+    {
+      "name": "AppShell",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/layout/AppShell.tsx",
+      "lines": 635,
+      "complexity": 20,
+      "importCount": 12
+    },
+    {
+      "name": "Kyc-verifcationPage",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/pages/kyc-verifcationpage/Kyc-verifcationPage.tsx",
+      "lines": 626,
+      "complexity": 43,
+      "importCount": 2
+    },
+    {
+      "name": "PropertySearchFilters",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/properties/PropertySearchFilters.tsx",
+      "lines": 625,
+      "complexity": 17,
+      "importCount": 12
+    },
+    {
+      "name": "DocumentIntegrations",
+      "path": "/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/document/DocumentIntegrations.tsx",
+      "lines": 623,
+      "complexity": 36,
+      "importCount": 15
+    }
+  ],
+  "dependencies": {
+    "DevelopmentsPage": [
+      "next/image",
+      "next/link",
+      "@/components/property/DevelopmentSiteMap"
+    ],
+    "ROICalculator": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/slider",
+      "recharts",
+      "@/components/ui/table",
+      "@/components/ui/badge",
+      "lucide-react",
+      "@/components/ui/select",
+      "@/components/ui/hover-card",
+      "@/lib/utils",
+      "@/components/ui/alert-dialog",
+      "@/components/ui/dialog",
+      "@/components/ui/tooltip",
+      "@/components/ui/scroll-area",
+      "@/components/ui/collapsible",
+      "@/components/ui/popover"
+    ],
+    "ScenarioComparison": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/slider",
+      "recharts",
+      "@/components/ui/table",
+      "@/components/ui/dialog",
+      "@/components/ui/badge",
+      "lucide-react",
+      "@/components/ui/select",
+      "@/components/ui/hover-card",
+      "@/lib/utils",
+      "@/components/ui/context-menu",
+      "@/components/ui/popover",
+      "@/components/ui/tooltip",
+      "@/components/ui/scroll-area"
+    ],
+    "SolicitorPage": [
+      "@/context/AuthContext",
+      "react",
+      "next/link"
+    ],
+    "MortgageCalculator": [
+      "lucide-react",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/slider",
+      "@/components/ui/tabs",
+      "@/hooks/useToast"
+    ],
+    "ComplianceDashboard": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/alert",
+      "@/components/ui/select",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/date-range-picker",
+      "react-day-picker",
+      "@/components/ui/dialog",
+      "recharts",
+      "@/hooks/useCompliance",
+      "date-fns",
+      "sonner"
+    ],
+    "RegulatoryReportingSystem": [
+      "react",
+      "@heroicons/react/24/outline",
+      "framer-motion",
+      "date-fns",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/dialog",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/select",
+      "@/components/ui/alert",
+      "@/lib/utils"
+    ],
+    "RuntimeSecurityMonitor": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/alert",
+      "@/components/ui/switch",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/slider",
+      "@/components/ui/input",
+      "recharts",
+      "@/hooks/useSecurityMonitor",
+      "date-fns",
+      "sonner"
+    ],
+    "DevelopmentDetailConnected": [
+      "next/navigation",
+      "next/image",
+      "next/link",
+      "@/hooks/api/useDevelopments"
+    ],
+    "PropertySearch": [
+      "lucide-react",
+      "@/hooks/usePropertyAnalytics",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/slider",
+      "@/hooks/useToast",
+      "@/components/ui/popover",
+      "@/components/ui/tabs",
+      "@/types/buyer-journey"
+    ],
+    "TransactionParticipants": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/avatar",
+      "@/components/ui/tabs",
+      "@/components/ui/select",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/hover-card",
+      "@/components/ui/alert",
+      "sonner",
+      "date-fns"
+    ],
+    "SalesProgressTracker": [
+      "@tanstack/react-query",
+      "lucide-react",
+      "../ui/card",
+      "../ui/button",
+      "../ui/badge",
+      "../ui/progress",
+      "../ui/tabs",
+      "../ui/scroll-area",
+      "../ui/separator",
+      "../ui/avatar",
+      "../ui/select",
+      "../ui/table",
+      "../../types/sales",
+      "../../utils/finance/formatting"
+    ],
+    "PropertyReservation": [
+      "react-icons/fi"
+    ],
+    "MessagingCenter": [
+      "react",
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/textarea",
+      "@/components/ui/badge",
+      "@/components/ui/scroll-area",
+      "@/components/ui/avatar",
+      "@/components/ui/sheet",
+      "@/components/ui/tabs",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/popover",
+      "date-fns",
+      "@/lib/utils",
+      "@/hooks/useMessaging",
+      "@/hooks/useAuth",
+      "@/components/ui/emoji-picker"
+    ],
+    "TransactionMilestones": [
+      "framer-motion",
+      "react-beautiful-dnd",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/checkbox",
+      "@/components/ui/date-picker",
+      "@/components/ui/tabs",
+      "@/components/ui/hover-card",
+      "@/components/ui/alert",
+      "sonner",
+      "date-fns",
+      "@/components/charts/GanttChart",
+      "@/components/analytics/MilestoneRiskAnalysis",
+      "@/hooks/useTransaction",
+      "@/hooks/useAuth"
+    ],
+    "AdminFinancialDashboard": [
+      "../../context/AuthContext"
+    ],
+    "DataEncryptionService": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/alert",
+      "@/components/ui/select",
+      "@/components/ui/switch",
+      "@/components/ui/label",
+      "@/components/ui/input",
+      "@/components/ui/textarea",
+      "recharts",
+      "@/hooks/useEncryption",
+      "date-fns",
+      "sonner"
+    ],
+    "EnhancedSecurityDashboard": [
+      "../ui/tabs",
+      "../ui/card",
+      "../ui/button",
+      "lucide-react",
+      "next/link",
+      "./SecurityMonitoringDashboard",
+      "./TrustedDevices"
+    ],
+    "DevelopmentDetail": [
+      "next/navigation",
+      "next/image",
+      "next/link",
+      "@/types/developments",
+      "@/data/mockDevelopments"
+    ],
+    "InvestorMode": [
+      "../ui/feather-icon",
+      "./InvestorModeContext"
+    ],
+    "EnhancedMainNavigation": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "./ProfessionalBanner",
+      "@/context/UserRoleContext",
+      "@/components/ui/NotificationCenter",
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/context/TransactionContext"
+    ],
+    "DocumentSecurity": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/switch",
+      "@/components/ui/badge",
+      "@/components/ui/alert",
+      "@/components/ui/tabs",
+      "@/components/ui/scroll-area",
+      "@/components/ui/separator",
+      "lucide-react",
+      "@/hooks/useDocuments",
+      "date-fns"
+    ],
+    "TransactionDocuments": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/input",
+      "@/components/ui/select",
+      "@/components/ui/tabs",
+      "@/components/ui/checkbox",
+      "@/components/ui/alert",
+      "@/components/ui/hover-card",
+      "@/components/ui/avatar",
+      "sonner",
+      "date-fns",
+      "react-dropzone",
+      "@/components/documents/DocumentViewer",
+      "@/components/documents/DocumentEditor",
+      "@/components/documents/SignatureModal",
+      "@/components/documents/DocumentComments",
+      "@/components/documents/DocumentVersionHistory",
+      "@/hooks/useDocuments",
+      "@/hooks/useAuth"
+    ],
+    "MainNavigationFixed": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "./ProfessionalBanner",
+      "@/context/UserRoleContext",
+      "@/components/ui/NotificationCenter",
+      "next/navigation"
+    ],
+    "MainNavigation": [
+      "next/link",
+      "next/navigation"
+    ],
+    "sidebar": [
+      "react",
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "lucide-react",
+      "@/hooks/use-mobile",
+      "@/lib/utils",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/separator",
+      "@/components/ui/sheet",
+      "@/components/ui/skeleton",
+      "@/components/ui/tooltip"
+    ],
+    "ProfitabilityAnalysis": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/select",
+      "@/components/ui/button",
+      "recharts",
+      "@/components/ui/table",
+      "lucide-react",
+      "@/components/ui/tooltip",
+      "@/lib/utils",
+      "@/components/ui/collapsible",
+      "@/components/ui/badge",
+      "@/components/ui/hover-card"
+    ],
+    "HelpToBuyClaimUpload": [
+      "react-icons/fi"
+    ],
+    "ReadinessChecklist": [
+      "lucide-react",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "@/components/ui/accordion",
+      "@/hooks/useToast"
+    ],
+    "PropertyListingGrid": [
+      "framer-motion",
+      "next/navigation",
+      "react-intersection-observer",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/slider",
+      "@/components/ui/sheet",
+      "@heroicons/react/24/outline",
+      "@heroicons/react/24/solid",
+      "next/image"
+    ],
+    "data-table": [
+      "react",
+      "react",
+      "lucide-react",
+      "@tanstack/react-table",
+      "@/lib/utils",
+      "./button",
+      "./checkbox",
+      "./dropdown-menu",
+      "./input",
+      "./table",
+      "./skeleton",
+      "./badge",
+      "./popover",
+      "./select"
+    ],
+    "ProjectOverview": [
+      "react",
+      "@tanstack/react-query",
+      "lucide-react",
+      "../ui/card",
+      "../ui/progress",
+      "../ui/button",
+      "../ui/badge",
+      "../ui/avatar",
+      "../ui/tabs",
+      "../ui/scroll-area",
+      "../ui/separator",
+      "../ui/alert",
+      "../../types/dashboard",
+      "../../utils/finance/formatting"
+    ],
+    "DeveloperNew-projectPage": [
+      "next/navigation"
+    ],
+    "UserRegistration": [
+      "react-icons/fi",
+      "react-icons"
+    ],
+    "PerformanceDashboard": [
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/select",
+      "@/components/ui/alert",
+      "@/utils/performance",
+      "@/hooks/usePerformanceMonitor",
+      "@/utils/performance/withMemo"
+    ],
+    "AnalyticsDashboard": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/select",
+      "@/components/ui/badge",
+      "@/components/ui/tabs",
+      "lucide-react",
+      "@/utils/format",
+      "recharts"
+    ],
+    "ViewingScheduler": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "PurchaseFlow": [],
+    "TransactionTracker": [
+      "lucide-react"
+    ],
+    "HomePage": [
+      "next/link",
+      "next/image",
+      "next/navigation",
+      "lucide-react",
+      "@/data/mockDevelopments",
+      "@/components/home/SolutionsSection",
+      "@/components/home/EnhancedServicesSection",
+      "@/components/home/TestimonialsSection",
+      "@/components/home/BasicTestimonialsSection",
+      "@/types/developments"
+    ],
+    "UltraModernNavigation": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "framer-motion",
+      "@/context/UserRoleContext",
+      "@/context/AuthContext",
+      "@/context/TransactionContext",
+      "next/navigation"
+    ],
+    "DocumentCenter": [
+      "@/context/TransactionContext",
+      "@/context/TransactionContext",
+      "@/context/AuthContext",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/dialog",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/use-toast",
+      "lucide-react"
+    ],
+    "ProjectTimeline": [
+      "@tanstack/react-query",
+      "date-fns",
+      "../ui/card",
+      "../ui/skeleton",
+      "../ui/button",
+      "../ui/separator",
+      "lucide-react",
+      "@/components/ui/collapsible",
+      "@/components/ui/tooltip",
+      "@/types/timeline",
+      "./TimelineToolbar",
+      "./TimelineHeader",
+      "./TimelineRow",
+      "./DependencyLines",
+      "./TimelineSummaryCards",
+      "../ui/dialog"
+    ],
+    "DocumentDetails": [
+      "@/types/document",
+      "@/types/core/document",
+      "@/services/documentService",
+      "@/components/ui/button",
+      "@/components/ui/tabs",
+      "@/components/ui/card",
+      "@/components/ui/dialog",
+      "@/components/ui/badge",
+      "@/components/ui/separator",
+      "@/components/ui/label",
+      ".",
+      "date-fns",
+      "lucide-react",
+      "./DocumentVersionHistory",
+      "./DocumentWorkflowView",
+      "./DocumentPermissionsEditor"
+    ],
+    "AppShell": [
+      "react",
+      "next/link",
+      "next/navigation",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/tooltip",
+      "@/components/ui/button",
+      "@/components/ui/avatar",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/badge",
+      "@/components/ui/separator",
+      "@/components/ui/sheet"
+    ],
+    "Kyc-verifcationPage": [
+      "next/navigation",
+      "next/link"
+    ],
+    "PropertySearchFilters": [
+      "react",
+      "@heroicons/react/24/outline",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/checkbox",
+      "@/components/ui/slider",
+      "@/components/ui/switch",
+      "@/components/ui/accordion",
+      "@/components/ui/select",
+      "@/components/ui/badge",
+      "@/lib/utils"
+    ],
+    "DocumentIntegrations": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/checkbox",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/components/ui/dialog",
+      "@/components/ui/tabs",
+      "lucide-react",
+      "@/hooks/useDocuments",
+      "date-fns"
+    ],
+    "TransactionCoordinator": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/progress",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/alert",
+      "./TransactionTimeline",
+      "./TransactionParticipants",
+      "./TransactionDocuments",
+      "./TransactionMilestones",
+      "./TransactionFinancials",
+      "./TransactionCommunications",
+      "./TransactionAnalytics",
+      "@/hooks/useTransaction",
+      "@/hooks/useAuth",
+      "date-fns"
+    ],
+    "PropertySelectionWizard": [
+      "next/navigation",
+      "lucide-react"
+    ],
+    "FeatureFlagAdmin": [
+      "@/components/ui/card",
+      "@/components/ui/switch",
+      "@/components/ui/label",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/slider",
+      "@/components/ui/select",
+      "@/lib/features/featureFlags",
+      "@/components/ui/LoadingSpinner",
+      "@/lib/security/auditLogger",
+      "@/lib/api-client"
+    ],
+    "VirtualViewing": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/slider",
+      "@/components/ui/toggle",
+      "@/components/ui/select",
+      "@/types/property",
+      "framer-motion",
+      "lucide-react",
+      "next/dynamic",
+      "@/hooks/useToast"
+    ],
+    "RoomVisualizer.old": [
+      "three",
+      "@react-three/fiber",
+      "@react-three/drei",
+      "@/context/CustomizationContext",
+      "framer-motion",
+      "lucide-react",
+      "react-error-boundary",
+      "three/examples/jsm/loaders/GLTFLoader"
+    ],
+    "CleanProfessionalNav": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "@/context/UserRoleContext",
+      "@/context/AuthContext",
+      "next/navigation"
+    ],
+    "DocumentGenerator": [
+      "react-icons/fi",
+      "next/navigation",
+      "next/navigation"
+    ],
+    "BuyerDashboard": [
+      "next/link",
+      "@/context/TransactionContext",
+      "@/context/AuthContext",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@heroicons/react/24/outline"
+    ],
+    "ConversionFocusedNavigation": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "./ProfessionalBanner",
+      "@/context/UserRoleContext",
+      "@/components/ui/NotificationCenter",
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/contexts/TransactionContext"
+    ],
+    "DeveloperDashboard": [
+      "next/link",
+      "@/context/TransactionContext",
+      "@/context/AuthContext",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "@/components/ui/badge",
+      "recharts",
+      "@heroicons/react/24/outline"
+    ],
+    "SLPGenerator": [
+      "@/components/ui/dialog",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/components/ui/scroll-area",
+      "@/components/ui/checkbox",
+      "lucide-react",
+      "date-fns"
+    ],
+    "DocumentUploader": [
+      "@/components/ui/dialog",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/form",
+      "@/components/ui/checkbox",
+      "lucide-react",
+      "react-hook-form",
+      "zod",
+      "@hookform/resolvers/zod",
+      "@/hooks/useDocuments",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/components/ui/badge"
+    ],
+    "DocumentComplianceTracker": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/select",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/progress",
+      "@/components/ui/badge",
+      "@/components/ui/tooltip",
+      "@/components/ui/separator",
+      "@/components/ui/skeleton",
+      "@/hooks/api-hooks",
+      "@/lib/utils",
+      "lucide-react"
+    ],
+    "TransactionPayment": [
+      "lucide-react"
+    ],
+    "ViewingHistory": [
+      "@tanstack/react-query",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/avatar",
+      "date-fns",
+      "lucide-react",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/input",
+      "@/components/ui/select",
+      "framer-motion",
+      "@/hooks/useToast"
+    ],
+    "ReservationForm": [
+      "next/navigation",
+      "@/context/AuthContext",
+      "@tanstack/react-query",
+      "lucide-react",
+      "@stripe/stripe-js",
+      "@stripe/react-stripe-js"
+    ],
+    "AuthenticationFlow": [
+      "framer-motion",
+      "next/navigation",
+      "zod",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/components/ui/tabs",
+      "@heroicons/react/24/outline",
+      "@/context/AuthContext"
+    ],
+    "FinancialDashboard": [
+      "../ui/card",
+      "../ui/tabs",
+      "lucide-react",
+      "../ui/dropdown-menu",
+      "../ui/button",
+      "../ui/select",
+      "../../lib/utils",
+      "./",
+      "./",
+      "./",
+      "./",
+      "../ui/tooltip",
+      "../ui/badge"
+    ],
+    "PropertyDetailView": [
+      "framer-motion",
+      "next/navigation",
+      "date-fns",
+      "@heroicons/react/24/outline",
+      "@heroicons/react/24/solid",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/select",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/switch",
+      "sonner",
+      "./PropertyImageGallery",
+      "./PropertyFloorPlan",
+      "./PropertyVirtualTour",
+      "./PropertyMap",
+      "./PropertyMortgageCalculator",
+      "./PropertyStampDutyCalculator",
+      "./SimilarProperties",
+      "./PropertyDocuments",
+      "@/components/booking/BookingCalendar",
+      "@/components/dialogs/ShareDialog",
+      "@/components/charts/PriceHistoryChart",
+      "@/hooks/useProperty",
+      "@/hooks/useAuth",
+      "@/hooks/useViewingBooking",
+      "@/hooks/useSaveProperty",
+      "@/hooks/useEnquiry"
+    ],
+    "DeveloperPage": [
+      "react",
+      "next/link"
+    ],
+    "PurchaseDetail": [
+      "next/navigation",
+      "@/api",
+      "@/utils/paramValidator",
+      "next/link"
+    ],
+    "FirstTimeBuyerDashboard": [
+      "next/navigation",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/hooks/useToast",
+      "@/hooks/useBuyerAPI",
+      "@/context/AuthContext",
+      "@/utils/formatting",
+      "@/types/buyer"
+    ],
+    "DevelopmentAppraisal": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/tabs",
+      "lucide-react",
+      "@/utils/format",
+      "recharts"
+    ],
+    "RevolutionaryNavigation": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "framer-motion",
+      "@/context/UserRoleContext",
+      "@/context/AuthContext",
+      "@/context/TransactionContext",
+      "next/navigation"
+    ],
+    "AdminDocumentReview": [
+      "../../context/AuthContext"
+    ],
+    "EnhancedNavigation": [
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "@/context/UserRoleContext",
+      "@/components/ui/NotificationCenter",
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/context/TransactionContext"
+    ],
+    "BuyerFinancialDashboard": [
+      "../../context/AuthContext"
+    ],
+    "JourneyPlanner": [
+      "lucide-react",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/popover",
+      "date-fns"
+    ],
+    "ProfessionalAppointments": [
+      "react-icons/fi"
+    ],
+    "DocumentViewer": [
+      "@/components/ui/dialog",
+      "@/components/ui/button",
+      "@/components/ui/slider",
+      "@/components/ui/tabs",
+      "@/components/ui/input",
+      "@/components/ui/textarea",
+      "@/components/ui/badge",
+      "@/components/ui/scroll-area",
+      "@/components/ui/popover",
+      "lucide-react",
+      "@/hooks/useDocuments",
+      "@/lib/utils"
+    ],
+    "PaymentOverview": [
+      "@/context/TransactionContext",
+      "@/context/TransactionContext",
+      "@/context/AuthContext",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/components/ui/dialog",
+      "@/components/ui/table",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/textarea",
+      "@/components/ui/use-toast",
+      "lucide-react",
+      "date-fns"
+    ],
+    "GovernmentSchemeInfo": [
+      "lucide-react",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/tabs"
+    ],
+    "AutomatedFollowUp": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/switch",
+      "@/components/ui/alert",
+      "@/components/ui/icons",
+      "@/lib/estate-agent-crm",
+      "@/types/crm"
+    ],
+    "IrishPropertyPools": [
+      "framer-motion",
+      "lucide-react",
+      "next/link"
+    ],
+    "DocumentGeneration": [
+      "../ui/Icon",
+      "../ui/Icon"
+    ],
+    "DocumentCollectionHub": [
+      "lucide-react"
+    ],
+    "Page": [
+      "next/link",
+      "next/image",
+      "next/navigation",
+      "@/data/properties"
+    ],
+    "MFASetup": [
+      "react"
+    ],
+    "WatermarkImage": [
+      "react-icons/fi"
+    ],
+    "PropertyComparison": [
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/scroll-area",
+      "@/components/ui/tooltip"
+    ],
+    "TenderManagement": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/badge",
+      "@/components/ui/alert",
+      "@/components/ui/tabs",
+      "lucide-react",
+      "@/utils/format"
+    ],
+    "SnaggingInspection": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/textarea",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/alert",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "lucide-react",
+      "@/utils/format",
+      "next/image"
+    ],
+    "JourneyTracker": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "ContractManager": [
+      "@tanstack/react-query",
+      "lucide-react"
+    ],
+    "MicrosoftIntegration": [
+      "react-icons/fi"
+    ],
+    "PropertyDetail": [
+      "next/navigation",
+      "@/api",
+      "@/utils/paramValidator",
+      "react-icons/fa",
+      "react-icons/fa",
+      "react-icons/fa",
+      "react-icons/fa",
+      "react-icons/fa",
+      "next/link",
+      "@/hooks/usePropertyAnalytics",
+      "@/types/properties"
+    ],
+    "TransactionTimeline": [
+      "framer-motion",
+      "date-fns",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/select",
+      "@/components/ui/hover-card",
+      "@/components/ui/avatar",
+      "@/components/ui/tabs",
+      "sonner"
+    ],
+    "BuyerJourney": [
+      "next/navigation",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "lucide-react",
+      "@/context/AuthContext",
+      "@/components/kyc/KYCVerification",
+      "@/hooks/useBuyerJourney",
+      "@/lib/errors/buyer-journey-errors",
+      "next/link",
+      "./BuyerProgressTracker"
+    ],
+    "TestimonialsSection": [
+      "next/image",
+      "next/link",
+      "lucide-react"
+    ],
+    "PropertyMortgageCalculator": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/slider",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/button",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/hover-card",
+      "recharts"
+    ],
+    "BuyerRegistrationFlow": [
+      "lucide-react",
+      "next/link"
+    ],
+    "SecurityMonitoringDashboard": [
+      "../ui/card",
+      "../ui/tabs",
+      "../ui/table",
+      "../ui/badge",
+      "../ui/progress",
+      "lucide-react",
+      "../../lib/security/auditLogger",
+      "../../lib/security/sessionFingerprint",
+      "../../lib/security/rateLimit"
+    ],
+    "DocumentPermissionsEditor": [
+      "@/types/document",
+      "@/services/documentService",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/switch",
+      "@/components/ui/label",
+      "@/components/ui/radio-group",
+      "lucide-react",
+      "@/components/ui/separator",
+      "@/components/ui/input",
+      "@/components/ui/badge"
+    ],
+    "CommissionTracking": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/alert",
+      "recharts",
+      "@/components/ui/icons",
+      "@/lib/estate-agent-crm",
+      "@/types/crm"
+    ],
+    "CommentThread": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/textarea",
+      "@/components/ui/avatar",
+      "@/components/ui/badge",
+      "@/components/ui/popover",
+      "lucide-react",
+      "@/lib/collaboration"
+    ],
+    "SmartNav": [
+      "next/link",
+      "next/image",
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/context/TransactionContext",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/navigation-menu",
+      "@/lib/utils",
+      "lucide-react"
+    ],
+    "SolicitorDashboard": [],
+    "SolicitorTransactionFlow": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/tabs",
+      "@/components/ui/alert",
+      "@/components/ui/progress",
+      "@heroicons/react/24/outline"
+    ],
+    "HelpToBuyCalculator": [
+      "next/link",
+      "lucide-react"
+    ],
+    "SecurityDashboard": [
+      "@/components/ui/card",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/switch",
+      "@/components/ui/label",
+      "@/lib/security/auditLogger",
+      "@/lib/features/featureFlags",
+      "@/components/ui/LoadingSpinner"
+    ],
+    "HandoverScheduling": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/alert",
+      "@/components/ui/label",
+      "@/components/ui/input",
+      "@/components/ui/select",
+      "@/components/ui/checkbox",
+      "@/components/ui/badge",
+      "lucide-react",
+      "@/utils/format"
+    ],
+    "AIProjectAssistant": [
+      "react",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/tabs",
+      "@/components/ui/progress",
+      "react-icons/fi",
+      "framer-motion",
+      "recharts"
+    ],
+    "CommunicationHub": [
+      "@/context/TransactionContext",
+      "@/context/TransactionContext",
+      "@/context/AuthContext",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/input",
+      "@/components/ui/avatar",
+      "@/components/ui/scroll-area",
+      "@/components/ui/separator",
+      "@/components/ui/textarea",
+      "@/components/ui/tooltip",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/use-toast",
+      "lucide-react",
+      "date-fns"
+    ],
+    "FeatureFlagManager": [
+      "@/lib/features/featureFlags"
+    ],
+    "ParticipantsList": [
+      "@/context/TransactionContext",
+      "@/context/TransactionContext",
+      "@/context/AuthContext",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/avatar",
+      "@/components/ui/dialog",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/use-toast",
+      "lucide-react"
+    ],
+    "PlatformAssistant": [
+      "react",
+      "framer-motion",
+      "react-icons/fi",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/avatar",
+      "@/components/ui/scroll-area",
+      "sonner"
+    ],
+    "HTBClaimsDashboard": [
+      "next/navigation",
+      "@/context/HTBContext",
+      "../../../types/htb",
+      "../../../utils/date-utils"
+    ],
+    "BuyerHtbPage": [
+      "react",
+      "@/context/HTBContext",
+      "react",
+      "next/link",
+      "next/navigation",
+      "src/components/layout/AppLayout"
+    ],
+    "ChatComponent": [
+      "react-icons/fi"
+    ],
+    "page": [
+      "@/components/developer/DocumentGeneration"
+    ],
+    "DocumentUploadDialog": [
+      "react",
+      "@/components/ui/dialog",
+      "@/components/ui/select",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/radio-group",
+      "./DocumentComplianceTracker",
+      "lucide-react",
+      "@/components/ui/calendar",
+      "@/components/ui/popover",
+      "@/lib/utils",
+      "date-fns"
+    ],
+    "index": [
+      "./DevelopmentsList"
+    ],
+    "HTBClaimProcessor": [
+      "next/navigation",
+      "@/context/HTBContext",
+      "@/types/htb",
+      "./forms",
+      "./ClaimDetails",
+      "./ClaimDocuments",
+      "./ClaimNotes",
+      "./ClaimTabs"
+    ],
+    "KYCVerificationForm": [
+      "react-dropzone",
+      "@tanstack/react-query",
+      "lucide-react"
+    ],
+    "form-field": [
+      "react",
+      "react-hook-form",
+      "@/components/ui/radio-group",
+      "@/components/ui/form",
+      "@/components/ui/label",
+      "@/components/ui/input",
+      "@/components/ui/input-otp",
+      "@/components/ui/textarea",
+      "@/components/ui/checkbox",
+      "@/components/ui/switch",
+      "@/components/ui/slider",
+      "@/components/ui/select"
+    ],
+    "NotificationCenter": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "TestapiPage": [
+      "react",
+      "next/link",
+      "@/context/AuthContext",
+      "@/api",
+      "@/context/CustomizationContext"
+    ],
+    "CustomizationStudio": [
+      "next/navigation",
+      "@/components/ui/use-toast",
+      "@/components/ui/tabs",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "lucide-react",
+      "@tanstack/react-query",
+      "framer-motion"
+    ],
+    "BuyerDashboardContent": [
+      "@/context/AuthContext",
+      "next/link"
+    ],
+    "ProjectReview": [
+      "react",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/checkbox",
+      "@/components/ui/alert",
+      "react-icons/fi",
+      "framer-motion",
+      "@react-pdf/renderer"
+    ],
+    "LegalTransactionFlow": [
+      "framer-motion",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@heroicons/react/24/outline",
+      "./TermsOfSale",
+      "./SolicitorNomination",
+      "./ContractConfirmation",
+      "@/hooks/useAuth"
+    ],
+    "ImagePreview": [
+      "react-icons/fi"
+    ],
+    "ProjectFinancials": [
+      "react",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/card",
+      "@/components/ui/slider",
+      "@/components/ui/select",
+      "react-icons/fi",
+      "framer-motion",
+      "recharts"
+    ],
+    "DocumentWorkflowView": [
+      "@/types/document",
+      "@/types/core/document",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/textarea",
+      "@/services/documentService",
+      "date-fns",
+      "lucide-react"
+    ],
+    "PropertyMatching": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "@/components/ui/slider",
+      "@/components/ui/switch",
+      "@/components/ui/label",
+      "@/components/ui/icons",
+      "@/lib/estate-agent-crm",
+      "@/types/crm"
+    ],
+    "PropertyMap": [
+      "@/types/models/property",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "lucide-react",
+      "@/utils/format"
+    ],
+    "SecuritySetupWizard": [
+      "../ui/card",
+      "../ui/button",
+      "lucide-react",
+      "./MFASetup",
+      "./TrustedDevices",
+      "../../lib/security/sessionFingerprint",
+      "../ui/alert",
+      "../ui/progress"
+    ],
+    "PropertyDocuments": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "@/components/ui/tabs",
+      "@/components/ui/hover-card",
+      "sonner",
+      "date-fns",
+      "@/hooks/useDocuments",
+      "@/hooks/useAuth"
+    ],
+    "DocumentManager": [
+      "react",
+      "@/components/buyer/documents/BuyerDocumentRepository",
+      "@/context/BuyerDocumentContext",
+      "@/context/AuthContext"
+    ],
+    "UnifiedDashboard": [
+      "@/context/AuthContext",
+      "@/context/TransactionContext",
+      "@/components/transaction/TransactionFlow",
+      "@/components/transaction/ParticipantsList",
+      "@/components/transaction/DocumentCenter",
+      "@/components/transaction/CommunicationHub",
+      "@/components/transaction/PaymentOverview",
+      "@/components/dashboard/DeveloperDashboard",
+      "@/components/dashboard/BuyerDashboard",
+      "@/components/dashboard/AgentDashboard",
+      "@/components/dashboard/SolicitorDashboard",
+      "@/components/dashboard/InvestorDashboard",
+      "@/components/ui/card",
+      "@/components/ui/alert",
+      "@/components/ui/button",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@/components/ui/skeleton",
+      "lucide-react"
+    ],
+    "BuyerDocumentRepository": [
+      "@/components/ui/tabs",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/dialog",
+      "@/components/ui/separator",
+      "lucide-react",
+      "@/components/ui/progress",
+      "@/types/document",
+      "@/context/BuyerDocumentContext",
+      "@/types/buyer-documents",
+      "@/types/buyer-journey",
+      "@/components/documents/DocumentList",
+      "@/components/documents/DocumentUploader",
+      "@/hooks/useBuyerJourney"
+    ],
+    "AgentPerformance": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "recharts",
+      "@/components/ui/icons",
+      "@/lib/estate-agent-crm",
+      "@/types/crm"
+    ],
+    "DeveloperProjectWorkflow": [
+      "next/navigation",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/tabs",
+      "@/components/ui/progress",
+      "@heroicons/react/24/outline"
+    ],
+    "KYCVerification": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "lucide-react",
+      "@/lib/transaction-engine/kyc-verification"
+    ],
+    "MediaUpload": [
+      "react-icons/fi",
+      "next/dynamic"
+    ],
+    "PerformanceMonitor": [
+      "../ui/chart",
+      "../ui/button",
+      "../ui/card"
+    ],
+    "chart": [
+      "react",
+      "recharts",
+      "@/lib/utils"
+    ],
+    "AuthenticatedGraphQL": [
+      "react",
+      "@/hooks/api/useAuth",
+      "@/hooks/api/useGraphQLQueries",
+      "@/hooks/api/useGraphQLMutations",
+      "@/lib/graphql/auth-client",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/alert",
+      "@/components/ui/spinner",
+      "@/types/core/user",
+      "@/types/graphql"
+    ],
+    "PlatformShell": [
+      "next/link",
+      "next/navigation",
+      "framer-motion",
+      "lucide-react",
+      "@/components/ui/avatar",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/dropdown-menu"
+    ],
+    "HeroWithCarousel": [
+      "next/link",
+      "next/image",
+      "next/navigation",
+      "lucide-react"
+    ],
+    "PropertyCard": [
+      "react",
+      "next/link",
+      "next/image",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "lucide-react"
+    ],
+    "HTBApplication": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/select",
+      "@/components/ui/alert",
+      "@/components/ui/progress",
+      "@/utils/format",
+      "lucide-react"
+    ],
+    "LegalTransactionIntegration": [
+      "./LegalTransactionFlow",
+      "@/components/ui/card",
+      "@/components/ui/alert",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@heroicons/react/24/outline",
+      "next/navigation"
+    ],
+    "MFAChallenge": [
+      "@/lib/security",
+      "@/lib/security/auditLogger",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/tabs",
+      "@/components/ui/alert",
+      "@/components/ui/LoadingSpinner",
+      "@/lib/security/mfa",
+      "@/context/AuthContext"
+    ],
+    "PropertySelection": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/alert",
+      "lucide-react",
+      "@/utils/format",
+      "next/image"
+    ],
+    "DocumentUpload": [
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/utils/paramValidator"
+    ],
+    "ContractReview": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/alert",
+      "@/components/ui/checkbox",
+      "@/components/ui/label",
+      "@/components/ui/badge",
+      "@/components/ui/progress",
+      "lucide-react",
+      "@/utils/format"
+    ],
+    "chart-wrapper": [
+      "react",
+      "recharts",
+      "@/components/ui/chart",
+      "@/lib/utils"
+    ],
+    "TaskBoard": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/avatar",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/select",
+      "@/components/ui/dialog",
+      "lucide-react",
+      "@/types/collaboration",
+      "@/lib/collaboration"
+    ],
+    "BuyerMilestoneTracker": [
+      "lucide-react"
+    ],
+    "LocationSelection": [
+      "react",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/textarea",
+      "@/components/ui/card",
+      "react-icons/fi",
+      "framer-motion"
+    ],
+    "Footer": [
+      "react",
+      "next/link",
+      "next/image",
+      "lucide-react",
+      "./types",
+      "./FooterColumn",
+      "./FooterLink",
+      "./SocialLinks"
+    ],
+    "CustomizationPageContent": [
+      "@/context/CustomizationContext",
+      "react",
+      "next/navigation"
+    ],
+    "TransactionFlow": [
+      "react-icons/fi"
+    ],
+    "PropertiesPage": [
+      "next/navigation",
+      "next/link",
+      "@/components/property/PropertyCard"
+    ],
+    "SecurePaymentProcessor": [
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "lucide-react",
+      "@/components/ui/alert",
+      "@/lib/validation/buyer-journey",
+      "zod"
+    ],
+    "ScheduleOfAccommodation": [
+      "react-hook-form",
+      "react-icons/fi"
+    ],
+    "PropertyListView": [
+      "react",
+      "framer-motion",
+      "next/image",
+      "next/link",
+      "@heroicons/react/24/outline",
+      "@heroicons/react/24/solid",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/card",
+      "@/components/ui/pagination",
+      "@/components/ui/skeleton",
+      "@/types/property",
+      "@/lib/utils"
+    ],
+    "data-table-integration.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils",
+      "lucide-react",
+      "../badge"
+    ],
+    "VirtualizedList": [],
+    "FinancialMetricCard": [
+      "react",
+      "lucide-react",
+      "../ui/card",
+      "../ui/tooltip",
+      "../ui/skeleton",
+      "class-variance-authority",
+      "../../lib/utils",
+      "../../types/finance/dashboard",
+      "../../utils/finance/formatting"
+    ],
+    "MainNavbar": [
+      "react",
+      "next/link",
+      "@/context/AuthContext",
+      "lucide-react",
+      "next/image"
+    ],
+    "GraphQLTester": [],
+    "DashboardGrid": [
+      "react",
+      "framer-motion",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "EnhancedPropertySearch": [
+      "next/navigation",
+      "lucide-react"
+    ],
+    "DashboardFilters": [
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/ui/popover",
+      "@/components/ui/command",
+      "@/components/ui/calendar",
+      "@/components/ui/badge",
+      "@/types/dashboard",
+      "@/lib/utils",
+      "date-fns"
+    ],
+    "MediaGallery": [
+      "react-icons/fi"
+    ],
+    "PropertyStampDutyCalculator": [
+      "@heroicons/react/24/outline",
+      "@/components/ui/card",
+      "@/components/ui/radio-group",
+      "@/components/ui/label",
+      "@/components/ui/hover-card",
+      "@/components/ui/badge",
+      "@/components/ui/alert",
+      "@/components/ui/button",
+      "@/components/ui/input"
+    ],
+    "ModelViewer": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/slider",
+      "@/components/ui/tabs",
+      "lucide-react",
+      "three",
+      "@react-three/fiber",
+      "@react-three/drei"
+    ],
+    "MortgageApprovalFlow": [
+      "lucide-react",
+      "@/hooks/useAuth"
+    ],
+    "ContractorDirectory": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/badge",
+      "@/components/ui/select",
+      "lucide-react",
+      "@/utils/format"
+    ],
+    "SitePlanUpload": [
+      "react-hook-form",
+      "react-icons/fi"
+    ],
+    "ThreatVisualization": [
+      "react-chartjs-2",
+      "chart.js",
+      "../ui/badge",
+      "../ui/card",
+      "lucide-react"
+    ],
+    "KycAmlFlow": [],
+    "LoginForm": [
+      "next/navigation",
+      "next/link",
+      "zod",
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "@/context/AuthContext",
+      "@/components/ui/LoadingOverlay",
+      "@/components/ui/form",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/checkbox",
+      "@/components/ui/alert",
+      "lucide-react"
+    ],
+    "ComparePropertiesPanel": [
+      "react",
+      "next/image",
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/table",
+      "@/types/property",
+      "@/lib/utils"
+    ],
+    "BuyerHtbStatusPage": [],
+    "DrawingManager": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/select",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/sheet",
+      "lucide-react",
+      "@/types/collaboration",
+      "@/lib/collaboration"
+    ],
+    "RegisterPage": [
+      "@/context/AuthContext",
+      "react",
+      "next/link",
+      "next/navigation"
+    ],
+    "PropertyListing": [
+      "../../api",
+      "../property/PropertyCard",
+      "@/types/common/status"
+    ],
+    "data-table-filter.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils",
+      "lucide-react"
+    ],
+    "LoginForm.test": [
+      "react",
+      "@testing-library/react",
+      "./LoginForm"
+    ],
+    "EnhancedServicesSection": [
+      "react",
+      "lucide-react",
+      "next/link"
+    ],
+    "Studio3D": [
+      "@react-three/fiber",
+      "@react-three/drei",
+      "three/examples/jsm/loaders/GLTFLoader",
+      "three",
+      "@/components/ui/button",
+      "lucide-react",
+      "@/components/ui/use-toast"
+    ],
+    "TimelineRow": [
+      "react",
+      "date-fns",
+      "../ui/badge",
+      "../ui/avatar",
+      "../ui/progress",
+      "@/types/timeline",
+      "../ui/tooltip",
+      "lucide-react"
+    ],
+    "SecurityAlerts": [
+      "@/components/ui/alert",
+      "@/components/ui/button",
+      "@/lib/security/auditLogger",
+      "@/lib/security/sessionFingerprint",
+      "@/lib/features/featureFlags",
+      "@/context/AuthContext",
+      "./MFASetup",
+      "./MFAChallenge"
+    ],
+    "carousel": [
+      "react",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "TimelineToolbar": [
+      "react",
+      "lucide-react",
+      "../ui/button",
+      "../ui/select",
+      "../ui/separator",
+      "../ui/switch",
+      "../ui/badge",
+      "../ui/tooltip",
+      "@/types/timeline"
+    ],
+    "UserJourneyOrchestrator": [
+      "@/context/AuthContext",
+      "next/navigation",
+      "@/features/buyer-journey/BuyerJourneyManager",
+      "@/features/developer-journey/DeveloperProjectWorkflow",
+      "@/features/solicitor-journey/SolicitorTransactionFlow",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@heroicons/react/24/outline"
+    ],
+    "DevelopmentList": [
+      "react",
+      "next/link",
+      "@/types/developments"
+    ],
+    "PropertyMapView": [
+      "react",
+      "@/types/property",
+      "./PropertyCard",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@heroicons/react/24/outline",
+      "@/lib/utils"
+    ],
+    "OptionsManager": [
+      "@/components/ui/tabs",
+      "@/components/ui/card",
+      "@/components/ui/label",
+      "@/components/ui/radio-group",
+      "@/components/ui/checkbox",
+      "@/components/ui/badge",
+      "lucide-react",
+      "@/components/ui/tooltip",
+      "@/lib/utils"
+    ],
+    "TimelineSummaryCards": [
+      "react",
+      "date-fns",
+      "@/components/ui/card",
+      "../ui/badge",
+      "../ui/progress",
+      "lucide-react",
+      "@/types/timeline"
+    ],
+    "data-table-expand.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "PriceCalculator": [
+      "@/components/ui/card",
+      "@/components/ui/separator",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "lucide-react",
+      "framer-motion",
+      "@/lib/utils",
+      "@/lib/customization/utils"
+    ],
+    "ListWidget": [
+      "react",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/card",
+      "@/components/ui/skeleton",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "@/components/ui/avatar",
+      "@/components/ui/dropdown-menu"
+    ],
+    "Header": [
+      "react",
+      "../ui/NotificationCenter",
+      "next/link",
+      "next/image"
+    ],
+    "MediaManager": [
+      "react-icons/fi",
+      "./MediaGallery"
+    ],
+    "ProjectDashboard": [
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "lucide-react",
+      "@/types/collaboration",
+      "@/lib/collaboration",
+      "next/link"
+    ],
+    "SavedSearchModal": [
+      "react",
+      "@/components/ui/dialog",
+      "@/components/ui/input",
+      "@/components/ui/label",
+      "@/components/ui/button",
+      "@/components/ui/textarea",
+      "@/components/ui/alert",
+      "@/components/ui/tabs",
+      "@/components/ui/badge",
+      "@heroicons/react/24/outline",
+      "date-fns"
+    ],
+    "AuthProvider": [
+      "../lib/amplify/index",
+      "../lib/auth",
+      "./ui/LoadingOverlay",
+      "./auth/AuthErrorBoundary"
+    ],
+    "EnterpriseNavigation": [
+      "next/link",
+      "next/navigation",
+      "react",
+      "react-icons/fi",
+      "framer-motion"
+    ],
+    "PlanningPermissionUpload": [
+      "react-hook-form",
+      "react-icons/fi"
+    ],
+    "data-table-pagination.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "ScreenReaderText.stories": [
+      "react",
+      "./ScreenReaderText",
+      "../ui/button"
+    ],
+    "RegisterForm": [
+      "next/navigation",
+      "next/link"
+    ],
+    "toast": [
+      "react",
+      "framer-motion",
+      "class-variance-authority",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "DocumentTimeline": [
+      "react",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "lucide-react",
+      "@/lib/utils",
+      "./DocumentComplianceTracker"
+    ],
+    "BuyerJourneyManager": [
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/hooks/useBuyerJourney",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "@heroicons/react/24/outline",
+      "@heroicons/react/24/outline",
+      "@/types/buyer-journey"
+    ],
+    "icons": [
+      "lucide-react"
+    ],
+    "menubar": [
+      "react",
+      "@radix-ui/react-menubar",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "PropertyCustomizer": [
+      "@/context/CustomizationContext",
+      "@/lib/amplify-data",
+      "@/types",
+      "../3d/ModelViewer"
+    ],
+    "DocumentListItem": [
+      "lucide-react",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/tooltip",
+      "@/lib/utils",
+      "./DocumentComplianceTracker"
+    ],
+    "DevelopmentsList": [
+      "next/link",
+      "next/image"
+    ],
+    "withCSRFProtection": [
+      "react",
+      "next/navigation",
+      "./CSRFToken"
+    ],
+    "LoginPage": [
+      "../../../context/AuthContext",
+      "react",
+      "next/link",
+      "next/navigation"
+    ],
+    "data-table-selection.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "AccessibleForm.stories": [
+      "react",
+      "../ui/button",
+      "./AccessibleForm"
+    ],
+    "PurchaseList": [
+      "../../context/AuthContext",
+      "../../api",
+      "next/link"
+    ],
+    "SecurityTimeline": [
+      "lucide-react"
+    ],
+    "loading-skeleton": [
+      "react",
+      "@/lib/utils"
+    ],
+    "EnhancedBuyerDashboard": [
+      "react",
+      "next/navigation",
+      "lucide-react"
+    ],
+    "HeroWithSearch": [
+      "next/link",
+      "next/image",
+      "lucide-react"
+    ],
+    "EnhancedDeveloperDashboard": [
+      "react"
+    ],
+    "FinancialChart": [
+      "react",
+      "recharts",
+      "../ui/card",
+      "../../utils/finance/formatting"
+    ],
+    "error-boundary": [
+      "@/components/ui/toast",
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/ui/alert",
+      "next/link"
+    ],
+    "PropertyCard.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertyCard"
+    ],
+    "ProjectBasicInfo": [
+      "react",
+      "react-hook-form",
+      "react-icons/fi"
+    ],
+    "PurchaseInitiation": [
+      "next/navigation",
+      "@/context/AuthContext",
+      "@/api",
+      "@/utils/paramValidator"
+    ],
+    "BuyerJourney.test": [
+      "react",
+      "@testing-library/react",
+      "../BuyerJourney",
+      "@/context/AuthContext",
+      "@tanstack/react-query",
+      "@/lib/api/buyer-journey-api"
+    ],
+    "data-table-cell.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils",
+      "../badge",
+      "../button"
+    ],
+    "SnagListItem": [
+      "react",
+      "react-icons/fi",
+      "react-icons"
+    ],
+    "IconRegistry": [
+      "react",
+      "react-icons/fi",
+      "react-icons/hi",
+      "react-icons/io5",
+      "react-icons/md"
+    ],
+    "GraphQLExample": [
+      "react",
+      "@tanstack/react-query",
+      "@tanstack/react-query",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/spinner",
+      "@/components/ui/alert",
+      "@/hooks/api",
+      "@/lib/graphql/auth-client",
+      "@/hooks/useAuth",
+      "@/types/graphql"
+    ],
+    "DocumentFilterBar": [
+      "react",
+      "@/components/ui/select",
+      "@/components/ui/input",
+      "@/components/ui/button",
+      "./DocumentComplianceTracker",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "CashFlowSummaryCard": [
+      "react",
+      "../ui/card",
+      "lucide-react",
+      "../../types/finance/dashboard",
+      "../../utils/finance/formatting",
+      "recharts",
+      "../../lib/utils"
+    ],
+    "OptimizedUnitCard": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "lucide-react",
+      "framer-motion",
+      "react-intersection-observer"
+    ],
+    "DocumentList": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react",
+      "@/components/ui/button"
+    ],
+    "SimilarProperties": [
+      "react",
+      "framer-motion",
+      "next/link",
+      "@heroicons/react/24/outline",
+      "@/components/ui/badge",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/hooks/useSimilarProperties",
+      "swiper/react",
+      "swiper/modules"
+    ],
+    "BudgetVsActualCard": [
+      "react",
+      "../ui/card",
+      "../ui/progress",
+      "../ui/tooltip",
+      "../../types/finance/dashboard",
+      "../../utils/finance/formatting",
+      "lucide-react",
+      "class-variance-authority",
+      "../../lib/utils"
+    ],
+    "PropertySearchHeader": [
+      "react",
+      "@heroicons/react/24/outline",
+      "@heroicons/react/24/solid",
+      "@/components/ui/button",
+      "@/components/ui/dropdown-menu",
+      "@/components/ui/badge",
+      "@/lib/utils"
+    ],
+    "PropertyVirtualTour": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/button",
+      "@/components/ui/slider",
+      "@/components/ui/select",
+      "react-player"
+    ],
+    "RealTimeChat": [
+      "socket.io-client",
+      "../../context/AuthContext"
+    ],
+    "CustomizationOptions": [
+      "react-icons/fi"
+    ],
+    "SecurityMetricsChart": [
+      "react-chartjs-2",
+      "chart.js"
+    ],
+    "TasksList": [],
+    "data-table-export.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "AccessibleForm": [
+      "./ScreenReaderText"
+    ],
+    "dropdown-menu": [
+      "react",
+      "@radix-ui/react-dropdown-menu",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "button.stories": [
+      "./button",
+      "lucide-react"
+    ],
+    "context-menu": [
+      "react",
+      "@radix-ui/react-context-menu",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "CookieConsent": [
+      "react",
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "DevelopmentSiteMap": [
+      "next/image",
+      "next/link"
+    ],
+    "TimelineHeader": [
+      "react",
+      "date-fns"
+    ],
+    "VirtualTourViewer": [
+      "lucide-react",
+      "@/components/ui/button",
+      "@/components/ui/card"
+    ],
+    "data-table-sorting.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "toast.stories": [
+      "@storybook/test",
+      "react",
+      "./toast",
+      "./button"
+    ],
+    "PropertyImageGallery": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/button"
+    ],
+    "JourneyDocumentsPanel": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "lucide-react",
+      "@/components/ui/dialog",
+      "@/context/BuyerDocumentContext",
+      "@/hooks/useBuyerJourney",
+      "@/types/buyer-documents",
+      "@/components/documents/DocumentUploader",
+      "@/types/buyer-journey",
+      "@/types/document"
+    ],
+    "PaymentForm": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/lib/transaction-engine/types",
+      "lucide-react"
+    ],
+    "ClientSecurityProvider": [],
+    "loading-skeleton.stories": [
+      "react",
+      "./loading-skeleton",
+      "./button"
+    ],
+    "OptimizedSecurityDashboard": [
+      "react"
+    ],
+    "SimplifiedReadinessChecklist": [
+      "lucide-react"
+    ],
+    "data-table.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "PropertyFloorPlan": [
+      "framer-motion",
+      "@heroicons/react/24/outline",
+      "@/components/ui/button",
+      "@/components/ui/select",
+      "react-zoom-pan-pinch"
+    ],
+    "ContactForm": [
+      "framer-motion",
+      "react-hook-form",
+      "zod",
+      "@hookform/resolvers/zod",
+      "@/types/contact"
+    ],
+    "ProjectList": [
+      "@/components/ui/card",
+      "@/components/ui/table",
+      "@/components/ui/button",
+      "next/link",
+      "date-fns",
+      "lucide-react",
+      "@/types/dashboard"
+    ],
+    "DocumentVersionHistory": [
+      "react",
+      "@/types/document",
+      "@/types/core/document",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/badge",
+      "date-fns",
+      "lucide-react"
+    ],
+    "DepositTracker": [
+      "react",
+      "react-icons/fi"
+    ],
+    "data-table-reorder.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "form": [
+      "react",
+      "@radix-ui/react-label",
+      "@radix-ui/react-slot",
+      "react-hook-form",
+      "@/lib/utils",
+      "@/components/ui/label"
+    ],
+    "UnitDetails": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/dialog",
+      "lucide-react",
+      "@/components/ui/badge",
+      "@/context/AuthContext",
+      "./BuyerJourney"
+    ],
+    "AlertsList": [],
+    "PerformanceExample": [
+      "../../utils/performance/optimizeComponent",
+      "../../utils/performance",
+      "../../utils/performance/withMemo",
+      "./VirtualizedList",
+      "../../hooks/usePerformanceMonitor",
+      "./PerformanceMonitor",
+      "./OptimizedComponent"
+    ],
+    "empty-states": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "BuyerDashboardLayout": [
+      "next/navigation",
+      "next/link",
+      "./BuyerDashboardSidebar",
+      "sonner",
+      "lucide-react"
+    ],
+    "ClaimDetails": [
+      "react",
+      "@/utils/date-utils",
+      "@/types/htb"
+    ],
+    "SecurityMetricsSkeleton": [
+      "@/components/ui/card",
+      "@/components/ui/skeleton"
+    ],
+    "form-field.stories": [
+      "react-hook-form",
+      "@hookform/resolvers/zod",
+      "zod",
+      "./form",
+      "./form-field",
+      "./button"
+    ],
+    "OptimizedComponent": [
+      "../../utils/performance/optimizeComponent",
+      "../../utils/performance",
+      "../../utils/performance/withMemo"
+    ],
+    "DependencyLines": [
+      "@/types/timeline"
+    ],
+    "data-table-toolbar.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "AboutPageClient": [
+      "react",
+      "@/types/about"
+    ],
+    "HomePage.test": [
+      "react",
+      "@testing-library/react",
+      "@/components/HomePage",
+      "next/navigation"
+    ],
+    "loading-states": [
+      "@/components/ui/skeleton",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "Breadcrumbs": [
+      "react",
+      "next/link",
+      "lucide-react",
+      "@/contexts/NavigationContext",
+      "next/navigation"
+    ],
+    "ProgressWidget": [
+      "react",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/card",
+      "@/components/ui/progress",
+      "@/components/ui/skeleton",
+      "@/components/ui/badge"
+    ],
+    "metric-card": [
+      "react",
+      "recharts",
+      "lucide-react",
+      "@/lib/utils",
+      "./card",
+      "./skeleton"
+    ],
+    "BuyerDashboardSidebar": [],
+    "ContactMap": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/contact",
+      "@/app/contact/contact.module.css"
+    ],
+    "DevelopmentCTA": [
+      "lucide-react",
+      "next/link",
+      "next/navigation",
+      "./BuyerRegistrationFlow"
+    ],
+    "data-table-resize.test": [
+      "react",
+      "@testing-library/react",
+      "../data-table",
+      "@tanstack/react-table",
+      "@/test-utils"
+    ],
+    "command": [
+      "react",
+      "@radix-ui/react-dialog",
+      "cmdk",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/dialog"
+    ],
+    "select": [
+      "react",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "CSRFToken": [
+      "react"
+    ],
+    "PerformanceChart": [
+      "recharts"
+    ],
+    "DocumentFilterPanel": [
+      "react",
+      "@/types/document",
+      "@/components/ui/checkbox",
+      "@/components/ui/label",
+      "@/components/ui/separator",
+      "@/components/ui/collapsible",
+      "@/components/ui/button",
+      "lucide-react"
+    ],
+    "AmplifyDataFetcher": [
+      "@/lib/amplify/api",
+      "@/components/ui/LoadingSpinner"
+    ],
+    "Timeline": [
+      "framer-motion",
+      "gsap",
+      "gsap/dist/ScrollTrigger"
+    ],
+    "AuthErrorBoundary": [],
+    "LoginForm.stories": [
+      "@storybook/test",
+      "./LoginForm"
+    ],
+    "DocumentCategoryProgress": [
+      "react",
+      "@/components/ui/card"
+    ],
+    "ClaimCodeForm": [
+      "@/context/HTBContext"
+    ],
+    "ContactFaq": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/contact",
+      "@/app/contact/contact.module.css"
+    ],
+    "DevelopmentListConnected": [
+      "next/link",
+      "@/hooks/api/useDevelopments",
+      "./DevelopmentCardConnected"
+    ],
+    "ClientProviders": [
+      "@tanstack/react-query",
+      "next-auth/react",
+      "@/components/AmplifyProvider",
+      "@/context/AuthContext",
+      "@/context/CustomizationContext",
+      "@/context/BuyerJourneyContext",
+      "@/context/NotificationContext",
+      "@/context/TransactionContext",
+      "@/context/DashboardPreferenceContext",
+      "@/context/UserRoleContext"
+    ],
+    "AMLCompliance": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "lucide-react"
+    ],
+    "PerformanceProvider": [
+      "@/hooks/usePerformanceOptimization",
+      "@/lib/performance/lazy-loader"
+    ],
+    "alert-dialog": [
+      "react",
+      "@radix-ui/react-alert-dialog",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "error-boundary.stories": [
+      "react",
+      "./error-boundary",
+      "./button"
+    ],
+    "ProtectedRoute": [
+      "next/navigation",
+      "@/context/AuthContext"
+    ],
+    "SolicitorNomination": [
+      "@/components/ui/card",
+      "@/components/ui/input",
+      "@/components/ui/label"
+    ],
+    "FundsReceivedForm": [
+      "@/context/HTBContext"
+    ],
+    "ProjectStatusCard": [
+      "react",
+      "next/link",
+      "react-icons/fi"
+    ],
+    "PropertyCardTest": [
+      "react",
+      "./PropertyCard",
+      "@/types/search",
+      "@/types/models"
+    ],
+    "sheet": [
+      "react",
+      "@radix-ui/react-dialog",
+      "class-variance-authority",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "TermsOfSale": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/scroll-area"
+    ],
+    "DocumentUploadForm": [
+      "@/context/HTBContext"
+    ],
+    "AppLayout": [
+      "react",
+      "@/lib/utils",
+      "next/head"
+    ],
+    "UnitReservation": [
+      "next/navigation",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/progress",
+      "@/components/ui/alert",
+      "lucide-react",
+      "@/context/AuthContext"
+    ],
+    "Sidebar": [
+      "next/link",
+      "next/navigation",
+      "react-icons/fi",
+      "@/components/ui/feather-icon"
+    ],
+    "DeveloperSidebar": [
+      "react",
+      "next/link",
+      "next/navigation",
+      "lucide-react"
+    ],
+    "navigation-menu": [
+      "react",
+      "@radix-ui/react-navigation-menu",
+      "class-variance-authority",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "UnitCard": [
+      "react",
+      "next/link",
+      "react-icons/fi"
+    ],
+    "KPIWidget": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react",
+      "@/types/dashboard"
+    ],
+    "GraphQLProvider": [
+      "@tanstack/react-query",
+      "@tanstack/react-query-devtools"
+    ],
+    "AboutTeam": [
+      "react",
+      "next/image",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/about",
+      "@/app/about/about.module.css"
+    ],
+    "ContactOffices": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/contact",
+      "@/app/contact/contact.module.css"
+    ],
+    "StatWidget": [
+      "react",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/card",
+      "@/components/ui/skeleton"
+    ],
+    "SolutionsSection": [
+      "@/components/solutions/SolutionCard"
+    ],
+    "DepositAppliedForm": [
+      "@/context/HTBContext"
+    ],
+    "RequestFundsForm": [
+      "@/context/HTBContext"
+    ],
+    "dialog": [
+      "react",
+      "@radix-ui/react-dialog",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "ErrorBoundary": [],
+    "SocialCta": [
+      "react",
+      "next/link",
+      "framer-motion"
+    ],
+    "Team": [
+      "react",
+      "next/image",
+      "framer-motion"
+    ],
+    "drawer": [
+      "react",
+      "vaul",
+      "@/lib/utils"
+    ],
+    "tabs": [
+      "react"
+    ],
+    "CompleteClaimForm": [
+      "@/context/HTBContext"
+    ],
+    "ContactSocialCta": [
+      "react",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/contact",
+      "@/app/contact/contact.module.css"
+    ],
+    "pagination": [
+      "react",
+      "lucide-react",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "breadcrumb": [
+      "react",
+      "@radix-ui/react-slot",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "emoji-picker": [
+      "react",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/scroll-area",
+      "@/components/ui/tabs",
+      "@heroicons/react/24/outline"
+    ],
+    "SafeRoomVisualizer": [
+      "./RoomVisualizer"
+    ],
+    "AccessControlManagement": [
+      "react"
+    ],
+    "AboutTimeline": [
+      "react",
+      "next/image",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/about",
+      "@/app/about/about.module.css"
+    ],
+    "LazyComponent": [],
+    "ConsistentNavigation": [
+      "react",
+      "next/link",
+      "next/navigation",
+      "@/context/AuthContext"
+    ],
+    "ContactInfo": [
+      "react",
+      "framer-motion",
+      "@/types/contact"
+    ],
+    "ScreenReaderText": [
+      "react"
+    ],
+    "LeadManagement": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/table",
+      "@/components/ui/badge",
+      "lucide-react"
+    ],
+    "TaskList": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "Icon": [
+      "react",
+      "react-icons",
+      "react-icons/fi",
+      "react-icons/fa"
+    ],
+    "Navbar": [
+      "react",
+      "next/link",
+      "next/image",
+      "@/context/AuthContext",
+      "@/components/investor/InvestorModeContext",
+      "react-icons/fi",
+      "@/components/ui/feather-icon"
+    ],
+    "KeyboardFocusHandler": [],
+    "Offices": [
+      "react",
+      "next/image",
+      "framer-motion"
+    ],
+    "FeatureFlag": [
+      "@/lib/features/featureFlags"
+    ],
+    "SafeLink": [
+      "react",
+      "@/lib/security/urlSafetyCheck"
+    ],
+    "AboutValues": [
+      "react",
+      "next/image",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/about",
+      "@/app/about/about.module.css"
+    ],
+    "Hero": [
+      "react",
+      "next/image",
+      "framer-motion"
+    ],
+    "Faq": [
+      "react",
+      "framer-motion",
+      "@/components/ui/accordion"
+    ],
+    "Footer.test": [
+      "react",
+      "@testing-library/react",
+      "../Footer"
+    ],
+    "ProjectListItem": [
+      "react",
+      "next/link",
+      "react-icons/fi",
+      "react-icons"
+    ],
+    "TrustedDevices": [
+      "react"
+    ],
+    "CaseManagement": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "lucide-react"
+    ],
+    "ClaimDocuments": [
+      "react",
+      "@/utils/date-utils"
+    ],
+    "AffordabilityCalculator": [
+      "react",
+      "@/components/ui/card",
+      "@/components/ui/button"
+    ],
+    "FeeManagement": [
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "@/components/ui/input",
+      "@/components/ui/label"
+    ],
+    "SimpleWorkingNav": [
+      "next/link",
+      "lucide-react",
+      "next/navigation"
+    ],
+    "ProjectCard": [
+      "react",
+      "next/link",
+      "react-icons/fi",
+      "@/components/ui/feather-icon"
+    ],
+    "TaskTracker": [
+      "@/components/ui/button",
+      "@/components/ui/card",
+      "@/components/ui/badge",
+      "lucide-react"
+    ],
+    "FinancialOverview": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "HTBStepIndicator": [
+      "react"
+    ],
+    "RoomVisualizer": [
+      "three",
+      "@react-three/fiber",
+      "@react-three/drei"
+    ],
+    "BuyerProgressTracker": [
+      "react",
+      "lucide-react"
+    ],
+    "AddNoteForm": [
+      "@/context/HTBContext"
+    ],
+    "MessageCenter": [
+      "react",
+      "@/components/ui/card",
+      "lucide-react"
+    ],
+    "Map": [
+      "framer-motion"
+    ],
+    "DeveloperHeader": [
+      "react",
+      "next/link",
+      "lucide-react"
+    ],
+    "AdminDocumentsPage": [
+      "react"
+    ],
+    "AppSecurityProvider": [
+      "@/lib/security/enhancedAnalytics",
+      "@/lib/security/security-exports"
+    ],
+    "Values": [
+      "react",
+      "framer-motion"
+    ],
+    "NavigationErrorBoundary": [
+      "next/navigation"
+    ],
+    "ContractConfirmation": [
+      "@/components/ui/card",
+      "@/components/ui/checkbox",
+      "@/components/ui/alert"
+    ],
+    "toast-context": [],
+    "date-range-picker": [
+      "react",
+      "date-fns",
+      "lucide-react",
+      "react-day-picker",
+      "@/lib/utils",
+      "@/components/ui/button",
+      "@/components/ui/calendar",
+      "@/components/ui/popover"
+    ],
+    "Mission": [
+      "react",
+      "framer-motion"
+    ],
+    "FirstTimeBuyerPromotion": [
+      "react",
+      "next/link",
+      "@/components/ui/card",
+      "@/components/ui/button",
+      "react-icons/fi",
+      "@/components/ui/feather-icon"
+    ],
+    "CustomizationSummary": [
+      "@/context/CustomizationContext"
+    ],
+    "Cta": [
+      "react",
+      "framer-motion",
+      "next/link"
+    ],
+    "SalesFunnelChart": [
+      "react",
+      "recharts"
+    ],
+    "calendar": [
+      "react",
+      "lucide-react",
+      "react-day-picker",
+      "@/lib/utils",
+      "@/components/ui/button"
+    ],
+    "input-otp": [
+      "react",
+      "input-otp",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "AboutCta": [
+      "react",
+      "next/link",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/about",
+      "@/app/about/about.module.css"
+    ],
+    "AboutMission": [
+      "react",
+      "next/image",
+      "gsap",
+      "gsap/ScrollTrigger",
+      "@/types/about",
+      "@/app/about/about.module.css"
+    ],
+    "DevelopmentCardConnected": [
+      "react",
+      "next/link",
+      "next/image",
+      "@/hooks/api/useDevelopments"
+    ],
+    "AppProvider": [
+      "@tanstack/react-query",
+      "./auth/ProtectedRoute",
+      "./security/AppSecurityProvider",
+      "@/lib/react-query-config"
+    ],
+    "LoadingOverlay": [
+      "react"
+    ],
+    "AccessCodeForm": [
+      "@/context/HTBContext"
+    ],
+    "ContactPageClient": [
+      "react",
+      "@/components/contact",
+      "@/types/contact",
+      "@/app/contact/contact.module.css"
+    ],
+    "BasicTestimonialsSection": [
+      "react",
+      "lucide-react"
+    ],
+    "card": [
+      "react"
+    ],
+    "table": [
+      "react"
+    ],
+    "ContactHero": [
+      "react",
+      "next/image",
+      "gsap",
+      "@/types/contact",
+      "@/app/contact/contact.module.css"
+    ],
+    "SalesProgressBar": [
+      "react"
+    ],
+    "AboutHero": [
+      "react",
+      "next/image",
+      "gsap",
+      "@/types/about",
+      "@/app/about/about.module.css"
+    ],
+    "ClaimTabs": [
+      "react"
+    ],
+    "SecurityMonitor": [
+      "react"
+    ],
+    "toggle-group": [
+      "react",
+      "@radix-ui/react-toggle-group",
+      "class-variance-authority",
+      "@/lib/utils",
+      "@/components/ui/toggle"
+    ],
+    "LoginForm.stories.test": [
+      "react",
+      "@testing-library/react",
+      "@testing-library/user-event",
+      "@storybook/react",
+      "./LoginForm.stories"
+    ],
+    "VariablesPanel": [
+      "react",
+      "react-icons/fi"
+    ],
+    "accordion": [
+      "react",
+      "@radix-ui/react-accordion",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "ClaimNotes": [
+      "react",
+      "@/utils/date-utils"
+    ],
+    "alert": [
+      "react",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "LoadingSpinner": [
+      "react"
+    ],
+    "DevelopmentCard": [
+      "react",
+      "next/link",
+      "next/image",
+      "@/types"
+    ],
+    "DashboardMetricCard": [
+      "react",
+      "react-icons/fi"
+    ],
+    "GoogleAnalytics": [
+      "next/script",
+      "next/navigation",
+      "react",
+      "@/lib/analytics/gtag"
+    ],
+    "avatar": [
+      "react",
+      "@radix-ui/react-avatar",
+      "@/lib/utils"
+    ],
+    "virtual-list": [
+      "@tanstack/react-virtual",
+      "react"
+    ],
+    "AboutSection": [
+      "react",
+      "next/link",
+      "next/image"
+    ],
+    "ServiceWorkerRegistration": [
+      "react"
+    ],
+    "scroll-area": [
+      "react",
+      "@radix-ui/react-scroll-area",
+      "@/lib/utils"
+    ],
+    "InvestorModeContext": [],
+    "TestNavigation": [],
+    "button": [
+      "react",
+      "class-variance-authority"
+    ],
+    "button.stories.test": [
+      "react",
+      "@testing-library/react",
+      "@storybook/react",
+      "./button.stories"
+    ],
+    "spinner": [
+      "react",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "resizable": [
+      "lucide-react",
+      "react-resizable-panels",
+      "@/lib/utils"
+    ],
+    "HeroSection": [
+      "react",
+      "next/navigation"
+    ],
+    "example": [
+      "react",
+      "./Footer"
+    ],
+    "optimized-image": [
+      "next/image",
+      "react"
+    ],
+    "radio-group": [
+      "react",
+      "@radix-ui/react-radio-group",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "toast.stories.test": [
+      "react",
+      "@testing-library/react",
+      "@storybook/react",
+      "./toast.stories"
+    ],
+    "loading-skeleton.stories.test": [
+      "react",
+      "@testing-library/react",
+      "@storybook/react",
+      "./loading-skeleton.stories"
+    ],
+    "HTBWrapper": [
+      "react",
+      "@/context/HTBContext"
+    ],
+    "error-boundary.stories.test": [
+      "react",
+      "@testing-library/react",
+      "@storybook/react",
+      "./error-boundary.stories"
+    ],
+    "form-field.stories.test": [
+      "react",
+      "@testing-library/react",
+      "@storybook/react",
+      "./form-field.stories"
+    ],
+    "SocialLinks": [
+      "lucide-react",
+      "./types"
+    ],
+    "toaster": [
+      "./use-toast",
+      "react-icons/fi"
+    ],
+    "toggle": [
+      "react",
+      "@radix-ui/react-toggle",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "ProfessionalBanner": [
+      "react",
+      "next/link",
+      "lucide-react"
+    ],
+    "DeveloperThemeToggle": [
+      "lucide-react",
+      "next-themes",
+      "@/components/ui/button",
+      "@/components/ui/dropdown-menu"
+    ],
+    "DashboardLayout": [
+      "react"
+    ],
+    "InvestorModeToggle": [
+      "react",
+      "next/link",
+      "./InvestorModeContext",
+      "../ui/feather-icon"
+    ],
+    "SectionBuying": [
+      "react"
+    ],
+    "FooterLink": [
+      "next/link"
+    ],
+    "popover": [
+      "react",
+      "@radix-ui/react-popover",
+      "@/lib/utils"
+    ],
+    "SectionFinancing": [
+      "react"
+    ],
+    "SectionLegal": [
+      "react"
+    ],
+    "SectionPlanning": [
+      "react"
+    ],
+    "SectionSearching": [
+      "react"
+    ],
+    "tooltip": [
+      "react",
+      "@radix-ui/react-tooltip",
+      "@/lib/utils"
+    ],
+    "AmplifyProvider": [
+      "../lib/amplify/index"
+    ],
+    "SectionAftercare": [
+      "react"
+    ],
+    "SectionCustomising": [
+      "react"
+    ],
+    "SectionMovingIn": [
+      "react"
+    ],
+    "SolutionCard": [
+      "next/link",
+      "next/image"
+    ],
+    "separator": [
+      "react",
+      "@radix-ui/react-separator",
+      "@/lib/utils"
+    ],
+    "checkbox": [
+      "react",
+      "@radix-ui/react-checkbox",
+      "lucide-react",
+      "@/lib/utils"
+    ],
+    "FooterColumn": [
+      "./types",
+      "./FooterLink"
+    ],
+    "badge": [
+      "react"
+    ],
+    "hover-card": [
+      "react",
+      "@radix-ui/react-hover-card",
+      "@/lib/utils"
+    ],
+    "sonner": [
+      "next-themes",
+      "sonner"
+    ],
+    "switch": [
+      "react",
+      "@radix-ui/react-switch",
+      "@/lib/utils"
+    ],
+    "SafeNextGenNavigation": [
+      "react",
+      "next/dynamic"
+    ],
+    "progress": [
+      "react",
+      "../../lib/utils"
+    ],
+    "slider": [
+      "react",
+      "@radix-ui/react-slider",
+      "@/lib/utils"
+    ],
+    "JourneyNav": [
+      "react"
+    ],
+    "label": [
+      "react",
+      "@radix-ui/react-label",
+      "class-variance-authority",
+      "@/lib/utils"
+    ],
+    "input": [
+      "react",
+      "@/lib/utils"
+    ],
+    "textarea": [
+      "react",
+      "@/lib/utils"
+    ],
+    "QueryClientWrapper": [
+      "react"
+    ],
+    "DeveloperThemeProvider": [],
+    "PropertyInvestmentMetrics": [
+      "react"
+    ],
+    "feather-icon": [
+      "react",
+      "react-icons",
+      "@/lib/utils"
+    ],
+    "AuthErrorBoundary.test": [
+      "react",
+      "@testing-library/react",
+      "./AuthErrorBoundary"
+    ],
+    "ProtectedRoute.test": [
+      "react",
+      "@testing-library/react",
+      "./ProtectedRoute"
+    ],
+    "RegisterForm.test": [
+      "react",
+      "@testing-library/react",
+      "./RegisterForm"
+    ],
+    "UserRegistration.test": [
+      "react",
+      "@testing-library/react",
+      "./UserRegistration"
+    ],
+    "BuyerDashboard.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerDashboard"
+    ],
+    "BuyerDashboardContent.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerDashboardContent"
+    ],
+    "BuyerDashboardLayout.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerDashboardLayout"
+    ],
+    "BuyerDashboardSidebar.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerDashboardSidebar"
+    ],
+    "BuyerFinancialDashboard.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerFinancialDashboard"
+    ],
+    "BuyerMilestoneTracker.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerMilestoneTracker"
+    ],
+    "BuyerRegistrationFlow.test": [
+      "react",
+      "@testing-library/react",
+      "./BuyerRegistrationFlow"
+    ],
+    "CustomizationPageContent.test": [
+      "react",
+      "@testing-library/react",
+      "./CustomizationPageContent"
+    ],
+    "DevelopmentCTA.test": [
+      "react",
+      "@testing-library/react",
+      "./DevelopmentCTA"
+    ],
+    "DocumentCollectionHub.test": [
+      "react",
+      "@testing-library/react",
+      "./DocumentCollectionHub"
+    ],
+    "DocumentManager.test": [
+      "react",
+      "@testing-library/react",
+      "./DocumentManager"
+    ],
+    "DocumentUpload.test": [
+      "react",
+      "@testing-library/react",
+      "./DocumentUpload"
+    ],
+    "EnhancedBuyerDashboard.test": [
+      "react",
+      "@testing-library/react",
+      "./EnhancedBuyerDashboard"
+    ],
+    "FirstTimeBuyerDashboard.test": [
+      "react",
+      "@testing-library/react",
+      "./FirstTimeBuyerDashboard"
+    ],
+    "FirstTimeBuyerPromotion.test": [
+      "react",
+      "@testing-library/react",
+      "./FirstTimeBuyerPromotion"
+    ],
+    "MortgageApprovalFlow.test": [
+      "react",
+      "@testing-library/react",
+      "./MortgageApprovalFlow"
+    ],
+    "PropertySelectionWizard.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertySelectionWizard"
+    ],
+    "PurchaseDetail.test": [
+      "react",
+      "@testing-library/react",
+      "./PurchaseDetail"
+    ],
+    "PurchaseList.test": [
+      "react",
+      "@testing-library/react",
+      "./PurchaseList"
+    ],
+    "ReadinessChecklist.test": [
+      "react",
+      "@testing-library/react",
+      "./ReadinessChecklist"
+    ],
+    "SimplifiedReadinessChecklist.test": [
+      "react",
+      "@testing-library/react",
+      "./SimplifiedReadinessChecklist"
+    ],
+    "DeveloperDashboard.test": [
+      "react",
+      "@testing-library/react",
+      "./DeveloperDashboard"
+    ],
+    "DeveloperHeader.test": [
+      "react",
+      "@testing-library/react",
+      "./DeveloperHeader"
+    ],
+    "DeveloperSidebar.test": [
+      "react",
+      "@testing-library/react",
+      "./DeveloperSidebar"
+    ],
+    "DeveloperThemeProvider.test": [
+      "react",
+      "@testing-library/react",
+      "./DeveloperThemeProvider"
+    ],
+    "DeveloperThemeToggle.test": [
+      "react",
+      "@testing-library/react",
+      "./DeveloperThemeToggle"
+    ],
+    "DocumentGeneration.test": [
+      "react",
+      "@testing-library/react",
+      "./DocumentGeneration"
+    ],
+    "FinancialDashboard.test": [
+      "react",
+      "@testing-library/react",
+      "./FinancialDashboard"
+    ],
+    "MicrosoftIntegration.test": [
+      "react",
+      "@testing-library/react",
+      "./MicrosoftIntegration"
+    ],
+    "ProfessionalAppointments.test": [
+      "react",
+      "@testing-library/react",
+      "./ProfessionalAppointments"
+    ],
+    "ProjectList.test": [
+      "react",
+      "@testing-library/react",
+      "./ProjectList"
+    ],
+    "MarketTrends": [
+      "react"
+    ],
+    "DevelopmentSiteMap.test": [
+      "react",
+      "@testing-library/react",
+      "./DevelopmentSiteMap"
+    ],
+    "PropertyCardTest.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertyCardTest"
+    ],
+    "PropertyDetail.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertyDetail"
+    ],
+    "PropertyListing.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertyListing"
+    ],
+    "PropertyProvider.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertyProvider"
+    ],
+    "PropertyReservation.test": [
+      "react",
+      "@testing-library/react",
+      "./PropertyReservation"
+    ],
+    "PurchaseFlow.test": [
+      "react",
+      "@testing-library/react",
+      "./PurchaseFlow"
+    ],
+    "PurchaseInitiation.test": [
+      "react",
+      "@testing-library/react",
+      "./PurchaseInitiation"
+    ],
+    "ChatComponent.test": [
+      "react",
+      "@testing-library/react",
+      "./ChatComponent"
+    ],
+    "GraphQLProvider.test": [
+      "react",
+      "@testing-library/react",
+      "./GraphQLProvider"
+    ],
+    "Icon.test": [
+      "react",
+      "@testing-library/react",
+      "./Icon"
+    ],
+    "IconRegistry.test": [
+      "react",
+      "@testing-library/react",
+      "./IconRegistry"
+    ],
+    "KPIWidget.test": [
+      "react",
+      "@testing-library/react",
+      "./KPIWidget"
+    ],
+    "LoadingOverlay.test": [
+      "react",
+      "@testing-library/react",
+      "./LoadingOverlay"
+    ],
+    "LoadingSpinner.test": [
+      "react",
+      "@testing-library/react",
+      "./LoadingSpinner"
+    ],
+    "NotificationCenter.test": [
+      "react",
+      "@testing-library/react",
+      "./NotificationCenter"
+    ],
+    "RealTimeChat.test": [
+      "react",
+      "@testing-library/react",
+      "./RealTimeChat"
+    ],
+    "accordion.test": [
+      "react",
+      "@testing-library/react",
+      "./accordion"
+    ],
+    "alert-dialog.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "alert.test": [
+      "react",
+      "@testing-library/react",
+      "./alert"
+    ],
+    "aspect-ratio.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "avatar.test": [
+      "react",
+      "@testing-library/react",
+      "./avatar"
+    ],
+    "badge.test": [
+      "react",
+      "@testing-library/react",
+      "./badge"
+    ],
+    "breadcrumb.test": [
+      "react",
+      "@testing-library/react",
+      "./breadcrumb"
+    ],
+    "button.test": [
+      "react",
+      "@testing-library/react",
+      "./button"
+    ],
+    "calendar.test": [
+      "react",
+      "@testing-library/react",
+      "./calendar"
+    ],
+    "card.test": [
+      "react",
+      "@testing-library/react",
+      "./card"
+    ],
+    "carousel.test": [
+      "react",
+      "@testing-library/react",
+      "./carousel"
+    ],
+    "chart-wrapper.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "chart.test": [
+      "react",
+      "@testing-library/react",
+      "./chart"
+    ],
+    "checkbox.test": [
+      "react",
+      "@testing-library/react",
+      "./checkbox"
+    ],
+    "collapsible.test": [
+      "react",
+      "@testing-library/react",
+      "./collapsible"
+    ],
+    "command.test": [
+      "react",
+      "@testing-library/react",
+      "./command"
+    ],
+    "context-menu.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "date-range-picker.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "dialog.test": [
+      "react",
+      "@testing-library/react",
+      "./dialog"
+    ],
+    "drawer.test": [
+      "react",
+      "@testing-library/react",
+      "./drawer"
+    ],
+    "dropdown-menu.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "emoji-picker.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "error-boundary.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "feather-icon.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "form-field.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "form.test": [
+      "react",
+      "@testing-library/react",
+      "./form"
+    ],
+    "hover-card.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "icons.test": [
+      "react",
+      "@testing-library/react",
+      "./icons"
+    ],
+    "input-otp.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "input.test": [
+      "react",
+      "@testing-library/react",
+      "./input"
+    ],
+    "label.test": [
+      "react",
+      "@testing-library/react",
+      "./label"
+    ],
+    "loading-skeleton.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "menubar.test": [
+      "react",
+      "@testing-library/react",
+      "./menubar"
+    ],
+    "metric-card.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "navigation-menu.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "pagination.test": [
+      "react",
+      "@testing-library/react",
+      "./pagination"
+    ],
+    "popover.test": [
+      "react",
+      "@testing-library/react",
+      "./popover"
+    ],
+    "progress.test": [
+      "react",
+      "@testing-library/react",
+      "./progress"
+    ],
+    "radio-group.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "resizable.test": [
+      "react",
+      "@testing-library/react",
+      "./resizable"
+    ],
+    "scroll-area.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "select.test": [
+      "react",
+      "@testing-library/react",
+      "./select"
+    ],
+    "separator.test": [
+      "react",
+      "@testing-library/react",
+      "./separator"
+    ],
+    "sheet.test": [
+      "react",
+      "@testing-library/react",
+      "./sheet"
+    ],
+    "sidebar.test": [
+      "react",
+      "@testing-library/react",
+      "./sidebar"
+    ],
+    "skeleton.test": [
+      "react",
+      "@testing-library/react",
+      "./skeleton"
+    ],
+    "slider.test": [
+      "react",
+      "@testing-library/react",
+      "./slider"
+    ],
+    "sonner.test": [
+      "react",
+      "@testing-library/react",
+      "./sonner"
+    ],
+    "spinner.test": [
+      "react",
+      "@testing-library/react",
+      "./spinner"
+    ],
+    "switch.test": [
+      "react",
+      "@testing-library/react",
+      "./switch"
+    ],
+    "table.test": [
+      "react",
+      "@testing-library/react",
+      "./table"
+    ],
+    "tabs.test": [
+      "react",
+      "@testing-library/react",
+      "./tabs"
+    ],
+    "textarea.test": [
+      "react",
+      "@testing-library/react",
+      "./textarea"
+    ],
+    "toast-context.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "toast.test": [
+      "react",
+      "@testing-library/react",
+      "./toast"
+    ],
+    "toaster.test": [
+      "react",
+      "@testing-library/react",
+      "./toaster"
+    ],
+    "toggle-group.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "toggle.test": [
+      "react",
+      "@testing-library/react",
+      "./toggle"
+    ],
+    "tooltip.test": [
+      "react",
+      "@testing-library/react",
+      "./tooltip"
+    ],
+    "use-toast.test": [
+      "react",
+      "@testing-library/react"
+    ],
+    "InvestorDashboard": [],
+    "BuyerDocumentsPage": [
+      "react",
+      "@/components/auth/ProtectedRoute",
+      "@/components/buyer/DocumentManager"
+    ],
+    "skeleton": [
+      "@/lib/utils"
+    ],
+    "FeatherIcon": [
+      "react",
+      "react-feather"
+    ],
+    "collapsible": [
+      "@radix-ui/react-collapsible"
+    ],
+    "NextGenNavigation": [
+      "react"
+    ],
+    "aspect-ratio": [
+      "@radix-ui/react-aspect-ratio"
+    ],
+    "use-toast": [],
+    "PropertyAlertsManager": [],
+    "PropertyAnalyticsDashboard": [],
+    "AgentDashboard": [],
+    "PropertyProvider": []
+  }
+}

@@ -1,0 +1,2506 @@
+[
+  {
+    "filePath": "src/__tests__/utils/testDataGenerator.ts",
+    "lineNum": 92,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type 'string[]' is not assignable to type 'AmenityUncheckedCreateNestedManyWithoutDevelopmentInput | AmenityCreateNestedManyWithoutDevelopmentInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/__tests__/utils/testDataGenerator.ts",
+    "lineNum": 95,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '\"ACTIVE\"' is not assignable to type 'DevelopmentStatus'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/__tests__/utils/testDataGenerator.ts",
+    "lineNum": 143,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '\"CONTRACT\"' is not assignable to type 'TransactionStage | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/documents/route.ts",
+    "lineNum": 176,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'string'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/documents/route.ts",
+    "lineNum": 181,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'number'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/documents/route.ts",
+    "lineNum": 183,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'string'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/documents/route.ts",
+    "lineNum": 184,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'string | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/payment-process/route.ts",
+    "lineNum": 199,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"PAYMENT_FAILED\"' is not assignable to type 'TransactionEventType'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/payments/[paymentId]/route.ts",
+    "lineNum": 259,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"PAYMENT_CANCELLED\"' is not assignable to type 'TransactionEventType'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/transactions/[id]/payments/receipt/route.ts",
+    "lineNum": 133,
+    "colNum": 9,
+    "errorMessage": "error TS2820: Type '\"DOCUMENT_GENERATED\"' is not assignable to type 'TransactionEventType'. Did you mean '\"DOCUMENT_SIGNED\"'?",
+    "errorCode": "TS2820",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/units/route-broken.ts",
+    "lineNum": 80,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ id: string; name: string; totalUnits: number; features: string[]; availableUnits: number; developmentId: string; type: PropertyType; bedrooms: number; bathrooms: number; updatedAt: Date; createdAt: Date; area: number; priceFrom: number; } | undefined' is not assignable to type 'PropertyType | EnumPropertyTypeFilter<\"Unit\"> | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/units/route-broken.ts",
+    "lineNum": 179,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ viewCount: number; name: string; developmentId: string; type: UnitType; size: number; bedrooms: number; bathrooms: number; floors: number; parkingSpaces: number; basePrice: number; status: UnitStatus; berRating: string; features: string[]; primaryImage: string; id: string; }' is not assignable to type '(Without<UnitCreateInput, UnitUncheckedCreateInput> & UnitUncheckedCreateInput) | (Without<...> & UnitCreateInput)'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/units/route.ts",
+    "lineNum": 84,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ id: string; name: string; totalUnits: number; features: string[]; availableUnits: number; developmentId: string; type: PropertyType; bedrooms: number; bathrooms: number; updatedAt: Date; createdAt: Date; area: number; priceFrom: number; } | undefined' is not assignable to type 'PropertyType | EnumPropertyTypeFilter<\"Unit\"> | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/units/route.ts",
+    "lineNum": 183,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ viewCount: number; name: string; developmentId: string; type: UnitType; size: number; bedrooms: number; bathrooms: number; floors: number; parkingSpaces: number; basePrice: number; status: UnitStatus; berRating: string; features: string[]; primaryImage: string; id: string; }' is not assignable to type '(Without<UnitCreateInput, UnitUncheckedCreateInput> & UnitUncheckedCreateInput) | (Without<...> & UnitCreateInput)'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/v1/payments/webhook/route.ts",
+    "lineNum": 11,
+    "colNum": 3,
+    "errorMessage": "error TS2322: Type '\"2024-12-18.acacia\"' is not assignable to type '\"2025-04-30.basil\"'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/api/v1/transactions/route.ts",
+    "lineNum": 86,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ content: string; authorId: string; timestamp: Date; }[] | undefined' is not assignable to type 'SaleNoteUncheckedCreateNestedManyWithoutSaleInput | SaleNoteCreateNestedManyWithoutSaleInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/architect/collaboration/page.tsx",
+    "lineNum": 238,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ modelId: string; }' is not assignable to type 'IntrinsicAttributes & ModelViewerProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/architect/collaboration/page.tsx",
+    "lineNum": 243,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ entityType: string; entityId: string; }' is not assignable to type 'IntrinsicAttributes & CommentThreadProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/auth/step-up/StepUpAuthContent.tsx",
+    "lineNum": 90,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'PublicKeyCredentialRequestOptions | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/buyer/booking/page.tsx",
+    "lineNum": 917,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element; requireAuth: boolean; }' is not assignable to type 'IntrinsicAttributes & ProtectedRouteProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/buyer/journey/complete-flow/page.tsx",
+    "lineNum": 389,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '\"primary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/dashboard/security/page.tsx",
+    "lineNum": 21,
+    "colNum": 26,
+    "errorMessage": "error TS2820: Type '\"last_24_hours\"' is not assignable to type 'AnalyticsTimeframe | undefined'. Did you mean 'AnalyticsTimeframe.LAST_HOUR'?",
+    "errorCode": "TS2820",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/dashboard/security/SecurityDashboardClient.tsx",
+    "lineNum": 236,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '(violation: import(\"/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/lib/security/securityAnalyticsTypes\").SecurityViolation) => void' is not assignable to type '(violation: import(\"/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/components/security/SecurityMonitor\").SecurityViolation) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/demo/transaction-flow/page.tsx",
+    "lineNum": 188,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '\"buyer_customization\"' is not assignable to type 'VariationSource | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/dashboard/page.tsx",
+    "lineNum": 56,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/dashboard/page.tsx",
+    "lineNum": 165,
+    "colNum": 59,
+    "errorMessage": "error TS2322: Type '{ children: Element; size: \"sm\"; variant: \"outline\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/dashboard/page.tsx",
+    "lineNum": 171,
+    "colNum": 59,
+    "errorMessage": "error TS2322: Type '{ children: Element; size: \"sm\"; variant: \"outline\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/finance/page.tsx",
+    "lineNum": 389,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '({ title: string; budgetValue: number; actualValue: number; category: string; invertComparison: boolean; } | { title: string; budgetValue: number; actualValue: number; category: string; invertComparison?: undefined; })[]' is not assignable to type 'BudgetVsActual[]'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/finance/page.tsx",
+    "lineNum": 390,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ data: { month: string; residential: number; commercial: number; land: number; }[]; dataKeys: { dataKey: string; name: string; }[]; }' is not assignable to type 'ChartData'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/finance/page.tsx",
+    "lineNum": 391,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ data: { month: string; construction: number; marketing: number; administration: number; }[]; dataKeys: { dataKey: string; name: string; }[]; }' is not assignable to type 'ChartData'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/finance/page.tsx",
+    "lineNum": 392,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ data: { month: string; profit: number; margin: number; }[]; dataKeys: { dataKey: string; name: string; }[]; revenueProjection: { data: { month: string; baseline: number; optimistic: number; pessimistic: number; }[]; dataKeys: { ...; }[]; }; profitProjection: { ...; }; sensitivityAnalysis: { ...; }; }' is not assignable to type '{ data: { [key: string]: any; name: string | number; value: number; }[]; dataKeys: { dataKey: string; name: string; }[]; revenueProjection?: ChartData | undefined; profitProjection?: ChartData | undefined; sensitivityAnalysis?: ChartData | undefined; }'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/finance/page.tsx",
+    "lineNum": 393,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ summary: { inflows: number; outflows: number; netCashFlow: number; }; data: { date: string; inflow: number; outflow: number; netflow: number; }[]; inflowsByCategory: { data: { month: string; sales: number; investments: number; }[]; dataKeys: { ...; }[]; }; outflowsByCategory: { ...; }; projection: { ...; }; }' is not assignable to type '{ summary: { inflows: number; outflows: number; netCashFlow: number; }; data: { date: string; inflows: number; outflows: number; netCashFlow: number; }[]; inflowsByCategory: ChartData; outflowsByCategory: ChartData; projection: ChartData; }'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/onboarding/company-setup/page.tsx",
+    "lineNum": 318,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type '{ children: Element; type: \"button\"; variant: \"outline\"; disabled: boolean; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/onboarding/subscription/page.tsx",
+    "lineNum": 242,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/team/contractors/page.tsx",
+    "lineNum": 284,
+    "colNum": 64,
+    "errorMessage": "error TS2322: Type '{ className: string; title: string; }' is not assignable to type 'IntrinsicAttributes & LucideProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/tenders/page.tsx",
+    "lineNum": 203,
+    "colNum": 31,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developer/tenders/page.tsx",
+    "lineNum": 646,
+    "colNum": 53,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developments/ballymakenny-view/page.tsx",
+    "lineNum": 260,
+    "colNum": 63,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developments/ballymakenny-view/page.tsx",
+    "lineNum": 558,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developments/ellwood/page.tsx",
+    "lineNum": 276,
+    "colNum": 63,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/developments/fitzgerald-gardens/page.tsx",
+    "lineNum": 625,
+    "colNum": 31,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"link\" | \"default\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/kyc-verification/page.tsx",
+    "lineNum": 197,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/kyc-verification/page.tsx",
+    "lineNum": 243,
+    "colNum": 37,
+    "errorMessage": "error TS2322: Type '{ children: string; as: string; variant: \"outline\"; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/kyc-verification/page.tsx",
+    "lineNum": 314,
+    "colNum": 33,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/page.new.tsx",
+    "lineNum": 341,
+    "colNum": 33,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/page.tsx",
+    "lineNum": 244,
+    "colNum": 62,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/page.tsx",
+    "lineNum": 293,
+    "colNum": 81,
+    "errorMessage": "error TS2322: Type '{ value: number; className: string; indicatorColor: string; }' is not assignable to type 'IntrinsicAttributes & ProgressProps & RefAttributes<HTMLDivElement>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/page.tsx",
+    "lineNum": 304,
+    "colNum": 87,
+    "errorMessage": "error TS2322: Type '{ value: number; className: string; indicatorColor: string; }' is not assignable to type 'IntrinsicAttributes & ProgressProps & RefAttributes<HTMLDivElement>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/page.tsx",
+    "lineNum": 315,
+    "colNum": 85,
+    "errorMessage": "error TS2322: Type '{ value: number; className: string; indicatorColor: string; }' is not assignable to type 'IntrinsicAttributes & ProgressProps & RefAttributes<HTMLDivElement>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/project-management/[id]/slp/page.tsx",
+    "lineNum": 460,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; disabled: any; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/project-management/layout.tsx",
+    "lineNum": 12,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ children: ReactNode; requireRole: string[]; }' is not assignable to type 'IntrinsicAttributes & ProtectedRouteProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/properties/analytics/page.tsx",
+    "lineNum": 18,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/properties/search/page.tsx",
+    "lineNum": 309,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"link\" | \"default\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/properties/search/page.tsx",
+    "lineNum": 338,
+    "colNum": 31,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/properties/search/page.tsx",
+    "lineNum": 391,
+    "colNum": 35,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/solicitor/conveyancing-dashboard/page.tsx",
+    "lineNum": 167,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '{ onSelectCase: Dispatch<SetStateAction<string | null>>; }' is not assignable to type 'IntrinsicAttributes'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/solicitor/conveyancing-dashboard/page.tsx",
+    "lineNum": 171,
+    "colNum": 24,
+    "errorMessage": "error TS2322: Type '{ caseId: string | null; }' is not assignable to type 'IntrinsicAttributes'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/solicitor/conveyancing-dashboard/page.tsx",
+    "lineNum": 175,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ caseId: string | null; }' is not assignable to type 'IntrinsicAttributes'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/solicitor/conveyancing-dashboard/page.tsx",
+    "lineNum": 179,
+    "colNum": 26,
+    "errorMessage": "error TS2322: Type '{ caseId: string | null; }' is not assignable to type 'IntrinsicAttributes'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/solicitor/conveyancing-dashboard/page.tsx",
+    "lineNum": 183,
+    "colNum": 26,
+    "errorMessage": "error TS2322: Type '{ caseId: string | null; }' is not assignable to type 'IntrinsicAttributes'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 195,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; variant: \"outline\"; size: \"sm\"; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 199,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; variant: \"outline\"; size: \"sm\"; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 203,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; variant: \"default\"; size: \"sm\"; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/app/test-deployment/page.tsx",
+    "lineNum": 207,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; variant: \"outline\"; size: \"sm\"; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/analytics/AnalyticsDashboard.tsx",
+    "lineNum": 139,
+    "colNum": 37,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: string; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer-journey/HandoverScheduling.tsx",
+    "lineNum": 246,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: string; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer-journey/HTBApplication.tsx",
+    "lineNum": 104,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: string; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer-journey/HTBApplication.tsx",
+    "lineNum": 200,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: string; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer-journey/SnaggingInspection.tsx",
+    "lineNum": 280,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: \"other\"; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer-journey/SnaggingInspection.tsx",
+    "lineNum": 295,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: \"minor\"; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer-journey/SnaggingInspection.tsx",
+    "lineNum": 434,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: \"verified\" | \"in_progress\" | \"resolved\" | \"reported\" | \"assigned\"; onChange: (e: any) => Promise<void>; className: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/documents/BuyerDocumentRepository.tsx",
+    "lineNum": 267,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'import(\"/Users/kevin/Downloads/awsready/prop-ie-aws-app/src/types/document\").Document[]' is not assignable to type 'Document[]'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/financing/MortgageCalculator.tsx",
+    "lineNum": 231,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"destructive\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/FirstTimeBuyerDashboard.tsx",
+    "lineNum": 321,
+    "colNum": 37,
+    "errorMessage": "error TS2322: Type '{ children: Element; size: \"sm\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/journey/JourneyTracker.tsx",
+    "lineNum": 78,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"PLANNING\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/journey/JourneyTracker.tsx",
+    "lineNum": 99,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"FINANCING\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/journey/JourneyTracker.tsx",
+    "lineNum": 120,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"PROPERTY_SEARCH\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/journey/JourneyTracker.tsx",
+    "lineNum": 138,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"RESERVATION\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/journey/JourneyTracker.tsx",
+    "lineNum": 156,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"LEGAL_PROCESS\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/journey/JourneyTracker.tsx",
+    "lineNum": 174,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"COMPLETION\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/ReadinessChecklist.tsx",
+    "lineNum": 315,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"default\" | \"success\"' is not assignable to type '\"default\" | \"destructive\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/ReadinessChecklist.tsx",
+    "lineNum": 348,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"destructive\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/ReadinessChecklist.tsx",
+    "lineNum": 410,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"destructive\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/ReadinessChecklist.tsx",
+    "lineNum": 434,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"destructive\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/buyer/ReadinessChecklist.tsx",
+    "lineNum": 463,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"destructive\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/collaboration/TaskBoard.tsx",
+    "lineNum": 252,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; name: string; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/construction/TasksList.tsx",
+    "lineNum": 76,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type 'ReactNode' is not assignable to type 'Element | null'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/contact/ContactPageClient.tsx",
+    "lineNum": 42,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '(formData: ContactFormData) => Promise<{ success: boolean; }>' is not assignable to type '(data: ContactFormData) => Promise<void>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/contractor/ContractorDirectory.tsx",
+    "lineNum": 162,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: string; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/contractor/ContractorDirectory.tsx",
+    "lineNum": 177,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: string; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/contractor/ContractorDirectory.tsx",
+    "lineNum": 190,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: \"APPROVED\"; onChange: (e: any) => void; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/crm/CommissionTracking.tsx",
+    "lineNum": 286,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"outline\" | \"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/dashboard/UnifiedDashboard.tsx",
+    "lineNum": 351,
+    "colNum": 60,
+    "errorMessage": "error TS2322: Type '\"DEVELOPER\" | \"BUYER\" | \"AGENT\" | \"LENDER\" | \"BUYER_SOLICITOR\" | \"VENDOR_SOLICITOR\" | null | undefined' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/dashboard/UnifiedDashboard.tsx",
+    "lineNum": 355,
+    "colNum": 62,
+    "errorMessage": "error TS2322: Type '\"DEVELOPER\" | \"BUYER\" | \"AGENT\" | \"LENDER\" | \"BUYER_SOLICITOR\" | \"VENDOR_SOLICITOR\" | null | undefined' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/dashboard/UnifiedDashboard.tsx",
+    "lineNum": 363,
+    "colNum": 61,
+    "errorMessage": "error TS2322: Type '\"DEVELOPER\" | \"BUYER\" | \"AGENT\" | \"LENDER\" | \"BUYER_SOLICITOR\" | \"VENDOR_SOLICITOR\" | null | undefined' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/dashboard/widgets/ListWidget.tsx",
+    "lineNum": 169,
+    "colNum": 30,
+    "errorMessage": "error TS2322: Type '\"info\" | \"default\" | \"outline\" | \"success\" | \"warning\" | \"secondary\" | \"primary\" | \"danger\"' is not assignable to type '\"default\" | \"outline\" | \"destructive\" | \"success\" | \"warning\" | \"secondary\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/developer/DeveloperDashboard.tsx",
+    "lineNum": 336,
+    "colNum": 47,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/developer/DeveloperDashboard.tsx",
+    "lineNum": 403,
+    "colNum": 57,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"default\"; size: \"sm\"; asChild: true; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/developer/DeveloperDashboard.tsx",
+    "lineNum": 408,
+    "colNum": 57,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/developer/ProjectList.tsx",
+    "lineNum": 164,
+    "colNum": 55,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/document/DocumentComplianceTracker.tsx",
+    "lineNum": 309,
+    "colNum": 49,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/document/DocumentList.tsx",
+    "lineNum": 234,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"ghost\"; size: \"icon\"; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/document/DocumentManager.tsx",
+    "lineNum": 162,
+    "colNum": 49,
+    "errorMessage": "error TS2322: Type 'DocumentCategory' is not assignable to type 'string'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/document/DocumentUploadDialog.tsx",
+    "lineNum": 216,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; value: \"\" | DocumentCategory; onValueChange: (value: string) => void; required: true; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentDetails.tsx",
+    "lineNum": 298,
+    "colNum": 33,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentDetails.tsx",
+    "lineNum": 407,
+    "colNum": 83,
+    "errorMessage": "error TS2322: Type '{ children: Element; size: \"sm\"; variant: \"ghost\"; className: string; asChild: true; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentDetails.tsx",
+    "lineNum": 490,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type 'DocumentWorkflow' is not assignable to type 'DocumentWorkflow | DocumentWorkflowInstance'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentFilterPanel.tsx",
+    "lineNum": 77,
+    "colNum": 12,
+    "errorMessage": "error TS2322: Type '(open: any) => Element' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentFilterPanel.tsx",
+    "lineNum": 101,
+    "colNum": 12,
+    "errorMessage": "error TS2322: Type '(open: any) => Element' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentFilterPanel.tsx",
+    "lineNum": 127,
+    "colNum": 16,
+    "errorMessage": "error TS2322: Type '(open: any) => Element' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/documents/DocumentPermissionsEditor.tsx",
+    "lineNum": 291,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/examples/DevelopmentList.tsx",
+    "lineNum": 208,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ children: Element; variant: \"outline\"; size: \"sm\"; asChild: true; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 174,
+    "colNum": 40,
+    "errorMessage": "error TS2322: Type '{ activeTab: TabType; onTabChange: (tab: TabType) => void; }' is not assignable to type 'IntrinsicAttributes & ClaimTabsProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 230,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & DocumentUploadFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 255,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & AddNoteFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 281,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & AccessCodeFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 302,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & ClaimCodeFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 323,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & RequestFundsFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 345,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; initialAmount: number; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & FundsReceivedFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 366,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & DepositAppliedFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/htb/developer/HTBClaimProcessor.tsx",
+    "lineNum": 387,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ claimId: string; onSuccess: () => void; onError: (error: string) => void; }' is not assignable to type 'IntrinsicAttributes & CompleteClaimFormProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 166,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 193,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 207,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 221,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 235,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 249,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 263,
+    "colNum": 28,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 278,
+    "colNum": 30,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 289,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 298,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 307,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 316,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 332,
+    "colNum": 40,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 335,
+    "colNum": 40,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 372,
+    "colNum": 30,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 378,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 388,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 398,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 417,
+    "colNum": 30,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 429,
+    "colNum": 38,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 441,
+    "colNum": 42,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 444,
+    "colNum": 42,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 737,
+    "colNum": 34,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 768,
+    "colNum": 36,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 776,
+    "colNum": 36,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorMode.tsx",
+    "lineNum": 784,
+    "colNum": 36,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; className: string; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorModeToggle.tsx",
+    "lineNum": 17,
+    "colNum": 22,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/investor/InvestorModeToggle.tsx",
+    "lineNum": 29,
+    "colNum": 20,
+    "errorMessage": "error TS2322: Type '{ name: string; size: number; }' is not assignable to type 'IntrinsicAttributes & FeatherIconProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/EnhancedMainNavigation.tsx",
+    "lineNum": 505,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type 'boolean | undefined' is not assignable to type 'boolean'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 33,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ type: string; icon: React.JSX.Element; text: string; subtext: string; action: string; }' is not assignable to type 'never'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 40,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ type: string; icon: React.JSX.Element; text: string; subtext: string; action: string; }' is not assignable to type 'never'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/NextGenNavigation.tsx",
+    "lineNum": 47,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ type: string; icon: React.JSX.Element; text: string; subtext: string; action: string; }' is not assignable to type 'never'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/SmartNav.tsx",
+    "lineNum": 293,
+    "colNum": 75,
+    "errorMessage": "error TS2322: Type '{ children: number; className: string; variant: \"secondary\"; size: string; }' is not assignable to type 'IntrinsicAttributes & BadgeProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/SmartNav.tsx",
+    "lineNum": 333,
+    "colNum": 71,
+    "errorMessage": "error TS2322: Type '{ children: number; className: string; variant: \"secondary\"; size: string; }' is not assignable to type 'IntrinsicAttributes & BadgeProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 54,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ type: string; title: string; confidence: number; action: string; }' is not assignable to type 'never'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 60,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ type: string; title: string; confidence: number; action: string; }' is not assignable to type 'never'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/navigation/UltraModernNavigation.tsx",
+    "lineNum": 66,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ type: string; title: string; confidence: number; action: string; }' is not assignable to type 'never'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/NotificationCenter.tsx",
+    "lineNum": 357,
+    "colNum": 33,
+    "errorMessage": "error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/pages/buyer/documents/BuyerDocumentsPage.tsx",
+    "lineNum": 9,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ children: Element; roles: string[]; }' is not assignable to type 'IntrinsicAttributes & ProtectedRouteProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/performance/PerformanceExample.tsx",
+    "lineNum": 149,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '(item: any, index: number, style: React.CSSProperties) => React.JSX.Element' is not assignable to type '((item: { id: number; name: string; description: string; }, index: number) => ReactNode) & ((item: { id: number; name: string; description: string; }, index: number) => ReactNode)'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/properties/PropertyListView.tsx",
+    "lineNum": 184,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '\"default\" | \"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/properties/PropertyListView.tsx",
+    "lineNum": 195,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/properties/PropertyMapView.tsx",
+    "lineNum": 228,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '{ property: any; onClose: () => void; compareMode: boolean; isComparing: boolean; onCompareToggle: () => void; }' is not assignable to type 'IntrinsicAttributes & PropertyCardProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/property/PropertyCardTest.tsx",
+    "lineNum": 39,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"townhouse\"' is not assignable to type 'PropertyType'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/property/PropertyCardTest.tsx",
+    "lineNum": 100,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '{ id: string; name: string; title: string; address: string; price: number; status: any; bedrooms: number; bathrooms: number; floorArea: number; type: any; images: string[]; }' is not assignable to type 'IntrinsicAttributes & PropertyCardProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/property/PropertyCardTest.tsx",
+    "lineNum": 114,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '{ id: string; name: string; title: string; address: string; price: number; status: any; bedrooms: number; bathrooms: number; floorArea: number; type: any; images: string[]; }' is not assignable to type 'IntrinsicAttributes & PropertyCardProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/security/SecurityAlerts.tsx",
+    "lineNum": 253,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '{ onComplete: (success: boolean) => void; title: string; description: string; }' is not assignable to type 'IntrinsicAttributes & MFAChallengeProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/security/SecuritySetupWizard.tsx",
+    "lineNum": 81,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '{ onComplete: () => void; displayMode: string; }' is not assignable to type 'IntrinsicAttributes & MFASetupProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/tender/TenderManagement.tsx",
+    "lineNum": 257,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '\"default\" | \"success\" | \"warning\" | \"secondary\" | \"primary\"' is not assignable to type '\"default\" | \"outline\" | \"destructive\" | \"success\" | \"warning\" | \"secondary\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/tender/TenderManagement.tsx",
+    "lineNum": 314,
+    "colNum": 32,
+    "errorMessage": "error TS2322: Type '\"default\" | \"success\" | \"warning\" | \"secondary\" | \"primary\"' is not assignable to type '\"default\" | \"outline\" | \"destructive\" | \"success\" | \"warning\" | \"secondary\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/timeline/DependencyLines.tsx",
+    "lineNum": 77,
+    "colNum": 41,
+    "errorMessage": "error TS2322: Type 'boolean | undefined' is not assignable to type 'boolean'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/timeline/ProjectTimeline.tsx",
+    "lineNum": 492,
+    "colNum": 23,
+    "errorMessage": "error TS2322: Type 'RefObject<HTMLDivElement | null>' is not assignable to type 'RefObject<HTMLDivElement>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 52,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"default\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 59,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 94,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 102,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"warning\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 109,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"info\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 116,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"subtle\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 123,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"brand\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 166,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"xl\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 181,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"icon-sm\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 189,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"icon-lg\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 227,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 231,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"success\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 232,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"warning\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 233,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"info\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 234,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"subtle\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 235,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"brand\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 243,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"xs\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 245,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"default\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 247,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"xl\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 255,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"icon-sm\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/button.stories.tsx",
+    "lineNum": 257,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"icon-lg\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/carousel.tsx",
+    "lineNum": 205,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; disabled: boolean; form?: string | undefined; formAction?: string | ((formData: FormData) => void | Promise<void>) | undefined; formEncType?: string | undefined; ... 286 more ...; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/carousel.tsx",
+    "lineNum": 234,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; disabled: boolean; form?: string | undefined; formAction?: string | ((formData: FormData) => void | Promise<void>) | undefined; formEncType?: string | undefined; ... 286 more ...; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/chart-wrapper.tsx",
+    "lineNum": 160,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '{ nameKey: string; verticalAlign: \"bottom\"; formatter: ((value: string) => string) | undefined; }' is not assignable to type 'IntrinsicAttributes & Omit<ClassAttributes<HTMLDivElement> & HTMLAttributes<HTMLDivElement> & Pick<...> & { ...; }, \"ref\"> & RefAttributes<...>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/chart-wrapper.tsx",
+    "lineNum": 170,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '((value: any, name: string) => [string, string]) | undefined' is not assignable to type 'Formatter<ValueType, NameType> | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/chart-wrapper.tsx",
+    "lineNum": 321,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ verticalAlign: \"bottom\"; formatter: ((value: string) => string) | undefined; }' is not assignable to type 'IntrinsicAttributes & Omit<ClassAttributes<HTMLDivElement> & HTMLAttributes<HTMLDivElement> & Pick<...> & { ...; }, \"ref\"> & RefAttributes<...>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/chart-wrapper.tsx",
+    "lineNum": 331,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '((value: any, name: string) => [string, string]) | undefined' is not assignable to type 'Formatter<ValueType, NameType> | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/command.tsx",
+    "lineNum": 31,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'React.ReactNode' is not assignable to type 'import(\"/Users/kevin/Downloads/awsready/prop-ie-aws-app/node_modules/cmdk/node_modules/@types/react/index\").ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/error-boundary.tsx",
+    "lineNum": 162,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '{ children: Element; asChild: true; variant: \"default\"; className: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/metric-card.tsx",
+    "lineNum": 87,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '{ children: (false | \"\" | 0 | 0n | Element | null | undefined)[]; variant: \"info\" | \"default\" | \"outline\" | \"success\" | \"warning\" | \"danger\"; className: string; }' is not assignable to type 'IntrinsicAttributes & CardProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/pagination.tsx",
+    "lineNum": 68,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"default\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/pagination.tsx",
+    "lineNum": 84,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '\"default\"' is not assignable to type '\"sm\" | \"md\" | \"lg\" | \"icon\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/components/ui/sidebar.tsx",
+    "lineNum": 279,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; disabled?: boolean | undefined; form?: string | undefined; formAction?: string | ((formData: FormData) => void | Promise<void>) | undefined; ... 288 more ...; onClick: (event: MouseEvent<...>) => void; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 90,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"PLANNING\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 91,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"FINANCING\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 92,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"PROPERTY_SEARCH\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 93,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"RESERVATION\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 94,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"LEGAL_PROCESS\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 95,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"CONSTRUCTION\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 96,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"COMPLETION\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 97,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '\"POST_PURCHASE\"' is not assignable to type 'BuyerPhase'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/context/BuyerDocumentContext.tsx",
+    "lineNum": 141,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'string' is not assignable to type 'DocumentType'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/contexts/EnhancedAuthContext.tsx",
+    "lineNum": 316,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type 'string | undefined' is not assignable to type 'string'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/dashboard-layout-integration.tsx",
+    "lineNum": 167,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type 'string | undefined' is not assignable to type 'string'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 254,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'Key | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 254,
+    "colNum": 36,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'string | number | readonly string[] | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 254,
+    "colNum": 49,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 270,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'Key | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 270,
+    "colNum": 38,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'string | number | readonly string[] | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-component-example.tsx",
+    "lineNum": 270,
+    "colNum": 53,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-graphql-example.tsx",
+    "lineNum": 322,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'Key | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-graphql-example.tsx",
+    "lineNum": 322,
+    "colNum": 38,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'string | number | readonly string[] | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/examples/typed-graphql-example.tsx",
+    "lineNum": 323,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/compliance/ComplianceDashboard.tsx",
+    "lineNum": 1014,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/compliance/RegulatoryReportingSystem.tsx",
+    "lineNum": 775,
+    "colNum": 37,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/dashboards/BuyerDashboard.tsx",
+    "lineNum": 128,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '{ progress: any; }' is not assignable to type 'IntrinsicAttributes & JourneyTrackerProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/dashboards/BuyerDashboard.tsx",
+    "lineNum": 273,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '{ tasks: any; compact: true; }' is not assignable to type 'IntrinsicAttributes & TaskListProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/dashboards/BuyerDashboard.tsx",
+    "lineNum": 472,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '{ documents: any; onUpload: () => string | number; onDownload: (doc: any) => string | number; }' is not assignable to type 'IntrinsicAttributes & DocumentListProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/dashboards/BuyerDashboard.tsx",
+    "lineNum": 479,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '{ summary: any; transactions: any; mortgageOptions: any; }' is not assignable to type 'IntrinsicAttributes & FinancialOverviewProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/developer-journey/DeveloperProjectWorkflow.tsx",
+    "lineNum": 305,
+    "colNum": 34,
+    "errorMessage": "error TS2322: Type 'string' is not assignable to type '\"default\" | \"outline\" | \"destructive\" | \"success\" | \"warning\" | \"secondary\" | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/messaging/MessagingCenter.tsx",
+    "lineNum": 200,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type 'MessageAttachment[]' is not assignable to type 'never[]'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/messaging/MessagingCenter.tsx",
+    "lineNum": 485,
+    "colNum": 42,
+    "errorMessage": "error TS2322: Type 'string | null | undefined' is not assignable to type 'string | Blob | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/messaging/MessagingCenter.tsx",
+    "lineNum": 556,
+    "colNum": 34,
+    "errorMessage": "error TS2322: Type 'string | null | undefined' is not assignable to type 'string | Blob | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/mortgage-calculator/MortgageCalculator.tsx",
+    "lineNum": 419,
+    "colNum": 50,
+    "errorMessage": "error TS2322: Type 'Dispatch<SetStateAction<\"fixed\" | \"variable\">>' is not assignable to type '(value: string) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 153,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"default\" | \"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 161,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"default\" | \"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 170,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"default\" | \"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 179,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"default\" | \"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 191,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyDetailView.tsx",
+    "lineNum": 202,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 80,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 118,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 126,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 134,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 149,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyFloorPlan.tsx",
+    "lineNum": 157,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 65,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 73,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 103,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 154,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 164,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyImageGallery.tsx",
+    "lineNum": 172,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyVirtualTour.tsx",
+    "lineNum": 75,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyVirtualTour.tsx",
+    "lineNum": 84,
+    "colNum": 40,
+    "errorMessage": "error TS2322: Type 'Dispatch<SetStateAction<\"guided\" | \"free\">>' is not assignable to type '(value: string) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyVirtualTour.tsx",
+    "lineNum": 137,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyVirtualTour.tsx",
+    "lineNum": 150,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyVirtualTour.tsx",
+    "lineNum": 175,
+    "colNum": 15,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/properties/PropertyVirtualTour.tsx",
+    "lineNum": 201,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/property-alerts/PropertyAlertsManager.tsx",
+    "lineNum": 813,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/property-alerts/PropertyAlertsManager.tsx",
+    "lineNum": 828,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/security/AccessControlManagement.tsx",
+    "lineNum": 1016,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/security/DataEncryptionService.tsx",
+    "lineNum": 535,
+    "colNum": 29,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/security/RuntimeSecurityMonitor.tsx",
+    "lineNum": 940,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/security/RuntimeSecurityMonitor.tsx",
+    "lineNum": 990,
+    "colNum": 31,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; defaultValue: string; }' is not assignable to type 'IntrinsicAttributes & SelectProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/transactions/TransactionMilestones.tsx",
+    "lineNum": 471,
+    "colNum": 36,
+    "errorMessage": "error TS2322: Type 'Dispatch<SetStateAction<\"timeline\" | \"list\" | \"kanban\" | \"gantt\">>' is not assignable to type '(value: string) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/transactions/TransactionTimeline.tsx",
+    "lineNum": 350,
+    "colNum": 38,
+    "errorMessage": "error TS2322: Type 'Dispatch<SetStateAction<\"timeline\" | \"list\" | \"grouped\">>' is not assignable to type '(value: string) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/features/virtual-viewing/VirtualViewing.tsx",
+    "lineNum": 515,
+    "colNum": 39,
+    "errorMessage": "error TS2322: Type 'Dispatch<SetStateAction<\"auto\" | \"720p\" | \"1080p\" | \"4k\">>' is not assignable to type '(value: string) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/graphql/client.ts",
+    "lineNum": 140,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'UnknownGraphQLResponse' is not assignable to type 'Promise<GraphQLResult<any>>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/graphql/client.ts",
+    "lineNum": 208,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'UnknownGraphQLResponse' is not assignable to type 'Promise<GraphQLResult<any>>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/hooks/api/useDevelopmentMutations.ts",
+    "lineNum": 230,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '(data: GraphQLResult<{ createDevelopment: Development; }>) => void' is not assignable to type '(data: unknown) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/hooks/api/useDevelopmentMutations.ts",
+    "lineNum": 258,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '(data: GraphQLResult<{ updateDevelopment: Development; }>, variables: { id: string; input: UpdateDevelopmentInput; }) => void' is not assignable to type '(data: unknown) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/hooks/api/useDevelopmentMutations.ts",
+    "lineNum": 290,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '(data: GraphQLResult<{ updateDevelopmentLocation: Location; }>, variables: { developmentId: string; input: UpdateLocationInput; }) => void' is not assignable to type '(data: unknown) => void'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/hooks/useEnterpriseAuth.ts",
+    "lineNum": 335,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type 'string | undefined' is not assignable to type 'string'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/hooks/userDb.ts",
+    "lineNum": 99,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type 'unknown[]' is not assignable to type 'string[]'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/amplify/auth.ts",
+    "lineNum": 77,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '\"CONFIRM_SIGN_IN_WITH_SMS_CODE\"' is not assignable to type '\"CONFIRM_SIGN_IN\" | \"RESET_PASSWORD\" | \"CONFIRM_SIGN_UP\" | \"MFA\" | \"CUSTOM_CHALLENGE\" | \"NEW_PASSWORD_REQUIRED\"'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/api-client.ts",
+    "lineNum": 333,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type '{ get: <T>(endpoint: string, options?: Partial<RequestOptions> | undefined) => Promise<T>; post: <T>(endpoint: string, body: any, options?: Partial<RequestOptions> | undefined) => Promise<...>; ... 5 more ...; configureCaching: (options: { ...; }) => void; } | { ...; }' is not assignable to type '{ get: <T>(endpoint: string, options?: Partial<RequestOptions>) => Promise<T>; post: <T>(endpoint: string, body: any, options?: Partial<RequestOptions>) => Promise<T>; ... 5 more ...; configureCaching: (options: { enabled: boolean; }) => void; }'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/db/operations/userDb.ts",
+    "lineNum": 99,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type 'unknown[]' is not assignable to type 'string[]'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/db/seed.ts",
+    "lineNum": 112,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'string' is not assignable to type 'string[] | DevelopmentCreatefeaturesInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/db/seed.ts",
+    "lineNum": 149,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'string' is not assignable to type 'string[] | UnitCreatefeaturesInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/developer-platform/index.ts",
+    "lineNum": 414,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'ProjectPhase[]' is not assignable to type 'ProjectPhaseUncheckedCreateNestedManyWithoutProjectInput | ProjectPhaseCreateNestedManyWithoutProjectInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/graphql/testing/testServer.ts",
+    "lineNum": 65,
+    "colNum": 3,
+    "errorMessage": "error TS2322: Type '<TData = Record<string, unknown>, TVariables extends VariableValues = VariableValues>(request: Omit<GraphQLRequest<TVariables>, \"query\"> & { query?: string | DocumentNode | TypedQueryDocumentNode<...> | undefined; }, options: ExecuteOperationOptions<...> | undefined) => Promise<...>' is not assignable to type '{ <TData = Record<string, unknown>, TVariables extends VariableValues = VariableValues>(this: ApolloServer<...>, request: Omit<GraphQLRequest<TVariables>, \"query\"> & { query?: string | DocumentNode | TypedQueryDocumentNode<...> | undefined; }): Promise<...>; <TData = Record<...>, TVariables extends VariableValues = ...'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/performance/lazy-loader.tsx",
+    "lineNum": 116,
+    "colNum": 8,
+    "errorMessage": "error TS2322: Type 'Omit<{ loader: () => Promise<{ default: ComponentType<P>; }>; fallback?: ReactNode; errorFallback?: ReactNode; } & P, \"loader\" | \"fallback\" | \"errorFallback\">' is not assignable to type 'IntrinsicAttributes & (P | (PropsWithoutRef<P> & RefAttributes<Component<P, any, any>>))'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/security/validation.ts",
+    "lineNum": 1074,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/security/validation.ts",
+    "lineNum": 1075,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/security/validation.ts",
+    "lineNum": 1076,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/security/validation.ts",
+    "lineNum": 1077,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'string | null' is not assignable to type 'string | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/services/dataService.ts",
+    "lineNum": 97,
+    "colNum": 37,
+    "errorMessage": "error TS2322: Type 'Record<string, \"desc\" | \"asc\"> | Record<string, \"desc\" | \"asc\">[] | { createdAt: string; }' is not assignable to type 'DevelopmentOrderByWithRelationInput | DevelopmentOrderByWithRelationInput[] | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/services/dataService.ts",
+    "lineNum": 364,
+    "colNum": 5,
+    "errorMessage": "error TS2322: Type 'any[]' is not assignable to type 'T'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/lib/transaction-engine/payment-processor.ts",
+    "lineNum": 18,
+    "colNum": 3,
+    "errorMessage": "error TS2322: Type '\"2024-12-18.acacia\"' is not assignable to type '\"2025-04-30.basil\"'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/authService.ts",
+    "lineNum": 542,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'Partial<{ id: string; email: string; firstName: string; lastName: string; phone: string | null; password: string | null; roles: UserRole[]; status: UserStatus; kycStatus: KYCStatus; ... 8 more ...; locationId: string | null; }>' is not assignable to type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/paymentService.ts",
+    "lineNum": 7,
+    "colNum": 3,
+    "errorMessage": "error TS2322: Type '\"2023-10-16\"' is not assignable to type '\"2025-04-30.basil\"'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/paymentService.ts",
+    "lineNum": 336,
+    "colNum": 13,
+    "errorMessage": "error TS2322: Type '\"RESERVATION_PAID\"' is not assignable to type 'TransactionStatus | EnumTransactionStatusFieldUpdateOperationsInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/transactionCoordinator.ts",
+    "lineNum": 66,
+    "colNum": 11,
+    "errorMessage": "error TS2322: Type 'TransactionStatus.INITIATED' is not assignable to type 'TransactionStatus | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/transactionCoordinator.ts",
+    "lineNum": 171,
+    "colNum": 17,
+    "errorMessage": "error TS2322: Type 'TransactionStatus' is not assignable to type 'TransactionStatus | EnumTransactionStatusFieldUpdateOperationsInput | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/transactionService.ts",
+    "lineNum": 655,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ name: string; type: string; category: string; fileName: string; fileSize: number; mimeType: string; fileUrl: string; uploadedBy: string; requiresSignature?: boolean; transactionId: string; }' is not assignable to type '(Without<TransactionDocumentCreateInput, TransactionDocumentUncheckedCreateInput> & TransactionDocumentUncheckedCreateInput) | (Without<...> & TransactionDocumentCreateInput)'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/transactionService.ts",
+    "lineNum": 691,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type '{ status: \"PROCESSING\"; type: string; amount: number; method: string; reference: string; description?: string; transactionId: string; }' is not assignable to type '(Without<TransactionPaymentCreateInput, TransactionPaymentUncheckedCreateInput> & TransactionPaymentUncheckedCreateInput) | (Without<...> & TransactionPaymentCreateInput)'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/services/transactionService.ts",
+    "lineNum": 762,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type 'string' is not assignable to type 'NotificationPriority | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 174,
+    "colNum": 9,
+    "errorMessage": "error TS2322: Type '{ children: Element[]; action: Element; }' is not assignable to type 'IntrinsicAttributes & CardHeaderProps'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 310,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 313,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 316,
+    "colNum": 19,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/stories/card.stories.tsx",
+    "lineNum": 382,
+    "colNum": 21,
+    "errorMessage": "error TS2322: Type '\"secondary\"' is not assignable to type '\"default\" | \"link\" | \"outline\" | \"ghost\" | \"destructive\" | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/dashboard/TestDashboard.tsx",
+    "lineNum": 265,
+    "colNum": 25,
+    "errorMessage": "error TS2322: Type '{ value: number; max: number; className: string; indicatorClassName: string; style: CSSProperties; }' is not assignable to type 'IntrinsicAttributes & ProgressProps & RefAttributes<HTMLDivElement>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/dashboard/TestDashboard.tsx",
+    "lineNum": 468,
+    "colNum": 27,
+    "errorMessage": "error TS2322: Type '{ value: number; max: number; className: string; style: CSSProperties; }' is not assignable to type 'IntrinsicAttributes & ProgressProps & RefAttributes<HTMLDivElement>'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/mocks/msw-setup.ts",
+    "lineNum": 9,
+    "colNum": 26,
+    "errorMessage": "error TS2322: Type 'typeof TextDecoder' is not assignable to type '{ new (label?: string | undefined, options?: TextDecoderOptions | undefined): TextDecoder; prototype: TextDecoder; }'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/utils/graphql-test-utils.ts",
+    "lineNum": 31,
+    "colNum": 34,
+    "errorMessage": "error TS2322: Type 'TData' is not assignable to type 'GraphQLQuery | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/utils/graphql-test-utils.ts",
+    "lineNum": 82,
+    "colNum": 34,
+    "errorMessage": "error TS2322: Type 'TData' is not assignable to type 'GraphQLQuery | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/utils/hook-test-utils.tsx",
+    "lineNum": 122,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type 'TData' is not assignable to type 'GraphQLQuery | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/tests/utils/hook-test-utils.tsx",
+    "lineNum": 137,
+    "colNum": 7,
+    "errorMessage": "error TS2322: Type 'TData' is not assignable to type 'GraphQLQuery | null | undefined'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  },
+  {
+    "filePath": "src/utils/performance/lazyLoad.tsx",
+    "lineNum": 331,
+    "colNum": 14,
+    "errorMessage": "error TS2322: Type 'PropsWithoutRef<PropsWithoutRef<P>> & { ref: ForwardedRef<any>; }' is not assignable to type 'IntrinsicAttributes & (P | (PropsWithoutRef<P> & RefAttributes<Component<P, any, any>>))'.",
+    "errorCode": "TS2322",
+    "category": "TYPE_MISMATCH"
+  }
+]

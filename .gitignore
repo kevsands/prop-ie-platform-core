@@ -1,0 +1,278 @@
+# ===================================================================
+# ENTERPRISE .GITIGNORE - SECURITY & COMPLIANCE FOCUSED
+# ===================================================================
+
+# ===================================================================
+# SECRETS & ENVIRONMENT VARIABLES - CRITICAL SECURITY
+# ===================================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+secrets.json
+credentials.json
+service-account.json
+*-key.json
+auth.json
+
+# AWS Credentials
+.aws/
+aws-credentials.json
+aws-config.json
+
+# API Keys & Tokens
+*apikey*
+*api-key*
+*token*
+*secret*
+jwt-secret
+oauth-secret
+
+# ===================================================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# ===================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Package manager lock files (keep only one)
+package-lock.json
+yarn.lock
+# pnpm-lock.yaml  # Uncomment to ignore pnpm lock
+
+# ===================================================================
+# BUILD ARTIFACTS & DISTRIBUTION
+# ===================================================================
+/dist/
+/build/
+/.next/
+/out/
+.vercel
+.netlify/
+*.tgz
+*.tar.gz
+*.zip
+
+# Webpack
+.webpack/
+webpack-stats.json
+
+# Vite
+dist/
+dist-ssr/
+*.local
+
+# ===================================================================
+# CACHE & TEMPORARY FILES
+# ===================================================================
+.cache/
+.parcel-cache/
+.tmp/
+.temp/
+*.tmp
+*.temp
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ===================================================================
+# LOGS & MONITORING
+# ===================================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime logs
+*.log
+frontend.log
+backend.log
+dev-*.log
+server.log
+
+# ===================================================================
+# DATABASES & DATA
+# ===================================================================
+*.db
+*.sqlite
+*.sqlite3
+.db/
+/db/
+database.json
+
+# MongoDB
+.mongodb/
+
+# Redis
+*.rdb
+
+# ===================================================================
+# DEVELOPMENT TOOLS & EDITORS
+# ===================================================================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Vim
+.vim/
+*.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+# ===================================================================
+# TESTING & COVERAGE
+# ===================================================================
+coverage/
+.nyc_output/
+junit.xml
+test-results/
+.coverage
+htmlcov/
+.pytest_cache/
+.jest/
+
+# ===================================================================
+# DEPLOYMENT & INFRASTRUCTURE
+# ===================================================================
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.tfvars
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+.docker/
+
+# Kubernetes
+*.kubeconfig
+kube-config
+
+# ===================================================================
+# NEXT.JS SPECIFIC
+# ===================================================================
+/.next/
+/out/
+next-env.d.ts
+.next
+out
+
+# ===================================================================
+# AMPLIFY & AWS
+# ===================================================================
+amplify/
+#amplify-do-not-edit-begin
+amplify/\#current-cloud-backend
+amplify/.config/local-*
+amplify/logs
+amplify/mock-data
+amplify/mock-api-resources
+amplify/backend/amplify-meta.json
+amplify/backend/.temp
+build/
+dist/
+node_modules/
+aws-exports.js
+awsconfiguration.json
+amplifyconfiguration.json
+amplifyconfiguration.dart
+amplify-build-config.json
+amplify-gradle-config.json
+amplifytools.xcconfig
+.secret-*
+**.sample
+#amplify-do-not-edit-end
+
+# ===================================================================
+# PERFORMANCE & OPTIMIZATION
+# ===================================================================
+.lighthouse/
+bundle-analyzer-report.html
+webpack-bundle-analyzer-report.html
+.bundle-analyzer/
+
+# ===================================================================
+# MISCELLANEOUS
+# ===================================================================
+.eslintcache
+.stylelintcache
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Serverless directories
+.serverless/
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
+
+# Temporary folders
+tmp/
+temp/
+
+# ===================================================================
+# ENTERPRISE COMPLIANCE & AUDIT
+# ===================================================================
+audit-log.json
+compliance-report.*
+security-scan.*
+vulnerability-report.*
