@@ -15,7 +15,7 @@ const SalesProgressBar: React.FC<SalesProgressBarProps> = ({ currentStage, stage
   return (
     <div className="w-full py-4">
       <div className="flex items-center">
-        {stages.map((stageindex: any) => (
+        {stages.map((stage: any, index: number) => (
           <React.Fragment key={stage.id}>
             {/* Stage Indicator */}
             <div className="relative flex flex-col items-center">
@@ -44,7 +44,7 @@ const SalesProgressBar: React.FC<SalesProgressBarProps> = ({ currentStage, stage
             </div>
 
             {/* Connecting Line (except after the last stage) */}
-            {index <stages.length - 1 && (
+            {index < stages.length - 1 && (
               <div 
                 className={`flex-1 h-1 mx-2 ${
                   stages[index + 1].completed || stages[index].completed

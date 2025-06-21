@@ -16,8 +16,7 @@ export interface RenderTiming {
   endTime: number;
   duration: number;
   isRerender: boolean;
-  props?: Record<string, any>
-  );
+  props?: Record<string, any>;
 }
 
 export interface ApiCallTiming {
@@ -137,8 +136,7 @@ export interface PerformanceMonitorOptions {
   /**
    * Headers to include when sending metrics to endpoint
    */
-  metricsHeaders?: Record<string, string>
-  );
+  metricsHeaders?: Record<string, string>;
   /**
    * Batch size for data collection before processing
    */
@@ -215,8 +213,7 @@ export class PerformanceMonitor {
   private static instance: PerformanceMonitor;
 
   // Configuration options
-  private options: Required<PerformanceMonitorOptions>
-  );
+  private options: Required<PerformanceMonitorOptions>;
   // Performance data storage
   private renderTimings: RenderTiming[] = [];
   private apiTimings: ApiCallTiming[] = [];
@@ -330,7 +327,7 @@ export class PerformanceMonitor {
     // Log initialization time if logging is enabled
     if (this.options.enableLogging) {
       const initTime = performance.now() - initStartTime;
-      }ms`);
+      console.log(`%cPerformance Monitor initialized in ${initTime.toFixed(1)}ms`, 'color: #6200ee; font-weight: bold;');
     }
   }
 
@@ -381,7 +378,7 @@ export class PerformanceMonitor {
 
     // TODO: Store interaction metrics for analysis
     if (this.options.enableLogging) {
-      }ms`);
+      console.log(`%cInteraction tracked: ${interactionType} on ${targetType} at ${timestamp.toFixed(1)}ms`, 'color: #6200ee; font-weight: bold;');
     }
   }
 
@@ -393,14 +390,14 @@ export class PerformanceMonitor {
       // Track online/offline status
       window.addEventListener('online', () => {
         if (this.options.enableLogging) {
-
+          console.log('%cNetwork connection restored', 'color: #6200ee; font-weight: bold;');
         }
         // TODO: Store network connectivity changes
       });
 
       window.addEventListener('offline', () => {
         if (this.options.enableLogging) {
-
+          console.log('%cNetwork connection lost', 'color: #6200ee; font-weight: bold;');
         }
         // TODO: Store network connectivity changes
       });
@@ -419,7 +416,7 @@ export class PerformanceMonitor {
             };
 
             if (this.options.enableLogging) {
-
+              console.log('%cNetwork connection changed', info, 'color: #6200ee; font-weight: bold;');
             }
 
             // TODO: Store network condition changes
@@ -427,7 +424,7 @@ export class PerformanceMonitor {
         }
       }
     } catch (error) {
-
+      console.warn('Network monitoring initialization failed:', error);
     }
   }
 
@@ -457,7 +454,7 @@ export class PerformanceMonitor {
       }
     } catch (error) {
       // React Query monitoring is optional, so just log a warning
-
+      console.warn('React Query monitoring initialization failed:', error);
     }
   }
 
@@ -478,12 +475,12 @@ export class PerformanceMonitor {
           getMetrics: () => this.generateReport(),
           onAlert: (alert: any) => {
             // Handle security-related performance alert
-
+            console.warn('Security performance alert:', alert);
           }
         });
       }
     } catch (error) {
-
+      console.warn('Security integration initialization failed:', error);
     }
   }
 
@@ -556,7 +553,7 @@ export class PerformanceMonitor {
           }
         }).observe({ type: 'layout-shift', buffered: true });
       } catch (e) {
-
+        console.warn('Web vitals monitoring initialization failed:', e);
       }
     }
   }
@@ -583,7 +580,7 @@ export class PerformanceMonitor {
         }, 3000);
       }
     } catch (e) {
-
+      console.warn('Resource timing initialization failed:', e);
     }
   }
 
@@ -592,7 +589,7 @@ export class PerformanceMonitor {
    */
   private processResourceEntries(entries: PerformanceEntryList): void {
     for (const entry of entries) {
-      if (this.resourceTimings.length>= this.options.maxEntries) {
+      if (this.resourceTimings.length >= this.options.maxEntries) {
         // Remove oldest entry
         this.resourceTimings.shift();
       }
@@ -608,7 +605,7 @@ export class PerformanceMonitor {
       });
 
       // Log slow resource loads
-      if (resource.duration> this.options.slowApiThreshold &&
+      if (resource.duration > this.options.slowApiThreshold &&
         resource.initiatorType !== 'img' && // Skip slow images
         !resource.name.includes('font')) {  // Skip slow fonts
         this.logMetric(
@@ -654,7 +651,7 @@ export class PerformanceMonitor {
 
         // Log memory warnings if we're using more than 80% of available heap
         if (this.memoryStats.memoryUsage! > 0.8 && this.options.enableLogging) {
-          .toFixed(1)}% of JS heap size limit`);
+          console.warn(`%cHigh memory usage: ${(this.memoryStats.memoryUsage! * 100).toFixed(1)}% of JS heap size limit`, 'color: #f44336; font-weight: bold;');
         }
       }
     };
@@ -662,7 +659,7 @@ export class PerformanceMonitor {
     // Check memory usage periodically
     if ((performance as any).memory) {
       updateMemoryStats(); // Initial check
-      setInterval(updateMemoryStats10000); // Check every 10 seconds
+      setInterval(updateMemoryStats, 10000); // Check every 10 seconds
     }
   }
 
@@ -680,29 +677,29 @@ export class PerformanceMonitor {
       const elapsed = now - lastTime;
 
       // Only record if it's been at least 10ms (adjust for reasonable precision)
-      if (elapsed>= 10) {
+      if (elapsed >= 10) {
         // Record the lag (elapsed time minus expected time)
         const expectedTime = 5; // We expect the callback to fire every ~5ms
         const lag = elapsed - expectedTime;
 
         // Keep the number of samples limited
-        if (this.eventLoopSamples.length>= 100) {
+        if (this.eventLoopSamples.length >= 100) {
           this.eventLoopSamples.shift();
         }
 
         this.eventLoopSamples.push(lag);
 
         // Log severe lags
-        if (lag> 100 && this.options.enableLogging) {
-          }ms`);
+        if (lag > 100 && this.options.enableLogging) {
+          console.warn(`%cSevere event loop lag detected: ${lag.toFixed(1)}ms`, 'color: #f44336; font-weight: bold;');
         }
       }
 
       lastTime = now;
-      this.eventLoopTimer = setTimeout(checkEventLoop5);
+      this.eventLoopTimer = setTimeout(checkEventLoop, 5);
     };
 
-    this.eventLoopTimer = setTimeout(checkEventLoop5);
+    this.eventLoopTimer = setTimeout(checkEventLoop, 5);
   }
 
   /**
@@ -733,7 +730,7 @@ export class PerformanceMonitor {
       try {
         this.options.reportMetrics(report);
       } catch (e) {
-
+        console.warn('Error reporting metrics:', e);
       }
     }
 
@@ -742,7 +739,7 @@ export class PerformanceMonitor {
       try {
         observer(report);
       } catch (e) {
-
+        console.warn('Error notifying observer:', e);
       }
     });
   }
@@ -782,8 +779,8 @@ export class PerformanceMonitor {
 
     for (const sample of this.eventLoopSamples) {
       sum += sample;
-      if (sample <min) min = sample;
-      if (sample> max) max = sample;
+      if (sample < min) min = sample;
+      if (sample > max) max = sample;
     }
 
     return {
@@ -805,7 +802,7 @@ export class PerformanceMonitor {
     const timingIndex = this.renderTimings.length;
 
     // Ensure we don't exceed the maximum number of entries
-    if (timingIndex>= this.options.maxEntries) {
+    if (timingIndex >= this.options.maxEntries) {
       // Remove oldest entry
       this.renderTimings.shift();
     }
@@ -826,8 +823,8 @@ export class PerformanceMonitor {
    * End timing a component render
    */
   public endRenderTiming(timingIndex: number): number {
-    if (timingIndex <0 || timingIndex>= this.renderTimings.length) {
-
+    if (timingIndex < 0 || timingIndex >= this.renderTimings.length) {
+      console.warn('Invalid timing index:', timingIndex);
       return -1;
     }
 
@@ -839,7 +836,7 @@ export class PerformanceMonitor {
     timing.duration = duration;
 
     // Log slow renders if enabled
-    if (this.options.enableLogging && duration> this.options.slowRenderThreshold) {
+    if (this.options.enableLogging && duration > this.options.slowRenderThreshold) {
       this.logMetric(
         `Slow render: ${timing.componentName}`,
         duration,
@@ -862,13 +859,13 @@ export class PerformanceMonitor {
     size?: number
   ): void {
     // Ensure we don't exceed the maximum number of entries
-    if (this.apiTimings.length>= this.options.maxEntries) {
+    if (this.apiTimings.length >= this.options.maxEntries) {
       // Remove oldest entry
       this.apiTimings.shift();
     }
 
     const duration = endTime - startTime;
-    const success = status>= 200 && status <300;
+    const success = status >= 200 && status < 300;
 
     this.apiTimings.push({
       url,
@@ -882,7 +879,7 @@ export class PerformanceMonitor {
     });
 
     // Log slow API calls if enabled
-    if (this.options.enableLogging && duration> this.options.slowApiThreshold) {
+    if (this.options.enableLogging && duration > this.options.slowApiThreshold) {
       this.logMetric(
         `Slow API call: ${method} ${url}`,
         duration,
@@ -898,9 +895,9 @@ export class PerformanceMonitor {
     if (!this.options.enableLogging) return;
 
     if (context) {
-      }ms - ${context}`, 'color: #6200ee; font-weight: bold;');
+      console.log(`%c${label}: ${value.toFixed(1)}ms - ${context}`, 'color: #6200ee; font-weight: bold;');
     } else {
-      }ms`, 'color: #6200ee; font-weight: bold;');
+      console.log(`%c${label}: ${value.toFixed(1)}ms`, 'color: #6200ee; font-weight: bold;');
     }
   }
 
@@ -1002,11 +999,11 @@ export function withPerformanceMonitoring<P extends object>(
     renderCount.current++;
 
     // Check if this is a re-render
-    const isRerender = renderCount.current> 1;
+    const isRerender = renderCount.current > 1;
 
     // Skip if we're not tracking re-renders and this is a re-render
     if (isRerender && !trackReRenders) {
-      return <Component {...props} />\n  );
+      return <Component {...props} />;
     }
 
     // Start timing
@@ -1032,7 +1029,7 @@ export function withPerformanceMonitoring<P extends object>(
       };
     });
 
-    return <Component {...props} />\n  );
+    return <Component {...props} />;
   };
 
   MonitoredComponent.displayName = `WithPerformance(${name})`;
@@ -1072,7 +1069,7 @@ export function usePerformanceMonitoring(
   // Measure render function
   const measureRender = () => {
     // Skip if we're not tracking re-renders and this is a re-render
-    if (renderCount.current> 1 && !trackReRenders) {
+    if (renderCount.current > 1 && !trackReRenders) {
       return;
     }
 
@@ -1084,7 +1081,7 @@ export function usePerformanceMonitoring(
     // Start timing
     timingRef.current = performanceMonitor.startRenderTiming(
       componentName,
-      renderCount.current> 1,
+      renderCount.current > 1,
       propsRef.current
     );
 
@@ -1146,7 +1143,7 @@ export const ApiPerformance = {
 
       try {
         // Use originalFetch with the same parameters
-        const response = await originalFetch(inputinit);
+        const response = await originalFetch(input, init);
         const endTime = performance.now();
 
         // Track successful API call
@@ -1207,7 +1204,7 @@ export const ApiPerformance = {
       const urlString = url instanceof Request ? url.url : url;
       const username = args[0];
       const password = args[1];
-      return originalOpen.call(this, methodurlStringtrueusernamepassword);
+      return originalOpen.call(this, method, urlString, true, username, password);
     };
 
     XMLHttpRequest.prototype.send = function (body?: Document | XMLHttpRequestBodyInit | null) {
@@ -1250,7 +1247,7 @@ export const ApiPerformance = {
     const startTime = performance.now();
     const method = options?.method || 'GET';
 
-    return fetch(urloptions)
+    return fetch(url, options)
       .then(async response => {
         const endTime = performance.now();
 
@@ -1298,8 +1295,8 @@ export function PerformanceDashboard({
 }: {
   expanded?: boolean;
 }): JSX.Element {
-  const [isExpandedsetIsExpanded] = useState(expanded);
-  const [metricssetMetrics] = useState<PerformanceReport | null>(null);
+  const [isExpanded, setIsExpanded] = useState(expanded);
+  const [metrics, setMetrics] = useState<PerformanceReport | null>(null);
 
   // Update metrics when the dashboard renders or is expanded
   useEffect(() => {
@@ -1314,7 +1311,7 @@ export function PerformanceDashboard({
     updateMetrics();
 
     // Set up periodic updates
-    const interval = setInterval(updateMetrics2000);
+    const interval = setInterval(updateMetrics, 2000);
 
     return () => {
       unsubscribe();
@@ -1323,14 +1320,14 @@ export function PerformanceDashboard({
   }, []);
 
   if (!metrics) {
-    return <div>Loading performance metrics...</div>\n  );
+    return <div>Loading performance metrics...</div>;
   }
 
   const toggleExpanded = () => setIsExpanded(!isExpanded);
 
   return (
     <div
-      style={
+      style={{
         position: 'fixed',
         bottom: 0,
         right: 0,
@@ -1345,16 +1342,16 @@ export function PerformanceDashboard({
         transition: 'all 0.3s ease',
         fontSize: '12px',
         fontFamily: 'monospace'
-      }
+      }}
     >
       <div
-        style={
+        style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           cursor: 'pointer',
           padding: '4px'
-        }
+        }}
         onClick={toggleExpanded}
       >
         <strong>Performance Metrics</strong>
@@ -1362,59 +1359,60 @@ export function PerformanceDashboard({
       </div>
 
       {isExpanded && (
-        <div style={ marginTop: '8px' }>
-          <div style={ marginBottom: '12px' }>
-            <h4 style={ margin: '0 0 4px 0' }>Web Vitals</h4>
-            <div style={ display: 'flex', flexWrap: 'wrap', gap: '8px' }>
+        <div style={{ marginTop: '8px' }}>
+          <div style={{ marginBottom: '12px' }}>
+            <h4 style={{ margin: '0 0 4px 0' }}>Web Vitals</h4>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {metrics.webVitals.fcp !== undefined && (
-                <span style={ background: '#e3f2fd', padding: '4px', borderRadius: '2px' }>
+                <span style={{ background: '#e3f2fd', padding: '4px', borderRadius: '2px' }}>
                   FCP: {metrics.webVitals.fcp.toFixed(0)}ms
                 </span>
               )}
               {metrics.webVitals.lcp !== undefined && (
-                <span style={ background: '#e8f5e9', padding: '4px', borderRadius: '2px' }>
+                <span style={{ background: '#e8f5e9', padding: '4px', borderRadius: '2px' }}>
                   LCP: {metrics.webVitals.lcp.toFixed(0)}ms
                 </span>
               )}
               {metrics.webVitals.fid !== undefined && (
-                <span style={ background: '#fff3e0', padding: '4px', borderRadius: '2px' }>
+                <span style={{ background: '#fff3e0', padding: '4px', borderRadius: '2px' }}>
                   FID: {metrics.webVitals.fid.toFixed(0)}ms
                 </span>
               )}
               {metrics.webVitals.cls !== undefined && (
-                <span style={ background: '#fce4ec', padding: '4px', borderRadius: '2px' }>
+                <span style={{ background: '#fce4ec', padding: '4px', borderRadius: '2px' }}>
                   CLS: {metrics.webVitals.cls.toFixed(3)}
                 </span>
               )}
             </div>
           </div>
 
-          <div style={ marginBottom: '12px' }>
-            <h4 style={ margin: '0 0 4px 0' }>Memory</h4>
+          <div style={{ marginBottom: '12px' }}>
+            <h4 style={{ margin: '0 0 4px 0' }}>Memory</h4>
             {metrics.memoryStats.usedJSHeapSize !== undefined && (
               <div>
                 Used: {(metrics.memoryStats.usedJSHeapSize / (1024 * 1024)).toFixed(1)} MB /
                 {(metrics.memoryStats.jsHeapSizeLimit! / (1024 * 1024)).toFixed(1)} MB
                 {metrics.memoryStats.memoryUsage !== undefined && (
                   <div
-                    style={
+                    style={{
                       width: '100%',
                       height: '6px',
                       background: '#eee',
                       marginTop: '4px',
                       borderRadius: '3px',
                       overflow: 'hidden'
-                    }
+                    }}
                   >
                     <div
-                      style={
+                      style={{
                         width: `${metrics.memoryStats.memoryUsage * 100}%`,
                         height: '100%',
-                        background: metrics.memoryStats.memoryUsage> 0.8
+                        background: metrics.memoryStats.memoryUsage > 0.8
                           ? '#f44336'
-                          : metrics.memoryStats.memoryUsage> 0.6
+                          : metrics.memoryStats.memoryUsage > 0.6
                             ? '#ff9800'
-                            : '#4caf50'}
+                            : '#4caf50'
+                      }}
                     ></div>
                   </div>
                 )}
@@ -1422,28 +1420,28 @@ export function PerformanceDashboard({
             )}
           </div>
 
-          <div style={ marginBottom: '12px' }>
-            <h4 style={ margin: '0 0 4px 0' }>Slow Renders</h4>
-            {metrics.renderTimings.filter(t => t.duration> 16).length> 0 ? (
-              <table style={ width: '100%', borderCollapse: 'collapse' }>
+          <div style={{ marginBottom: '12px' }}>
+            <h4 style={{ margin: '0 0 4px 0' }}>Slow Renders</h4>
+            {metrics.renderTimings.filter(t => t.duration > 16).length > 0 ? (
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    <th style={ textAlign: 'left', padding: '2px 4px' }>Component</th>
-                    <th style={ textAlign: 'right', padding: '2px 4px' }>Duration</th>
-                    <th style={ textAlign: 'center', padding: '2px 4px' }>Type</th>
+                    <th style={{ textAlign: 'left', padding: '2px 4px' }}>Component</th>
+                    <th style={{ textAlign: 'right', padding: '2px 4px' }}>Duration</th>
+                    <th style={{ textAlign: 'center', padding: '2px 4px' }}>Type</th>
                   </tr>
                 </thead>
                 <tbody>
                   {metrics.renderTimings
-                    .filter(t => t.duration> 16)
+                    .filter(t => t.duration > 16)
                     .slice(-5)
-                    .map((timingindex: any) => (
-                      <tr key={index} style={ borderBottom: '1px solid #eee' }>
-                        <td style={ padding: '2px 4px' }>{timing.componentName}</td>
-                        <td style={ textAlign: 'right', padding: '2px 4px' }>
+                    .map((timing, index: any) => (
+                      <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+                        <td style={{ padding: '2px 4px' }}>{timing.componentName}</td>
+                        <td style={{ textAlign: 'right', padding: '2px 4px' }}>
                           {timing.duration.toFixed(1)}ms
                         </td>
-                        <td style={ textAlign: 'center', padding: '2px 4px' }>
+                        <td style={{ textAlign: 'center', padding: '2px 4px' }}>
                           {timing.isRerender ? 'Re-render' : 'Initial'}
                         </td>
                       </tr>
@@ -1456,35 +1454,35 @@ export function PerformanceDashboard({
           </div>
 
           <div>
-            <h4 style={ margin: '0 0 4px 0' }>Slow API Calls</h4>
-            {metrics.apiTimings.filter(t => t.duration> 500).length> 0 ? (
-              <table style={ width: '100%', borderCollapse: 'collapse' }>
+            <h4 style={{ margin: '0 0 4px 0' }}>Slow API Calls</h4>
+            {metrics.apiTimings.filter(t => t.duration > 500).length > 0 ? (
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    <th style={ textAlign: 'left', padding: '2px 4px' }>URL</th>
-                    <th style={ textAlign: 'right', padding: '2px 4px' }>Duration</th>
-                    <th style={ textAlign: 'center', padding: '2px 4px' }>Status</th>
+                    <th style={{ textAlign: 'left', padding: '2px 4px' }}>URL</th>
+                    <th style={{ textAlign: 'right', padding: '2px 4px' }}>Duration</th>
+                    <th style={{ textAlign: 'center', padding: '2px 4px' }}>Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {metrics.apiTimings
-                    .filter(t => t.duration> 500)
+                    .filter(t => t.duration > 500)
                     .slice(-5)
-                    .map((timingindex: any) => (
-                      <tr key={index} style={ borderBottom: '1px solid #eee' }>
-                        <td style={ padding: '2px 4px' }>
-                          {timing.method} {timing.url.split('?')[0].substring(030)}
-                          {timing.url.split('?')[0].length> 30 ? '...' : ''}
+                    .map((timing, index: any) => (
+                      <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+                        <td style={{ padding: '2px 4px' }}>
+                          {timing.method} {timing.url.split('?')[0].substring(0, 30)}
+                          {timing.url.split('?')[0].length > 30 ? '...' : ''}
                         </td>
-                        <td style={ textAlign: 'right', padding: '2px 4px' }>
+                        <td style={{ textAlign: 'right', padding: '2px 4px' }}>
                           {timing.duration.toFixed(0)}ms
                         </td>
                         <td
-                          style={
+                          style={{
                             textAlign: 'center',
                             padding: '2px 4px',
                             color: timing.success ? '#4caf50' : '#f44336'
-                          }
+                          }}
                         >
                           {timing.status}
                         </td>

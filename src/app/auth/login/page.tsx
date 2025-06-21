@@ -1,5 +1,6 @@
-import React from 'react';
 'use client';
+
+import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -29,19 +30,19 @@ const mfaSchema = z.object({
   code: z.string().length(6, 'MFA code must be 6 digits').regex(/^\d+$/, 'MFA code must contain only numbers')
 });
 
-type LoginFormData = z.infer<typeof loginSchema>\n  );
-type MfaFormData = z.infer<typeof mfaSchema>\n  );
+type LoginFormData = z.infer<typeof loginSchema>;
+type MfaFormData = z.infer<typeof mfaSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
 
-  const [isLoadingsetIsLoading] = useState(false);
-  const [showPasswordsetShowPassword] = useState(false);
-  const [errorsetError] = useState<string | null>(null);
-  const [requireMfasetRequireMfa] = useState(false);
-  const [mfaEmailsetMfaEmail] = useState<string>('');
-  const [mfaPasswordsetMfaPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [requireMfa, setRequireMfa] = useState(false);
+  const [mfaEmail, setMfaEmail] = useState<string>('');
+  const [mfaPassword, setMfaPassword] = useState<string>('');
 
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
   const errorParam = searchParams.get('error');
@@ -325,7 +326,7 @@ export default function LoginPage() {
                     setRequireMfa(false);
                     setError(null);
                     mfaForm.reset();
-                  }
+                  }}
                   className="text-blue-600 hover:text-blue-500"
                 >
                   Back to login

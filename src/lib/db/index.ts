@@ -36,8 +36,8 @@ if (typeof window === 'undefined') {
     // Apply migrations
     migrationManager.runMigrations()
       .then(appliedMigrations => {
-        if (appliedMigrations.length> 0) {
-          }`);
+        if (appliedMigrations.length > 0) {
+          console.log(`Applied ${appliedMigrations.length} database migrations`);
         }
 
         // Only generate seed data in development environment
@@ -46,10 +46,10 @@ if (typeof window === 'undefined') {
         }
       })
       .catch(error => {
-
+        console.error('Migration error:', error);
       });
   }).catch(error => {
-
+    console.error('Failed to initialize database migrations:', error);
   });
 }
 

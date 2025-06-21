@@ -30,10 +30,8 @@ interface RealtimeState {
   connected: boolean;
   connecting: boolean;
   error: string | null;
-  rooms: Map<string, RealtimeRoom>
-  );
-  presence: Map<string, any>
-  );
+  rooms: Map<string, RealtimeRoom>;
+  presence: Map<string, any>;
 }
 
 export function useRealtime(config: RealtimeConfig = {}) {

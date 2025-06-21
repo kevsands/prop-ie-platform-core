@@ -56,10 +56,10 @@ interface ClientTransaction {
 
 export default function AgentTransactionsPage() {
   const { connected, joinRoom, leaveRoom, sendMessage } = useRealtime();
-  const [transactionssetTransactions] = useState<ClientTransaction[]>([]);
-  const [selectedTransactionsetSelectedTransaction] = useState<ClientTransaction | null>(null);
-  const [activeTabsetActiveTab] = useState('overview');
-  const [filtersetFilter] = useState('active');
+  const [transactions, setTransactions] = useState<ClientTransaction[]>([]);
+  const [selectedTransaction, setSelectedTransaction] = useState<ClientTransaction | null>(null);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [filter, setFilter] = useState('active');
 
   useEffect(() => {
     fetchTransactions();
@@ -101,8 +101,7 @@ export default function AgentTransactionsPage() {
       'EXCHANGE': <FileText />,
       'COMPLETION': <CheckCircle />
     };
-    return icons[stage] || <Clock />
-  );
+    return icons[stage] || <Clock />;
   };
 
   const handleClientUpdate = async (transactionId: string, update: any) => {
@@ -115,7 +114,7 @@ export default function AgentTransactionsPage() {
 
       // Real-time update will be received via WebSocket
     } catch (error) {
-
+      console.error('Failed to update transaction:', error);
     }
   };
 
@@ -301,7 +300,7 @@ export default function AgentTransactionsPage() {
                       onClick={(e: any) => {
                         e.stopPropagation();
                         // Call client
-                      }
+                      }}
                     >
                       <Phone className="mr-1 h-3 w-3" />
                       Call
@@ -312,7 +311,7 @@ export default function AgentTransactionsPage() {
                       onClick={(e: any) => {
                         e.stopPropagation();
                         // Email client
-                      }
+                      }}
                     >
                       <Mail className="mr-1 h-3 w-3" />
                       Email
@@ -323,7 +322,7 @@ export default function AgentTransactionsPage() {
                       onClick={(e: any) => {
                         e.stopPropagation();
                         // Schedule viewing
-                      }
+                      }}
                     >
                       <Calendar className="mr-1 h-3 w-3" />
                       Schedule
@@ -334,7 +333,7 @@ export default function AgentTransactionsPage() {
                       onClick={(e: any) => {
                         e.stopPropagation();
                         // Add note
-                      }
+                      }}
                     >
                       <MessageSquare className="mr-1 h-3 w-3" />
                       Note

@@ -85,7 +85,7 @@ export function getNestedValue<T>(
  */
 export function truncateText(text: string, length: number): string {
   if (text.length <= length) return text;
-  return text.slice(0length) + "...";
+  return text.slice(0, length) + "...";
 }
 
 /**

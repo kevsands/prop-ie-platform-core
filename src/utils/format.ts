@@ -142,5 +142,5 @@ export function truncateString(str: string, maxLength: number = 100): string {
     return str || '';
   }
 
-  return str.substring(0maxLength) + '...';
+  return str.substring(0, maxLength) + '...';
 }

@@ -4,412 +4,893 @@
 
    ▲ Next.js 15.3.1
    - Local:        http://localhost:3000
-   - Network:      http://192.168.0.41:3000
+   - Network:      http://192.168.0.44:3000
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 1788ms
- ○ Compiling /api/health ...
- ✓ Compiled /api/health in 767ms (361 modules)
- GET /api/health 200 in 976ms
- GET /api/health 200 in 975ms
- GET /api/health 200 in 973ms
- GET /api/health 200 in 972ms
- GET /api/health 200 in 978ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 35ms
- ✓ Compiled /middleware in 224ms (108 modules)
- ○ Compiling / ...
- ✓ Compiled / in 5.6s (2635 modules)
- GET /api/health 200 in 881ms
- GET /api/health 200 in 854ms
- GET /api/health 200 in 836ms
- GET /api/health 200 in 814ms
- GET /api/health 200 in 911ms
- ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
- GET / 200 in 5916ms
- ✓ Compiled /favicon.ico in 151ms (1367 modules)
- GET /favicon.ico 200 in 215ms
- GET /api/health 200 in 21ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 50ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 48ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 26ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 25ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 26ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 24ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 52ms
- GET /api/health 200 in 52ms
- GET /api/health 200 in 52ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 53ms
- GET /api/health 200 in 53ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 48ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 48ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 50ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 24ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 27ms
- GET /api/health 200 in 25ms
- GET /api/health 200 in 23ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 48ms
- GET /api/health 200 in 48ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 21ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 27ms
- GET /api/health 200 in 25ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 50ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 21ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 25ms
- GET /api/health 200 in 25ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 52ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 53ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 27ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 51ms
- GET /api/health 200 in 48ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 49ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 47ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 26ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 32ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 61ms
- GET /api/health 200 in 60ms
- GET /api/health 200 in 59ms
- GET /api/health 200 in 58ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 85ms
- GET /api/health 200 in 86ms
- GET /api/health 200 in 83ms
- GET /api/health 200 in 83ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 45ms
- GET /api/health 200 in 44ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 21ms
- GET /api/health 200 in 29ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 46ms
- GET /api/health 200 in 22ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 27ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 43ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 35ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 42ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 37ms
- GET /api/health 200 in 28ms
- GET /api/health 200 in 33ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 31ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 40ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 41ms
- GET /api/health 200 in 30ms
- GET /api/health 200 in 38ms
- GET /api/health 200 in 39ms
- GET /api/health 200 in 36ms
- GET /api/health 200 in 34ms
- GET /api/health 200 in 19ms
- GET /api/health 200 in 27ms
- GET /api/health 200 in 26ms
- GET /api/health 200 in 25ms
- GET /api/health 200 in 25ms
+ ✓ Ready in 1972ms
+ ✓ Compiled /middleware in 327ms (153 modules)
+ ○ Compiling /api/auth/register ...
+ ✓ Compiled /api/auth/register in 837ms (415 modules)
+prisma:query SELECT "public"."User"."id", "public"."User"."email", "public"."User"."firstName", "public"."User"."lastName", "public"."User"."phone", "public"."User"."password", "public"."User"."roles"::text[], "public"."User"."status"::text, "public"."User"."kycStatus"::text, "public"."User"."organization", "public"."User"."position", "public"."User"."avatar", "public"."User"."preferences", "public"."User"."created", "public"."User"."lastActive", "public"."User"."lastLogin", "public"."User"."metadata", "public"."User"."locationId" FROM "public"."User" WHERE ("public"."User"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+prisma:query INSERT INTO "public"."User" ("id","email","firstName","lastName","phone","password","roles","status","kycStatus","organization","position","preferences","created","lastActive") VALUES ($1,$2,$3,$4,$5,$6,CAST($7::text[] AS "public"."UserRole"[]),CAST($8::text AS "public"."UserStatus"),CAST($9::text AS "public"."KYCStatus"),$10,$11,$12,$13,$14) RETURNING "public"."User"."id", "public"."User"."email", "public"."User"."firstName", "public"."User"."lastName", "public"."User"."phone", "public"."User"."password", "public"."User"."roles"::text[], "public"."User"."status"::text, "public"."User"."kycStatus"::text, "public"."User"."organization", "public"."User"."position", "public"."User"."avatar", "public"."User"."preferences", "public"."User"."created", "public"."User"."lastActive", "public"."User"."lastLogin", "public"."User"."metadata", "public"."User"."locationId"
+prisma:query INSERT INTO "public"."AuthLog" ("id","eventType","userId","email","metadata","timestamp") VALUES ($1,$2,$3,$4,$5,$6) RETURNING "public"."AuthLog"."id", "public"."AuthLog"."eventType", "public"."AuthLog"."userId", "public"."AuthLog"."email", "public"."AuthLog"."ipAddress", "public"."AuthLog"."userAgent", "public"."AuthLog"."metadata", "public"."AuthLog"."timestamp"
+ POST /api/auth/register 201 in 1507ms
+ ⨯ ./src/app/api/developments/route.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/developments/route.ts[0m:207:1]
+ [2m204[0m | }
+ [2m205[0m | 
+ [2m206[0m | // Helper async function toprisma.development.findUnique({
+ [2m207[0m |       where: { id },
+     : [35;1m                   ^[0m
+ [2m208[0m |       include: {
+ [2m209[0m |         location: true,
+ [2m210[0m |         developer: {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/developments/route.ts
+ ○ Compiling /_not-found ...
+ ⨯ ./src/app/api/developments/route.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/developments/route.ts[0m:207:1]
+ [2m204[0m | }
+ [2m205[0m | 
+ [2m206[0m | // Helper async function toprisma.development.findUnique({
+ [2m207[0m |       where: { id },
+     : [35;1m                   ^[0m
+ [2m208[0m |       include: {
+ [2m209[0m |         location: true,
+ [2m210[0m |         developer: {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/developments/route.ts
+ ⨯ ./src/app/api/developments/route.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/developments/route.ts[0m:207:1]
+ [2m204[0m | }
+ [2m205[0m | 
+ [2m206[0m | // Helper async function toprisma.development.findUnique({
+ [2m207[0m |       where: { id },
+     : [35;1m                   ^[0m
+ [2m208[0m |       include: {
+ [2m209[0m |         location: true,
+ [2m210[0m |         developer: {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 10906ms
+ ✓ Compiled /_error in 588ms (1636 modules)
+ ✓ Compiled in 413ms (1581 modules)
+ ○ Compiling /api/developments ...
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ')'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:199:1]
+ [2m196[0m |           roles: user.roles || ['BUYER'],
+ [2m197[0m |           mfaEnabled: user.mfaSettings?.enabled || false
+ [2m198[0m |         };
+ [2m199[0m |       }),
+     : [35;1m       ^[0m
+ [2m200[0m |     GoogleProvider({
+ [2m201[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m202[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ')'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:199:1]
+ [2m196[0m |           roles: user.roles || ['BUYER'],
+ [2m197[0m |           mfaEnabled: user.mfaSettings?.enabled || false
+ [2m198[0m |         };
+ [2m199[0m |       }),
+     : [35;1m       ^[0m
+ [2m200[0m |     GoogleProvider({
+ [2m201[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m202[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ')'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:199:1]
+ [2m196[0m |           roles: user.roles || ['BUYER'],
+ [2m197[0m |           mfaEnabled: user.mfaSettings?.enabled || false
+ [2m198[0m |         };
+ [2m199[0m |       }),
+     : [35;1m       ^[0m
+ [2m200[0m |     GoogleProvider({
+ [2m201[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m202[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 1250ms
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ')'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:199:1]
+ [2m196[0m |           roles: user.roles || ['BUYER'],
+ [2m197[0m |           mfaEnabled: user.mfaSettings?.enabled || false
+ [2m198[0m |         };
+ [2m199[0m |       }),
+     : [35;1m       ^[0m
+ [2m200[0m |     GoogleProvider({
+ [2m201[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m202[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 28ms
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ';'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:357:1]
+ [2m354[0m |     verifyRequest: "/auth/verify-request",
+ [2m355[0m |     newUser: "/auth/new-user"
+ [2m356[0m |   },
+ [2m357[0m |   secret: process.env.NEXTAUTH_SECRET};
+     : [35;1m                                      ^[0m
+ [2m358[0m | 
+ [2m359[0m | // Create access token
+ [2m360[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 22ms
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ';'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:358:1]
+ [2m355[0m |     newUser: "/auth/new-user"
+ [2m356[0m |   },
+ [2m357[0m |   secret: process.env.NEXTAUTH_SECRET
+ [2m358[0m | };
+     : [35;1m ^[0m
+ [2m359[0m | 
+ [2m360[0m | // Create access token
+ [2m361[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 23ms
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ';'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:359:1]
+ [2m356[0m |     newUser: "/auth/new-user"
+ [2m357[0m |   },
+ [2m358[0m |   secret: process.env.NEXTAUTH_SECRET
+ [2m359[0m | };
+     : [35;1m ^[0m
+ [2m360[0m | 
+ [2m361[0m | // Create access token
+ [2m362[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 32ms
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got ';'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:360:1]
+ [2m357[0m |     newUser: "/auth/new-user"
+ [2m358[0m |   },
+ [2m359[0m |   secret: process.env.NEXTAUTH_SECRET
+ [2m360[0m | };
+     : [35;1m ^[0m
+ [2m361[0m | 
+ [2m362[0m | // Create access token
+ [2m363[0m | export function createAccessToken(userId: string, email: string, roles: string[]) {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 27ms
+ ✓ Compiled /_error in 650ms (1636 modules)
+ ⨯ ./src/lib/db/index.ts
+Error:   [31mx[0m Unexpected eof
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/index.ts[0m:65:1]
+ [2m62[0m |   userDb,
+ [2m63[0m |   developmentDb,
+ [2m64[0m |   unitDb
+ [2m65[0m | };
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/db/index.ts
+./src/app/api/developments/route.ts
+ ○ Compiling /_not-found ...
+ ⨯ ./src/lib/db/index.ts
+Error:   [31mx[0m Unexpected eof
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/index.ts[0m:65:1]
+ [2m62[0m |   userDb,
+ [2m63[0m |   developmentDb,
+ [2m64[0m |   unitDb
+ [2m65[0m | };
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/db/index.ts
+./src/app/api/developments/route.ts
+ ⨯ ./src/lib/db/index.ts
+Error:   [31mx[0m Unexpected eof
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/db/index.ts[0m:65:1]
+ [2m62[0m |   userDb,
+ [2m63[0m |   developmentDb,
+ [2m64[0m |   unitDb
+ [2m65[0m | };
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/db/index.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 779ms
+ ⨯ ./src/lib/mfa.ts
+Error:   [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:256:1]
+ [2m253[0m | // Update the verifyMfaCode async function inMfaService.getMfaMethod(userId);
+ [2m254[0m | 
+ [2m255[0m |   if (!mfaMethod) {
+ [2m256[0m |     return false;
+     : [35;1m    ^^^^^^^^^^^^^[0m
+ [2m257[0m |   }
+ [2m258[0m | 
+ [2m259[0m |   switch (mfaMethod) {
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:263:1]
+ [2m260[0m |     case 'TOTP':
+ [2m261[0m |       // Try TOTP first, then backup codes
+ [2m262[0m |       const totpValid = await MfaService.verifyTotp(userIdcode);
+ [2m263[0m |       if (totpValid) return true;
+     : [35;1m                     ^^^^^^^^^^^^[0m
+ [2m264[0m | 
+ [2m265[0m |       // If TOTP fails, try backup code
+ [2m266[0m |       return await MfaService.verifyBackupCode(userIdcode);
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:266:1]
+ [2m263[0m |       if (totpValid) return true;
+ [2m264[0m | 
+ [2m265[0m |       // If TOTP fails, try backup code
+ [2m266[0m |       return await MfaService.verifyBackupCode(userIdcode);
+     : [35;1m      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m267[0m | 
+ [2m268[0m |     case 'EMAIL':
+ [2m269[0m |     case 'SMS':
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:270:1]
+ [2m267[0m | 
+ [2m268[0m |     case 'EMAIL':
+ [2m269[0m |     case 'SMS':
+ [2m270[0m |       return await MfaService.verifyMfaToken(userIdcode);
+     : [35;1m      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m271[0m | 
+ [2m272[0m |     default:
+ [2m273[0m |       return false;
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:273:1]
+ [2m270[0m |       return await MfaService.verifyMfaToken(userIdcode);
+ [2m271[0m | 
+ [2m272[0m |     default:
+ [2m273[0m |       return false;
+     : [35;1m      ^^^^^^^^^^^^^[0m
+ [2m274[0m |   }
+ [2m275[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:275:1]
+ [2m272[0m |     default:
+ [2m273[0m |       return false;
+ [2m274[0m |   }
+ [2m275[0m | }
+     : [35;1m^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/mfa.ts
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ ⨯ ./src/lib/mfa.ts
+Error:   [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:256:1]
+ [2m253[0m | // Update the verifyMfaCode async function inMfaService.getMfaMethod(userId);
+ [2m254[0m | 
+ [2m255[0m |   if (!mfaMethod) {
+ [2m256[0m |     return false;
+     : [35;1m    ^^^^^^^^^^^^^[0m
+ [2m257[0m |   }
+ [2m258[0m | 
+ [2m259[0m |   switch (mfaMethod) {
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:263:1]
+ [2m260[0m |     case 'TOTP':
+ [2m261[0m |       // Try TOTP first, then backup codes
+ [2m262[0m |       const totpValid = await MfaService.verifyTotp(userIdcode);
+ [2m263[0m |       if (totpValid) return true;
+     : [35;1m                     ^^^^^^^^^^^^[0m
+ [2m264[0m | 
+ [2m265[0m |       // If TOTP fails, try backup code
+ [2m266[0m |       return await MfaService.verifyBackupCode(userIdcode);
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:266:1]
+ [2m263[0m |       if (totpValid) return true;
+ [2m264[0m | 
+ [2m265[0m |       // If TOTP fails, try backup code
+ [2m266[0m |       return await MfaService.verifyBackupCode(userIdcode);
+     : [35;1m      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m267[0m | 
+ [2m268[0m |     case 'EMAIL':
+ [2m269[0m |     case 'SMS':
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:270:1]
+ [2m267[0m | 
+ [2m268[0m |     case 'EMAIL':
+ [2m269[0m |     case 'SMS':
+ [2m270[0m |       return await MfaService.verifyMfaToken(userIdcode);
+     : [35;1m      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m271[0m | 
+ [2m272[0m |     default:
+ [2m273[0m |       return false;
+     `----
+  [31mx[0m Return statement is not allowed here
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:273:1]
+ [2m270[0m |       return await MfaService.verifyMfaToken(userIdcode);
+ [2m271[0m | 
+ [2m272[0m |     default:
+ [2m273[0m |       return false;
+     : [35;1m      ^^^^^^^^^^^^^[0m
+ [2m274[0m |   }
+ [2m275[0m | }
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/mfa.ts[0m:275:1]
+ [2m272[0m |     default:
+ [2m273[0m |       return false;
+ [2m274[0m |   }
+ [2m275[0m | }
+     : [35;1m^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/mfa.ts
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ ✓ Compiled /_error in 668ms (3668 modules)
+ ⨯ No HTTP methods exported in '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/developments/route.ts'. Export a named export for each HTTP method.
+ GET /api/developments 405 in 178ms
+[32minfo[39m: Found 8 pending migrations {"service":"security-audit","timestamp":"2025-06-18T20:25:43.961Z"}
+[31merror[39m: Failed to apply migration: 0001_initial.sql {"error":{"code":"ERR_INVALID_ARG_TYPE"},"service":"security-audit","timestamp":"2025-06-18T20:25:43.962Z"}
+Migration error: TypeError: The "path" argument must be of type string. Received undefined
+    at MigrationManager.runMigrations (src/lib/db/migrations.ts:104:35)
+  102 |         await client.query('BEGIN');
+  103 |
+> 104 |         const migrationPath = join(this.migrationsDirmigration);
+      |                                   ^
+  105 |         const sql = await fs.readFile(migrationPath, 'utf8');
+  106 |
+  107 |         logger.info(`Applying migration: ${migration}`); {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+ ✓ Compiled in 523ms (3656 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+ GET /api/developments 401 in 132ms
+ ✓ Compiled in 475ms (2273 modules)
+prisma:query SELECT COUNT(*) AS "_count._all" FROM (SELECT "public"."Development"."id" FROM "public"."Development" WHERE 1=1 OFFSET $1) AS "sub"
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE 1=1 ORDER BY "public"."Development"."id" DESC LIMIT $1 OFFSET $2
+prisma:query SELECT "public"."Location"."id", "public"."Location"."address", "public"."Location"."addressLine1", "public"."Location"."addressLine2", "public"."Location"."city", "public"."Location"."county", "public"."Location"."eircode", "public"."Location"."country", "public"."Location"."longitude", "public"."Location"."latitude" FROM "public"."Location" WHERE "public"."Location"."id" IN ($1,$2) OFFSET $3
+prisma:query SELECT "public"."User"."id", "public"."User"."firstName", "public"."User"."lastName", "public"."User"."email" FROM "public"."User" WHERE "public"."User"."id" IN ($1) OFFSET $2
+[31merror[39m: Error fetching developments: {"error":{},"service":"security-audit","timestamp":"2025-06-18T20:26:34.294Z"}
+ GET /api/developments 500 in 142ms
+ ⨯ ./src/services/authService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+  [31mx[0m Unexpected token `/`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m        ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/authService.ts
+./src/app/api/auth/login/route.ts
+ ○ Compiling /api/auth/[...nextauth] ...
+ ⨯ ./src/services/authService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+  [31mx[0m Unexpected token `/`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m        ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/authService.ts
+./src/app/api/auth/login/route.ts
+ ⨯ ./src/services/authService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+  [31mx[0m Unexpected token `/`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m        ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/authService.ts
+./src/app/api/auth/login/route.ts
+ ⨯ ./src/services/authService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+  [31mx[0m Unexpected token `/`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </User></User></User></User></User>
+     : [35;1m        ^[0m
+ [2m573[0m | 
+ [2m574[0m | {/* Auto-added closing tags */}
+ [2m575[0m | </AuthTokens></AuthTokens></AuthTokens>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/authService.ts
+./src/app/api/auth/login/route.ts
+ POST /api/auth/login 500 in 1277ms
+ ⨯ ./src/services/authService.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </UserRole>
+     : [35;1m ^[0m
+     `----
+  [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/services/authService.ts[0m:572:1]
+ [2m569[0m | export const authService = new AuthService();
+ [2m570[0m | 
+ [2m571[0m | {/* Auto-added closing tags */}
+ [2m572[0m | </UserRole>
+     : [35;1m          ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/services/authService.ts
+./src/app/api/auth/login/route.ts
+ ⨯ ./src/services/authService.ts:3:1
+Module not found: Can't resolve 'bcrypt'
+  1 | // Authentication Service
+  2 | import { PrismaClient, User, UserRole } from '@prisma/client';
+> 3 | import bcrypt from 'bcrypt';
+    | ^
+  4 | import jwt from 'jsonwebtoken';
+  5 | import { randomBytes } from 'crypto';
+  6 | import { addMinutes } from 'date-fns';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/app/api/auth/login/route.ts
+ POST /api/auth/login 500 in 23ms
+ ✓ Compiled /_error in 377ms (1943 modules)
+ POST /api/auth/login 200 in 123ms
+ ✓ Compiled in 666ms (1581 modules)
+ ○ Compiling /api/developments ...
+ ✓ Compiled /api/developments in 523ms (702 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error Invalid Compact JWE {
+  message: 'Invalid Compact JWE',
+  stack: 'JWEInvalid: Invalid Compact JWE\n' +
+    '    at compactDecrypt (webpack-internal:///(rsc)/./node_modules/jose/dist/node/cjs/jwe/compact/decrypt.js:16:15)\n' +
+    '    at jwtDecrypt (webpack-internal:///(rsc)/./node_modules/jose/dist/node/cjs/jwt/decrypt.js:8:61)\n' +
+    '    at Object.decode (webpack-internal:///(rsc)/./node_modules/next-auth/jwt/index.js:56:34)\n' +
+    '    at async Object.session (webpack-internal:///(rsc)/./node_modules/next-auth/core/routes/session.js:39:28)\n' +
+    '    at async AuthHandler (webpack-internal:///(rsc)/./node_modules/next-auth/core/index.js:136:27)\n' +
+    '    at async getServerSession (webpack-internal:///(rsc)/./node_modules/next-auth/next/index.js:129:19)\n' +
+    '    at async GET (webpack-internal:///(rsc)/./src/app/api/developments/route.ts:26:25)\n' +
+    '    at async AppRouteRouteModule.do (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:26:34112)\n' +
+    '    at async AppRouteRouteModule.handle (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:26:41338)\n' +
+    '    at async doRender (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/base-server.js:1513:42)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/base-server.js:1915:28)\n' +
+    '    at async DevServer.renderPageComponent (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/base-server.js:2403:24)\n' +
+    '    at async DevServer.renderToResponseImpl (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/base-server.js:2440:32)\n' +
+    '    at async DevServer.pipeImpl (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/base-server.js:1007:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/next-server.js:305:17)\n' +
+    '    at async DevServer.handleRequestImpl (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/base-server.js:899:17)\n' +
+    '    at async /Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/dev/next-dev-server.js:371:20\n' +
+    '    at async Span.traceAsyncFn (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/trace/trace.js:157:20)\n' +
+    '    at async DevServer.handleRequest (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/dev/next-dev-server.js:368:24)\n' +
+    '    at async invokeRender (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/lib/router-server.js:237:21)\n' +
+    '    at async handleRequest (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/lib/router-server.js:428:24)\n' +
+    '    at async requestHandlerImpl (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/lib/router-server.js:452:13)\n' +
+    '    at async Server.requestListener (/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/node_modules/next/dist/server/lib/start-server.js:158:13)',
+  name: 'JWEInvalid'
+}
+ GET /api/developments 401 in 797ms
+ ✓ Compiled in 482ms (2283 modules)
+prisma:query SELECT COUNT(*) AS "_count._all" FROM (SELECT "public"."Development"."id" FROM "public"."Development" WHERE 1=1 OFFSET $1) AS "sub"
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE 1=1 ORDER BY "public"."Development"."id" DESC LIMIT $1 OFFSET $2
+prisma:query SELECT "public"."Location"."id", "public"."Location"."address", "public"."Location"."addressLine1", "public"."Location"."addressLine2", "public"."Location"."city", "public"."Location"."county", "public"."Location"."eircode", "public"."Location"."country", "public"."Location"."longitude", "public"."Location"."latitude" FROM "public"."Location" WHERE "public"."Location"."id" IN ($1,$2) OFFSET $3
+prisma:query SELECT "public"."User"."id", "public"."User"."firstName", "public"."User"."lastName", "public"."User"."email" FROM "public"."User" WHERE "public"."User"."id" IN ($1) OFFSET $2
+[31merror[39m: Error fetching developments: {"error":{},"service":"security-audit","timestamp":"2025-06-18T20:38:16.161Z"}
+ GET /api/developments 500 in 147ms
+ ✓ Compiled in 601ms (2273 modules)
+prisma:query SELECT 1
+prisma:query SELECT 1
+prisma:query SELECT COUNT(*) AS "_count._all" FROM (SELECT "public"."Development"."id" FROM "public"."Development" WHERE 1=1 OFFSET $1) AS "sub"
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE 1=1 ORDER BY "public"."Development"."id" DESC LIMIT $1 OFFSET $2
+prisma:query SELECT "public"."Location"."id", "public"."Location"."address", "public"."Location"."addressLine1", "public"."Location"."addressLine2", "public"."Location"."city", "public"."Location"."county", "public"."Location"."eircode", "public"."Location"."country", "public"."Location"."longitude", "public"."Location"."latitude" FROM "public"."Location" WHERE "public"."Location"."id" IN ($1,$2) OFFSET $3
+prisma:query SELECT "public"."User"."id", "public"."User"."firstName", "public"."User"."lastName", "public"."User"."email" FROM "public"."User" WHERE "public"."User"."id" IN ($1) OFFSET $2
+ GET /api/developments 200 in 120ms
+ ✓ Compiled in 612ms (1636 modules)
+ ✓ Compiled in 346ms (1581 modules)
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got '}'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:201:1]
+ [2m198[0m |         };
+ [2m199[0m |       }
+ [2m200[0m |     }
+ [2m201[0m |     }),
+     : [35;1m    ^[0m
+ [2m202[0m |     GoogleProvider({
+ [2m203[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m204[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ ○ Compiling /_not-found ...
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got '}'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:201:1]
+ [2m198[0m |         };
+ [2m199[0m |       }
+ [2m200[0m |     }
+ [2m201[0m |     }),
+     : [35;1m    ^[0m
+ [2m202[0m |     GoogleProvider({
+ [2m203[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m204[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ ⨯ ./src/lib/auth.ts
+Error:   [31mx[0m Expected ',', got '}'
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/lib/auth.ts[0m:201:1]
+ [2m198[0m |         };
+ [2m199[0m |       }
+ [2m200[0m |     }
+ [2m201[0m |     }),
+     : [35;1m    ^[0m
+ [2m202[0m |     GoogleProvider({
+ [2m203[0m |       clientId: process.env.GOOGLE_CLIENT_ID!,
+ [2m204[0m |       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/auth.ts
+./src/app/api/developments/route.ts
+ GET /api/developments 500 in 1656ms
+ ✓ Compiled /_error in 680ms (3656 modules)
+prisma:query SELECT COUNT(*) AS "_count._all" FROM (SELECT "public"."Development"."id" FROM "public"."Development" WHERE 1=1 OFFSET $1) AS "sub"
+prisma:query SELECT "public"."Development"."id", "public"."Development"."name", "public"."Development"."slug", "public"."Development"."developerId", "public"."Development"."locationId", "public"."Development"."status"::text, "public"."Development"."totalUnits", "public"."Development"."marketingStatus", "public"."Development"."salesStatus", "public"."Development"."constructionStatus", "public"."Development"."complianceStatus", "public"."Development"."timelineId", "public"."Development"."financialsId", "public"."Development"."mainImage", "public"."Development"."images", "public"."Development"."videos", "public"."Development"."sitePlanUrl", "public"."Development"."brochureUrl", "public"."Development"."virtualTourUrl", "public"."Development"."websiteUrl", "public"."Development"."description", "public"."Development"."shortDescription", "public"."Development"."features", "public"."Development"."amenities", "public"."Development"."buildingSpecs", "public"."Development"."buildingType", "public"."Development"."completionDate", "public"."Development"."startDate", "public"."Development"."created", "public"."Development"."updated", "public"."Development"."publishedDate", "public"."Development"."isPublished", "public"."Development"."tags", "public"."Development"."awards" FROM "public"."Development" WHERE 1=1 ORDER BY "public"."Development"."id" DESC LIMIT $1 OFFSET $2
+prisma:query SELECT "public"."Location"."id", "public"."Location"."address", "public"."Location"."addressLine1", "public"."Location"."addressLine2", "public"."Location"."city", "public"."Location"."county", "public"."Location"."eircode", "public"."Location"."country", "public"."Location"."longitude", "public"."Location"."latitude" FROM "public"."Location" WHERE "public"."Location"."id" IN ($1,$2) OFFSET $3
+prisma:query SELECT "public"."User"."id", "public"."User"."firstName", "public"."User"."lastName", "public"."User"."email" FROM "public"."User" WHERE "public"."User"."id" IN ($1) OFFSET $2
+ GET /api/developments 200 in 199ms
+ ⨯ ReferenceError: notifications is not defined
+    at EnterpriseNotificationProvider (src/context/EnterpriseNotificationContext.tsx:39:22)
+  37 |   const [notificationssetNotifications] = useState<Notification[]>([]);
+  38 |
+> 39 |   const unreadCount = notifications.filter(n => !n.read).length;
+     |                      ^
+  40 |
+  41 |   const addNotification = ({ title, message, type }: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
+  42 |     const newNotification: Notification = { {
+  digest: '1614008495'
+}
+ GET /api/developments/cmc2ct23i0004y3pyie7hguvb/units 500 in 213ms
+ ⨯ ./src/app/api/units/route.ts
+Error:   [31mx[0m Expected ident
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts[0m:42:1]
+ [2m39[0m |     type: string;
+ [2m40[0m |     url: string;
+ [2m41[0m |   }>
+ [2m42[0m |   );
+    : [35;1m  ^[0m
+ [2m43[0m | }
+ [2m44[0m | 
+ [2m45[0m | /**
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/units/route.ts
+ ○ Compiling /_not-found ...
+ ⨯ ./src/app/api/units/route.ts
+Error:   [31mx[0m Expected ident
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts[0m:42:1]
+ [2m39[0m |     type: string;
+ [2m40[0m |     url: string;
+ [2m41[0m |   }>
+ [2m42[0m |   );
+    : [35;1m  ^[0m
+ [2m43[0m | }
+ [2m44[0m | 
+ [2m45[0m | /**
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/units/route.ts
+ ⨯ ./src/app/api/units/route.ts
+Error:   [31mx[0m Expected ident
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts[0m:42:1]
+ [2m39[0m |     type: string;
+ [2m40[0m |     url: string;
+ [2m41[0m |   }>
+ [2m42[0m |   );
+    : [35;1m  ^[0m
+ [2m43[0m | }
+ [2m44[0m | 
+ [2m45[0m | /**
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/units/route.ts
+ GET /api/units?developmentId=cmc2ct23i0004y3pyie7hguvb 500 in 854ms
+ ⨯ ./src/app/api/units/route.ts
+Error:   [31mx[0m Expression expected
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts[0m:43:1]
+ [2m40[0m |     url: string;
+ [2m41[0m |   }>;
+ [2m42[0m | }
+ [2m43[0m | }
+    : [35;1m^[0m
+ [2m44[0m | 
+ [2m45[0m | /**
+ [2m46[0m |  * GET handler for retrieving units with filtering options
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/units/route.ts
+ GET /api/units?developmentId=cmc2ct23i0004y3pyie7hguvb 500 in 28ms
+ ⨯ ./src/app/api/units/route.ts
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/units/route.ts[0m:292:1]
+ [2m289[0m | 
+ [2m290[0m |     // Parse request body and URL parameters
+ [2m291[0m |     const { documents, ...unitData } = await request.json() as Partial<UnitInput>
+ [2m292[0m |   );
+     : [35;1m  ^[0m
+ [2m293[0m |     const searchParams = request.nextUrl.searchParams;
+ [2m294[0m |     const id = searchParams.get("id");
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/units/route.ts
+ GET /api/units?developmentId=cmc2ct23i0004y3pyie7hguvb 500 in 23ms
+ ✓ Compiled /_error in 1779ms (3821 modules)
+ GET /api/units?developmentId=cmc2ct23i0004y3pyie7hguvb 200 in 216ms
+ ⨯ ./src/app/api/payments/route.ts
+Error:   [31mx[0m Expected ',', got ')'
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/payments/route.ts[0m:62:1]
+ [2m59[0m |         success: true,
+ [2m60[0m |         data: {
+ [2m61[0m |           summary,
+ [2m62[0m |           schedule});
+    : [35;1m                   ^[0m
+ [2m63[0m |     }
+ [2m64[0m | 
+ [2m65[0m |     // Mock payments for pagination
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/payments/route.ts
+ ○ Compiling /_not-found ...
+ ⨯ ./src/app/api/payments/route.ts
+Error:   [31mx[0m Expected ',', got ')'
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/payments/route.ts[0m:62:1]
+ [2m59[0m |         success: true,
+ [2m60[0m |         data: {
+ [2m61[0m |           summary,
+ [2m62[0m |           schedule});
+    : [35;1m                   ^[0m
+ [2m63[0m |     }
+ [2m64[0m | 
+ [2m65[0m |     // Mock payments for pagination
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/payments/route.ts
+ ⨯ ./src/app/api/payments/route.ts
+Error:   [31mx[0m Expected ',', got ')'
+    ,-[[36;1;4m/Users/kevin/backups/awsready_20250524/prop-ie-aws-app/src/app/api/payments/route.ts[0m:62:1]
+ [2m59[0m |         success: true,
+ [2m60[0m |         data: {
+ [2m61[0m |           summary,
+ [2m62[0m |           schedule});
+    : [35;1m                   ^[0m
+ [2m63[0m |     }
+ [2m64[0m | 
+ [2m65[0m |     // Mock payments for pagination
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/api/payments/route.ts
+ HEAD /api/payments 500 in 800ms
+[?25h

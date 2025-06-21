@@ -32,7 +32,7 @@ export class MfaService {
   static async setupTotp(userId: string, userEmail: string) {
     const secret = authenticator.generateSecret();
     const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Property Platform';
-    const otpauth = authenticator.keyuri(userEmailappNamesecret);
+    const otpauth = authenticator.keyuri(userEmail, appName, secret);
 
     // Generate QR code
     const qrCode = await QRCode.toDataURL(otpauth);
@@ -126,7 +126,7 @@ export class MfaService {
 
     // Remove used backup code
     const newBackupCodes = [...mfaSettings.backupCodes];
-    newBackupCodes.splice(codeIndex1);
+    newBackupCodes.splice(codeIndex, 1);
 
     await prisma.mfaSettings.update({
       where: { userId },
@@ -143,7 +143,7 @@ export class MfaService {
    * Generate and send MFA code via email/SMS
    */
   static async generateMfaToken(userId: string, type: 'EMAIL' | 'SMS'): Promise<string> {
-    const token = crypto.randomInt(100000999999).toString();
+    const token = crypto.randomInt(100000, 999999).toString();
     const expiresAt = new Date(Date.now() + MFA_TOKEN_EXPIRY_MINUTES * 60 * 1000);
 
     await prisma.mfaToken.create({
@@ -250,7 +250,9 @@ export class MfaService {
   }
 }
 
-// Update the verifyMfaCode async function inMfaService.getMfaMethod(userId);
+// Update the verifyMfaCode function
+export async function verifyMfaCode(userId: string, code: string): Promise<boolean> {
+  const mfaMethod = await MfaService.getMfaMethod(userId);
 
   if (!mfaMethod) {
     return false;
@@ -259,15 +261,15 @@ export class MfaService {
   switch (mfaMethod) {
     case 'TOTP':
       // Try TOTP first, then backup codes
-      const totpValid = await MfaService.verifyTotp(userIdcode);
+      const totpValid = await MfaService.verifyTotp(userId, code);
       if (totpValid) return true;
 
       // If TOTP fails, try backup code
-      return await MfaService.verifyBackupCode(userIdcode);
+      return await MfaService.verifyBackupCode(userId, code);
 
     case 'EMAIL':
     case 'SMS':
-      return await MfaService.verifyMfaToken(userIdcode);
+      return await MfaService.verifyMfaToken(userId, code);
 
     default:
       return false;

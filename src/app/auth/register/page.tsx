@@ -1,5 +1,6 @@
-import React from 'react';
 'use client';
+
+import React from 'react';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -41,8 +42,7 @@ const registerSchema = z.object({
   message: "Passwords don't match",
   path: ["confirmPassword"]});
 
-type RegisterFormData = z.infer<typeof registerSchema>
-  );
+type RegisterFormData = z.infer<typeof registerSchema>;
 // Role descriptions
 const roleDescriptions = {
   BUYER: 'Individual looking to purchase property',
@@ -55,10 +55,10 @@ export default function RegisterPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const [isLoadingsetIsLoading] = useState(false);
-  const [showPasswordsetShowPassword] = useState(false);
-  const [showConfirmPasswordsetShowConfirmPassword] = useState(false);
-  const [errorsetError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -73,7 +73,9 @@ export default function RegisterPage() {
       organization: '',
       position: '',
       agreeToTerms: false,
-      agreeToMarketing: false});
+      agreeToMarketing: false
+    }
+  });
 
   const selectedRole = form.watch('role');
   const showOrganizationFields = ['DEVELOPER', 'SOLICITOR', 'AGENT', 'INVESTOR'].includes(selectedRole);
@@ -263,7 +265,7 @@ export default function RegisterPage() {
                   <SelectValue placeholder="Select your account type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.entries(roleDescriptions).map(([roledescription]) => (
+                  {Object.entries(roleDescriptions).map(([role, description]) => (
                     <SelectItem key={role} value={role}>
                       <div>
                         <div className="font-medium">{role.charAt(0) + role.slice(1).toLowerCase()}</div>

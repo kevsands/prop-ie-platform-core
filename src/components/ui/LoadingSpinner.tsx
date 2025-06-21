@@ -52,4 +52,39 @@ export function LoadingSpinner({
   );
 }
 
+// Skeleton component for loading states
+export interface SkeletonProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function Skeleton({ className = '', children }: SkeletonProps) {
+  return (
+    <div className={`animate-pulse rounded-md bg-gray-200 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+export function PropertyCardSkeleton() {
+  return (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+      <Skeleton className="h-48 md:h-56" />
+      <div className="p-4 sm:p-5 md:p-6 space-y-3">
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-4 w-1/2" />
+        <div className="flex gap-4">
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-4 w-16" />
+        </div>
+        <div className="flex justify-between items-center">
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-8 w-20" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default LoadingSpinner;

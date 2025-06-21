@@ -161,11 +161,11 @@ export default function PlatformOverviewPage() {
                 <div
                   key={stakeholder.id}
                   className="absolute transform -translate-x-1/2 -translate-y-1/2"
-                  style={
+                  style={{
                     top: `50%`,
                     left: `50%`,
                     transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`
-                  }
+                  }}
                 >
                   <div className="text-center">
                     <div
@@ -185,7 +185,7 @@ export default function PlatformOverviewPage() {
             {/* Connection lines */}
             <svg
               className="absolute inset-0 w-full h-full"
-              style={ zIndex: -1 }
+              style={{ zIndex: -1 }}
             >
               {interactions.map((interaction, index: any) => {
                 const fromStakeholder = stakeholders.find(s => s.id === interaction.from);

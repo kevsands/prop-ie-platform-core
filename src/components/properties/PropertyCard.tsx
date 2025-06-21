@@ -28,7 +28,8 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
     return new Intl.NumberFormat('en-IE', {
       style: 'currency',
       currency: 'EUR',
-      minimumFractionDigits: 0}).format(amount);
+      minimumFractionDigits: 0
+    }).format(amount);
   };
 
   return (
@@ -55,7 +56,7 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
           <p className="text-xl font-bold text-[#2B5273]">
             {formatCurrency(property.price)}
           </p>
-          {property.tags && property.tags.length> 0 && (
+          {property.tags && property.tags.length > 0 && (
             <div className="flex gap-1">
               {property.tags.slice(0).map((tag: any) => (
                 <Badge key={tag} variant="outline" className="text-xs">
@@ -89,7 +90,7 @@ export default function PropertyCard({ property, onViewDetails }: PropertyCardPr
               e.preventDefault();
               onViewDetails();
             }
-          }
+          }}
         >
           View Details
         </Link>

@@ -14,10 +14,10 @@ export default function PropertyAlertsPage() {
           userId={session?.user?.id}
           onAlertCreated={(alert: any) => {
 
-          }
+          }}
           onAlertDeleted={(alertId: any) => {
 
-          }
+          }}
         />
       </div>
     </div>

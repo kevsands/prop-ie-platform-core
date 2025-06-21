@@ -33,7 +33,7 @@ import {
 import Link from 'next/link';
 
 export default function FitzgeraldGardensProject() {
-  const [activeTabsetActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('overview');
 
   const projectStats = {
     totalUnits: 97,

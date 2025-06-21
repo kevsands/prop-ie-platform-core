@@ -1,0 +1,61 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky gradient -->
+  <defs>
+    <linearGradient id="skyGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFF8DC;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0F0F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D3D3D3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background sky -->
+  <rect width="400" height="220" fill="url(#skyGradient2)"/>
+  
+  <!-- Ground -->
+  <rect y="220" width="400" height="80" fill="#C0C0C0"/>
+  
+  <!-- Modern apartment building -->
+  <rect x="80" y="80" width="240" height="160" fill="url(#buildingGradient)" stroke="#999" stroke-width="2"/>
+  
+  <!-- Balconies -->
+  <rect x="70" y="120" width="20" height="40" fill="#E6E6FA" stroke="#999" stroke-width="1"/>
+  <rect x="70" y="180" width="20" height="40" fill="#E6E6FA" stroke="#999" stroke-width="1"/>
+  <rect x="310" y="120" width="20" height="40" fill="#E6E6FA" stroke="#999" stroke-width="1"/>
+  <rect x="310" y="180" width="20" height="40" fill="#E6E6FA" stroke="#999" stroke-width="1"/>
+  
+  <!-- Windows pattern -->
+  <rect x="100" y="100" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="140" y="100" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="180" y="100" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="220" y="100" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="260" y="100" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  
+  <rect x="100" y="140" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="140" y="140" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="180" y="140" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="220" y="140" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="260" y="140" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  
+  <rect x="100" y="180" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="140" y="180" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="180" y="180" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="220" y="180" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="260" y="180" width="25" height="25" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  
+  <!-- Entrance -->
+  <rect x="180" y="210" width="40" height="30" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+  
+  <!-- Modern design elements -->
+  <rect x="75" y="75" width="250" height="10" fill="#4F46E5"/>
+  
+  <!-- City background -->
+  <rect x="20" y="140" width="30" height="80" fill="#A9A9A9" opacity="0.7"/>
+  <rect x="350" y="160" width="30" height="60" fill="#A9A9A9" opacity="0.7"/>
+  
+  <!-- Price tag -->
+  <rect x="10" y="10" width="90" height="30" fill="#10B981" rx="5"/>
+  <text x="55" y="30" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">€620,000</text>
+</svg>

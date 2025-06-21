@@ -7,9 +7,9 @@ import {
   Search, ChevronDown, Menu, X, User, Bell,
   Home, Building, Calculator, TrendingUp, FileText,
   BarChart2, MessageSquare, Users, HelpCircle, LogOut,
-  Briefcase, Shield, Compass, BookOpen, Settings,
-  ShoppingCart
+  Briefcase, Shield, Compass, BookOpen, Settings
 } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { useUserRole } from '@/context/UserRoleContext';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';

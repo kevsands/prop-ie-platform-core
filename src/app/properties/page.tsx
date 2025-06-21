@@ -60,12 +60,12 @@ export default function PropertiesPage() {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
-  const [viewsetView] = useState<'grid' | 'list' | 'map'>(
+  const [view, setView] = useState<'grid' | 'list' | 'map'>(
     (searchParams.get('view') as any) || 'grid'
   );
-  const [searchQuerysetSearchQuery] = useState(searchParams.get('search') || '');
-  const [showFilterssetShowFilters] = useState(false);
-  const [filterssetFilters] = useState<PropertyFilters>({
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<PropertyFilters>({
     search: searchParams.get('search') || undefined,
     type: searchParams.getAll('type') as PropertyType[],
     minPrice: searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : undefined,
@@ -88,7 +88,7 @@ export default function PropertiesPage() {
 
   // Fetch properties
   const { data, isLoading, error } = useQuery<PropertyListResponse>({
-    queryKey: ['properties', filterspagepageSize],
+    queryKey: ['properties', filters, page, pageSize],
     queryFn: async () => {
       const params = new URLSearchParams();
 
@@ -144,30 +144,31 @@ export default function PropertiesPage() {
     params.set('pageSize', pageSize.toString());
 
     router.push(`/properties?${params.toString()}`);
-  }, [routerviewpageSize]);
+  }, [router, view, pageSize]);
 
   // Handle search
   const handleSearch = useCallback(() => {
     const newFilters = { ...filters, search: searchQuery };
     setFilters(newFilters);
-    updateUrlParams(newFilters1);
-  }, [searchQueryfiltersupdateUrlParams]);
+    updateUrlParams(newFilters);
+  }, [searchQuery, filters, updateUrlParams]);
 
   // Handle filter changes
   const handleFilterChange = (key: keyof PropertyFilters, value: any) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    updateUrlParams(newFilters1);
+    updateUrlParams(newFilters);
   };
 
   // Reset filters
   const resetFilters = () => {
     const defaultFilters: PropertyFilters = {
       sortBy: 'newest',
-      sortOrder: 'desc'};
+      sortOrder: 'desc'
+    };
     setFilters(defaultFilters);
     setSearchQuery('');
-    updateUrlParams(defaultFilters1);
+    updateUrlParams(defaultFilters);
   };
 
   // Property type options
@@ -639,7 +640,7 @@ export default function PropertiesPage() {
                 </Button>
 
                 <div className="flex gap-1">
-                  {[...Array(Math.min(data.totalPages7))].map((_i: any) => {
+                  {[...Array(Math.min(data.totalPages, 7))].map((_, i: any) => {
                     const pageNum = i + 1;
                     if (
                       pageNum === 1 ||
@@ -651,7 +652,7 @@ export default function PropertiesPage() {
                           key={pageNum}
                           variant={pageNum === page ? 'default' : 'outline'}
                           size="sm"
-                          onClick={() => updateUrlParams(filterspageNum)}
+                          onClick={() => updateUrlParams(filters, pageNum)}
                         >
                           {pageNum}
                         </Button>
@@ -660,7 +661,7 @@ export default function PropertiesPage() {
                       (pageNum === page - 3 && page> 4) ||
                       (pageNum === page + 3 && page <data.totalPages - 3)
                     ) {
-                      return <span key={pageNum} className="px-2">...</span>\n  );
+                      return <span key={pageNum} className="px-2">...</span>;
                     }
                     return null;
                   })}

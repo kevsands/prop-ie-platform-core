@@ -32,11 +32,9 @@ interface AmplifyGraphQLResult<T = unknown> {
     locations?: Array<{
       line: number;
       column: number;
-    }>
-  );
+    }>;
     path?: string[];
-  }>
-  );
+  }>;
 }
 
 // Buyer Profile Types
@@ -55,8 +53,7 @@ interface BuyerProfileInput {
   email?: string;
   phone?: string;
   address?: string;
-  metadata?: Record<string, unknown>
-  );
+  metadata?: Record<string, unknown>;
 }
 
 // Reservation Types
@@ -74,8 +71,7 @@ interface ReservationInput {
   propertyId: string;
   unitId?: string;
   reservationDate?: string;
-  metadata?: Record<string, unknown>
-  );
+  metadata?: Record<string, unknown>;
 }
 
 // Mortgage Tracking Types
@@ -93,8 +89,7 @@ interface MortgageTrackingInput {
   status?: string;
   lender?: string;
   amount?: number;
-  metadata?: Record<string, unknown>
-  );
+  metadata?: Record<string, unknown>;
 }
 
 // Snag List Types
@@ -112,8 +107,7 @@ interface SnagListInput {
   propertyId: string;
   title?: string;
   description?: string;
-  metadata?: Record<string, unknown>
-  );
+  metadata?: Record<string, unknown>;
 }
 
 interface SnagItem {
@@ -133,8 +127,7 @@ interface SnagItemInput {
   description?: string;
   priority?: string;
   status?: string;
-  metadata?: Record<string, unknown>
-  );
+  metadata?: Record<string, unknown>;
 }
 
 // Home Pack Item Types
@@ -153,8 +146,7 @@ interface HomePackItemInput {
   name: string;
   description?: string;
   category?: string;
-  metadata?: Record<string, unknown>
-  );
+  metadata?: Record<string, unknown>;
 }
 
 export function useBuyerAPI() {
@@ -168,8 +160,7 @@ export function useBuyerAPI() {
         const result = await amplifyClient.graphql({
           query: BuyerQueries.getMyBuyerProfile,
           authMode: AUTH_MODE_USER_POOLS});
-        const typedResult = result as AmplifyGraphQLResult<{ myBuyerProfile: BuyerProfile }>
-  );
+        const typedResult = result as AmplifyGraphQLResult<{ myBuyerProfile: BuyerProfile }>;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.myBuyerProfile) throw new Error('No buyer profile found');
         return typedResult.data.myBuyerProfile;
@@ -185,8 +176,7 @@ export function useBuyerAPI() {
           query: BuyerMutations.createBuyerProfile,
           variables: { input },
           authMode: AUTH_MODE_USER_POOLS});
-        const typedResult = result as AmplifyGraphQLResult<{ createBuyerProfile: BuyerProfile }>
-  );
+        const typedResult = result as AmplifyGraphQLResult<{ createBuyerProfile: BuyerProfile }>;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.createBuyerProfile) throw new Error('Failed to create buyer profile');
         return typedResult.data.createBuyerProfile;
@@ -201,8 +191,7 @@ export function useBuyerAPI() {
           query: BuyerMutations.updateBuyerProfile,
           variables: { id, input },
           authMode: AUTH_MODE_USER_POOLS});
-        const typedResult = result as AmplifyGraphQLResult<{ updateBuyerProfile: BuyerProfile }>
-  );
+        const typedResult = result as AmplifyGraphQLResult<{ updateBuyerProfile: BuyerProfile }>;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.updateBuyerProfile) throw new Error('Failed to update buyer profile');
         return typedResult.data.updateBuyerProfile;
@@ -218,8 +207,7 @@ export function useBuyerAPI() {
         const result = await amplifyClient.graphql({
           query: BuyerQueries.getMyReservations,
           authMode: AUTH_MODE_USER_POOLS});
-        const typedResult = result as AmplifyGraphQLResult<{ myReservations: Reservation[] }>
-  );
+        const typedResult = result as AmplifyGraphQLResult<{ myReservations: Reservation[] }>;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.myReservations) throw new Error('No reservations found');
         return typedResult.data.myReservations;
@@ -237,7 +225,7 @@ export function useBuyerAPI() {
           variables: { id },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ reservation: Reservation }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.reservation) throw new Error('No reservation found');
         return typedResult.data.reservation;
@@ -254,7 +242,7 @@ export function useBuyerAPI() {
           variables: { input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ createReservation: Reservation }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.createReservation) throw new Error('Failed to create reservation');
         return typedResult.data.createReservation;
@@ -270,7 +258,7 @@ export function useBuyerAPI() {
           variables: { id, input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ updateReservation: Reservation }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.updateReservation) throw new Error('Failed to update reservation');
         return typedResult.data.updateReservation;
@@ -286,7 +274,7 @@ export function useBuyerAPI() {
           variables: { id, reason },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ cancelReservation: Reservation }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.cancelReservation) throw new Error('Failed to cancel reservation');
         return typedResult.data.cancelReservation;
@@ -303,7 +291,7 @@ export function useBuyerAPI() {
           query: BuyerQueries.getMyMortgageTracking,
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ myMortgageTracking: MortgageTracking }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.myMortgageTracking) throw new Error('No mortgage tracking found');
         return typedResult.data.myMortgageTracking;
@@ -320,7 +308,7 @@ export function useBuyerAPI() {
           variables: { input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ createMortgageTracking: MortgageTracking }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.createMortgageTracking) throw new Error('Failed to create mortgage tracking');
         return typedResult.data.createMortgageTracking;
@@ -336,7 +324,7 @@ export function useBuyerAPI() {
           variables: { id, input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ updateMortgageTracking: MortgageTracking }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.updateMortgageTracking) throw new Error('Failed to update mortgage tracking');
         return typedResult.data.updateMortgageTracking;
@@ -352,7 +340,7 @@ export function useBuyerAPI() {
           variables: { mortgageTrackingId, documentId },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ addMortgageDocument: MortgageTracking }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.addMortgageDocument) throw new Error('Failed to add mortgage document');
         return typedResult.data.addMortgageDocument;
@@ -369,7 +357,7 @@ export function useBuyerAPI() {
           query: BuyerQueries.getMySnagLists,
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ mySnagLists: SnagList[] }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.mySnagLists) throw new Error('No snag lists found');
         return typedResult.data.mySnagLists;
@@ -387,7 +375,7 @@ export function useBuyerAPI() {
           variables: { id },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ snagList: SnagList }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.snagList) throw new Error('No snag list found');
         return typedResult.data.snagList;
@@ -404,7 +392,7 @@ export function useBuyerAPI() {
           variables: { input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ createSnagList: SnagList }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.createSnagList) throw new Error('Failed to create snag list');
         return typedResult.data.createSnagList;
@@ -420,7 +408,7 @@ export function useBuyerAPI() {
           variables: { input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ createSnagItem: SnagItem }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.createSnagItem) throw new Error('Failed to create snag item');
         return typedResult.data.createSnagItem;
@@ -436,7 +424,7 @@ export function useBuyerAPI() {
           variables: { id, input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ updateSnagItem: SnagItem }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.updateSnagItem) throw new Error('Failed to update snag item');
         return typedResult.data.updateSnagItem;
@@ -454,7 +442,7 @@ export function useBuyerAPI() {
           variables: { propertyId },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ homePackItems: HomePackItem[] }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.homePackItems) throw new Error('No home pack items found');
         return typedResult.data.homePackItems;
@@ -471,7 +459,7 @@ export function useBuyerAPI() {
           variables: { input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ createHomePackItem: HomePackItem }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.createHomePackItem) throw new Error('Failed to create home pack item');
         return typedResult.data.createHomePackItem;
@@ -487,7 +475,7 @@ export function useBuyerAPI() {
           variables: { id, input },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ updateHomePackItem: HomePackItem }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.updateHomePackItem) throw new Error('Failed to update home pack item');
         return typedResult.data.updateHomePackItem;
@@ -503,7 +491,7 @@ export function useBuyerAPI() {
           variables: { id },
           authMode: AUTH_MODE_USER_POOLS});
         const typedResult = result as AmplifyGraphQLResult<{ deleteHomePackItem: HomePackItem }>
-  );
+;
         if (typedResult.errors) throw new Error(typedResult.errors[0].message);
         if (!typedResult.data?.deleteHomePackItem) throw new Error('Failed to delete home pack item');
         return typedResult.data.deleteHomePackItem;

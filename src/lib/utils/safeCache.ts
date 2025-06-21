@@ -212,8 +212,14 @@ export function asyncSafeCache<T extends (...args: any[]) => Promise<any>>(
       return result;
     } catch (error) {
       // Don't cache errors
-
+      console.warn('Cache function error:', error);
       throw error;
     }
   };
 }
+
+/**
+ * Server cache function for server-side operations
+ * Alias for serverSideCache
+ */
+export const serverCache = serverSideCache;

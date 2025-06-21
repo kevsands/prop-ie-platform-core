@@ -3,31 +3,29 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import ClientLayout from '../ClientLayout';
 import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
-  const [emailsetEmail] = useState('');
-  const [passwordsetPassword] = useState('');
-  const [isLoadingsetIsLoading] = useState(false);
-  const [errorsetError] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const { signIn } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session, status } = useSession();
 
   // Get the callback URL if it exists
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   // If user is already logged in, redirect to appropriate dashboard
   useEffect(() => {
-    if (status === 'authenticated' && session?.user) {
-      const role = (session.user as any).role?.toLowerCase();
+    if (isAuthenticated && user) {
+      const role = user.role?.toLowerCase();
       redirectByRole(role);
     }
-  }, [sessionstatusrouter]);
+  }, [user, isAuthenticated, router]);
 
   // Set email from query parameter if present
   useEffect(() => {
@@ -69,53 +67,46 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🚀 Form submitted!');
+    console.log('Email:', email);
+    console.log('Password:', password);
+    
     setIsLoading(true);
     setError('');
 
     try {
+      // Test direct API call first
+      console.log('🔄 Making direct API call...');
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-      const result = await signIn(emailpassword);
-
-      if (result.isSignedIn) {
-
-        // Use the refreshSession method to ensure the session is up-to-date
-        await new Promise(resolve => setTimeout(resolve500));
-
-        // Get latest session data
-        const response = await fetch('/api/auth/session');
-        const sessionData = await response.json();
-
-        if (sessionData?.user) {
-
-          // Handle MFA if required
-          if (result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE') {
-            router.push('/auth/mfa');
-            return;
-          }
-
-          // If there's a callback URL, use it
-          if (callbackUrl && callbackUrl !== '/') {
-
-            router.push(callbackUrl);
-            return;
-          }
-
-          // Otherwise redirect based on role
-          redirectByRole(sessionData.user.role?.toLowerCase());
+      console.log('📡 API Response status:', response.status);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Login successful:', data);
+        
+        // Simple redirect based on email
+        if (email.includes('developer') || email.includes('kevin')) {
+          console.log('🔄 Redirecting to developer dashboard...');
+          router.push('/developer');
         } else {
-          // Fallback if session data not available yet
-
+          console.log('🔄 Redirecting to buyer dashboard...');
           router.push('/buyer');
         }
-      } else if (result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE') {
-        // Handle MFA
-        router.push('/auth/mfa');
       } else {
-        setError('Authentication failed. Please try again.');
+        const errorData = await response.json();
+        console.log('❌ Login failed:', errorData);
+        setError(errorData.error || 'Login failed');
       }
     } catch (err) {
-
-      setError(err instanceof Error ? err.message : 'Invalid email or password');
+      console.log('💥 Exception:', err);
+      setError(err instanceof Error ? err.message : 'Network error');
     } finally {
       setIsLoading(false);
     }
@@ -148,6 +139,20 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
+
+            {/* Debug button */}
+            <div className="mb-4 p-3 bg-yellow-50 rounded-md">
+              <button 
+                type="button"
+                onClick={() => {
+                  console.log('🧪 Test button clicked!');
+                  alert('JavaScript is working!');
+                }}
+                className="w-full bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600"
+              >
+                🧪 Test JavaScript (Click Me!)
+              </button>
+            </div>
 
             <form onSubmit={handleSubmit}>
               <div className="mb-6">

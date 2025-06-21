@@ -1,0 +1,516 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useRealtime } from '@/hooks/useRealtime';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Home,
+  Users,
+  FileText,
+  DollarSign,
+  Calendar,
+  MessageSquare,
+  Phone,
+  Mail,
+  CheckCircle,
+  Clock,
+  AlertCircle,
+  TrendingUp,
+  Filter
+} from 'lucide-react';
+import { format } from 'date-fns';
+
+interface ClientTransaction {
+  id: string;
+  status: string;
+  stage: string;
+  buyer: {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+  };
+  property: {
+    id: string;
+    address: string;
+    type: string;
+    price: number;
+    development?: {
+      name: string;
+    };
+  };
+  commission: {
+    rate: number;
+    amount: number;
+    status: string;
+  };
+  milestones: any[];
+  appointments: any[];
+  notes: any[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export default function AgentTransactionsPage() {
+  const { connected, joinRoom, leaveRoom, sendMessage } = useRealtime();
+  const [transactionssetTransactions] = useState<ClientTransaction[]>([]);
+  const [selectedTransactionsetSelectedTransaction] = useState<ClientTransaction | null>(null);
+  const [activeTabsetActiveTab] = useState('overview');
+  const [filtersetFilter] = useState('active');
+
+  useEffect(() => {
+    fetchTransactions();
+
+    if (connected) {
+      joinRoom('agent:transactions');
+    }
+
+    return () => {
+      if (connected) {
+        leaveRoom('agent:transactions');
+      }
+    };
+  }, [connected]);
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await fetch('/api/agents/transactions');
+      const data: any = await response.json();
+      setTransactions(data.transactions || []);
+    } catch (error) {
+
+    }
+  };
+
+  const filteredTransactions = transactions.filter(transaction => {
+    if (filter === 'all') return true;
+    if (filter === 'active') return !['COMPLETED', 'CANCELLED'].includes(transaction.status);
+    if (filter === 'completed') return transaction.status === 'COMPLETED';
+    return true;
+  });
+
+  const getStageIcon = (stage: string) => {
+    const icons: Record<string, any> = {
+      'PROPERTY_SEARCH': <Home />,
+      'VIEWING': <Calendar />,
+      'OFFER': <DollarSign />,
+      'LEGAL': <FileText />,
+      'EXCHANGE': <FileText />,
+      'COMPLETION': <CheckCircle />
+    };
+    return icons[stage] || <Clock />
+  );
+  };
+
+  const handleClientUpdate = async (transactionId: string, update: any) => {
+    try {
+      await fetch(`/api/agents/transactions/${transactionId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(update)
+      });
+
+      // Real-time update will be received via WebSocket
+    } catch (error) {
+
+    }
+  };
+
+  const scheduleViewing = async (transactionId: string, date: Date) => {
+    await handleClientUpdate(transactionId, {
+      appointment: {
+        type: 'VIEWING',
+        date,
+        status: 'SCHEDULED'
+      }
+    });
+  };
+
+  const updateCommissionStatus = async (transactionId: string, status: string) => {
+    await handleClientUpdate(transactionId, {
+      commission: { status }
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Client Transactions</h1>
+            <p className="text-gray-600 mt-1">Manage your property transactions and earn commissions</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <Badge className={connected ? 'bg-green-500' : 'bg-gray-500'}>
+              {connected ? 'Live Updates' : 'Connecting...'}
+            </Badge>
+            <Button>
+              <Users className="mr-2 h-4 w-4" />
+              Add New Client
+            </Button>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {transactions.filter(t => !['COMPLETED', 'CANCELLED'].includes(t.status)).length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Currently in process
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Commission</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                €{transactions.reduce((sumt: any) => sum + (t.commission.amount || 0), 0).toLocaleString()}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Expected earnings
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Viewings This Week</CardTitle>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {transactions.reduce((countt: any) => {
+                  const viewings = t.appointments.filter(a => {
+                    const date = new Date(a.date);
+                    const now = new Date();
+                    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    return a.type === 'VIEWING' && date>= weekAgo && date <= now;
+                  });
+                  return count + viewings.length;
+                }, 0)}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Property showings
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Success Rate</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {Math.round((transactions.filter(t => t.status === 'COMPLETED').length / 
+                  transactions.length) * 100)}%
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Closed deals
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="mb-6">
+          <div className="flex gap-2">
+            <Button
+              variant={filter === 'all' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('all')}
+            >
+              All
+            </Button>
+            <Button
+              variant={filter === 'active' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('active')}
+            >
+              Active
+            </Button>
+            <Button
+              variant={filter === 'completed' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilter('completed')}
+            >
+              Completed
+            </Button>
+          </div>
+        </div>
+
+        {/* Transactions List */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Client Transactions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {filteredTransactions.map((transaction: any) => (
+                <div
+                  key={transaction.id}
+                  className="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                  onClick={() => setSelectedTransaction(transaction)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        {getStageIcon(transaction.stage)}
+                        <span className="text-sm font-medium">{transaction.stage}</span>
+                      </div>
+                      <div>
+                        <p className="font-semibold">{transaction.buyer.name}</p>
+                        <p className="text-sm text-gray-600">
+                          {transaction.property.address}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className="font-medium">€{transaction.property.price.toLocaleString()}</p>
+                        <p className="text-sm text-gray-600">
+                          Commission: €{transaction.commission.amount.toLocaleString()}
+                        </p>
+                      </div>
+
+                      <Badge>{transaction.status}</Badge>
+                    </div>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="mt-4 flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        // Call client
+                      }
+                    >
+                      <Phone className="mr-1 h-3 w-3" />
+                      Call
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        // Email client
+                      }
+                    >
+                      <Mail className="mr-1 h-3 w-3" />
+                      Email
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        // Schedule viewing
+                      }
+                    >
+                      <Calendar className="mr-1 h-3 w-3" />
+                      Schedule
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        // Add note
+                      }
+                    >
+                      <MessageSquare className="mr-1 h-3 w-3" />
+                      Note
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Transaction Details Modal */}
+        {selectedTransaction && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold">Transaction Details</h2>
+                <Button
+                  variant="ghost"
+                  onClick={() => setSelectedTransaction(null)}
+                >
+                  ×
+                </Button>
+              </div>
+
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <TabsList>
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="client">Client</TabsTrigger>
+                  <TabsTrigger value="property">Property</TabsTrigger>
+                  <TabsTrigger value="commission">Commission</TabsTrigger>
+                  <TabsTrigger value="activity">Activity</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="overview">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-semibold mb-3">Transaction Status</h3>
+                      <div className="space-y-2">
+                        <p><strong>Status:</strong> <Badge>{selectedTransaction.status}</Badge></p>
+                        <p><strong>Stage:</strong> {selectedTransaction.stage}</p>
+                        <p><strong>Created:</strong> {format(new Date(selectedTransaction.createdAt), 'MMM dd, yyyy')}</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-3">Next Steps</h3>
+                      <div className="space-y-2">
+                        {selectedTransaction.milestones
+                          .filter(m => m.status === 'pending')
+                          .slice(0)
+                          .map((milestone: any) => (
+                            <div key={milestone.id} className="flex items-center gap-2">
+                              <AlertCircle className="h-4 w-4 text-yellow-500" />
+                              <span className="text-sm">{milestone.name}</span>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="client">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold mb-3">Client Information</h3>
+                      <div className="space-y-2">
+                        <p><strong>Name:</strong> {selectedTransaction.buyer.name}</p>
+                        <p><strong>Email:</strong> {selectedTransaction.buyer.email}</p>
+                        {selectedTransaction.buyer.phone && (
+                          <p><strong>Phone:</strong> {selectedTransaction.buyer.phone}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-3">Notes</h3>
+                      <div className="space-y-2">
+                        {selectedTransaction.notes.map((note: any) => (
+                          <div key={note.id} className="p-3 bg-gray-50 rounded">
+                            <p className="text-sm">{note.content}</p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {format(new Date(note.createdAt), 'MMM dd, yyyy HH:mm')}
+                            </p>
+                          </div>
+                        ))}
+                        <Button size="sm" variant="outline">Add Note</Button>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="property">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold mb-3">Property Details</h3>
+                      <div className="space-y-2">
+                        <p><strong>Address:</strong> {selectedTransaction.property.address}</p>
+                        <p><strong>Type:</strong> {selectedTransaction.property.type}</p>
+                        <p><strong>Price:</strong> €{selectedTransaction.property.price.toLocaleString()}</p>
+                        {selectedTransaction.property.development && (
+                          <p><strong>Development:</strong> {selectedTransaction.property.development.name}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-3">Viewings</h3>
+                      <div className="space-y-2">
+                        {selectedTransaction.appointments
+                          .filter(a => a.type === 'VIEWING')
+                          .map((appointment: any) => (
+                            <div key={appointment.id} className="p-3 border rounded">
+                              <p className="font-medium">
+                                {format(new Date(appointment.date), 'MMM dd, yyyy HH:mm')}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                Status: {appointment.status}
+                              </p>
+                            </div>
+                          ))}
+                        <Button size="sm" variant="outline">Schedule Viewing</Button>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="commission">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold mb-3">Commission Details</h3>
+                      <div className="space-y-2">
+                        <p><strong>Rate:</strong> {selectedTransaction.commission.rate}%</p>
+                        <p><strong>Amount:</strong> €{selectedTransaction.commission.amount.toLocaleString()}</p>
+                        <p><strong>Status:</strong> <Badge>{selectedTransaction.commission.status}</Badge></p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-3">Payment Schedule</h3>
+                      <div className="space-y-2">
+                        <div className="p-3 border rounded">
+                          <p className="font-medium">On Exchange</p>
+                          <p className="text-sm text-gray-600">50% - €{(selectedTransaction.commission.amount * 0.5).toLocaleString()}</p>
+                        </div>
+                        <div className="p-3 border rounded">
+                          <p className="font-medium">On Completion</p>
+                          <p className="text-sm text-gray-600">50% - €{(selectedTransaction.commission.amount * 0.5).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="activity">
+                  <div className="space-y-4">
+                    <h3 className="font-semibold mb-3">Activity Timeline</h3>
+                    <div className="space-y-3">
+                      {/* Activity timeline would go here */}
+                      <div className="flex gap-3">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 mt-2" />
+                        <div>
+                          <p className="font-medium">Property viewing scheduled</p>
+                          <p className="text-sm text-gray-600">
+                            {format(new Date(), 'MMM dd, yyyy HH:mm')}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

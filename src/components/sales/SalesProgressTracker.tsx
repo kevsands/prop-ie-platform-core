@@ -99,18 +99,18 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
   showLeads = true
 }) => {
   // Local state for filters
-  const [unitTypeFiltersetUnitTypeFilter] = useState<UnitType | 'all'>(
+  const [unitTypeFilter, setUnitTypeFilter] = useState<UnitType | 'all'>(
     filterByUnitType || 'all'
   );
-  const [locationFiltersetLocationFilter] = useState<string | 'all'>(
+  const [locationFilter, setLocationFilter] = useState<string | 'all'>(
     filterByLocation || 'all'
   );
-  const [statusFiltersetStatusFilter] = useState<UnitStatus | 'all'>('all');
-  const [activeTabsetActiveTab] = useState('overview');
+  const [statusFilter, setStatusFilter] = useState<UnitStatus | 'all'>('all');
+  const [activeTab, setActiveTab] = useState('overview');
 
   // Fetch sales data
   const { data, isLoading, error } = useQuery({
-    queryKey: ['project-sales', projectIdunitTypeFilterlocationFilter],
+    queryKey: ['project-sales', projectId, unitTypeFilter, locationFilter],
     queryFn: async () => {
       // In production, this would fetch from API
       const url = new URL(`/api/projects/${projectId}/sales`, window.location.origin);
@@ -141,7 +141,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
       if (statusFilter !== 'all' && unit.status !== statusFilter) return false;
       return true;
     });
-  }, [data?.unitsstatusFilter]);
+  }, [data?.units, statusFilter]);
 
   // Helper function to get status badge
   const getStatusBadge = (status: UnitStatus) => (
@@ -167,7 +167,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
 
     return (
       <div className="space-y-6">
-        {Object.entries(unitsByLocation).map(([locationunits]) => (
+        {Object.entries(unitsByLocation).map(([location, units]) => (
           <div key={location} className="space-y-2">
             <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {location}
@@ -185,7 +185,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                 >
                   <div className="font-medium">{unit.unitNumber}</div>
                   <div className="text-[10px] opacity-80">
-                    {unit.bedrooms}B {unit.type.slice(0)}
+                    {unit.bedrooms}B {unit.type.slice(0, 3)}
                   </div>
                 </div>
               ))}
@@ -203,7 +203,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
         <div className="space-y-4">
           <div className="h-8 w-64 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[1234].map((i: any) => (
+            {[1, 2, 3, 4].map((i: any) => (
               <Card key={i} className="h-32">
                 <CardHeader className="pb-2">
                   <div className="h-5 w-24 bg-slate-200 dark:bg-slate-700 rounded animate-pulse"></div>
@@ -372,7 +372,7 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold mb-2">
-                    {formatCurrency(data?.salesSummary?.soldValuetrue)}
+                    {formatCurrency(data?.salesSummary?.soldValue, true)}
                   </div>
                   <Progress 
                     value={(data?.salesSummary?.soldValue / data?.salesSummary?.totalValue) * 100} 
@@ -381,11 +381,11 @@ const SalesProgressTracker: React.FC<SalesProgressTrackerProps> = ({
                   />
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="flex flex-col p-1.5 rounded-md bg-green-50 dark:bg-green-950/30">
-                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.soldValuetrue)}</span>
+                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.soldValue, true)}</span>
                       <span className="text-slate-500 dark:text-slate-400">Sold Value</span>
                     </div>
                     <div className="flex flex-col p-1.5 rounded-md bg-amber-50 dark:bg-amber-950/30">
-                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.reservedValuetrue)}</span>
+                      <span className="font-semibold">{formatCurrency(data?.salesSummary?.reservedValue, true)}</span>
                       <span className="text-slate-500 dark:text-slate-400">Reserved Value</span>
                     </div>
                   </div>

@@ -49,7 +49,7 @@ const BasicTestimonialsSection: React.FC = () => {
                 </div>
               </div>
               <div className="flex mb-4">
-                {[...Array(testimonial.rating)].map((_i: any) => (
+                {[...Array(testimonial.rating)].map((_, i: any) => (
                   <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                 ))}
               </div>

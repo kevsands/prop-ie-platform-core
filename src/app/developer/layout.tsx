@@ -1,5 +1,6 @@
-import React from 'react';
 'use client';
+
+import React from 'react';
 
 import { ReactNode, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -24,13 +25,13 @@ export default function DeveloperLayout({ children }: DeveloperLayoutProps) {
   const { data: session, status } = useSession();
   const { user, isAuthenticated, signOut } = useAuth();
 
-  const [developmentsOpensetDevelopmentsOpen] = useState(false);
-  const [teamOpensetTeamOpen] = useState(false);
-  const [settingsOpensetSettingsOpen] = useState(false);
-  const [selectedDevelopmentsetSelectedDevelopment] = useState('all');
-  const [userNamesetUserName] = useState('');
-  const [userInitialssetUserInitials] = useState('JD');
-  const [userEmailsetUserEmail] = useState('developer@example.com');
+  const [developmentsOpen, setDevelopmentsOpen] = useState(false);
+  const [teamOpen, setTeamOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [selectedDevelopment, setSelectedDevelopment] = useState('all');
+  const [userName, setUserName] = useState('');
+  const [userInitials, setUserInitials] = useState('JD');
+  const [userEmail, setUserEmail] = useState('developer@example.com');
 
   // Check authentication status
   useEffect(() => {
@@ -54,16 +55,16 @@ export default function DeveloperLayout({ children }: DeveloperLayoutProps) {
 
       // Set user initials
       const nameParts = fullName.split(' ');
-      if (nameParts.length> 1) {
+      if (nameParts.length > 1) {
         setUserInitials(nameParts[0][0] + nameParts[1][0]);
-      } else if (nameParts.length === 1 && nameParts[0].length> 0) {
+      } else if (nameParts.length === 1 && nameParts[0].length > 0) {
         setUserInitials(nameParts[0][0]);
       }
 
       // Set email
       setUserEmail(sessionUser.email || 'developer@example.com');
     }
-  }, [status, sessionrouterpathnameuser]);
+  }, [status, session, router, pathname, user]);
 
   // Handle logout
   const handleLogout = async () => {

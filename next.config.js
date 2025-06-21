@@ -32,17 +32,29 @@ const nextConfig = {
     dirs: ['src'],
   },
   
-  // Enable SVG support with security settings
+  // Enhanced image optimization with security settings
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Format optimization (quality and placeholder are handled per-image)
+    formats: ['image/webp', 'image/avif'],
+    // Responsive sizes for property images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Domains for remote images
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
+    // Cache optimization
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
   
   // Add security headers with environment-specific configuration
@@ -106,11 +118,11 @@ const nextConfig = {
   redirects: async () => {
     return [
       // Temporarily disable problematic API routes during build
-      {
-        source: '/api/auth/:path*',
-        destination: '/api/auth-disabled',
-        permanent: false,
-      },
+      // {
+      //   source: '/api/auth/:path*',
+      //   destination: '/api/auth-disabled',
+      //   permanent: false,
+      // },
     ];
   },
   

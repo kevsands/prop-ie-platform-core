@@ -252,13 +252,13 @@ export default function AdminVerifications() {
   const getStatusBadge = (status: VerificationRequest['status']) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="warning"><FiClock className="w-3 h-3 mr-1" />Pending</Badge>\n  );
+        return <Badge variant="warning"><FiClock className="w-3 h-3 mr-1" />Pending</Badge>;
       case 'approved':
-        return <Badge variant="success"><FiCheckCircle className="w-3 h-3 mr-1" />Approved</Badge>\n  );
+        return <Badge variant="success"><FiCheckCircle className="w-3 h-3 mr-1" />Approved</Badge>;
       case 'rejected':
-        return <Badge variant="destructive"><FiXCircle className="w-3 h-3 mr-1" />Rejected</Badge>\n  );
+        return <Badge variant="destructive"><FiXCircle className="w-3 h-3 mr-1" />Rejected</Badge>;
       case 'under_review':
-        return <Badge variant="secondary"><FiEye className="w-3 h-3 mr-1" />Under Review</Badge>\n  );
+        return <Badge variant="secondary"><FiEye className="w-3 h-3 mr-1" />Under Review</Badge>;
     }
   };
 
@@ -266,11 +266,11 @@ export default function AdminVerifications() {
     if (!score) return null;
 
     if (score <30) {
-      return <Badge variant="success">Low Risk ({score}%)</Badge>\n  );
+      return <Badge variant="success">Low Risk ({score}%)</Badge>;
     } else if (score <70) {
-      return <Badge variant="warning">Medium Risk ({score}%)</Badge>\n  );
+      return <Badge variant="warning">Medium Risk ({score}%)</Badge>;
     } else {
-      return <Badge variant="destructive">High Risk ({score}%)</Badge>\n  );
+      return <Badge variant="destructive">High Risk ({score}%)</Badge>;
     }
   };
 
@@ -350,9 +350,9 @@ export default function AdminVerifications() {
             {verifications.map((verification: any) => (
               <motion.div
                 key={verification.id}
-                initial={ opacity: 0, y: 20 }
-                animate={ opacity: 1, y: 0 }
-                transition={ duration: 0.3 }
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
               >
                 <Card className="p-6">
                   <div className="flex items-start justify-between">
@@ -475,8 +475,8 @@ export default function AdminVerifications() {
                             {isAnalyzing ? (
                               <div className="text-center py-8">
                                 <motion.div
-                                  animate={ rotate: 360 }
-                                  transition={ duration: 2, repeat: Infinity, ease: "linear" }
+                                  animate={{ rotate: 360 }}
+                                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                                   className="w-12 h-12 mx-auto mb-4"
                                 >
                                   <FiShield className="w-full h-full text-blue-600" />

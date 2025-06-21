@@ -3,6 +3,8 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { PropertyCardSkeleton } from '@/components/ui/LoadingSpinner';
 import { useRouter } from 'next/navigation';
 import { 
   ArrowRight, ChevronRight, Home, Building, TrendingUp, 
@@ -72,12 +74,12 @@ const enhancedDevelopments: Development[] = mockDevelopments.map(dev => ({
 
 // Mock Properties Data
 const mockProperties: Property[] = [
-  { id: 'prop-fg-101', developmentId: 'fitzgerald-gardens', developmentName: 'Fitzgerald Gardens', title: '3 Bed Semi-Detached', price: 385000, bedrooms: 3, bathrooms: 3, area: 110, image: '/images/fitzgerald-gardens/hero.jpg', isNew: true },
-  { id: 'prop-fg-105', developmentId: 'fitzgerald-gardens', developmentName: 'Fitzgerald Gardens', title: '4 Bed Detached', price: 450000, bedrooms: 4, bathrooms: 4, area: 140, image: '/images/fitzgerald-gardens/hero.jpg' },
-  { id: 'prop-bv-201', developmentId: 'ballymakenny-view', developmentName: 'Ballymakenny View', title: '3 Bed Terrace', price: 350000, bedrooms: 3, bathrooms: 2, area: 100, image: '/images/ballymakenny-view/hero.jpg' },
-  { id: 'prop-ew-301', developmentId: 'ellwood', developmentName: 'Ellwood', title: '2 Bed Apartment', price: 295000, bedrooms: 2, bathrooms: 2, area: 85, image: '/images/ellwood/hero.jpg', isReduced: true },
-  { id: 'prop-bv-302', developmentId: 'ballymakenny-view', developmentName: 'Ballymakenny View', title: '4 Bed Semi-Detached', price: 395000, bedrooms: 4, bathrooms: 3, area: 125, image: '/images/ballymakenny-view/hero.jpg' },
-  { id: 'prop-ew-401', developmentId: 'ellwood', developmentName: 'Ellwood', title: '1 Bed Apartment', price: 245000, bedrooms: 1, bathrooms: 1, area: 65, image: '/images/ellwood/hero.jpg', isNew: true }
+  { id: 'prop-fg-101', developmentId: 'fitzgerald-gardens', developmentName: 'Fitzgerald Gardens', title: '3 Bed Semi-Detached', price: 385000, bedrooms: 3, bathrooms: 3, area: 110, image: '/images/developments/fitzgerald-gardens/hero.jpeg', isNew: true },
+  { id: 'prop-fg-105', developmentId: 'fitzgerald-gardens', developmentName: 'Fitzgerald Gardens', title: '4 Bed Detached', price: 450000, bedrooms: 4, bathrooms: 4, area: 140, image: '/images/developments/fitzgerald-gardens/hero.jpeg' },
+  { id: 'prop-bv-201', developmentId: 'ballymakenny-view', developmentName: 'Ballymakenny View', title: '3 Bed Terrace', price: 350000, bedrooms: 3, bathrooms: 2, area: 100, image: '/images/developments/Ballymakenny-View/hero.jpg' },
+  { id: 'prop-ew-301', developmentId: 'ellwood', developmentName: 'Ellwood', title: '2 Bed Apartment', price: 295000, bedrooms: 2, bathrooms: 2, area: 85, image: '/images/developments/Ellwood-Logos/hero.jpg', isReduced: true },
+  { id: 'prop-bv-302', developmentId: 'ballymakenny-view', developmentName: 'Ballymakenny View', title: '4 Bed Semi-Detached', price: 395000, bedrooms: 4, bathrooms: 3, area: 125, image: '/images/developments/Ballymakenny-View/hero.jpg' },
+  { id: 'prop-ew-401', developmentId: 'ellwood', developmentName: 'Ellwood', title: '1 Bed Apartment', price: 245000, bedrooms: 1, bathrooms: 1, area: 65, image: '/images/developments/Ellwood-Logos/hero.jpg', isNew: true }
 ];
 
 // Platform Stats
@@ -150,7 +152,7 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
 
   const getFeaturedDevelopments = () => {
     return [...developments]
-      .sort((ab) => {
+      .sort((a, b) => {
         if (a.priority !== undefined && b.priority !== undefined) {
           return a.priority - b.priority;
         }
@@ -158,17 +160,17 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
         if (b.priority !== undefined) return 1;
         return 0;
       })
-      .slice(0);
+      .slice(0, 4);
   };
 
   const getFeaturedProperties = () => {
     const priorityDevelopmentIds = developments
       .filter((dev: Development) => dev.priority !== undefined)
-      .sort((ab) => (a.priority || 0) - (b.priority || 0))
+      .sort((a, b) => (a.priority || 0) - (b.priority || 0))
       .map((dev: Development) => dev.id);
 
     return [...properties]
-      .sort((ab) => {
+      .sort((a, b) => {
         const aIndex = priorityDevelopmentIds.indexOf(a.developmentId);
         const bIndex = priorityDevelopmentIds.indexOf(b.developmentId);
 
@@ -177,19 +179,19 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
         if (bIndex !== -1) return 1;
         return 0;
       })
-      .slice(0);
+      .slice(0, 6);
   };
 
   return (
     <PropertyContext.Provider 
-      value={
+      value={{
         properties,
         developments,
         getFeaturedDevelopments,
         getFeaturedProperties,
         formatPrice,
         getStatusColorClass
-      }
+      }}
     >
       {children}
     </PropertyContext.Provider>
@@ -199,13 +201,40 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
 // Main HomePage Component
 function HomePage() {
   const router = useRouter();
-  const [isLoadingsetIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const { 
     getFeaturedDevelopments,
     getFeaturedProperties,
     formatPrice,
     getStatusColorClass
   } = usePropertyData();
+
+  const handleSearch = (query: string = searchQuery) => {
+    if (query.trim()) {
+      router.push(`/properties/search?q=${encodeURIComponent(query.trim())}`);
+    } else {
+      router.push('/properties/search');
+    }
+  };
+
+  const handlePriceRangeSearch = (range: string) => {
+    const priceMap: Record<string, string> = {
+      'Under €300k': 'maxPrice=300000',
+      '€300k - €400k': 'minPrice=300000&maxPrice=400000',
+      '€400k - €500k': 'minPrice=400000&maxPrice=500000',
+      '€500k+': 'minPrice=500000'
+    };
+    
+    const params = priceMap[range];
+    if (params) {
+      router.push(`/properties/search?${params}`);
+    }
+  };
+
+  const handleQuickSearch = (params: string) => {
+    router.push(`/properties/search?${params}`);
+  };
 
   const featuredDevelopments = getFeaturedDevelopments();
   const featuredProperties = getFeaturedProperties();
@@ -239,34 +268,67 @@ function HomePage() {
           </div>
           <div className="max-w-4xl mx-auto">
             <div className="relative">
-              <Link href="/properties/search">
-                <input 
-                  type="text" 
-                  placeholder="Search properties using AI..." 
-                  className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-12 pr-20 sm:pr-32 text-sm sm:text-base text-gray-900 bg-white rounded-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-400 cursor-pointer" 
-                  readOnly
-                />
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-                </svg>
-                <div className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
-                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden xs:inline">AI Search</span>
-                </div>
-              </Link>
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
+                placeholder="Search properties using AI..." 
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 pl-10 sm:pl-12 pr-20 sm:pr-32 text-sm sm:text-base text-gray-900 bg-white rounded-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-400 touch-manipulation" 
+                autoComplete="off"
+                autoCapitalize="words"
+                autoCorrect="off"
+                inputMode="search"
+              />
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+              </svg>
+              <button
+                onClick={() => handleSearch()}
+                className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 transition-colors flex items-center gap-1 sm:gap-2 text-xs sm:text-sm touch-manipulation"
+                type="button"
+                aria-label="Search properties"
+              >
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">AI Search</span>
+              </button>
             </div>
             <div className="mt-3 sm:mt-4 flex flex-wrap gap-2 sm:gap-3 justify-center">
-              <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30">Under €300k</button>
-              <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30">€300k - €400k</button>
-              <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30">€400k - €500k</button>
-              <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30">€500k+</button>
+              <button 
+                onClick={() => handlePriceRangeSearch('Under €300k')}
+                className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-colors"
+              >
+                Under €300k
+              </button>
+              <button 
+                onClick={() => handlePriceRangeSearch('€300k - €400k')}
+                className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-colors"
+              >
+                €300k - €400k
+              </button>
+              <button 
+                onClick={() => handlePriceRangeSearch('€400k - €500k')}
+                className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-colors"
+              >
+                €400k - €500k
+              </button>
+              <button 
+                onClick={() => handlePriceRangeSearch('€500k+')}
+                className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-colors"
+              >
+                €500k+
+              </button>
             </div>
             <div className="mt-3 sm:mt-4 text-center text-blue-100 text-xs sm:text-sm overflow-x-auto whitespace-nowrap pb-1 hide-scrollbar">
               <span className="mr-1">Popular searches:</span> 
-              <a href="/properties/search?beds=3" className="underline mr-1">3-bed houses</a> • 
-              <a href="/properties/search?development=fitzgerald-gardens" className="underline mx-1">Fitzgerald Gardens</a> • 
-              <a href="/properties/search?type=apartment" className="underline mx-1">Modern apartments</a> • 
-              <a href="/properties/search?firstTimeBuyer=true" className="underline ml-1">First-time buyer homes</a>
+              <button onClick={() => handleQuickSearch('beds=3')} className="underline mr-1 hover:text-white transition-colors">3-bed houses</button> • 
+              <button onClick={() => handleQuickSearch('development=fitzgerald-gardens')} className="underline mx-1 hover:text-white transition-colors">Fitzgerald Gardens</button> • 
+              <button onClick={() => handleQuickSearch('type=apartment')} className="underline mx-1 hover:text-white transition-colors">Modern apartments</button> • 
+              <button onClick={() => handleQuickSearch('htbEligible=true')} className="underline ml-1 hover:text-white transition-colors">First-time buyer homes</button>
             </div>
           </div>
           <div className="mt-8 sm:mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
@@ -368,18 +430,27 @@ function HomePage() {
           {/* Development Cards - Horizontal scrolling on mobile */}
           <div className="sm:hidden overflow-x-auto pb-6 -mx-4 px-4 hide-scrollbar">
             <div className="flex space-x-4 w-max">
-              {featuredDevelopments.map((development) => (
+              {isLoading ? (
+                // Loading skeletons for mobile developments
+                [...Array(3)].map((_, i) => (
+                  <div key={i} className="w-[280px] flex-shrink-0">
+                    <PropertyCardSkeleton />
+                  </div>
+                ))
+              ) : featuredDevelopments.map((development) => (
                 <Link
                   key={development.id}
                   href={`/developments/${development.id}`}
                   className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all w-[280px] flex-shrink-0"
                 >
                   <div className="relative h-40">
-                    <Image
+                    <OptimizedImage
                       src={development.image}
                       alt={development.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="280px"
+                      quality={75}
                     />
                     {development.status && (
                       <div className={`absolute top-3 left-3 ${getStatusColorClass(development.statusColor)} text-white text-xs px-2 py-0.5 rounded-full uppercase font-semibold`}>
@@ -402,18 +473,26 @@ function HomePage() {
 
           {/* Development Cards - Grid on tablet and desktop */}
           <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            {featuredDevelopments.map((development) => (
+            {isLoading ? (
+              // Loading skeletons for desktop developments
+              [...Array(4)].map((_, i) => (
+                <PropertyCardSkeleton key={i} />
+              ))
+            ) : featuredDevelopments.map((development) => (
               <Link
                 key={development.id}
                 href={`/developments/${development.id}`}
                 className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1"
               >
                 <div className="relative h-48 md:h-56">
-                  <Image
+                  <OptimizedImage
                     src={development.image}
                     alt={development.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 300px"
+                    quality={75}
+                    priority={true}
                   />
                   {development.status && (
                     <div className={`absolute top-4 left-4 ${getStatusColorClass(development.statusColor)} text-white text-xs px-3 py-1 rounded-full uppercase font-semibold`}>
@@ -451,7 +530,7 @@ function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile version - 2x2 grid */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {platformStats.map((statindex) => (
+            {platformStats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/10 rounded-full mb-3 sm:mb-4 text-white">
                   <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8">
@@ -479,17 +558,26 @@ function HomePage() {
           {/* Mobile scrollable row of properties */}
           <div className="sm:hidden overflow-x-auto pb-6 -mx-4 px-4 hide-scrollbar">
             <div className="flex space-x-4 w-max">
-              {featuredProperties.map((property) => (
+              {isLoading ? (
+                // Loading skeletons for mobile
+                [...Array(3)].map((_, i) => (
+                  <div key={i} className="w-[280px] flex-shrink-0">
+                    <PropertyCardSkeleton />
+                  </div>
+                ))
+              ) : featuredProperties.map((property) => (
                 <div
                   key={property.id}
                   className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all group cursor-pointer w-[280px] flex-shrink-0"
                 >
                   <div className="relative h-44">
-                    <Image
+                    <OptimizedImage
                       src={property.image}
                       alt={property.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="280px"
+                      quality={75}
                     />
                     {property.isNew && (
                       <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
@@ -540,17 +628,25 @@ function HomePage() {
 
           {/* Tablet and desktop grid */}
           <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {featuredProperties.map((property) => (
+            {isLoading ? (
+              // Loading skeletons for desktop
+              [...Array(6)].map((_, i) => (
+                <PropertyCardSkeleton key={i} />
+              ))
+            ) : featuredProperties.map((property) => (
               <div
                 key={property.id}
                 className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all group cursor-pointer"
               >
                 <div className="relative h-52 sm:h-56 md:h-64">
-                  <Image
+                  <OptimizedImage
                     src={property.image}
                     alt={property.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 400px"
+                    quality={75}
+                    priority={true}
                   />
                   {property.isNew && (
                     <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">

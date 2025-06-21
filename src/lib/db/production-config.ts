@@ -25,7 +25,7 @@ export function getProductionDatabaseConfig(): ProductionDatabaseConfig {
     const requiredVars = ['DATABASE_URL'];
     const missing = requiredVars.filter(varName => !process.env[varName]);
     
-    if (missing.length> 0) {
+    if (missing.length > 0) {
       throw new Error(`Missing required production environment variables: ${missing.join(', ')}`);
     }
   }

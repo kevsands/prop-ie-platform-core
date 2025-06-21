@@ -1,0 +1,467 @@
+// Enhanced PropIE Platform Database Schema
+// Phase 1: Performance and Architecture Improvements
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["views", "fullTextSearch", "postgresqlExtensions", "relationJoins"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  extensions = [
+    postgis(map: "postgis", version: "3.3"),
+    btree_gin,
+    pg_trgm,
+    uuid_ossp(map: "uuid-ossp"),
+    pgcrypto,
+    timescaledb
+  ]
+}
+
+// ======= Enhanced User Management with Validation =======
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique @db.VarChar(320) // RFC 5321 limit
+  firstName    String     @db.VarChar(100)
+  lastName     String     @db.VarChar(100)
+  fullName     String     @computed("firstName || ' ' || lastName")
+  phone        String?    @db.VarChar(20) // E.164 format
+  password     String?    @db.VarChar(255) // Hashed password
+  roles        UserRole[]
+  status       UserStatus @default(ACTIVE)
+  kycStatus    KYCStatus  @default(NOT_STARTED)
+  organization String?    @db.VarChar(200)
+  position     String?    @db.VarChar(100)
+  avatar       String?    @db.VarChar(500)
+  preferences  Json?
+  created      DateTime   @default(now()) @db.Timestamptz
+  lastActive   DateTime   @updatedAt @db.Timestamptz
+  lastLogin    DateTime?  @db.Timestamptz
+  metadata     Json?
+  locationId   String?
+  location     Location?  @relation(fields: [locationId], references: [id])
+
+  // Relations
+  kycDocuments        Document[]    @relation("UserKycDocuments")
+  ownedDevelopments   Development[] @relation("DeveloperRelation")
+  investments         Investment[]  @relation("InvestorRelation")
+  professionalProfile Professional? @relation("ProfessionalProfile")
+  leadsSold           Sale[]        @relation("SellingAgentRelation")
+  leads               Lead[]        @relation("AssignedLeads")
+  teamMemberships     TeamMember[]
+  projectsManaged     Project[]     @relation("ProjectManagerRelation")
+  tasksAssigned       ProjectTask[] @relation("AssignedTasksRelation")
+  tasksCreated        ProjectTask[] @relation("CreatedTasksRelation")
+  salesMilestones     SaleStatusHistory[] @relation("SaleStatusUpdatedByRelation")
+  documentsUploaded   Document[]    @relation("DocumentUploader")
+  documentsApproved   Document[]    @relation("DocumentApprover")
+  updatedDocuments    DocumentVersion[] @relation("DocumentVersionCreator")
+  permissions         UserPermission[] @relation("UserPermissions")
+  buyerProfile        BuyerProfile?
+  reservations        Reservation[]
+  snagLists           SnagList[]
+  mortgageTracking    MortgageTracking?
+  developmentViewings DevelopmentViewing[]
+  developmentReservations DevelopmentReservation[]
+  developmentSales    DevelopmentSale[]
+  viewingAgentFor     DevelopmentViewing[] @relation("ViewingAgent")
+  buyerTransactions   Transaction[] @relation("BuyerTransactions")
+  agentTransactions   Transaction[] @relation("AgentTransactions")
+  solicitorTransactions Transaction[] @relation("SolicitorTransactions")
+  inquiries           Inquiry[]
+  sessions            Session[]
+  refreshTokens       RefreshToken[]
+  authLogs            AuthLog[]
+  mfaSettings         MfaSettings?
+  mfaTokens           MfaToken[]
+  
+  // Audit fields
+  createdAuditLogs    AuditLog[] @relation("AuditLogCreator")
+  qualityViolations   DataQualityViolation[] @relation("QualityViolationUser")
+
+  // Enhanced indexes
+  @@index([email])
+  @@index([status, kycStatus])
+  @@index([created])
+  @@index([lastActive])
+  @@index([roles])
+  @@index([organization])
+  
+  // Validation constraints
+  @@map("users")
+}
+
+// ======= Enhanced Location with Geospatial Support =======
+
+model Location {
+  id          String    @id @default(cuid())
+  address     String    @db.VarChar(500)
+  city        String    @db.VarChar(100)
+  county      String    @db.VarChar(100)
+  eircode     String    @db.VarChar(8)
+  country     String    @db.VarChar(100) @default("Ireland")
+  
+  // Geospatial fields using PostGIS
+  coordinates  Unsupported("geometry(Point, 4326)")?
+  boundingBox  Unsupported("geometry(Polygon, 4326)")?
+  
+  // Legacy fields for backward compatibility
+  latitude    Float?
+  longitude   Float?
+  
+  created     DateTime  @default(now()) @db.Timestamptz
+  updated     DateTime  @updatedAt @db.Timestamptz
+  
+  // Relations
+  users         User[]
+  developments  Development[]
+  properties    Property[]
+  
+  // Enhanced indexes
+  @@index([city, county])
+  @@index([eircode])
+  @@index([coordinates], type: Gist)
+  
+  @@map("locations")
+}
+
+// ======= Enhanced Development Model =======
+
+model Development {
+  id              String            @id @default(cuid())
+  name            String            @db.VarChar(200)
+  slug            String            @unique @db.VarChar(200)
+  developerId     String
+  developer       User              @relation("DeveloperRelation", fields: [developerId], references: [id])
+  locationId      String
+  location        Location          @relation(fields: [locationId], references: [id])
+  status          DevelopmentStatus @default(PLANNING)
+  totalUnits      Int
+  description     String?           @db.Text
+  mainImage       String?           @db.VarChar(500)
+  images          String[]
+  videos          String[]
+  features        String[]
+  amenities       String[]
+  
+  // Enhanced financial fields
+  totalProjectValue  Decimal?      @db.Decimal(15,2)
+  totalProjectCost   Decimal?      @db.Decimal(15,2)
+  currency          CurrencyCode   @default(EUR)
+  
+  // Timeline fields
+  planningStartDate    DateTime?   @db.Timestamptz
+  constructionStartDate DateTime?  @db.Timestamptz
+  constructionEndDate   DateTime?  @db.Timestamptz
+  marketingStartDate    DateTime?  @db.Timestamptz
+  completionDate       DateTime?   @db.Timestamptz
+  
+  // Metadata
+  created         DateTime       @default(now()) @db.Timestamptz
+  updated         DateTime       @updatedAt @db.Timestamptz
+  metadata        Json?
+  
+  // Relations
+  units           Unit[]
+  phases          DevelopmentPhase[]
+  milestones      Milestone[]
+  sales           Sale[]
+  documents       Document[]     @relation("DevelopmentDocuments")
+  team            TeamMember[]   @relation("DevelopmentTeam")
+  viewings        DevelopmentViewing[]
+  reservations    DevelopmentReservation[]
+  developmentSales DevelopmentSale[]
+  
+  // Financial relations
+  finance         DevelopmentFinance?
+  
+  // Enhanced indexes
+  @@index([developerId])
+  @@index([locationId])
+  @@index([status])
+  @@index([slug])
+  @@index([created])
+  @@index([name], type: Gin) // Full-text search
+  
+  @@map("developments")
+}
+
+// ======= Enhanced Financial Models =======
+
+model MoneyAmount {
+  id              String        @id @default(cuid())
+  amount          Decimal       @db.Decimal(19,4) // Higher precision for financial calculations
+  currency        CurrencyCode
+  exchangeRate    Decimal?      @db.Decimal(10,6)
+  baseCurrency    CurrencyCode  @default(EUR)
+  convertedAmount Decimal?      @db.Decimal(19,4) // Auto-calculated in base currency
+  
+  created         DateTime      @default(now()) @db.Timestamptz
+  updated         DateTime      @updatedAt @db.Timestamptz
+  
+  // Relations - these would be implemented as separate linking tables
+  unitPrices      Unit[]        @relation("UnitPrice")
+  
+  @@unique([amount, currency, exchangeRate])
+  @@index([currency])
+  @@index([baseCurrency])
+  
+  @@map("money_amounts")
+}
+
+// ======= Data Quality and Audit Models =======
+
+model DataQualityRule {
+  id               String                @id @default(cuid())
+  tableName        String                @db.VarChar(100)
+  columnName       String?               @db.VarChar(100)
+  ruleType         DataQualityRuleType
+  ruleDefinition   Json
+  severity         QualitySeverity
+  isActive         Boolean               @default(true)
+  description      String?               @db.Text
+  
+  created          DateTime              @default(now()) @db.Timestamptz
+  updated          DateTime              @updatedAt @db.Timestamptz
+  
+  // Relations
+  violations       DataQualityViolation[]
+  
+  @@index([tableName, columnName])
+  @@index([ruleType])
+  @@index([isActive])
+  
+  @@map("data_quality_rules")
+}
+
+model DataQualityViolation {
+  id                String            @id @default(cuid())
+  ruleId            String
+  rule              DataQualityRule   @relation(fields: [ruleId], references: [id])
+  tableName         String            @db.VarChar(100)
+  recordId          String            @db.VarChar(100)
+  violationDetails  Json
+  detectedAt        DateTime          @default(now()) @db.Timestamptz
+  resolvedAt        DateTime?         @db.Timestamptz
+  resolutionNotes   String?           @db.Text
+  resolvedByUserId  String?
+  resolvedByUser    User?             @relation("QualityViolationUser", fields: [resolvedByUserId], references: [id])
+  
+  @@index([ruleId])
+  @@index([tableName, recordId])
+  @@index([detectedAt])
+  @@index([resolvedAt])
+  
+  @@map("data_quality_violations")
+}
+
+model AuditLog {
+  id           String    @id @default(cuid())
+  tableName    String    @db.VarChar(100)
+  operation    String    @db.VarChar(20) // INSERT, UPDATE, DELETE
+  recordId     String    @db.VarChar(100)
+  oldValues    Json?
+  newValues    Json?
+  userId       String?
+  user         User?     @relation("AuditLogCreator", fields: [userId], references: [id])
+  ipAddress    String?   @db.Inet
+  userAgent    String?   @db.VarChar(500)
+  sessionId    String?   @db.VarChar(100)
+  timestamp    DateTime  @default(now()) @db.Timestamptz
+  
+  @@index([tableName])
+  @@index([operation])
+  @@index([recordId])
+  @@index([userId])
+  @@index([timestamp])
+  
+  @@map("audit_logs")
+}
+
+model DataLineage {
+  id                   String    @id @default(cuid())
+  sourceTable          String    @db.VarChar(100)
+  sourceId             String    @db.VarChar(100)
+  targetTable          String    @db.VarChar(100)
+  targetId             String    @db.VarChar(100)
+  transformationType   String    @db.VarChar(100)
+  transformationRules  Json?
+  createdAt            DateTime  @default(now()) @db.Timestamptz
+  
+  @@index([sourceTable, sourceId])
+  @@index([targetTable, targetId])
+  @@index([transformationType])
+  
+  @@map("data_lineage")
+}
+
+// ======= Environment and Configuration Management =======
+
+model EnvironmentConfig {
+  id                     String    @id @default(cuid())
+  environment            String    @unique @db.VarChar(50) // development, staging, production
+  featureFlags           Json?
+  validationRules        Json?
+  performanceThresholds  Json?
+  
+  created                DateTime  @default(now()) @db.Timestamptz
+  updated                DateTime  @updatedAt @db.Timestamptz
+  
+  @@map("environment_configs")
+}
+
+model SchemaVersion {
+  id            String    @id @default(cuid())
+  version       String    @unique @db.VarChar(50)
+  description   String    @db.Text
+  migrationSql  String    @db.Text
+  rollbackSql   String?   @db.Text
+  appliedAt     DateTime  @default(now()) @db.Timestamptz
+  appliedBy     String    @db.VarChar(100)
+  
+  @@index([version])
+  @@index([appliedAt])
+  
+  @@map("schema_versions")
+}
+
+// ======= Monitoring and Analytics Models =======
+
+model DashboardMetric {
+  id                      String    @id @default(cuid())
+  metricName              String    @unique @db.VarChar(100)
+  querySql                String    @db.Text
+  refreshIntervalSeconds  Int       @default(300)
+  lastCalculated          DateTime? @db.Timestamptz
+  cachedResult            Json?
+  isActive                Boolean   @default(true)
+  
+  created                 DateTime  @default(now()) @db.Timestamptz
+  updated                 DateTime  @updatedAt @db.Timestamptz
+  
+  @@index([metricName])
+  @@index([lastCalculated])
+  @@index([isActive])
+  
+  @@map("dashboard_metrics")
+}
+
+// ======= Enhanced Enums =======
+
+enum DataQualityRuleType {
+  NOT_NULL
+  RANGE
+  PATTERN
+  CUSTOM
+  REFERENTIAL_INTEGRITY
+  UNIQUENESS
+  FORMAT_VALIDATION
+  BUSINESS_RULE
+}
+
+enum QualitySeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+enum CurrencyCode {
+  EUR
+  USD
+  GBP
+  CAD
+  AUD
+  JPY
+  CHF
+  CNY
+  SEK
+  NZD
+  DKK
+  NOK
+}
+
+enum UserRole {
+  DEVELOPER
+  BUYER
+  INVESTOR
+  ARCHITECT
+  ENGINEER
+  QUANTITY_SURVEYOR
+  LEGAL
+  PROJECT_MANAGER
+  AGENT
+  SOLICITOR
+  CONTRACTOR
+  ADMIN
+  SUPER_ADMIN
+  DATA_ANALYST
+  FINANCIAL_ANALYST
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+  ARCHIVED
+}
+
+enum KYCStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum DevelopmentStatus {
+  PLANNING
+  PRE_CONSTRUCTION
+  CONSTRUCTION
+  MARKETING
+  SALES
+  HANDOVER
+  COMPLETED
+  CANCELLED
+  ON_HOLD
+}
+
+// Placeholder models to maintain relations (these would be fully defined in the actual implementation)
+model Professional { id String @id; userId String @unique; user User @relation("ProfessionalProfile", fields: [userId], references: [id]); @@map("professionals") }
+model Sale { id String @id; sellingAgentId String?; sellingAgent User? @relation("SellingAgentRelation", fields: [sellingAgentId], references: [id]); developmentId String; development Development @relation(fields: [developmentId], references: [id]); @@map("sales") }
+model Lead { id String @id; assignedToId String?; assignedTo User? @relation("AssignedLeads", fields: [assignedToId], references: [id]); @@map("leads") }
+model TeamMember { id String @id; userId String; user User @relation(fields: [userId], references: [id]); developmentId String?; development Development? @relation("DevelopmentTeam", fields: [developmentId], references: [id]); @@map("team_members") }
+model Project { id String @id; managerId String; manager User @relation("ProjectManagerRelation", fields: [managerId], references: [id]); @@map("projects") }
+model ProjectTask { id String @id; assignedToId String?; assignedTo User? @relation("AssignedTasksRelation", fields: [assignedToId], references: [id]); createdById String; createdBy User @relation("CreatedTasksRelation", fields: [createdById], references: [id]); @@map("project_tasks") }
+model SaleStatusHistory { id String @id; updatedById String; updatedBy User @relation("SaleStatusUpdatedByRelation", fields: [updatedById], references: [id]); @@map("sale_status_history") }
+model Document { id String @id; uploaderId String?; uploader User? @relation("DocumentUploader", fields: [uploaderId], references: [id]); approverId String?; approver User? @relation("DocumentApprover", fields: [approverId], references: [id]); userId String?; user User? @relation("UserKycDocuments", fields: [userId], references: [id]); developmentId String?; development Development? @relation("DevelopmentDocuments", fields: [developmentId], references: [id]); @@map("documents") }
+model DocumentVersion { id String @id; createdById String; createdBy User @relation("DocumentVersionCreator", fields: [createdById], references: [id]); @@map("document_versions") }
+model UserPermission { id String @id; userId String; user User @relation("UserPermissions", fields: [userId], references: [id]); resource String; action String; conditions Json?; @@map("user_permissions") }
+model BuyerProfile { id String @id; userId String @unique; user User @relation(fields: [userId], references: [id]); @@map("buyer_profiles") }
+model Reservation { id String @id; userId String; user User @relation(fields: [userId], references: [id]); @@map("reservations") }
+model SnagList { id String @id; userId String; user User @relation(fields: [userId], references: [id]); @@map("snag_lists") }
+model MortgageTracking { id String @id; userId String @unique; user User @relation(fields: [userId], references: [id]); @@map("mortgage_tracking") }
+model DevelopmentViewing { id String @id; userId String; user User @relation(fields: [userId], references: [id]); developmentId String; development Development @relation(fields: [developmentId], references: [id]); viewingAgentId String?; viewingAgent User? @relation("ViewingAgent", fields: [viewingAgentId], references: [id]); @@map("development_viewings") }
+model DevelopmentReservation { id String @id; userId String; user User @relation(fields: [userId], references: [id]); developmentId String; development Development @relation(fields: [developmentId], references: [id]); @@map("development_reservations") }
+model DevelopmentSale { id String @id; userId String; user User @relation(fields: [userId], references: [id]); developmentId String; development Development @relation(fields: [developmentId], references: [id]); @@map("development_sales") }
+model Transaction { id String @id; buyerId String?; buyer User? @relation("BuyerTransactions", fields: [buyerId], references: [id]); agentId String?; agent User? @relation("AgentTransactions", fields: [agentId], references: [id]); solicitorId String?; solicitor User? @relation("SolicitorTransactions", fields: [solicitorId], references: [id]); @@map("transactions") }
+model Inquiry { id String @id; userId String; user User @relation(fields: [userId], references: [id]); @@map("inquiries") }
+model Session { id String @id; userId String; user User @relation(fields: [userId], references: [id]); sessionToken String @unique; expires DateTime; @@index([userId]); @@map("sessions") }
+model RefreshToken { id String @id; userId String; user User @relation(fields: [userId], references: [id]); token String @unique; expiresAt DateTime; createdAt DateTime @default(now()); @@index([userId]); @@index([expiresAt]); @@map("refresh_tokens") }
+model AuthLog { id String @id; userId String?; user User? @relation(fields: [userId], references: [id]); eventType String; email String?; ipAddress String?; userAgent String?; metadata Json?; timestamp DateTime @default(now()); @@index([userId]); @@index([eventType]); @@index([timestamp]); @@map("auth_logs") }
+model MfaSettings { id String @id; userId String @unique; user User @relation(fields: [userId], references: [id]); enabled Boolean @default(false); method MfaMethod @default(TOTP); secret String?; backupCodes String[]; lastUsed DateTime?; createdAt DateTime @default(now()); updatedAt DateTime @updatedAt; @@map("mfa_settings") }
+model MfaToken { id String @id; userId String; user User @relation(fields: [userId], references: [id]); token String; type MfaTokenType; used Boolean @default(false); expiresAt DateTime; createdAt DateTime @default(now()); @@index([userId]); @@index([token]); @@index([expiresAt]); @@map("mfa_tokens") }
+model Unit { id String @id; developmentId String; development Development @relation(fields: [developmentId], references: [id]); priceId String?; price MoneyAmount? @relation("UnitPrice", fields: [priceId], references: [id]); @@map("units") }
+model DevelopmentPhase { id String @id; developmentId String; development Development @relation(fields: [developmentId], references: [id]); @@map("development_phases") }
+model Milestone { id String @id; developmentId String; development Development @relation(fields: [developmentId], references: [id]); @@map("milestones") }
+model DevelopmentFinance { id String @id; developmentId String @unique; development Development @relation(fields: [developmentId], references: [id]); @@map("development_finances") }
+model Investment { id String @id; investorId String; investor User @relation("InvestorRelation", fields: [investorId], references: [id]); @@map("investments") }
+model Property { id String @id; locationId String; location Location @relation(fields: [locationId], references: [id]); @@map("properties") }
+
+enum MfaMethod { TOTP; SMS; EMAIL }
+enum MfaTokenType { VERIFICATION; BACKUP }

@@ -16,8 +16,7 @@ const prismaClientSingleton = () => {
 // Use a global variable to store the client in development
 declare global {
   // eslint-disable-next-line no-var
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>\n  );
-}
+  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
 // Create or reuse the client

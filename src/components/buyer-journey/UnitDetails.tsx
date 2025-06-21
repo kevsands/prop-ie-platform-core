@@ -28,17 +28,17 @@ interface UnitDetailsProps {
     bathrooms: number;
     available: number;
     features: string[];
-    schedule: Record<string, string>
-  );
+    schedule: Record<string, string>;
+  };
   };
   developmentId: string;
 }
 
 export function UnitDetails({ unitKey, unitData, developmentId }: UnitDetailsProps) {
   const { isAuthenticated, user } = useAuth();
-  const [isDialogOpensetIsDialogOpen] = useState(false);
-  const [isReservedsetIsReserved] = useState(false);
-  const [transactionIdsetTransactionId] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isReserved, setIsReserved] = useState(false);
+  const [transactionId, setTransactionId] = useState<string | null>(null);
 
   const isSoldOut = unitData.available <= 0;
   const isVerified = isAuthenticated && user?.emailVerified;
@@ -61,8 +61,8 @@ export function UnitDetails({ unitKey, unitData, developmentId }: UnitDetailsPro
         <CardHeader>
           <CardTitle>{unitData.name} - Details</CardTitle>
           <div className="flex items-center mt-2">
-            <Badge variant={unitData.available> 0 ? 'default' : 'secondary'}>
-              {unitData.available> 0 ? `${unitData.available} Available` : 'Sold Out'}
+            <Badge variant={unitData.available > 0 ? 'default' : 'secondary'}>
+              {unitData.available > 0 ? `${unitData.available} Available` : 'Sold Out'}
             </Badge>
             <span className="ml-auto font-semibold text-lg">{unitData.price}</span>
           </div>
@@ -94,7 +94,7 @@ export function UnitDetails({ unitKey, unitData, developmentId }: UnitDetailsPro
               <div className="space-y-2">
                 <h4 className="font-semibold">Features:</h4>
                 <ul className="space-y-1">
-                  {unitData.features.map((featureindex: any) => (
+                  {unitData.features.map((feature: any, index: number) => (
                     <li key={index} className="flex items-center gap-2">
                       <Check className="h-4 w-4 text-green-600" />
                       <span>{feature}</span>
@@ -107,7 +107,7 @@ export function UnitDetails({ unitKey, unitData, developmentId }: UnitDetailsPro
             <div>
               <h3 className="font-semibold mb-4">Schedule of Accommodation</h3>
               <div className="space-y-3 mb-6">
-                {Object.entries(unitData.schedule).map(([roomsize]) => (
+                {Object.entries(unitData.schedule).map(([room, size]) => (
                   <div key={room} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                     <span className="font-medium">{room}</span>
                     <span className="text-gray-600">{size}</span>
@@ -135,7 +135,7 @@ export function UnitDetails({ unitKey, unitData, developmentId }: UnitDetailsPro
                   ) : (
                     <>
                       Buy It Now
-                      <ShoppingBag className="ml-2 h-5 w-5" / />
+                      <ShoppingBag className="ml-2 h-5 w-5" />
                   )}
                 </Button>
               )}

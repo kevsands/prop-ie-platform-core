@@ -21,8 +21,7 @@ export class DataClient {
 
   async query<T = any>(options: {
     query: string;
-    variables?: Record<string, any>
-  );
+    variables?: Record<string, any>;
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     errorPolicy?: 'none' | 'all' | 'ignore';
     transform?: (data: any) => T;
@@ -76,8 +75,7 @@ export class DataClient {
 
   async mutate<T = any>(options: {
     mutation: string;
-    variables?: Record<string, any>
-  );
+    variables?: Record<string, any>;
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     optimisticResponse?: T;
     transform?: (data: any) => T;
@@ -125,8 +123,7 @@ export class DataClient {
 
   async subscribe<T = any>(options: {
     subscription: string;
-    variables?: Record<string, any>
-  );
+    variables?: Record<string, any>;
     authMode?: 'userPool' | 'iam' | 'apiKey' | 'oidc';
     onData: (data: T) => void;
     onError: (error: Error) => void;
@@ -138,7 +135,8 @@ export class DataClient {
       const sub = this.client.graphql({
         query: subscription,
         variables,
-        authMode});
+        authMode
+      });
 
       const unsubscribe = sub.subscribe({
         next: ({ data }) => {
@@ -150,9 +148,11 @@ export class DataClient {
           this.logger.error('Subscription error', { error, subscription });
           this.errorReporter.captureError(error, {
             subscription,
-            variables});
+            variables
+          });
           onError(error);
-        });
+        }
+      });
 
       return () => {
         unsubscribe.unsubscribe();

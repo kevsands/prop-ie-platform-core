@@ -221,7 +221,7 @@ const TestimonialsSection: React.FC = () => {
                     </p>
 
                     <div className="flex mb-4">
-                      {[...Array(currentTestimonial?.rating || 5)].map((_index) => (
+                      {[...Array(currentTestimonial?.rating || 5)].map((_, index) => (
                         <Star key={index} className="h-4 w-4 text-yellow-400 fill-current" />
                       ))}
                     </div>
@@ -262,7 +262,7 @@ const TestimonialsSection: React.FC = () => {
                       </p>
 
                       <div className="flex mb-6">
-                        {[...Array(currentTestimonial?.rating || 5)].map((_index) => (
+                        {[...Array(currentTestimonial?.rating || 5)].map((_, index) => (
                           <Star key={index} className="h-5 w-5 text-yellow-400 fill-current" />
                         ))}
                       </div>
@@ -321,7 +321,7 @@ const TestimonialsSection: React.FC = () => {
           {/* Navigation Controls */}
           <div className="flex items-center justify-between mt-6 sm:mt-8">
             <div className="flex gap-1.5 sm:gap-2">
-              {testimonials.map((_index) => (
+              {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToTestimonial(index)}

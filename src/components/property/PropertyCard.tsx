@@ -11,6 +11,7 @@ import { usePropertyAnalytics } from '@/hooks/usePropertyAnalytics';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { PropertyImage } from '@/components/ui/PropertyImage';
 import { 
   Bed, 
   Bath, 
@@ -42,7 +43,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
 
   // Get primary image
   const primaryImage = property.images?.find(img => img.isPrimary) || property.images?.[0];
-  const imageUrl = primaryImage?.url || '/images/placeholder-property.jpg';
+  const imageUrl = primaryImage?.url;
   const imageCount = property.images?.length || 0;
 
   // Handle property click
@@ -86,7 +87,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
           {/* Image Section */}
           <div className="relative w-full md:w-1/3 h-48 md:h-auto">
             <Link href={`/properties/${property.id}`} onClick={handleClick}>
-              <Image
+              <PropertyImage
                 src={imageUrl}
                 alt={property.name}
                 fill
@@ -206,7 +207,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = React.memo(({
       {/* Image Section */}
       <div className="relative h-56 w-full">
         <Link href={`/properties/${property.id}`} onClick={handleClick}>
-          <Image
+          <PropertyImage
             src={imageUrl}
             alt={property.name}
             fill

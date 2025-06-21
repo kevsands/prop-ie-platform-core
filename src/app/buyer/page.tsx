@@ -43,7 +43,7 @@ interface Task {
   status: 'pending' | 'in-progress' | 'completed';
   priority: 'high' | 'medium' | 'low';
   dueDate?: string;
-  icon: React.ComponentType<any>\n  );
+  icon: React.ComponentType<any>;
   progress?: number;
 }
 
@@ -87,20 +87,20 @@ interface Transaction {
     description: string;
     status: string;
     dueDate?: Date;
-  }>\n  );
+  }>;
   participants?: Array<{
     id: string;
     userId: string;
     role: string;
-  }>\n  );
+  }>;
 }
 
 export default function BuyerOverviewPage() {
   const router = useRouter();
-  const [loadingsetLoading] = useState(true);
-  const [userDatasetUserData] = useState<any>(null);
-  const [activeTransactionssetActiveTransactions] = useState<Transaction[]>([]);
-  const [realTimeNotificationssetRealTimeNotifications] = useState<NotificationData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<any>(null);
+  const [activeTransactions, setActiveTransactions] = useState<Transaction[]>([]);
+  const [realTimeNotifications, setRealTimeNotifications] = useState<NotificationData[]>([]);
 
   useEffect(() => {
     // Load real-time notifications for this user
@@ -594,7 +594,7 @@ export default function BuyerOverviewPage() {
                           } else {
                             router.push(`/buyer/tasks/${task.id}`);
                           }
-                        }
+                        }}
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-3">
@@ -635,7 +635,7 @@ export default function BuyerOverviewPage() {
                                     <div className="flex-1 bg-gray-200 rounded-full h-1.5">
                                       <div 
                                         className="bg-blue-600 h-1.5 rounded-full"
-                                        style={ width: `${task.progress}%` }
+                                        style={{ width: `${task.progress}%` }}
                                       />
                                     </div>
                                     <span className="text-xs text-gray-600">
@@ -860,7 +860,7 @@ export default function BuyerOverviewPage() {
                           strokeDasharray={`${2 * Math.PI * 20}`}
                           strokeDashoffset={`${2 * Math.PI * 20 * (1 - userData.journeyProgress / 100)}`}
                           className="transition-all duration-500"
-                          style={ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }
+                          style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -916,7 +916,7 @@ export default function BuyerOverviewPage() {
                             </span>
                             {notification.actions && notification.actions.length> 0 && (
                               <div className="flex gap-2">
-                                {notification.actions.slice(0).map((actionidx) => (
+                                {notification.actions.slice(0).map((action, idx) => (
                                   <button
                                     key={idx}
                                     onClick={() => {
@@ -925,7 +925,7 @@ export default function BuyerOverviewPage() {
                                       } else if (action.action === 'contact_developer') {
                                         alert('Contact feature coming soon!');
                                       }
-                                    }
+                                    }}
                                     className={`text-xs px-2 py-1 rounded font-medium ${
                                       action.variant === 'primary' ? 'bg-blue-600 text-white hover:bg-blue-700' :
                                       'bg-gray-100 text-gray-700 hover:bg-gray-200'

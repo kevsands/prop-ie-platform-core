@@ -1,0 +1,431 @@
+{
+  "timestamp": "2025-06-16T19:37:29.898Z",
+  "totalImages": 137,
+  "totalSize": 115494140,
+  "issues": [
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/01-NoPeople.jpg",
+      "currentSize": "6.05 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/01-People.jpg",
+      "currentSize": "6.06 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/02-NoPeople.jpg",
+      "currentSize": "6.65 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/02-People.jpg",
+      "currentSize": "6.66 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/03.jpg",
+      "currentSize": "5.38 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 91
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/04.jpg",
+      "currentSize": "5.35 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 91
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "ballymakenny-view/hero.jpg",
+      "currentSize": "6.66 MB",
+      "threshold": "1 MB",
+      "category": "hero",
+      "reduction": 85
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/01-NoPeople.jpg",
+      "currentSize": "6.05 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/01-People.jpg",
+      "currentSize": "6.06 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/02-NoPeople.jpg",
+      "currentSize": "6.65 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/02-People.jpg",
+      "currentSize": "6.66 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 92
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/03.jpg",
+      "currentSize": "5.38 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 91
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/04.jpg",
+      "currentSize": "5.35 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 91
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ballymakenny-View/hero.jpg",
+      "currentSize": "6.66 MB",
+      "threshold": "1 MB",
+      "category": "hero",
+      "reduction": 85
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/EllwoodBloom-1.jpeg",
+      "currentSize": "1.95 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 74
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/EllwoodBloom-2.jpeg",
+      "currentSize": "4.74 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 89
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/EllwoodBloom-3 2.jpeg",
+      "currentSize": "1.41 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 64
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/EllwoodBloom-3.jpeg",
+      "currentSize": "1.41 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 64
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/EllwoodBloom-4.jpeg",
+      "currentSize": "1.48 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 66
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/EllwoodBloom-5.jpeg",
+      "currentSize": "2.98 MB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 83
+    },
+    {
+      "type": "oversized",
+      "severity": "high",
+      "image": "developments/Ellwood-Logos/hero.jpg",
+      "currentSize": "3.97 MB",
+      "threshold": "1 MB",
+      "category": "hero",
+      "reduction": 75
+    },
+    {
+      "type": "oversized",
+      "severity": "medium",
+      "image": "developments/fitzgerald-gardens/3bed-House.jpeg",
+      "currentSize": "678.29 KB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 25
+    },
+    {
+      "type": "oversized",
+      "severity": "medium",
+      "image": "developments/fitzgerald-gardens/3bed-duplex.jpeg",
+      "currentSize": "599.39 KB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 15
+    },
+    {
+      "type": "oversized",
+      "severity": "medium",
+      "image": "developments/fitzgerald-gardens/Vanity-unit.jpeg",
+      "currentSize": "634.19 KB",
+      "threshold": "512 KB",
+      "category": "property",
+      "reduction": 19
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "format",
+      "image": "Prop Branding/Prop Master_Logo- White.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/01-NoPeople.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/01-People.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/02-NoPeople.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/02-People.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/03.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/04.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "ballymakenny-view/hero.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/01-NoPeople.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/01-People.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/02-NoPeople.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/02-People.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/03.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/04.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/BMV 1.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/BMV 2.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/House Type B.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "format",
+      "image": "developments/Ballymakenny-View/HouseType A FP1.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/Ballymakenny-View/HouseType A FP2.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/HouseType A.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "format",
+      "image": "developments/Ballymakenny-View/HouseTypeB FP2.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ballymakenny-View/hero.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "format",
+      "image": "developments/Ellwood-Logos/2.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/Ellwood-Logos/4 (1).png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/Ellwood-Logos/ELLWOOD (1).png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "compression",
+      "image": "developments/Ellwood-Logos/hero.jpg",
+      "suggestion": "Optimize JPEG compression and consider WebP format",
+      "potentialSaving": "30-50%"
+    },
+    {
+      "type": "format",
+      "image": "developments/fitzgerald-gardens/Duplex D5.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/fitzgerald-gardens/Duplex d6.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/fitzgerald-gardens/House Type 1.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/fitzgerald-gardens/House Type 2.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/fitzgerald-gardens/House Type 3.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "developments/fitzgerald-gardens/House Type 4.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    },
+    {
+      "type": "format",
+      "image": "solutions/analytics-dashboard.png",
+      "suggestion": "Convert PNG to WebP/AVIF for better compression",
+      "potentialSaving": "60-80%"
+    }
+  ],
+  "summary": {
+    "totalImages": 137,
+    "totalSize": "110.14 MB",
+    "issuesFound": 24,
+    "highPriorityIssues": 21,
+    "estimatedSavings": "1.98 GB",
+    "recommendations": 33
+  }
+}

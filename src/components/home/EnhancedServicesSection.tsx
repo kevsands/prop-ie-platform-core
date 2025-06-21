@@ -94,7 +94,7 @@ export default function EnhancedServicesSection() {
         {/* Mobile Services Slider */}
         <div className="md:hidden overflow-x-auto pb-6 -mx-4 px-4 hide-scrollbar">
           <div className="flex space-x-4 w-max">
-            {services.map((serviceindex: any) => (
+            {services.map((service, index: any) => (
               <div
                 key={index}
                 className="group relative bg-white rounded-xl shadow-md hover:shadow-lg transition-all w-[280px] flex-shrink-0 overflow-hidden"
@@ -121,7 +121,7 @@ export default function EnhancedServicesSection() {
 
                   {/* Mobile - Show only 2 features */}
                   <ul className="space-y-1.5 mb-4">
-                    {service.features.slice(0).map((featureidx: any) => (
+                    {service.features.slice(0).map((feature, idx: any) => (
                       <li
                         key={idx}
                         className="flex items-start text-xs text-gray-600 group-hover:text-white/80 group-active:text-white/80 transition-colors duration-300"
@@ -160,7 +160,7 @@ export default function EnhancedServicesSection() {
 
         {/* Desktop and Tablet Services Grid */}
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {services.map((serviceindex: any) => (
+          {services.map((service, index: any) => (
             <div
               key={index}
               className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
@@ -187,7 +187,7 @@ export default function EnhancedServicesSection() {
 
                 {/* Features List */}
                 <ul className="space-y-2 mb-5 lg:mb-6">
-                  {service.features.map((featureidx: any) => (
+                  {service.features.map((feature, idx: any) => (
                     <li
                       key={idx}
                       className="flex items-start text-sm text-gray-600 group-hover:text-white/80 transition-colors duration-300"

@@ -65,10 +65,14 @@ const createPropertySchema = z.object({
 // GET /api/properties - List properties with filtering
 export async function GET(request: NextRequest) {
   try {
+    // Temporarily use mock data for development
+    const { GET: mockGET } = await import('./mock');
+    return await mockGET(request);
+    
     // Rate limiting
     const ip = request.ip ?? 'anonymous';
     try {
-      await limiter.check(10ip); // 10 requests per minute
+      await limiter.check(10, ip); // 10 requests per minute
     } catch {
       return NextResponse.json(
         { error: 'Rate limit exceeded' },
@@ -183,7 +187,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Execute queries
-    const [propertiestotal] = await Promise.all([
+    const [properties, total] = await Promise.all([
       prisma.unit.findMany({
         where,
         orderBy,
@@ -192,11 +196,18 @@ export async function GET(request: NextRequest) {
         include: {
           development: {
             include: {
-              developer: true},
+              developer: true
+            }
+          },
           reservations: {
             where: {
-              status: 'ACTIVE'}),
-      prisma.unit.count({ where })]);
+              status: 'ACTIVE'
+            }
+          }
+        }
+      }),
+      prisma.unit.count({ where })
+    ]);
 
     // Get aggregations for filters
     const aggregations = await getPropertyAggregations(where);
@@ -227,7 +238,7 @@ export async function GET(request: NextRequest) {
       originalPrice: unit.originalPrice?.toNumber(),
       status: unit.status as PropertyStatus,
       features: unit.features || [],
-      images: (unit.images as any[])?.map((imgindex: any) => ({
+      images: (unit.images as any[])?.map((img: any, index: number) => ({
         id: img.id || `${unit.id}-img-${index}`,
         url: img.url || img,
         alt: img.alt || `${unit.name} - Image ${index + 1}`,
@@ -269,7 +280,9 @@ export async function GET(request: NextRequest) {
     // Add cache headers for better performance
     return NextResponse.json(response, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'});
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
+      }
+    });
   } catch (error) {
 
     return NextResponse.json(
@@ -318,11 +331,16 @@ export async function POST(request: NextRequest) {
       include: {
         development: {
           include: {
-            developer: true});
+            developer: true
+          }
+        }
+      }
+    });
 
     return NextResponse.json({
       success: true,
-      property}, { status: 201 });
+      property
+    }, { status: 201 });
   } catch (error) {
 
     if (error instanceof z.ZodError) {
@@ -339,7 +357,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Helper async function toPromise.all([
+// Helper function to get property aggregations
+async function getPropertyAggregations(where: any): Promise<PropertyAggregations> {
+  const [
+    priceAgg,
+    sizeAgg,
+    typeCounts,
+    statusCounts,
+    bedroomCounts
+  ] = await Promise.all([
     // Price aggregation
     prisma.unit.aggregate({
       where,

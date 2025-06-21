@@ -117,16 +117,16 @@ interface TransactionContextType {
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
 export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentTransactionsetCurrentTransaction] = useState<Transaction | null>(null);
-  const [transactionssetTransactions] = useState<Transaction[]>([]);
-  const [loadingsetLoading] = useState(false);
-  const [errorsetError] = useState<string | null>(null);
+  const [currentTransaction, setCurrentTransaction] = useState<Transaction | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   // Try to use auth context if available
   let user = null;
   try {
-    const authContext = useContext(AuthContext);
-    user = authContext?.user || null;
+    const { user: authUser } = useAuth();
+    user = authUser;
   } catch (error) {
     // Auth context not available, continue without user
     console.debug('AuthContext not available in TransactionProvider');
@@ -172,7 +172,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ childre
     try {
       const response = await api.post('/transactions', data);
       const newTransaction = response.data;
-      setTransactions([...transactionsnewTransaction]);
+      setTransactions([...transactions, newTransaction]);
       return newTransaction;
     } catch (err: any) {
       setError(err.message || 'Failed to create transaction');
@@ -308,7 +308,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ childre
       formData.append('content', content);
       
       if (attachments) {
-        attachments.forEach((fileindex: any) => {
+        attachments.forEach((file, index) => {
           formData.append(`attachments[${index}]`, file);
         });
       }
@@ -461,7 +461,8 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({ childre
     markMessageAsRead,
     updateMilestoneStatus,
     inviteParticipant,
-    removeParticipant};
+    removeParticipant
+  };
 
   return (
     <TransactionContext.Provider value={value}>

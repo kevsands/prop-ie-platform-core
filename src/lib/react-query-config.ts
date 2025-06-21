@@ -24,10 +24,14 @@ const queryClientConfig = {
       refetchOnWindowFocus: false,
 
       // Don't refetch on reconnect by default
-      refetchOnReconnect: false},
+      refetchOnReconnect: false
+    },
     mutations: {
       // Retry failed mutations
-      retry: 1};
+      retry: 1
+    }
+  }
+};
 
 // Create the query client with configuration
 export const queryClient = new QueryClient(queryClientConfig);
@@ -42,14 +46,16 @@ export const queryKeys = {
     details: () => [...queryKeys.developments.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.developments.details(), id] as const,
     bySlug: (slug: string) => [...queryKeys.developments.all, 'slug', slug] as const,
-    statistics: (id: string) => [...queryKeys.developments.all, 'statistics', id] as const},
+    statistics: (id: string) => [...queryKeys.developments.all, 'statistics', id] as const
+  },
 
   // User and auth related queries
   auth: {
     all: ['auth'] as const,
     user: () => [...queryKeys.auth.all, 'user'] as const,
     currentUser: () => [...queryKeys.auth.user(), 'current'] as const,
-    permissions: () => [...queryKeys.auth.user(), 'permissions'] as const},
+    permissions: () => [...queryKeys.auth.user(), 'permissions'] as const
+  },
 
   // Dashboard related queries
   dashboard: {
@@ -57,7 +63,8 @@ export const queryKeys = {
     developer: () => [...queryKeys.dashboard.all, 'developer'] as const,
     metrics: () => [...queryKeys.dashboard.all, 'metrics'] as const,
     projects: () => [...queryKeys.dashboard.all, 'projects'] as const,
-    financial: () => [...queryKeys.dashboard.all, 'financial'] as const},
+    financial: () => [...queryKeys.dashboard.all, 'financial'] as const
+  },
 
   // Document related queries
   documents: {
@@ -66,7 +73,8 @@ export const queryKeys = {
     list: (filters: any) => [...queryKeys.documents.lists(), filters] as const,
     details: () => [...queryKeys.documents.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.documents.details(), id] as const,
-    categories: (projectId?: string) => [...queryKeys.documents.all, 'categories', projectId || 'all'] as const}
+    categories: (projectId?: string) => [...queryKeys.documents.all, 'categories', projectId || 'all'] as const
+  }
 };
 
 /**

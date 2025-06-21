@@ -2,6 +2,7 @@
 import React, { FC, ReactNode } from "react";
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
+import "../styles/mobile-enhancements.css";
 import ClientLayout from "./ClientLayout";
 import Providers from "./Providers";
 import PerformanceProvider from "@/components/performance/PerformanceProvider";

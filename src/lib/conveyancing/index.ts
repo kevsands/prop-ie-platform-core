@@ -6,6 +6,7 @@ import {
   AMLCheck,
   LegalFee
 } from '@/types/conveyancing';
+import { rosieIntegrationService } from '@/services/ROSIeIntegrationService';
 
 export class ConveyancingService extends EventEmitter {
   constructor() {

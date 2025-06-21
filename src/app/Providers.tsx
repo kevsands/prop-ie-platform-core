@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from '@/context/AuthContext';
+import { TransactionProvider } from '@/context/TransactionContext';
 
 // Create a client
 const queryClient = new QueryClient({ 
@@ -19,18 +19,17 @@ const queryClient = new QueryClient({
  * Core Providers component for the application
  * 
  * This handles the provider tree in the correct order:
- * 1. SessionProvider - Provides Next-Auth session state
- * 2. QueryClientProvider - Provides React-Query for data fetching
- * 3. AuthProvider - Our app-specific auth context that uses the session
+ * 1. QueryClientProvider - Provides React-Query for data fetching
+ * 2. AuthProvider - Our app-specific auth context
  */
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TransactionProvider>
           {children}
-        </AuthProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+        </TransactionProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

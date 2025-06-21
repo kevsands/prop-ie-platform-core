@@ -86,7 +86,7 @@ export default function AnalyticsDashboard() {
       name: 'Listed Properties',
       value: 1245,
       change: 5.6,
-      trend: [1100, 1150, 11801200122012351245]});
+      trend: [1100, 1150, 1180, 1200, 1220, 1235, 1245]});
 
   // Geographic data
   const geographicData: GeographicData[] = [
@@ -214,9 +214,9 @@ export default function AnalyticsDashboard() {
           {Object.values(metrics).map((metricindex: any) => (
             <motion.div
               key={metric.id}
-              initial={ opacity: 0, y: 20 }
-              animate={ opacity: 1, y: 0 }
-              transition={ duration: 0.3, delay: index * 0.1 }
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
               onClick={() => setSelectedMetric(metric.id)}
               className="cursor-pointer"
             >

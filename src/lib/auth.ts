@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
         mfaCode: { label: "MFA Code", type: "text" }
       },
-      async authorize(credentialsreq) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }
@@ -196,7 +196,8 @@ export const authOptions: NextAuthOptions = {
           roles: user.roles || ['BUYER'],
           mfaEnabled: user.mfaSettings?.enabled || false
         };
-      }),
+      }
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -326,7 +327,8 @@ export const authOptions: NextAuthOptions = {
 
         await logAuthEvent('LOGOUT', token.id as string, token.email as string);
       }
-    },
+    }
+  },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -342,10 +344,12 @@ export const authOptions: NextAuthOptions = {
         path: '/',
         secure: process.env.NODE_ENV === 'production'
       }
-    },
+    }
+  },
   jwt: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    secret: process.env.NEXTAUTH_SECRET},
+    secret: process.env.NEXTAUTH_SECRET
+  },
   pages: {
     signIn: "/auth/login",
     signOut: "/auth/logout",
@@ -353,7 +357,8 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: "/auth/verify-request",
     newUser: "/auth/new-user"
   },
-  secret: process.env.NEXTAUTH_SECRET};
+  secret: process.env.NEXTAUTH_SECRET
+};
 
 // Create access token
 export function createAccessToken(userId: string, email: string, roles: string[]) {

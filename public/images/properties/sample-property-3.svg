@@ -1,0 +1,65 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sky gradient -->
+  <defs>
+    <linearGradient id="skyGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#98FB98;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F0FFF0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="villaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFAF0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F5DC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background sky -->
+  <rect width="400" height="180" fill="url(#skyGradient3)"/>
+  
+  <!-- Ground with garden -->
+  <rect y="180" width="400" height="120" fill="#9ACD32"/>
+  
+  <!-- Villa main structure -->
+  <rect x="60" y="100" width="280" height="120" fill="url(#villaGradient)" stroke="#DDD" stroke-width="2"/>
+  
+  <!-- Villa roof -->
+  <polygon points="40,100 200,40 360,100" fill="#CD853F" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- Entrance portico -->
+  <rect x="170" y="150" width="60" height="70" fill="url(#villaGradient)" stroke="#DDD" stroke-width="1"/>
+  <polygon points="160,150 200,130 240,150" fill="#CD853F" stroke="#8B4513" stroke-width="1"/>
+  
+  <!-- Main door -->
+  <rect x="185" y="190" width="30" height="30" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+  <circle cx="205" cy="205" r="2" fill="#FFD700"/>
+  
+  <!-- Windows -->
+  <rect x="80" y="120" width="40" height="40" fill="#87CEEB" stroke="#999" stroke-width="2"/>
+  <rect x="280" y="120" width="40" height="40" fill="#87CEEB" stroke="#999" stroke-width="2"/>
+  <rect x="120" y="170" width="30" height="30" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  <rect x="250" y="170" width="30" height="30" fill="#87CEEB" stroke="#999" stroke-width="1"/>
+  
+  <!-- Window details -->
+  <line x1="100" y1="120" x2="100" y2="160" stroke="#999" stroke-width="1"/>
+  <line x1="80" y1="140" x2="120" y2="140" stroke="#999" stroke-width="1"/>
+  <line x1="300" y1="120" x2="300" y2="160" stroke="#999" stroke-width="1"/>
+  <line x1="280" y1="140" x2="320" y2="140" stroke="#999" stroke-width="1"/>
+  
+  <!-- Garden elements -->
+  <circle cx="30" cy="250" r="20" fill="#FF69B4"/>
+  <circle cx="370" cy="260" r="15" fill="#FF1493"/>
+  <circle cx="25" cy="280" r="10" fill="#FF69B4"/>
+  <circle cx="375" cy="280" r="12" fill="#FF1493"/>
+  
+  <!-- Trees -->
+  <circle cx="20" cy="200" r="25" fill="#228B22"/>
+  <rect x="15" y="200" width="10" height="30" fill="#8B4513"/>
+  
+  <circle cx="380" cy="210" r="20" fill="#228B22"/>
+  <rect x="375" y="210" width="10" height="25" fill="#8B4513"/>
+  
+  <!-- Driveway -->
+  <rect x="140" y="220" width="120" height="80" fill="#A9A9A9" opacity="0.6"/>
+  
+  <!-- Price tag -->
+  <rect x="10" y="10" width="100" height="30" fill="#EF4444" rx="5"/>
+  <text x="60" y="30" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">€850,000</text>
+</svg>

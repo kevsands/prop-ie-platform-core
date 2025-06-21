@@ -146,12 +146,12 @@ const mockProperties: AgentProperty[] = [
 ];
 
 export default function AgentListings() {
-  const [showContactModalsetShowContactModal] = useState(false);
-  const [showInviteModalsetShowInviteModal] = useState(false);
-  const [selectedBuyersetSelectedBuyer] = useState<Buyer | null>(null);
-  const [selectedPropertysetSelectedProperty] = useState<AgentProperty | null>(null);
-  const [filterStatussetFilterStatus] = useState<'all' | PropertyStatus>('all');
-  const [searchTermsetSearchTerm] = useState('');
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [selectedBuyer, setSelectedBuyer] = useState<Buyer | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<AgentProperty | null>(null);
+  const [filterStatus, setFilterStatus] = useState<'all' | PropertyStatus>('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Handle opening the contact buyer modal
   const handleContactBuyer = (property: AgentProperty, buyer: Buyer) => {
@@ -209,7 +209,7 @@ export default function AgentListings() {
             <option value="under_offer">Under Offer</option>
             <option value="sold">Sold</option>
           </select>
-          <FiFilter className="absolute left-3 top-3 text-gray-400 hidden sm:block" style={ marginLeft: '220px', marginTop: '2px' } />
+          <FiFilter className="absolute left-3 top-3 text-gray-400 hidden sm:block" style={{ marginLeft: '220px', marginTop: '2px' }} />
         </div>
       </div>
 
@@ -307,7 +307,7 @@ export default function AgentListings() {
                 onClick={() => {
                   alert("Message sent!");
                   setShowContactModal(false);
-                }
+                }}
                 className="px-4 py-2 bg-[#2B5273] text-white rounded-md"
               >
                 Send Message
@@ -361,7 +361,7 @@ export default function AgentListings() {
                 onClick={() => {
                   alert("Invitation sent!");
                   setShowInviteModal(false);
-                }
+                }}
                 className="px-4 py-2 bg-[#2B5273] text-white rounded-md"
               >
                 Send Invitation

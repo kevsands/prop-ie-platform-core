@@ -1,6 +1,6 @@
 // Authentication Service
 import { PrismaClient, User, UserRole } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { randomBytes } from 'crypto';
 import { addMinutes } from 'date-fns';
@@ -67,7 +67,7 @@ class AuthService {
       }
 
       // Hash password
-      const hashedPassword = await bcrypt.hash(request.passwordSALT_ROUNDS);
+      const hashedPassword = await bcrypt.hash(request.password, SALT_ROUNDS);
 
       // Parse name into firstName and lastName
       const nameParts = request.name.split(' ');
@@ -171,7 +171,7 @@ class AuthService {
   // Verify JWT token
   async verifyToken(token: string): Promise<TokenPayload> {
     try {
-      const payload = jwt.verify(tokenJWT_SECRET) as TokenPayload;
+      const payload = jwt.verify(token, JWT_SECRET) as TokenPayload;
       return payload;
     } catch (error) {
       throw new Error('Invalid token');
@@ -187,7 +187,7 @@ class AuthService {
         include: { user: true }
       });
 
-      if (!storedToken || storedToken.expiresAt <new Date()) {
+      if (!storedToken || storedToken.expiresAt < new Date()) {
         throw new Error('Invalid refresh token');
       }
 
@@ -242,7 +242,7 @@ class AuthService {
       });
 
       // Send reset email (implemented in notification service)
-      // await notificationService.sendPasswordResetEmail(userresetToken);
+      // await notificationService.sendPasswordResetEmail(user, resetToken);
     } catch (error) {
       throw new Error(`Password reset request failed: ${error.message}`);
     }
@@ -257,12 +257,12 @@ class AuthService {
         include: { user: true }
       });
 
-      if (!resetToken || resetToken.expiresAt <new Date()) {
+      if (!resetToken || resetToken.expiresAt < new Date()) {
         throw new Error('Invalid or expired reset token');
       }
 
       // Hash new password
-      const hashedPassword = await bcrypt.hash(request.newPasswordSALT_ROUNDS);
+      const hashedPassword = await bcrypt.hash(request.newPassword, SALT_ROUNDS);
 
       // Update user password
       await prisma.user.update({
@@ -486,7 +486,7 @@ class AuthService {
         include: { user: true }
       });
 
-      if (!verificationToken || verificationToken.expiresAt <new Date()) {
+      if (!verificationToken || verificationToken.expiresAt < new Date()) {
         throw new Error('Invalid or expired verification token');
       }
 
@@ -567,15 +567,3 @@ class AuthService {
 export default new AuthService();
 
 export const authService = new AuthService();
-
-{/* Auto-added closing tags */}
-</User></User></User></User></User>
-
-{/* Auto-added closing tags */}
-</AuthTokens></AuthTokens></AuthTokens>
-
-{/* Auto-added closing tags */}
-</TokenPayload>
-
-{/* Auto-added closing tags */}
-</UserRole>

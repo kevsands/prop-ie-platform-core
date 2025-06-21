@@ -69,7 +69,8 @@ jest.mock('next/link', () => ({
   __esModule: true,
   default: ({ children, href, ...props }: any) => {
     return React.createElement('a', { href, ...props }, children);
-  }));
+  }
+}));
 
 // Mock React Query
 jest.mock('@tanstack/react-query', () => {
@@ -80,7 +81,9 @@ jest.mock('@tanstack/react-query', () => {
       queries: {
         retry: false,
         staleTime: 0,
-        cacheTime: 0},
+        cacheTime: 0
+      }
+    },
     invalidateQueries: jest.fn(),
     setQueryData: jest.fn(),
     getQueryData: jest.fn(),
@@ -101,7 +104,9 @@ jest.mock('@tanstack/react-query', () => {
       add: jest.fn(),
       remove: jest.fn(),
       clear: jest.fn(),
-      get: jest.fn()}))};
+      get: jest.fn()
+    }))
+  };
   
   return {
     ...actualModule,
@@ -115,7 +120,8 @@ jest.mock('@tanstack/react-query', () => {
       isLoading: false,
       isFetching: false,
       refetch: jest.fn(),
-      status: 'success'})),
+      status: 'success'
+    })),
     useMutation: jest.fn(() => ({
       mutate: jest.fn(),
       mutateAsync: jest.fn(),
@@ -126,7 +132,8 @@ jest.mock('@tanstack/react-query', () => {
       isLoading: false,
       isPending: false,
       status: 'idle',
-      reset: jest.fn()})),
+      reset: jest.fn()
+    })),
     useQueryClient: jest.fn(() => mockQueryClient),
     useInfiniteQuery: jest.fn(() => ({
       data: undefined,
@@ -139,49 +146,64 @@ jest.mock('@tanstack/react-query', () => {
       hasNextPage: false,
       isFetchingNextPage: false,
       refetch: jest.fn(),
-      status: 'success'}))};
+      status: 'success'
+    }))
+  };
 });
 
 // Mock AWS Amplify
 jest.mock('aws-amplify/auth', () => ({
   getCurrentUser: jest.fn().mockResolvedValue({
     userId: 'test-user',
-    username: 'testuser'}),
+    username: 'testuser'
+  }),
   signIn: jest.fn().mockResolvedValue({
     isSignedIn: true,
-    nextStep: { signInStep: 'DONE' }),
+    nextStep: { signInStep: 'DONE' }
+  }),
   signOut: jest.fn().mockResolvedValue(undefined),
   signUp: jest.fn().mockResolvedValue({
     isSignUpComplete: false,
     userId: 'test-user',
-    nextStep: { signUpStep: 'CONFIRM_SIGN_UP' }),
+    nextStep: { signUpStep: 'CONFIRM_SIGN_UP' }
+  }),
   confirmSignUp: jest.fn().mockResolvedValue({
     isSignUpComplete: true,
-    nextStep: { signUpStep: 'DONE' }),
+    nextStep: { signUpStep: 'DONE' }
+  }),
   resendSignUpCode: jest.fn().mockResolvedValue({
     destination: 'test@example.com',
-    deliveryMedium: 'EMAIL'}),
+    deliveryMedium: 'EMAIL'
+  }),
   fetchAuthSession: jest.fn().mockResolvedValue({
     tokens: {
       accessToken: { payload: {} },
-      idToken: { payload: {} },
-    credentials: {}),
+      idToken: { payload: {} }
+    },
+    credentials: {}
+  }),
   updateUserAttributes: jest.fn().mockResolvedValue({
-    unverifiedAttributes: {}),
+    unverifiedAttributes: {}
+  }),
   deleteUser: jest.fn().mockResolvedValue(undefined),
   resetPassword: jest.fn().mockResolvedValue({
     isPasswordReset: false,
-    nextStep: { resetPasswordStep: 'CONFIRM_RESET_PASSWORD_WITH_CODE' }),
+    nextStep: { resetPasswordStep: 'CONFIRM_RESET_PASSWORD_WITH_CODE' }
+  }),
   confirmResetPassword: jest.fn().mockResolvedValue({
-    isPasswordReset: true})}));
+    isPasswordReset: true
+  })
+}));
 
 jest.mock('aws-amplify/api', () => {
   const mockClient = {
     graphql: jest.fn().mockResolvedValue({ data: {} }),
-    models: {};
+    models: {}
+  };
   
   return {
-    generateClient: jest.fn(() => mockClient)};
+    generateClient: jest.fn(() => mockClient)
+  };
 });
 
 jest.mock('aws-amplify/storage', () => ({
@@ -190,22 +212,25 @@ jest.mock('aws-amplify/storage', () => ({
     state: 'SUCCESS',
     pause: jest.fn(),
     resume: jest.fn(),
-    cancel: jest.fn()}),
+    cancel: jest.fn()
+  }),
   downloadData: jest.fn().mockReturnValue({
     result: Promise.resolve({ body: { blob: () => Promise.resolve(new Blob()) } }),
     state: 'SUCCESS',
     pause: jest.fn(),
     resume: jest.fn(),
-    cancel: jest.fn()}),
+    cancel: jest.fn()
+  }),
   remove: jest.fn().mockResolvedValue({ key: 'test-key' }),
   list: jest.fn().mockResolvedValue({ items: [] }),
   getUrl: jest.fn().mockResolvedValue({ url: 'https://example.com/test.jpg' }),
-  getProperties: jest.fn().mockResolvedValue({ contentType: 'image/jpeg', size: 1024 })}));
+  getProperties: jest.fn().mockResolvedValue({ contentType: 'image/jpeg', size: 1024 })
+}));
 
 // Mock crypto for Node.js environment
 global.crypto = {
   getRandomValues: (array: any) => {
-    for (let i = 0; i <array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       array[i] = Math.floor(Math.random() * 256);
     }
     return array;
@@ -217,7 +242,8 @@ global.crypto = {
       return v.toString(16);
     });
   },
-  subtle: {} as SubtleCrypto} as Crypto;
+  subtle: {} as SubtleCrypto
+} as Crypto;
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
@@ -250,7 +276,9 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: jest.fn(),
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn()}))});
+    dispatchEvent: jest.fn()
+  }))
+});
 
 // Mock console methods to reduce noise in tests
 const originalConsole = global.console;
@@ -287,7 +315,8 @@ global.console = {
   time: originalConsole.time,
   timeEnd: originalConsole.timeEnd,
   timeLog: originalConsole.timeLog,
-  timeStamp: originalConsole.timeStamp};
+  timeStamp: originalConsole.timeStamp
+};
 
 // Mock fetch
 global.fetch = jest.fn(() =>
@@ -304,7 +333,8 @@ global.fetch = jest.fn(() =>
     statusText: 'OK',
     type: 'basic',
     url: '',
-    clone: jest.fn()} as Response)
+    clone: jest.fn()
+  } as Response)
 );
 
 // Mock localStorage
@@ -314,7 +344,8 @@ const localStorageMock = {
   removeItem: jest.fn(),
   clear: jest.fn(),
   key: jest.fn(),
-  length: 0};
+  length: 0
+};
 global.localStorage = localStorageMock as Storage;
 
 // Mock sessionStorage
@@ -324,7 +355,8 @@ const sessionStorageMock = {
   removeItem: jest.fn(),
   clear: jest.fn(),
   key: jest.fn(),
-  length: 0};
+  length: 0
+};
 global.sessionStorage = sessionStorageMock as Storage;
 
 // Mock Request/Response for middleware tests
@@ -338,17 +370,20 @@ global.TextDecoder = TextDecoder;
 // Add custom matchers for better test assertions
 expect.extend({
   toBeWithinRange(received: number, floor: number, ceiling: number) {
-    const pass = received>= floor && received <= ceiling;
+    const pass = received >= floor && received <= ceiling;
     if (pass) {
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
-        pass: true};
+        pass: true
+      };
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
-        pass: false};
+        pass: false
+      };
     }
-  });
+  }
+});
 
 // Configure test timeouts
 jest.setTimeout(30000);

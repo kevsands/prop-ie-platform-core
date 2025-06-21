@@ -79,19 +79,10 @@ export async function POST(request: NextRequest) {
 
       return response;
     } else if (action === 'register') {
-      // Validate registration request
-      const validatedData = registerSchema.parse(body);
-
-      // Register user
-      const user = await authService.register(validatedData);
-
+      // Redirect to dedicated registration endpoint
       return NextResponse.json({ 
-        success: true, 
-        data: { 
-          userId: user.id,
-          message: 'Registration successful. Please check your email to verify your account.'
-        } 
-      });
+        error: 'Use /api/auth/register for registration' 
+      }, { status: 400 });
     } else if (action === 'refresh') {
       // Get refresh token from cookie or body
       const refreshToken = request.cookies.get('refreshToken')?.value || body.refreshToken;
@@ -298,7 +289,7 @@ export async function PATCH(request: NextRequest) {
         };
       }
 
-      const updatedUser = await authService.updateProfile(payload.userIduserUpdates);
+      const updatedUser = await authService.updateProfile(payload.userId, userUpdates);
 
       // Remove sensitive fields
       const { password, ...safeUser } = updatedUser;

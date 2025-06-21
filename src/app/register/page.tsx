@@ -1,15 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import UniversalRegistrationForm from '@/components/enterprise/UniversalRegistrationForm';
 
-export default function RegisterRedirect() {
-  const router = useRouter();
-
-  useEffect(() => {
-    // Redirect to the proper auth register page
-    router.replace('/auth/register');
-  }, [router]);
-
-  return null;
+export default function RegisterPage() {
+  // This page now serves as the unified registration entry point
+  // All registration traffic is directed to the enterprise universal form
+  
+  return <UniversalRegistrationForm />;
 }

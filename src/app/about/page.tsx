@@ -233,5 +233,5 @@ const aboutPageData: AboutPageData = {
 };
 
 export default function AboutPage() {
-  return <AboutPageClient data={aboutPageData} />\n  );
+  return <AboutPageClient data={aboutPageData} />;
 }

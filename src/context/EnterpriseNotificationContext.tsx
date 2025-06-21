@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode } from 'react';
 
 interface Notification {
   id: string;
@@ -34,13 +34,13 @@ const EnterpriseNotificationContext = createContext<EnterpriseNotificationContex
 export const useEnterpriseNotifications = () => useContext(EnterpriseNotificationContext);
 
 export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [notificationssetNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const addNotification = ({ title, message, type }: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
     const newNotification: Notification = {
-      id: Math.random().toString(36).substring(29),
+      id: Math.random().toString(36).substring(2, 9),
       title,
       message,
       type,
@@ -70,14 +70,14 @@ export const EnterpriseNotificationProvider: React.FC<{ children: ReactNode }> =
 
   return (
     <EnterpriseNotificationContext.Provider 
-      value={ 
+      value={{
         notifications, 
         unreadCount, 
         addNotification, 
         markAsRead, 
         markAllAsRead, 
         clearNotifications 
-      }
+      }}
     >
       {children}
     </EnterpriseNotificationContext.Provider>
