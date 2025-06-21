@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Home, 
   TrendingUp, 
@@ -35,9 +35,18 @@ import {
   CreditCard,
   Phone,
   Mail,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Sparkles,
+  Grid,
+  List,
+  ChevronRight
 } from 'lucide-react';
 import Link from 'next/link';
+import PersonalizedPropertyCard from '@/components/properties/PersonalizedPropertyCard';
+import { usePropertyRecommendations } from '@/hooks/usePropertyRecommendations';
+import { UserProfile } from '@/lib/algorithms/PropertyRecommendationEngine';
+import GuidedTour from '@/components/onboarding/GuidedTour';
+import { getToursForUser } from '@/lib/tours/tourDefinitions';
 
 interface DashboardMetrics {
   totalBudget: number;
@@ -74,6 +83,72 @@ interface UpcomingTask {
 export default function BuyerDashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [favoriteProperties, setFavoriteProperties] = useState<string[]>([]);
+  const [activeTour, setActiveTour] = useState<string | undefined>();
+
+  // Check if user should see onboarding tour
+  useEffect(() => {
+    const onboardingCompleted = localStorage.getItem('onboardingCompleted');
+    const completedTours = JSON.parse(localStorage.getItem('completedTours') || '[]');
+    
+    // Start dashboard tour for new users
+    if (!onboardingCompleted && !completedTours.includes('dashboard-navigation')) {
+      setActiveTour('dashboard-navigation');
+    }
+  }, []);
+
+  // Build user profile for recommendations
+  useEffect(() => {
+    const buildUserProfile = () => {
+      // Get stored registration data
+      const storedData = localStorage.getItem('userRegistration');
+      let profile: UserProfile = {};
+
+      if (storedData) {
+        const registrationData = JSON.parse(storedData);
+        profile = {
+          firstName: registrationData.firstName,
+          lastName: registrationData.lastName,
+          email: registrationData.email,
+          journeySource: registrationData.journeyContext?.source,
+        };
+      }
+
+      // For demo purposes, add some sample preferences
+      // In production, this would come from user's saved preferences
+      profile = {
+        ...profile,
+        budget: '350-450',
+        hasHTB: true,
+        preferredCounties: ['Dublin', 'Kildare'],
+        propertyType: ['apartment', 'house'],
+        bedrooms: '2-3',
+        currentStatus: 'first-time-buyer',
+        importantFeatures: ['parking', 'balcony', 'modern kitchen'],
+        moveInTimeframe: '3-6-months',
+        completionScore: 75
+      };
+
+      setUserProfile(profile);
+    };
+
+    buildUserProfile();
+  }, []);
+
+  // Get property recommendations
+  const { 
+    recommendations, 
+    analytics, 
+    loading: recommendationsLoading, 
+    error: recommendationsError,
+    refetch: refetchRecommendations
+  } = usePropertyRecommendations({
+    userProfile: userProfile || undefined,
+    limit: 6,
+    autoFetch: !!userProfile
+  });
 
   // Dashboard metrics
   const metrics: DashboardMetrics = {
@@ -174,7 +249,16 @@ export default function BuyerDashboard() {
     setRefreshing(true);
     await new Promise(resolve => setTimeout(resolve, 1500));
     setLastUpdated(new Date());
+    await refetchRecommendations();
     setRefreshing(false);
+  };
+
+  const handleFavorite = (propertyId: string) => {
+    setFavoriteProperties(prev => 
+      prev.includes(propertyId) 
+        ? prev.filter(id => id !== propertyId)
+        : [...prev, propertyId]
+    );
   };
 
   const formatCurrency = (amount: number) => {
@@ -284,7 +368,7 @@ export default function BuyerDashboard() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-tour="quick-stats">
         {/* Available Funds */}
         <div className="bg-white rounded-lg border shadow-sm p-6">
           <div className="flex items-center justify-between">
@@ -357,6 +441,136 @@ export default function BuyerDashboard() {
             </div>
             <p className="text-sm text-blue-100">Complete</p>
           </div>
+        </div>
+      </div>
+
+      {/* Property Recommendations Section */}
+      <div className="bg-white rounded-lg border shadow-sm" data-tour="recommended-properties">
+        <div className="p-6 border-b">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <Sparkles className="text-white" size={20} />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Recommended Properties</h3>
+                <p className="text-gray-600 text-sm">AI-powered matches based on your preferences</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => refetchRecommendations()}
+                disabled={recommendationsLoading}
+                className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              >
+                <RefreshCw size={14} className={recommendationsLoading ? 'animate-spin' : ''} />
+                Refresh
+              </button>
+              
+              <div className="flex border border-gray-300 rounded-lg">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-600'}`}
+                >
+                  <Grid size={16} />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-gray-600'}`}
+                >
+                  <List size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {analytics && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4" data-tour="analytics">
+              <div className="text-center p-3 bg-blue-50 rounded-lg">
+                <div className="text-lg font-bold text-blue-600">{analytics.totalPropertiesAnalyzed}</div>
+                <div className="text-xs text-blue-800">Properties Analyzed</div>
+              </div>
+              <div className="text-center p-3 bg-green-50 rounded-lg">
+                <div className="text-lg font-bold text-green-600">{analytics.averageMatchScore}%</div>
+                <div className="text-xs text-green-800">Avg Match Score</div>
+              </div>
+              <div className="text-center p-3 bg-purple-50 rounded-lg">
+                <div className="text-lg font-bold text-purple-600">{analytics.userProfileCompleteness}%</div>
+                <div className="text-xs text-purple-800">Profile Complete</div>
+              </div>
+              <div className="text-center p-3 bg-orange-50 rounded-lg">
+                <div className="text-lg font-bold text-orange-600">{analytics.topMatchScore}%</div>
+                <div className="text-xs text-orange-800">Best Match</div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="p-6">
+          {recommendationsLoading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">Finding your perfect properties...</p>
+            </div>
+          ) : recommendationsError ? (
+            <div className="text-center py-8">
+              <div className="text-red-600 mb-4">
+                <AlertCircle size={48} className="mx-auto mb-2" />
+                <p>Failed to load recommendations</p>
+              </div>
+              <button
+                onClick={() => refetchRecommendations()}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : recommendations.length === 0 ? (
+            <div className="text-center py-8">
+              <Home size={48} className="text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No recommendations yet</h3>
+              <p className="text-gray-600 mb-4">Complete your profile to get personalized property recommendations</p>
+              <Link
+                href="/buyer/profile-completion"
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+              >
+                Complete Profile
+              </Link>
+            </div>
+          ) : (
+            <>
+              <div className={`grid gap-4 ${
+                viewMode === 'grid' 
+                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
+                  : 'grid-cols-1'
+              }`}>
+                {recommendations.slice(0, viewMode === 'grid' ? 6 : 3).map((match) => (
+                  <PersonalizedPropertyCard
+                    key={match.property.id}
+                    match={match}
+                    onFavorite={handleFavorite}
+                    isFavorited={favoriteProperties.includes(match.property.id)}
+                    showMatchScore={true}
+                    showExplanations={viewMode === 'list'}
+                    className={viewMode === 'list' ? 'flex' : ''}
+                  />
+                ))}
+              </div>
+
+              {recommendations.length > (viewMode === 'grid' ? 6 : 3) && (
+                <div className="text-center mt-6">
+                  <Link
+                    href="/properties"
+                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+                  >
+                    View All {recommendations.length} Recommendations
+                    <ChevronRight size={16} />
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
 
@@ -506,6 +720,23 @@ export default function BuyerDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Guided Tour */}
+      <GuidedTour
+        tours={getToursForUser(userProfile)}
+        activeTourId={activeTour}
+        onTourComplete={(tourId) => {
+          console.log(`Tour completed: ${tourId}`);
+          setActiveTour(undefined);
+        }}
+        onTourSkip={(tourId) => {
+          console.log(`Tour skipped: ${tourId}`);
+          setActiveTour(undefined);
+        }}
+        onTourStart={(tourId) => {
+          console.log(`Tour started: ${tourId}`);
+        }}
+      />
     </div>
   );
 }

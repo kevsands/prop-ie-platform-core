@@ -87,7 +87,7 @@ export default function AgentLeadsPage({}: AgentLeadsPageProps) {
   };
 
   const filterAndSortLeads = () => {
-    let filtered = leads.filter(lead => {
+    const filtered = leads.filter(lead => {
       const matchesSearch = lead.buyer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            lead.buyer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            lead.interests.some(interest => 

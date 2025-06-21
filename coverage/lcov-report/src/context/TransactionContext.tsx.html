@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/126</span>
+                <span class='fraction'>0/133</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>0/57</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/117</span>
+                <span class='fraction'>0/124</span>
             </div>
         
             
@@ -525,7 +525,27 @@
 <a name='L460'></a><a href='#L460'>460</a>
 <a name='L461'></a><a href='#L461'>461</a>
 <a name='L462'></a><a href='#L462'>462</a>
-<a name='L463'></a><a href='#L463'>463</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -685,8 +705,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -694,6 +712,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -703,7 +727,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1146,13 +1186,17 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
   // Fetch transaction by ID
   const fetchTransaction = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async (t</span>ransactionId: string) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const transaction = <span class="cstat-no" title="statement not covered" >await api.get&lt;Transaction&gt;(`/transactions/${transactionId}`);</span>
+      const response = <span class="cstat-no" title="statement not covered" >await api.get&lt;any&gt;(`/transactions?id=${transactionId}`);</span>
+      // Handle the API response format { success: true, data: {...} }
+      const transaction = <span class="cstat-no" title="statement not covered" >response?.data || response;</span>
 <span class="cstat-no" title="statement not covered" >      setCurrentTransaction(transaction);</span>
       
       // Update in transactions list if exists
-<span class="cstat-no" title="statement not covered" >      setTransactions(<span class="fstat-no" title="function not covered" >prev =&gt; </span></span>
-<span class="cstat-no" title="statement not covered" >        prev.map(<span class="fstat-no" title="function not covered" >t =&gt; <span class="cstat-no" title="statement not covered" >t</span>.id === transaction.id ? transaction : t)</span></span>
-      );
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (transaction) {</span>
+<span class="cstat-no" title="statement not covered" >        setTransactions(<span class="fstat-no" title="function not covered" >prev =&gt; </span></span>
+<span class="cstat-no" title="statement not covered" >          prev.map(<span class="fstat-no" title="function not covered" >t =&gt; <span class="cstat-no" title="statement not covered" >t</span>.id === transaction.id ? transaction : t)</span></span>
+        );
+      }
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error fetching transaction:', error);</span>
 <span class="cstat-no" title="statement not covered" >      throw error;</span>
@@ -1165,10 +1209,26 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
     
 <span class="cstat-no" title="statement not covered" >    setLoadingTransactions(true);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const userTransactions = <span class="cstat-no" title="statement not covered" >await api.get&lt;Transaction[]&gt;('/transactions');</span>
-<span class="cstat-no" title="statement not covered" >      setTransactions(userTransactions);</span>
+      // Use fetch for local Next.js API routes instead of AmplifyAPI
+      const response = <span class="cstat-no" title="statement not covered" >await fetch('/api/transactions', {</span>
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error(`HTTP error! status: ${response.status}`);</span>
+      }
+      
+      const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
+      // Handle the API response format { success: true, data: [...] }
+      const userTransactions = <span class="cstat-no" title="statement not covered" >(data &amp;&amp; typeof data === 'object' &amp;&amp; 'data' in data) ? data.data : (data || [])</span>;
+<span class="cstat-no" title="statement not covered" >      setTransactions(Array.isArray(userTransactions) ? userTransactions : []);</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error fetching user transactions:', error);</span>
+      // Set empty array on error to prevent further API calls
+<span class="cstat-no" title="statement not covered" >      setTransactions([]);</span>
     } finally {
 <span class="cstat-no" title="statement not covered" >      setLoadingTransactions(false);</span>
     }
@@ -1192,8 +1252,8 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
         type: 'STATUS_CHANGE',
         title: 'Status Updated',
         description: `Transaction status changed to ${status}`,
-        userId: user!.id,
-        userName: user!.name
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown'
       });
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error updating transaction status:', error);</span>
@@ -1226,8 +1286,8 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
         type: 'DOCUMENT_UPLOAD',
         title: 'Document Uploaded',
         description: `${metadata.name || document.name} uploaded`,
-        userId: user!.id,
-        userName: user!.name,
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown',
         metadata: { documentId: newDocument.id }
       });
     } catch (error) {
@@ -1288,8 +1348,8 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
         type: 'PARTICIPANT_ADDED',
         title: 'Participant Added',
         description: `${participant.name} joined as ${participant.role}`,
-        userId: user!.id,
-        userName: user!.name
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown'
       });
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      console.error('Error adding participant:', error);</span>
@@ -1338,8 +1398,8 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
         type: 'PAYMENT_UPDATE',
         title: 'Payment Updated',
         description: `Payment status changed to ${status}`,
-        userId: user!.id,
-        userName: user!.name,
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown',
         metadata: { paymentId, status }
       });
     } catch (error) {
@@ -1456,7 +1516,7 @@ export const <span class="cstat-no" title="statement not covered" >TransactionPr
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-19T14:29:04.561Z
+                at 2025-06-21T16:08:04.867Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

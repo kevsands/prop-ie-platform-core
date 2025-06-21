@@ -818,3 +818,21 @@ Migration initialization failed Error: Connection terminated due to connection t
     at async n.runMigrations (.next/server/app/api/projects/[id]/route.js:32:570) {
   [cause]: [Error: Connection terminated unexpectedly]
 }
+ ⨯ [Error: Cannot find module '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/middleware-manifest.json'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/next-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/next.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/cli/next-start.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: Cannot find module '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/middleware-manifest.json'
+Require stack:
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/next-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/next.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
+- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/cli/next-start.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}

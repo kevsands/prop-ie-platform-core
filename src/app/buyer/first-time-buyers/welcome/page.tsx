@@ -28,7 +28,15 @@ import {
   Heart,
   Calendar,
   ChevronRight,
-  Loader2
+  Loader2,
+  AlertCircle,
+  Zap,
+  Brain,
+  Camera,
+  CreditCard,
+  Lock,
+  Scan,
+  BadgeCheck
 } from 'lucide-react';
 
 interface UserData {
@@ -45,6 +53,11 @@ interface UserData {
   bedrooms: string;
   moveInTimeframe: string;
   currentStatus: string;
+  kycStatus?: 'not-started' | 'pending' | 'approved' | 'rejected';
+  amlRiskScore?: number;
+  verificationLevel?: 'basic' | 'enhanced' | 'complete';
+  documentsUploaded?: string[];
+  nextBestActions?: string[];
 }
 
 export default function FirstTimeBuyerWelcomePage() {
@@ -52,18 +65,135 @@ export default function FirstTimeBuyerWelcomePage() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [htbEstimate, setHtbEstimate] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [kycStatus, setKycStatus] = useState<'not-started' | 'pending' | 'approved' | 'rejected'>('not-started');
+  const [verificationLevel, setVerificationLevel] = useState<'basic' | 'enhanced' | 'complete'>('basic');
+  const [smartRecommendations, setSmartRecommendations] = useState<any[]>([]);
+  const [complianceScore, setComplianceScore] = useState(0);
+
+  // Smart recommendation engine
+  const generateSmartRecommendations = (data: UserData) => {
+    const recommendations = [];
+    
+    // KYC/AML Priority Logic
+    if (!data.kycStatus || data.kycStatus === 'not-started') {
+      recommendations.push({
+        id: 'kyc-start',
+        title: 'Complete Identity Verification',
+        description: 'Required for property reservations and mortgage applications',
+        priority: 'critical',
+        estimatedTime: '5 min',
+        icon: BadgeCheck,
+        action: '/buyer/verification',
+        color: 'bg-red-500',
+        benefits: ['Unlock property reservations', 'Fast-track mortgage approval', 'Secure account protection']
+      });
+    }
+
+    // Financial readiness assessment
+    const budgetValue = parseInt(data.budget?.split('-')[0] || '0');
+    const depositValue = parseInt(data.deposit || '0');
+    const depositRatio = depositValue / (budgetValue * 1000);
+    
+    if (depositRatio < 0.1) {
+      recommendations.push({
+        id: 'deposit-boost',
+        title: 'Boost Your Deposit',
+        description: 'Increase buying power with savings strategies',
+        priority: 'medium',
+        estimatedTime: '10 min',
+        icon: PiggyBank,
+        action: '/buyer/financial/savings-plan',
+        color: 'bg-green-500',
+        benefits: ['Better mortgage rates', 'More property options', 'HTB maximization']
+      });
+    }
+
+    // HTB Application
+    if (!data.hasHTB) {
+      recommendations.push({
+        id: 'htb-apply',
+        title: 'Apply for Help to Buy',
+        description: `Claim your €${Math.min(budgetValue * 100, 30000).toLocaleString()} benefit`,
+        priority: 'high',
+        estimatedTime: '15 min',
+        icon: Heart,
+        action: '/buyer/htb/application',
+        color: 'bg-blue-500',
+        benefits: ['Up to €30,000 grant', 'No repayment required', 'Instant eligibility check']
+      });
+    }
+
+    // Property search optimization
+    if (data.preferredCounties && data.preferredCounties.length > 3) {
+      recommendations.push({
+        id: 'search-focus',
+        title: 'Focus Your Search',
+        description: 'Narrow location preferences for better matches',
+        priority: 'low',
+        estimatedTime: '3 min',
+        icon: Target,
+        action: '/buyer/preferences/refine',
+        color: 'bg-purple-500',
+        benefits: ['Better property matches', 'Faster search results', 'Market insights']
+      });
+    }
+
+    return recommendations.slice(0, 3); // Top 3 recommendations
+  };
+
+  // Compliance score calculator
+  const calculateComplianceScore = (data: UserData) => {
+    let score = 0;
+    
+    // Identity verification (40%)
+    if (data.kycStatus === 'approved') score += 40;
+    else if (data.kycStatus === 'pending') score += 20;
+    
+    // Financial verification (30%)
+    if (data.hasAIP) score += 30;
+    else if (data.budget && data.deposit) score += 15;
+    
+    // Profile completeness (20%)
+    const profileFields = [data.firstName, data.lastName, data.email, data.phone, data.preferredCounties?.length];
+    const completedFields = profileFields.filter(field => field).length;
+    score += (completedFields / profileFields.length) * 20;
+    
+    // Regulatory readiness (10%)
+    if (data.hasHTB) score += 10;
+    
+    return Math.round(score);
+  };
 
   useEffect(() => {
     // Get user data from localStorage
     const storedData = localStorage.getItem('userRegistration');
     if (storedData) {
       const data = JSON.parse(storedData);
-      setUserData(data);
+      
+      // Enhance data with compliance fields
+      const enhancedData = {
+        ...data,
+        kycStatus: data.kycStatus || 'not-started',
+        verificationLevel: data.verificationLevel || 'basic',
+        documentsUploaded: data.documentsUploaded || []
+      };
+      
+      setUserData(enhancedData);
+      setKycStatus(enhancedData.kycStatus);
+      setVerificationLevel(enhancedData.verificationLevel);
       
       // Calculate HTB estimate based on budget
       const budgetValue = data.budget.split('-')[0];
       const estimate = Math.min(parseInt(budgetValue) * 1000 * 0.1, 30000);
       setHtbEstimate(estimate);
+      
+      // Generate smart recommendations
+      const recommendations = generateSmartRecommendations(enhancedData);
+      setSmartRecommendations(recommendations);
+      
+      // Calculate compliance score
+      const compliance = calculateComplianceScore(enhancedData);
+      setComplianceScore(compliance);
     } else {
       // Redirect to registration if no data
       router.push('/first-time-buyers/register');
@@ -337,6 +467,183 @@ export default function FirstTimeBuyerWelcomePage() {
                 ))}
               </div>
             </div>
+
+            {/* KYC/AML Compliance Tracking */}
+            <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg md:text-xl font-bold">Verification & Compliance</h2>
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  complianceScore >= 80 ? 'bg-green-100 text-green-800' :
+                  complianceScore >= 50 ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-red-100 text-red-800'
+                }`}>
+                  {complianceScore}% Complete
+                </span>
+              </div>
+              
+              <div className="mb-4">
+                <div className="flex items-center justify-between text-sm mb-2">
+                  <span className="text-gray-600">Compliance Score</span>
+                  <span className="font-medium">{complianceScore}/100</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className={`h-2 rounded-full transition-all duration-1000 ${
+                      complianceScore >= 80 ? 'bg-green-600' :
+                      complianceScore >= 50 ? 'bg-yellow-600' :
+                      'bg-red-600'
+                    }`}
+                    style={{ width: `${complianceScore}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <Shield className="text-blue-600" size={18} />
+                    Identity Verification
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">KYC Status:</span>
+                      <span className={`font-medium ${
+                        kycStatus === 'approved' ? 'text-green-600' :
+                        kycStatus === 'pending' ? 'text-yellow-600' :
+                        'text-red-600'
+                      }`}>
+                        {kycStatus === 'not-started' ? 'Not Started' :
+                         kycStatus === 'pending' ? 'Under Review' :
+                         kycStatus === 'approved' ? 'Verified' : 'Rejected'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Verification Level:</span>
+                      <span className="font-medium capitalize">{verificationLevel}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Documents:</span>
+                      <span className="font-medium">
+                        {userData?.documentsUploaded?.length || 0}/6 uploaded
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-sm flex items-center gap-2">
+                    <Lock className="text-purple-600" size={18} />
+                    AML & Risk Assessment
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Risk Score:</span>
+                      <span className={`font-medium ${
+                        (userData?.amlRiskScore || 0) <= 20 ? 'text-green-600' :
+                        (userData?.amlRiskScore || 0) <= 50 ? 'text-yellow-600' :
+                        'text-red-600'
+                      }`}>
+                        {userData?.amlRiskScore || 'Low'} Risk
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Financial Check:</span>
+                      <span className={`font-medium ${userData?.hasAIP ? 'text-green-600' : 'text-gray-600'}`}>
+                        {userData?.hasAIP ? 'Pre-Approved' : 'Pending'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Regulatory Status:</span>
+                      <span className="font-medium text-green-600">Compliant</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-600">
+                    {kycStatus === 'not-started' ? (
+                      <span>Start verification to unlock property reservations</span>
+                    ) : kycStatus === 'pending' ? (
+                      <span>Verification in progress - expected completion in 24-48 hours</span>
+                    ) : kycStatus === 'approved' ? (
+                      <span>✅ Fully verified - ready for property transactions</span>
+                    ) : (
+                      <span>❌ Verification required - please upload missing documents</span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => router.push('/buyer/verification')}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                  >
+                    <Shield className="w-4 h-4" />
+                    {kycStatus === 'not-started' ? 'Start Verification' : 'View Details'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Smart Recommendations */}
+            {smartRecommendations.length > 0 && (
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl shadow-sm p-4 md:p-6 border border-purple-100">
+                <div className="flex items-center gap-2 mb-4">
+                  <Brain className="text-purple-600" size={20} />
+                  <h2 className="text-lg md:text-xl font-bold text-purple-900">AI-Powered Recommendations</h2>
+                  <Zap className="text-yellow-500" size={16} />
+                </div>
+                <p className="text-purple-700 text-sm mb-4">
+                  Based on your profile and journey progress, here are your personalized next best actions:
+                </p>
+                
+                <div className="space-y-3">
+                  {smartRecommendations.map((rec, index) => (
+                    <div
+                      key={rec.id}
+                      onClick={() => router.push(rec.action)}
+                      className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-md transition-all group border border-purple-100"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={`${rec.color} text-white rounded-lg p-3 flex-shrink-0`}>
+                          <rec.icon className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-base group-hover:text-purple-600">
+                              {rec.title}
+                            </h3>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              rec.priority === 'critical' ? 'bg-red-100 text-red-800' :
+                              rec.priority === 'high' ? 'bg-orange-100 text-orange-800' :
+                              rec.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {rec.priority}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-2">{rec.description}</p>
+                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <span>⏱️ {rec.estimatedTime}</span>
+                            <span>📈 {rec.benefits.length} benefits</span>
+                          </div>
+                          <div className="mt-2 flex flex-wrap gap-1">
+                            {rec.benefits.slice(0, 2).map((benefit, idx) => (
+                              <span key={idx} className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                                {benefit}
+                              </span>
+                            ))}
+                            {rec.benefits.length > 2 && (
+                              <span className="text-xs text-purple-600">+{rec.benefits.length - 2} more</span>
+                            )}
+                          </div>
+                        </div>
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Profile Summary */}
             <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">

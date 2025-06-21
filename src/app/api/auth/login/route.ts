@@ -1,7 +1,7 @@
 // src/app/api/auth/login/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { Auth } from '@/lib/auth';
-import { userService } from '@/lib/services/users-production';
+import { userService } from '@/lib/services/users-real';
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,9 +20,12 @@ export async function POST(request: NextRequest) {
       console.log(`[DEV] Login attempt - Email: ${email}`);
       
       // Try to find user in database
+      console.log(`[DEV] Looking for user with email: ${email}`);
       const user = await userService.getUserByEmail(email);
+      console.log(`[DEV] User found:`, user ? 'Yes' : 'No');
       
       if (!user) {
+        console.log(`[DEV] User not found for email: ${email}`);
         return NextResponse.json(
           { error: 'User not found' },
           { status: 401 }
@@ -32,15 +35,20 @@ export async function POST(request: NextRequest) {
       // Update last login timestamp
       await userService.updateLastLogin(user.id);
 
+      const role = (JSON.parse(user.roleData || '["buyer"]')[0] || 'buyer').toUpperCase();
+      
       const response = NextResponse.json({
         success: true,
         user: {
           id: user.id,
+          name: `${user.firstName} ${user.lastName}`,
           email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          roles: user.roles,
-          status: user.status
+          role: role,
+          organisationId: 'fitzgeraldgardens',
+          permissions: [
+            { resource: 'projects', action: 'read' },
+            { resource: 'units', action: 'read' }
+          ]
         },
         token: `dev-token-${user.id}`,
         message: '[DEV MODE] Login successful. In production, credentials would be validated.'

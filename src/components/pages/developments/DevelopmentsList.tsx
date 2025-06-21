@@ -1,64 +1,23 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Mock development data
-const mockDevelopments = [
-  {
-    id: '1',
-    name: 'Highfield Meadows',
-    location: 'Drogheda, Co. Louth',
-    priceFrom: 325000,
-    bedroomsRange: '3-4',
-    availableUnits: 12,
-    type: 'Houses',
-    description: 'Luxury family homes in a peaceful setting with excellent access to Dublin.',
-    imageUrl: '/images/development-1.jpg',
-    completionDate: 'Summer 2025',
-    featured: true,
-  },
-  {
-    id: '2',
-    name: 'Riverbank View',
-    location: 'Drogheda, Co. Louth',
-    priceFrom: 285000,
-    bedroomsRange: '2-3',
-    availableUnits: 8,
-    type: 'Apartments',
-    description: 'Modern riverside apartments with stunning views and excellent amenities.',
-    imageUrl: '/images/development-2.jpg',
-    completionDate: 'Autumn 2025',
-    featured: false,
-  },
-  {
-    id: '3',
-    name: 'The Oaks',
-    location: 'Drogheda, Co. Louth',
-    priceFrom: 395000,
-    bedroomsRange: '4-5',
-    availableUnits: 5,
-    type: 'Houses',
-    description: 'Premium detached homes with spacious gardens and high-quality finishes.',
-    imageUrl: '/images/development-3.jpg',
-    completionDate: 'Winter 2025',
-    featured: true,
-  },
-  {
-    id: '4',
-    name: 'Park Manor',
-    location: 'Drogheda, Co. Louth',
-    priceFrom: 275000,
-    bedroomsRange: '2-4',
-    availableUnits: 15,
-    type: 'Houses',
-    description: 'Family-friendly development with community park and playground.',
-    imageUrl: '/images/development-4.jpg',
-    completionDate: 'Spring 2026',
-    featured: false,
-  },
-];
+// Development type
+interface Development {
+  id: string;
+  name: string;
+  location: string;
+  priceFrom: number;
+  bedroomsRange: string;
+  availableUnits: number;
+  type: string;
+  description: string;
+  imageUrl: string;
+  completionDate: string;
+  featured: boolean;
+}
 
 // Filter types
 type FilterOptions = {
@@ -69,6 +28,8 @@ type FilterOptions = {
 };
 
 const DevelopmentsList: React.FC = () => {
+  const [developments, setDevelopments] = useState<Development[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<FilterOptions>({
     bedroomsMin: null,
     priceMin: null,
@@ -76,8 +37,43 @@ const DevelopmentsList: React.FC = () => {
     propertyType: null,
   });
 
+  // Fetch developments from API
+  useEffect(() => {
+    const fetchDevelopments = async () => {
+      try {
+        const response = await fetch('/api/developments?published=true');
+        if (response.ok) {
+          const data = await response.json();
+          // Map API response to local format
+          const mappedDevelopments: Development[] = data.data.map((dev: any, index: number) => ({
+            id: dev.id,
+            name: dev.name,
+            location: `${dev.city}, ${dev.county}`,
+            priceFrom: dev.startingPrice || 300000,
+            bedroomsRange: '2-4', // Default - would be calculated from units in real scenario
+            availableUnits: dev.totalUnits || 10,
+            type: 'Houses', // Default - would be determined from units
+            description: dev.description || `Premium development in ${dev.city}`,
+            imageUrl: dev.mainImage || '/images/development-placeholder.jpg',
+            completionDate: 'Available now',
+            featured: index < 2 // Mark first 2 as featured
+          }));
+          setDevelopments(mappedDevelopments);
+        } else {
+          console.error('Failed to fetch developments');
+        }
+      } catch (error) {
+        console.error('Error fetching developments:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDevelopments();
+  }, []);
+
   // Apply filters to developments
-  const filteredDevelopments = mockDevelopments.filter((dev) => {
+  const filteredDevelopments = developments.filter((dev) => {
     // Filter by minimum bedrooms
     if (filters.bedroomsMin !== null) {
       const minBedrooms = parseInt(dev.bedroomsRange.split('-')[0]);
@@ -101,6 +97,14 @@ const DevelopmentsList: React.FC = () => {
       [name]: value,
     }));
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-64 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div>

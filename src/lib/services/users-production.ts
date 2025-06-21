@@ -18,13 +18,15 @@ import { User, UserRole, UserStatus, KYCStatus } from '@/types/core/user';
 const prisma = new PrismaClient();
 
 export interface CreateUserData {
+  cognitoUserId: string;
   email: string;
   firstName: string;
   lastName: string;
   phone?: string;
-  role: UserRole;
+  roles: UserRole[];
   organization?: string;
   position?: string;
+  preferences?: any;
 }
 
 export interface UpdateUserData {
@@ -55,19 +57,14 @@ export class UserService {
     try {
       const where: any = {};
 
-      // Apply role filter
-      if (filters.role) {
-        where.role = filters.role as UserRole;
-      }
-
       // Apply status filter
       if (filters.status) {
         where.status = filters.status;
       }
 
-      // Apply KYC status filter
-      if (filters.kycStatus) {
-        where.kycStatus = filters.kycStatus;
+      // Apply role filter (search in roleData JSON string)
+      if (filters.role) {
+        where.roleData = { contains: filters.role };
       }
 
       // Apply search filter (search in name and email)
@@ -87,14 +84,10 @@ export class UserService {
           firstName: true,
           lastName: true,
           phone: true,
-          role: true,
+          roleData: true,
           status: true,
-          kycStatus: true,
-          organization: true,
-          position: true,
-          avatar: true,
           createdAt: true,
-          lastActiveAt: true,
+          updatedAt: true,
         },
         orderBy: {
           createdAt: 'desc'
@@ -116,9 +109,8 @@ export class UserService {
       const user = await prisma.user.findUnique({
         where: { id },
         include: {
-          buyerProfile: true,
-          emergencyContacts: true,
-          kycDocuments: true,
+          buyerJourneys: true,
+          reservations: true,
         }
       });
 
@@ -137,8 +129,8 @@ export class UserService {
       const user = await prisma.user.findUnique({
         where: { email },
         include: {
-          buyerProfile: true,
-          emergencyContacts: true,
+          buyerJourneys: true,
+          reservations: true,
         }
       });
 
@@ -160,17 +152,19 @@ export class UserService {
           firstName: userData.firstName,
           lastName: userData.lastName,
           phone: userData.phone,
-          role: userData.role,
-          organization: userData.organization,
-          position: userData.position,
-          status: UserStatus.PENDING,
-          kycStatus: KYCStatus.NOT_STARTED,
+          password: 'hashed_password_placeholder', // Add password field that schema requires
+          roleData: JSON.stringify(userData.roles || ['buyer']),
+          status: "ACTIVE",
           createdAt: new Date(),
-          lastActiveAt: new Date(),
+          updatedAt: new Date(),
         }
       });
 
-      return user;
+      return {
+        ...user,
+        id: user.id,
+        roles: userData.roles || ['buyer']
+      };
     } catch (error) {
       console.error('Error creating user:', error);
       throw new Error('Failed to create user');
@@ -220,13 +214,6 @@ export class UserService {
     try {
       const totalUsers = await prisma.user.count();
       
-      const usersByRole = await prisma.user.groupBy({
-        by: ['role'],
-        _count: {
-          role: true
-        }
-      });
-
       const usersByStatus = await prisma.user.groupBy({
         by: ['status'],
         _count: {
@@ -234,25 +221,10 @@ export class UserService {
         }
       });
 
-      const usersByKycStatus = await prisma.user.groupBy({
-        by: ['kycStatus'],
-        _count: {
-          kycStatus: true
-        }
-      });
-
       return {
         total: totalUsers,
-        byRole: usersByRole.reduce((acc, item) => {
-          acc[item.role] = item._count.role;
-          return acc;
-        }, {} as Record<string, number>),
         byStatus: usersByStatus.reduce((acc, item) => {
           acc[item.status] = item._count.status;
-          return acc;
-        }, {} as Record<string, number>),
-        byKycStatus: usersByKycStatus.reduce((acc, item) => {
-          acc[item.kycStatus] = item._count.kycStatus;
           return acc;
         }, {} as Record<string, number>),
       };
@@ -270,11 +242,28 @@ export class UserService {
       await prisma.user.update({
         where: { id },
         data: {
-          lastActiveAt: new Date()
+          updatedAt: new Date()
         }
       });
     } catch (error) {
       console.error('Error updating last active:', error);
+      // Don't throw error for this operation as it's not critical
+    }
+  }
+
+  /**
+   * Update user's last login timestamp
+   */
+  async updateLastLogin(id: string) {
+    try {
+      await prisma.user.update({
+        where: { id },
+        data: {
+          updatedAt: new Date()
+        }
+      });
+    } catch (error) {
+      console.error('Error updating last login:', error);
       // Don't throw error for this operation as it's not critical
     }
   }
@@ -289,8 +278,7 @@ export class UserService {
           OR: [
             { firstName: { contains: query, mode: 'insensitive' } },
             { lastName: { contains: query, mode: 'insensitive' } },
-            { email: { contains: query, mode: 'insensitive' } },
-            { organization: { contains: query, mode: 'insensitive' } }
+            { email: { contains: query, mode: 'insensitive' } }
           ]
         },
         select: {
@@ -298,9 +286,7 @@ export class UserService {
           email: true,
           firstName: true,
           lastName: true,
-          role: true,
-          organization: true,
-          avatar: true
+          roleData: true
         },
         take: limit,
         orderBy: {

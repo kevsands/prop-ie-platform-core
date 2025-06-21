@@ -4,15 +4,15 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ClientLayout from '../ClientLayout';
-import { useAuth } from '@/context/AuthContext';
+import { EnterpriseAuthProvider, useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
+import AuthErrorBoundary from '@/components/auth/AuthErrorBoundary';
 
 function LoginPageContent() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   
-  const { signIn } = useAuth();
+  const { signIn, isLoading, error, clearError } = useEnterpriseAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -21,40 +21,24 @@ function LoginPageContent() {
     if (hint) {
       setEmail(hint);
     }
-  }, [searchParams]);
+    // Clear any existing errors when component mounts
+    clearError();
+  }, [searchParams, clearError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
+    clearError();
     
     try {
-      const result = await signIn(email, password);
-      
-      if (result.isSignedIn) {
-        // Navigate based on user role
-        if (email.includes('buyer')) {
-          router.push('/buyer');
-        } else if (email.includes('developer')) {
-          router.push('/developer');
-        } else if (email.includes('agent')) {
-          router.push('/agents');
-        } else if (email.includes('solicitor')) {
-          router.push('/solicitor');
-        } else if (email.includes('admin')) {
-          router.push('/admin');
-        } else {
-          router.push('/dashboard');
-        }
-      } else if (result.nextStep?.signInStep === 'CONFIRM_SIGN_IN_WITH_SMS_CODE') {
-        // Handle MFA
-        router.push('/auth/mfa');
-      }
+      await signIn({
+        email,
+        password,
+        rememberMe
+      });
+      // Navigation is handled automatically by the enterprise auth context
     } catch (err) {
-      setError('Invalid email or password');
+      // Error is handled by the context
       console.error('Login error:', err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -69,20 +53,17 @@ function LoginPageContent() {
             
             {/* Test user credentials hint */}
             <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-900 font-medium mb-2">Test Credentials:</p>
+              <p className="text-sm text-blue-900 font-medium mb-2">Enterprise Test Credentials:</p>
               <div className="text-sm text-blue-800 space-y-1">
-                <p>• buyer@example.com - Buyer Dashboard</p>
-                <p>• developer@example.com - Developer Dashboard</p>
-                <p>• agent@example.com - Agent Dashboard</p>
-                <p>• solicitor@example.com - Solicitor Dashboard</p>
-                <p>• admin@example.com - Admin Dashboard</p>
-                <p className="mt-2 text-xs">Password: any value</p>
+                <p>• kevin@prop.ie - Real user from database</p>
+                <p>• Or use any email with "buyer", "developer", "agent", etc.</p>
+                <p className="mt-2 text-xs">Password: any value (development mode)</p>
               </div>
             </div>
             
             {error && (
               <div className="mb-4 p-3 bg-red-50 text-red-800 rounded-md text-sm">
-                {error}
+                {error.message || 'Login failed'}
               </div>
             )}
             
@@ -121,6 +102,19 @@ function LoginPageContent() {
                   placeholder="••••••••"
                 />
               </div>
+
+              <div className="mb-6 flex items-center">
+                <input
+                  id="rememberMe"
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="h-4 w-4 text-[#2B5273] focus:ring-[#2B5273] border-gray-300 rounded"
+                />
+                <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                  Keep me signed in for 30 days
+                </label>
+              </div>
               
               <button
                 type="submit"
@@ -142,17 +136,13 @@ function LoginPageContent() {
             
             {/* Development mode helper */}
             {process.env.NODE_ENV === 'development' && (
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800 font-medium mb-2">Development Mode - Quick Login</p>
-                <div className="text-xs text-blue-600 space-y-1">
-                  <p>Use any password. Login with:</p>
-                  <ul className="list-disc list-inside space-y-1 mt-2">
-                    <li>buyer@example.com - Buyer Dashboard</li>
-                    <li>developer@example.com - Developer Dashboard</li>
-                    <li>agent@example.com - Agent Dashboard</li>
-                    <li>solicitor@example.com - Solicitor Dashboard</li>
-                    <li>admin@example.com - Admin Dashboard</li>
-                  </ul>
+              <div className="mt-6 p-4 bg-green-50 rounded-lg">
+                <p className="text-sm text-green-800 font-medium mb-2">Enterprise Authentication System</p>
+                <div className="text-xs text-green-700 space-y-1">
+                  <p>✅ Now using unified enterprise authentication</p>
+                  <p>✅ JWT tokens with refresh capability</p>
+                  <p>✅ Role-based access control (RBAC)</p>
+                  <p>✅ Automatic dashboard routing by role</p>
                 </div>
               </div>
             )}
@@ -165,19 +155,24 @@ function LoginPageContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <ClientLayout>
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gray-200 rounded animate-pulse mx-auto mb-4"></div>
-              <div className="w-32 h-6 bg-gray-200 rounded animate-pulse mx-auto"></div>
+    <EnterpriseAuthProvider>
+      <AuthErrorBoundary>
+        <Suspense fallback={
+          <ClientLayout>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+              <div className="max-w-md w-full space-y-8">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gray-200 rounded animate-pulse mx-auto mb-4"></div>
+                  <div className="w-32 h-6 bg-gray-200 rounded animate-pulse mx-auto"></div>
+                  <p className="mt-4 text-sm text-gray-500">Loading enterprise authentication...</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </ClientLayout>
-    }>
-      <LoginPageContent />
-    </Suspense>
+          </ClientLayout>
+        }>
+          <LoginPageContent />
+        </Suspense>
+      </AuthErrorBoundary>
+    </EnterpriseAuthProvider>
   );
 }

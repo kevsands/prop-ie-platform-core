@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { developmentsService } from '@/lib/services/developments-real';
+import { developmentsService } from '@/lib/services/developments-prisma';
 
 export async function GET(request: NextRequest) {
   try {

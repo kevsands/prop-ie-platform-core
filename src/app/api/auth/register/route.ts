@@ -1,7 +1,7 @@
 // src/app/api/auth/register/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { Auth } from '@/lib/auth';
-import { userService } from '@/lib/services/users-production';
+import { userService } from '@/lib/services/users-real';
 import { UserRole } from '@/types/core/user';
 
 /**
@@ -100,7 +100,11 @@ export async function POST(request: NextRequest) {
         }
       });
 
-      return NextResponse.json({
+      // Auto-login after successful registration
+      const authToken = `dev-token-${newUser.id}`;
+      
+      // Create the response with auto-login
+      const response = NextResponse.json({
         success: true,
         isSignUpComplete: true,
         userId: newUser.id,
@@ -111,8 +115,20 @@ export async function POST(request: NextRequest) {
           lastName: newUser.lastName,
           roles: newUser.roles
         },
-        message: '[DEV MODE] User registered successfully. In production, you would need to verify your email.'
+        token: authToken,
+        autoLogin: true,
+        message: '[DEV MODE] User registered and automatically logged in.'
       });
+
+      // Set session cookie for auto-login
+      response.cookies.set('auth-token', authToken, {
+        httpOnly: true,
+        secure: false, // Set to true in production
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7 // 7 days
+      });
+
+      return response;
     }
 
     // Production: Use AWS Cognito

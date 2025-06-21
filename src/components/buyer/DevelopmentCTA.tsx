@@ -5,6 +5,8 @@ import { AlertCircle, Clock, Shield, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import BuyerRegistrationFlow from './BuyerRegistrationFlow';
+import UnifiedPurchaseFlow from '@/components/payments/UnifiedPurchaseFlow';
+import { PaymentType, calculatePaymentBreakdown } from '@/lib/payment-config';
 
 interface DevelopmentCTAProps {
   developmentId: string;
@@ -12,6 +14,8 @@ interface DevelopmentCTAProps {
   status: string;
   unitsAvailable: number;
   startingPrice: string;
+  startingPriceNumber?: number; // Numeric version for calculations
+  htbEligible?: boolean;
 }
 
 export default function DevelopmentCTA({ 
@@ -19,10 +23,20 @@ export default function DevelopmentCTA({
   developmentName, 
   status, 
   unitsAvailable,
-  startingPrice 
+  startingPrice,
+  startingPriceNumber,
+  htbEligible = false
 }: DevelopmentCTAProps) {
   const router = useRouter();
   const [showRegistration, setShowRegistration] = useState(false);
+  const [showPurchaseFlow, setShowPurchaseFlow] = useState(false);
+  
+  // Calculate standardized reservation amount
+  const priceNumber = startingPriceNumber || parseFloat(startingPrice.replace(/[€,]/g, '')) || 320000;
+  const paymentBreakdown = calculatePaymentBreakdown({
+    propertyPrice: priceNumber,
+    htbEligible
+  });
   
   // Determine CTA based on status
   if (status === 'Sold Out') {
@@ -124,17 +138,17 @@ export default function DevelopmentCTA({
               <span>Fully secure process • Bank-level encryption</span>
             </div>
             <button
-              onClick={() => setShowRegistration(true)}
+              onClick={() => setShowPurchaseFlow(true)}
               className="bg-red-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-700 transition-colors animate-pulse"
             >
-              Reserve Now - €5,000 Deposit
+              Reserve Now - €{paymentBreakdown.reservationFee.toLocaleString()} Fee
             </button>
           </div>
 
           <div className="mt-4 text-center">
             <p className="text-xs text-gray-600">
-              By proceeding, you acknowledge that this is a <span className="font-semibold">non-refundable deposit</span> and 
-              you are entering into a <span className="font-semibold">legally binding purchase agreement</span>.
+              Reservation fee of €{paymentBreakdown.reservationFee.toLocaleString()} is <span className="font-semibold">refundable within 14 days</span>. 
+              Full terms apply - this secures your interest in the property.
             </p>
           </div>
         </div>
@@ -145,6 +159,36 @@ export default function DevelopmentCTA({
           onComplete={(data) => {
             // In real app, would process payment and create reservation
             router.push(`/buyer/dashboard?reservation=${developmentId}`);
+          }}
+        />
+      )}
+      
+      {/* Unified Purchase Flow Modal */}
+      {showPurchaseFlow && (
+        <UnifiedPurchaseFlow
+          property={{
+            id: `${developmentId}-starting-unit`,
+            title: `Starting Unit - ${developmentName}`,
+            price: priceNumber,
+            location: 'Drogheda, Co. Louth',
+            bedrooms: 2,
+            bathrooms: 2,
+            developer: 'Premium Developments Ltd',
+            htbEligible,
+            developmentId
+          }}
+          config={{
+            allowedPaymentTypes: [PaymentType.RESERVATION_FEE, PaymentType.BOOKING_DEPOSIT],
+            defaultPaymentType: PaymentType.RESERVATION_FEE,
+            allowCustomDeposit: true,
+            requiresAppointment: true,
+            escrowRequired: false,
+            journeyIntegration: true
+          }}
+          onClose={() => setShowPurchaseFlow(false)}
+          onComplete={(result) => {
+            setShowPurchaseFlow(false);
+            router.push(`/buyer/dashboard?reservation=${developmentId}&transaction=${result.transactionId}`);
           }}
         />
       )}

@@ -1,0 +1,48 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, using available port 3001 instead.
+   ▲ Next.js 15.3.3
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.44:3001
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 6.7s
+ ✓ Compiled /middleware in 156ms (153 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 7.5s (4267 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD / 200 in 7997ms
+ ✓ Compiled in 573ms (1868 modules)
+ ○ Compiling /api/auth/enterprise/login ...
+ ✓ Compiled /api/auth/enterprise/login in 875ms (4372 modules)
+ POST /api/auth/enterprise/login 200 in 1089ms
+ ✓ Compiled /api/auth/enterprise/me in 236ms (4374 modules)
+ GET /api/auth/enterprise/me 200 in 301ms
+ ✓ Compiled in 383ms (1869 modules)
+ ○ Compiling /auth/enterprise/login ...
+ ✓ Compiled /auth/enterprise/login in 636ms (4403 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /auth/enterprise/login 200 in 970ms
+ ✓ Compiled in 391ms (1875 modules)
+ ✓ Compiled in 564ms (1875 modules)
+ ✓ Compiled in 406ms (1875 modules)
+ ✓ Compiled in 648ms (1875 modules)
+ ✓ Compiled in 389ms (1875 modules)
+ ✓ Compiled in 366ms (1875 modules)
+ ✓ Compiled in 365ms (1875 modules)
+ ✓ Compiled in 367ms (1875 modules)
+ ✓ Compiled in 355ms (1875 modules)
+ ✓ Compiled in 493ms (1875 modules)
+ ✓ Compiled in 518ms (1875 modules)
+ ✓ Compiled in 414ms (1875 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1062ms (4248 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /auth/enterprise/login 404 in 1599ms
+[?25h

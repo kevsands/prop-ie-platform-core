@@ -6,88 +6,209 @@
    - Local:        http://localhost:3000
    - Network:      http://192.168.0.44:3000
    - Environments: .env.local, .env
-   - Experiments (use with caution):
-     · clientTraceMetadata
 
  ✓ Starting...
-
-   We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
-   The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
-
-   	- include was updated to add '.next/types/**/*.ts'
-
-[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
- ✓ Ready in 2.9s
- ○ Compiling /api/health ...
- ✓ Compiled /api/health in 2.8s (1399 modules)
- GET /api/health 200 in 3174ms
- ✓ Compiled /api/users in 289ms (1404 modules)
- ⨯ Error: Cannot find module './chunks/vendor-chunks/@opentelemetry.js'
-Require stack:
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/api/users/route.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
-    at t.f.require (webpack://prop-ie-aws-app/webpack/runtime/require%20chunk%20loading:29:0)
-    at <unknown> (webpack://prop-ie-aws-app/webpack/runtime/ensure%20chunk:6:0)
-    at Array.reduce (<anonymous>)
-    at t.e (webpack://prop-ie-aws-app/webpack/runtime/ensure%20chunk:5:0)
-    at Array.map (<anonymous>)
-    at t.X (webpack://prop-ie-aws-app/webpack/runtime/startup%20entrypoint:5:0)
-    at <unknown> (.next/server/app/api/users/route.js:522:47)
-    at Object.<anonymous> (.next/server/app/api/users/route.js:525:3)
-  27 | 	if(!installedChunks[chunkId]) {
-  28 | 		if(7311 != chunkId) {
-> 29 | 			installChunk(require("./chunks/" + __webpack_require__.u(chunkId)));
-  30 | 		} else installedChunks[chunkId] = 1;
-  31 | 	}
-  32 | }; {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [Array],
-  page: '/api/users'
+ ✓ Ready in 8s
+ ✓ Compiled /middleware in 351ms (153 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 10.2s (4287 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD / 200 in 10705ms
+ GET / 200 in 156ms
+ ○ Compiling /solutions/first-time-buyers ...
+ ✓ Compiled /solutions/first-time-buyers in 1027ms (4292 modules)
+ GET /solutions/first-time-buyers 200 in 1126ms
+ GET /solutions/first-time-buyers 200 in 29ms
+ ✓ Compiled /register in 327ms (4285 modules)
+ GET /register 200 in 397ms
+ GET /solutions/first-time-buyers 200 in 48ms
+ ○ Compiling /first-time-buyers/how-it-works ...
+ ✓ Compiled /first-time-buyers/how-it-works in 528ms (4334 modules)
+ GET /first-time-buyers/how-it-works 200 in 615ms
+ ✓ Compiled /first-time-buyers/register in 404ms (4353 modules)
+ GET /first-time-buyers/register 200 in 476ms
+ ✓ Compiled /first-time-buyers/journey in 467ms (4384 modules)
+ GET /first-time-buyers/journey 200 in 546ms
+ ○ Compiling /first-time-buyers/calculator ...
+ ✓ Compiled /first-time-buyers/calculator in 1381ms (4380 modules)
+ GET /first-time-buyers/calculator 200 in 1459ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /first-time-buyers/journey 200 in 449ms
+ GET /first-time-buyers/journey 200 in 175ms
+ ○ Compiling /first-time-buyers ...
+ ✓ Compiled /first-time-buyers in 560ms (4405 modules)
+ GET /first-time-buyers 200 in 624ms
+ ✓ Compiled /_not-found in 479ms (4409 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer/first-time-buyers 404 in 750ms
+ GET /first-time-buyers/journey 200 in 234ms
+ GET /first-time-buyers/journey 200 in 155ms
+ ○ Compiling /buyer ...
+ ✓ Compiled /buyer in 581ms (4432 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer 200 in 768ms
+ ✓ Compiled in 1236ms (1950 modules)
+ ✓ Compiled in 366ms (1950 modules)
+ ✓ Compiled in 349ms (1950 modules)
+ ✓ Compiled in 379ms (1950 modules)
+ ✓ Compiled in 370ms (1950 modules)
+ ✓ Compiled in 379ms (1950 modules)
+ ✓ Compiled in 353ms (1950 modules)
+ ✓ Compiled in 400ms (1950 modules)
+ ✓ Compiled in 346ms (1950 modules)
+ ✓ Compiled in 379ms (1950 modules)
+ ✓ Compiled in 377ms (1950 modules)
+ ✓ Compiled in 376ms (1950 modules)
+ ✓ Compiled in 334ms (1950 modules)
+ ○ Compiling /api/properties ...
+ ✓ Compiled /api/properties in 1407ms (4412 modules)
+Error fetching properties: TypeError: _lib_services_developments_real__WEBPACK_IMPORTED_MODULE_1__.developmentsService.getAllDevelopments is not a function
+    at GET (src/app/api/properties/route.ts:355:51)
+  353 |
+  354 |     // Get development data for enhanced transformation
+> 355 |     const developments = await developmentsService.getAllDevelopments();
+      |                                                   ^
+  356 |     const developmentMap = new Map(developments.map(dev => [dev.id, dev]));
+  357 |
+  358 |     // Transform units to properties
+ GET /api/properties?limit=5 500 in 1702ms
+ ✓ Compiled in 680ms (4426 modules)
+ ✓ Compiled in 606ms (1951 modules)
+ GET /api/properties?limit=3 200 in 84ms
+ ○ Compiling /api/properties/search ...
+ ✓ Compiled /api/properties/search in 807ms (4414 modules)
+ GET /api/properties/search?q=Fitzgerald&limit=2 200 in 886ms
+ GET /api/properties/search?q=Fitzgerald&limit=2 200 in 23ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/first-time-buyers/journey/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/first-time-buyers/journey/page.js',
+  page: '/first-time-buyers/journey'
 }
  ○ Compiling /_error ...
- ✓ Compiled /_error in 1045ms (1989 modules)
- ⨯ Error: Cannot find module './chunks/vendor-chunks/next.js'
-Require stack:
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/webpack-runtime.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages/_document.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/require.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/load-components.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/utils.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/options.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/swc/index.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/parse-module.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/build/analysis/get-page-static-info.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/router-server.js
-- /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/node_modules/next/dist/server/lib/start-server.js
-    at t.f.require (webpack://prop-ie-aws-app/webpack/runtime/require%20chunk%20loading:29:0)
-    at <unknown> (webpack://prop-ie-aws-app/webpack/runtime/ensure%20chunk:6:0)
-    at Array.reduce (<anonymous>)
-    at t.e (webpack://prop-ie-aws-app/webpack/runtime/ensure%20chunk:5:0)
-    at Array.map (<anonymous>)
-    at t.X (webpack://prop-ie-aws-app/webpack/runtime/startup%20entrypoint:5:0)
-    at <unknown> (.next/server/pages/_document.js:73:47)
-    at Object.<anonymous> (.next/server/pages/_document.js:76:3)
-  27 | 	if(!installedChunks[chunkId]) {
-  28 | 		if(7311 != chunkId) {
-> 29 | 			installChunk(require("./chunks/" + __webpack_require__.u(chunkId)));
-  30 | 		} else installedChunks[chunkId] = 1;
-  31 | 	}
-  32 | }; {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [Array]
+ ✓ Compiled /_error in 2.1s (4976 modules)
+ GET /first-time-buyers/journey 500 in 2703ms
+ ○ Compiling / ...
+ ✓ Compiled / in 869ms (2561 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET / 200 in 1384ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 572ms (4998 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /_next/static/css/app/layout.css?v=1750359320318 404 in 1022ms
+ GET /_next/static/chunks/main-app.js?v=1750359320318 404 in 910ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 82ms
+ GET /_next/static/chunks/app/page.js 404 in 81ms
+ GET /_next/static/chunks/app/global-error.js 404 in 81ms
+ GET / 200 in 83ms
+ GET /_next/static/css/app/layout.css?v=1750359323663 404 in 26ms
+ GET /_next/static/chunks/main-app.js?v=1750359323663 404 in 106ms
+ GET /_next/static/chunks/app/page.js 404 in 74ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 75ms
+ GET /_next/static/chunks/app/global-error.js 404 in 73ms
+ ○ Compiling /properties/search ...
+ ✓ Compiled /properties/search in 1119ms (5030 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /properties/search?q=Fitzgerald 200 in 1562ms
+ GET / 200 in 116ms
+ GET /_next/static/css/app/layout.css?v=1750359450672 404 in 49ms
+ GET /_next/static/chunks/main-app.js?v=1750359450672 404 in 146ms
+ GET /_next/static/chunks/app/global-error.js 404 in 101ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 103ms
+ GET /_next/static/chunks/app/page.js 404 in 102ms
+ GET / 200 in 81ms
+ GET /_next/static/css/app/layout.css?v=1750359467409 404 in 39ms
+ GET /_next/static/chunks/main-app.js?v=1750359467409 404 in 129ms
+ GET /_next/static/chunks/app/page.js 404 in 96ms
+ GET /_next/static/chunks/app/global-error.js 404 in 96ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 98ms
+ GET / 200 in 82ms
+ GET /_next/static/css/app/layout.css?v=1750359486939 404 in 37ms
+ GET /_next/static/chunks/main-app.js?v=1750359486939 404 in 146ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 107ms
+ GET /_next/static/chunks/app/page.js 404 in 107ms
+ GET /_next/static/chunks/app/global-error.js 404 in 107ms
+ ○ Compiling /api/properties/search ...
+ ✓ Compiled /api/properties/search in 539ms (2582 modules)
+ GET /api/properties/search?query=Fitzgerald&limit=1 200 in 720ms
+ ✓ Compiled in 920ms (5044 modules)
+ ✓ Compiled in 664ms (5044 modules)
+ GET /api/properties/search?q=Fitzgerald&limit=1 200 in 53ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET / 200 in 457ms
+ GET /_next/static/css/app/layout.css?v=1750359643103 404 in 45ms
+ GET /_next/static/chunks/main-app.js?v=1750359643103 404 in 84ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 62ms
+ GET /_next/static/chunks/app/global-error.js 404 in 61ms
+ ○ Compiling /properties/search ...
+ ✓ Compiled /properties/search in 561ms (2582 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /properties/search?q=Fitzgerald 200 in 1072ms
+ GET /properties/search?q=Fitzgerald 200 in 93ms
+ GET / 200 in 103ms
+ GET /_next/static/css/app/layout.css?v=1750359715490 404 in 36ms
+ GET /_next/static/chunks/main-app.js?v=1750359715490 404 in 122ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 99ms
+ GET /_next/static/chunks/app/global-error.js 404 in 76ms
+ GET / 200 in 60ms
+ GET /_next/static/css/app/layout.css?v=1750359717169 404 in 30ms
+ GET /_next/static/chunks/main-app.js?v=1750359717169 404 in 87ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 54ms
+ GET /_next/static/chunks/app/global-error.js 404 in 54ms
+ HEAD / 200 in 60ms
+ GET / 200 in 74ms
+ GET /_next/static/css/app/layout.css?v=1750359735797 404 in 35ms
+ GET /_next/static/chunks/main-app.js?v=1750359735797 404 in 98ms
+ GET /_next/static/chunks/app/global-error.js 404 in 59ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 62ms
+ GET / 200 in 56ms
+ GET / 200 in 67ms
+ GET /_next/static/css/app/layout.css?v=1750359828088 404 in 38ms
+ GET /_next/static/chunks/main-app.js?v=1750359828088 404 in 109ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 78ms
+ GET /_next/static/chunks/app/global-error.js 404 in 78ms
+ GET / 200 in 70ms
+ GET /_next/static/css/app/layout.css?v=1750359833931 404 in 32ms
+ GET /_next/static/chunks/main-app.js?v=1750359833931 404 in 92ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 63ms
+ GET /_next/static/chunks/app/global-error.js 404 in 60ms
+ HEAD /properties/search 200 in 87ms
+ GET / 200 in 68ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app-paths-manifest.json',
+  page: '/'
 }
-[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
- GET /api/users 500 in 3785ms
- ✓ Compiled in 217ms (1128 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/pages-manifest.json'
+}
+ GET / 500 in 2560ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/next-font-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/next-font-manifest.json',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/next-font-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/next-font-manifest.json'
+}
 [?25h

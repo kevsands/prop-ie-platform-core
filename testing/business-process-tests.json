@@ -1,0 +1,42 @@
+{
+  "propertyManagement": {
+    "name": "Property Management Process",
+    "steps": [
+      "Create new property listing",
+      "Update property details and pricing",
+      "Manage property availability status",
+      "Track property views and interest",
+      "Generate property performance reports"
+    ]
+  },
+  "transactionWorkflow": {
+    "name": "Transaction Processing Workflow",
+    "steps": [
+      "Initiate property reservation",
+      "Process HTB application",
+      "Coordinate legal documentation",
+      "Handle payment processing",
+      "Complete transaction closure"
+    ]
+  },
+  "userManagement": {
+    "name": "User Management and Authentication",
+    "steps": [
+      "User registration and verification",
+      "Role-based access control validation",
+      "Session management and security",
+      "User profile updates and preferences",
+      "User activity tracking and analytics"
+    ]
+  },
+  "reportingAnalytics": {
+    "name": "Reporting and Analytics System",
+    "steps": [
+      "Generate sales performance reports",
+      "Track user engagement metrics",
+      "Monitor property market trends",
+      "Analyze transaction success rates",
+      "Export data for external analysis"
+    ]
+  }
+}

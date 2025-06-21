@@ -1,88 +1,45 @@
 /**
  * Developments Listing Page
- * Shows all available property developments
+ * Shows all available property developments from developer-managed data
  */
 import React from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { developmentsService } from '@/lib/services/developments-prisma';
 
 export const metadata: Metadata = {
   title: 'Developments | Prop.ie',
   description: 'Browse our property developments across Ireland',
 };
 
-// Updated development data to match what's displayed on the properties page
-const allDevelopments = [
-  {
-    id: 'fitzgerald-gardens',
-    name: 'Fitzgerald Gardens',
-    description: 'Luxurious living with modern comforts in the heart of Finglas',
-    location: 'Finglas, Dublin',
-    status: 'Selling Fast',
-    startingPrice: '€395,000',
-    priceRange: '€395,000 - €575,000',
-    bedrooms: [2, 3, 4],
+// Transform database development to display format
+function transformDevelopment(dev: any) {
+  return {
+    id: dev.id,
+    name: dev.name,
+    description: dev.description || 'Premium residential development',
+    location: dev.location,
+    status: 'Now Selling', // Default status
+    startingPrice: `€${(dev.startingPrice || 300000).toLocaleString()}`,
+    priceRange: `€${(dev.startingPrice || 300000).toLocaleString()} - €${((dev.startingPrice || 300000) + 100000).toLocaleString()}`,
+    bedrooms: [2, 3, 4], // Default bedroom options
     bathrooms: 2,
     energyRating: 'A2',
-    availability: 'Move in from Winter 2025',
-    mainImage: '/images/fitzgerald-gardens/hero.jpg',
-    images: [
-      '/images/fitzgerald-gardens/hero.jpg',
-      '/images/fitzgerald-gardens/2.jpg',
-      '/images/fitzgerald-gardens/3.jpg'
-    ],
-    features: ['Energy Efficient', 'Modern Design', 'Secure Parking', 'Landscaped Gardens'],
-    unitsAvailable: 12,
-    totalUnits: 48,
-  },
-  {
-    id: 'ballymakenny-view',
-    name: 'Ballymakenny View',
-    description: 'Modern family homes in a convenient location with excellent amenities',
-    location: 'Drogheda, Co. Louth',
-    status: 'Coming Soon',
-    startingPrice: '€285,000',
-    priceRange: '€285,000 - €425,000',
-    bedrooms: [3, 4],
-    bathrooms: 2,
-    energyRating: 'A3',
-    availability: 'Launching Summer 2025',
-    mainImage: '/images/ballymakenny-view/hero.jpg',
-    images: [
-      '/images/ballymakenny-view/hero.jpg',
-      '/images/ballymakenny-view/2.jpg',
-      '/images/ballymakenny-view/3.jpg'
-    ],
-    features: ['Family Friendly', 'Near Schools', 'Private Gardens', 'Quiet Location'],
-    unitsAvailable: 36,
-    totalUnits: 36,
-  },
-  {
-    id: 'ellwood',
-    name: 'Ellwood',
-    description: 'Exclusive riverside apartments with stunning views and premium finishes',
-    location: 'Celbridge, Co. Kildare',
-    status: 'Now Selling',
-    startingPrice: '€415,000',
-    priceRange: '€415,000 - €650,000',
-    bedrooms: [1, 2, 3],
-    bathrooms: 2,
-    energyRating: 'A1',
     availability: 'Available Now',
-    mainImage: '/images/ellwood/hero.jpg',
-    images: [
-      '/images/ellwood/hero.jpg',
-      '/images/ellwood/2.jpg',
-      '/images/ellwood/3.jpg'
-    ],
-    features: ['Riverside Views', 'Premium Finishes', 'Concierge Service', 'Gym & Spa'],
-    unitsAvailable: 8,
-    totalUnits: 24,
-  }
-];
+    mainImage: dev.mainImage || '/images/development-placeholder.jpg',
+    images: [dev.mainImage || '/images/development-placeholder.jpg'],
+    features: ['Energy Efficient', 'Modern Design', 'Secure Parking', 'Landscaped Gardens'],
+    unitsAvailable: Math.floor((dev.totalUnits || 10) * 0.7), // 70% available
+    totalUnits: dev.totalUnits || 10,
+  };
+}
 
-export default function DevelopmentsPage() {
+export default async function DevelopmentsPage() {
+  // Fetch developer-managed developments
+  const dbDevelopments = await developmentsService.getDevelopments({ isPublished: true });
+  const allDevelopments = dbDevelopments.map(transformDevelopment);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -93,7 +50,7 @@ export default function DevelopmentsPage() {
               Our Developments
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Discover our range of premium residential developments across Ireland
+              Discover our range of premium residential developments in Drogheda, Co. Louth
             </p>
           </div>
         </div>
@@ -102,96 +59,103 @@ export default function DevelopmentsPage() {
       {/* Developments Grid */}
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {allDevelopments.map((development) => (
-              <Link
-                key={development.id}
-                href={`/developments/${development.id}`}
-                className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
-              >
-                <div className="relative h-64">
-                  <Image
-                    src={development.mainImage}
-                    alt={development.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <span className={`
-                      px-3 py-1 rounded-full text-sm font-semibold text-white
-                      ${development.status === 'Selling Fast' ? 'bg-red-500' : ''}
-                      ${development.status === 'Coming Soon' ? 'bg-blue-500' : ''}
-                      ${development.status === 'Now Selling' ? 'bg-green-500' : ''}
-                    `}>
-                      {development.status}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    {development.name}
-                  </h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">
-                    {development.description}
-                  </p>
-                  
-                  <div className="flex items-center text-gray-500 mb-4">
-                    <svg className="h-5 w-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <span>{development.location}</span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-3 mb-6">
-                    <div className="flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm">
-                      <svg className="h-4 w-4 mr-1.5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                      </svg>
-                      <span className="text-gray-700">
-                        {development.bedrooms.length > 1 
-                          ? `${Math.min(...development.bedrooms)}-${Math.max(...development.bedrooms)} Bed`
-                          : `${development.bedrooms[0]} Bed`}
+          {allDevelopments.length === 0 ? (
+            <div className="text-center py-12">
+              <h3 className="text-xl font-medium text-gray-900 mb-2">No developments available</h3>
+              <p className="text-gray-600">Check back soon for new developments.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {allDevelopments.map((development) => (
+                <Link
+                  key={development.id}
+                  href={`/developments/${development.id}`}
+                  className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="relative h-64">
+                    <Image
+                      src={development.mainImage}
+                      alt={development.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <span className={`
+                        px-3 py-1 rounded-full text-sm font-semibold text-white
+                        ${development.status === 'Selling Fast' ? 'bg-red-500' : ''}
+                        ${development.status === 'Coming Soon' ? 'bg-blue-500' : ''}
+                        ${development.status === 'Now Selling' ? 'bg-green-500' : ''}
+                      `}>
+                        {development.status}
                       </span>
                     </div>
+                  </div>
+
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                      {development.name}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-2">
+                      {development.description}
+                    </p>
                     
-                    <div className="flex items-center bg-green-100 px-3 py-1 rounded-full text-sm">
-                      <svg className="h-4 w-4 mr-1.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    <div className="flex items-center text-gray-500 mb-4">
+                      <svg className="h-5 w-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                       </svg>
-                      <span className="text-green-700">BER {development.energyRating}</span>
+                      <span>{development.location}</span>
                     </div>
 
-                    {development.unitsAvailable > 0 && (
-                      <div className="flex items-center bg-blue-100 px-3 py-1 rounded-full text-sm">
-                        <span className="text-blue-700">
-                          {development.unitsAvailable} units available
+                    <div className="flex flex-wrap gap-3 mb-6">
+                      <div className="flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm">
+                        <svg className="h-4 w-4 mr-1.5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span className="text-gray-700">
+                          {development.bedrooms.length > 1 
+                            ? `${Math.min(...development.bedrooms)}-${Math.max(...development.bedrooms)} Bed`
+                            : `${development.bedrooms[0]} Bed`}
                         </span>
                       </div>
-                    )}
-                  </div>
-
-                  <div className="border-t pt-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-gray-500 text-sm">Starting from</span>
-                        <div className="text-2xl font-bold text-gray-900">
-                          {development.startingPrice}
-                        </div>
-                      </div>
-                      <div className="text-blue-600 font-medium group-hover:text-blue-700 flex items-center">
-                        View Details
-                        <svg className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      
+                      <div className="flex items-center bg-green-100 px-3 py-1 rounded-full text-sm">
+                        <svg className="h-4 w-4 mr-1.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
+                        <span className="text-green-700">BER {development.energyRating}</span>
+                      </div>
+
+                      {development.unitsAvailable > 0 && (
+                        <div className="flex items-center bg-blue-100 px-3 py-1 rounded-full text-sm">
+                          <span className="text-blue-700">
+                            {development.unitsAvailable} units available
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="border-t pt-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-gray-500 text-sm">Starting from</span>
+                          <div className="text-2xl font-bold text-gray-900">
+                            {development.startingPrice}
+                          </div>
+                        </div>
+                        <div className="text-blue-600 font-medium group-hover:text-blue-700 flex items-center">
+                          View Details
+                          <svg className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

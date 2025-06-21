@@ -30,7 +30,8 @@ import {
   Archive,
   Zap,
   Award,
-  Clock
+  Clock,
+  Network
 } from 'lucide-react';
 
 /**
@@ -83,6 +84,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: 'System Health', href: '/admin/system', icon: Monitor },
         { name: 'Database', href: '/admin/system/database', icon: Database },
         { name: 'Performance', href: '/admin/system/performance', icon: Activity },
+        { name: 'WebSocket Scaling', href: '/admin/websocket-scaling', icon: Network },
         { name: 'Maintenance', href: '/admin/system/maintenance', icon: Settings },
       ]
     },

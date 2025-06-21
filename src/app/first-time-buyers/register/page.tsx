@@ -232,16 +232,43 @@ export default function RegisterPage() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setErrors({});
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Save to localStorage for demo
-      localStorage.setItem('userRegistration', JSON.stringify(formData));
-      
-      // Redirect to buyer dashboard welcome page
-      router.push('/buyer/first-time-buyers/welcome');
+      // Call real registration API
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.email,
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phoneNumber: formData.phone,
+          userRole: 'buyer'
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Store auth token if provided (auto-login)
+        if (result.token) {
+          localStorage.setItem('auth-token', result.token);
+          localStorage.setItem('auth-user', JSON.stringify(result.user));
+        }
+        
+        // Save registration data for welcome page
+        localStorage.setItem('userRegistration', JSON.stringify(formData));
+        
+        // Redirect to buyer dashboard welcome page
+        router.push('/buyer/first-time-buyers/welcome');
+      } else {
+        setErrors({ submit: result.error || 'Registration failed. Please try again.' });
+      }
     } catch (error) {
       console.error('Registration error:', error);
       setErrors({ submit: 'Registration failed. Please try again.' });

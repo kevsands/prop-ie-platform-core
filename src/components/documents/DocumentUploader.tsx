@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Upload, X, File, Calendar, AlertCircle } from 'lucide-react';
+import { Upload, X, File, Calendar, AlertCircle, CheckCircle, Loader2, Shield, Eye } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { format } from 'date-fns';
@@ -23,6 +23,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
 import { useMemo } from 'react';
 import { DocumentCategoryTypeMapping } from '@/types/core/document';
 
@@ -34,7 +36,28 @@ interface DocumentUploaderProps {
   relatedEntityName?: string;
   existingDocument?: DocumentType; // For versioning
   isVersionUpload?: boolean;
+  enableVerification?: boolean;
+  onVerificationComplete?: (verificationResult: VerificationResult) => void;
 }
+
+interface VerificationResult {
+  success: boolean;
+  confidence: number;
+  checks: VerificationCheck[];
+  extractedData?: Record<string, any>;
+  warnings?: string[];
+  errors?: string[];
+}
+
+interface VerificationCheck {
+  type: string;
+  name: string;
+  status: 'passed' | 'failed' | 'warning';
+  confidence: number;
+  details?: string;
+}
+
+type VerificationStatus = 'idle' | 'analyzing' | 'extracting' | 'validating' | 'complete' | 'failed';
 
 const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   onUpload,
@@ -43,7 +66,9 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   relatedEntityId,
   relatedEntityName,
   existingDocument,
-  isVersionUpload = false
+  isVersionUpload = false,
+  enableVerification = true,
+  onVerificationComplete
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState<string>('');
@@ -58,6 +83,10 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
   const [sensitivity, setSensitivity] = useState<string>('standard');
   const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({});
   const [dragActive, setDragActive] = useState<boolean>(false);
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>('idle');
+  const [verificationProgress, setVerificationProgress] = useState<number>(0);
+  const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
+  const [showVerificationDetails, setShowVerificationDetails] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Initialize Sentry monitoring and populate form data
@@ -110,7 +139,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     }
   }, [category, type, availableDocTypes]);
 
-  // Handle file selection with monitoring
+  // Handle file selection with monitoring and verification
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       if (e.target.files && e.target.files[0]) {
@@ -138,6 +167,11 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
         if (validationErrors.file) {
           setValidationErrors(prev => ({...prev, file: ''}));
         }
+        
+        // Start verification if enabled
+        if (enableVerification) {
+          startDocumentVerification(selectedFile);
+        }
       }
     } catch (error) {
       Sentry.captureException(error);
@@ -163,6 +197,11 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
       if (validationErrors.file) {
         setValidationErrors(prev => ({...prev, file: ''}));
       }
+      
+      // Start verification if enabled
+      if (enableVerification) {
+        startDocumentVerification(droppedFile);
+      }
     }
   };
 
@@ -176,6 +215,183 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
     } else if (e.type === 'dragleave') {
       setDragActive(false);
     }
+  };
+
+  // Document verification function
+  const startDocumentVerification = async (file: File) => {
+    if (!enableVerification) return;
+    
+    try {
+      setVerificationStatus('analyzing');
+      setVerificationProgress(10);
+      setVerificationResult(null);
+      
+      Sentry.addBreadcrumb({
+        message: 'Document verification started',
+        level: 'info',
+        category: 'verification.start',
+        data: { 
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type
+        }
+      });
+      
+      // Simulate verification process with realistic steps
+      await simulateVerificationProcess(file);
+      
+    } catch (error) {
+      setVerificationStatus('failed');
+      setVerificationProgress(0);
+      
+      Sentry.captureException(error, {
+        tags: { operation: 'document_verification' },
+        extra: { fileName: file.name }
+      });
+    }
+  };
+  
+  // Simulate realistic document verification process
+  const simulateVerificationProcess = async (file: File) => {
+    // Phase 1: File analysis
+    setVerificationStatus('analyzing');
+    setVerificationProgress(25);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Phase 2: Data extraction
+    setVerificationStatus('extracting');
+    setVerificationProgress(50);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Phase 3: Validation
+    setVerificationStatus('validating');
+    setVerificationProgress(75);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Phase 4: Complete
+    setVerificationStatus('complete');
+    setVerificationProgress(100);
+    
+    // Generate mock verification result based on document type and category
+    const result = generateMockVerificationResult(file, type, category);
+    setVerificationResult(result);
+    
+    if (onVerificationComplete) {
+      onVerificationComplete(result);
+    }
+    
+    Sentry.addBreadcrumb({
+      message: 'Document verification completed',
+      level: 'info',
+      category: 'verification.complete',
+      data: { 
+        fileName: file.name,
+        success: result.success,
+        confidence: result.confidence
+      }
+    });
+  };
+  
+  // Generate realistic mock verification results
+  const generateMockVerificationResult = (file: File, docType: DocType, docCategory: DocumentCategory): VerificationResult => {
+    const checks: VerificationCheck[] = [];
+    const warnings: string[] = [];
+    const extractedData: Record<string, any> = {};
+    
+    // File format validation
+    const isValidFormat = ['application/pdf', 'image/jpeg', 'image/png', 'application/msword'].includes(file.type);
+    checks.push({
+      type: 'format',
+      name: 'File Format Validation',
+      status: isValidFormat ? 'passed' : 'failed',
+      confidence: isValidFormat ? 0.95 : 0.1,
+      details: isValidFormat ? 'Document format is supported' : 'Unsupported file format'
+    });
+    
+    // Document quality check
+    const qualityScore = Math.random() * 0.4 + 0.6; // 60-100%
+    checks.push({
+      type: 'quality',
+      name: 'Document Quality',
+      status: qualityScore > 0.7 ? 'passed' : 'warning',
+      confidence: qualityScore,
+      details: qualityScore > 0.7 ? 'Good document quality' : 'Document quality could be improved'
+    });
+    
+    if (qualityScore < 0.8) {
+      warnings.push('Document quality is lower than optimal. Consider rescanning for better results.');
+    }
+    
+    // Document type specific checks
+    if (docType === DocType.LEGAL) {
+      checks.push({
+        type: 'legal_format',
+        name: 'Legal Document Format',
+        status: 'passed',
+        confidence: 0.85,
+        details: 'Document appears to follow legal formatting standards'
+      });
+      
+      extractedData.documentType = 'Legal Contract';
+      extractedData.pageCount = Math.floor(Math.random() * 10) + 5;
+    }
+    
+    if (docType === DocType.FINANCIAL) {
+      checks.push({
+        type: 'financial_data',
+        name: 'Financial Information Detection',
+        status: 'passed',
+        confidence: 0.92,
+        details: 'Financial data structures detected'
+      });
+      
+      extractedData.currency = 'EUR';
+      extractedData.containsAmounts = true;
+    }
+    
+    if (docType === DocType.IDENTIFICATION) {
+      checks.push({
+        type: 'id_verification',
+        name: 'ID Document Verification',
+        status: 'passed',
+        confidence: 0.88,
+        details: 'Document contains identification markers'
+      });
+      
+      extractedData.idType = 'Passport';
+      extractedData.hasPhoto = true;
+    }
+    
+    // Security checks
+    checks.push({
+      type: 'security',
+      name: 'Security Scan',
+      status: 'passed',
+      confidence: 0.99,
+      details: 'No security threats detected'
+    });
+    
+    // Text extraction confidence
+    const textConfidence = Math.random() * 0.3 + 0.7; // 70-100%
+    checks.push({
+      type: 'text_extraction',
+      name: 'Text Extraction',
+      status: textConfidence > 0.8 ? 'passed' : 'warning',
+      confidence: textConfidence,
+      details: textConfidence > 0.8 ? 'Text extracted successfully' : 'Some text may be unclear'
+    });
+    
+    const overallConfidence = checks.reduce((sum, check) => sum + check.confidence, 0) / checks.length;
+    const hasFailures = checks.some(check => check.status === 'failed');
+    
+    return {
+      success: !hasFailures && overallConfidence > 0.7,
+      confidence: Math.round(overallConfidence * 100) / 100,
+      checks,
+      extractedData,
+      warnings: warnings.length > 0 ? warnings : undefined,
+      errors: hasFailures ? ['Document verification failed. Please check the file and try again.'] : undefined
+    };
   };
 
   // Validate form
@@ -386,24 +602,115 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({
         />
         
         {file ? (
-          <div className="flex items-center justify-between bg-white p-3 rounded-md">
-            <div className="flex items-center space-x-3">
-              <File className="h-6 w-6 text-primary" />
-              <div className="text-sm text-left">
-                <p className="font-medium truncate">{file.name}</p>
-                <p className="text-muted-foreground text-xs">
-                  {file.type || 'Unknown type'} · {(file.size / 1024 / 1024).toFixed(2)} MB
-                </p>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between bg-white p-3 rounded-md">
+              <div className="flex items-center space-x-3">
+                <File className="h-6 w-6 text-primary" />
+                <div className="text-sm text-left">
+                  <p className="font-medium truncate">{file.name}</p>
+                  <p className="text-muted-foreground text-xs">
+                    {file.type || 'Unknown type'} · {(file.size / 1024 / 1024).toFixed(2)} MB
+                  </p>
+                </div>
               </div>
+              <Button 
+                type="button" 
+                variant="ghost" 
+                size="icon" 
+                onClick={removeFile}
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
-            <Button 
-              type="button" 
-              variant="ghost" 
-              size="icon" 
-              onClick={removeFile}
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            
+            {/* Verification Status */}
+            {enableVerification && verificationStatus !== 'idle' && (
+              <div className="bg-gray-50 p-3 rounded-md space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Shield className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-medium">Document Verification</span>
+                    {verificationStatus === 'complete' && verificationResult && (
+                      <Badge variant={verificationResult.success ? 'default' : 'destructive'} className="text-xs">
+                        {verificationResult.success ? 'Verified' : 'Failed'}
+                      </Badge>
+                    )}
+                  </div>
+                  {verificationStatus === 'complete' && verificationResult && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowVerificationDetails(!showVerificationDetails)}
+                    >
+                      <Eye className="h-3 w-3 mr-1" />
+                      Details
+                    </Button>
+                  )}
+                </div>
+                
+                {verificationStatus !== 'complete' && (
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      <span className="text-xs text-muted-foreground">
+                        {verificationStatus === 'analyzing' && 'Analyzing document structure...'}
+                        {verificationStatus === 'extracting' && 'Extracting document data...'}
+                        {verificationStatus === 'validating' && 'Validating document contents...'}
+                      </span>
+                    </div>
+                    <Progress value={verificationProgress} className="h-1" />
+                  </div>
+                )}
+                
+                {verificationStatus === 'complete' && verificationResult && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">Confidence Score</span>
+                      <span className="text-xs font-medium">{Math.round(verificationResult.confidence * 100)}%</span>
+                    </div>
+                    <Progress value={verificationResult.confidence * 100} className="h-1" />
+                    
+                    {verificationResult.warnings && verificationResult.warnings.length > 0 && (
+                      <Alert className="py-2">
+                        <AlertCircle className="h-3 w-3" />
+                        <AlertDescription className="text-xs">
+                          {verificationResult.warnings[0]}
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                    
+                    {showVerificationDetails && (
+                      <div className="mt-3 space-y-2 border-t pt-2">
+                        <h4 className="text-xs font-medium">Verification Checks</h4>
+                        {verificationResult.checks.map((check, index) => (
+                          <div key={index} className="flex items-center justify-between text-xs">
+                            <span className="flex items-center space-x-1">
+                              {check.status === 'passed' && <CheckCircle className="h-3 w-3 text-green-600" />}
+                              {check.status === 'warning' && <AlertCircle className="h-3 w-3 text-yellow-600" />}
+                              {check.status === 'failed' && <X className="h-3 w-3 text-red-600" />}
+                              <span>{check.name}</span>
+                            </span>
+                            <span className="text-muted-foreground">
+                              {Math.round(check.confidence * 100)}%
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {verificationStatus === 'failed' && (
+                  <Alert variant="destructive" className="py-2">
+                    <AlertCircle className="h-3 w-3" />
+                    <AlertDescription className="text-xs">
+                      Verification failed. Please try uploading a different file.
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </div>
+            )}
           </div>
         ) : (
           <div className="py-4">

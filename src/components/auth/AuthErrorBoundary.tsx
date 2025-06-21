@@ -1,141 +1,212 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { AuthError, AuthErrorCode } from '@/types/auth';
 
-interface AuthErrorBoundaryProps {
+interface Props {
   children: ReactNode;
-  onReset?: () => void;
+  fallback?: ReactNode;
+  onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
-interface AuthErrorBoundaryState {
+interface State {
   hasError: boolean;
-  error?: Error;
-  errorInfo?: ErrorInfo;
+  error: Error | null;
+  errorId: string;
 }
 
-/**
- * AuthErrorBoundary - Specialized error boundary for auth-related components
- * 
- * Provides detailed error information and recovery options specific to 
- * authentication issues like token expiration, network failure, etc.
- */
-class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBoundaryState> {
-  constructor(props: AuthErrorBoundaryProps) {
+export default class AuthErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
-    this.handleReset = this.handleReset.bind(this);
+
+    this.state = {
+      hasError: false,
+      error: null,
+      errorId: ''
+    };
   }
 
-  static getDerivedStateFromError(error: Error): AuthErrorBoundaryState {
-    // Update state so the next render shows the fallback UI
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // Store errorInfo for better debugging
-    this.setState({ errorInfo });
+  static getDerivedStateFromError(error: Error): State {
+    // Generate unique error ID for tracking
+    const errorId = `auth_error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    // Log the error to console and potentially to monitoring service
-    console.error('Authentication Error:', error);
-    console.error('Component Stack:', errorInfo.componentStack);
-    
-    // You could also log to an error monitoring service like Sentry here
-    // If configured - e.g. Sentry.captureException(error, { extra: errorInfo });
+    return {
+      hasError: true,
+      error,
+      errorId
+    };
   }
 
-  handleReset(): void {
-    // Clear any stored tokens that might be causing issues
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // Log error details for monitoring
+    const errorDetails = {
+      error: {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      },
+      errorInfo: {
+        componentStack: errorInfo.componentStack
+      },
+      timestamp: new Date().toISOString(),
+      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : 'server',
+      url: typeof window !== 'undefined' ? window.location.href : 'server',
+      errorId: this.state.errorId
+    };
+
+    // Log to console in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Authentication Error Boundary caught an error:', errorDetails);
+    }
+
+    // Send to monitoring service in production
+    if (process.env.NODE_ENV === 'production') {
+      // TODO: Send to monitoring service (Sentry, LogRocket, etc.)
+      // Example: Sentry.captureException(error, { extra: errorDetails });
+    }
+
+    // Call custom error handler if provided
+    this.props.onError?.(error, errorInfo);
+  }
+
+  private handleRetry = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorId: ''
+    });
+  };
+
+  private handleReload = () => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('auth_token');
-      sessionStorage.removeItem('auth_state');
+      window.location.reload();
     }
-    
-    // Reset the error state
-    this.setState({ hasError: false, error: undefined, errorInfo: undefined });
-    
-    // Call the parent-provided reset handler if available
-    if (this.props.onReset) {
-      this.props.onReset();
+  };
+
+  private getErrorMessage(error: Error): string {
+    // Check if it's an AuthError
+    if (error.name === 'AuthError' || (error as any).code) {
+      const authError = error as any as AuthError;
+      switch (authError.code) {
+        case AuthErrorCode.NETWORK_ERROR:
+          return 'Unable to connect to authentication server. Please check your internet connection.';
+        case AuthErrorCode.SESSION_EXPIRED:
+          return 'Your session has expired. Please sign in again.';
+        case AuthErrorCode.USER_SUSPENDED:
+          return 'Your account has been suspended. Please contact support.';
+        case AuthErrorCode.INVALID_CREDENTIALS:
+          return 'Authentication failed. Please verify your credentials.';
+        default:
+          return authError.message || 'An authentication error occurred.';
+      }
     }
+
+    // Generic error messages
+    if (error.message.includes('fetch')) {
+      return 'Network connection error. Please check your internet connection and try again.';
+    }
+
+    if (error.message.includes('timeout')) {
+      return 'Request timed out. Please try again.';
+    }
+
+    return 'An unexpected error occurred. Please try again or contact support if the problem persists.';
   }
 
-  /**
-   * Analyze the error to provide a more user-friendly message
-   */
-  getErrorMessage(): string {
-    const error = this.state.error;
-    
-    if (!error) return 'An unknown authentication error occurred';
-    
-    if (error.message.includes('token') && error.message.includes('expired')) {
-      return 'Your session has expired. Please sign in again.';
-    }
-    
-    if (error.message.includes('network') || error.message.includes('fetch')) {
-      return 'Network error. Please check your internet connection.';
-    }
-    
-    if (error.message.includes('permission') || error.message.includes('access')) {
-      return 'Access denied. You may not have permission to view this content.';
-    }
-    
-    return `Authentication error: ${error.message}`;
-  }
-
-  render(): ReactNode {
+  render() {
     if (this.state.hasError) {
+      // Use custom fallback if provided
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
+      // Default error UI
       return (
-        <div className="p-6 bg-red-50 border border-red-200 rounded-md max-w-md mx-auto my-8 shadow-md">
-          <div className="flex items-center mb-4">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-red-500 mr-3"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" 
-              />
-            </svg>
-            <h2 className="text-lg font-semibold text-red-800">Authentication Error</h2>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8">
+            <div className="text-center">
+              <div className="flex justify-center mb-6">
+                <div className="bg-red-100 p-3 rounded-full">
+                  <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                </div>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Authentication Error
+              </h2>
+              <p className="text-gray-600 mb-6">
+                {this.getErrorMessage(this.state.error!)}
+              </p>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="space-y-4">
+                <button
+                  onClick={this.handleRetry}
+                  className="w-full bg-[#2B5273] text-white py-3 px-4 rounded-lg hover:bg-[#1a3a52] transition-colors font-medium"
+                >
+                  Try Again
+                </button>
+                
+                <button
+                  onClick={this.handleReload}
+                  className="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                >
+                  Reload Page
+                </button>
+
+                <div className="text-center">
+                  <a
+                    href="/auth/enterprise/login"
+                    className="text-sm text-[#2B5273] hover:text-[#1a3a52] transition-colors"
+                  >
+                    Return to Login
+                  </a>
+                </div>
+              </div>
+
+              {/* Error details for development */}
+              {process.env.NODE_ENV === 'development' && this.state.error && (
+                <details className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <summary className="text-sm font-medium text-gray-700 cursor-pointer">
+                    Error Details (Development)
+                  </summary>
+                  <div className="mt-2 text-xs text-gray-600">
+                    <p><strong>Error ID:</strong> {this.state.errorId}</p>
+                    <p><strong>Name:</strong> {this.state.error.name}</p>
+                    <p><strong>Message:</strong> {this.state.error.message}</p>
+                    {this.state.error.stack && (
+                      <pre className="mt-2 whitespace-pre-wrap text-xs bg-gray-100 p-2 rounded">
+                        {this.state.error.stack}
+                      </pre>
+                    )}
+                  </div>
+                </details>
+              )}
+
+              {/* Support contact */}
+              <div className="mt-6 text-center">
+                <p className="text-xs text-gray-500 mb-2">
+                  Need help? Contact our support team
+                </p>
+                <div className="flex justify-center space-x-4 text-xs">
+                  <a
+                    href="mailto:support@prop.ie"
+                    className="text-[#2B5273] hover:text-[#1a3a52] transition-colors"
+                  >
+                    support@prop.ie
+                  </a>
+                  <a
+                    href="/support"
+                    className="text-[#2B5273] hover:text-[#1a3a52] transition-colors"
+                  >
+                    Help Center
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <p className="mb-4 text-red-600">
-            {this.getErrorMessage()}
-          </p>
-          
-          <div className="flex flex-col space-y-2">
-            <button
-              onClick={this.handleReset}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
-            >
-              Try Again
-            </button>
-            
-            <a 
-              href="/login"
-              className="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded text-center transition-colors"
-            >
-              Return to Login
-            </a>
-          </div>
-          
-          {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
-            <details className="mt-4 p-2 bg-gray-100 rounded">
-              <summary className="cursor-pointer text-sm font-medium text-gray-700">
-                Technical Details (Development Only)
-              </summary>
-              <pre className="mt-2 text-xs overflow-auto p-2 bg-gray-800 text-white rounded">
-                {this.state.error?.toString()}
-                <br/>
-                {this.state.errorInfo.componentStack}
-              </pre>
-            </details>
-          )}
         </div>
       );
     }
@@ -143,5 +214,3 @@ class AuthErrorBoundary extends Component<AuthErrorBoundaryProps, AuthErrorBound
     return this.props.children;
   }
 }
-
-export default AuthErrorBoundary;

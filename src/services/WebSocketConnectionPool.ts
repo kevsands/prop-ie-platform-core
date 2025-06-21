@@ -670,7 +670,301 @@ export class WebSocketPoolManager extends EventEmitter {
   }
 }
 
-// Export default instance
+/**
+ * High-Performance Extensions for Extreme Scale
+ */
+
+// Connection throttling for DDoS protection
+class ConnectionThrottle {
+  private connectionCounts = new Map<string, { count: number; resetTime: number }>();
+  private readonly maxConnectionsPerIP: number;
+  private readonly timeWindow: number;
+
+  constructor(maxConnectionsPerIP = 20, timeWindowMs = 60000) {
+    this.maxConnectionsPerIP = maxConnectionsPerIP;
+    this.timeWindow = timeWindowMs;
+  }
+
+  canConnect(ipAddress: string): boolean {
+    const now = Date.now();
+    const record = this.connectionCounts.get(ipAddress);
+
+    if (!record || now > record.resetTime) {
+      this.connectionCounts.set(ipAddress, { count: 1, resetTime: now + this.timeWindow });
+      return true;
+    }
+
+    if (record.count >= this.maxConnectionsPerIP) {
+      return false;
+    }
+
+    record.count++;
+    return true;
+  }
+
+  cleanup(): void {
+    const now = Date.now();
+    for (const [ip, record] of this.connectionCounts.entries()) {
+      if (now > record.resetTime) {
+        this.connectionCounts.delete(ip);
+      }
+    }
+  }
+}
+
+// Memory-efficient message queue for burst handling
+class MessageQueue {
+  private queue: Array<{ connectionId: string; message: string | Buffer; priority: number }> = [];
+  private processing = false;
+  private readonly maxQueueSize: number;
+
+  constructor(maxQueueSize = 100000) {
+    this.maxQueueSize = maxQueueSize;
+  }
+
+  enqueue(connectionId: string, message: string | Buffer, priority = 0): boolean {
+    if (this.queue.length >= this.maxQueueSize) {
+      // Remove lowest priority message
+      const lowestPriorityIndex = this.queue.reduce((minIndex, item, index) => 
+        item.priority < this.queue[minIndex].priority ? index : minIndex, 0);
+      this.queue.splice(lowestPriorityIndex, 1);
+    }
+
+    this.queue.push({ connectionId, message, priority });
+    this.queue.sort((a, b) => b.priority - a.priority); // Higher priority first
+    return true;
+  }
+
+  async processQueue(sendFunction: (connectionId: string, message: string | Buffer) => boolean): Promise<void> {
+    if (this.processing || this.queue.length === 0) return;
+    
+    this.processing = true;
+    const batchSize = Math.min(1000, this.queue.length); // Process in batches
+    
+    for (let i = 0; i < batchSize; i++) {
+      const item = this.queue.shift();
+      if (item) {
+        try {
+          sendFunction(item.connectionId, item.message);
+        } catch (error) {
+          console.error('Error processing queued message:', error);
+        }
+      }
+    }
+    
+    this.processing = false;
+    
+    // Continue processing if there are more messages
+    if (this.queue.length > 0) {
+      setImmediate(() => this.processQueue(sendFunction));
+    }
+  }
+
+  getQueueLength(): number {
+    return this.queue.length;
+  }
+}
+
+// Enhanced WebSocket Pool Manager with extreme scale optimizations
+export class EnterpriseWebSocketPoolManager extends WebSocketPoolManager {
+  private connectionThrottle: ConnectionThrottle;
+  private messageQueue: MessageQueue;
+  private compressionEnabled: boolean;
+  private clusterNodes: Map<string, { host: string; port: number; healthy: boolean }> = new Map();
+  private readonly maxTotalConnections: number;
+
+  constructor(config: Partial<ConnectionPoolConfig> & {
+    maxTotalConnections?: number;
+    compressionEnabled?: boolean;
+    throttleEnabled?: boolean;
+  } = {}) {
+    super(config);
+    
+    this.maxTotalConnections = config.maxTotalConnections || 10000;
+    this.compressionEnabled = config.compressionEnabled || true;
+    this.connectionThrottle = new ConnectionThrottle();
+    this.messageQueue = new MessageQueue();
+    
+    // Initialize cluster nodes for horizontal scaling
+    this.initializeClusterNodes();
+    
+    // Start background processes for extreme scale
+    this.startScaleOptimizations();
+  }
+
+  /**
+   * Enhanced connection adding with throttling and cluster awareness
+   */
+  addConnectionWithScale(ws: WebSocket, userId?: string, ipAddress?: string): {
+    poolId: string;
+    connectionId: string;
+  } {
+    // Check IP throttling
+    if (ipAddress && !this.connectionThrottle.canConnect(ipAddress)) {
+      throw new Error('Connection rate limit exceeded for IP address');
+    }
+
+    // Check total system capacity
+    const totalConnections = this.getTotalConnectionCount();
+    if (totalConnections >= this.maxTotalConnections) {
+      // Try to distribute to cluster nodes
+      const clusterResult = this.tryClusterDistribution(ws, userId, ipAddress);
+      if (clusterResult) {
+        return clusterResult;
+      }
+      throw new Error('System at maximum capacity');
+    }
+
+    return super.addConnection(ws, userId, ipAddress);
+  }
+
+  /**
+   * High-performance broadcasting with compression and queuing
+   */
+  async broadcastOptimized(
+    message: string | Buffer, 
+    options: {
+      compress?: boolean;
+      priority?: number;
+      filter?: (conn: PooledConnection) => boolean;
+      useQueue?: boolean;
+    } = {}
+  ): Promise<number> {
+    const { compress = this.compressionEnabled, priority = 0, filter, useQueue = false } = options;
+    
+    let processedMessage = message;
+    
+    // Apply compression for large messages
+    if (compress && typeof message === 'string' && message.length > 1024) {
+      try {
+        const zlib = await import('zlib');
+        processedMessage = zlib.gzipSync(Buffer.from(message));
+      } catch (error) {
+        console.warn('Compression failed, sending uncompressed:', error);
+      }
+    }
+
+    if (useQueue) {
+      // Queue messages for batch processing
+      const pools = this.getAllPools();
+      let queuedCount = 0;
+      
+      for (const pool of pools) {
+        const poolConnections = Array.from((pool as any).connections.values());
+        for (const conn of poolConnections) {
+          if (!filter || filter(conn)) {
+            this.messageQueue.enqueue(conn.id, processedMessage, priority);
+            queuedCount++;
+          }
+        }
+      }
+      
+      // Process queue asynchronously
+      this.messageQueue.processQueue((connectionId, msg) => {
+        const [poolId] = connectionId.split('_');
+        const pool = this.getPool(poolId);
+        return pool ? pool.sendToConnection(connectionId, msg) : false;
+      });
+      
+      return queuedCount;
+    } else {
+      // Direct broadcast
+      return this.broadcastToAll(processedMessage, filter);
+    }
+  }
+
+  /**
+   * Get comprehensive system metrics for monitoring
+   */
+  getSystemMetrics(): any {
+    const baseMetrics = this.getAggregatedMetrics();
+    
+    return {
+      ...baseMetrics,
+      systemCapacity: {
+        maxTotalConnections: this.maxTotalConnections,
+        currentUtilization: (baseMetrics.totalConnections / this.maxTotalConnections) * 100,
+        remainingCapacity: this.maxTotalConnections - baseMetrics.totalConnections
+      },
+      performance: {
+        queueLength: this.messageQueue.getQueueLength(),
+        compressionEnabled: this.compressionEnabled,
+        clusterNodes: this.clusterNodes.size
+      },
+      health: {
+        allPoolsHealthy: this.getAllPools().every(pool => !pool.getStatus().isShuttingDown),
+        throttleActive: this.connectionThrottle !== null
+      }
+    };
+  }
+
+  private initializeClusterNodes(): void {
+    // Initialize cluster nodes for horizontal scaling
+    const nodes = [
+      { id: 'node-1', host: 'ws-node-1.propie.ie', port: 8080 },
+      { id: 'node-2', host: 'ws-node-2.propie.ie', port: 8080 },
+      { id: 'node-3', host: 'ws-node-3.propie.ie', port: 8080 }
+    ];
+
+    nodes.forEach(node => {
+      this.clusterNodes.set(node.id, { 
+        host: node.host, 
+        port: node.port, 
+        healthy: true 
+      });
+    });
+  }
+
+  private startScaleOptimizations(): void {
+    // Cleanup throttle records every 5 minutes
+    setInterval(() => {
+      this.connectionThrottle.cleanup();
+    }, 300000);
+
+    // Monitor and log system performance every 30 seconds
+    setInterval(() => {
+      const metrics = this.getSystemMetrics();
+      if (metrics.systemCapacity.currentUtilization > 80) {
+        console.warn('⚠️ WebSocket system approaching capacity:', {
+          utilization: `${metrics.systemCapacity.currentUtilization.toFixed(1)}%`,
+          connections: metrics.totalConnections,
+          queueLength: metrics.performance.queueLength
+        });
+      }
+    }, 30000);
+  }
+
+  private getTotalConnectionCount(): number {
+    return this.getAllPools().reduce((total, pool) => 
+      total + pool.getStatus().connections, 0);
+  }
+
+  private tryClusterDistribution(ws: WebSocket, userId?: string, ipAddress?: string): {
+    poolId: string;
+    connectionId: string;
+  } | null {
+    // In a real implementation, this would redirect to cluster nodes
+    // For now, return null to indicate local handling failed
+    console.warn('Cluster distribution not implemented - would redirect to cluster node');
+    return null;
+  }
+}
+
+// Export enhanced default instance for extreme scale
+export const enterpriseWebSocketManager = new EnterpriseWebSocketPoolManager({
+  maxConnections: 2500, // Per pool
+  maxTotalConnections: 10000, // Total system
+  maxConnectionsPerUser: 10,
+  connectionTimeout: 90000,
+  heartbeatInterval: 45000,
+  loadBalancing: 'least_connections',
+  clustering: true,
+  metrics: true,
+  compressionEnabled: true,
+  throttleEnabled: true
+});
+
+// Export standard instance for backward compatibility
 export const webSocketPoolManager = new WebSocketPoolManager({
   maxConnections: 2000,
   maxConnectionsPerUser: 5,

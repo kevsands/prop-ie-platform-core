@@ -458,7 +458,7 @@ export class ProductionCacheService extends EventEmitter {
   }> {
     try {
       let redisHealthy = false;
-      let memoryHealthy = this.memoryCache instanceof Map;
+      const memoryHealthy = this.memoryCache instanceof Map;
       
       if (this.isRedisAvailable && this.redisClient) {
         try {

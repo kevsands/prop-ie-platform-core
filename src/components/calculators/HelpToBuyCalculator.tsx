@@ -72,7 +72,7 @@ export const HelpToBuyCalculator = () => {
     setTotalTaxPaid(totalTaxes);
     
     // Calculate HTB relief according to Irish rules
-    let calculatedRelief = Math.min(
+    const calculatedRelief = Math.min(
       propertyPrice * HTB_RELIEF_PERCENTAGE,  // 10% of property price
       totalTaxes,                              // Can't exceed taxes paid
       HTB_MAX_RELIEF                           // Maximum relief amount

@@ -1,0 +1,42 @@
+{
+  "authentication": {
+    "name": "Authentication Security",
+    "tests": [
+      "Session security validation",
+      "Role-based access control",
+      "Login attempt rate limiting",
+      "Password security requirements",
+      "Session timeout handling"
+    ]
+  },
+  "dataProtection": {
+    "name": "Data Protection and Privacy",
+    "tests": [
+      "PII data handling validation",
+      "GDPR compliance checks",
+      "Data encryption verification",
+      "Secure data transmission",
+      "Data retention policy compliance"
+    ]
+  },
+  "apiSecurity": {
+    "name": "API Security Testing",
+    "tests": [
+      "Input validation and sanitization",
+      "SQL injection prevention",
+      "XSS protection verification",
+      "CSRF protection validation",
+      "API rate limiting enforcement"
+    ]
+  },
+  "infrastructure": {
+    "name": "Infrastructure Security",
+    "tests": [
+      "HTTPS enforcement",
+      "Security headers validation",
+      "SSL/TLS configuration",
+      "Database connection security",
+      "File upload security"
+    ]
+  }
+}

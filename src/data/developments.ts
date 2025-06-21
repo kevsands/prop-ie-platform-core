@@ -98,7 +98,7 @@ export const developments: Development[] = [
     id: "ballymakenny-view",
     name: "Ballymakenny View",
     description: "Modern family homes in a convenient location with excellent amenities",
-    location: "Ballymakenny, Drogheda",
+    location: "Ballymakenny, Drogheda, Co. Louth",
     image: "/images/developments/Ballymakenny-View/hero.jpg",
     galleryImages: [
       "/images/developments/Ballymakenny-View/hero.jpg",
@@ -169,8 +169,8 @@ export const developments: Development[] = [
   {
     id: "ellwood",
     name: "Ellwood",
-    description: "Contemporary apartment living in the heart of Kildare",
-    location: "Celbridge, Co. Kildare",
+    description: "Contemporary apartment living in Drogheda",
+    location: "Ellwood, Drogheda, Co. Louth",
     image: "/images/developments/Ellwood-Logos/hero.jpg",
     galleryImages: [
       "/images/developments/Ellwood-Logos/hero.jpg",
@@ -239,8 +239,8 @@ export const developments: Development[] = [
       }
     ],
     mapLocation: {
-      lat: 53.340,
-      lng: -6.667
+      lat: 53.720,
+      lng: -6.350
     }
   }
 ];

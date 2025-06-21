@@ -1,0 +1,1218 @@
+
+> prop-ie-aws-app@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.3
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.44:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 3.6s
+ ✓ Compiled /middleware in 155ms (153 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 4.5s (4253 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD / 200 in 5029ms
+ ○ Compiling /auth/enterprise/login ...
+ ✓ Compiled /auth/enterprise/login in 759ms (4268 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /auth/enterprise/login 200 in 1102ms
+ ○ Compiling /api/auth/enterprise/login ...
+ ✓ Compiled /api/auth/enterprise/login in 581ms (4387 modules)
+ POST /api/auth/enterprise/login 200 in 698ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /auth/enterprise/login 200 in 201ms
+ ○ Compiling /api/transactions ...
+ ✓ Compiled /api/transactions in 987ms (5195 modules)
+ GET /api/transactions 200 in 1181ms
+ ✓ Compiled in 3.3s (1875 modules)
+ GET /auth/enterprise/login 200 in 275ms
+ ✓ Compiled in 410ms (1875 modules)
+ GET /auth/enterprise/login 200 in 90ms
+ GET /auth/enterprise/login 200 in 24ms
+ POST /api/auth/enterprise/login 200 in 38ms
+ ○ Compiling /buyer ...
+ ✓ Compiled /buyer in 747ms (5242 modules)
+ GET /buyer 200 in 845ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer 200 in 303ms
+ GET /api/transactions 200 in 83ms
+ ○ Compiling /login ...
+ ✓ Compiled /login in 677ms (5229 modules)
+ GET /login 200 in 755ms
+ GET /api/transactions 200 in 74ms
+ GET /api/transactions 200 in 19ms
+ GET /login 200 in 22ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1167ms (5382 modules)
+ GET /login 200 in 831ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /login 200 in 418ms
+ GET /api/transactions 200 in 62ms
+ GET /api/transactions 200 in 16ms
+ HEAD /login 200 in 81ms
+ ✓ Compiled in 496ms (1898 modules)
+ GET /login 200 in 122ms
+ ○ Compiling /developer/projects/fitzgerald-gardens ...
+ ✓ Compiled /developer/projects/fitzgerald-gardens in 3.1s (6752 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/5670ef9a3df86f85.webpack.hot-update.json 404 in 3643ms
+✅ UnifiedProjectService initialized with comprehensive data
+ GET /developer/projects/fitzgerald-gardens 200 in 4117ms
+ GET /login 200 in 4108ms
+ GET /developer/projects/fitzgerald-gardens 200 in 4395ms
+ ○ Compiling /api/projects/[id] ...
+ ✓ Compiled /api/projects/[id] in 1155ms (6779 modules)
+ GET /api/transactions 200 in 1308ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 1998ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 950ms (6793 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ ReferenceError: useAuth is not defined
+    at LoginPageContent (src/app/login/page.tsx:16:21)
+  14 |   const [error, setError] = useState('');
+  15 |   
+> 16 |   const { signIn } = useAuth();
+     |                     ^
+  17 |   const router = useRouter();
+  18 |   const searchParams = useSearchParams();
+  19 |    {
+  digest: '3606225984'
+}
+✅ UnifiedProjectService initialized with comprehensive data
+ GET /login 200 in 1466ms
+ GET /developer/projects/fitzgerald-gardens 200 in 1488ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 87ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 61ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 826ms (6793 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+✅ UnifiedProjectService initialized with comprehensive data
+ GET /login 200 in 997ms
+ GET /developer/projects/fitzgerald-gardens 200 in 1013ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 49ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 49ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 66ms
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 98ms
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 54ms
+ ✓ Compiled in 466ms (2654 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 85ms
+ GET /developer/projects/fitzgerald-gardens 200 in 195ms
+ ✓ Compiled in 794ms (6691 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 770ms (6691 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 814ms
+ ✓ Compiled in 426ms (2654 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 71ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 867ms (6691 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 834ms
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 73ms
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 63ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 843ms (6687 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ Error: useEnterpriseAuth must be used within an EnterpriseAuthProvider
+    at useEnterpriseAuth (src/context/EnterpriseAuthContext.tsx:234:10)
+    at LoginPageContent (src/app/login/page.tsx:15:68)
+  232 |   
+  233 |   if (context === undefined) {
+> 234 |     throw new Error('useEnterpriseAuth must be used within an EnterpriseAuthProvider');
+      |          ^
+  235 |   }
+  236 |   
+  237 |   return context; {
+  digest: '3961755833'
+}
+ GET /login 200 in 780ms
+ ✓ Compiled in 1073ms (6689 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /login 200 in 228ms
+ ○ Compiling /api/auth/enterprise/me ...
+ ✓ Compiled /api/auth/enterprise/me in 847ms (6756 modules)
+ GET /api/transactions 200 in 922ms
+ GET /api/auth/enterprise/me 200 in 970ms
+ GET /api/transactions 200 in 20ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /login 200 in 168ms
+ ✓ Compiled in 467ms (2652 modules)
+ GET /login 200 in 29ms
+ ✓ Compiled in 401ms (2652 modules)
+ GET /login 200 in 40ms
+ ✓ Compiled in 417ms (2652 modules)
+ GET /login 200 in 29ms
+ ✓ Compiled in 424ms (2652 modules)
+ GET /login 200 in 27ms
+ GET /login 200 in 40ms
+ GET /login 200 in 77ms
+ GET /api/auth/enterprise/me 200 in 26ms
+ GET /api/transactions 200 in 20ms
+ GET /api/transactions 200 in 16ms
+ ○ Compiling /api/auth/enterprise/login ...
+ ✓ Compiled /api/auth/enterprise/login in 651ms (4115 modules)
+ POST /api/auth/enterprise/login 200 in 724ms
+ GET /buyer 200 in 49ms
+ ✓ Compiled in 406ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 45ms
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 432ms
+ ✓ Compiled /api/projects/[id] in 291ms (4141 modules)
+ GET /api/transactions 200 in 615ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 662ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 393ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 534ms
+ GET /buyer 200 in 535ms
+ GET /api/projects/fitzgerald-gardens 401 in 28ms
+ GET /api/transactions 200 in 26ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 427ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/projects/fitzgerald-gardens 200 in 155ms
+ GET /buyer 200 in 154ms
+ GET /api/projects/fitzgerald-gardens 401 in 29ms
+ GET /api/transactions 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 388ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 49ms
+ GET /developer/projects/fitzgerald-gardens 200 in 130ms
+ GET /api/projects/fitzgerald-gardens 401 in 31ms
+ GET /api/transactions 200 in 28ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 658ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 46ms
+ GET /developer/projects/fitzgerald-gardens 200 in 138ms
+ GET /api/projects/fitzgerald-gardens 401 in 29ms
+ GET /api/transactions 200 in 30ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 415ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/projects/fitzgerald-gardens 200 in 141ms
+ GET /buyer 200 in 142ms
+ GET /api/projects/fitzgerald-gardens 401 in 21ms
+ GET /api/transactions 200 in 19ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 408ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 141ms
+ GET /developer/projects/fitzgerald-gardens 200 in 141ms
+ GET /api/projects/fitzgerald-gardens 401 in 27ms
+ GET /api/transactions 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 449ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/projects/fitzgerald-gardens 200 in 147ms
+ GET /buyer 200 in 147ms
+ GET /api/projects/fitzgerald-gardens 401 in 30ms
+ GET /api/transactions 200 in 43ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 446ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 160ms
+ GET /developer/projects/fitzgerald-gardens 200 in 161ms
+ GET /api/projects/fitzgerald-gardens 401 in 29ms
+ GET /api/transactions 200 in 26ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 1358ms (6689 modules)
+ ✓ Compiled in 0ms (4037 modules)
+ ✓ Compiled in 0ms (4037 modules)
+ ✓ Compiled in 0ms (4037 modules)
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 2114ms
+ GET /buyer 200 in 1660ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 71ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 98ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 430ms (2652 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 402ms
+ GET /buyer 200 in 419ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 979ms (6689 modules)
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer 200 in 1013ms
+ GET /api/transactions 200 in 46ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1055ms (6689 modules)
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer 200 in 647ms
+ GET /buyer 200 in 920ms
+ GET /api/transactions 200 in 42ms
+ ○ Compiling /buyer/first-time-buyers/welcome ...
+ ✓ Compiled /buyer/first-time-buyers/welcome in 870ms (6694 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer/first-time-buyers/welcome 200 in 1120ms
+ GET /api/transactions 200 in 41ms
+ ✓ Compiled in 730ms (6708 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 46ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ HEAD /buyer 200 in 141ms
+ GET /buyer/first-time-buyers/welcome 200 in 111ms
+ GET /api/transactions 200 in 47ms
+ ✓ Compiled in 721ms (2660 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 34ms
+ ○ Compiling /solutions/first-time-buyers ...
+ ✓ Compiled /solutions/first-time-buyers in 1153ms (5853 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /solutions/first-time-buyers 200 in 1337ms
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 581ms
+ GET /solutions/first-time-buyers 200 in 32ms
+ ○ Compiling /first-time-buyers/register ...
+ ✓ Compiled /api/transactions in 1391ms (6727 modules)
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/transactions 200 in 1321ms
+ GET /api/projects/fitzgerald-gardens 401 in 1345ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /first-time-buyers/register 200 in 1982ms
+ GET /first-time-buyers/register 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ○ Compiling /register ...
+ ✓ Compiled /register in 791ms (6722 modules)
+ GET /register 200 in 924ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 495ms
+ GET /api/transactions 200 in 82ms
+ GET /api/transactions 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 43ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 45ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ○ Compiling /api/auth/register ...
+ ✓ Compiled /api/auth/register in 1134ms (5886 modules)
+[DEV] Registration attempt - Username: john@john.ie, Email: john@john.ie, Role: buyer
+TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException:  TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 520ms
+[DEV] Registration attempt - Username: john@john.ie, Email: john@john.ie, Role: buyer
+TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException:  TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ✓ Compiled /api/transactions in 271ms (3475 modules)
+ ✓ Compiled (4060 modules)
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/transactions 200 in 805ms
+ GET /api/projects/fitzgerald-gardens 401 in 828ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 867ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 470ms
+ GET /register 200 in 485ms
+ GET /api/projects/fitzgerald-gardens 401 in 23ms
+ GET /api/transactions 200 in 21ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 376ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 139ms
+ GET /developer/projects/fitzgerald-gardens 200 in 141ms
+ GET /api/projects/fitzgerald-gardens 401 in 24ms
+ GET /api/transactions 200 in 22ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /register 200 in 185ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 2.1s (6867 modules)
+ GET /developer/projects/fitzgerald-gardens 200 in 1791ms
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 1857ms
+ POST /api/auth/register 200 in 87747ms
+ POST /api/auth/register 200 in 89989ms
+ GET /register 200 in 364ms
+ GET /api/transactions 200 in 73ms
+ GET /api/transactions 200 in 18ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 37ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 35ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 648ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 232ms
+ GET /developer/projects/fitzgerald-gardens 200 in 232ms
+ GET /api/projects/fitzgerald-gardens 401 in 29ms
+ GET /api/transactions 200 in 32ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled /api/auth/register in 280ms (4060 modules)
+[DEV] Registration attempt - Username: john@john.ie, Email: john@john.ie, Role: buyer
+TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException:  TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+[DEV] Registration attempt - Username: john@john.ie, Email: john@john.ie, Role: buyer
+TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException:  TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+[DEV] Registration attempt - Username: john@john.ie, Email: john@john.ie, Role: buyer
+TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ ⨯ uncaughtException:  TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at Statement.eval (src/lib/services/users-real.ts:160:55)
+  158 |         const userId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  159 |         const now = new Date().toISOString();
+> 160 |         const roleData = JSON.stringify([userData.role.toUpperCase()]);
+      |                                                       ^
+  161 |         
+  162 |         // Hash password (simplified for demo)
+  163 |         const hashedPassword = userData.password + '_hashed';
+ GET /register 200 in 183ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1705ms (6874 modules)
+ GET /developer/projects/fitzgerald-gardens 200 in 1424ms
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/projects/fitzgerald-gardens 200 in 1441ms
+ POST /api/auth/register 200 in 6790ms
+ POST /api/auth/register 200 in 2867ms
+ POST /api/auth/register 200 in 4160ms
+ GET /register 200 in 343ms
+ GET /api/transactions 200 in 59ms
+ GET /api/transactions 200 in 45ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 38ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 38ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 449ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 155ms
+ GET /developer/projects/fitzgerald-gardens 200 in 158ms
+ GET /api/projects/fitzgerald-gardens 401 in 38ms
+ GET /api/transactions 200 in 22ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 473ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 153ms
+ GET /developer/projects/fitzgerald-gardens 200 in 153ms
+ GET /api/projects/fitzgerald-gardens 401 in 23ms
+ GET /api/transactions 200 in 21ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 446ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 49ms
+ GET /developer/projects/fitzgerald-gardens 200 in 194ms
+ GET /api/projects/fitzgerald-gardens 401 in 29ms
+ GET /api/transactions 200 in 26ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 464ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 174ms
+ GET /developer/projects/fitzgerald-gardens 200 in 178ms
+ GET /api/projects/fitzgerald-gardens 401 in 24ms
+ GET /api/transactions 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 394ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 45ms
+ GET /developer/projects/fitzgerald-gardens 200 in 128ms
+ GET /api/projects/fitzgerald-gardens 401 in 34ms
+ GET /api/transactions 200 in 30ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 634ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 215ms
+ GET /developer/projects/fitzgerald-gardens 200 in 216ms
+ GET /api/projects/fitzgerald-gardens 401 in 25ms
+ GET /api/transactions 200 in 19ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 386ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 48ms
+ GET /developer/projects/fitzgerald-gardens 200 in 145ms
+ GET /api/projects/fitzgerald-gardens 401 in 24ms
+ GET /api/transactions 200 in 22ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ○ Compiling /login ...
+ ✓ Compiled /login in 1186ms (4062 modules)
+ GET /login 200 in 1343ms
+ GET /api/transactions 200 in 88ms
+ ✓ Compiled /api/auth/enterprise/me in 387ms (4143 modules)
+ GET /api/transactions 200 in 767ms
+ GET /api/auth/enterprise/me 200 in 883ms
+ GET /api/auth/enterprise/me 200 in 20ms
+ ✓ Compiled in 461ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 61ms
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 545ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 36ms
+ GET /api/transactions 200 in 18ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 421ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 157ms
+ GET /developer/projects/fitzgerald-gardens 200 in 159ms
+ GET /api/projects/fitzgerald-gardens 401 in 25ms
+ GET /api/transactions 200 in 23ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 418ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 46ms
+ GET /developer/projects/fitzgerald-gardens 200 in 145ms
+ GET /api/projects/fitzgerald-gardens 401 in 28ms
+ GET /api/transactions 200 in 23ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 441ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 46ms
+ GET /developer/projects/fitzgerald-gardens 200 in 151ms
+ GET /api/projects/fitzgerald-gardens 401 in 35ms
+ GET /api/transactions 200 in 42ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 413ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 149ms
+ GET /developer/projects/fitzgerald-gardens 200 in 150ms
+ GET /api/projects/fitzgerald-gardens 401 in 38ms
+ GET /api/transactions 200 in 49ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 744ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 205ms
+ GET /developer/projects/fitzgerald-gardens 200 in 206ms
+ GET /api/projects/fitzgerald-gardens 401 in 22ms
+ GET /api/transactions 200 in 19ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 415ms (2675 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /login 200 in 149ms
+ GET /developer/projects/fitzgerald-gardens 200 in 151ms
+ GET /api/projects/fitzgerald-gardens 401 in 31ms
+ GET /api/transactions 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 1817ms (6806 modules)
+ ✓ Compiled in 0ms (4131 modules)
+ ✓ Compiled in 1ms (4131 modules)
+ ✓ Compiled in 0ms (4131 modules)
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 2032ms
+ ✓ Compiled in 999ms (2675 modules)
+ GET /login 200 in 2428ms
+ GET /login 200 in 32ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1081ms (6806 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /login 200 in 466ms
+ GET /login 200 in 774ms
+ GET /api/auth/enterprise/me 200 in 44ms
+ GET /api/transactions 200 in 72ms
+ GET /api/transactions 200 in 20ms
+ ✓ Compiled in 396ms (2675 modules)
+ GET /login 200 in 32ms
+ ✓ Compiled in 857ms (6806 modules)
+ GET /login 200 in 56ms
+ ✓ Compiled in 446ms (2675 modules)
+ GET /login 200 in 36ms
+ ✓ Compiled in 468ms (2675 modules)
+ GET /login 200 in 43ms
+ ✓ Compiled in 457ms (2675 modules)
+ GET /login 200 in 460ms
+ ✓ Compiled in 1204ms (6806 modules)
+ GET /login 200 in 91ms
+ ✓ Compiled in 429ms (2675 modules)
+ GET /login 200 in 27ms
+ ✓ Compiled /api/auth/enterprise/login in 282ms (4154 modules)
+ POST /api/auth/enterprise/login 401 in 352ms
+ ✓ Compiled in 1145ms (6831 modules)
+ GET /login 200 in 47ms
+ POST /api/auth/enterprise/login 401 in 35ms
+ ✓ Compiled in 706ms (6805 modules)
+ GET /login 200 in 46ms
+ POST /api/auth/enterprise/login 401 in 27ms
+ POST /api/auth/enterprise/login 401 in 34ms
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ GET /register 200 in 175ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 737ms (6805 modules)
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 1141ms
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 269ms
+ GET /login 200 in 569ms
+ ✓ Compiled in 1240ms (5995 modules)
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 432ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 790ms (5995 modules)
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 791ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 1577ms (5995 modules)
+ GET /register 200 in 1157ms
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 245ms
+ ✓ Compiled in 447ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 257ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled in 1751ms (5995 modules)
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+ ⨯ [Error: Attempted to call generateViewport() from the server but generateViewport is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.] {
+  digest: '1856080202'
+}
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ ⨯ [Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.] {
+  digest: '1384842928'
+}
+ GET /register 500 in 801ms
+ ✓ Compiled in 1378ms (5995 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 201ms
+ ✓ Compiled /api/transactions in 262ms (3321 modules)
+ ✓ Compiled (4129 modules)
+ GET /api/transactions 200 in 2365ms
+ GET /api/auth/enterprise/me 200 in 2418ms
+ GET /api/transactions 200 in 24ms
+ ○ Compiling /api/auth/[...nextauth] ...
+ ✓ Compiled /api/auth/[...nextauth] in 1350ms (6773 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 519ms
+ POST /api/auth/enterprise/register 400 in 2005ms
+ ○ Compiling /api/projects/[id] ...
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled /api/projects/[id] in 2.8s (6952 modules)
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/transactions 200 in 2863ms
+ GET /api/projects/fitzgerald-gardens 401 in 2899ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /register 200 in 1576ms
+ GET /developer/projects/fitzgerald-gardens 200 in 1592ms
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /register 200 in 325ms
+✅ UnifiedProjectService initialized with comprehensive data
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /developer/projects/fitzgerald-gardens 200 in 1014ms
+ GET /api/auth/enterprise/me 200 in 37ms
+ GET /api/transactions 200 in 21ms
+ GET /api/transactions 200 in 24ms
+ GET /api/projects/fitzgerald-gardens 401 in 27ms
+ GET /api/transactions 200 in 24ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 890ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /register 200 in 53ms
+ GET /developer/projects/fitzgerald-gardens 200 in 177ms
+ GET /api/projects/fitzgerald-gardens 401 in 44ms
+ GET /api/transactions 200 in 52ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /login 200 in 33ms
+ GET /api/transactions 200 in 39ms
+ GET /api/auth/enterprise/me 200 in 50ms
+ GET /api/transactions 200 in 30ms
+ GET /api/auth/enterprise/me 200 in 28ms
+ ○ Compiling /api/auth/enterprise/login ...
+ ✓ Compiled /api/auth/enterprise/login in 851ms (4160 modules)
+ POST /api/auth/enterprise/login 200 in 973ms
+ ○ Compiling /buyer ...
+ ✓ Compiled /buyer in 844ms (4171 modules)
+ GET /buyer 200 in 1017ms
+ ✓ Compiled in 827ms (6840 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 92ms
+✅ UnifiedProjectService initialized with comprehensive data
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /developer/projects/fitzgerald-gardens 200 in 561ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 67ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /api/transactions 200 in 96ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 503ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 238ms
+ GET /developer/projects/fitzgerald-gardens 200 in 239ms
+ GET /api/projects/fitzgerald-gardens 401 in 37ms
+ GET /api/transactions 200 in 32ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 516ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/projects/fitzgerald-gardens 200 in 146ms
+ GET /buyer 200 in 146ms
+ GET /api/projects/fitzgerald-gardens 401 in 33ms
+ GET /api/transactions 200 in 32ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 1149ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer 200 in 281ms
+ GET /developer/projects/fitzgerald-gardens 200 in 282ms
+ GET /api/projects/fitzgerald-gardens 401 in 29ms
+ GET /api/transactions 200 in 26ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ GET /buyer 200 in 74ms
+ GET /api/transactions 200 in 22ms
+ ○ Compiling /buyer/first-time-buyers/welcome ...
+ ✓ Compiled /buyer/first-time-buyers/welcome in 1279ms (4063 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer/first-time-buyers/welcome 200 in 1797ms
+ GET /api/transactions 200 in 76ms
+ ✓ Compiled in 518ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ UnifiedProjectService initialized with comprehensive data
+ GET /developer/projects/fitzgerald-gardens 200 in 415ms
+ GET /buyer/first-time-buyers/welcome 200 in 415ms
+Connection pool usage is deprecated, use Prisma client instead
+ GET /api/projects/fitzgerald-gardens 401 in 61ms
+ GET /api/transactions 200 in 70ms
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 451ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /developer/projects/fitzgerald-gardens 200 in 146ms
+ GET /buyer/first-time-buyers/welcome 200 in 146ms
+ GET /api/projects/fitzgerald-gardens 401 in 137ms
+ GET /api/transactions 200 in 138ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 519ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /buyer/first-time-buyers/welcome 200 in 48ms
+ GET /developer/projects/fitzgerald-gardens 200 in 144ms
+ GET /api/projects/fitzgerald-gardens 401 in 23ms
+ GET /api/transactions 200 in 21ms
+Connection pool usage is deprecated, use Prisma client instead
+[INFO] No pending migrations to apply undefined
+[INFO] No seed files found undefined
+ ✓ Compiled in 483ms (2676 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ○ Compiling /_not-found ...
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ✓ Compiled /_not-found in 2.4s (6714 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer/first-time-buyers/welcome 404 in 2877ms
+ GET /developer/projects/fitzgerald-gardens 404 in 2880ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/buyer/first-time-buyers/welcome/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/server/app/buyer/first-time-buyers/welcome/page.js',
+  page: '/buyer/first-time-buyers/welcome'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.6s (7298 modules)
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /_next/static/chunks/app-pages-internals.js 404 in 2927ms
+ GET /_next/static/chunks/main-app.js?v=1750521503751 404 in 2931ms
+ GET /_next/static/chunks/app/global-error.js 404 in 2780ms
+ GET /buyer/first-time-buyers/welcome 200 in 1613ms
+ GET /buyer/first-time-buyers/welcome 200 in 29ms
+ GET /buyer/first-time-buyers/welcome 500 in 3619ms
+ ✓ Compiled in 978ms (7298 modules)
+ ✓ Compiled in 485ms (3175 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✅ AWS Amplify configuration validated successfully
+Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
+ GET /buyer/first-time-buyers/welcome 200 in 288ms
+ GET /_next/static/chunks/app/buyer/first-time-buyers/welcome/page.js 404 in 247ms
+ GET /_next/static/chunks/main-app.js?v=1750521515873 404 in 256ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 253ms
+ GET /_next/static/chunks/app/buyer/layout.js 404 in 251ms
+ GET /_next/static/chunks/app/global-error.js 404 in 248ms
+ ✓ Compiled in 467ms (3175 modules)
+ ✓ Compiled in 448ms (3175 modules)
+ ✓ Compiled in 532ms (3175 modules)
+ ✓ Compiled in 924ms (3175 modules)
+ ✓ Compiled in 512ms (3175 modules)
+ ✓ Compiled in 458ms (3175 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 104ms
+ GET /_next/static/chunks/app/buyer/layout.js 404 in 156ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 158ms
+ GET /_next/static/chunks/app/buyer/first-time-buyers/welcome/page.js 404 in 156ms
+ GET /_next/static/chunks/main-app.js?v=1750521578773 404 in 170ms
+ GET /_next/static/chunks/app/global-error.js 404 in 155ms
+ ✓ Compiled in 516ms (3175 modules)
+ ✓ Compiled in 489ms (3175 modules)

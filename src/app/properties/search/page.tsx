@@ -35,8 +35,89 @@ import {
   Calculator
 } from 'lucide-react';
 import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
+import { unitsService, Unit, UnitFilters } from '@/lib/services/units';
+import { developmentsService } from '@/lib/services/developments-prisma';
 
-// Mock property data with AI scoring
+// AI scoring helper for units
+const calculateAIScore = (unit: Unit, preferences: any = {}) => {
+  let score = 85; // Base score
+  
+  // Price preference matching
+  if (preferences.budget) {
+    const [minBudget, maxBudget] = preferences.budget;
+    if (unit.basePrice >= minBudget && unit.basePrice <= maxBudget) {
+      score += 10;
+    } else if (unit.basePrice > maxBudget) {
+      score -= 15;
+    }
+  }
+  
+  // Bedroom preference matching
+  if (preferences.bedrooms && unit.bedrooms === preferences.bedrooms) {
+    score += 5;
+  }
+  
+  // Status bonus
+  if (unit.status === 'AVAILABLE') {
+    score += 5;
+  }
+  
+  return Math.min(100, Math.max(60, score));
+};
+
+// Helper to determine unit status display
+const getUnitStatusInfo = (unit: Unit) => {
+  switch (unit.status) {
+    case 'AVAILABLE':
+      return { label: 'Available', className: 'bg-green-500', priority: 'high' };
+    case 'RESERVED':
+      return { label: 'Reserved', className: 'bg-yellow-500', priority: 'medium' };
+    case 'SOLD':
+      return { label: 'Sold', className: 'bg-red-500', priority: 'low' };
+    default:
+      return { label: 'Coming Soon', className: 'bg-blue-500', priority: 'medium' };
+  }
+};
+
+// Transform unit data for display
+const transformUnitForDisplay = (unit: Unit, development: any, aiScore: number) => {
+  const statusInfo = getUnitStatusInfo(unit);
+  
+  return {
+    id: unit.id,
+    unitNumber: unit.unitNumber || unit.name,
+    title: `${unit.type} ${unit.bedrooms}-Bed`,
+    development: development?.name || 'Development',
+    developmentSlug: development?.id || 'unknown',
+    location: development?.location || 'Ireland',
+    price: unit.basePrice,
+    priceDisplay: `€${unit.basePrice.toLocaleString()}`,
+    beds: unit.bedrooms,
+    baths: unit.bathrooms,
+    parking: unit.parkingSpaces,
+    size: unit.size,
+    image: unit.primaryImage || '/images/development-placeholder.jpg',
+    type: unit.type,
+    status: statusInfo.label,
+    statusClassName: statusInfo.className,
+    completionDate: unit.availableFrom || 'Ready Now',
+    aiScore,
+    matchReasons: [
+      unit.status === 'AVAILABLE' ? 'Available now' : 'Great investment',
+      `${unit.bedrooms} bedrooms`,
+      `BER ${unit.berRating || 'A-rated'}`
+    ],
+    developerPriority: statusInfo.priority,
+    viewings: unit.viewCount || 0,
+    saves: Math.floor(unit.viewCount * 0.3) || 0,
+    features: unit.features || ['Modern finishes', 'Energy efficient', 'Prime location'],
+    incentives: unit.status === 'AVAILABLE' ? ['Ready to move', 'Viewing available'] : ['Reserve now'],
+    htbEligible: unit.basePrice <= 500000, // Help to Buy threshold
+    htbAmount: Math.min(30000, unit.basePrice * 0.1)
+  };
+};
+
+// Mock property data with AI scoring (fallback if API fails)
 const mockProperties = [
   {
     id: 1,
@@ -194,10 +275,57 @@ export default function PropertySearchPage() {
   const [sortBy, setSortBy] = useState('ai-recommended');
   const [viewMode, setViewMode] = useState('grid');
   const [showAIInsights, setShowAIInsights] = useState(true);
-  const [filteredProperties, setFilteredProperties] = useState(mockProperties);
+  const [filteredProperties, setFilteredProperties] = useState<any[]>([]);
+  const [allProperties, setAllProperties] = useState<any[]>([]);
   const [activeProperty, setActiveProperty] = useState<number | null>(null);
   const [showHTBCalculator, setShowHTBCalculator] = useState(false);
-  const [selectedPropertyForHTB, setSelectedPropertyForHTB] = useState<typeof mockProperties[0] | null>(null);
+  const [selectedPropertyForHTB, setSelectedPropertyForHTB] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [developments, setDevelopments] = useState<any[]>([]);
+
+  // Load real units data from database
+  const loadUnitsData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch developments and units in parallel
+      const [developmentsData, unitsData] = await Promise.all([
+        developmentsService.getDevelopments({ isPublished: true }),
+        fetch('/api/units').then(res => res.ok ? res.json() : { data: [] })
+      ]);
+
+      setDevelopments(developmentsData);
+
+      // If API fails, use mock data as fallback
+      if (!unitsData.data || unitsData.data.length === 0) {
+        console.warn('Using mock data as fallback');
+        setAllProperties(mockProperties);
+        setFilteredProperties(mockProperties);
+      } else {
+        // Transform real units data for display
+        const transformedUnits = unitsData.data.map((unit: Unit) => {
+          const development = developmentsData.find(dev => dev.id === unit.developmentId);
+          const userPreferences = { budget: [250000, 450000], bedrooms: 3 }; // TODO: Get from user profile
+          const aiScore = calculateAIScore(unit, userPreferences);
+          
+          return transformUnitForDisplay(unit, development, aiScore);
+        });
+
+        setAllProperties(transformedUnits);
+        setFilteredProperties(transformedUnits);
+      }
+    } catch (error) {
+      console.error('Error loading units data:', error);
+      setError('Failed to load properties. Using cached data.');
+      // Fallback to mock data
+      setAllProperties(mockProperties);
+      setFilteredProperties(mockProperties);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Initialize search state from URL parameters
   useEffect(() => {
@@ -248,9 +376,14 @@ export default function PropertySearchPage() {
     }
   }, [searchParams]);
 
+  // Load data on component mount
+  useEffect(() => {
+    loadUnitsData();
+  }, []);
+
   // Filter properties based on criteria
   useEffect(() => {
-    let filtered = [...mockProperties];
+    let filtered = [...allProperties];
 
     // Apply search query filter
     if (searchQuery.trim()) {
@@ -327,7 +460,7 @@ export default function PropertySearchPage() {
     }
 
     setFilteredProperties(filtered);
-  }, [searchQuery, selectedPriceRange, selectedType, selectedBeds, selectedDevelopment, sortBy]);
+  }, [allProperties, searchQuery, selectedPriceRange, selectedType, selectedBeds, selectedDevelopment, sortBy]);
 
   const PropertyCard = ({ property }: { property: typeof mockProperties[0] }) => {
     const isHot = property.developerPriority === 'urgent' || property.developerPriority === 'high';
@@ -530,7 +663,7 @@ export default function PropertySearchPage() {
           {/* Actions */}
           <div className="flex gap-3">
             <Link
-              href={`/properties/${property.id}`}
+              href={`/developments/${property.developmentSlug}/units/${property.unitNumber || property.id}`}
               className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-medium text-center hover:bg-blue-700 transition-colors"
             >
               View Details
@@ -544,8 +677,36 @@ export default function PropertySearchPage() {
     );
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-lg text-gray-600">Loading properties...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Error Banner */}
+      {error && (
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-yellow-700">{error}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Search Header */}
       <section className="bg-gradient-to-r from-blue-900 to-purple-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

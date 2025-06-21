@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { 
   Search, Sparkles, Calculator, Mic, Camera,
   MapPin, Home, Filter, ArrowRight, Bot,
@@ -34,6 +35,7 @@ const heroImages = [
 ];
 
 export const HeroWithCarousel = () => {
+  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
@@ -55,6 +57,69 @@ export const HeroWithCarousel = () => {
   
   const prevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
+
+  // Search handling functions
+  const buildSearchParams = () => {
+    const params = new URLSearchParams();
+    
+    if (searchQuery.trim()) {
+      params.set('q', searchQuery.trim());
+    }
+    
+    if (priceRange) {
+      switch (priceRange) {
+        case 'Up to €300k':
+          params.set('maxPrice', '300000');
+          break;
+        case '€300k - €500k':
+          params.set('minPrice', '300000');
+          params.set('maxPrice', '500000');
+          break;
+        case '€500k - €750k':
+          params.set('minPrice', '500000');
+          params.set('maxPrice', '750000');
+          break;
+        case '€750k+':
+          params.set('minPrice', '750000');
+          break;
+      }
+    }
+    
+    if (bedrooms && bedrooms !== 'Bedrooms') {
+      if (bedrooms === '4+ Beds') {
+        params.set('minBedrooms', '4');
+      } else {
+        const bedroomCount = bedrooms.replace(' Bed', '').replace(' Beds', '');
+        params.set('bedrooms', bedroomCount);
+      }
+    }
+    
+    return params.toString();
+  };
+
+  const handleSearch = (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
+    
+    const searchParams = buildSearchParams();
+    const searchUrl = searchParams ? `/properties/search?${searchParams}` : '/properties/search';
+    
+    router.push(searchUrl);
+  };
+
+  const handleSuggestionClick = (development: string) => {
+    setSearchQuery(development);
+    setSearchFocused(false);
+    
+    const params = new URLSearchParams();
+    params.set('q', development);
+    router.push(`/properties/search?${params.toString()}`);
+  };
+
+  const handleDevelopmentNavigate = (link: string) => {
+    router.push(link);
   };
   
   return (
@@ -182,7 +247,7 @@ export const HeroWithCarousel = () => {
           <div className="flex items-center gap-4">
             {/* Main Search Bar */}
             <div className="flex-1 relative">
-              <div className={`relative flex items-center transition-all duration-200 ${
+              <form onSubmit={handleSearch} className={`relative flex items-center transition-all duration-200 ${
                 searchFocused ? 'scale-105' : ''
               }`}>
                 <input
@@ -198,20 +263,24 @@ export const HeroWithCarousel = () => {
                 
                 {/* Input Methods */}
                 <div className="absolute right-20 flex items-center space-x-2">
-                  <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <button type="button" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <Mic className="h-4 w-4 text-gray-500" />
                   </button>
-                  <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <button type="button" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <Camera className="h-4 w-4 text-gray-500" />
                   </button>
                 </div>
                 
                 {/* AI Button */}
-                <button className="absolute right-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg transition-all flex items-center space-x-1">
+                <button 
+                  type="button"
+                  onClick={handleSearch}
+                  className="absolute right-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-full hover:shadow-lg transition-all flex items-center space-x-1"
+                >
                   <Sparkles className="h-4 w-4" />
                   <span>AI</span>
                 </button>
-              </div>
+              </form>
               
               {/* Quick Search Suggestions */}
               {searchFocused && (
@@ -219,28 +288,49 @@ export const HeroWithCarousel = () => {
                   <div className="p-4">
                     <div className="text-sm text-gray-500 mb-3">Current Developments</div>
                     <div className="grid grid-cols-2 gap-3">
-                      <button className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left">
+                      <button 
+                        onClick={() => handleSuggestionClick('Fitzgerald Gardens')}
+                        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left"
+                      >
                         <Home className="h-5 w-5 text-[#2B5273]" />
                         <div>
                           <p className="font-medium">Fitzgerald Gardens</p>
                           <p className="text-sm text-gray-500">Phase 2 now available</p>
                         </div>
                       </button>
-                      <button className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left">
+                      <button 
+                        onClick={() => handleSuggestionClick('Ballymakenny View')}
+                        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left"
+                      >
                         <Home className="h-5 w-5 text-[#2B5273]" />
                         <div>
                           <p className="font-medium">Ballymakenny View</p>
                           <p className="text-sm text-gray-500">3-bed homes from €375k</p>
                         </div>
                       </button>
-                      <button className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left">
+                      <button 
+                        onClick={() => {
+                          const params = new URLSearchParams();
+                          params.set('htbEligible', 'true');
+                          params.set('maxPrice', '320000');
+                          router.push(`/properties/search?${params.toString()}`);
+                          setSearchFocused(false);
+                        }}
+                        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left"
+                      >
                         <Sparkles className="h-5 w-5 text-[#2B5273]" />
                         <div>
                           <p className="font-medium">First-time buyer ready</p>
                           <p className="text-sm text-gray-500">AI recommended</p>
                         </div>
                       </button>
-                      <button className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left">
+                      <button 
+                        onClick={() => {
+                          router.push('/properties/search');
+                          setSearchFocused(false);
+                        }}
+                        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 text-left"
+                      >
                         <Bot className="h-5 w-5 text-[#2B5273]" />
                         <div>
                           <p className="font-medium">Ask AI Assistant</p>
@@ -261,10 +351,10 @@ export const HeroWithCarousel = () => {
                 onChange={(e) => setPriceRange(e.target.value)}
               >
                 <option value="">Price Range</option>
-                <option value="0-300000">Up to €300k</option>
-                <option value="300000-500000">€300k - €500k</option>
-                <option value="500000-750000">€500k - €750k</option>
-                <option value="750000+">€750k+</option>
+                <option value="Up to €300k">Up to €300k</option>
+                <option value="€300k - €500k">€300k - €500k</option>
+                <option value="€500k - €750k">€500k - €750k</option>
+                <option value="€750k+">€750k+</option>
               </select>
               
               <select 
@@ -273,20 +363,27 @@ export const HeroWithCarousel = () => {
                 onChange={(e) => setBedrooms(e.target.value)}
               >
                 <option value="">Bedrooms</option>
-                <option value="1">1 Bed</option>
-                <option value="2">2 Beds</option>
-                <option value="3">3 Beds</option>
-                <option value="4+">4+ Beds</option>
+                <option value="1 Bed">1 Bed</option>
+                <option value="2 Beds">2 Beds</option>
+                <option value="3 Beds">3 Beds</option>
+                <option value="4+ Beds">4+ Beds</option>
               </select>
               
-              <button className="px-4 py-2 bg-[#2B5273] text-white rounded-lg hover:bg-[#1e3347] transition-colors flex items-center space-x-2">
+              <button 
+                onClick={handleSearch}
+                className="px-4 py-2 bg-[#2B5273] text-white rounded-lg hover:bg-[#1e3347] transition-colors flex items-center space-x-2"
+              >
                 <Search className="h-4 w-4" />
                 <span>Search</span>
               </button>
             </div>
             
             {/* Advanced Filters */}
-            <button className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={() => router.push('/properties/search')}
+              className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              title="Advanced Search Filters"
+            >
               <Filter className="h-5 w-5 text-gray-600" />
             </button>
           </div>

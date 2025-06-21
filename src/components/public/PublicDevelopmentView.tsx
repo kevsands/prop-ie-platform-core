@@ -284,6 +284,60 @@ export default function PublicDevelopmentView({ developmentId }: PublicDevelopme
                 </div>
               </div>
 
+              {/* Available Units Section */}
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Available Units</h3>
+                <p className="text-gray-600 mb-6">
+                  Choose from {availableUnits} available units. Click on any unit to view details and reserve.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {units
+                    .filter(unit => unit.status === 'available')
+                    .slice(0, 12) // Show first 12 available units
+                    .map((unit) => (
+                    <div key={unit.id} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h4 className="font-semibold text-gray-900">Unit {unit.number}</h4>
+                          <p className="text-sm text-gray-600">{unit.features.bedrooms} bed • {unit.features.bathrooms} bath</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-blue-600">€{unit.pricing.currentPrice.toLocaleString()}</p>
+                          <p className="text-xs text-gray-500">{unit.features.sqft} sqm</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                          Available
+                        </span>
+                        <a 
+                          href={`/properties/${unit.id}`}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.open(`/properties/${unit.id}`, '_blank');
+                          }}
+                        >
+                          View & Reserve →
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {availableUnits > 12 && (
+                  <div className="mt-6 text-center">
+                    <a 
+                      href={`/properties/search?developmentId=${developmentId}`}
+                      className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      View All {availableUnits} Available Units
+                    </a>
+                  </div>
+                )}
+              </div>
+
               {/* Site Plan */}
               {development.sitePlan && (
                 <div>

@@ -88,97 +88,51 @@ export default function EnhancedHTBDashboard() {
     try {
       setError(null);
       
-      // In a real implementation, this would be an API call to get developer HTB data
-      // For now, we'll simulate the data that would come from integrating with our APIs
-      const mockData: DeveloperHTBData = {
-        totalClaims: 47,
-        activeClaims: 23,
-        completedClaims: 24,
-        totalValue: 1410000,
-        approvalRate: 94.6,
-        avgProcessingDays: 18,
-        recentClaims: [
-          {
-            id: 'htb-001',
-            buyerId: 'buyer-001',
-            buyerName: 'John Doe',
-            propertyId: 'fitzgerald-unit-12',
-            propertyAddress: 'Unit 12, Fitzgerald Gardens',
-            claimAmount: 30000,
-            status: 'Claim Code Issued',
-            submissionDate: new Date('2024-06-01'),
-            lastUpdate: new Date('2024-06-15'),
-            nextAction: 'Submit claim code to solicitor',
-            urgency: 'high'
-          },
-          {
-            id: 'htb-002', 
-            buyerId: 'buyer-002',
-            buyerName: 'Sarah Connor',
-            propertyId: 'ellwood-unit-8',
-            propertyAddress: 'Unit 8, Ellwood Heights',
-            claimAmount: 35000,
-            status: 'Under Review',
-            submissionDate: new Date('2024-06-10'),
-            lastUpdate: new Date('2024-06-14'),
-            nextAction: 'Awaiting Revenue approval',
-            urgency: 'medium'
-          },
-          {
-            id: 'htb-003',
-            buyerId: 'buyer-003', 
-            buyerName: 'Michael Smith',
-            propertyId: 'ballymakenny-unit-5',
-            propertyAddress: 'Unit 5, Ballymakenny View',
-            claimAmount: 28000,
-            status: 'Funds Released',
-            submissionDate: new Date('2024-05-15'),
-            lastUpdate: new Date('2024-06-12'),
-            nextAction: 'Apply to property purchase',
-            urgency: 'urgent'
-          }
-        ],
-        buyerNotifications: [
-          {
-            id: 'notif-001',
-            buyerId: 'buyer-001', 
-            buyerName: 'John Doe',
-            type: 'HTB_UPDATE',
-            title: 'HTB Claim Code Ready',
-            message: 'Your claim code is ready for submission to your solicitor',
-            priority: 'high',
-            createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
-            claimId: 'htb-001'
-          },
-          {
-            id: 'notif-002',
-            buyerId: 'buyer-003',
-            buyerName: 'Michael Smith', 
-            type: 'URGENT_ACTION',
-            title: 'HTB Funds Available',
-            message: 'HTB funds are available and must be applied within 14 days',
-            priority: 'urgent',
-            createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
-            claimId: 'htb-003'
-          }
-        ],
+      // Fetch real HTB claims data from API
+      const response = await fetch('/api/htb-claims');
+      if (!response.ok) {
+        throw new Error('Failed to fetch HTB claims');
+      }
+      
+      const claims = await response.json();
+      
+      // Transform API data to dashboard format
+      const totalClaims = claims.length;
+      const activeClaims = claims.filter((claim: any) => claim.status === 'pending').length;
+      const completedClaims = claims.filter((claim: any) => claim.status === 'approved').length;
+      const totalValue = claims.reduce((sum: number, claim: any) => sum + claim.amount, 0);
+      const approvalRate = totalClaims > 0 ? (completedClaims / totalClaims) * 100 : 0;
+      
+      const transformedData: DeveloperHTBData = {
+        totalClaims,
+        activeClaims,
+        completedClaims,
+        totalValue,
+        approvalRate,
+        avgProcessingDays: 18, // This would need a separate calculation
+        recentClaims: claims.slice(0, 5).map((claim: any) => ({
+          id: claim.id,
+          buyerId: claim.userId,
+          buyerName: `User ${claim.userId}`, // Would need to fetch user data separately
+          propertyId: claim.propertyId,
+          propertyAddress: `Property ${claim.propertyId}`, // Would need to fetch property data
+          claimAmount: claim.amount,
+          status: claim.status === 'approved' ? 'Approved' : claim.status === 'pending' ? 'Under Review' : 'Unknown',
+          submissionDate: new Date(claim.submissionDate),
+          lastUpdate: new Date(claim.updatedAt),
+          nextAction: claim.status === 'pending' ? 'Awaiting approval' : 'No action required',
+          urgency: claim.status === 'pending' ? 'medium' : 'low'
+        })),
+        buyerNotifications: [], // Would fetch from notifications API
         claimsByStatus: {
-          'Application Submitted': 5,
-          'Under Review': 8,
-          'Approved': 12,
-          'Claim Code Issued': 7,
-          'Funds Released': 3,
-          'Completed': 12
+          'pending': activeClaims,
+          'approved': completedClaims,
+          'total': totalClaims
         },
-        monthlyStats: [
-          { month: 'Mar', claims: 8, value: 240000, completions: 6 },
-          { month: 'Apr', claims: 12, value: 360000, completions: 10 },
-          { month: 'May', claims: 15, value: 450000, completions: 14 },
-          { month: 'Jun', claims: 12, value: 360000, completions: 8 }
-        ]
+        monthlyStats: [] // Would calculate from historical data
       };
 
-      setHtbData(mockData);
+      setHtbData(transformedData);
     } catch (err) {
       console.error('Error loading HTB data:', err);
       setError(err instanceof Error ? err.message : 'Failed to load HTB data');

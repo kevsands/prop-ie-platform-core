@@ -8,7 +8,7 @@ import path from 'path';
 
 const { Database } = sqlite3;
 
-const dbPath = path.join(process.cwd(), 'prisma', 'dev.db');
+const dbPath = path.join(process.cwd(), 'dev.db');
 
 // Types that match the existing database structure
 export type User = {
@@ -44,7 +44,7 @@ export const userService = {
     return new Promise((resolve, reject) => {
       const db = new Database(dbPath);
       
-      let query = 'SELECT * FROM users';
+      let query = 'SELECT * FROM User';
       const params: any[] = [];
       
       if (filters?.search) {
@@ -84,7 +84,7 @@ export const userService = {
     return new Promise((resolve, reject) => {
       const db = new Database(dbPath);
       
-      db.get('SELECT * FROM users WHERE id = ?', [id], (err, row: any) => {
+      db.get('SELECT * FROM User WHERE id = ?', [id], (err, row: any) => {
         db.close();
         if (err) {
           reject(new Error('Failed to fetch user: ' + err.message));
@@ -112,7 +112,7 @@ export const userService = {
     return new Promise((resolve, reject) => {
       const db = new Database(dbPath);
       
-      db.get('SELECT * FROM users WHERE email = ?', [email], (err, row: any) => {
+      db.get('SELECT * FROM User WHERE email = ?', [email], (err, row: any) => {
         db.close();
         if (err) {
           reject(new Error('Failed to fetch user: ' + err.message));
@@ -141,7 +141,7 @@ export const userService = {
       const db = new Database(dbPath);
       
       // Check if email already exists
-      db.get('SELECT id FROM users WHERE email = ?', [userData.email], (err, existingUser) => {
+      db.get('SELECT id FROM User WHERE email = ?', [userData.email], (err, existingUser) => {
         if (err) {
           db.close();
           reject(new Error('Database error: ' + err.message));
@@ -163,7 +163,7 @@ export const userService = {
         const hashedPassword = userData.password + '_hashed';
         
         const insertQuery = `
-          INSERT INTO users (id, email, firstName, lastName, phone, password, roleData, status, createdAt, updatedAt)
+          INSERT INTO User (id, email, firstName, lastName, phone, password, roleData, status, createdAt, updatedAt)
           VALUES (?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?, ?)
         `;
         
@@ -185,7 +185,7 @@ export const userService = {
           }
           
           // Return the created user
-          db.get('SELECT * FROM users WHERE id = ?', [userId], (err, row: any) => {
+          db.get('SELECT * FROM User WHERE id = ?', [userId], (err, row: any) => {
             db.close();
             if (err) {
               reject(new Error('Failed to retrieve created user: ' + err.message));
@@ -196,6 +196,75 @@ export const userService = {
               ...row,
               createdAt: new Date(row.createdAt),
               updatedAt: new Date(row.updatedAt)
+            });
+          });
+        });
+      });
+    });
+  },
+
+  /**
+   * Create a new user with enterprise registration data
+   */
+  createEnterpriseUser: async (userData: any): Promise<User> => {
+    return new Promise((resolve, reject) => {
+      const db = new Database(dbPath);
+      
+      // Check if email already exists
+      db.get('SELECT id FROM User WHERE email = ?', [userData.email], (err, existingUser) => {
+        if (err) {
+          db.close();
+          reject(new Error('Database error: ' + err.message));
+          return;
+        }
+        
+        if (existingUser) {
+          db.close();
+          reject(new Error('User with this email already exists'));
+          return;
+        }
+        
+        const insertQuery = `
+          INSERT INTO User (
+            id, email, firstName, lastName, phone, roleData, status, 
+            emailVerified, organisationId, createdAt, updatedAt, lastLoginAt
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        
+        db.run(insertQuery, [
+          userData.id,
+          userData.email,
+          userData.firstName,
+          userData.lastName,
+          userData.phone || '',
+          userData.roleData,
+          userData.status,
+          userData.emailVerified ? 1 : 0,
+          userData.organisationId,
+          userData.createdAt,
+          userData.updatedAt,
+          userData.lastLoginAt
+        ], function(err) {
+          if (err) {
+            db.close();
+            reject(new Error('Failed to create user: ' + err.message));
+            return;
+          }
+          
+          // Return the created user
+          db.get('SELECT * FROM User WHERE id = ?', [userData.id], (err, row: any) => {
+            db.close();
+            if (err) {
+              reject(new Error('Failed to retrieve created user: ' + err.message));
+              return;
+            }
+            
+            resolve({
+              ...row,
+              createdAt: new Date(row.createdAt),
+              updatedAt: new Date(row.updatedAt),
+              lastLoginAt: row.lastLoginAt ? new Date(row.lastLoginAt) : undefined
             });
           });
         });
@@ -234,7 +303,7 @@ export const userService = {
       params.push(new Date().toISOString());
       params.push(id);
       
-      const updateQuery = `UPDATE users SET ${updateFields.join(', ')} WHERE id = ?`;
+      const updateQuery = `UPDATE User SET ${updateFields.join(', ')} WHERE id = ?`;
       
       db.run(updateQuery, params, function(err) {
         if (err) {
@@ -250,7 +319,7 @@ export const userService = {
         }
         
         // Return updated user
-        db.get('SELECT * FROM users WHERE id = ?', [id], (err, row: any) => {
+        db.get('SELECT * FROM User WHERE id = ?', [id], (err, row: any) => {
           db.close();
           if (err) {
             reject(new Error('Failed to retrieve updated user: ' + err.message));
@@ -274,7 +343,7 @@ export const userService = {
     return new Promise((resolve, reject) => {
       const db = new Database(dbPath);
       
-      db.run('DELETE FROM users WHERE id = ?', [id], function(err) {
+      db.run('DELETE FROM User WHERE id = ?', [id], function(err) {
         db.close();
         if (err) {
           reject(new Error('Failed to delete user: ' + err.message));
@@ -293,7 +362,7 @@ export const userService = {
     return new Promise((resolve, reject) => {
       const db = new Database(dbPath);
       
-      db.get('SELECT * FROM users WHERE email = ?', [email], (err, row: any) => {
+      db.get('SELECT * FROM User WHERE email = ?', [email], (err, row: any) => {
         db.close();
         if (err) {
           reject(new Error('Failed to verify credentials: ' + err.message));
@@ -321,6 +390,24 @@ export const userService = {
           createdAt: new Date(row.createdAt),
           updatedAt: new Date(row.updatedAt)
         });
+      });
+    });
+  },
+
+  /**
+   * Update user's last login timestamp
+   */
+  updateLastLogin: async (id: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const db = new Database(dbPath);
+      
+      db.run('UPDATE User SET updatedAt = ? WHERE id = ?', [new Date().toISOString(), id], function(err) {
+        db.close();
+        if (err) {
+          console.error('Error updating last login:', err);
+          // Don't reject for this non-critical operation
+        }
+        resolve();
       });
     });
   }

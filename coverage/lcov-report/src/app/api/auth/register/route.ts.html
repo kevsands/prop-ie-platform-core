@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>0/43</span>
             </div>
         
             
@@ -266,7 +266,23 @@
 <a name='L201'></a><a href='#L201'>201</a>
 <a name='L202'></a><a href='#L202'>202</a>
 <a name='L203'></a><a href='#L203'>203</a>
-<a name='L204'></a><a href='#L204'>204</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -368,6 +384,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -381,6 +401,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -472,7 +504,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// src/app/api/auth/register/route.ts
 import { NextRequest, NextResponse } from <span class="cstat-no" title="statement not covered" >'next/server';</span>
 import { Auth } from <span class="cstat-no" title="statement not covered" >'@/lib/auth';</span>
-import { userService } from <span class="cstat-no" title="statement not covered" >'@/lib/services/users-production';</span>
+import { userService } from <span class="cstat-no" title="statement not covered" >'@/lib/services/users-real';</span>
 import { UserRole } from <span class="cstat-no" title="statement not covered" >'@/types/core/user';</span>
 &nbsp;
 /**
@@ -571,7 +603,11 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
         }
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return NextResponse.json({</span>
+      // Auto-login after successful registration
+      const authToken = <span class="cstat-no" title="statement not covered" >`dev-token-${newUser.id}`;</span>
+      
+      // Create the response with auto-login
+      const response = <span class="cstat-no" title="statement not covered" >NextResponse.json({</span>
         success: true,
         isSignUpComplete: true,
         userId: newUser.id,
@@ -582,8 +618,20 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
           lastName: newUser.lastName,
           roles: newUser.roles
         },
-        message: '[DEV MODE] User registered successfully. In production, you would need to verify your email.'
+        token: authToken,
+        autoLogin: true,
+        message: '[DEV MODE] User registered and automatically logged in.'
       });
+&nbsp;
+      // Set session cookie for auto-login
+<span class="cstat-no" title="statement not covered" >      response.cookies.set('auth-token', authToken, {</span>
+        httpOnly: true,
+        secure: false, // Set to true in production
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7 // 7 days
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return response;</span>
     }
 &nbsp;
     // Production: Use AWS Cognito
@@ -679,7 +727,7 @@ export async function <span class="cstat-no" title="statement not covered" ><spa
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-19T14:29:04.561Z
+                at 2025-06-21T16:08:04.867Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>

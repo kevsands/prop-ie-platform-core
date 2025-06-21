@@ -1,0 +1,57 @@
+{
+  "loadTesting": {
+    "name": "Load Testing Suite",
+    "scenarios": [
+      {
+        "name": "Homepage Load Test",
+        "endpoint": "/",
+        "users": 50,
+        "duration": "5m",
+        "expectedResponseTime": "< 2s"
+      },
+      {
+        "name": "API Load Test",
+        "endpoint": "/api/properties",
+        "users": 100,
+        "duration": "3m",
+        "expectedResponseTime": "< 1s"
+      },
+      {
+        "name": "Search Performance",
+        "endpoint": "/api/search",
+        "users": 30,
+        "duration": "5m",
+        "expectedResponseTime": "< 1.5s"
+      }
+    ]
+  },
+  "stressTesting": {
+    "name": "Stress Testing",
+    "scenarios": [
+      {
+        "name": "Peak Traffic Simulation",
+        "users": 200,
+        "rampUp": "2m",
+        "duration": "10m",
+        "description": "Simulate peak usage conditions"
+      }
+    ]
+  },
+  "browserPerformance": {
+    "name": "Browser Performance Metrics",
+    "metrics": [
+      "First Contentful Paint (FCP)",
+      "Largest Contentful Paint (LCP)",
+      "Cumulative Layout Shift (CLS)",
+      "First Input Delay (FID)",
+      "Time to Interactive (TTI)"
+    ],
+    "targets": {
+      "FCP": "< 1.8s",
+      "LCP": "< 2.5s",
+      "CLS": "< 0.1",
+      "FID": "< 100ms",
+      "TTI": "< 3.8s"
+    }
+  }
+}

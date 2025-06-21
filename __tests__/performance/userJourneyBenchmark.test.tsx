@@ -13,12 +13,25 @@ import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '../../src/context/AuthContext';
+import { CustomizationProvider } from '../../src/context/CustomizationContext';
 import BuyerDashboard from '../../src/components/buyer/BuyerDashboard';
 import PropertyListing from '../../src/components/property/PropertyListing';
 import PropertyDetail from '../../src/components/property/PropertyDetail';
 import CustomizationPageContent from '../../src/components/buyer/CustomizationPageContent';
-// Import the singleton instance
-import { performanceMonitor } from '../../src/utils/performance/monitor';
+// Mock the performance monitor
+const performanceMonitor = {
+  startTiming: jest.fn(),
+  endTiming: jest.fn(),
+  addApiTiming: jest.fn(),
+  getMetrics: jest.fn().mockReturnValue({
+    renderTimings: [],
+    apiTimings: [],
+    resourceTimings: [],
+    webVitals: {}
+  }),
+  clearMetrics: jest.fn(),
+  setThreshold: jest.fn()
+};
 
 // Mock next/router
 jest.mock('next/router', () => ({
@@ -84,7 +97,7 @@ jest.mock('aws-amplify/auth', () => ({
   signOut: jest.fn(),
 }));
 
-// Test wrapper setup
+// Test wrapper setup with all providers
 const renderWithProviders = (ui: React.ReactElement) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -97,7 +110,9 @@ const renderWithProviders = (ui: React.ReactElement) => {
   return render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        {ui}
+        <CustomizationProvider>
+          {ui}
+        </CustomizationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

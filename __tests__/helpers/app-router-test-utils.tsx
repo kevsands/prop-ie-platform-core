@@ -5,6 +5,52 @@ import { mockEnvironmentVariables } from './environment-test-utils';
 import '@testing-library/jest-dom';
 import { jest } from '@jest/globals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from '../../src/context/AuthContext';
+import { CustomizationProvider } from '../../src/context/CustomizationContext';
+
+// Global mocks for AWS Amplify and Next.js
+jest.mock('aws-amplify/auth', () => ({
+  getCurrentUser: jest.fn().mockResolvedValue({
+    userId: 'test-user',
+    username: 'testuser',
+  }),
+  signIn: jest.fn(),
+  signOut: jest.fn(),
+}));
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
+  useParams: jest.fn(),
+}));
+
+// Mock API services
+jest.mock('../../src/lib/api-client', () => ({
+  get: jest.fn().mockImplementation((path) => {
+    if (path.includes('properties')) {
+      return Promise.resolve([
+        { id: 'prop1', title: 'Test Property 1', price: 250000 },
+        { id: 'prop2', title: 'Test Property 2', price: 350000 },
+      ]);
+    }
+    if (path.includes('customization/options')) {
+      return Promise.resolve({
+        categories: [
+          {
+            id: 'cat1',
+            name: 'Flooring',
+            options: [
+              { id: 'opt1', name: 'Carpet', price: 0 },
+              { id: 'opt2', name: 'Hardwood', price: 5000 },
+            ],
+          },
+        ],
+      });
+    }
+    return Promise.resolve({});
+  }),
+  post: jest.fn().mockResolvedValue({ success: true }),
+}));
 
 // Define interfaces for router and auth mock options
 export interface RouterMockOptions {
@@ -296,7 +342,11 @@ export function renderWithAppRouter(
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
-        {children}
+        <AuthProvider>
+          <CustomizationProvider>
+            {children}
+          </CustomizationProvider>
+        </AuthProvider>
       </QueryClientProvider>
     );
   }

@@ -277,6 +277,21 @@ export const userService = {
       console.error("Error verifying credentials:", error);
       throw new Error("Failed to verify credentials");
     }
+  },
+
+  /**
+   * Update last login timestamp
+   */
+  updateLastLogin: async (userId: string): Promise<void> => {
+    try {
+      const userIndex = mockUsers.findIndex(u => u.id === userId);
+      if (userIndex !== -1) {
+        mockUsers[userIndex].updatedAt = new Date();
+      }
+    } catch (error) {
+      console.error("Error updating last login:", error);
+      // Don't throw error for this non-critical operation
+    }
   }
 };
 

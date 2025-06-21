@@ -218,12 +218,12 @@ export class ProjectDataService {
     ];
 
     // ACTUAL STATUS: All 15 units available for sale (LIVE PRODUCTION)
-    let availableUnits = 15;
+    const availableUnits = 15;
 
     phase1Config.forEach((config, typeIndex) => {
       for (let i = 0; i < config.count; i++) {
         // ALL UNITS AVAILABLE FOR SALE - Phase 1 Launch
-        let status: UnitStatus = 'available';
+        const status: UnitStatus = 'available';
 
         // Generate realistic positioning for site plan
         const building = Math.floor((unitCounter - 1) / 24) + 1;

@@ -5,6 +5,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { developmentsService } from '@/lib/services/developments-prisma';
 
 export const metadata: Metadata = {
   title: 'Properties | Prop.ie',
@@ -44,35 +45,22 @@ const propertyCategories = [
   },
 ];
 
-// Featured developments for quick access
-const featuredDevelopments = [
-  {
-    id: 'fitzgerald-gardens',
-    name: 'Fitzgerald Gardens',
-    location: 'Finglas, Dublin',
-    status: 'Selling Fast',
-    startingPrice: '€395,000',
-    image: '/images/fitzgerald-gardens/hero.jpg',
-  },
-  {
-    id: 'ballymakenny-view',
-    name: 'Ballymakenny View',
-    location: 'Drogheda, Co. Louth',
-    status: 'Coming Soon',
-    startingPrice: '€285,000',
-    image: '/images/ballymakenny-view/hero.jpg',
-  },
-  {
-    id: 'ellwood',
-    name: 'Ellwood',
-    location: 'Celbridge, Co. Kildare',
-    status: 'Now Selling',
-    startingPrice: '€415,000',
-    image: '/images/ellwood/hero.jpg',
-  },
-];
+// Transform database development to display format for featured section
+function transformDevelopmentForFeatured(dev: any) {
+  return {
+    id: dev.id,
+    name: dev.name,
+    location: dev.location,
+    status: 'Now Selling', // Default status
+    startingPrice: `€${(dev.startingPrice || 300000).toLocaleString()}`,
+    image: dev.mainImage || '/images/development-placeholder.jpg',
+  };
+}
 
-export default function PropertiesPage() {
+export default async function PropertiesPage() {
+  // Fetch developer-managed developments for featured section
+  const dbDevelopments = await developmentsService.getDevelopments({ isPublished: true });
+  const featuredDevelopments = dbDevelopments.map(transformDevelopmentForFeatured);
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
@@ -158,47 +146,54 @@ export default function PropertiesPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {featuredDevelopments.map((development) => (
-                <Link
-                  key={development.id}
-                  href={`/developments/${development.id}`}
-                  className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
-                >
-                  <div className="relative h-64">
-                    <Image
-                      src={development.image}
-                      alt={development.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4">
-                      <span className={`
-                        px-3 py-1 rounded-full text-sm font-semibold text-white
-                        ${development.status === 'Selling Fast' ? 'bg-red-500' : ''}
-                        ${development.status === 'Coming Soon' ? 'bg-blue-500' : ''}
-                        ${development.status === 'Now Selling' ? 'bg-green-500' : ''}
-                      `}>
-                        {development.status}
-                      </span>
+            {featuredDevelopments.length === 0 ? (
+              <div className="text-center py-12">
+                <h3 className="text-xl font-medium text-gray-900 mb-2">No developments available</h3>
+                <p className="text-gray-600">Check back soon for new developments.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {featuredDevelopments.map((development) => (
+                  <Link
+                    key={development.id}
+                    href={`/developments/${development.id}`}
+                    className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+                  >
+                    <div className="relative h-64">
+                      <Image
+                        src={development.image}
+                        alt={development.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 right-4">
+                        <span className={`
+                          px-3 py-1 rounded-full text-sm font-semibold text-white
+                          ${development.status === 'Selling Fast' ? 'bg-red-500' : ''}
+                          ${development.status === 'Coming Soon' ? 'bg-blue-500' : ''}
+                          ${development.status === 'Now Selling' ? 'bg-green-500' : ''}
+                        `}>
+                          {development.status}
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {development.name}
-                    </h3>
-                    <p className="text-gray-600 mb-4">{development.location}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Starting from</span>
-                      <span className="text-2xl font-bold text-blue-600">
-                        {development.startingPrice}
-                      </span>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">
+                        {development.name}
+                      </h3>
+                      <p className="text-gray-600 mb-4">{development.location}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-500">Starting from</span>
+                        <span className="text-2xl font-bold text-blue-600">
+                          {development.startingPrice}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  </Link>
+                ))}
+              </div>
+            )}
 
             <div className="mt-12 text-center">
               <Link

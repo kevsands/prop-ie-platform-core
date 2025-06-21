@@ -1,13 +1,23 @@
 // src/app/api/payments/create-intent/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { userService } from '@/lib/services/users-production';
+import { PaymentType, PaymentMethod, validatePaymentAmount } from '@/lib/payment-config';
 
 interface PaymentIntentRequest {
   propertyId: string;
   amount: number;
-  paymentType: 'reservation' | 'deposit' | 'completion' | 'htb_benefit';
+  paymentType: PaymentType;
+  paymentMethod?: PaymentMethod;
   currency?: string;
   metadata?: Record<string, any>;
+  personalDetails?: {
+    fullName: string;
+    email: string;
+    phone: string;
+  };
+  journeyId?: string;
+  appointmentDate?: string;
+  escrowRequired?: boolean;
 }
 
 /**
@@ -17,7 +27,18 @@ interface PaymentIntentRequest {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as PaymentIntentRequest;
-    const { propertyId, amount, paymentType, currency = 'EUR', metadata = {} } = body;
+    const { 
+      propertyId, 
+      amount, 
+      paymentType, 
+      paymentMethod,
+      currency = 'EUR', 
+      metadata = {},
+      personalDetails,
+      journeyId,
+      appointmentDate,
+      escrowRequired = false
+    } = body;
 
     // Validate required fields
     if (!propertyId || !amount || !paymentType) {
@@ -31,6 +52,25 @@ export async function POST(request: NextRequest) {
     if (amount <= 0) {
       return NextResponse.json(
         { error: 'Amount must be greater than 0' },
+        { status: 400 }
+      );
+    }
+
+    // Validate payment type is a valid enum value
+    if (!Object.values(PaymentType).includes(paymentType)) {
+      return NextResponse.json(
+        { error: `Invalid payment type. Must be one of: ${Object.values(PaymentType).join(', ')}` },
+        { status: 400 }
+      );
+    }
+
+    // Get property details for validation (assuming property price is available)
+    const propertyPrice = metadata.propertyPrice || amount;
+    const paymentValidation = validatePaymentAmount(paymentType, amount, propertyPrice);
+    
+    if (!paymentValidation.isValid) {
+      return NextResponse.json(
+        { error: `Payment validation failed: ${paymentValidation.error}` },
         { status: 400 }
       );
     }
@@ -79,6 +119,11 @@ export async function POST(request: NextRequest) {
           userId: currentUser.id,
           userEmail: currentUser.email,
           paymentType,
+          paymentMethod: paymentMethod || 'not_specified',
+          personalDetails: personalDetails ? JSON.stringify(personalDetails) : null,
+          journeyId,
+          appointmentDate,
+          escrowRequired: escrowRequired.toString(),
           createdAt: new Date().toISOString()
         },
         clientSecret: `${paymentIntentId}_secret_mock`,

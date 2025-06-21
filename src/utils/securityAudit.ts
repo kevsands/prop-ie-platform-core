@@ -354,8 +354,8 @@ export class AuthenticationSecurityTests {
       let securityScore = 0;
       let success = false;
       let message = '';
-      let vulnerabilities: string[] = [];
-      let recommendations: string[] = [];
+      const vulnerabilities: string[] = [];
+      const recommendations: string[] = [];
 
       // Step 1: Login
       const loginResponse = await fetch('http://localhost:3000/api/auth/login', {

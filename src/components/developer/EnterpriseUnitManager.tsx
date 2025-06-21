@@ -160,7 +160,7 @@ export default function EnterpriseUnitManager({ projectId, onUnitUpdate }: Enter
   // =============================================================================
 
   const filteredAndSortedUnits = useMemo(() => {
-    let filtered = units.filter(unit => {
+    const filtered = units.filter(unit => {
       // Status filter
       if (filters.status !== 'all' && unit.status !== filters.status) return false
       

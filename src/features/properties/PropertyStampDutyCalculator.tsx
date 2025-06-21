@@ -54,7 +54,7 @@ export default function PropertyStampDutyCalculator({
 
   const calculation = useMemo(() => {
     let stampDuty = 0;
-    let breakdown: { band: string; amount: number; rate: number }[] = [];
+    const breakdown: { band: string; amount: number; rate: number }[] = [];
     const rates = propertyCategory === 'residential' ? RESIDENTIAL_RATES : COMMERCIAL_RATES;
 
     // Calculate stamp duty based on bands

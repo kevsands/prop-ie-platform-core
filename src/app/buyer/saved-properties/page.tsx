@@ -1,376 +1,356 @@
+/**
+ * Enhanced Saved Properties Page
+ * Features smart wishlist with AI-powered alerts and recommendations
+ */
+
 'use client';
 
-import { useState } from 'react';
-import { Heart, MapPin, Home, Bed, Bath, Car, Trash2, Share2, Filter, ChevronRight, Calendar, Building, TrendingUp } from 'lucide-react';
-import { format } from 'date-fns';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { EnterpriseAuthProvider } from '@/context/EnterpriseAuthContext';
+import { useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
+import AuthErrorBoundary from '@/components/auth/AuthErrorBoundary';
+import SmartWishlist from '@/components/wishlist/SmartWishlist';
+import { UserProfile } from '@/lib/algorithms/PropertyRecommendationEngine';
+import { 
+  Heart, 
+  TrendingUp, 
+  Bell, 
+  Target,
+  Sparkles,
+  BarChart3,
+  Calendar,
+  AlertCircle,
+  CheckCircle,
+  Settings,
+  Home,
+  ArrowRight
+} from 'lucide-react';
 
-interface SavedProperty {
-  id: string;
-  title: string;
-  type: 'apartment' | 'house' | 'duplex' | 'studio';
-  price: number;
-  previousPrice?: number;
-  location: string;
-  developer: string;
-  bedrooms: number;
-  bathrooms: number;
-  area: number;
-  parking: boolean;
-  image: string;
-  savedDate: Date;
-  viewingDate?: Date;
-  status: 'available' | 'under-offer' | 'sold';
-  completionDate: string;
-  features: string[];
-  priceChange?: {
-    amount: number;
-    percentage: number;
-    date: Date;
-  };
-}
-
-export default function SavedPropertiesPage() {
+function SavedPropertiesContent() {
   const router = useRouter();
-  const [filterType, setFilterType] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
-  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
-  
-  // Mock saved properties data
-  const [savedProperties] = useState<SavedProperty[]>([
-    {
-      id: '1',
-      title: 'Modern 2-Bed Apartment',
-      type: 'apartment',
-      price: 425000,
-      previousPrice: 435000,
-      location: 'Riverside Manor, Dublin 8',
-      developer: 'Riverside Developments',
-      bedrooms: 2,
-      bathrooms: 2,
-      area: 85,
-      parking: true,
-      image: '/images/properties/apartment1.jpg',
-      savedDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-      viewingDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      status: 'available',
-      completionDate: 'Q2 2024',
-      features: ['Balcony', 'River Views', 'Gym Access'],
-      priceChange: {
-        amount: -10000,
-        percentage: -2.3,
-        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+  const { user, isAuthenticated } = useEnterpriseAuth();
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [dashboardStats, setDashboardStats] = useState({
+    totalSaved: 0,
+    unreadAlerts: 0,
+    priceDrops: 0,
+    newSimilar: 0,
+    scheduledViewings: 0
+  });
+
+  // Build user profile
+  useEffect(() => {
+    if (!isAuthenticated || !user) return;
+
+    const buildUserProfile = () => {
+      const storedData = localStorage.getItem('userRegistration');
+      let profile: UserProfile = {};
+
+      if (storedData) {
+        const registrationData = JSON.parse(storedData);
+        profile = {
+          firstName: registrationData.firstName,
+          lastName: registrationData.lastName,
+          email: registrationData.email,
+          journeySource: registrationData.journeyContext?.source,
+        };
       }
-    },
-    {
-      id: '2',
-      title: '3-Bed Family Home',
-      type: 'house',
-      price: 545000,
-      location: 'Fitzgerald Gardens, Blackrock',
-      developer: 'Fitzgerald Developments',
-      bedrooms: 3,
-      bathrooms: 2,
-      area: 125,
-      parking: true,
-      image: '/images/properties/house1.jpg',
-      savedDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-      status: 'available',
-      completionDate: 'Q4 2024',
-      features: ['Garden', 'Garage', 'En-suite']
-    },
-    {
-      id: '3',
-      title: 'Luxury Penthouse',
-      type: 'apartment',
-      price: 750000,
-      location: 'Ballymakenny View, Drogheda',
-      developer: 'Ballymakenny Developments',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: 140,
-      parking: true,
-      image: '/images/properties/penthouse1.jpg',
-      savedDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-      status: 'under-offer',
-      completionDate: 'Q3 2024',
-      features: ['Rooftop Terrace', 'City Views', 'Concierge']
-    }
-  ]);
-  
-  // Filter and sort properties
-  const filteredProperties = savedProperties
-    .filter(property => {
-      if (filterType !== 'all' && property.type !== filterType) return false;
-      
-      const minPrice = priceRange.min ? parseInt(priceRange.min) : 0;
-      const maxPrice = priceRange.max ? parseInt(priceRange.max) : Infinity;
-      if (property.price < minPrice || property.price > maxPrice) return false;
-      
-      return true;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'newest': return b.savedDate.getTime() - a.savedDate.getTime();
-        case 'oldest': return a.savedDate.getTime() - b.savedDate.getTime();
-        case 'price-low': return a.price - b.price;
-        case 'price-high': return b.price - a.price;
-        default: return 0;
+
+      if (user) {
+        profile = {
+          ...profile,
+          firstName: user.firstName || profile.firstName,
+          lastName: user.lastName || profile.lastName,
+          email: user.email || profile.email,
+        };
       }
-    });
-  
-  const getPropertyIcon = (type: string) => {
-    switch (type) {
-      case 'house': return <Home className="h-5 w-5 text-blue-600" />;
-      case 'apartment': 
-      case 'studio':
-      case 'duplex': return <Building className="h-5 w-5 text-blue-600" />;
-      default: return <Home className="h-5 w-5 text-gray-600" />;
-    }
-  };
-  
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'available': return 'text-green-600 bg-green-100';
-      case 'under-offer': return 'text-yellow-600 bg-yellow-100';
-      case 'sold': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
-    }
-  };
-  
+
+      // Add demo preferences
+      profile = {
+        ...profile,
+        budget: '350-500',
+        hasHTB: true,
+        preferredCounties: ['Dublin', 'Kildare'],
+        propertyType: ['apartment', 'house'],
+        bedrooms: '2-3',
+        currentStatus: 'first-time-buyer',
+        importantFeatures: ['parking', 'balcony', 'garden'],
+        completionScore: 80
+      };
+
+      setUserProfile(profile);
+    };
+
+    buildUserProfile();
+  }, [isAuthenticated, user]);
+
+  // Update stats from localStorage
+  useEffect(() => {
+    const updateStats = () => {
+      const wishlist = JSON.parse(localStorage.getItem('propertyWishlist') || '[]');
+      const alerts = JSON.parse(localStorage.getItem('wishlistAlerts') || '[]');
+      
+      const unreadAlerts = alerts.filter((alert: any) => !alert.isRead).length;
+      const priceDropAlerts = alerts.filter((alert: any) => alert.type === 'price_drop' && !alert.isRead).length;
+      const similarPropertyAlerts = alerts.filter((alert: any) => alert.type === 'similar_property' && !alert.isRead).length;
+      
+      setDashboardStats({
+        totalSaved: wishlist.length,
+        unreadAlerts,
+        priceDrops: priceDropAlerts,
+        newSimilar: similarPropertyAlerts,
+        scheduledViewings: Math.floor(wishlist.length * 0.3) // Simulate some having viewings
+      });
+    };
+
+    updateStats();
+    
+    // Update stats periodically
+    const interval = setInterval(updateStats, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Heart size={48} className="text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Sign in to view your saved properties</h2>
+          <button
+            onClick={() => router.push('/login?redirect=/buyer/saved-properties')}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex-1 p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Saved Properties</h1>
-          <p className="text-gray-600 mt-1">Properties you've saved and are tracking</p>
-        </div>
-        
-        {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <div className="grid md:grid-cols-4 gap-4">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
-              <select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <Heart className="text-red-500" />
+                Saved Properties
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Smart wishlist with AI-powered alerts and recommendations
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => router.push('/properties')}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
               >
-                <option value="all">All Types</option>
-                <option value="apartment">Apartment</option>
-                <option value="house">House</option>
-                <option value="duplex">Duplex</option>
-                <option value="studio">Studio</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                <Home size={16} />
+                Browse Properties
+              </button>
+              
+              <button
+                onClick={() => router.push('/buyer/dashboard')}
+                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Min Price</label>
-              <input
-                type="number"
-                value={priceRange.min}
-                onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
-                placeholder="€0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Max Price</label>
-              <input
-                type="number"
-                value={priceRange.max}
-                onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
-                placeholder="€1,000,000"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
+                <BarChart3 size={16} />
+                Dashboard
+              </button>
             </div>
           </div>
         </div>
-        
-        {/* Stats */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-lg p-4 border">
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Quick Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+          <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Saved</p>
-                <p className="text-2xl font-bold text-gray-900">{savedProperties.length}</p>
+                <p className="text-sm text-gray-600">Saved Properties</p>
+                <p className="text-2xl font-bold text-gray-900">{dashboardStats.totalSaved}</p>
               </div>
-              <Heart className="h-8 w-8 text-red-500 fill-current" />
+              <Heart className="w-8 h-8 text-red-500" />
             </div>
           </div>
-          
-          <div className="bg-white rounded-lg p-4 border">
+
+          <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Viewings Scheduled</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {savedProperties.filter(p => p.viewingDate).length}
-                </p>
+                <p className="text-sm text-gray-600">Smart Alerts</p>
+                <p className="text-2xl font-bold text-gray-900">{dashboardStats.unreadAlerts}</p>
               </div>
-              <Calendar className="h-8 w-8 text-blue-600" />
+              <Bell className="w-8 h-8 text-blue-600" />
+              {dashboardStats.unreadAlerts > 0 && (
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+              )}
             </div>
           </div>
-          
-          <div className="bg-white rounded-lg p-4 border">
+
+          <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Price Drops</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {savedProperties.filter(p => p.priceChange && p.priceChange.amount < 0).length}
-                </p>
+                <p className="text-2xl font-bold text-green-600">{dashboardStats.priceDrops}</p>
               </div>
-              <TrendingUp className="h-8 w-8 text-green-600 rotate-180" />
+              <TrendingUp className="w-8 h-8 text-green-600 transform rotate-180" />
             </div>
           </div>
-          
-          <div className="bg-white rounded-lg p-4 border">
+
+          <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Under Offer</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {savedProperties.filter(p => p.status === 'under-offer').length}
-                </p>
+                <p className="text-sm text-gray-600">Similar Found</p>
+                <p className="text-2xl font-bold text-purple-600">{dashboardStats.newSimilar}</p>
               </div>
-              <Building className="h-8 w-8 text-yellow-600" />
+              <Target className="w-8 h-8 text-purple-600" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg p-4 shadow-sm border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Viewings</p>
+                <p className="text-2xl font-bold text-orange-600">{dashboardStats.scheduledViewings}</p>
+              </div>
+              <Calendar className="w-8 h-8 text-orange-600" />
             </div>
           </div>
         </div>
-        
-        {/* Properties Grid */}
-        {filteredProperties.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProperties.map((property) => (
-              <div key={property.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all">
-                <div className="relative">
-                  <img
-                    src={property.image}
-                    alt={property.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors">
-                    <Heart className="h-5 w-5 text-red-500 fill-current" />
-                  </button>
-                  <span className={`absolute top-3 left-3 px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(property.status)}`}>
-                    {property.status}
-                  </span>
-                  {property.priceChange && (
-                    <div className="absolute bottom-3 left-3 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-sm">
-                      {property.priceChange.amount < 0 ? '↓' : '↑'} {property.priceChange.percentage}%
-                    </div>
+
+        {/* Alert Summary */}
+        {dashboardStats.unreadAlerts > 0 && (
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white mb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+                  <Sparkles size={20} />
+                  Smart Alerts Active
+                </h3>
+                <p className="text-blue-100">
+                  You have {dashboardStats.unreadAlerts} new alerts about your saved properties
+                </p>
+                <div className="flex items-center gap-4 mt-3 text-sm">
+                  {dashboardStats.priceDrops > 0 && (
+                    <span className="flex items-center gap-1">
+                      <TrendingUp size={14} className="transform rotate-180" />
+                      {dashboardStats.priceDrops} price drops
+                    </span>
+                  )}
+                  {dashboardStats.newSimilar > 0 && (
+                    <span className="flex items-center gap-1">
+                      <Target size={14} />
+                      {dashboardStats.newSimilar} similar properties
+                    </span>
                   )}
                 </div>
-                
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h3 className="font-semibold text-gray-900 text-lg">{property.title}</h3>
-                      <p className="text-sm text-gray-600 flex items-center gap-1 mt-1">
-                        <MapPin className="h-4 w-4" />
-                        {property.location}
-                      </p>
-                    </div>
-                    {getPropertyIcon(property.type)}
-                  </div>
-                  
-                  <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
-                    <span className="flex items-center gap-1">
-                      <Bed className="h-4 w-4" />
-                      {property.bedrooms}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Bath className="h-4 w-4" />
-                      {property.bathrooms}
-                    </span>
-                    <span>{property.area} m²</span>
-                    {property.parking && (
-                      <span className="flex items-center gap-1">
-                        <Car className="h-4 w-4" />
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-2xl font-bold text-gray-900">€{property.price.toLocaleString()}</p>
-                        {property.previousPrice && (
-                          <p className="text-sm text-gray-500 line-through">
-                            €{property.previousPrice.toLocaleString()}
-                          </p>
-                        )}
-                      </div>
-                      <p className="text-sm text-gray-600">Completion: {property.completionDate}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {property.features.slice(0, 3).map((feature, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="space-y-2">
-                    {property.viewingDate && (
-                      <div className="flex items-center gap-2 text-sm text-blue-600">
-                        <Calendar className="h-4 w-4" />
-                        Viewing: {format(property.viewingDate, 'MMM d at h:mm a')}
-                      </div>
-                    )}
-                    <div className="text-sm text-gray-500">
-                      Saved {format(property.savedDate, 'MMM d, yyyy')}
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-2 mt-4 pt-4 border-t">
-                    <button
-                      onClick={() => router.push(`/property/${property.id}`)}
-                      className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                    >
-                      View Details
-                    </button>
-                    <button className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                      <Share2 className="h-4 w-4" />
-                    </button>
-                    <button className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16">
-            <Heart className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No saved properties</h3>
-            <p className="text-gray-600 mb-6">Start exploring properties and save your favorites</p>
-            <button
-              onClick={() => router.push('/properties')}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Browse Properties
-            </button>
+              <div className="text-right">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                  <Bell size={24} />
+                </div>
+                <p className="text-sm text-blue-100">Check alerts below</p>
+              </div>
+            </div>
           </div>
         )}
+
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-3 gap-4 mb-8">
+          <button
+            onClick={() => router.push('/properties/recommendations')}
+            className="bg-white rounded-lg p-6 border hover:border-blue-300 hover:bg-blue-50 transition-all text-left group"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Sparkles className="text-white" size={20} />
+              </div>
+              <ArrowRight className="text-gray-400 group-hover:text-blue-600" size={16} />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Find Similar Properties</h3>
+            <p className="text-gray-600 text-sm">
+              Get AI recommendations based on your saved properties
+            </p>
+          </button>
+
+          <button
+            onClick={() => router.push('/buyer/htb/calculator')}
+            className="bg-white rounded-lg p-6 border hover:border-green-300 hover:bg-green-50 transition-all text-left group"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                <BarChart3 className="text-white" size={20} />
+              </div>
+              <ArrowRight className="text-gray-400 group-hover:text-green-600" size={16} />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">HTB Calculator</h3>
+            <p className="text-gray-600 text-sm">
+              Calculate potential Help to Buy savings on saved properties
+            </p>
+          </button>
+
+          <button
+            onClick={() => router.push('/buyer/viewings')}
+            className="bg-white rounded-lg p-6 border hover:border-purple-300 hover:bg-purple-50 transition-all text-left group"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Calendar className="text-white" size={20} />
+              </div>
+              <ArrowRight className="text-gray-400 group-hover:text-purple-600" size={16} />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-1">Schedule Viewings</h3>
+            <p className="text-gray-600 text-sm">
+              Book property viewings for your saved properties
+            </p>
+          </button>
+        </div>
+
+        {/* Smart Wishlist Component */}
+        <SmartWishlist userProfile={userProfile || undefined} />
+
+        {/* Help Section */}
+        <div className="mt-8 bg-gray-100 rounded-xl p-6">
+          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <Settings size={20} />
+            Smart Wishlist Features
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+            <div>
+              <h4 className="font-medium mb-2">Intelligent Alerts</h4>
+              <ul className="space-y-1">
+                <li>• Price drop notifications</li>
+                <li>• Similar property discoveries</li>
+                <li>• Status change updates</li>
+                <li>• Open house announcements</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium mb-2">Smart Organization</h4>
+              <ul className="space-y-1">
+                <li>• Tag-based categorization</li>
+                <li>• Match score sorting</li>
+                <li>• Viewing history tracking</li>
+                <li>• Custom note taking</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  );
+}
+
+export default function SavedPropertiesPage() {
+  return (
+    <EnterpriseAuthProvider>
+      <AuthErrorBoundary>
+        <SavedPropertiesContent />
+      </AuthErrorBoundary>
+    </EnterpriseAuthProvider>
   );
 }

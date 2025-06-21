@@ -352,7 +352,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get development data for enhanced transformation
-    const developments = await developmentsService.getAllDevelopments();
+    const developments = await developmentsService.getDevelopments();
     const developmentMap = new Map(developments.map(dev => [dev.id, dev]));
 
     // Transform units to properties

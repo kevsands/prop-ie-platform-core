@@ -7,11 +7,6 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Development } from '@/types/developments';
-import { mockDevelopments } from '@/data/mockDevelopments';
-// Local implementation of getDevelopmentById
-const getDevelopmentById = (id: string): Development | undefined => {
-  return mockDevelopments.find(dev => dev.id === id);
-};
 
 // Helper function to map statusColor string to a Tailwind class
 const getStatusColorClass = (statusColor: Development['statusColor']) => {
@@ -39,30 +34,87 @@ export default function DevelopmentDetailPage() {
   // Ensure id is treated as a string, as useParams can return string or string[]
   const developmentId = Array.isArray(params?.id) ? params.id[0] : params?.id as string | undefined;
 
-  // Fetch the development data client-side using the ID from the URL
-  // In a real app with server data fetching, you might pass initial data via props instead
-  const development: Development | undefined = getDevelopmentById(developmentId || '');
-
-  // State for managing the active tab
+  // State for development data
+  const [development, setDevelopment] = useState<Development | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Fetch development data from API
+  useEffect(() => {
+    const fetchDevelopment = async () => {
+      if (!developmentId) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/developments/${developmentId}`);
+        if (response.ok) {
+          const data = await response.json();
+          // Map API response to Development interface
+          const mappedDevelopment: Development = {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            location: `${data.city}, ${data.county}`,
+            image: data.mainImage,
+            status: data.status,
+            statusColor: data.status === 'ACTIVE' ? 'green-500' : 'blue-500',
+            priceRange: data.startingPrice ? `€${data.startingPrice.toLocaleString()}+` : 'Price on request',
+            bedrooms: [2, 3, 4],
+            bathrooms: 2,
+            squareFeet: 120,
+            features: data.features || [],
+            amenities: data.amenities || [],
+            energyRating: 'A2',
+            availability: 'Available now',
+            depositAmount: '€10,000',
+            showingDates: [],
+            floorPlans: []
+          };
+          setDevelopment(mappedDevelopment);
+        } else {
+          console.error('Failed to fetch development');
+        }
+      } catch (error) {
+        console.error('Error fetching development:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDevelopment();
+  }, [developmentId]);
   
   // Prefetch related/similar developments and units
   useEffect(() => {
     if (development) {
-      // Prefetch similar developments
-      const similarDevelopments = mockDevelopments
-        .filter(dev => 
-          dev.id !== developmentId && 
-          (dev.location === development.location || dev.type === development.type)
-        )
-        .slice(0, 3);
+      // Fetch and prefetch similar developments from API
+      const fetchSimilarDevelopments = async () => {
+        try {
+          const response = await fetch('/api/developments?published=true');
+          if (response.ok) {
+            const data = await response.json();
+            const similarDevelopments = data.data
+              .filter((dev: any) => 
+                dev.id !== developmentId && 
+                (dev.city === development.location.split(',')[0] || dev.county === development.location.split(',')[1])
+              )
+              .slice(0, 3);
+            
+            // Prefetch similar development pages
+            similarDevelopments.forEach((dev: any) => {
+              router.prefetch(`/developments/${dev.id}`);
+            });
+          }
+        } catch (error) {
+          console.error('Error fetching similar developments:', error);
+        }
+      };
       
-      // Prefetch similar development pages
-      similarDevelopments.forEach(dev => {
-        router.prefetch(`/developments/${dev.id}`);
-      });
+      fetchSimilarDevelopments();
       
-      // Prefetch unit pages for the current development
+      // Prefetch unit pages for the current development (if units exist)
       if (development.units && development.units.length > 0) {
         development.units.slice(0, 5).forEach(unit => {
           router.prefetch(`/projects/${developmentId}/units/${unit.id}`);

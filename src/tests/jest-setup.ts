@@ -65,7 +65,7 @@ jest.mock('next/headers', () => ({
 jest.mock('next/image', () => ({
   __esModule: true,
   default: ({ src, alt, ...props }: any) => {
-    // eslint-disable-next-line @next/next/no-img-element
+     
     return React.createElement('img', { src, alt, ...props });
   },
 }));

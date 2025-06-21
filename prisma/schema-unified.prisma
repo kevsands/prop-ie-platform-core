@@ -14,6 +14,7 @@ datasource db {
 // ======= CORE ENUMS =======
 
 enum UserRole {
+  // Original roles
   DEVELOPER
   BUYER
   INVESTOR
@@ -26,6 +27,64 @@ enum UserRole {
   SOLICITOR
   CONTRACTOR
   ADMIN
+  
+  // Primary Transaction Roles (Buyer Ecosystem)
+  BUYER_SOLICITOR
+  BUYER_MORTGAGE_BROKER
+  BUYER_SURVEYOR
+  BUYER_FINANCIAL_ADVISOR
+  BUYER_INSURANCE_BROKER
+  
+  // Developer Ecosystem Roles
+  DEVELOPER_SOLICITOR
+  DEVELOPMENT_SALES_AGENT
+  DEVELOPMENT_PROJECT_MANAGER
+  DEVELOPMENT_MARKETING_MANAGER
+  DEVELOPMENT_FINANCIAL_CONTROLLER
+  
+  // Professional Services Roles
+  ESTATE_AGENT
+  ESTATE_AGENT_MANAGER
+  MORTGAGE_LENDER
+  MORTGAGE_UNDERWRITER
+  PROPERTY_VALUER
+  BUILDING_SURVEYOR
+  INSURANCE_UNDERWRITER
+  PROPERTY_MANAGER
+  LAND_REGISTRY_OFFICER
+  REVENUE_OFFICER
+  LOCAL_AUTHORITY_OFFICER
+  BUILDING_CONTROL_OFFICER
+  
+  // Design and Construction Professionals
+  LEAD_ARCHITECT
+  DESIGN_ARCHITECT
+  TECHNICAL_ARCHITECT
+  LANDSCAPE_ARCHITECT
+  STRUCTURAL_ENGINEER
+  CIVIL_ENGINEER
+  MEP_ENGINEER
+  ENVIRONMENTAL_ENGINEER
+  MAIN_CONTRACTOR
+  PROJECT_MANAGER_CONSTRUCTION
+  SITE_FOREMAN
+  HEALTH_SAFETY_OFFICER
+  
+  // Compliance and Certification Specialists
+  BER_ASSESSOR
+  NZEB_CONSULTANT
+  SUSTAINABILITY_CONSULTANT
+  BCAR_CERTIFIER
+  FIRE_SAFETY_CONSULTANT
+  ACCESSIBILITY_CONSULTANT
+  HOMEBOND_ADMINISTRATOR
+  STRUCTURAL_WARRANTY_INSPECTOR
+  QUALITY_ASSURANCE_INSPECTOR
+  
+  // Specialized Advisory Roles
+  TAX_ADVISOR
+  PLANNING_CONSULTANT
+  CONVEYANCING_SPECIALIST
 }
 
 enum UserStatus {
@@ -310,6 +369,15 @@ model User {
   snagLists         SnagList[]
   mortgageTracking  MortgageTracking?
   buyerEvents       BuyerEvent[]
+  
+  // Professional Ecosystem relations
+  professionalAssociations    ProfessionalAssociation[]    @relation("UserProfessionalAssociations")
+  professionalCertifications  ProfessionalCertification[]  @relation("UserProfessionalCertifications") 
+  professionalSpecializations ProfessionalSpecialization[] @relation("UserProfessionalSpecializations")
+  
+  // Task Orchestration relations
+  assignedEcosystemTasks      EcosystemTask[]              @relation("AssignedEcosystemTasks")
+  taskHistoryEntries          TaskHistory[]                @relation("TaskHistoryUser")
 }
 
 model UserPermission {
@@ -319,6 +387,73 @@ model UserPermission {
   resource   String
   action     String
   conditions Json?
+}
+
+// ======= PROFESSIONAL ECOSYSTEM MODELS =======
+
+model ProfessionalAssociation {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation("UserProfessionalAssociations", fields: [userId], references: [id])
+  
+  associationName String // e.g., "RIAI", "Engineers Ireland", "Law Society"
+  membershipType  String // e.g., "Full Member", "Associate", "Fellow"
+  membershipNumber String?
+  startDate       DateTime
+  endDate         DateTime?
+  isActive        Boolean @default(true)
+  
+  verificationStatus String @default("pending") // pending, verified, expired
+  verificationDate   DateTime?
+  verificationDocument String? // Document reference
+  
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+  
+  @@unique([userId, associationName])
+}
+
+model ProfessionalCertification {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation("UserProfessionalCertifications", fields: [userId], references: [id])
+  
+  certificationName String // e.g., "BER Assessor", "BCAR Certifier", "NZEB Consultant"
+  issuingBody      String // e.g., "SEAI", "BCAR", "NSAI"
+  certificationNumber String?
+  issueDate        DateTime
+  expiryDate       DateTime?
+  isActive         Boolean @default(true)
+  
+  scope            String? // e.g., "Residential", "Commercial", "All Buildings"
+  specializations  Json?   // JSON array of specialized areas
+  
+  verificationStatus String @default("verified") // verified, pending, expired
+  verificationDate   DateTime?
+  documentReference  String? // Certificate document reference
+  
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+  
+  @@unique([userId, certificationName, issuingBody])
+}
+
+model ProfessionalSpecialization {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation("UserProfessionalSpecializations", fields: [userId], references: [id])
+  
+  specializationArea String // e.g., "Sustainable Design", "Fire Safety", "Structural Assessment"
+  proficiencyLevel  String // e.g., "Expert", "Advanced", "Intermediate", "Basic"
+  experienceYears   Int?
+  
+  description       String?
+  keyProjects       Json? // JSON array of relevant project references
+  
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+  
+  @@unique([userId, specializationArea])
 }
 
 model TeamMember {
@@ -357,6 +492,9 @@ model BuyerProfile {
   governmentSchemes   Json?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+  
+  // Professional Ecosystem relations
+  ecosystemTasks      EcosystemTask[] @relation("BuyerEcosystemTasks")
 }
 
 model BuyerJourney {
@@ -2106,6 +2244,213 @@ model TaskComment {
   mentions      String[]
   edited        Boolean     @default(false)
   editedAt      DateTime?
+}
+
+// ======= PROFESSIONAL ECOSYSTEM TASK ORCHESTRATION =======
+
+model TaskTemplate {
+  id           String   @id @default(cuid())
+  taskCode     String   @unique // BUY-001, DEV-034, SOL-156, etc.
+  title        String
+  description  String?
+  detailedInstructions String?
+  
+  // Professional assignment and categorization
+  primaryProfessionalRole UserRole
+  secondaryProfessionalRoles Json? // JSON array of roles that can assist
+  requiresProfessionalCertification Json? // JSON array of required certifications
+  requiresProfessionalAssociation Json? // JSON array of required professional body membership
+  
+  // Task categorization
+  category    String // financial, legal, construction, compliance, marketing, design
+  subcategory String?
+  persona     String // buyer, developer, agent, solicitor, architect, engineer, etc.
+  discipline  String? // Architecture, Engineering, Legal, Financial, Construction, etc.
+  
+  // Task characteristics
+  taskType              String  // form, document, approval, communication, inspection, design, calculation
+  complexityLevel       String  @default("medium") // simple, medium, complex, expert
+  estimatedDurationHours Float   @default(1.0)
+  estimatedDurationRangeMin Float?
+  estimatedDurationRangeMax Float?
+  typicalCostRangeMin   Float? // Typical cost for this task
+  typicalCostRangeMax   Float?
+  
+  // Automation and processing capabilities
+  automationLevel       String  @default("manual") // manual, semi_automated, fully_automated
+  automationTriggers    Json?   // JSON array: Events that can auto-trigger this task
+  automationActions     Json?   // JSON array: Actions that can be automated
+  aiAssistanceAvailable Boolean @default(false) // Can AI help with this task
+  templateAvailable     Boolean @default(false) // Standardized templates available
+  
+  // Compliance and regulatory requirements
+  complianceRequired    Boolean @default(false)
+  regulatoryBody        String? // SEAI, NSAI, Law_Society, Engineers_Ireland, etc.
+  regulatoryReference   String? // Specific regulation or standard
+  certificationRequired Boolean @default(false)
+  approvalRequired      Boolean @default(false)
+  witnessRequired       Boolean @default(false)
+  professionalIndemnityRequired Boolean @default(false) // Requires PI insurance
+  
+  // Dependencies and sequencing
+  dependencies          Json? // JSON array of dependent task codes
+  softDependencies      Json? // JSON array: Preferred but not blocking dependencies
+  triggers              Json? // JSON array: Events that trigger this task
+  prerequisites         Json? // JSON array: Must be completed first
+  milestoneDependencies Json? // JSON array: Project milestone dependencies
+  
+  // Documentation and deliverables
+  requiredDocuments     Json? // JSON array: Required input document types
+  outputDocuments       Json? // JSON array: Documents this task produces
+  deliverableTypes      Json? // JSON array: Types of deliverables expected
+  evidenceRequired      Json? // JSON array: Evidence of completion needed
+  qualityCriteria       String? // Quality standards for completion
+  
+  // Timing and escalation
+  typicalStartOffsetDays Int?    @default(0) // Days from transaction/project start
+  deadlineOffsetDays     Int?    // Days from start/trigger for deadline
+  criticalPath           Boolean @default(false) // Is this task on the critical path
+  escalationHours        Int?    @default(48) // Hours before escalation
+  reminderSchedule       Json?   @default("[72,24,4]") // JSON array: Reminder hours before due
+  seasonalConstraints    Json?   // JSON array: Seasonal limitations (weather, etc.)
+  
+  // Professional coordination requirements
+  coordinationRequired  Json? // JSON array: Other roles that must coordinate
+  consultationRequired  Json? // JSON array: Roles that must be consulted
+  approvalChain         Json? // JSON array: Approval sequence by role
+  signOffRequired       Json? // JSON array: Professional sign-off requirements
+  
+  // Quality and performance tracking
+  successCriteria       String?
+  commonIssues          String?
+  bestPractices         String?
+  riskFactors           Json? // JSON array: Common risk factors
+  mitigationStrategies  String?
+  
+  // Cost and commercial aspects
+  typicalFeeBasis        String? // Fixed, hourly, percentage, lump_sum
+  feeCalculationMethod   String? // How fees are typically calculated
+  materialsRequired      Boolean @default(false)
+  siteVisitRequired      Boolean @default(false)
+  remoteCompletionPossible Boolean @default(true)
+  
+  // Integration and system aspects
+  externalSystemIntegration Json? // JSON array: External systems involved
+  apiEndpointsAvailable     Json? // JSON array: Available API integrations
+  dataSources               Json? // JSON array: Required data sources
+  notificationTriggers      Json? // JSON array: When to send notifications
+  
+  // Versioning and maintenance
+  templateVersion         String  @default("1.0")
+  isActive                Boolean @default(true)
+  isMandatory             Boolean @default(true)
+  applicableDevelopmentTypes Json? // JSON array: Residential, Commercial, etc.
+  applicableTransactionTypes Json? // JSON array: Purchase, Sale, Rental, etc.
+  applicableBuyerTypes       Json? // JSON array: First_time, Investment, etc.
+  geographicScope            Json? // JSON array: Where this task applies
+  
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+  
+  // Relations
+  ecosystemTasks EcosystemTask[]
+}
+
+model EcosystemTask {
+  id           String   @id @default(cuid())
+  template     TaskTemplate @relation(fields: [templateId], references: [id])
+  templateId   String
+  
+  // Task instance details
+  title        String
+  description  String?
+  status       String   @default("pending") // pending, in_progress, completed, cancelled, escalated
+  priority     String   @default("medium") // low, medium, high, critical
+  
+  // Professional assignment
+  assignedToUserId     String?
+  assignedToUser       User?    @relation("AssignedEcosystemTasks", fields: [assignedToUserId], references: [id])
+  assignedToProfessionalRole UserRole
+  
+  // Timing
+  scheduledStartDate   DateTime?
+  actualStartDate      DateTime?
+  scheduledDueDate     DateTime?
+  actualCompletionDate DateTime?
+  estimatedDuration    Float? // Hours
+  actualDuration       Float? // Hours
+  
+  // Progress tracking
+  percentComplete      Float    @default(0.0)
+  deliverables         Json?    // JSON array of deliverable status
+  qualityCheckStatus   String?  // pending, passed, failed, not_required
+  approvalStatus       String?  // pending, approved, rejected, not_required
+  
+  // Context and relationships
+  developmentId        String?
+  unitId               String?
+  reservationId        String?
+  buyerProfileId       String?
+  buyerProfile         BuyerProfile? @relation("BuyerEcosystemTasks", fields: [buyerProfileId], references: [id])
+  
+  // Cost and billing
+  estimatedCost        Float?
+  actualCost           Float?
+  billingStatus        String? // not_billable, pending, billed, paid
+  
+  // Communication and collaboration
+  notes                String?
+  attachments          Json? // JSON array of attachment references
+  communicationLog     Json? // JSON array of communication history
+  
+  // Automation and integration
+  autoTriggered        Boolean  @default(false)
+  integrationData      Json?    // Data from external system integrations
+  
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+  
+  // Relations
+  dependencies         TaskDependency[] @relation("DependentEcosystemTask")
+  dependents           TaskDependency[] @relation("ParentEcosystemTask")
+  taskHistory          TaskHistory[]
+}
+
+model TaskDependency {
+  id                String @id @default(cuid())
+  parentTask        EcosystemTask @relation("ParentEcosystemTask", fields: [parentTaskId], references: [id])
+  parentTaskId      String
+  dependentTask     EcosystemTask @relation("DependentEcosystemTask", fields: [dependentTaskId], references: [id])
+  dependentTaskId   String
+  
+  dependencyType    String @default("blocking") // blocking, soft, resource, temporal, approval, information, quality_gate, milestone
+  dependencyStrength String @default("mandatory") // mandatory, preferred, optional
+  dependencyReason  String?
+  lagTimeMinutes    Int? // Minimum time between parent completion and dependent start
+  overlapAllowedMinutes Int? // How much overlap is acceptable
+  coordinationRequired Boolean @default(false) // Whether active coordination is needed
+  automaticTrigger  Boolean @default(false) // Auto-trigger dependent when parent completes
+  
+  created DateTime @default(now())
+  
+  @@unique([parentTaskId, dependentTaskId])
+}
+
+model TaskHistory {
+  id           String   @id @default(cuid())
+  task         EcosystemTask @relation(fields: [taskId], references: [id])
+  taskId       String
+  
+  event        String   // created, assigned, started, completed, escalated, cancelled, etc.
+  previousValue String?
+  newValue     String?
+  reason       String?
+  
+  userId       String?
+  user         User?    @relation("TaskHistoryUser", fields: [userId], references: [id])
+  
+  created      DateTime @default(now())
+  metadata     Json?
 }
 
 model ProjectRisk {

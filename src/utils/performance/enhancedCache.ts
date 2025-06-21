@@ -443,7 +443,7 @@ export class EnhancedCache {
     let totalAccessCount = 0;
     let compressedCount = 0;
     let compressedSize = 0;
-    let tagCounts: Record<string, number> = {};
+    const tagCounts: Record<string, number> = {};
     
     this.cache.forEach(item => {
       if (item.expiry < now) {
@@ -690,7 +690,7 @@ export class EnhancedCache {
             }
             
             // Decompress if needed
-            let value = data.value;
+            const value = data.value;
             
             const size = estimateSize(value);
             

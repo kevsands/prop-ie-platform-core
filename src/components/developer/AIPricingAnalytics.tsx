@@ -75,8 +75,8 @@ export default function AIPricingAnalytics({ projectId, units, onPriceUpdate }: 
         
         // Market-driven factors
         let marketMultiplier = 1;
-        let reasons = [];
-        let factors = [];
+        const reasons = [];
+        const factors = [];
         
         // Simulate different market conditions
         const marketScenarios = [

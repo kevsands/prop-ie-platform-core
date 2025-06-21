@@ -9,7 +9,6 @@ import {
   Calculator, Users, FileText, Star, Eye, Shield, Clock,
   CheckCircle, BarChart2, Award, Zap, Globe, Phone, Mail, MapPin
 } from 'lucide-react';
-import { mockDevelopments } from '@/data/mockDevelopments';
 import SolutionsSection from '@/components/home/SolutionsSection';
 
 // Property Context
@@ -56,15 +55,6 @@ interface Property {
   isReduced?: boolean;
 }
 
-// Enhanced Developments Data
-const enhancedDevelopments: Development[] = mockDevelopments.map(dev => ({
-  ...dev,
-  priority: 
-    dev.id === 'fitzgerald-gardens' ? 1 : 
-    dev.id === 'ballymakenny-view' ? 2 : 
-    dev.id === 'ellwood' ? 3 : 
-    undefined
-}));
 
 // Mock Properties Data
 const mockProperties: Property[] = [
@@ -118,7 +108,55 @@ const testimonials = [
 // Property Provider Component
 export function PropertyProvider({ children }: { children: React.ReactNode }) {
   const [properties, setProperties] = useState<Property[]>(mockProperties);
-  const [developments, setDevelopments] = useState<Development[]>(enhancedDevelopments);
+  const [developments, setDevelopments] = useState<Development[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch real developments from API
+  useEffect(() => {
+    const fetchDevelopments = async () => {
+      try {
+        const response = await fetch('/api/developments?published=true');
+        if (response.ok) {
+          const data = await response.json();
+          // Map API response to match our Development interface and add priorities
+          const enhancedDevelopments: Development[] = data.data.map((dev: any) => ({
+            id: dev.id,
+            name: dev.name,
+            description: dev.description,
+            location: dev.location,
+            image: dev.mainImage,
+            status: dev.status,
+            statusColor: dev.status === 'ACTIVE' ? 'green-500' : 'blue-500',
+            priceRange: dev.startingPrice ? `€${dev.startingPrice.toLocaleString()}+` : 'Price on request',
+            bedrooms: [2, 3, 4], // Default values - would be calculated from units in real scenario
+            bathrooms: 2,
+            squareFeet: 120,
+            features: dev.features || [],
+            amenities: dev.amenities || [],
+            energyRating: 'A2',
+            availability: 'Available now',
+            depositAmount: '€10,000',
+            showingDates: [],
+            floorPlans: [],
+            priority: 
+              dev.name.toLowerCase().includes('fitzgerald') ? 1 : 
+              dev.name.toLowerCase().includes('ballymakenny') ? 2 : 
+              dev.name.toLowerCase().includes('ellwood') ? 3 : 
+              undefined
+          }));
+          setDevelopments(enhancedDevelopments);
+        } else {
+          console.error('Failed to fetch developments');
+        }
+      } catch (error) {
+        console.error('Error fetching developments:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDevelopments();
+  }, []);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IE', {
@@ -187,7 +225,13 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
         getStatusColorClass
       }}
     >
-      {children}
+      {isLoading ? (
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2B5273]"></div>
+        </div>
+      ) : (
+        children
+      )}
     </PropertyContext.Provider>
   );
 }
@@ -196,6 +240,7 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
 function HomePage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [heroSearchQuery, setHeroSearchQuery] = useState('');
   const { 
     getFeaturedDevelopments,
     getFeaturedProperties,
@@ -212,6 +257,16 @@ function HomePage() {
     }, 500);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleHeroSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (heroSearchQuery.trim()) {
+      params.set('query', heroSearchQuery.trim());
+    }
+    const searchUrl = params.toString() ? `/properties/search?${params.toString()}` : '/properties/search';
+    router.push(searchUrl);
+  };
 
   if (isLoading) {
     return (
@@ -234,27 +289,52 @@ function HomePage() {
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">Discover premium developments with AI-powered matching and seamless buying experience</p>
           </div>
           <div className="max-w-5xl mx-auto">
-            <div className="relative mb-8">
+            <form onSubmit={handleHeroSearch} className="relative mb-8">
               <input 
                 type="text" 
                 placeholder="Search by location, development, or property type..." 
-                className="w-full px-6 py-5 pl-12 pr-36 text-gray-900 bg-white rounded-xl shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-400 text-lg" 
+                className="w-full px-6 py-5 pl-12 pr-36 text-gray-900 bg-white rounded-xl shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-400 text-lg"
+                value={heroSearchQuery}
+                onChange={(e) => setHeroSearchQuery(e.target.value)}
               />
               <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
                 </svg>
               </div>
-              <button className="absolute right-3 top-1/2 transform -translate-y-1/2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium">
+              <button 
+                type="submit"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 font-medium"
+              >
                 Search Properties
                 <ArrowRight className="w-4 h-4" />
               </button>
-            </div>
+            </form>
             <div className="flex flex-wrap gap-3 justify-center">
-              <button className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all">Under €300k</button>
-              <button className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all">€300k - €400k</button>
-              <button className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all">€400k - €500k</button>
-              <button className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all">€500k+</button>
+              <button 
+                onClick={() => router.push('/properties/search?maxPrice=300000')}
+                className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all"
+              >
+                Under €300k
+              </button>
+              <button 
+                onClick={() => router.push('/properties/search?minPrice=300000&maxPrice=400000')}
+                className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all"
+              >
+                €300k - €400k
+              </button>
+              <button 
+                onClick={() => router.push('/properties/search?minPrice=400000&maxPrice=500000')}
+                className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all"
+              >
+                €400k - €500k
+              </button>
+              <button 
+                onClick={() => router.push('/properties/search?minPrice=500000')}
+                className="px-5 py-2 rounded-full text-sm font-medium bg-white/20 text-white hover:bg-white/30 transition-all"
+              >
+                €500k+
+              </button>
             </div>
           </div>
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">

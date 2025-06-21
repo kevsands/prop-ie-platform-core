@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getDevelopmentByName, getUnitsForDevelopment, getSalesAnalytics } from '@/lib/enterprise-data';
+import { developmentsService } from '@/lib/services/developments-prisma';
 
 interface RouteParams {
   params: { id: string };
@@ -14,14 +14,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params;
     
-    // Handle Fitzgerald Gardens specifically (main development)
-    let development;
-    if (id === 'fitzgerald-gardens' || id === 'fitzgerald-gardens-main') {
-      development = await getDevelopmentByName('Fitzgerald Gardens');
-    } else {
-      // For other developments, try to find by ID or name
-      development = await getDevelopmentByName(id);
-    }
+    // Get development from database
+    const development = await developmentsService.getDevelopmentById(id);
     
     if (!development) {
       return NextResponse.json({ 
@@ -30,44 +24,29 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       }, { status: 404 });
     }
 
-    // Get units for this development
-    const units = await getUnitsForDevelopment(development.id);
-    
-    // Get sales analytics for this development
-    const salesAnalytics = await getSalesAnalytics(development.id);
-
-    // Prepare response with complete development data
+    // For now, return basic development data
+    // Units and analytics can be added later when we have the full schema
     const responseData = {
-      ...development,
-      units: units.map(unit => ({
-        id: unit.id,
-        unitNumber: unit.unitNumber,
-        floor: unit.floor,
-        type: unit.type,
-        status: unit.status,
-        bedrooms: unit.bedrooms,
-        bathrooms: unit.bathrooms,
-        size: unit.size,
-        price: unit.price,
-        title: unit.title,
-        description: unit.description,
-        berRating: unit.berRating,
-        features: unit.features,
-        primaryImage: unit.primaryImage,
-        images: unit.images,
-        floorplans: unit.floorplans,
-        virtualTourUrl: unit.virtualTourUrl,
-        availableFrom: unit.availableFrom,
-        estimatedCompletion: unit.estimatedCompletion,
-        sale: unit.sale,
-        reservation: unit.reservation
-      })),
-      analytics: salesAnalytics,
+      id: development.id,
+      name: development.name,
+      description: development.description,
+      location: development.location,
+      city: development.city,
+      county: development.county,
+      status: development.status,
+      mainImage: development.mainImage,
+      startingPrice: development.startingPrice,
+      totalUnits: development.totalUnits,
+      isPublished: development.isPublished,
+      createdAt: development.createdAt,
+      updatedAt: development.updatedAt,
+      units: [], // Empty for now
+      analytics: null, // Empty for now
       unitStats: {
-        total: units.length,
-        available: units.filter(u => u.status === 'AVAILABLE').length,
-        reserved: units.filter(u => u.status === 'RESERVED').length,
-        sold: units.filter(u => u.status === 'SOLD').length
+        total: development.totalUnits,
+        available: development.totalUnits,
+        reserved: 0,
+        sold: 0
       }
     };
     

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Mock invoice data (in real app, this would be in database)
-let mockInvoices = [
+const mockInvoices = [
   {
     id: '1',
     number: 'INV-2025-001',

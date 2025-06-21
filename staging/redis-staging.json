@@ -1,0 +1,17 @@
+{
+  "name": "PROP.ie Staging Redis",
+  "host": "localhost",
+  "port": 6379,
+  "db": 1,
+  "keyPrefix": "propie:staging:",
+  "maxRetries": 3,
+  "retryDelayOnFailover": 100,
+  "lazyConnect": true,
+  "enableOfflineQueue": false,
+  "maxmemoryPolicy": "allkeys-lru",
+  "stagingFeatures": {
+    "debugMode": true,
+    "logAllCommands": true,
+    "flushOnStartup": true
+  }
+}

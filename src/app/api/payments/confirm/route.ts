@@ -1,11 +1,13 @@
 // src/app/api/payments/confirm/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { userService } from '@/lib/services/users-production';
+import ReservationService from '@/lib/services/reservation-service';
 
 interface PaymentConfirmationRequest {
   paymentIntentId: string;
   paymentMethodId?: string;
   returnUrl?: string;
+  reservationId?: string;
 }
 
 /**
@@ -126,6 +128,26 @@ export async function POST(request: NextRequest) {
         }
       };
 
+      // Create transaction record and get transaction reference
+      const transactionReference = mockConfirmedPayment.charges.data[0].id;
+
+      // Integrate with reservation system if reservationId provided
+      let updatedReservation = null;
+      if (reservationId) {
+        try {
+          updatedReservation = await ReservationService.confirmReservationPayment(
+            reservationId,
+            paymentIntentId,
+            `${mockConfirmedPayment.paymentMethod.type}:${mockConfirmedPayment.paymentMethod.card?.brand}:****${mockConfirmedPayment.paymentMethod.card?.last4}`,
+            transactionReference
+          );
+          console.log(`[DEV] Reservation ${reservationId} payment confirmed`);
+        } catch (reservationError) {
+          console.error('Reservation confirmation failed:', reservationError);
+          // Continue with payment confirmation even if reservation update fails
+        }
+      }
+
       // Trigger task automation for payment completion
       const automationPayload = {
         paymentType: mockConfirmedPayment.metadata.paymentType,
@@ -160,6 +182,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         paymentIntent: mockConfirmedPayment,
+        reservation: updatedReservation ? {
+          id: updatedReservation.id,
+          reservationNumber: updatedReservation.reservationNumber,
+          status: updatedReservation.status,
+          expiresAt: updatedReservation.expiresAt,
+          amountPaid: updatedReservation.amountPaid,
+          outstandingAmount: updatedReservation.outstandingAmount
+        } : null,
+        transaction: {
+          id: transactionReference,
+          amount: mockConfirmedPayment.amount / 100,
+          currency: mockConfirmedPayment.currency,
+          status: 'completed',
+          paymentMethod: `${mockConfirmedPayment.paymentMethod.card?.brand} ****${mockConfirmedPayment.paymentMethod.card?.last4}`
+        },
         requiresAction: false,
         message: '[DEV MODE] Payment confirmed successfully. Task automation triggered.'
       });

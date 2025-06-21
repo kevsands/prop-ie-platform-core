@@ -157,13 +157,17 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
   // Fetch transaction by ID
   const fetchTransaction = async (transactionId: string) => {
     try {
-      const transaction = await api.get<Transaction>(`/transactions/${transactionId}`);
+      const response = await api.get<any>(`/transactions?id=${transactionId}`);
+      // Handle the API response format { success: true, data: {...} }
+      const transaction = response?.data || response;
       setCurrentTransaction(transaction);
       
       // Update in transactions list if exists
-      setTransactions(prev => 
-        prev.map(t => t.id === transaction.id ? transaction : t)
-      );
+      if (transaction) {
+        setTransactions(prev => 
+          prev.map(t => t.id === transaction.id ? transaction : t)
+        );
+      }
     } catch (error) {
       console.error('Error fetching transaction:', error);
       throw error;
@@ -176,10 +180,26 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
     
     setLoadingTransactions(true);
     try {
-      const userTransactions = await api.get<Transaction[]>('/transactions');
-      setTransactions(userTransactions);
+      // Use fetch for local Next.js API routes instead of AmplifyAPI
+      const response = await fetch('/api/transactions', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      // Handle the API response format { success: true, data: [...] }
+      const userTransactions = (data && typeof data === 'object' && 'data' in data) ? data.data : (data || []);
+      setTransactions(Array.isArray(userTransactions) ? userTransactions : []);
     } catch (error) {
       console.error('Error fetching user transactions:', error);
+      // Set empty array on error to prevent further API calls
+      setTransactions([]);
     } finally {
       setLoadingTransactions(false);
     }
@@ -203,8 +223,8 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
         type: 'STATUS_CHANGE',
         title: 'Status Updated',
         description: `Transaction status changed to ${status}`,
-        userId: user!.id,
-        userName: user!.name
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown'
       });
     } catch (error) {
       console.error('Error updating transaction status:', error);
@@ -237,8 +257,8 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
         type: 'DOCUMENT_UPLOAD',
         title: 'Document Uploaded',
         description: `${metadata.name || document.name} uploaded`,
-        userId: user!.id,
-        userName: user!.name,
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown',
         metadata: { documentId: newDocument.id }
       });
     } catch (error) {
@@ -299,8 +319,8 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
         type: 'PARTICIPANT_ADDED',
         title: 'Participant Added',
         description: `${participant.name} joined as ${participant.role}`,
-        userId: user!.id,
-        userName: user!.name
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown'
       });
     } catch (error) {
       console.error('Error adding participant:', error);
@@ -349,8 +369,8 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
         type: 'PAYMENT_UPDATE',
         title: 'Payment Updated',
         description: `Payment status changed to ${status}`,
-        userId: user!.id,
-        userName: user!.name,
+        userId: user?.sub || user?.id || '',
+        userName: user?.name || user?.given_name || 'Unknown',
         metadata: { paymentId, status }
       });
     } catch (error) {
