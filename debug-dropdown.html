@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Debug Test</title>
+    <style>
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-button {
+            padding: 10px 20px;
+            background: #2B5273;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 200px;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dropdown-active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .dropdown-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dropdown-item:hover {
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Navigation Dropdown Debug Test</h1>
+    <p>This tests if dropdowns are working correctly</p>
+    
+    <div class="dropdown-container">
+        <button class="dropdown-button" id="testButton">
+            Test Dropdown
+        </button>
+        <div class="dropdown-menu" id="testMenu">
+            <div class="dropdown-item">Item 1</div>
+            <div class="dropdown-item">Item 2</div>
+            <div class="dropdown-item">Item 3</div>
+        </div>
+    </div>
+    
+    <script>
+        const button = document.getElementById('testButton');
+        const menu = document.getElementById('testMenu');
+        let isOpen = false;
+        
+        button.addEventListener('mouseenter', () => {
+            console.log('Mouse entered button');
+            menu.classList.add('dropdown-active');
+            isOpen = true;
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            console.log('Mouse left button');
+            setTimeout(() => {
+                if (!isOpen) {
+                    menu.classList.remove('dropdown-active');
+                }
+            }, 100);
+        });
+        
+        menu.addEventListener('mouseenter', () => {
+            console.log('Mouse entered menu');
+            isOpen = true;
+        });
+        
+        menu.addEventListener('mouseleave', () => {
+            console.log('Mouse left menu');
+            isOpen = false;
+            menu.classList.remove('dropdown-active');
+        });
+    </script>
+</body>
+</html>

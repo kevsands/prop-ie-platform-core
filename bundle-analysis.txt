@@ -1,0 +1,17 @@
+BUNDLE ANALYSIS REPORT
+Generated: 2025-05-23T16:05:59.701Z
+==================================================
+
+DEPENDENCIES:
+- Production: 119
+- Development: 95
+- Total: 214
+
+LARGE DEPENDENCIES:
+- lodash
+
+DUPLICATE CATEGORIES:
+- HTTP clients: axios, got
+
+RECOMMENDATIONS:
+- Use lodash-es and import specific functions to enable tree shaking
