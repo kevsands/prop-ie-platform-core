@@ -411,26 +411,58 @@ export default function BuyerDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header Section */}
+      {/* Enhanced Header Section */}
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Buyer Dashboard</h1>
-          <p className="text-gray-600 mt-1">
-            Your complete home buying command center
-          </p>
-          <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
-            <Clock size={14} />
-            <span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
-            <button
-              onClick={handleRefresh}
-              disabled={refreshing}
-              className="ml-2 p-1 hover:bg-gray-100 rounded transition-colors"
-            >
-              <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-            </button>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <Home className="text-white" size={24} />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Welcome back!</h1>
+              <p className="text-gray-600">
+                {userProfile?.firstName ? `Hi ${userProfile.firstName}, ` : ''}your property journey continues
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 mt-3">
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <Clock size={14} />
+              <span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
+              <button
+                onClick={handleRefresh}
+                disabled={refreshing}
+                className="ml-2 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                title="Refresh dashboard data"
+              >
+                <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
+              </button>
+            </div>
+            
+            {/* Journey Progress Indicator */}
+            <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
+              <TrendingUp size={14} />
+              <span>{metrics.completionPercentage}% Complete</span>
+            </div>
+            
+            {/* Quick Status */}
+            <div className="flex items-center gap-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm">
+              <CheckCircle size={14} />
+              <span>{metrics.documentsCompleted}/12 Documents</span>
+            </div>
           </div>
         </div>
+        
         <div className="flex items-center gap-3">
+          <button 
+            onClick={() => window.open('/buyer/calculator', '_blank')}
+            className="flex items-center gap-2 px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 transition-colors text-sm"
+            title="Quick affordability check"
+          >
+            <Calculator size={16} />
+            <span className="hidden sm:inline">Calculator</span>
+          </button>
+          
           <Link 
             href="/buyer/overview"
             className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
@@ -438,89 +470,209 @@ export default function BuyerDashboard() {
             <BarChart3 size={16} className="inline mr-2" />
             Overview
           </Link>
+          
           <Link 
             href="/buyer/journey"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all text-sm font-medium"
           >
             <TrendingUp size={16} className="inline mr-2" />
-            Journey
+            Continue Journey
           </Link>
         </div>
       </div>
 
-      {/* Quick Stats */}
+      {/* Enhanced Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-tour="quick-stats">
         {/* Available Funds */}
-        <div className="bg-white rounded-lg border shadow-sm p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Available Funds</p>
-              <p className="text-2xl font-bold text-gray-900">{formatCurrency(metrics.availableFunds)}</p>
-              <p className="text-sm text-gray-500">of {formatCurrency(metrics.totalBudget)} budget</p>
-            </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center">
-              <Euro size={24} className="text-green-600" />
+        <Link href="/buyer/calculator" className="block group">
+          <div className="bg-white rounded-xl border shadow-sm p-6 hover:shadow-lg hover:border-green-300 transition-all group-hover:scale-105">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Available Funds</p>
+                <p className="text-2xl font-bold text-gray-900">{formatCurrency(metrics.availableFunds)}</p>
+                <p className="text-sm text-gray-500">of {formatCurrency(metrics.totalBudget)} budget</p>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+                  <div 
+                    className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all"
+                    style={{ width: `${(metrics.availableFunds / metrics.totalBudget) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Euro size={24} className="text-green-600" />
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* HTB Benefit */}
-        <div className="bg-white rounded-lg border shadow-sm p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">HTB Benefit</p>
-              <p className="text-2xl font-bold text-gray-900">{formatCurrency(metrics.htbBenefit)}</p>
-              <p className="text-sm text-gray-500">eligible amount</p>
-            </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-pink-100 rounded-lg flex items-center justify-center">
-              <Heart size={24} className="text-red-600" />
+        <Link href="/buyer/htb" className="block group">
+          <div className="bg-white rounded-xl border shadow-sm p-6 hover:shadow-lg hover:border-red-300 transition-all group-hover:scale-105">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">HTB Benefit</p>
+                <p className="text-2xl font-bold text-gray-900">{formatCurrency(metrics.htbBenefit)}</p>
+                <p className="text-sm text-gray-500">eligible amount</p>
+                <div className="flex items-center gap-1 mt-2">
+                  <CheckCircle size={14} className="text-green-500" />
+                  <span className="text-xs text-green-600 font-medium">Registered</span>
+                </div>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-pink-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Heart size={24} className="text-red-600" />
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Journey Progress */}
-        <div className="bg-white rounded-lg border shadow-sm p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Journey Progress</p>
-              <p className="text-2xl font-bold text-gray-900">{metrics.completionPercentage}%</p>
-              <p className="text-sm text-gray-500">{metrics.journeyStage}</p>
-            </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center">
-              <TrendingUp size={24} className="text-blue-600" />
+        <Link href="/buyer/journey" className="block group">
+          <div className="bg-white rounded-xl border shadow-sm p-6 hover:shadow-lg hover:border-blue-300 transition-all group-hover:scale-105">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Journey Progress</p>
+                <p className="text-2xl font-bold text-gray-900">{metrics.completionPercentage}%</p>
+                <p className="text-sm text-gray-500">{metrics.journeyStage}</p>
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+                  <div 
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all"
+                    style={{ width: `${metrics.completionPercentage}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <TrendingUp size={24} className="text-blue-600" />
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Properties Viewed */}
-        <div className="bg-white rounded-lg border shadow-sm p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Properties Viewed</p>
-              <p className="text-2xl font-bold text-gray-900">{metrics.propertiesViewed}</p>
-              <p className="text-sm text-gray-500">this month</p>
-            </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-violet-100 rounded-lg flex items-center justify-center">
-              <Building2 size={24} className="text-purple-600" />
+        <Link href="/properties" className="block group">
+          <div className="bg-white rounded-xl border shadow-sm p-6 hover:shadow-lg hover:border-purple-300 transition-all group-hover:scale-105">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-1">Properties Viewed</p>
+                <p className="text-2xl font-bold text-gray-900">{metrics.propertiesViewed}</p>
+                <p className="text-sm text-gray-500">this month</p>
+                <div className="flex items-center gap-1 mt-2">
+                  <Star size={14} className="text-yellow-500" />
+                  <span className="text-xs text-gray-600">{favoriteProperties.length} saved</span>
+                </div>
+              </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-violet-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Building2 size={24} className="text-purple-600" />
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
 
-      {/* Journey Status Banner */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 text-white">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Current Journey Stage</h3>
-            <p className="text-xl font-bold">{metrics.journeyStage}</p>
-            <p className="text-blue-100">Next: {metrics.nextMilestone}</p>
-            <p className="text-blue-100 text-sm">Estimated completion: {metrics.estimatedCompletion}</p>
-          </div>
-          <div className="text-right">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-2">
-              <span className="text-2xl font-bold">{metrics.completionPercentage}%</span>
+      {/* Enhanced Journey Status Banner */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-xl p-6 text-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-40 h-40 bg-white rounded-full -translate-x-20 -translate-y-20"></div>
+          <div className="absolute bottom-0 right-0 w-32 h-32 bg-white rounded-full translate-x-16 translate-y-16"></div>
+        </div>
+        
+        <div className="relative">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                  <TrendingUp size={24} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">Property Journey Progress</h3>
+                  <p className="text-blue-100 text-sm">Your personalized path to homeownership</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-blue-100 mb-1">Current Stage</p>
+                  <p className="text-xl font-bold">{metrics.journeyStage}</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-blue-100 mb-1">Next Milestone</p>
+                    <p className="font-medium">{metrics.nextMilestone}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-blue-100 mb-1">Estimated Completion</p>
+                    <p className="font-medium">{metrics.estimatedCompletion}</p>
+                  </div>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="mt-4">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>Journey Progress</span>
+                    <span>{metrics.completionPercentage}% Complete</span>
+                  </div>
+                  <div className="w-full bg-white/20 rounded-full h-3">
+                    <div 
+                      className="bg-white h-3 rounded-full transition-all duration-1000 ease-out"
+                      style={{ width: `${metrics.completionPercentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p className="text-sm text-blue-100">Complete</p>
+            
+            <div className="flex items-center gap-4">
+              {/* Circular Progress */}
+              <div className="relative">
+                <div className="w-24 h-24">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      stroke="white"
+                      strokeOpacity="0.3"
+                      strokeWidth="8"
+                      fill="none"
+                    />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      stroke="white"
+                      strokeWidth="8"
+                      fill="none"
+                      strokeDasharray={`${2 * Math.PI * 40}`}
+                      strokeDashoffset={`${2 * Math.PI * 40 * (1 - metrics.completionPercentage / 100)}`}
+                      strokeLinecap="round"
+                      className="transition-all duration-1000 ease-out"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-2xl font-bold">{metrics.completionPercentage}%</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-2">
+                <Link 
+                  href="/buyer/journey"
+                  className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors text-sm text-center"
+                >
+                  <TrendingUp size={16} className="inline mr-2" />
+                  Continue Journey
+                </Link>
+                <Link 
+                  href="/buyer/milestones"
+                  className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/30 transition-colors text-sm text-center"
+                >
+                  <Target size={16} className="inline mr-2" />
+                  View Milestones
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>
