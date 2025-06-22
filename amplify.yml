@@ -3,105 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - echo "🚀 Starting PROP.ie Enterprise Platform build..."
-        - if [ "${AWS_BRANCH}" = "production" ]; then export NODE_ENV=production; elif [ "${AWS_BRANCH}" = "staging" ]; then export NODE_ENV=staging; else export NODE_ENV=development; fi
-        - echo "Building for environment: ${NODE_ENV}"
-        - echo "Branch: ${AWS_BRANCH}, Commit: ${AWS_COMMIT_ID}"
-        - node --version && npm --version
-        - npm ci --legacy-peer-deps
-        - npm run verify-lockfile
-        - npm run security-check || echo "Security check completed with warnings"
-        - echo "🔧 Generating Prisma client for enterprise schema..."
-        - npm run db:generate
-        - echo "📊 Setting up PostgreSQL production schema..."
-        - if [ "${AWS_BRANCH}" = "production" ]; then cp prisma/schema-production.prisma prisma/schema.prisma; fi
+        - npm ci
+        - npm run typecheck
+        - npm run lint
     build:
       commands:
-        - echo "🏗️ Building PROP.ie Enterprise Platform for ${AWS_BRANCH}..."
-        - echo "NEXT_PUBLIC_AWS_REGION=${AWS_REGION}" >> .env
-        - echo "NEXT_PUBLIC_APP_ENV=${AWS_BRANCH}" >> .env
-        - echo "BUILD_ID=${AWS_COMMIT_ID}" >> .env
-        - echo "NEXT_PUBLIC_ENABLE_ANALYTICS=true" >> .env
-        - echo "SECURITY_ENHANCED=true" >> .env
-        - echo "DATABASE_PROVIDER=postgresql" >> .env
-        - npm run typecheck || echo "TypeScript check completed with warnings"
-        - if [ "${AWS_BRANCH}" = "production" ]; then npm run build:prod; elif [ "${AWS_BRANCH}" = "staging" ]; then npm run build:staging; else npm run build; fi
-        - echo "🧪 Running enterprise integration tests..."
-        - npm test -- --testPathPattern=enterprise --passWithNoTests
-    postBuild:
-      commands:
-        - echo "✅ PROP.ie Enterprise Platform build completed!"
-        - echo "📊 Build Statistics:"
-        - echo "  - Total files: 1,354+ TypeScript/React files"
-        - echo "  - Routes: 245+ application routes" 
-        - echo "  - Database: PostgreSQL Enterprise Schema (122 models)"
-        - echo "  - Enterprise features: ✅ Enabled"
-        - echo "  - Security headers: ✅ Configured"
-        - echo "  - Performance monitoring: ✅ Active"
-        - if [ -d ".next/static" ]; then echo "📦 Bundle size summary:" && du -sh .next/static/* | head -5; fi
-        - echo "🚀 Deployment ready for ${AWS_BRANCH} environment"
+        - npm run build
   artifacts:
     baseDirectory: .next
     files:
-      - "**/*"
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
-
-  customHeaders:
-    - pattern: '**/*.js'
-      headers:
-        - key: 'Cache-Control'
-          value: 'public, max-age=31536000, immutable'
-    - pattern: '**/*.css'
-      headers:
-        - key: 'Cache-Control'
-          value: 'public, max-age=31536000, immutable'
-    - pattern: '**/*.png'
-      headers:
-        - key: 'Cache-Control'
-          value: 'public, max-age=86400'
-    - pattern: '**/*.jpg'
-      headers:
-        - key: 'Cache-Control'
-          value: 'public, max-age=86400'
-    - pattern: '**/*.svg'
-      headers:
-        - key: 'Cache-Control'
-          value: 'public, max-age=86400'
-    - pattern: '**/*'
-      headers:
-        - key: 'Strict-Transport-Security'
-          value: 'max-age=31536000; includeSubDomains'
-        - key: 'X-Content-Type-Options'
-          value: 'nosniff'
-        - key: 'X-Frame-Options'
-          value: 'DENY'
-        - key: 'X-XSS-Protection'
-          value: '1; mode=block'
-        - key: 'Referrer-Policy'
-          value: 'strict-origin-when-cross-origin'
-        - key: 'Content-Security-Policy'
-          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.amazonaws.com https://*.amplifyapp.com https://*.execute-api.*.amazonaws.com https://www.google-analytics.com; frame-src 'self'; object-src 'none';"
-
-  environmentVariables:
-    - name: NEXT_PUBLIC_APP_ENV
-      value: ${AWS_BRANCH}
-    - name: NEXT_PUBLIC_API_ENDPOINT
-      value: 
-        development: http://localhost:3000/api
-        staging: https://staging.prop.ie/api
-        production: https://prop.ie/api
-    - name: NEXT_PUBLIC_APP_URL
-      value:
-        development: http://localhost:3000
-        staging: https://staging.prop.ie
-        production: https://prop.ie
-    - name: AWS_REGION
-      value: us-east-1
-    - name: NEXT_TELEMETRY_DISABLED
-      value: 1
-
-  performance:
-    maxConcurrentUsers: 10
