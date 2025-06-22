@@ -98,6 +98,16 @@ const nextConfig = {
     return [...baseHeadersConfig, ...apiHeadersConfig, ...authHeadersConfig];
   },
   
+  // PWA Configuration
+  async rewrites() {
+    return [
+      {
+        source: '/sw.js',
+        destination: '/_next/static/sw.js',
+      },
+    ];
+  },
+
   // Experimental features
   experimental: {
     serverActions: {
@@ -136,8 +146,8 @@ const nextConfig = {
     APP_ENV: process.env.NEXT_PUBLIC_APP_ENV || 'development',
   },
   
-  // Configure webpack to handle module aliases properly
-  webpack: (config, { isServer }) => {
+  // Configure webpack to handle module aliases and PWA properly
+  webpack: (config, { isServer, dev }) => {
     // Add path aliases for build testing
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -149,6 +159,65 @@ const nextConfig = {
       '@/lib/auth': path.resolve(__dirname, 'src/lib/auth.ts'),
       '@/components/about/AboutPageClient': path.resolve(__dirname, 'src/components/about/AboutPageClient.tsx'),
       '@/components/pages/admin/documents/AdminDocumentsPage': path.resolve(__dirname, 'src/components/pages/admin/documents/AdminDocumentsPage.tsx'),
+    };
+    
+    // Exclude native modules from client-side bundling (for production cloud deployment)
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        crypto: false,
+        stream: false,
+        util: false,
+        os: false,
+        sqlite3: false,
+        'better-sqlite3': false,
+      };
+    }
+    
+    // Exclude SQLite modules from bundling entirely (we use PostgreSQL in production)
+    config.externals = config.externals || [];
+    if (isServer) {
+      config.externals.push('sqlite3', 'better-sqlite3');
+    }
+    
+    // PWA Service Worker configuration
+    if (!isServer && !dev) {
+      const path = require('path');
+      config.resolve.alias['@/sw'] = path.resolve(__dirname, 'public/sw.js');
+    }
+    
+    // Mobile/PWA optimizations
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          // Separate chunk for AI services to enable better caching
+          aiServices: {
+            test: /[\/\\]src[\/\\]services[\/\\](AI|.*Intelligence|.*Engine)\.ts$/,
+            name: 'ai-services',
+            chunks: 'all',
+            priority: 20,
+          },
+          // Separate chunk for task management
+          taskManagement: {
+            test: /[\/\\]src[\/\\](components|hooks)[\/\\].*[Tt]ask.*\.(tsx?|jsx?)$/,
+            name: 'task-management',
+            chunks: 'all',
+            priority: 15,
+          },
+          // Mobile-specific components
+          mobile: {
+            test: /[\/\\]src[\/\\].*[Mm]obile.*\.(tsx?|jsx?)$/,
+            name: 'mobile',
+            chunks: 'all',
+            priority: 10,
+          },
+        },
+      },
     };
     
     return config;

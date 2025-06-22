@@ -93,43 +93,69 @@ const customJestConfig = {
     "!src/**/__mocks__/**",
   ],
   
-  // Set coverage thresholds to more realistic values for development
+  // Set enterprise-grade coverage thresholds
   coverageThreshold: {
     global: {
-      branches: 10,
-      functions: 15, 
-      lines: 20,
-      statements: 20,
+      branches: 80,
+      functions: 80, 
+      lines: 80,
+      statements: 80,
     },
-    // More focused thresholds for critical security modules
+    // Critical enterprise modules require highest coverage
+    "./src/services/**/*.{ts,tsx}": {
+      statements: 90,
+      branches: 85,
+      functions: 90,
+      lines: 90,
+    },
     "./src/lib/security/**/*.{ts,tsx}": {
-      statements: 30,
-      branches: 25,
-      functions: 30,
-      lines: 30,
+      statements: 95,
+      branches: 90,
+      functions: 95,
+      lines: 95,
     },
     "./src/lib/services/**/*.{ts,tsx}": {
-      statements: 25,
-      branches: 20,
-      functions: 25,
-      lines: 25,
+      statements: 85,
+      branches: 80,
+      functions: 85,
+      lines: 85,
     },
     "./src/components/auth/**/*.{ts,tsx}": {
-      statements: 30,
-      branches: 25,
-      functions: 30,
-      lines: 30,
+      statements: 90,
+      branches: 85,
+      functions: 90,
+      lines: 90,
+    },
+    "./src/app/api/**/*.{ts,tsx}": {
+      statements: 85,
+      branches: 80,
+      functions: 85,
+      lines: 85,
     },
   },
   
-  // List of coverage reporters to use
+  // Enterprise coverage reporting configuration
   coverageReporters: [
     "json",
-    "lcov",     // Generates lcov.info file for use with external tools
+    "lcov",     // Generates lcov.info file for SonarQube integration
     "text",     // Plain text summary output
+    "text-summary", // Brief summary
     "clover",   // Clover format XML file
     "cobertura", // Cobertura format XML file for CI/CD integrations
-    "html",     // HTML report
+    "html",     // HTML report for developers
+    "json-summary", // JSON summary for enterprise reporting
+  ],
+  
+  // Coverage output directory
+  coverageDirectory: "<rootDir>/coverage",
+  
+  // Path to coverage results processor
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "<rootDir>/src/test-utils/",
+    "<rootDir>/src/tests/",
+    "<rootDir>/src/**/*.stories.{js,jsx,ts,tsx}",
+    "<rootDir>/src/**/*.d.ts",
   ],
   
   // Cache test results for faster reruns
@@ -141,14 +167,44 @@ const customJestConfig = {
   // Force tests to exit after completion
   forceExit: true,
   
-  // Maximum test timeout
-  testTimeout: 30000,
+  // Enterprise test timeout configuration
+  testTimeout: 60000, // Extended for integration tests
+  
+  // Jest worker configuration for enterprise CI/CD
+  maxWorkers: process.env.CI ? 2 : "50%",
+  
+  // Enterprise test result processing
+  reporters: [
+    "default",
+    ["jest-junit", {
+      outputDirectory: "<rootDir>/test-results",
+      outputName: "junit.xml",
+      uniqueOutputName: "false",
+      suiteName: "PropIE Enterprise Test Suite",
+      classNameTemplate: "{classname}",
+      titleTemplate: "{title}",
+      ancestorSeparator: " › ",
+      usePathForSuiteName: "true"
+    }],
+    ["@jest/reporters", {
+      verbose: true
+    }]
+  ],
   
   // Set verbosity of test output
   verbose: true,
   
   // Add module file extensions
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  
+  // Enterprise test environment variables
+  testEnvironmentOptions: {
+    url: "http://localhost:3000"
+  },
+  
+  // Global test setup for enterprise testing
+  globalSetup: "<rootDir>/src/tests/setup/global-setup.ts",
+  globalTeardown: "<rootDir>/src/tests/setup/global-teardown.ts",
   
   // Resolve Haste module naming collision between package.json files
   modulePathIgnorePatterns: [

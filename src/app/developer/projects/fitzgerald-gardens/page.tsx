@@ -61,6 +61,7 @@ import EnterpriseTransactionManager from '@/components/developer/EnterpriseTrans
 import EnterpriseTeamManager from '@/components/developer/EnterpriseTeamManager';
 import EnterpriseInvoiceManager from '@/components/developer/EnterpriseInvoiceManager';
 import EditableProjectOverview from '@/components/developer/EditableProjectOverview';
+import PropertyDataManager from '@/components/developer/PropertyDataManager';
 import { UnitStatus } from '@/types/project';
 
 export default function FitzgeraldGardensProject() {
@@ -154,6 +155,7 @@ export default function FitzgeraldGardensProject() {
   // Tab configuration
   const tabs = [
     { id: 'overview', label: 'Project Overview', icon: Home },
+    { id: 'property-data', label: 'Property Data Manager', icon: Edit3 },
     { id: 'advanced-analytics', label: 'Advanced Analytics Hub', icon: Activity, external: true, href: '/developer/projects/fitzgerald-gardens/analytics' },
     { id: 'enterprise-analytics', label: 'Enterprise Analytics Engine', icon: Cpu },
     { id: 'analytics', label: 'Enhanced Analytics', icon: BarChart3 },

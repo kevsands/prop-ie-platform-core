@@ -311,10 +311,214 @@ class EnterpriseAuthService {
       [UserRole.AGENT]: '/agents',
       [UserRole.SOLICITOR]: '/solicitor',
       [UserRole.ADMIN]: '/admin',
-      [UserRole.INVESTOR]: '/investor'
+      [UserRole.INVESTOR]: '/investor',
+      
+      // Professional roles
+      [UserRole.BUYER_SOLICITOR]: '/solicitor',
+      [UserRole.DEVELOPER_SOLICITOR]: '/solicitor',
+      [UserRole.BUYER_MORTGAGE_BROKER]: '/financial',
+      [UserRole.BUYER_FINANCIAL_ADVISOR]: '/financial',
+      [UserRole.BUYER_INSURANCE_BROKER]: '/financial',
+      [UserRole.BUYER_SURVEYOR]: '/surveyor',
+      
+      // Estate and property professionals
+      [UserRole.ESTATE_AGENT]: '/agents',
+      [UserRole.DEVELOPMENT_SALES_AGENT]: '/agents',
+      [UserRole.PROPERTY_VALUER]: '/valuer',
+      [UserRole.BUILDING_SURVEYOR]: '/surveyor',
+      [UserRole.PROPERTY_MANAGER]: '/property-manager',
+      
+      // Design professionals
+      [UserRole.LEAD_ARCHITECT]: '/architect',
+      [UserRole.DESIGN_ARCHITECT]: '/architect',
+      [UserRole.TECHNICAL_ARCHITECT]: '/architect',
+      [UserRole.LANDSCAPE_ARCHITECT]: '/architect',
+      
+      // Engineering professionals
+      [UserRole.STRUCTURAL_ENGINEER]: '/engineer',
+      [UserRole.CIVIL_ENGINEER]: '/engineer',
+      [UserRole.MEP_ENGINEER]: '/engineer',
+      [UserRole.ENVIRONMENTAL_ENGINEER]: '/engineer',
+      [UserRole.ENGINEER]: '/engineer',
+      
+      // Construction professionals
+      [UserRole.MAIN_CONTRACTOR]: '/contractor',
+      [UserRole.PROJECT_MANAGER]: '/project-manager',
+      [UserRole.DEVELOPMENT_PROJECT_MANAGER]: '/project-manager',
+      [UserRole.PROJECT_MANAGER_CONSTRUCTION]: '/project-manager',
+      [UserRole.SITE_FOREMAN]: '/construction',
+      [UserRole.CONTRACTOR]: '/contractor',
+      
+      // Compliance and certification
+      [UserRole.BER_ASSESSOR]: '/compliance',
+      [UserRole.NZEB_CONSULTANT]: '/compliance',
+      [UserRole.SUSTAINABILITY_CONSULTANT]: '/compliance',
+      [UserRole.BCAR_CERTIFIER]: '/compliance',
+      [UserRole.FIRE_SAFETY_CONSULTANT]: '/compliance',
+      [UserRole.ACCESSIBILITY_CONSULTANT]: '/compliance',
+      
+      // Quality assurance
+      [UserRole.QUALITY_ASSURANCE_INSPECTOR]: '/quality',
+      [UserRole.STRUCTURAL_WARRANTY_INSPECTOR]: '/quality',
+      [UserRole.HOMEBOND_ADMINISTRATOR]: '/quality',
+      [UserRole.HEALTH_SAFETY_OFFICER]: '/safety',
+      
+      // Regulatory and government
+      [UserRole.LOCAL_AUTHORITY_OFFICER]: '/government',
+      [UserRole.BUILDING_CONTROL_OFFICER]: '/government',
+      [UserRole.LAND_REGISTRY_OFFICER]: '/government',
+      [UserRole.REVENUE_OFFICER]: '/government',
+      
+      // Specialized services
+      [UserRole.QUANTITY_SURVEYOR]: '/quantity-surveyor',
+      [UserRole.PLANNING_CONSULTANT]: '/planning',
+      [UserRole.TAX_ADVISOR]: '/tax',
+      [UserRole.CONVEYANCING_SPECIALIST]: '/conveyancing',
+      [UserRole.INSURANCE_UNDERWRITER]: '/insurance',
+      
+      // Management roles
+      [UserRole.DEVELOPMENT_MARKETING_MANAGER]: '/marketing',
+      [UserRole.DEVELOPMENT_FINANCIAL_CONTROLLER]: '/financial-controller',
+      [UserRole.ESTATE_AGENT_MANAGER]: '/agents',
+      
+      // Financial services
+      [UserRole.MORTGAGE_LENDER]: '/mortgage',
+      [UserRole.MORTGAGE_UNDERWRITER]: '/mortgage'
     };
 
     return dashboardRoutes[role] || '/dashboard';
+  }
+
+  /**
+   * Check if user has permission using the new permission system
+   */
+  async checkUserPermission(
+    userId: string, 
+    permission: string, 
+    context?: any
+  ): Promise<boolean> {
+    try {
+      const response = await fetch('/api/auth/permissions', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.getAccessToken()}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        console.error('Permission check failed:', response.statusText);
+        return false;
+      }
+
+      const data = await response.json();
+      return data.result?.granted || false;
+
+    } catch (error) {
+      console.error('Permission check error:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get user's current role assignments
+   */
+  async getUserRoleAssignments(userId: string): Promise<any[]> {
+    try {
+      const response = await fetch(`/api/auth/permissions?action=roles&userId=${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.getAccessToken()}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        console.error('Role assignments fetch failed:', response.statusText);
+        return [];
+      }
+
+      const data = await response.json();
+      return data.roleAssignments || [];
+
+    } catch (error) {
+      console.error('Role assignments fetch error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Request a new role assignment
+   */
+  async requestRoleAssignment(
+    userId: string,
+    roleType: UserRole,
+    justification: string,
+    assignmentType: 'primary' | 'secondary' = 'secondary'
+  ): Promise<{ success: boolean; assignmentId?: string; needsApproval?: boolean }> {
+    try {
+      const response = await fetch('/api/auth/permissions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.getAccessToken()}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'requestRole',
+          userId,
+          roleType,
+          assignmentType,
+          requestedBy: userId, // Self-request
+          justification
+        }),
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        return { success: false };
+      }
+
+      const data = await response.json();
+      return {
+        success: data.success,
+        assignmentId: data.assignmentId,
+        needsApproval: data.needsApproval
+      };
+
+    } catch (error) {
+      console.error('Role assignment request error:', error);
+      return { success: false };
+    }
+  }
+
+  /**
+   * Get user's permission context for UI rendering
+   */
+  async getUserPermissionContext(userId: string): Promise<any> {
+    try {
+      const response = await fetch(`/api/auth/permissions?action=context&userId=${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.getAccessToken()}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        console.error('Permission context fetch failed:', response.statusText);
+        return null;
+      }
+
+      const data = await response.json();
+      return data.context;
+
+    } catch (error) {
+      console.error('Permission context fetch error:', error);
+      return null;
+    }
   }
 }
 

@@ -6,7 +6,7 @@ import {
   Building, Users, TrendingUp, Calendar, MapPin, Phone, Mail, MessageSquare,
   BarChart3, PlusCircle, Search, ArrowRight, Eye, Heart, FileText, Globe,
   Smartphone, Bell, Settings, ChevronRight, Activity, Zap, Briefcase, Home,
-  CheckCircle, AlertCircle, User, UserPlus, Grid3X3, List, Star, Award,
+  CheckCircle, AlertCircle, User, UserPlus, Grid2x2, List, Star, Award,
   Target, Clock, Euro, Download, Share2, Camera, Filter, MoreHorizontal
 } from 'lucide-react';
 

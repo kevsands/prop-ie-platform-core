@@ -26,7 +26,7 @@ import {
   Users,
   Info,
   Banknote,
-  HandHeart
+  Heart as HandHeart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

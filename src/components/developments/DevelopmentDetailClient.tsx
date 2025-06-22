@@ -15,7 +15,7 @@ import {
   Eye,
   Heart,
   Share2,
-  Grid3X3,
+  Grid2x2,
   List,
   ChevronDown,
   CheckCircle,
@@ -282,7 +282,7 @@ export default function DevelopmentDetailClient({ initialDevelopmentId }: Develo
                   onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
                   className="flex items-center px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
                 >
-                  {viewMode === 'grid' ? <List className="h-5 w-5 mr-2" /> : <Grid3X3 className="h-5 w-5 mr-2" />}
+                  {viewMode === 'grid' ? <List className="h-5 w-5 mr-2" /> : <Grid2x2 className="h-5 w-5 mr-2" />}
                   {viewMode === 'grid' ? 'List View' : 'Grid View'}
                 </button>
               </div>

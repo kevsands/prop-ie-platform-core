@@ -74,26 +74,52 @@
   "categories": ["business", "real estate", "productivity"],
   "shortcuts": [
     {
-      "name": "Search Properties",
-      "short_name": "Search",
-      "description": "Find your dream property",
-      "url": "/properties/search",
+      "name": "Mobile Tasks",
+      "short_name": "Tasks",
+      "description": "Mobile-optimized task management",
+      "url": "/tasks/mobile",
       "icons": [
         {
-          "src": "/icon-search-96x96.png",
+          "src": "/icon-144x144.png",
           "sizes": "96x96",
           "type": "image/png"
         }
       ]
     },
     {
-      "name": "My Dashboard",
-      "short_name": "Dashboard",
-      "description": "View your property dashboard",
-      "url": "/dashboard",
+      "name": "AI Task Insights",
+      "short_name": "AI Tasks",
+      "description": "AI-powered task prioritization and routing",
+      "url": "/tasks/mobile?view=ai-suggestions",
       "icons": [
         {
-          "src": "/icon-dashboard-96x96.png",
+          "src": "/icon-144x144.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Universal Demo",
+      "short_name": "Demo",
+      "description": "Universal task management demo",
+      "url": "/tasks/universal-demo",
+      "icons": [
+        {
+          "src": "/icon-144x144.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Quick Add Task",
+      "short_name": "Add Task",
+      "description": "Quickly create a new task",
+      "url": "/tasks/mobile?action=create",
+      "icons": [
+        {
+          "src": "/icon-144x144.png",
           "sizes": "96x96",
           "type": "image/png"
         }
@@ -110,5 +136,30 @@
   ],
   "edge_side_panel": {
     "preferred_width": 400
+  },
+  "file_handlers": [
+    {
+      "action": "/tasks/mobile?import=true",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/json": [".json"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/tasks/mobile?share=true",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "file",
+          "accept": ["text/csv", "application/json", "text/plain"]
+        }
+      ]
+    }
   }
 }

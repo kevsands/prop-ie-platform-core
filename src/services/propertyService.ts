@@ -1,93 +1,54 @@
 // src/services/propertyService.ts
 
 import { useState, useEffect } from 'react';
-import { Property } from '../types/properties'; // Updated import path
+import { Property } from '../types/properties';
 import { PropertyStatus, PropertyType } from '../types/enums';
 import { PropertySearchParams, PropertyListResponse } from '../types/search';
 import { useSession } from 'next-auth/react';
 
-// Mock data for development - replace with actual API calls later
-const mockProperties: Property[] = [
-  {
-    id: 'prop-1',
-    name: 'Luxury Waterfront Apartment',
-    address: { city: 'Dublin 2', state: '', country: 'Ireland' },
-    slug: 'luxury-waterfront-apartment',
-    description: 'Stunning waterfront apartment with panoramic views of the Dublin bay.',
-    price: 750000,
-    status: PropertyStatus.Available,
-    type: PropertyType.Apartment,
-    bedrooms: 2,
-    bathrooms: 2,
-    parkingSpaces: 1,
-    floorArea: 95,
-    features: ['Balcony', 'Floor-to-ceiling windows', 'Underfloor heating'],
-    amenities: ['Gym', 'Concierge', 'Residents lounge'],
-    images: ['/images/properties/property-1-1.jpg', '/images/properties/property-1-2.jpg'],
-    floorPlan: '/images/floorplans/property-1.jpg',
-    virtualTourUrl: 'https://example.com/tour/property-1',
-    projectId: 'project-1',
-    projectName: 'Dockside Quarter',
-    projectSlug: 'dockside-quarter',
-    unitNumber: 'A12',
-    developmentId: 'dev-1',
-    developmentName: 'Dockside Quarter',
-    createdAt: '2023-04-15T12:00:00Z',
-    updatedAt: '2023-04-15T12:00:00Z'
-  },
-  {
-    id: 'prop-2',
-    name: 'Modern City Centre Apartment',
-    address: { city: 'Dublin 1', state: '', country: 'Ireland' },
-    slug: 'modern-city-centre-apartment',
-    description: 'Stylish apartment in the heart of Dublin with excellent transport links.',
-    price: 450000,
-    status: PropertyStatus.Available,
-    type: PropertyType.Apartment,
-    bedrooms: 1,
-    bathrooms: 1,
-    parkingSpaces: 0,
-    floorArea: 65,
-    features: ['Juliette balcony', 'Smart home system'],
-    amenities: ['Bike storage', 'Roof garden'],
-    images: ['/images/properties/property-2-1.jpg', '/images/properties/property-2-2.jpg'],
-    floorPlan: '/images/floorplans/property-2.jpg',
-    projectId: 'project-1',
-    projectName: 'Dockside Quarter',
-    projectSlug: 'dockside-quarter',
-    unitNumber: 'B05',
-    developmentId: 'dev-1',
-    developmentName: 'Dockside Quarter',
-    createdAt: '2023-04-16T12:00:00Z',
-    updatedAt: '2023-04-16T12:00:00Z'
-  },
-  {
-    id: 'prop-3',
-    name: 'Spacious Family House',
-    address: { city: 'Dublin 15', state: '', country: 'Ireland' },
-    slug: 'spacious-family-house',
-    description: 'Beautiful 4-bedroom family home in a quiet residential area.',
-    price: 595000,
-    status: PropertyStatus.Available,
-    type: PropertyType.House,
-    bedrooms: 4,
-    bathrooms: 3,
-    parkingSpaces: 2,
-    floorArea: 185,
-    features: ['Garden', 'Attic conversion', 'Home office'],
-    amenities: ['Playground nearby', 'Good schools'],
-    images: ['/images/properties/property-3-1.jpg', '/images/properties/property-3-2.jpg'],
-    floorPlan: '/images/floorplans/property-3.jpg',
-    projectId: 'project-2',
-    projectName: 'Parkview Residences',
-    projectSlug: 'parkview-residences',
-    unitNumber: '12',
-    developmentId: 'dev-2',
-    developmentName: 'Parkview Residences',
-    createdAt: '2023-04-17T12:00:00Z',
-    updatedAt: '2023-04-17T12:00:00Z'
-  }
-];
+// Real database connection for fetching property data
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+// Database helper functions
+const getDatabase = () => {
+  const dbPath = path.join(process.cwd(), 'prisma/dev.db');
+  return new sqlite3.Database(dbPath);
+};
+
+const convertUnitToProperty = (unit: any, development: any): Property => {
+  return {
+    id: unit.id,
+    name: unit.name,
+    slug: unit.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+    description: `${unit.name} in ${development.name}`,
+    price: unit.price,
+    status: unit.status === 'available' ? PropertyStatus.Available : 
+            unit.status === 'sold' ? PropertyStatus.Sold : PropertyStatus.Reserved,
+    type: unit.type.includes('apartment') ? PropertyType.Apartment : 
+          unit.type.includes('house') ? PropertyType.House : PropertyType.Duplex,
+    bedrooms: parseInt(unit.type.charAt(0)) || 1,
+    bathrooms: parseInt(unit.type.charAt(0)) || 1,
+    parkingSpaces: unit.type.includes('detached') ? 2 : 1,
+    floorArea: unit.type.includes('1_bed') ? 58 : 
+               unit.type.includes('2_bed') ? 85 : 
+               unit.type.includes('3_bed') ? 125 : 165,
+    features: ['Modern Kitchen', 'Premium Finishes', 'Energy Efficient'],
+    amenities: ['Parking', 'Secure Access'],
+    images: [`/images/properties/${unit.id}-1.jpg`],
+    floorPlan: `/floorplans/${unit.type}.pdf`,
+    virtualTourUrl: `/virtual-tours/${unit.developmentId}`,
+    projectId: unit.developmentId,
+    projectName: development.name,
+    projectSlug: unit.developmentId,
+    unitNumber: unit.id.split('-').pop() || '',
+    developmentId: unit.developmentId,
+    developmentName: development.name,
+    address: { city: development.location, state: '', country: 'Ireland' },
+    createdAt: unit.createdAt || new Date().toISOString(),
+    updatedAt: unit.updatedAt || new Date().toISOString()
+  };
+};
 
 interface FeaturedPropertiesResult {
   properties: Property[];
@@ -95,7 +56,7 @@ interface FeaturedPropertiesResult {
   error: string | null;
 }
 
-// Custom hook for fetching featured properties
+// Custom hook for fetching featured properties from real database
 export function useFeaturedProperties(): FeaturedPropertiesResult {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -107,20 +68,39 @@ export function useFeaturedProperties(): FeaturedPropertiesResult {
       try {
         setLoading(true);
         
-        // In a real app, you'd make an API call here
-        // const response = await fetch('/api/properties/featured', {
-        //   headers: {
-        //     Authorization: `Bearer ${session?.accessToken}`
-        //   }
-        // });
-        // if (!response.ok) throw new Error('Failed to fetch properties');
-        // const data = await response.json();
+        // Get featured properties from real database
+        const db = getDatabase();
         
-        // For now, using mock data
-        setTimeout(() => {
-          setProperties(mockProperties);
-          setLoading(false);
-        }, 500);
+        const units = await new Promise<any[]>((resolve, reject) => {
+          db.all(`
+            SELECT u.*, d.name as developmentName, d.location, d.description as devDescription
+            FROM Unit u
+            JOIN Development d ON u.developmentId = d.id 
+            WHERE u.status = 'available'
+            ORDER BY u.price DESC
+            LIMIT 6
+          `, [], (err: Error, rows: any[]) => {
+            if (err) reject(err);
+            else resolve(rows);
+          });
+        });
+
+        const developments = await new Promise<any[]>((resolve, reject) => {
+          db.all(`SELECT * FROM Development`, [], (err: Error, rows: any[]) => {
+            if (err) reject(err);
+            else resolve(rows);
+          });
+        });
+
+        db.close();
+
+        const featuredProperties = units.map(unit => {
+          const development = developments.find(d => d.id === unit.developmentId);
+          return convertUnitToProperty(unit, development);
+        });
+
+        setProperties(featuredProperties);
+        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
         setLoading(false);
@@ -139,7 +119,7 @@ interface ProjectPropertiesResult {
   error: string | null;
 }
 
-// Custom hook for fetching properties by project slug
+// Custom hook for fetching properties by project slug from real database
 export function useProjectProperties(projectSlug: string): ProjectPropertiesResult {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -151,23 +131,40 @@ export function useProjectProperties(projectSlug: string): ProjectPropertiesResu
       try {
         setLoading(true);
         
-        // In a real app, you'd make an API call here
-        // const response = await fetch(`/api/projects/${projectSlug}/properties`, {
-        //   headers: {
-        //     Authorization: `Bearer ${session?.accessToken}`
-        //   }
-        // });
-        // if (!response.ok) throw new Error('Failed to fetch project properties');
-        // const data = await response.json();
+        // Get properties for specific project from real database
+        const db = getDatabase();
         
-        // For now, filter mock data by project slug
-        setTimeout(() => {
-          const filteredProperties = mockProperties.filter(
-            property => property.projectSlug === projectSlug
-          );
-          setProperties(filteredProperties);
+        const units = await new Promise<any[]>((resolve, reject) => {
+          db.all(`
+            SELECT u.*, d.name as developmentName, d.location, d.description as devDescription
+            FROM Unit u
+            JOIN Development d ON u.developmentId = d.id 
+            WHERE u.developmentId = ?
+            ORDER BY u.price ASC
+          `, [projectSlug], (err: Error, rows: any[]) => {
+            if (err) reject(err);
+            else resolve(rows);
+          });
+        });
+
+        const development = await new Promise<any>((resolve, reject) => {
+          db.get(`SELECT * FROM Development WHERE id = ?`, [projectSlug], (err: Error, row: any) => {
+            if (err) reject(err);
+            else resolve(row);
+          });
+        });
+
+        db.close();
+
+        if (!development) {
+          setError('Project not found');
           setLoading(false);
-        }, 500);
+          return;
+        }
+
+        const projectProperties = units.map(unit => convertUnitToProperty(unit, development));
+        setProperties(projectProperties);
+        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
         setLoading(false);
@@ -186,7 +183,7 @@ interface PropertyDetailsResult {
   error: string | null;
 }
 
-// Custom hook for fetching property details by ID
+// Custom hook for fetching property details by ID from real database
 export function usePropertyDetails(projectSlug: string, propertyId: string): PropertyDetailsResult {
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -198,29 +195,39 @@ export function usePropertyDetails(projectSlug: string, propertyId: string): Pro
       try {
         setLoading(true);
         
-        // In a real app, you'd make an API call here
-        // const response = await fetch(`/api/projects/${projectSlug}/properties/${propertyId}`, {
-        //   headers: {
-        //     Authorization: `Bearer ${session?.accessToken}`
-        //   }
-        // });
-        // if (!response.ok) throw new Error('Failed to fetch property details');
-        // const data = await response.json();
+        // Get specific property from real database
+        const db = getDatabase();
         
-        // For now, find in mock data
-        setTimeout(() => {
-          const foundProperty = mockProperties.find(
-            property => property.id === propertyId && property.projectSlug === projectSlug
-          );
-          
-          if (foundProperty) {
-            setProperty(foundProperty);
-          } else {
-            setError('Property not found');
-          }
-          
+        const unit = await new Promise<any>((resolve, reject) => {
+          db.get(`
+            SELECT u.*, d.name as developmentName, d.location, d.description as devDescription
+            FROM Unit u
+            JOIN Development d ON u.developmentId = d.id 
+            WHERE u.id = ? AND u.developmentId = ?
+          `, [propertyId, projectSlug], (err: Error, row: any) => {
+            if (err) reject(err);
+            else resolve(row);
+          });
+        });
+
+        const development = await new Promise<any>((resolve, reject) => {
+          db.get(`SELECT * FROM Development WHERE id = ?`, [projectSlug], (err: Error, row: any) => {
+            if (err) reject(err);
+            else resolve(row);
+          });
+        });
+
+        db.close();
+
+        if (!unit || !development) {
+          setError('Property not found');
           setLoading(false);
-        }, 500);
+          return;
+        }
+
+        const propertyDetails = convertUnitToProperty(unit, development);
+        setProperty(propertyDetails);
+        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
         setLoading(false);
@@ -238,7 +245,7 @@ interface SearchPropertiesResult extends PropertyListResponse {
   error: string | null;
 }
 
-// Custom hook for searching properties with filters
+// Custom hook for searching properties with filters from real database
 export function useSearchProperties(params: PropertySearchParams): SearchPropertiesResult {
   const [result, setResult] = useState<PropertyListResponse>({
     properties: [],
@@ -255,109 +262,119 @@ export function useSearchProperties(params: PropertySearchParams): SearchPropert
       try {
         setLoading(true);
         
-        // In a real app, you'd make an API call here
-        // const queryParams = new URLSearchParams();
-        // Object.entries(params).forEach(([key, value]) => {
-        //   if (value !== undefined) queryParams.set(key, value.toString());
-        // });
-        // const response = await fetch(`/api/properties/search?${queryParams}`, {
-        //   headers: {
-        //     Authorization: `Bearer ${session?.accessToken}`
-        //   }
-        // });
-        // if (!response.ok) throw new Error('Failed to search properties');
-        // const data = await response.json();
+        // Build dynamic SQL query with filters
+        const db = getDatabase();
+        let whereClause = 'WHERE 1=1';
+        const queryParams: any[] = [];
         
-        // For now, filter mock data
-        setTimeout(() => {
-          let filteredProperties = [...mockProperties];
-          
-          // Apply filters
-          if (params.projectSlug) {
-            filteredProperties = filteredProperties.filter(
-              property => property.projectSlug === params.projectSlug
-            );
-          }
-          
-          if (params.minPrice) {
-            filteredProperties = filteredProperties.filter(
-              property => property.price >= params.minPrice!
-            );
-          }
-          
-          if (params.maxPrice) {
-            filteredProperties = filteredProperties.filter(
-              property => property.price <= params.maxPrice!
-            );
-          }
-          
-          if (params.minBedrooms) {
-            filteredProperties = filteredProperties.filter(
-              property => property.bedrooms >= params.minBedrooms!
-            );
-          }
-          
-          if (params.type?.length) {
-            filteredProperties = filteredProperties.filter(
-              property => params.type?.includes(property.type)
-            );
-          }
-          
-          if (params.status?.length) {
-            filteredProperties = filteredProperties.filter(
-              property => params.status?.includes(property.status)
-            );
-          }
-          
-          // Apply query search
-          if (params.query) {
-            const query = params.query.toLowerCase();
-            filteredProperties = filteredProperties.filter(property => {
-              const addressStr = `${property.address?.city || ''} ${property.address?.state || ''} ${property.address?.country || ''}`.toLowerCase();
-              return property.name?.toLowerCase().includes(query)
-                || property.description?.toLowerCase().includes(query)
-                || addressStr.includes(query);
-            });
-          }
-          
-          // Sort
-          if (params.sort) {
-            const key = params.sort as keyof Property;
-            filteredProperties.sort((a, b) => {
-              const aVal = a[key];
-              const bVal = b[key];
-              if (typeof aVal === 'string' && typeof bVal === 'string') {
-                return aVal.localeCompare(bVal);
-              }
-              if (typeof aVal === 'number' && typeof bVal === 'number') {
-                return aVal - bVal;
-              }
-              // Handle enum values (convert to strings for comparison)
-              if (aVal !== undefined && bVal !== undefined) {
-                return String(aVal).localeCompare(String(bVal));
-              }
-              return 0;
-            });
-          }
-          
-          const page = params.page || 1;
-          const limit = params.limit || 10;
-          const totalCount = filteredProperties.length;
-          const totalPages = Math.ceil(totalCount / limit);
-          
-          const startIndex = (page - 1) * limit;
-          const endIndex = startIndex + limit;
-          const paginatedProperties = filteredProperties.slice(startIndex, endIndex);
-          
-          setResult({ 
-            properties: paginatedProperties, 
-            totalCount, 
-            currentPage: page, 
-            totalPages 
+        if (params.projectSlug) {
+          whereClause += ' AND u.developmentId = ?';
+          queryParams.push(params.projectSlug);
+        }
+        
+        if (params.minPrice) {
+          whereClause += ' AND u.price >= ?';
+          queryParams.push(params.minPrice);
+        }
+        
+        if (params.maxPrice) {
+          whereClause += ' AND u.price <= ?';
+          queryParams.push(params.maxPrice);
+        }
+        
+        if (params.status?.length) {
+          const statusFilter = params.status.map(s => 
+            s === PropertyStatus.Available ? 'available' :
+            s === PropertyStatus.Sold ? 'sold' : 'reserved'
+          );
+          whereClause += ` AND u.status IN (${statusFilter.map(() => '?').join(',')})`;
+          queryParams.push(...statusFilter);
+        }
+
+        if (params.query) {
+          whereClause += ' AND (u.name LIKE ? OR d.name LIKE ? OR d.location LIKE ?)';
+          const searchTerm = `%${params.query}%`;
+          queryParams.push(searchTerm, searchTerm, searchTerm);
+        }
+
+        // Get total count first
+        const countQuery = `
+          SELECT COUNT(*) as total
+          FROM Unit u
+          JOIN Development d ON u.developmentId = d.id 
+          ${whereClause}
+        `;
+
+        const totalCount = await new Promise<number>((resolve, reject) => {
+          db.get(countQuery, queryParams, (err: Error, row: any) => {
+            if (err) reject(err);
+            else resolve(row.total);
           });
-          
-          setLoading(false);
-        }, 500);
+        });
+
+        // Build main query with sorting and pagination
+        const page = params.page || 1;
+        const limit = params.limit || 10;
+        const totalPages = Math.ceil(totalCount / limit);
+        const offset = (page - 1) * limit;
+
+        let orderBy = 'ORDER BY u.price ASC';
+        if (params.sort === 'price') orderBy = 'ORDER BY u.price ASC';
+        else if (params.sort === 'name') orderBy = 'ORDER BY u.name ASC';
+
+        const mainQuery = `
+          SELECT u.*, d.name as developmentName, d.location, d.description as devDescription
+          FROM Unit u
+          JOIN Development d ON u.developmentId = d.id 
+          ${whereClause}
+          ${orderBy}
+          LIMIT ? OFFSET ?
+        `;
+
+        const units = await new Promise<any[]>((resolve, reject) => {
+          db.all(mainQuery, [...queryParams, limit, offset], (err: Error, rows: any[]) => {
+            if (err) reject(err);
+            else resolve(rows);
+          });
+        });
+
+        const developments = await new Promise<any[]>((resolve, reject) => {
+          db.all(`SELECT * FROM Development`, [], (err: Error, rows: any[]) => {
+            if (err) reject(err);
+            else resolve(rows);
+          });
+        });
+
+        db.close();
+
+        const searchResults = units.map(unit => {
+          const development = developments.find(d => d.id === unit.developmentId);
+          return convertUnitToProperty(unit, development);
+        });
+
+        // Apply additional filters that require property conversion
+        let filteredResults = searchResults;
+
+        if (params.minBedrooms) {
+          filteredResults = filteredResults.filter(
+            property => property.bedrooms >= params.minBedrooms!
+          );
+        }
+
+        if (params.type?.length) {
+          filteredResults = filteredResults.filter(
+            property => params.type?.includes(property.type)
+          );
+        }
+
+        setResult({ 
+          properties: filteredResults, 
+          totalCount, 
+          currentPage: page, 
+          totalPages 
+        });
+        
+        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
         setLoading(false);

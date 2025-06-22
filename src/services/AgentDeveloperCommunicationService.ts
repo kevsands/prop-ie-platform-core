@@ -14,6 +14,7 @@ import {
 } from '@/types/project';
 import { agentBuyerIntegrationService, AgentProfile } from '@/services/AgentBuyerIntegrationService';
 import { projectDataService } from '@/services/ProjectDataService';
+import { realTimeServerManager } from '@/lib/realtime/realTimeServerManager';
 
 // Enhanced interfaces for agent-developer communication
 export interface DeveloperAgentMessage {
@@ -323,7 +324,23 @@ export class AgentDeveloperCommunicationService {
         { messageId, conversationId }
       );
 
-      // Broadcast real-time event
+      // Broadcast real-time event via WebSocket
+      this.broadcastRealTimeEvent('message_sent', {
+        messageId,
+        conversationId,
+        senderId,
+        recipientId,
+        messageType: messageData.messageType,
+        message: {
+          subject: messageData.subject,
+          content: messageData.content,
+          priority: messageData.priority,
+          senderType,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+      // Also trigger legacy event system
       this.broadcastEvent('message_sent', {
         messageId,
         conversationId,
@@ -414,6 +431,16 @@ export class AgentDeveloperCommunicationService {
         conversation.unreadCount = Math.max(0, conversation.unreadCount - 1);
       }
 
+      // Broadcast real-time read receipt
+      this.broadcastRealTimeEvent('message_read', {
+        messageId,
+        conversationId: message.conversationId,
+        readBy: userId,
+        readAt: new Date().toISOString(),
+        senderId: message.senderId,
+        recipientId: message.recipientId
+      });
+
       return true;
 
     } catch (error) {
@@ -458,7 +485,23 @@ export class AgentDeveloperCommunicationService {
 
       this.notifications.set(notificationId, notification);
 
-      // Broadcast real-time notification
+      // Broadcast real-time notification via WebSocket
+      this.broadcastRealTimeEvent('notification_created', {
+        notificationId,
+        recipientId,
+        recipientType,
+        type,
+        priority,
+        notification: {
+          title,
+          message,
+          actionRequired: notification.actionRequired,
+          actions: notification.actions,
+          timestamp: notification.createdAt.toISOString()
+        }
+      });
+
+      // Also trigger legacy event system  
       this.broadcastEvent('notification_created', {
         notificationId,
         recipientId,
@@ -519,6 +562,21 @@ export class AgentDeveloperCommunicationService {
       };
 
       this.meetings.set(meetingId, meeting);
+
+      // Broadcast real-time meeting creation
+      this.broadcastRealTimeEvent('meeting_scheduled', {
+        meetingId,
+        organizerId,
+        organizerType,
+        participants: meeting.participants.map(p => ({ id: p.id, type: p.type, name: p.name })),
+        meeting: {
+          title: meeting.title,
+          scheduledAt: meeting.scheduledAt.toISOString(),
+          duration: meeting.duration,
+          meetingType: meeting.meetingType,
+          location: meeting.location
+        }
+      });
 
       // Create notifications for all participants
       for (const participant of meeting.participants) {
@@ -697,6 +755,71 @@ export class AgentDeveloperCommunicationService {
     return days ? new Date(Date.now() + days * 24 * 60 * 60 * 1000) : undefined;
   }
 
+  /**
+   * Broadcast real-time events via WebSocket server
+   */
+  private broadcastRealTimeEvent(eventType: string, data: any): void {
+    try {
+      // Trigger server-side event for WebSocket broadcasting
+      realTimeServerManager.triggerEvent(eventType, data);
+
+      // Determine recipient for targeted broadcasting
+      if (data.recipientId) {
+        realTimeServerManager.broadcastToUsers([data.recipientId], eventType, data);
+      }
+
+      // Broadcast to relevant professional roles based on event type
+      if (eventType === 'message_sent' || eventType === 'notification_created') {
+        const targetRoles = this.determineTargetRoles(data);
+        if (targetRoles.length > 0) {
+          realTimeServerManager.broadcastToRoles(targetRoles, eventType, data);
+        }
+      }
+
+      // Broadcast meeting events to all participants
+      if (eventType === 'meeting_scheduled' && data.participants) {
+        const participantIds = data.participants.map((p: any) => p.id);
+        realTimeServerManager.broadcastToUsers(participantIds, eventType, data);
+      }
+
+      console.log(`📡 Cross-professional communication event broadcasted: ${eventType}`);
+    } catch (error) {
+      console.error('Failed to broadcast real-time communication event:', error);
+    }
+  }
+
+  /**
+   * Determine target roles for broadcasting based on event data
+   */
+  private determineTargetRoles(data: any): string[] {
+    const roles: string[] = [];
+
+    // For agent-developer communications, include relevant roles
+    if (data.recipientType === 'agent' || data.senderType === 'agent') {
+      roles.push('ESTATE_AGENT', 'ESTATE_AGENT_MANAGER');
+    }
+
+    if (data.recipientType === 'developer' || data.senderType === 'developer') {
+      roles.push('DEVELOPER', 'DEVELOPMENT_PROJECT_MANAGER');
+    }
+
+    // Include administration roles for oversight
+    if (data.priority === 'urgent' || data.priority === 'high') {
+      roles.push('ADMIN', 'PROJECT_MANAGER');
+    }
+
+    // Include relevant professional roles based on message context
+    if (data.messageType === 'contract_discussion') {
+      roles.push('BUYER_SOLICITOR', 'VENDOR_SOLICITOR');
+    }
+
+    if (data.messageType === 'viewing_request' || data.messageType === 'buyer_enquiry') {
+      roles.push('BUYER_MORTGAGE_BROKER', 'STRUCTURAL_ENGINEER');
+    }
+
+    return roles;
+  }
+
   private broadcastEvent(eventType: string, data: any): void {
     const listeners = this.eventListeners.get(eventType) || [];
     listeners.forEach(listener => {
@@ -757,12 +880,185 @@ export class AgentDeveloperCommunicationService {
     this.eventListeners.get(eventType)!.push(callback);
   }
 
-  public markNotificationAsRead(notificationId: string): boolean {
+  public markNotificationAsRead(notificationId: string, userId?: string): boolean {
     const notification = this.notifications.get(notificationId);
     if (!notification) return false;
     
     notification.read = true;
+
+    // Broadcast real-time notification read status
+    this.broadcastRealTimeEvent('notification_read', {
+      notificationId,
+      recipientId: notification.recipientId,
+      recipientType: notification.recipientType,
+      readBy: userId || notification.recipientId,
+      readAt: new Date().toISOString(),
+      notificationType: notification.type
+    });
+    
     return true;
+  }
+
+  /**
+   * Set typing indicator for real-time conversation updates
+   */
+  public setTypingIndicator(
+    conversationId: string, 
+    userId: string, 
+    userType: 'agent' | 'developer',
+    isTyping: boolean
+  ): void {
+    try {
+      const conversation = this.conversations.get(conversationId);
+      if (!conversation) return;
+
+      // Update participant typing status
+      const participant = conversation.participants.find(p => p.id === userId);
+      if (participant) {
+        participant.isTyping = isTyping;
+      }
+
+      // Broadcast typing indicator to other participants
+      const otherParticipants = conversation.participants
+        .filter(p => p.id !== userId)
+        .map(p => p.id);
+
+      if (otherParticipants.length > 0) {
+        this.broadcastRealTimeEvent('typing_indicator', {
+          conversationId,
+          userId,
+          userType,
+          isTyping,
+          userName: participant?.name || 'Unknown User',
+          timestamp: new Date().toISOString()
+        });
+
+        realTimeServerManager.broadcastToUsers(otherParticipants, 'typing_indicator', {
+          conversationId,
+          userId,
+          userType,
+          isTyping,
+          userName: participant?.name || 'Unknown User',
+          timestamp: new Date().toISOString()
+        });
+      }
+    } catch (error) {
+      console.error('Failed to set typing indicator:', error);
+    }
+  }
+
+  /**
+   * Update conversation status with real-time broadcasting
+   */
+  public updateConversationStatus(
+    conversationId: string, 
+    status: 'active' | 'archived' | 'closed',
+    updatedBy: string
+  ): boolean {
+    try {
+      const conversation = this.conversations.get(conversationId);
+      if (!conversation) return false;
+
+      const oldStatus = conversation.status;
+      conversation.status = status;
+      conversation.lastActivity = new Date();
+
+      // Broadcast conversation status update
+      const participantIds = conversation.participants.map(p => p.id);
+      
+      this.broadcastRealTimeEvent('conversation_status_updated', {
+        conversationId,
+        oldStatus,
+        newStatus: status,
+        updatedBy,
+        updatedAt: new Date().toISOString(),
+        participants: conversation.participants.map(p => ({ id: p.id, type: p.type, name: p.name }))
+      });
+
+      realTimeServerManager.broadcastToUsers(participantIds, 'conversation_status_updated', {
+        conversationId,
+        oldStatus,
+        newStatus: status,
+        updatedBy,
+        updatedAt: new Date().toISOString()
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Failed to update conversation status:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get real-time conversation analytics
+   */
+  public getConversationAnalytics(timeRange: 'today' | 'week' | 'month' = 'week'): {
+    totalConversations: number;
+    activeConversations: number;
+    messagesSent: number;
+    averageResponseTime: number;
+    topMessageTypes: Array<{ type: string; count: number }>;
+  } {
+    const now = new Date();
+    const cutoff = new Date();
+    
+    switch (timeRange) {
+      case 'today':
+        cutoff.setHours(0, 0, 0, 0);
+        break;
+      case 'week':
+        cutoff.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        cutoff.setDate(now.getDate() - 30);
+        break;
+    }
+
+    const relevantConversations = Array.from(this.conversations.values())
+      .filter(conv => conv.lastActivity >= cutoff);
+
+    const relevantMessages = Array.from(this.messages.values())
+      .filter(msg => msg.timestamp >= cutoff);
+
+    const messageTypeCount = relevantMessages.reduce((acc, msg) => {
+      acc[msg.messageType] = (acc[msg.messageType] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return {
+      totalConversations: relevantConversations.length,
+      activeConversations: relevantConversations.filter(conv => conv.status === 'active').length,
+      messagesSent: relevantMessages.length,
+      averageResponseTime: this.calculateAverageResponseTime(relevantMessages),
+      topMessageTypes: Object.entries(messageTypeCount)
+        .map(([type, count]) => ({ type, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5)
+    };
+  }
+
+  private calculateAverageResponseTime(messages: DeveloperAgentMessage[]): number {
+    // Simplified calculation - in production would consider conversation threading
+    const conversationGroups = messages.reduce((acc, msg) => {
+      if (!acc[msg.conversationId]) acc[msg.conversationId] = [];
+      acc[msg.conversationId].push(msg);
+      return acc;
+    }, {} as Record<string, DeveloperAgentMessage[]>);
+
+    let totalResponseTime = 0;
+    let responseCount = 0;
+
+    Object.values(conversationGroups).forEach(conversationMessages => {
+      const sorted = conversationMessages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+      for (let i = 1; i < sorted.length; i++) {
+        const responseTime = sorted[i].timestamp.getTime() - sorted[i-1].timestamp.getTime();
+        totalResponseTime += responseTime;
+        responseCount++;
+      }
+    });
+
+    return responseCount > 0 ? Math.round(totalResponseTime / responseCount / 1000 / 60) : 0; // Return in minutes
   }
 }
 

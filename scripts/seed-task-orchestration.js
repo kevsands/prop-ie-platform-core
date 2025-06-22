@@ -77,28 +77,43 @@ const TASK_CATEGORIES = {
   COMPLETION: 'COMPLETION'
 };
 
-// Sample task templates from Master Transaction Specification
-const TASK_TEMPLATES = [
-  // BUYER TASKS (641 total - sample representative tasks)
+// Import real Irish property tasks
+const { REAL_IRISH_TASKS, getAllTasks, getTaskCounts } = require('./real-irish-property-tasks.js');
+
+// Get all real Irish property transaction tasks
+const REAL_TASK_TEMPLATES = getAllTasks();
+
+// Log task statistics
+const taskCounts = getTaskCounts();
+console.log('🇮🇪 Loading Real Irish Property Transaction Tasks:');
+console.log(`   Buyer Tasks: ${taskCounts.BUYER}`);
+console.log(`   Developer Tasks: ${taskCounts.DEVELOPER}`);
+console.log(`   Solicitor Tasks: ${taskCounts.SOLICITOR}`);
+console.log(`   Estate Agent Tasks: ${taskCounts.ESTATE_AGENT}`);
+console.log(`   Total Real Tasks: ${taskCounts.total}`);
+
+// Sample enhanced task templates (in addition to real tasks)
+const ENHANCED_TASK_TEMPLATES = [
+  // Advanced buyer tasks
   {
-    task_code: 'BUY-001',
-    title: 'Location preference specification',
-    description: 'Define preferred location with multi-select dropdown for Irish counties/areas',
+    task_code: 'BUY-ADV-001',
+    title: 'HTB Enhanced Eligibility Check',
+    description: 'Enhanced Help to Buy eligibility with real-time Revenue API integration',
     primary_professional_role: 'BUYER',
-    category: TASK_CATEGORIES.PROPERTY_SEARCH,
+    category: TASK_CATEGORIES.FINANCIAL_PLANNING,
     persona: 'BUYER',
-    task_type: 'USER_INPUT',
-    estimated_duration_hours: 0.5,
-    complexity: 'SIMPLE',
-    automation_level: 'semi_automated',
-    dependencies: JSON.stringify([]),
+    task_type: 'API_INTEGRATION',
+    estimated_duration_hours: 1.0,
+    complexity: 'MODERATE',
+    automation_level: 'fully_automated',
+    dependencies: JSON.stringify(['BUY-001']),
     ui_requirements: JSON.stringify({
-      element: 'multi-select dropdown',
-      validation: 'minimum 1 selection required',
-      automation: 'auto-suggest based on user profile'
+      element: 'Revenue.ie API integration',
+      validation: 'Real-time eligibility verification',
+      automation: 'Automatic HTB calculation'
     }),
-    compliance_requirements: JSON.stringify(['DATA_PROTECTION']),
-    stakeholder_notifications: JSON.stringify(['ESTATE_AGENT', 'DEVELOPER'])
+    compliance_requirements: JSON.stringify(['REVENUE_COMMISSIONERS', 'HTB_SCHEME_2016']),
+    stakeholder_notifications: JSON.stringify(['REVENUE_COMMISSIONERS', 'MORTGAGE_BROKER'])
   },
   {
     task_code: 'BUY-002',
@@ -340,7 +355,24 @@ async function seedTaskOrchestration() {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    for (const task of TASK_TEMPLATES) {
+    // Insert real Irish property tasks first
+    console.log(`📝 Inserting ${REAL_TASK_TEMPLATES.length} real Irish property tasks...`);
+    for (const task of REAL_TASK_TEMPLATES) {
+      await new Promise((resolve, reject) => {
+        insertTaskTemplate.run([
+          task.task_code, task.title, task.description, task.primary_professional_role,
+          task.category, task.persona, task.task_type, task.estimated_duration_hours,
+          task.automation_level, JSON.stringify(task.dependencies || [])
+        ], (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+    }
+
+    // Insert enhanced task templates
+    console.log(`📝 Inserting enhanced task templates...`);
+    for (const task of ENHANCED_TASK_TEMPLATES) {
       await new Promise((resolve, reject) => {
         insertTaskTemplate.run([
           task.task_code, task.title, task.description, task.primary_professional_role,
@@ -373,15 +405,19 @@ async function seedTaskOrchestration() {
       });
     });
 
-    console.log('\n✅ Task Orchestration Seeding Complete!');
-    console.log(`📊 Task Templates: ${taskCount}`);
-    console.log('\n🎯 Master Transaction Specification Features:');
-    console.log('   • 49-role professional ecosystem');
-    console.log('   • Cross-stakeholder task coordination');
-    console.log('   • Automated workflow dependencies');
-    console.log('   • Compliance requirement tracking');
-    console.log('   • UI specification integration');
-    console.log('   • Stakeholder notification system');
+    console.log('\n✅ Real Irish Property Task Seeding Complete!');
+    console.log(`📊 Total Task Templates: ${taskCount}`);
+    console.log(`🇮🇪 Real Irish Tasks: ${REAL_TASK_TEMPLATES.length}`);
+    console.log(`⚡ Enhanced Tasks: ${ENHANCED_TASK_TEMPLATES.length}`);
+    console.log('\n🎯 Irish Property Transaction Features:');
+    console.log('   • Revenue.ie HTB integration');
+    console.log('   • Land Registry API compliance');
+    console.log('   • PSRA license verification');
+    console.log('   • BCAR certification workflow');
+    console.log('   • BER certificate requirements');
+    console.log('   • Real Irish legal compliance');
+    console.log('   • Stamp duty calculation');
+    console.log('   • Planning permission tracking');
 
   } catch (error) {
     console.error('❌ Error seeding task orchestration:', error);

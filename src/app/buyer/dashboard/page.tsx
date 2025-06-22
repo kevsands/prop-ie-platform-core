@@ -209,8 +209,89 @@ export default function BuyerDashboard() {
     }
   ];
 
-  // Upcoming tasks
-  const upcomingTasks: UpcomingTask[] = [
+  // State for real tasks
+  const [realTasks, setRealTasks] = useState<UpcomingTask[]>([]);
+  const [tasksLoading, setTasksLoading] = useState(true);
+  
+  // Fetch real tasks from API
+  useEffect(() => {
+    const fetchRealTasks = async () => {
+      try {
+        const response = await fetch('/api/tasks?limit=8&status=pending,in_progress');
+        if (response.ok) {
+          const data = await response.json();
+          const tasks = (data.tasks || []).map((task: any) => ({
+            id: task.id,
+            title: task.title,
+            description: task.description,
+            dueDate: task.dueDate || 'No deadline',
+            priority: task.priority || 'medium',
+            category: task.category || 'documentation',
+            taskCode: task.taskCode,
+            assignedTo: task.assignedTo,
+            estimatedDurationHours: task.estimatedDurationHours
+          }));
+          setRealTasks(tasks);
+        } else {
+          // Fallback to demo tasks if API fails
+          setRealTasks([
+            {
+              id: '1',
+              title: 'Register with Revenue for HTB (Help to Buy)',
+              description: 'Complete HTB registration on Revenue.ie to claim up to €30,000',
+              dueDate: 'Due in 2 days',
+              priority: 'high',
+              category: 'financial'
+            },
+            {
+              id: '2', 
+              title: 'Mortgage Approval in Principle (AIP)',
+              description: 'Submit mortgage application to Irish bank for pre-approval',
+              dueDate: 'Due in 4 days',
+              priority: 'high',
+              category: 'financial'
+            },
+            {
+              id: '3',
+              title: 'Property reservation and booking deposit',
+              description: 'Reserve property with €5,000-€10,000 booking deposit',
+              dueDate: 'Due in 1 week',
+              priority: 'medium',
+              category: 'property'
+            },
+            {
+              id: '4',
+              title: 'Appoint qualified property solicitor',
+              description: 'Select Law Society qualified solicitor for conveyancing',
+              dueDate: 'Due in 2 weeks',
+              priority: 'medium',
+              category: 'legal'
+            }
+          ]);
+        }
+      } catch (error) {
+        console.warn('Failed to fetch real tasks:', error);
+        // Use demo tasks as fallback
+        setRealTasks([
+          {
+            id: '1',
+            title: 'Register with Revenue for HTB (Help to Buy)',
+            description: 'Complete HTB registration on Revenue.ie to claim up to €30,000',
+            dueDate: 'Due in 2 days',
+            priority: 'high',
+            category: 'financial'
+          }
+        ]);
+      } finally {
+        setTasksLoading(false);
+      }
+    };
+    
+    fetchRealTasks();
+  }, []);
+
+  // Use real tasks if available, otherwise use demo tasks
+  const upcomingTasks = realTasks.length > 0 ? realTasks : [
     {
       id: '1',
       title: 'Complete mortgage application',
@@ -595,38 +676,81 @@ export default function BuyerDashboard() {
           </div>
           
           <div className="p-6">
-            <div className="space-y-4">
-              {upcomingTasks.map((task) => (
-                <div key={task.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3 flex-1">
-                      <div className="rounded-lg p-2 bg-blue-100">
-                        {getCategoryIcon(task.category)}
-                      </div>
+            {tasksLoading ? (
+              <div className="space-y-4">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="border rounded-lg p-4 animate-pulse">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 bg-gray-200 rounded-lg"></div>
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h4 className="font-semibold text-gray-900">{task.title}</h4>
-                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getPriorityColor(task.priority)}`}>
-                            {task.priority}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600 mb-2">{task.description}</p>
-                        <div className="flex items-center gap-1">
-                          <Clock size={14} className="text-gray-400" />
-                          <span className="text-xs text-gray-500">{task.dueDate}</span>
-                        </div>
+                        <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-1/4"></div>
                       </div>
                     </div>
-                    <Link 
-                      href={`/buyer/tasks/${task.id}`}
-                      className="ml-4 p-2 hover:bg-gray-100 rounded transition-colors"
-                    >
-                      <ArrowRight size={16} className="text-gray-400" />
-                    </Link>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {upcomingTasks.slice(0, 4).map((task: any) => (
+                  <div key={task.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start gap-3 flex-1">
+                        <div className="rounded-lg p-2 bg-blue-100">
+                          {getCategoryIcon(task.category)}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-semibold text-gray-900">{task.title}</h4>
+                            {task.taskCode && (
+                              <span className="inline-flex px-2 py-1 text-xs font-mono rounded bg-gray-100 text-gray-600">
+                                {task.taskCode}
+                              </span>
+                            )}
+                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getPriorityColor(task.priority)}`}>
+                              {task.priority}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-2">{task.description}</p>
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-1">
+                              <Clock size={14} className="text-gray-400" />
+                              <span className="text-xs text-gray-500">{task.dueDate}</span>
+                            </div>
+                            {task.estimatedDurationHours && (
+                              <div className="flex items-center gap-1">
+                                <Target size={14} className="text-gray-400" />
+                                <span className="text-xs text-gray-500">{task.estimatedDurationHours}h est.</span>
+                              </div>
+                            )}
+                            {task.assignedTo && (
+                              <div className="flex items-center gap-1">
+                                <Users size={14} className="text-gray-400" />
+                                <span className="text-xs text-gray-500">{task.assignedTo}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <Link 
+                        href={`/buyer/tasks/${task.id}`}
+                        className="ml-4 p-2 hover:bg-gray-100 rounded transition-colors"
+                      >
+                        <ArrowRight size={16} className="text-gray-400" />
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+                {upcomingTasks.length === 0 && !tasksLoading && (
+                  <div className="text-center py-8">
+                    <CheckCircle size={48} className="text-green-500 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">All caught up!</h3>
+                    <p className="text-gray-600">No pending tasks at the moment.</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

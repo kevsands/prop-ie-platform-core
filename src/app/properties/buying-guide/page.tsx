@@ -6,7 +6,7 @@ import {
   ArrowRight, CheckCircle, FileText, Users, Calculator, 
   Shield, Clock, CreditCard, Home, Building, Eye, Smartphone,
   Download, BookOpen, AlertCircle, Info, MapPin, Calendar,
-  User, UserCheck, HandHeart, Scale, Gavel, Receipt, BarChart3,
+  User, UserCheck, Heart as HandHeart, Scale, Gavel, Receipt, BarChart3,
   TrendingUp, Activity, Zap, Globe, Database, Bell, Settings
 } from 'lucide-react';
 

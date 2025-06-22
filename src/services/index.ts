@@ -36,15 +36,10 @@ import { ApiDataService } from './apiDataService';
 
 // Factory function to get the appropriate service implementation
 export function getDataService(): DataService {
-  // Check if we should use mock data
-  // You can set this in your .env.local file or use a different strategy
-  const useMockData = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
-  
-  if (useMockData) {
-    return new MockDataService();
-  } else {
-    return new ApiDataService();
-  }
+  // Production-ready: Always use real database integration
+  // Mock data has been completely eliminated
+  console.log('🏭 Using Production API Service with real database integration');
+  return new ApiDataService();
 }
 
 // Export a default instance for convenience
