@@ -266,7 +266,7 @@ const buyerPreferences = {
 
 export default function PropertySearchPage() {
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [selectedBeds, setSelectedBeds] = useState('Any');
@@ -283,6 +283,16 @@ export default function PropertySearchPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [developments, setDevelopments] = useState<any[]>([]);
+  
+  // Enhanced search state
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [savedProperties, setSavedProperties] = useState<Set<number>>(new Set());
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [customPriceRange, setCustomPriceRange] = useState<{min: number; max: number}>({min: 0, max: 1000000});
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [htbEligibleOnly, setHtbEligibleOnly] = useState(false);
+  const [availableOnly, setAvailableOnly] = useState(false);
 
   // Load real units data from database
   const loadUnitsData = async () => {
@@ -432,6 +442,30 @@ export default function PropertySearchPage() {
       filtered = filtered.filter(p => p.development === selectedDevelopment);
     }
 
+    // Apply advanced filters
+    if (htbEligibleOnly) {
+      filtered = filtered.filter(p => p.htbEligible);
+    }
+
+    if (availableOnly) {
+      filtered = filtered.filter(p => p.status === 'Available');
+    }
+
+    if (selectedFeatures.length > 0) {
+      filtered = filtered.filter(p => 
+        selectedFeatures.some(feature => 
+          p.features && p.features.includes(feature)
+        )
+      );
+    }
+
+    // Apply custom price range if different from default
+    if (customPriceRange.min > 0 || customPriceRange.max < 1000000) {
+      filtered = filtered.filter(p => 
+        p.price >= customPriceRange.min && p.price <= customPriceRange.max
+      );
+    }
+
     // Sort properties
     switch (sortBy) {
       case 'ai-recommended':
@@ -460,7 +494,7 @@ export default function PropertySearchPage() {
     }
 
     setFilteredProperties(filtered);
-  }, [allProperties, searchQuery, selectedPriceRange, selectedType, selectedBeds, selectedDevelopment, sortBy]);
+  }, [allProperties, searchQuery, selectedPriceRange, selectedType, selectedBeds, selectedDevelopment, sortBy, htbEligibleOnly, availableOnly, selectedFeatures, customPriceRange]);
 
   const PropertyCard = ({ property }: { property: typeof mockProperties[0] }) => {
     const isHot = property.developerPriority === 'urgent' || property.developerPriority === 'high';
@@ -707,53 +741,163 @@ export default function PropertySearchPage() {
         </div>
       )}
 
-      {/* Search Header */}
-      <section className="bg-gradient-to-r from-blue-900 to-purple-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Find Your Perfect Home
-            </h1>
-            <p className="text-xl text-blue-100">
-              AI-powered search matching you with properties that fit your lifestyle
+      {/* Enhanced Search Header */}
+      <section className="bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 text-white py-20 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-48 -translate-y-48"></div>
+          <div className="absolute bottom-0 right-0 w-64 h-64 bg-white rounded-full translate-x-32 translate-y-32"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-10">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <h1 className="text-4xl md:text-6xl font-bold">
+                Find Your Perfect Home
+              </h1>
+            </div>
+            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+              AI-powered search with intelligent matching - discover properties that truly fit your lifestyle and budget
             </p>
+            <div className="flex flex-wrap justify-center gap-4 mt-6">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full">
+                <Target className="w-4 h-4" />
+                <span className="text-sm">Smart Matching</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full">
+                <Brain className="w-4 h-4" />
+                <span className="text-sm">AI Recommendations</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full">
+                <Award className="w-4 h-4" />
+                <span className="text-sm">Expert Curation</span>
+              </div>
+            </div>
           </div>
           
-          {/* Search Bar */}
-          <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by location, development, or property type..."
-                className="w-full px-6 py-4 pl-12 pr-32 text-gray-900 bg-white rounded-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-400"
-              />
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center gap-2"
-              >
-                <Filter className="w-4 h-4" />
-                Filters
-              </button>
+          {/* Enhanced Search Bar */}
+          <div className="max-w-5xl mx-auto">
+            <div className="relative bg-white rounded-2xl shadow-2xl p-2">
+              <div className="flex flex-col lg:flex-row gap-2">
+                {/* Main Search Input */}
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      if (e.target.value.length > 2) {
+                        setSearchSuggestions([
+                          'Drogheda apartments',
+                          'Dublin city center',
+                          'Fitzgerald Gardens',
+                          'Help to Buy eligible',
+                          '3 bedroom houses'
+                        ]);
+                        setShowSuggestions(true);
+                      } else {
+                        setShowSuggestions(false);
+                      }
+                    }}
+                    onFocus={() => setShowSuggestions(searchQuery.length > 2)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    placeholder="Search by location, development, or property type..."
+                    className="w-full px-6 py-4 pl-12 text-gray-900 bg-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+                  />
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" />
+                  
+                  {/* Search Suggestions */}
+                  {showSuggestions && searchSuggestions.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl shadow-lg border z-50">
+                      {searchSuggestions.map((suggestion, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setSearchQuery(suggestion);
+                            setShowSuggestions(false);
+                          }}
+                          className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 border-b last:border-b-0"
+                        >
+                          <Search className="w-4 h-4 text-gray-400" />
+                          <span className="text-gray-700">{suggestion}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                {/* Filter Buttons */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className={`px-6 py-4 rounded-xl font-medium transition-all flex items-center gap-2 ${
+                      showFilters 
+                        ? 'bg-blue-600 text-white shadow-lg' 
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Filter className="w-5 h-5" />
+                    <span className="hidden sm:inline">Filters</span>
+                  </button>
+                  
+                  <button
+                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                    className={`px-6 py-4 rounded-xl font-medium transition-all flex items-center gap-2 ${
+                      showAdvancedFilters 
+                        ? 'bg-purple-600 text-white shadow-lg' 
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Sparkles className="w-5 h-5" />
+                    <span className="hidden sm:inline">Advanced</span>
+                  </button>
+                </div>
+              </div>
             </div>
             
-            {/* Quick Filters */}
-            <div className="mt-4 flex flex-wrap gap-3 justify-center">
+            {/* Enhanced Quick Filters */}
+            <div className="mt-6 flex flex-wrap gap-3 justify-center">
               {searchFilters.priceRanges.map((range, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedPriceRange(range.label)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-6 py-3 rounded-full text-sm font-medium transition-all transform hover:scale-105 ${
                     selectedPriceRange === range.label
-                      ? 'bg-white text-blue-900'
-                      : 'bg-white/20 text-white hover:bg-white/30'
+                      ? 'bg-white text-blue-900 shadow-lg'
+                      : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
                   }`}
                 >
                   {range.label}
                 </button>
               ))}
+              
+              {/* Special Filters */}
+              <button
+                onClick={() => setHtbEligibleOnly(!htbEligibleOnly)}
+                className={`px-6 py-3 rounded-full text-sm font-medium transition-all transform hover:scale-105 flex items-center gap-2 ${
+                  htbEligibleOnly
+                    ? 'bg-green-500 text-white shadow-lg'
+                    : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
+                }`}
+              >
+                <Heart className="w-4 h-4" />
+                Help to Buy
+              </button>
+              
+              <button
+                onClick={() => setAvailableOnly(!availableOnly)}
+                className={`px-6 py-3 rounded-full text-sm font-medium transition-all transform hover:scale-105 flex items-center gap-2 ${
+                  availableOnly
+                    ? 'bg-green-500 text-white shadow-lg'
+                    : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
+                }`}
+              >
+                <Clock className="w-4 h-4" />
+                Available Now
+              </button>
             </div>
           </div>
         </div>
@@ -782,6 +926,155 @@ export default function PropertySearchPage() {
                 className="text-gray-500 hover:text-gray-700"
               >
                 <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Advanced Filters Panel */}
+      {showAdvancedFilters && (
+        <section className="bg-white border-t border-b shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-purple-600" />
+                Advanced Search Filters
+              </h3>
+              <button
+                onClick={() => setShowAdvancedFilters(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Property Features */}
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900 flex items-center gap-2">
+                  <Home className="w-4 h-4" />
+                  Property Features
+                </h4>
+                <div className="space-y-2">
+                  {['Garden', 'Balcony', 'Parking', 'En-suite', 'Home Office', 'Solar Panels', 'Modern Kitchen'].map(feature => (
+                    <label key={feature} className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedFeatures.includes(feature)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedFeatures([...selectedFeatures, feature]);
+                          } else {
+                            setSelectedFeatures(selectedFeatures.filter(f => f !== feature));
+                          }
+                        }}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="text-sm text-gray-700">{feature}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Custom Price Range */}
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900 flex items-center gap-2">
+                  <Euro className="w-4 h-4" />
+                  Custom Price Range
+                </h4>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Minimum Price</label>
+                    <input
+                      type="number"
+                      value={customPriceRange.min}
+                      onChange={(e) => setCustomPriceRange({...customPriceRange, min: parseInt(e.target.value) || 0})}
+                      placeholder="€0"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-1">Maximum Price</label>
+                    <input
+                      type="number"
+                      value={customPriceRange.max}
+                      onChange={(e) => setCustomPriceRange({...customPriceRange, max: parseInt(e.target.value) || 1000000})}
+                      placeholder="€1,000,000"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <button
+                    onClick={() => setSelectedPriceRange(`€${(customPriceRange.min/1000).toFixed(0)}k - €${(customPriceRange.max/1000).toFixed(0)}k`)}
+                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Apply Price Range
+                  </button>
+                </div>
+              </div>
+              
+              {/* Special Criteria */}
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900 flex items-center gap-2">
+                  <Target className="w-4 h-4" />
+                  Special Criteria
+                </h4>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 cursor-pointer p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                    <input
+                      type="checkbox"
+                      checked={htbEligibleOnly}
+                      onChange={(e) => setHtbEligibleOnly(e.target.checked)}
+                      className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                    />
+                    <div className="flex items-center gap-2">
+                      <Heart className="w-4 h-4 text-green-600" />
+                      <span className="font-medium">Help to Buy Eligible</span>
+                    </div>
+                  </label>
+                  
+                  <label className="flex items-center gap-3 cursor-pointer p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                    <input
+                      type="checkbox"
+                      checked={availableOnly}
+                      onChange={(e) => setAvailableOnly(e.target.checked)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-blue-600" />
+                      <span className="font-medium">Available Now</span>
+                    </div>
+                  </label>
+                  
+                  <div className="p-3 border border-gray-200 rounded-lg">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Star className="w-4 h-4 text-yellow-600" />
+                      <span className="font-medium">Minimum AI Score</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="60"
+                      max="100"
+                      defaultValue="85"
+                      className="w-full"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                      <span>60%</span>
+                      <span>85% (Current)</span>
+                      <span>100%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Apply Filters Button */}
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => setShowAdvancedFilters(false)}
+                className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all"
+              >
+                Apply Advanced Filters
               </button>
             </div>
           </div>

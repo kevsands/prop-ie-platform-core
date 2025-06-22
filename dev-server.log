@@ -24,3 +24,8 @@ Warning: The amplify.ts file is deprecated and will be removed in a future versi
 ✅ AWS Amplify configuration validated successfully
 Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
  HEAD / 200 in 360ms
+ ✓ Compiled in 672ms (1875 modules)
+ ✓ Compiled in 550ms (1875 modules)
+ ✓ Compiled in 435ms (1875 modules)
+ ✓ Compiled in 647ms (1875 modules)
+ ✓ Compiled in 467ms (1875 modules)
