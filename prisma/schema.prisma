@@ -1,6 +1,3 @@
-// PropIE Enterprise PostgreSQL Schema
-// Production-ready schema for HTB, Audit, Security, and Document Management
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,515 +7,2769 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User Management
-model User {
-  id                String   @id @default(cuid())
-  email             String   @unique
-  firstName         String
-  lastName          String
-  phone             String?
-  ppsNumber         String?  @unique
-  dateOfBirth       DateTime?
-  isVerified        Boolean  @default(false)
-  isFirstTimeBuyer  Boolean  @default(true)
-  
-  // Address
-  addressLine1      String?
-  addressLine2      String?
-  city              String?
-  county            String?
-  eircode           String?
-  country           String   @default("IE")
-  
-  // System fields
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  lastLoginAt       DateTime?
-  isActive          Boolean  @default(true)
-  
-  // Legacy support
-  roleData          String?  // JSON string for roles
-  status            UserStatus @default(ACTIVE)
-  password          String?
-  
-  // Relationships
-  htbClaims         HTBClaim[]
-  documents         Document[]
-  auditEvents       AuditEvent[]
-  securityEvents    SecurityEvent[]
-  fraudAssessments  FraudAssessment[]
-  
-  // Legacy relationships
-  buyerJourneys     BuyerJourney[]
-  reservations      Reservation[]
-  
-  @@map("users")
+model AffordabilityCheck {
+  id                String        @id
+  journeyId         String
+  grossAnnualIncome Int
+  partnerIncome     Int?
+  monthlyDebts      Int
+  depositAmount     Int
+  htbAmount         Int?
+  maxMortgage       Int
+  maxPropertyPrice  Int
+  monthlyRepayment  Int
+  loanToValue       Float
+  debtToIncomeRatio Float
+  lender            String?
+  calculator        String?
+  notes             String?
+  created           DateTime      @default(now())
+  BuyerJourneys     BuyerJourneys @relation(fields: [journeyId], references: [id])
 }
 
-// Legacy models for backward compatibility
-model BuyerJourney {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  phase     String   @default("planning")
-  data      String   // JSON string for journey data
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@map("buyer_journeys")
+model AgendaItem {
+  id          String   @id
+  meetingId   String
+  topic       String
+  description String?
+  presenterId String
+  duration    Int
+  order       Int
+  documentIds String[]
+  status      String
+  Meeting     Meeting  @relation(fields: [meetingId], references: [id])
+}
+
+model ApproverConfig {
+  id                    String                @id
+  approverType          String
+  approverId            String
+  approverName          String?
+  requirementType       String
+  canDelegate           Boolean               @default(false)
+  stageId               String
+  DocumentWorkflowStage DocumentWorkflowStage @relation(fields: [stageId], references: [id])
+}
+
+model BudgetCategory {
+  id                 String            @id
+  budgetId           String
+  name               String
+  description        String?
+  parentCategoryId   String?
+  plannedAmount      Decimal           @db.Decimal(12, 2)
+  actualAmount       Decimal           @db.Decimal(12, 2)
+  varianceAmount     Decimal           @db.Decimal(12, 2)
+  variancePercentage Decimal           @db.Decimal(5, 2)
+  isMilestone        Boolean           @default(false)
+  milestoneDate      DateTime?
+  status             String
+  notes              String?
+  DevelopmentBudget  DevelopmentBudget @relation(fields: [budgetId], references: [id])
+  BudgetLineItem     BudgetLineItem[]
+}
+
+model BudgetInfo {
+  id                  String          @id
+  preferenceId        String          @unique
+  maxTotalPrice       Int
+  maxMonthlyPayment   Int?
+  estimatedDeposit    Int
+  includesHTB         Boolean         @default(false)
+  htbAmount           Int?
+  otherFundingSources Json?
+  created             DateTime        @default(now())
+  updated             DateTime
+  BuyerPreference     BuyerPreference @relation(fields: [preferenceId], references: [id])
+}
+
+model BudgetLineItem {
+  id                 String         @id
+  categoryId         String
+  name               String
+  description        String?
+  quantity           Decimal        @db.Decimal(12, 2)
+  unit               String
+  unitPrice          Decimal        @db.Decimal(12, 2)
+  plannedAmount      Decimal        @db.Decimal(12, 2)
+  actualAmount       Decimal        @db.Decimal(12, 2)
+  varianceAmount     Decimal        @db.Decimal(12, 2)
+  variancePercentage Decimal        @db.Decimal(5, 2)
+  responsible        String?
+  invoices           String[]
+  purchaseOrders     String[]
+  status             String
+  notes              String?
+  BudgetCategory     BudgetCategory @relation(fields: [categoryId], references: [id])
+}
+
+model BuyerEvent {
+  id               String    @id
+  buyerId          String
+  title            String
+  description      String?
+  eventType        String
+  location         String?
+  startTime        DateTime
+  endTime          DateTime
+  unitId           String?
+  developmentId    String?
+  reminderSent     Boolean   @default(false)
+  reminderSentTime DateTime?
+  notes            String?
+  created          DateTime  @default(now())
+  updated          DateTime
+  User             User      @relation(fields: [buyerId], references: [id])
+}
+
+model BuyerJourneys {
+  id                  String                @id
+  buyerId             String                @unique
+  currentPhase        BuyerPhase
+  startDate           DateTime              @default(now())
+  lastUpdated         DateTime
+  targetMoveInDate    DateTime?
+  targetPropertyId    String?
+  notes               String?
+  AffordabilityCheck  AffordabilityCheck[]
+  User                User                  @relation(fields: [buyerId], references: [id])
+  Unit                Unit?                 @relation(fields: [targetPropertyId], references: [id])
+  BuyerPhaseHistory   BuyerPhaseHistory[]
+  BuyerPreference     BuyerPreference?
+  MortgageApplication MortgageApplication[]
+  PropertyReservation PropertyReservation[]
+  SnagList            SnagList[]
+}
+
+model BuyerPhaseHistory {
+  id             String        @id
+  journeyId      String
+  phase          BuyerPhase
+  startDate      DateTime      @default(now())
+  endDate        DateTime?
+  completedTasks Json?
+  notes          String?
+  BuyerJourneys  BuyerJourneys @relation(fields: [journeyId], references: [id])
+}
+
+model BuyerPreference {
+  id                  String        @id
+  journeyId           String        @unique
+  locations           String[]
+  maxDistanceToWork   Int?
+  maxDistanceToSchool Int?
+  minBedrooms         Int?
+  maxBedrooms         Int?
+  minBathrooms        Int?
+  propertyTypes       String[]
+  mustHaveFeatures    String[]
+  niceToHaveFeatures  String[]
+  lastUpdated         DateTime
+  BudgetInfo          BudgetInfo?
+  BuyerJourneys       BuyerJourneys @relation(fields: [journeyId], references: [id])
+}
+
+model BuyerProfile {
+  id                  String   @id
+  userId              String   @unique
+  currentJourneyPhase String   @default("planning")
+  financialDetails    Json?
+  preferences         Json?
+  governmentSchemes   Json?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime
+  User                User     @relation(fields: [userId], references: [id])
+}
+
+model CashFlowCategory {
+  id                    String             @id
+  periodId              String
+  name                  String
+  description           String?
+  type                  String
+  plannedAmount         Decimal            @db.Decimal(12, 2)
+  plannedAmountCurrency CurrencyCode
+  actualAmount          Decimal            @db.Decimal(12, 2)
+  actualAmountCurrency  CurrencyCode
+  variance              Decimal            @db.Decimal(12, 2)
+  varianceCurrency      CurrencyCode
+  variancePercentage    Decimal            @db.Decimal(5, 2)
+  parentCategoryId      String?
+  CashFlowPeriod        CashFlowPeriod     @relation(fields: [periodId], references: [id])
+  CashFlowLineItem      CashFlowLineItem[]
+}
+
+model CashFlowLineItem {
+  id                    String           @id
+  categoryId            String
+  name                  String
+  description           String?
+  type                  String
+  plannedAmount         Decimal          @db.Decimal(12, 2)
+  plannedAmountCurrency CurrencyCode
+  actualAmount          Decimal          @db.Decimal(12, 2)
+  actualAmountCurrency  CurrencyCode
+  variance              Decimal          @db.Decimal(12, 2)
+  varianceCurrency      CurrencyCode
+  variancePercentage    Decimal          @db.Decimal(5, 2)
+  date                  DateTime?
+  transactionId         String?
+  budgetLineItemId      String?
+  notes                 String?
+  CashFlowCategory      CashFlowCategory @relation(fields: [categoryId], references: [id])
+}
+
+model CashFlowPeriod {
+  id                         String             @id
+  cashFlowId                 String
+  periodNumber               Int
+  startDate                  DateTime
+  endDate                    DateTime
+  isActual                   Boolean
+  salesRevenue               Decimal            @db.Decimal(12, 2)
+  salesRevenueCurrency       CurrencyCode
+  rentalIncome               Decimal            @db.Decimal(12, 2)
+  rentalIncomeCurrency       CurrencyCode
+  fundingDrawdowns           Decimal            @db.Decimal(12, 2)
+  fundingDrawdownsCurrency   CurrencyCode
+  otherInflows               Decimal            @db.Decimal(12, 2)
+  otherInflowsCurrency       CurrencyCode
+  totalInflows               Decimal            @db.Decimal(12, 2)
+  totalInflowsCurrency       CurrencyCode
+  landCosts                  Decimal            @db.Decimal(12, 2)
+  landCostsCurrency          CurrencyCode
+  constructionCosts          Decimal            @db.Decimal(12, 2)
+  constructionCostsCurrency  CurrencyCode
+  professionalFees           Decimal            @db.Decimal(12, 2)
+  professionalFeesCurrency   CurrencyCode
+  marketingCosts             Decimal            @db.Decimal(12, 2)
+  marketingCostsCurrency     CurrencyCode
+  financeCosts               Decimal            @db.Decimal(12, 2)
+  financeCostsCurrency       CurrencyCode
+  legalFees                  Decimal            @db.Decimal(12, 2)
+  legalFeesCurrency          CurrencyCode
+  contingencyCosts           Decimal            @db.Decimal(12, 2)
+  contingencyCostsCurrency   CurrencyCode
+  taxPayments                Decimal            @db.Decimal(12, 2)
+  taxPaymentsCurrency        CurrencyCode
+  otherOutflows              Decimal            @db.Decimal(12, 2)
+  otherOutflowsCurrency      CurrencyCode
+  totalOutflows              Decimal            @db.Decimal(12, 2)
+  totalOutflowsCurrency      CurrencyCode
+  netCashFlow                Decimal            @db.Decimal(12, 2)
+  netCashFlowCurrency        CurrencyCode
+  cumulativeCashFlow         Decimal            @db.Decimal(12, 2)
+  cumulativeCashFlowCurrency CurrencyCode
+  notes                      String?
+  CashFlowCategory           CashFlowCategory[]
+  CashFlowProjection         CashFlowProjection @relation(fields: [cashFlowId], references: [id])
+}
+
+model CashFlowProjection {
+  id                 String             @id
+  financeId          String
+  name               String
+  description        String?
+  startDate          DateTime
+  endDate            DateTime
+  frequency          String
+  baseCurrency       CurrencyCode
+  version            Int
+  status             String
+  createdBy          String
+  approvedBy         String?
+  approvedAt         DateTime?
+  lastUpdated        DateTime
+  scenarioType       String
+  assumptions        Json?
+  CashFlowPeriod     CashFlowPeriod[]
+  DevelopmentFinance DevelopmentFinance @relation(fields: [financeId], references: [id])
+  CashFlowSummary    CashFlowSummary?
+}
+
+model CashFlowScenario {
+  id                              String       @id
+  name                            String
+  description                     String?
+  type                            String
+  baseScenarioId                  String
+  modifiedAssumptions             Json
+  netCashFlowDifference           Decimal      @db.Decimal(12, 2)
+  netCashFlowDifferenceCurrency   CurrencyCode
+  netCashFlowDifferencePercentage Decimal      @db.Decimal(5, 2)
+  npvDifference                   Decimal      @db.Decimal(12, 2)
+  npvDifferenceCurrency           CurrencyCode
+  npvDifferencePercentage         Decimal      @db.Decimal(5, 2)
+  irrDifference                   Decimal      @db.Decimal(5, 2)
+  paybackPeriodDifference         Int
+  probabilityAssessment           Decimal?     @db.Decimal(5, 2)
+  scenarioSpecificMetrics         Json?
+  createdBy                       String
+  createdAt                       DateTime     @default(now())
+  lastUpdated                     DateTime
+}
+
+model CashFlowSummary {
+  id                           String             @id
+  cashFlowId                   String             @unique
+  totalInflows                 Decimal            @db.Decimal(12, 2)
+  totalInflowsCurrency         CurrencyCode
+  totalOutflows                Decimal            @db.Decimal(12, 2)
+  totalOutflowsCurrency        CurrencyCode
+  netCashFlow                  Decimal            @db.Decimal(12, 2)
+  netCashFlowCurrency          CurrencyCode
+  peakNegativeCashFlow         Decimal            @db.Decimal(12, 2)
+  peakNegativeCashFlowCurrency CurrencyCode
+  peakNegativeCashFlowPeriod   Int
+  breakEvenPeriod              Int
+  cashFlowPositiveDate         DateTime?
+  periodsWithNegativeCashFlow  Int
+  periodsWithPositiveCashFlow  Int
+  npv                          Decimal            @db.Decimal(12, 2)
+  npvCurrency                  CurrencyCode
+  irr                          Decimal            @db.Decimal(5, 2)
+  paybackPeriod                Int
+  profitability                Decimal            @db.Decimal(5, 2)
+  volatilityIndex              Decimal            @db.Decimal(5, 2)
+  liquidityRatio               Decimal            @db.Decimal(5, 2)
+  inflowDistribution           Json
+  outflowDistribution          Json
+  lastCalculated               DateTime
+  CashFlowProjection           CashFlowProjection @relation(fields: [cashFlowId], references: [id])
+}
+
+model Company {
+  id               String         @id
+  name             String
+  address          String
+  phone            String
+  email            String
+  website          String?
+  description      String?
+  logo             String?
+  vatNumber        String?
+  companyNumber    String
+  establishedDate  DateTime?
+  insuranceDetails Json?
+  certifications   String[]
+  created          DateTime       @default(now())
+  updated          DateTime
+  Professional     Professional[]
+  ServiceArea      ServiceArea[]
+}
+
+model ConstructionLog {
+  id                 String    @id
+  projectId          String
+  date               DateTime  @default(now())
+  authorId           String
+  weather            Json
+  crews              Json[]
+  equipment          Json[]
+  workCompleted      Json[]
+  materials          Json[]
+  delays             Json[]
+  visitors           Json[]
+  safetyIncidents    Json[]
+  qualityIssues      Json[]
+  notes              String
+  photoIds           String[]
+  nextDayPlan        String
+  issues             String[]
+  submittedTimestamp DateTime  @default(now())
+  approvedById       String?
+  approvedTimestamp  DateTime?
+  Project            Project   @relation(fields: [projectId], references: [id])
+}
+
+model CreativeAsset {
+  id                String              @id
+  name              String
+  type              String
+  url               String
+  fileType          String
+  description       String?
+  usedIn            Json
+  impressions       Int?
+  clicks            Int?
+  createdBy         String
+  designer          String?
+  agency            String?
+  creationDate      DateTime
+  expiryDate        DateTime?
+  versionNumber     String
+  status            String
+  approvedById      String?
+  approvedDate      DateTime?
+  rightsInformation String?
+  usage             String
+  usageRights       String?
+  tags              String[]
+  dimensions        String?
+  size              Int?
+  thumbnailUrl      String?
+  MarketingActivity MarketingActivity[]
+  MarketingCampaign MarketingCampaign[]
+  MarketingChannel  MarketingChannel[]
+}
+
+model CustomizationSelection {
+  id             String              @id
+  unitId         String
+  buyer          String
+  status         CustomizationStatus
+  totalCost      Float
+  notes          String?
+  submittedDate  DateTime?
+  approvedDate   DateTime?
+  deadlineDate   DateTime?
+  meetingBooked  Boolean             @default(false)
+  meetingDate    DateTime?
+  Unit           Unit                @relation(fields: [unitId], references: [id])
+  SelectedOption SelectedOption[]
+  Document       Document[]
+}
+
+model Deposit {
+  id                      String    @id
+  saleId                  String    @unique
+  initialAmount           Float
+  initialAmountPercentage Float
+  initialPaidDate         DateTime?
+  balanceAmount           Float
+  balanceDueDate          DateTime?
+  balancePaidDate         DateTime?
+  totalPaid               Float
+  status                  String
+  paymentMethod           String?
+  receiptDocumentIds      String[]
+  Sale                    Sale      @relation(fields: [saleId], references: [id])
 }
 
 model Development {
-  id          String @id @default(cuid())
-  name        String
-  description String
-  location    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  units Unit[]
-  
-  @@map("developments")
+  id                      String                    @id
+  name                    String
+  slug                    String?                   @unique
+  developerId             String
+  locationId              String
+  status                  DevelopmentStatus
+  marketingStatus         Json
+  salesStatus             Json
+  constructionStatus      Json
+  complianceStatus        Json
+  timelineId              String?                   @unique
+  financialsId            String?
+  mainImage               String
+  images                  String[]
+  videos                  String[]
+  sitePlanUrl             String?
+  brochureUrl             String?
+  virtualTourUrl          String?
+  websiteUrl              String?
+  description             String
+  shortDescription        String?
+  features                String[]
+  amenities               String[]
+  buildingSpecs           Json?
+  buildingType            String?
+  completionDate          DateTime?
+  startDate               DateTime?
+  created                 DateTime                  @default(now())
+  updated                 DateTime
+  publishedDate           DateTime?
+  isPublished             Boolean                   @default(false)
+  tags                    String[]
+  awards                  String[]
+  User                    User                      @relation(fields: [developerId], references: [id])
+  Location                Location                  @relation(fields: [locationId], references: [id])
+  ProjectTimeline         ProjectTimeline?          @relation(fields: [timelineId], references: [id])
+  DevelopmentFinance      DevelopmentFinance?
+  Document                Document[]
+  Investment              Investment[]
+  InvestmentOpportunity   InvestmentOpportunity[]
+  MarketingCampaign       MarketingCampaign[]
+  ProfessionalAppointment ProfessionalAppointment[]
+  Project                 Project[]
+  Sale                    Sale[]
+  Unit                    Unit[]
+  Viewing                 Viewing[]
 }
 
-model Unit {
-  id            String      @id @default(cuid())
-  developmentId String
-  development   Development @relation(fields: [developmentId], references: [id])
-  name          String
-  type          String
-  price         Float
-  status        String      @default("available")
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+model DevelopmentBudget {
+  id                    String             @id
+  financeId             String             @unique
+  name                  String
+  description           String?
+  totalBudget           Decimal            @db.Decimal(12, 2)
+  currency              CurrencyCode
+  contingencyPercentage Decimal            @db.Decimal(5, 2)
+  contingencyAmount     Decimal            @db.Decimal(12, 2)
+  startDate             DateTime
+  endDate               DateTime
+  version               Int
+  status                String
+  createdBy             String
+  approvedBy            String?
+  approvedAt            DateTime?
+  notes                 String?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime
+  BudgetCategory        BudgetCategory[]
+  DevelopmentFinance    DevelopmentFinance @relation(fields: [financeId], references: [id])
+  Document              Document[]
+}
 
-  reservations Reservation[]
-  
-  @@map("units")
+model DevelopmentFinance {
+  id                   String                 @id
+  developmentId        String                 @unique
+  projectCost          Decimal                @db.Decimal(12, 2)
+  projectCostCurrency  CurrencyCode
+  reportingPeriod      String
+  lockedBy             String?
+  lockedUntil          DateTime?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime
+  CashFlowProjection   CashFlowProjection[]
+  DevelopmentBudget    DevelopmentBudget?
+  Development          Development            @relation(fields: [developmentId], references: [id])
+  FinancialReturns     FinancialReturns?
+  FinancialStatement   FinancialStatement[]
+  FinancialTransaction FinancialTransaction[]
+  FundingSource        FundingSource[]
+}
+
+model Distribution {
+  id               String     @id
+  investmentId     String
+  distributionType String
+  amount           Float
+  currency         String     @default("EUR")
+  distributionDate DateTime
+  description      String
+  status           String
+  paymentReference String?
+  documentIds      String[]
+  taxWithheld      Float?
+  netAmount        Float
+  Investment       Investment @relation(fields: [investmentId], references: [id])
+}
+
+model Document {
+  id                               String                    @id
+  name                             String
+  description                      String?
+  type                             String
+  status                           String
+  category                         String
+  fileUrl                          String
+  fileType                         String
+  fileSize                         Int
+  uploadedById                     String
+  uploadedByName                   String?
+  uploadDate                       DateTime                  @default(now())
+  expiryDate                       DateTime?
+  tags                             String[]
+  version                          Int                       @default(1)
+  relatedTo                        Json?
+  metadata                         Json?
+  signatureRequired                Boolean                   @default(false)
+  signatureStatus                  String?
+  organizationId                   String?
+  developmentId                    String?
+  unitId                           String?
+  saleId                           String?
+  approvedById                     String?
+  reservationId                    String?
+  mortgageTrackingId               String?
+  fundingSourceId                  String?
+  budgetId                         String?
+  financialStatementId             String?
+  investmentId                     String?
+  User_Document_approvedByIdToUser User?                     @relation("Document_approvedByIdToUser", fields: [approvedById], references: [id])
+  DevelopmentBudget                DevelopmentBudget?        @relation(fields: [budgetId], references: [id])
+  Development                      Development?              @relation(fields: [developmentId], references: [id])
+  FinancialStatement               FinancialStatement?       @relation(fields: [financialStatementId], references: [id])
+  FundingSource                    FundingSource?            @relation(fields: [fundingSourceId], references: [id])
+  Investment                       Investment?               @relation(fields: [investmentId], references: [id])
+  MortgageTracking                 MortgageTracking?         @relation(fields: [mortgageTrackingId], references: [id])
+  Reservation                      Reservation?              @relation(fields: [reservationId], references: [id])
+  Sale                             Sale?                     @relation(fields: [saleId], references: [id])
+  Unit                             Unit?                     @relation(fields: [unitId], references: [id])
+  User_Document_uploadedByIdToUser User                      @relation("Document_uploadedByIdToUser", fields: [uploadedById], references: [id])
+  DocumentSignature                DocumentSignature[]
+  DocumentVersion                  DocumentVersion[]
+  DocumentWorkflowInstance         DocumentWorkflowInstance?
+  CustomizationSelection           CustomizationSelection[]
+  ProjectMilestone                 ProjectMilestone[]
+  User_UserKycDocuments            User[]                    @relation("UserKycDocuments")
+}
+
+model DocumentApproval {
+  id                      String                  @id
+  historyId               String
+  approverId              String
+  decision                String
+  timestamp               DateTime                @default(now())
+  notes                   String?
+  delegatedToId           String?
+  DocumentWorkflowHistory DocumentWorkflowHistory @relation(fields: [historyId], references: [id])
+}
+
+model DocumentCustomField {
+  id                    String                @id
+  name                  String
+  description           String?
+  fieldType             String
+  isRequired            Boolean               @default(false)
+  options               String[]
+  defaultValue          String?
+  validationRegex       String?
+  validationMessage     String?
+  stageId               String
+  DocumentWorkflowStage DocumentWorkflowStage @relation(fields: [stageId], references: [id])
+}
+
+model DocumentSignature {
+  id                 String   @id
+  documentId         String
+  signerId           String
+  signatureDate      DateTime @default(now())
+  signatureImageUrl  String?
+  signaturePosition  Json?
+  signatureMethod    String
+  ipAddress          String?
+  verified           Boolean  @default(false)
+  verificationMethod String?
+  certificateUrl     String?
+  Document           Document @relation(fields: [documentId], references: [id])
+}
+
+model DocumentVersion {
+  id            String   @id
+  documentId    String
+  versionNumber Int
+  fileUrl       String
+  createdById   String
+  created       DateTime @default(now())
+  notes         String?
+  changes       String?
+  size          Int
+  checksum      String?
+  User          User     @relation(fields: [createdById], references: [id])
+  Document      Document @relation(fields: [documentId], references: [id])
+}
+
+model DocumentWorkflow {
+  id                       String                     @id
+  name                     String
+  description              String?
+  documentTypes            String[]
+  isDefault                Boolean                    @default(false)
+  created                  DateTime                   @default(now())
+  updated                  DateTime
+  createdBy                String
+  DocumentWorkflowInstance DocumentWorkflowInstance[]
+  DocumentWorkflowStage    DocumentWorkflowStage[]
+}
+
+model DocumentWorkflowHistory {
+  id                       String                   @id
+  instanceId               String
+  stageId                  String
+  enteredDate              DateTime                 @default(now())
+  exitDate                 DateTime?
+  status                   String
+  notes                    String?
+  DocumentApproval         DocumentApproval[]
+  DocumentWorkflowInstance DocumentWorkflowInstance @relation(fields: [instanceId], references: [id])
+  DocumentWorkflowStage    DocumentWorkflowStage    @relation(fields: [stageId], references: [id])
+}
+
+model DocumentWorkflowInstance {
+  id                      String                    @id
+  documentId              String                    @unique
+  workflowId              String
+  currentStageId          String?
+  status                  String
+  startDate               DateTime                  @default(now())
+  endDate                 DateTime?
+  dueDate                 DateTime?
+  customFieldValues       Json?
+  notes                   String?
+  DocumentWorkflowHistory DocumentWorkflowHistory[]
+  Document                Document                  @relation(fields: [documentId], references: [id])
+  DocumentWorkflow        DocumentWorkflow          @relation(fields: [workflowId], references: [id])
+}
+
+model DocumentWorkflowStage {
+  id                      String                    @id
+  name                    String
+  description             String?
+  order                   Int
+  isOptional              Boolean                   @default(false)
+  timeoutDays             Int?
+  notifyOnEntry           Boolean                   @default(true)
+  notifyOnExit            Boolean                   @default(false)
+  workflowId              String
+  ApproverConfig          ApproverConfig[]
+  DocumentCustomField     DocumentCustomField[]
+  DocumentWorkflowHistory DocumentWorkflowHistory[]
+  DocumentWorkflow        DocumentWorkflow          @relation(fields: [workflowId], references: [id])
+}
+
+model Drawdown {
+  id              String            @id
+  fundingSourceId String
+  amount          Decimal           @db.Decimal(12, 2)
+  currency        CurrencyCode
+  date            DateTime
+  status          TransactionStatus
+  purpose         String
+  notes           String?
+  transactionId   String?
+  conditions      String[]
+  FundingSource   FundingSource     @relation(fields: [fundingSourceId], references: [id])
+}
+
+model EmergencyContact {
+  id                  String              @id
+  planId              String
+  name                String
+  role                String
+  phoneNumber         String
+  email               String
+  company             String?
+  isOnSite            Boolean             @default(false)
+  HealthAndSafetyPlan HealthAndSafetyPlan @relation(fields: [planId], references: [id])
+}
+
+model FinancialReturns {
+  id                    String             @id
+  financeId             String             @unique
+  totalRevenue          Decimal            @db.Decimal(12, 2)
+  totalRevenueCurrency  CurrencyCode
+  totalCost             Decimal            @db.Decimal(12, 2)
+  totalCostCurrency     CurrencyCode
+  grossProfit           Decimal            @db.Decimal(12, 2)
+  grossProfitCurrency   CurrencyCode
+  grossMargin           Decimal            @db.Decimal(5, 2)
+  netProfit             Decimal            @db.Decimal(12, 2)
+  netProfitCurrency     CurrencyCode
+  netMargin             Decimal            @db.Decimal(5, 2)
+  ror                   Decimal            @db.Decimal(5, 2)
+  roi                   Decimal            @db.Decimal(5, 2)
+  irr                   Decimal            @db.Decimal(5, 2)
+  paybackPeriod         Int
+  profitOnCost          Decimal            @db.Decimal(5, 2)
+  breakEvenPoint        Json?
+  constructionStartDate DateTime?
+  constructionEndDate   DateTime?
+  salesStartDate        DateTime?
+  salesEndDate          DateTime?
+  constructionDuration  Int
+  salesDuration         Int
+  npv                   Decimal            @db.Decimal(12, 2)
+  npvCurrency           CurrencyCode
+  sensitivity           Json?
+  lastCalculated        DateTime
+  calculatedBy          String
+  DevelopmentFinance    DevelopmentFinance @relation(fields: [financeId], references: [id])
+}
+
+model FinancialStatement {
+  id                 String             @id
+  financeId          String
+  type               String
+  period             String
+  startDate          DateTime
+  endDate            DateTime
+  data               Json
+  createdBy          String
+  approvedBy         String?
+  approvedAt         DateTime?
+  status             String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime
+  Document           Document[]
+  DevelopmentFinance DevelopmentFinance @relation(fields: [financeId], references: [id])
+}
+
+model FinancialTransaction {
+  id                   String             @id
+  financeId            String
+  amount               Decimal            @db.Decimal(12, 2)
+  currency             CurrencyCode
+  date                 DateTime
+  description          String
+  referenceNumber      String?
+  status               TransactionStatus
+  category             String
+  transactionType      String
+  paymentMethod        PaymentMethod
+  counterpartyName     String
+  counterpartyType     String
+  counterpartyId       String?
+  budgetCategoryId     String?
+  invoiceId            String?
+  accountId            String?
+  relatedTransactionId String?
+  tags                 String[]
+  notes                String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime
+  DevelopmentFinance   DevelopmentFinance @relation(fields: [financeId], references: [id])
+}
+
+model FundingSource {
+  id                 String             @id
+  financeId          String
+  name               String
+  type               FundingType
+  amount             Decimal            @db.Decimal(12, 2)
+  currency           CurrencyCode
+  interestRate       Decimal?           @db.Decimal(5, 2)
+  term               Int?
+  termUnit           String?
+  startDate          DateTime?
+  endDate            DateTime?
+  ltvRatio           Decimal?           @db.Decimal(5, 2)
+  ltcRatio           Decimal?           @db.Decimal(5, 2)
+  covenants          String[]
+  securityType       String?
+  providerName       String
+  providerContact    String?
+  status             FundingStatus
+  notes              String?
+  Document           Document[]
+  Drawdown           Drawdown[]
+  DevelopmentFinance DevelopmentFinance @relation(fields: [financeId], references: [id])
+  Repayment          Repayment[]
+}
+
+model HTBDetails {
+  id                  String    @id
+  saleId              String    @unique
+  applicationNumber   String
+  status              String
+  applicationDate     DateTime
+  approvalDate        DateTime?
+  amount              Float
+  claimSubmissionDate DateTime?
+  claimPaymentDate    DateTime?
+  documentIds         String[]
+  notes               String?
+  accessCode          String?
+  claimCode           String?
+  expiryDate          DateTime?
+  Sale                Sale      @relation(fields: [saleId], references: [id])
+}
+
+model HealthAndSafetyPlan {
+  id                  String             @id
+  projectId           String             @unique
+  documentUrl         String
+  version             String
+  approvedById        String
+  approvedDate        DateTime
+  lastReviewDate      DateTime
+  nextReviewDate      DateTime
+  responsiblePersonId String
+  riskAssessmentIds   String[]
+  EmergencyContact    EmergencyContact[]
+  Project             Project            @relation(fields: [projectId], references: [id])
+  SafetyIncident      SafetyIncident[]
+  SafetyInspection    SafetyInspection[]
+  ToolboxTalk         ToolboxTalk[]
+  TrainingRecord      TrainingRecord[]
+}
+
+model HomePackDocument {
+  id              String    @id
+  unitId          String
+  name            String
+  category        String
+  description     String?
+  fileUrl         String
+  mimeType        String
+  size            Int
+  uploadDate      DateTime  @default(now())
+  expiryDate      DateTime?
+  manufacturer    String?
+  modelNumber     String?
+  serialNumber    String?
+  purchaseDate    String?
+  supplierContact String?
+  notes           String?
+  Unit            Unit      @relation(fields: [unitId], references: [id])
+}
+
+model HomePackItem {
+  id          String    @id
+  propertyId  String
+  title       String
+  category    String
+  documentUrl String
+  expiryDate  DateTime?
+  issuer      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  Unit        Unit      @relation(fields: [propertyId], references: [id])
+}
+
+model Inspection {
+  id                   String              @id
+  projectId            String
+  type                 String
+  inspectorId          String
+  inspectorRole        String
+  scheduled            DateTime
+  completed            DateTime?
+  location             String
+  unitId               String?
+  status               String
+  result               String?
+  notes                String
+  photoIds             String[]
+  documentIds          String[]
+  followUpRequired     Boolean             @default(false)
+  followUpDate         DateTime?
+  followUpInspectionId String?
+  isReinspection       Boolean             @default(false)
+  previousInspectionId String?
+  created              DateTime            @default(now())
+  createdById          String
+  updated              DateTime
+  updatedById          String
+  Project              Project             @relation(fields: [projectId], references: [id])
+  InspectionFinding    InspectionFinding[]
+}
+
+model InspectionFinding {
+  id                   String     @id
+  inspectionId         String
+  category             String
+  description          String
+  location             String
+  severity             String
+  action               String
+  photoIds             String[]
+  assignedToId         String?
+  dueDate              DateTime?
+  status               String
+  closedDate           DateTime?
+  closedById           String?
+  verificationRequired Boolean    @default(false)
+  verifiedById         String?
+  verifiedDate         DateTime?
+  Inspection           Inspection @relation(fields: [inspectionId], references: [id])
+}
+
+model Investment {
+  id                    String             @id
+  investorId            String
+  developmentId         String
+  unitIds               String[]
+  investmentType        String
+  status                String
+  amount                Float
+  currency              String             @default("EUR")
+  equity                Float?
+  ownershipStructure    String?
+  expectedReturn        Float
+  projectedIRR          Float?
+  projectMultiple       Float?
+  commitmentDate        DateTime
+  fundingDate           DateTime
+  dueDate               DateTime?
+  exitDate              DateTime?
+  investmentVehicleId   String?
+  legalEntity           String?
+  coInvestorIds         String[]
+  investmentAgreementId String
+  termSheetId           String?
+  documentIds           String[]
+  currentValue          Float
+  valuationDate         DateTime
+  totalReturns          Float
+  roi                   Float
+  notes                 String?
+  created               DateTime           @default(now())
+  updated               DateTime
+  Distribution          Distribution[]
+  Document              Document[]
+  Development           Development        @relation(fields: [developmentId], references: [id])
+  User                  User               @relation(fields: [investorId], references: [id])
+  InvestmentUpdate      InvestmentUpdate[]
+}
+
+model InvestmentOpportunity {
+  id                      String      @id
+  title                   String
+  developmentId           String
+  description             String
+  status                  String
+  minimumInvestment       Float
+  targetRaise             Float
+  maxRaise                Float
+  totalRaised             Float       @default(0)
+  investmentType          String
+  projectedReturns        Json
+  launchDate              DateTime
+  closingDate             DateTime
+  constructionStartDate   DateTime?
+  estimatedCompletionDate DateTime
+  estimatedExitDate       DateTime
+  highlights              String[]
+  riskFactors             String[]
+  images                  String[]
+  brochureUrl             String?
+  financialProjectionsUrl String?
+  investmentStructure     String
+  feesStructure           Json
+  documentIds             String[]
+  visibleTo               String
+  selectedInvestorIds     String[]
+  viewCount               Int         @default(0)
+  interestedInvestors     Json[]
+  commitments             Json[]
+  createdById             String
+  created                 DateTime    @default(now())
+  updated                 DateTime
+  Development             Development @relation(fields: [developmentId], references: [id])
+}
+
+model InvestmentUpdate {
+  id               String     @id
+  investmentId     String
+  updateDate       DateTime
+  title            String
+  content          String
+  authorId         String
+  isPublic         Boolean    @default(true)
+  metrics          Json
+  documentIds      String[]
+  sentToInvestors  Boolean    @default(false)
+  acknowledgements Json[]
+  Investment       Investment @relation(fields: [investmentId], references: [id])
+}
+
+model InvestorWatchlistUnit {
+  id         String   @id
+  investorId String
+  unitId     String
+  addedDate  DateTime @default(now())
+  notes      String?
+  Unit       Unit     @relation(fields: [unitId], references: [id])
+
+  @@unique([investorId, unitId])
+}
+
+model IssueComment {
+  id            String       @id
+  issueId       String
+  userId        String
+  content       String
+  timestamp     DateTime     @default(now())
+  attachmentIds String[]
+  isInternal    Boolean      @default(false)
+  edited        Boolean      @default(false)
+  editedAt      DateTime?
+  ProjectIssue  ProjectIssue @relation(fields: [issueId], references: [id])
+}
+
+model Lead {
+  id                         String              @id
+  source                     String
+  campaignId                 String?
+  channel                    String?
+  utmSource                  String?
+  utmMedium                  String?
+  utmCampaign                String?
+  utmContent                 String?
+  utmTerm                    String?
+  firstName                  String
+  lastName                   String
+  email                      String
+  phone                      String?
+  address                    String?
+  status                     String
+  type                       String
+  priorityScore              Int                 @default(0)
+  assignedToId               String?
+  interestedInDevelopmentIds String[]
+  interestedInUnitIds        String[]
+  propertyType               String[]
+  bedrooms                   Int[]
+  budget                     Json?
+  desiredMoveInDate          DateTime?
+  firstContactDate           DateTime            @default(now())
+  lastContactDate            DateTime?
+  nextFollowUpDate           DateTime?
+  documentIds                String[]
+  notes                      String[]
+  convertedToSaleId          String?
+  conversionDate             DateTime?
+  created                    DateTime            @default(now())
+  updated                    DateTime
+  tags                       String[]
+  User                       User?               @relation(fields: [assignedToId], references: [id])
+  MarketingCampaign          MarketingCampaign?  @relation(fields: [campaignId], references: [id])
+  LeadInteraction            LeadInteraction[]
+  LeadStatusHistory          LeadStatusHistory[]
+  Viewing                    Viewing[]
+}
+
+model LeadInteraction {
+  id                   String    @id
+  leadId               String
+  type                 String
+  direction            String
+  channel              String
+  date                 DateTime  @default(now())
+  userId               String
+  subject              String?
+  content              String
+  duration             Int?
+  documentIds          String[]
+  location             String?
+  outcome              String?
+  followUpRequired     Boolean   @default(false)
+  followUpDate         DateTime?
+  followUpAssignedToId String?
+  sentiment            String?
+  tags                 String[]
+  Lead                 Lead      @relation(fields: [leadId], references: [id])
+}
+
+model LeadStatusHistory {
+  id        String   @id
+  leadId    String
+  status    String
+  timestamp DateTime @default(now())
+  note      String?
+  userId    String
+  Lead      Lead     @relation(fields: [leadId], references: [id])
+}
+
+model Location {
+  id           String        @id
+  address      String
+  addressLine1 String?
+  addressLine2 String?
+  city         String
+  county       String
+  eircode      String?
+  country      String        @default("Ireland")
+  longitude    Float?
+  latitude     Float?
+  Development  Development[]
+}
+
+model MarketingActivity {
+  id                String            @id
+  campaignId        String
+  channelId         String
+  name              String
+  description       String
+  type              String
+  status            String
+  plannedStartDate  DateTime
+  plannedEndDate    DateTime
+  actualStartDate   DateTime?
+  actualEndDate     DateTime?
+  budget            Float
+  actualSpend       Float             @default(0)
+  assignedToIds     String[]
+  externalVendors   String[]
+  metrics           Json?
+  results           String?
+  notes             String?
+  created           DateTime          @default(now())
+  updated           DateTime
+  MarketingCampaign MarketingCampaign @relation(fields: [campaignId], references: [id])
+  MarketingChannel  MarketingChannel  @relation(fields: [channelId], references: [id])
+  CreativeAsset     CreativeAsset[]
+}
+
+model MarketingCampaign {
+  id                String              @id
+  name              String
+  developmentId     String
+  status            String
+  description       String
+  targetAudience    String
+  objectives        String[]
+  successCriteria   String[]
+  startDate         DateTime
+  endDate           DateTime?
+  plannedEndDate    DateTime
+  budget            Float
+  actualSpend       Float               @default(0)
+  performance       Json
+  createdById       String
+  assignedToIds     String[]
+  approvedById      String?
+  created           DateTime            @default(now())
+  updated           DateTime
+  notes             String?
+  tags              String[]
+  Lead              Lead[]
+  MarketingActivity MarketingActivity[]
+  Development       Development         @relation(fields: [developmentId], references: [id])
+  MarketingChannel  MarketingChannel[]
+  CreativeAsset     CreativeAsset[]
+}
+
+model MarketingChannel {
+  id                String              @id
+  campaignId        String
+  name              String
+  type              String
+  status            String
+  budget            Float
+  actualSpend       Float               @default(0)
+  impressions       Int                 @default(0)
+  clicks            Int?
+  inquiries         Int                 @default(0)
+  cost              Float               @default(0)
+  costPerInquiry    Float               @default(0)
+  costPerImpression Float               @default(0)
+  startDate         DateTime
+  endDate           DateTime?
+  trackingCodes     String[]
+  trackingUrls      String[]
+  platform          String?
+  targetAudience    String?
+  audienceSize      Int?
+  geographicFocus   String[]
+  notes             String?
+  tags              String[]
+  MarketingActivity MarketingActivity[]
+  MarketingCampaign MarketingCampaign   @relation(fields: [campaignId], references: [id])
+  CreativeAsset     CreativeAsset[]
+}
+
+model Meeting {
+  id                 String            @id
+  projectId          String
+  title              String
+  type               String
+  date               DateTime
+  startTime          String
+  endTime            String
+  location           String
+  isVirtual          Boolean           @default(false)
+  virtualMeetingLink String?
+  organizerId        String
+  recurrence         Json?
+  documentIds        String[]
+  created            DateTime          @default(now())
+  updated            DateTime
+  status             String
+  AgendaItem         AgendaItem[]
+  Project            Project           @relation(fields: [projectId], references: [id])
+  MeetingAttendee    MeetingAttendee[]
+  MeetingMinutes     MeetingMinutes?
+}
+
+model MeetingActionItem {
+  id             String         @id
+  minutesId      String
+  description    String
+  assignedToId   String
+  dueDate        DateTime
+  priority       String
+  status         String
+  completedDate  DateTime?
+  notes          String?
+  relatedTaskId  String?
+  MeetingMinutes MeetingMinutes @relation(fields: [minutesId], references: [id])
+}
+
+model MeetingAttendee {
+  id        String   @id
+  meetingId String
+  userId    String
+  required  Boolean  @default(true)
+  attended  Boolean?
+  Meeting   Meeting  @relation(fields: [meetingId], references: [id])
+}
+
+model MeetingMinutes {
+  id                String              @id
+  meetingId         String              @unique
+  attendees         String[]
+  absentees         String[]
+  discussions       Json[]
+  approvedById      String?
+  approvedDate      DateTime?
+  distributedOn     DateTime?
+  distributedTo     String[]
+  MeetingActionItem MeetingActionItem[]
+  Meeting           Meeting             @relation(fields: [meetingId], references: [id])
+}
+
+model MortgageApplication {
+  id                   String             @id
+  journeyId            String
+  lender               String
+  applicationType      String
+  applicationDate      DateTime
+  applicationReference String?
+  status               MortgageStatus
+  loanAmount           Int
+  term                 Int
+  interestRate         Float?
+  fixedRatePeriod      Int?
+  monthlyRepayment     Int?
+  approvalDate         DateTime?
+  approvalExpiryDate   DateTime?
+  offerReceivedDate    DateTime?
+  offerValidUntil      DateTime?
+  brokerName           String?
+  brokerContact        String?
+  brokerFee            Int?
+  notes                String?
+  created              DateTime           @default(now())
+  updated              DateTime
+  BuyerJourneys        BuyerJourneys      @relation(fields: [journeyId], references: [id])
+  MortgageDocument     MortgageDocument[]
+}
+
+model MortgageDetails {
+  id                      String    @id
+  saleId                  String    @unique
+  lender                  String
+  amount                  Float
+  term                    Int
+  interestRate            Float
+  approvalInPrincipleDate DateTime?
+  finalApprovalDate       DateTime?
+  status                  String
+  broker                  String?
+  brokerFee               Float?
+  loanType                String
+  documentIds             String[]
+  notes                   String?
+  applicationDate         DateTime?
+  offerExpiryDate         DateTime?
+  completionDate          DateTime?
+  drawdownDate            DateTime?
+  Sale                    Sale      @relation(fields: [saleId], references: [id])
+}
+
+model MortgageDocument {
+  id                  String              @id
+  mortgageId          String
+  name                String
+  documentType        String
+  fileUrl             String
+  mimeType            String
+  size                Int
+  uploadDate          DateTime            @default(now())
+  status              String
+  verificationDate    DateTime?
+  notes               String?
+  MortgageApplication MortgageApplication @relation(fields: [mortgageId], references: [id])
+}
+
+model MortgageTracking {
+  id              String     @id
+  userId          String     @unique
+  status          String     @default("not_started")
+  lenderName      String?
+  amount          Float?
+  aipDate         DateTime?
+  aipExpiryDate   DateTime?
+  formalOfferDate DateTime?
+  conditions      String[]
+  notes           String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime
+  Document        Document[]
+  User            User       @relation(fields: [userId], references: [id])
+}
+
+model Professional {
+  id                      String                    @id
+  userId                  String                    @unique
+  companyId               String
+  specializations         String[]
+  status                  String
+  licenseNumber           String?
+  insuranceDetails        Json?
+  professionalBio         String?
+  website                 String?
+  created                 DateTime                  @default(now())
+  updated                 DateTime
+  Company                 Company                   @relation(fields: [companyId], references: [id])
+  User                    User                      @relation(fields: [userId], references: [id])
+  ProfessionalAppointment ProfessionalAppointment[]
+  ProfessionalAssignment  ProfessionalAssignment[]
+  ProfessionalDocument    ProfessionalDocument[]
+  ProfessionalReview      ProfessionalReview[]
+  Qualification           Qualification[]
+}
+
+model ProfessionalAppointment {
+  id                 String       @id
+  developmentId      String
+  professionalId     String
+  role               String
+  appointmentDate    DateTime     @default(now())
+  endDate            DateTime?
+  status             String
+  contractDocumentId String?
+  feeStructure       Json?
+  responsibilities   String[]
+  notes              String?
+  created            DateTime     @default(now())
+  updated            DateTime
+  Development        Development  @relation(fields: [developmentId], references: [id])
+  Professional       Professional @relation(fields: [professionalId], references: [id])
+}
+
+model ProfessionalAssignment {
+  id             String       @id
+  professionalId String
+  role           String
+  saleId         String
+  assignedDate   DateTime     @default(now())
+  endDate        DateTime?
+  status         String
+  notes          String?
+  created        DateTime     @default(now())
+  updated        DateTime
+  Professional   Professional @relation(fields: [professionalId], references: [id])
+}
+
+model ProfessionalDocument {
+  id             String       @id
+  professionalId String
+  documentId     String
+  type           String
+  uploadDate     DateTime     @default(now())
+  expiryDate     DateTime?
+  isVerified     Boolean      @default(false)
+  Professional   Professional @relation(fields: [professionalId], references: [id])
+}
+
+model ProfessionalReview {
+  id             String       @id
+  professionalId String
+  reviewerId     String
+  developmentId  String?
+  saleId         String?
+  rating         Int
+  comment        String
+  reviewDate     DateTime     @default(now())
+  isPublic       Boolean      @default(true)
+  isVerified     Boolean      @default(false)
+  response       String?
+  responseDate   DateTime?
+  Professional   Professional @relation(fields: [professionalId], references: [id])
+}
+
+model Project {
+  id                   String               @id
+  developmentId        String
+  name                 String
+  description          String
+  status               String
+  plannedStartDate     DateTime
+  plannedEndDate       DateTime
+  actualStartDate      DateTime?
+  actualEndDate        DateTime?
+  projectManagerId     String
+  assignedCertifierId  String?
+  completionPercentage Float                @default(0)
+  constructionStage    String
+  createdBy            String
+  created              DateTime             @default(now())
+  updated              DateTime
+  isArchived           Boolean              @default(false)
+  ConstructionLog      ConstructionLog[]
+  HealthAndSafetyPlan  HealthAndSafetyPlan?
+  Inspection           Inspection[]
+  Meeting              Meeting[]
+  Development          Development          @relation(fields: [developmentId], references: [id])
+  User                 User                 @relation(fields: [projectManagerId], references: [id])
+  ProjectIssue         ProjectIssue[]
+  ProjectMilestone2    ProjectMilestone2[]
+  ProjectPhase         ProjectPhase[]
+  ProjectRisk          ProjectRisk[]
+  ProjectTask          ProjectTask[]
+  ProjectUpdate        ProjectUpdate[]
+  Team                 Team[]
+}
+
+model ProjectIssue {
+  id                   String         @id
+  projectId            String
+  title                String
+  description          String
+  category             String
+  severity             String
+  status               String
+  priority             String
+  reportedDate         DateTime       @default(now())
+  reportedById         String
+  assignedToId         String
+  dueDate              DateTime?
+  resolvedDate         DateTime?
+  resolutionDetails    String?
+  impact               String
+  rootCause            String?
+  preventativeMeasures String?
+  relatedRiskIds       String[]
+  resolutionTaskIds    String[]
+  affectedUnitIds      String[]
+  documentIds          String[]
+  isEscalated          Boolean        @default(false)
+  escalationLevel      Int?
+  escalatedToId        String?
+  IssueComment         IssueComment[]
+  Project              Project        @relation(fields: [projectId], references: [id])
+}
+
+model ProjectMilestone {
+  id                                                                                  String                       @id
+  name                                                                                String
+  description                                                                         String
+  plannedDate                                                                         DateTime
+  actualDate                                                                          DateTime?
+  status                                                                              MilestoneStatus
+  timelineId                                                                          String
+  ProjectTimeline                                                                     ProjectTimeline              @relation(fields: [timelineId], references: [id])
+  ProjectMilestoneDependency_ProjectMilestoneDependency_dependsOnIdToProjectMilestone ProjectMilestoneDependency[] @relation("ProjectMilestoneDependency_dependsOnIdToProjectMilestone")
+  ProjectMilestoneDependency_ProjectMilestoneDependency_milestoneIdToProjectMilestone ProjectMilestoneDependency[] @relation("ProjectMilestoneDependency_milestoneIdToProjectMilestone")
+  Document                                                                            Document[]
+}
+
+model ProjectMilestone2 {
+  id                                                                                     String                        @id
+  projectId                                                                              String
+  phaseId                                                                                String?
+  name                                                                                   String
+  description                                                                            String
+  plannedDate                                                                            DateTime
+  actualDate                                                                             DateTime?
+  status                                                                                 String
+  isKeyMilestone                                                                         Boolean                       @default(false)
+  notifyStakeholders                                                                     Boolean                       @default(true)
+  responsiblePartyId                                                                     String
+  verificationMethod                                                                     String
+  completionCriteria                                                                     String[]
+  documentIds                                                                            String[]
+  ProjectPhase                                                                           ProjectPhase?                 @relation(fields: [phaseId], references: [id])
+  Project                                                                                Project                       @relation(fields: [projectId], references: [id])
+  ProjectMilestoneDependency2_ProjectMilestoneDependency2_dependsOnIdToProjectMilestone2 ProjectMilestoneDependency2[] @relation("ProjectMilestoneDependency2_dependsOnIdToProjectMilestone2")
+  ProjectMilestoneDependency2_ProjectMilestoneDependency2_milestoneIdToProjectMilestone2 ProjectMilestoneDependency2[] @relation("ProjectMilestoneDependency2_milestoneIdToProjectMilestone2")
+}
+
+model ProjectMilestoneDependency {
+  id                                                                        String           @id
+  milestoneId                                                               String
+  dependsOnId                                                               String
+  ProjectMilestone_ProjectMilestoneDependency_dependsOnIdToProjectMilestone ProjectMilestone @relation("ProjectMilestoneDependency_dependsOnIdToProjectMilestone", fields: [dependsOnId], references: [id])
+  ProjectMilestone_ProjectMilestoneDependency_milestoneIdToProjectMilestone ProjectMilestone @relation("ProjectMilestoneDependency_milestoneIdToProjectMilestone", fields: [milestoneId], references: [id])
+
+  @@unique([milestoneId, dependsOnId])
+}
+
+model ProjectMilestoneDependency2 {
+  id                                                                           String            @id
+  milestoneId                                                                  String
+  dependsOnId                                                                  String
+  ProjectMilestone2_ProjectMilestoneDependency2_dependsOnIdToProjectMilestone2 ProjectMilestone2 @relation("ProjectMilestoneDependency2_dependsOnIdToProjectMilestone2", fields: [dependsOnId], references: [id])
+  ProjectMilestone2_ProjectMilestoneDependency2_milestoneIdToProjectMilestone2 ProjectMilestone2 @relation("ProjectMilestoneDependency2_milestoneIdToProjectMilestone2", fields: [milestoneId], references: [id])
+
+  @@unique([milestoneId, dependsOnId])
+}
+
+model ProjectPhase {
+  id                                                                      String                   @id
+  projectId                                                               String
+  name                                                                    String
+  description                                                             String
+  orderIndex                                                              Int
+  status                                                                  String
+  plannedStartDate                                                        DateTime
+  plannedEndDate                                                          DateTime
+  actualStartDate                                                         DateTime?
+  actualEndDate                                                           DateTime?
+  completionPercentage                                                    Float                    @default(0)
+  documentIds                                                             String[]
+  ProjectMilestone2                                                       ProjectMilestone2[]
+  Project                                                                 Project                  @relation(fields: [projectId], references: [id])
+  ProjectPhaseDependency_ProjectPhaseDependency_dependsOnIdToProjectPhase ProjectPhaseDependency[] @relation("ProjectPhaseDependency_dependsOnIdToProjectPhase")
+  ProjectPhaseDependency_ProjectPhaseDependency_phaseIdToProjectPhase     ProjectPhaseDependency[] @relation("ProjectPhaseDependency_phaseIdToProjectPhase")
+  ProjectTask                                                             ProjectTask[]
+}
+
+model ProjectPhaseDependency {
+  id                                                            String       @id
+  phaseId                                                       String
+  dependsOnId                                                   String
+  type                                                          String
+  ProjectPhase_ProjectPhaseDependency_dependsOnIdToProjectPhase ProjectPhase @relation("ProjectPhaseDependency_dependsOnIdToProjectPhase", fields: [dependsOnId], references: [id])
+  ProjectPhase_ProjectPhaseDependency_phaseIdToProjectPhase     ProjectPhase @relation("ProjectPhaseDependency_phaseIdToProjectPhase", fields: [phaseId], references: [id])
+
+  @@unique([phaseId, dependsOnId])
+}
+
+model ProjectRisk {
+  id                     String   @id
+  projectId              String
+  title                  String
+  description            String
+  category               String
+  probability            String
+  impact                 String
+  severity               Int
+  status                 String
+  ownerId                String
+  identifiedDate         DateTime @default(now())
+  identifiedById         String
+  lastUpdated            DateTime
+  updatedById            String
+  mitigationStrategy     String
+  mitigationTaskIds      String[]
+  contingencyPlan        String
+  contingencyBudget      Float?
+  earlyWarningIndicators String[]
+  affectedAreas          String[]
+  riskRegisterRanking    Int
+  isArchived             Boolean  @default(false)
+  Project                Project  @relation(fields: [projectId], references: [id])
+}
+
+model ProjectTask {
+  id                                                                   String                  @id
+  title                                                                String
+  description                                                          String
+  projectId                                                            String
+  phaseId                                                              String?
+  status                                                               String
+  priority                                                             String
+  assignedToId                                                         String
+  createdById                                                          String
+  plannedStartDate                                                     DateTime
+  plannedEndDate                                                       DateTime
+  actualStartDate                                                      DateTime?
+  actualEndDate                                                        DateTime?
+  estimatedHours                                                       Float
+  actualHours                                                          Float?
+  progressPercentage                                                   Float                   @default(0)
+  relatedTo                                                            Json?
+  tags                                                                 String[]
+  created                                                              DateTime                @default(now())
+  updated                                                              DateTime
+  isOnCriticalPath                                                     Boolean                 @default(false)
+  parentTaskId                                                         String?
+  attachmentIds                                                        String[]
+  User_ProjectTask_assignedToIdToUser                                  User                    @relation("ProjectTask_assignedToIdToUser", fields: [assignedToId], references: [id])
+  User_ProjectTask_createdByIdToUser                                   User                    @relation("ProjectTask_createdByIdToUser", fields: [createdById], references: [id])
+  ProjectTask                                                          ProjectTask?            @relation("ProjectTaskToProjectTask", fields: [parentTaskId], references: [id])
+  other_ProjectTask                                                    ProjectTask[]           @relation("ProjectTaskToProjectTask")
+  ProjectPhase                                                         ProjectPhase?           @relation(fields: [phaseId], references: [id])
+  Project                                                              Project                 @relation(fields: [projectId], references: [id])
+  ProjectTaskDependency_ProjectTaskDependency_dependsOnIdToProjectTask ProjectTaskDependency[] @relation("ProjectTaskDependency_dependsOnIdToProjectTask")
+  ProjectTaskDependency_ProjectTaskDependency_taskIdToProjectTask      ProjectTaskDependency[] @relation("ProjectTaskDependency_taskIdToProjectTask")
+  TaskComment                                                          TaskComment[]
+}
+
+model ProjectTaskDependency {
+  id                                                         String      @id
+  taskId                                                     String
+  dependsOnId                                                String
+  ProjectTask_ProjectTaskDependency_dependsOnIdToProjectTask ProjectTask @relation("ProjectTaskDependency_dependsOnIdToProjectTask", fields: [dependsOnId], references: [id])
+  ProjectTask_ProjectTaskDependency_taskIdToProjectTask      ProjectTask @relation("ProjectTaskDependency_taskIdToProjectTask", fields: [taskId], references: [id])
+
+  @@unique([taskId, dependsOnId])
+}
+
+model ProjectTimeline {
+  id                     String             @id
+  planningSubmissionDate DateTime
+  planningDecisionDate   DateTime?
+  constructionStartDate  DateTime?
+  constructionEndDate    DateTime?
+  marketingLaunchDate    DateTime?
+  salesLaunchDate        DateTime?
+  Development            Development?
+  ProjectMilestone       ProjectMilestone[]
+}
+
+model ProjectUpdate {
+  id                   String   @id
+  projectId            String
+  title                String
+  content              String
+  authorId             String
+  timestamp            DateTime @default(now())
+  type                 String
+  visibleTo            String[]
+  attachmentIds        String[]
+  affectedPhaseIds     String[]
+  affectedMilestoneIds String[]
+  tags                 String[]
+  Project              Project  @relation(fields: [projectId], references: [id])
+}
+
+model PropertyReservation {
+  id                 String            @id
+  journeyId          String
+  unitId             String
+  reservationDate    DateTime          @default(now())
+  reservationFee     Int
+  status             ReservationStatus
+  expiryDate         DateTime
+  termsUrl           String?
+  paymentMethod      String
+  paymentReference   String?
+  paymentStatus      String
+  paymentDate        DateTime?
+  refundAmount       Int?
+  refundDate         DateTime?
+  contractSentDate   DateTime?
+  contractSignedDate DateTime?
+  notes              String?
+  created            DateTime          @default(now())
+  updated            DateTime
+  BuyerJourneys      BuyerJourneys     @relation(fields: [journeyId], references: [id])
+  Unit               Unit              @relation(fields: [unitId], references: [id])
+}
+
+model Qualification {
+  id                    String       @id
+  professionalId        String
+  title                 String
+  issuingBody           String
+  dateObtained          DateTime
+  expiryDate            DateTime?
+  certificateDocumentId String?
+  verificationUrl       String?
+  isVerified            Boolean      @default(false)
+  Professional          Professional @relation(fields: [professionalId], references: [id])
+}
+
+model Repayment {
+  id              String            @id
+  fundingSourceId String
+  amount          Decimal           @db.Decimal(12, 2)
+  currency        CurrencyCode
+  date            DateTime
+  status          TransactionStatus
+  type            String
+  principalAmount Decimal?          @db.Decimal(12, 2)
+  interestAmount  Decimal?          @db.Decimal(12, 2)
+  feesAmount      Decimal?          @db.Decimal(12, 2)
+  notes           String?
+  transactionId   String?
+  FundingSource   FundingSource     @relation(fields: [fundingSourceId], references: [id])
 }
 
 model Reservation {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  unitId    String
-  unit      Unit     @relation(fields: [unitId], references: [id])
-  status    String   @default("pending")
-  amount    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@map("reservations")
+  id                 String     @id
+  propertyId         String
+  userId             String
+  status             String     @default("pending")
+  depositAmount      Float
+  depositPaid        Boolean    @default(false)
+  reservationDate    DateTime   @default(now())
+  agreementSigned    Boolean    @default(false)
+  agreementDocument  String?
+  expiryDate         DateTime?
+  completionDate     DateTime?
+  cancellationReason String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime
+  Document           Document[]
+  Unit               Unit       @relation(fields: [propertyId], references: [id])
+  User               User       @relation(fields: [userId], references: [id])
 }
 
-// Properties
-model Property {
-  id                String      @id @default(cuid())
-  propertyId        String      @unique
-  address           String
-  addressLine1      String
-  addressLine2      String?
-  city              String
-  county            String
-  eircode           String?
-  
-  // Property details
-  propertyType      PropertyType
-  propertyCategory  PropertyCategory
-  bedrooms          Int?
-  bathrooms         Int?
-  floorArea         Float?
-  buildYear         Int?
-  buildingEnergyRating String?
-  
-  // Pricing
-  currentPrice      Decimal     @db.Decimal(12,2)
-  priceHistory      PropertyPriceHistory[]
-  
-  // Development info
-  developerId       String?
-  developer         Developer?  @relation(fields: [developerId], references: [id])
-  
-  // Status
-  status            PropertyStatus @default(AVAILABLE)
-  isNewBuild        Boolean     @default(false)
-  completionDate    DateTime?
-  
-  // System fields
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
-  
-  // Relationships
-  htbClaims         HTBClaim[]
-  
-  @@map("properties")
+model SLPComponent {
+  id          String          @id
+  projectId   String
+  name        String
+  description String
+  required    Boolean         @default(true)
+  status      ComponentStatus @default(PENDING)
+  uploadedBy  String?
+  uploadedAt  DateTime?
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  documentId  String?
+  documentUrl String?
+  notes       String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime
+  SLPProject  SLPProject      @relation(fields: [projectId], references: [id])
+  SLPHistory  SLPHistory[]
 }
 
-model PropertyPriceHistory {
-  id           String   @id @default(cuid())
-  propertyId   String
-  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  price        Decimal  @db.Decimal(12,2)
-  priceDate    DateTime
-  reason       String?
-  
-  createdAt    DateTime @default(now())
-  
-  @@map("property_price_history")
+model SLPHistory {
+  id           String           @id
+  componentId  String
+  action       String
+  performedBy  String
+  performedAt  DateTime         @default(now())
+  oldStatus    ComponentStatus?
+  newStatus    ComponentStatus?
+  notes        String?
+  SLPComponent SLPComponent     @relation(fields: [componentId], references: [id])
 }
 
-// Developer Management
-model Developer {
-  id                String   @id @default(cuid())
-  companyName       String
-  registrationNumber String  @unique
-  email             String   @unique
-  phone             String
-  website           String?
-  
-  // Address
-  addressLine1      String
-  addressLine2      String?
-  city              String
-  county            String
-  eircode           String?
-  
-  // Status
-  isVerified        Boolean  @default(false)
-  isActive          Boolean  @default(true)
-  
-  // System fields
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  // Relationships
-  properties        Property[]
-  htbClaims         HTBClaim[]
-  
-  @@map("developers")
+model SLPMilestone {
+  id             String          @id
+  transactionId  String
+  name           String
+  description    String?
+  status         MilestoneStatus @default(PENDING)
+  dueDate        DateTime?
+  completedAt    DateTime?
+  SLPTransaction SLPTransaction  @relation(fields: [transactionId], references: [id])
 }
 
-// HTB Claims
-model HTBClaim {
-  id                String         @id @default(cuid())
-  claimId           String         @unique
-  
-  // Relationships
+model SLPParticipant {
+  id             String          @id
+  transactionId  String
+  userId         String
+  role           ParticipantRole
+  joinedAt       DateTime        @default(now())
+  SLPTransaction SLPTransaction  @relation(fields: [transactionId], references: [id])
+}
+
+model SLPProject {
+  id             String           @id
+  name           String
+  description    String?
+  developerId    String
+  status         ProjectStatus    @default(ACTIVE)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  SLPComponent   SLPComponent[]
+  SLPTransaction SLPTransaction[]
+}
+
+model SLPTransaction {
+  id             String            @id
+  projectId      String
+  buyerId        String
+  status         TransactionStatus @default(PENDING)
+  startedAt      DateTime          @default(now())
+  completedAt    DateTime?
+  SLPMilestone   SLPMilestone[]
+  SLPParticipant SLPParticipant[]
+  SLPProject     SLPProject        @relation(fields: [projectId], references: [id])
+}
+
+model SafetyIncident {
+  id                        String              @id
+  planId                    String
+  date                      DateTime
+  time                      String
+  location                  String
+  type                      String
+  description               String
+  involved                  String[]
+  witnesses                 String[]
+  injuries                  Json[]
+  immediateActions          String
+  rootCause                 String?
+  preventativeMeasures      String?
+  reportedById              String
+  reportedDate              DateTime
+  reportNumber              String
+  status                    String
+  investigationFindings     String?
+  correctiveActions         Json[]
+  documentIds               String[]
+  reportedToAuthorities     Boolean             @default(false)
+  reportedToAuthoritiesDate DateTime?
+  authorityReference        String?
+  HealthAndSafetyPlan       HealthAndSafetyPlan @relation(fields: [planId], references: [id])
+}
+
+model SafetyInspection {
+  id                  String              @id
+  planId              String
+  date                DateTime
+  inspectorId         String
+  location            String
+  type                String
+  items               Json[]
+  issues              Json[]
+  score               Int?
+  notes               String
+  signature           String
+  documentIds         String[]
+  HealthAndSafetyPlan HealthAndSafetyPlan @relation(fields: [planId], references: [id])
+}
+
+model Sale {
+  id                String              @id
+  unitId            String
   buyerId           String
-  buyer             User           @relation(fields: [buyerId], references: [id])
-  propertyId        String
-  property          Property       @relation(fields: [propertyId], references: [id])
-  developerId       String?
-  developer         Developer?     @relation(fields: [developerId], references: [id])
-  
-  // Claim details
-  propertyPrice     Decimal        @db.Decimal(12,2)
-  requestedAmount   Decimal        @db.Decimal(12,2)
-  approvedAmount    Decimal?       @db.Decimal(12,2)
-  disbursedAmount   Decimal?       @db.Decimal(12,2)
-  
-  // Application details
-  applicationDate   DateTime       @default(now())
-  submissionDate    DateTime?
-  approvalDate      DateTime?
-  disbursementDate  DateTime?
+  sellingAgentId    String?
+  solicitorId       String?
+  buyerSolicitorId  String?
+  status            SaleStatus
+  contractStatus    String
+  basePrice         Float
+  customizationCost Float
+  totalPrice        Float
   completionDate    DateTime?
-  
-  // Status tracking
-  status            HTBClaimStatus @default(INITIATED)
-  processingStage   HTBProcessingStage @default(INITIAL_ASSESSMENT)
-  eligibilityScore  Float?
-  
-  // Financial details
-  depositAmount     Decimal?       @db.Decimal(12,2)
-  mortgageAmount    Decimal?       @db.Decimal(12,2)
-  mortgageProvider  String?
-  grossAnnualIncome Decimal?       @db.Decimal(12,2)
-  
-  // Automation metadata
-  automationEnabled Boolean        @default(true)
-  lastProcessedAt   DateTime?
-  nextActionDate    DateTime?
-  
-  // System fields
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  
-  // Relationships
-  documents         HTBDocument[]
-  statusHistory     HTBStatusHistory[]
-  fraudAssessments  FraudAssessment[]
-  auditEvents       AuditEvent[]
-  
-  @@map("htb_claims")
+  handoverDate      DateTime?
+  keyCollectionDate DateTime?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  referenceNumber   String
+  metadata          Json?
+  tags              String[]
+  developmentId     String
+  Deposit           Deposit?
+  Document          Document[]
+  HTBDetails        HTBDetails?
+  MortgageDetails   MortgageDetails?
+  Development       Development         @relation(fields: [developmentId], references: [id])
+  User              User?               @relation(fields: [sellingAgentId], references: [id])
+  Unit              Unit                @relation(fields: [unitId], references: [id])
+  SaleNote          SaleNote[]
+  SaleStatusHistory SaleStatusHistory[]
+  SaleTask          SaleTask[]
+  SaleTimeline      SaleTimeline?
+  SnagItem          SnagItem[]
 }
 
-model HTBDocument {
-  id              String         @id @default(cuid())
-  htbClaimId      String
-  htbClaim        HTBClaim       @relation(fields: [htbClaimId], references: [id], onDelete: Cascade)
-  
-  // Document details
-  documentName    String
-  documentType    HTBDocumentType
-  category        String
-  description     String?
-  
-  // File details
-  fileName        String
-  filePath        String
-  fileSize        Int
-  mimeType        String
-  fileHash        String         @unique
-  
-  // Verification
-  isRequired      Boolean        @default(true)
-  isUploaded      Boolean        @default(false)
-  isVerified      Boolean        @default(false)
-  verificationStatus HTBDocumentVerificationStatus @default(PENDING)
-  verifiedAt      DateTime?
-  verifiedBy      String?
-  
-  // AI Verification
-  aiVerificationId String?
-  aiConfidenceScore Float?
-  aiExtractedData  Json?
-  
-  // Compliance
-  gdprProcessed   Boolean        @default(false)
-  retentionDate   DateTime?
-  
-  // System fields
-  uploadedAt      DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  
-  @@map("htb_documents")
+model SaleNote {
+  id        String   @id
+  saleId    String
+  authorId  String
+  content   String
+  timestamp DateTime @default(now())
+  isPrivate Boolean  @default(false)
+  category  String?
+  Sale      Sale     @relation(fields: [saleId], references: [id])
 }
 
-model HTBStatusHistory {
-  id            String         @id @default(cuid())
-  htbClaimId    String
-  htbClaim      HTBClaim       @relation(fields: [htbClaimId], references: [id], onDelete: Cascade)
-  
-  oldStatus     HTBClaimStatus?
-  newStatus     HTBClaimStatus
-  changedBy     String
-  changeReason  String?
-  notes         String?
-  
+model SaleStatusHistory {
+  id             String   @id
+  saleId         String
+  status         String
+  previousStatus String?
+  timestamp      DateTime @default(now())
+  updatedById    String
+  notes          String?
+  Sale           Sale     @relation(fields: [saleId], references: [id])
+  User           User     @relation(fields: [updatedById], references: [id])
+}
+
+model SaleTask {
+  id               String    @id
+  saleId           String
+  title            String
+  description      String
+  dueDate          DateTime
+  status           String
+  priority         String
+  assignedToId     String
+  createdById      String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime
+  completedAt      DateTime?
+  completedById    String?
+  notifyBeforeDays Int?
+  isReminderSent   Boolean   @default(false)
+  recurrence       Json?
+  Sale             Sale      @relation(fields: [saleId], references: [id])
+}
+
+model SaleTimeline {
+  id                     String    @id
+  saleId                 String    @unique
+  initialEnquiryDate     DateTime?
+  firstViewingDate       DateTime?
+  reservationDate        DateTime?
+  reservationExpiryDate  DateTime?
+  contractIssuedDate     DateTime?
+  contractReturnDeadline DateTime?
+  contractReturnedDate   DateTime?
+  depositDueDate         DateTime?
+  depositPaidDate        DateTime?
+  mortgageApprovalDate   DateTime?
+  closingDate            DateTime?
+  fundsDisbursedDate     DateTime?
+  saleCompletedDate      DateTime?
+  handoverDate           DateTime?
+  keyCollectionDate      DateTime?
+  warrantyStartDate      DateTime?
+  warrantyEndDate        DateTime?
+  Sale                   Sale      @relation(fields: [saleId], references: [id])
+}
+
+model SelectedOption {
+  id                      String                  @id
+  selectionId             String
+  optionId                String
+  location                String?
+  notes                   String?
+  color                   String?
+  finish                  String?
+  quantity                Int                     @default(1)
+  UnitCustomizationOption UnitCustomizationOption @relation(fields: [optionId], references: [id])
+  CustomizationSelection  CustomizationSelection  @relation(fields: [selectionId], references: [id])
+}
+
+model ServiceArea {
+  id        String   @id
+  companyId String
+  county    String
+  cities    String[]
+  Company   Company  @relation(fields: [companyId], references: [id])
+}
+
+model SnagItem {
+  id             String    @id
+  snagListId     String
+  description    String
+  location       String
+  status         String    @default("pending")
+  images         String[]
+  developerNotes String?
+  fixedDate      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+  saleId         String?
+  Sale           Sale?     @relation(fields: [saleId], references: [id])
+  SnagList       SnagList  @relation(fields: [snagListId], references: [id])
+}
+
+model SnagList {
+  id            String         @id
+  journeyId     String?
+  propertyId    String
+  userId        String
+  status        String         @default("active")
   createdAt     DateTime       @default(now())
-  
-  @@map("htb_status_history")
+  updatedAt     DateTime
+  SnagItem      SnagItem[]
+  BuyerJourneys BuyerJourneys? @relation(fields: [journeyId], references: [id])
+  Unit          Unit           @relation(fields: [propertyId], references: [id])
+  User          User           @relation(fields: [userId], references: [id])
 }
 
-// Document Management
-model Document {
-  id                String              @id @default(cuid())
-  userId            String
-  user              User                @relation(fields: [userId], references: [id])
-  
-  // Document details
-  name              String
-  description       String?
-  documentType      DocumentType
-  category          DocumentCategory
-  
-  // File details
-  fileName          String
-  filePath          String
-  fileSize          Int
-  mimeType          String
-  fileHash          String              @unique
-  
-  // Verification
-  verificationStatus DocumentVerificationStatus @default(PENDING)
-  verifiedAt        DateTime?
-  verifiedBy        String?
-  
-  // AI Processing
-  aiProcessingId    String?
-  aiExtractedData   Json?
-  aiConfidenceScore Float?
-  
-  // Security
-  encryptionKey     String?
-  isEncrypted       Boolean             @default(true)
-  
-  // Compliance
-  gdprBasis         String?
-  retentionPeriod   Int?                // in days
-  destructionDate   DateTime?
-  
-  // System fields
-  uploadedAt        DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  
-  @@map("documents")
+model TaskComment {
+  id            String      @id
+  taskId        String
+  userId        String
+  content       String
+  timestamp     DateTime    @default(now())
+  attachmentIds String[]
+  mentions      String[]
+  edited        Boolean     @default(false)
+  editedAt      DateTime?
+  ProjectTask   ProjectTask @relation(fields: [taskId], references: [id])
 }
 
-// Audit System
-model AuditEvent {
-  id                String              @id @default(cuid())
-  eventId           String              @unique
-  
-  // Event classification
-  eventType         AuditEventType
-  eventCategory     AuditEventCategory
-  eventSubcategory  String?
-  
-  // Timing
-  timestamp         DateTime            @default(now())
-  duration          Int?                // in milliseconds
-  timeZone          String              @default("Europe/Dublin")
-  
-  // Actor information
-  actorId           String?
-  actorType         ActorType
-  actorName         String?
-  userId            String?
-  user              User?               @relation(fields: [userId], references: [id])
-  htbClaimId        String?
-  htbClaim          HTBClaim?           @relation(fields: [htbClaimId], references: [id])
-  
-  // Target information
-  targetId          String
-  targetType        TargetType
-  targetName        String
-  resourceType      String?
-  dataClassification String?
-  
-  // Event details
-  action            String
-  actionDescription String
-  businessProcess   String?
-  actionParameters  Json?
-  
-  // Context
-  requestId         String?
-  sessionId         String?
-  correlationId     String?
-  ipAddress         String?
-  userAgent         String?
-  
-  // Result
-  resultStatus      ResultStatus
-  resultCode        String?
-  resultMessage     String?
-  
-  // Compliance
-  applicableRegulations String[]
-  complianceStatus  ComplianceStatus    @default(COMPLIANT)
-  legalBasis        String?
-  retentionPeriod   Int                 // in milliseconds
-  
-  // Security
-  securityClassification SecurityClassification @default(INTERNAL)
-  riskLevel         RiskLevel           @default(LOW)
-  
-  // System fields
-  createdAt         DateTime            @default(now())
-  
-  @@map("audit_events")
+model Team {
+  id          String       @id
+  name        String
+  description String?
+  permissions Json?
+  created     DateTime     @default(now())
+  updated     DateTime
+  TeamMember  TeamMember[]
+  Project     Project[]
 }
 
-// Security Events
-model SecurityEvent {
-  id                String              @id @default(cuid())
-  eventId           String              @unique
-  
-  // Event details
-  eventType         SecurityEventType
-  severity          SecuritySeverity
-  description       String
-  
-  // Source
-  sourceSystem      String
-  sourceId          String
-  
-  // User context
-  userId            String?
-  user              User?               @relation(fields: [userId], references: [id])
-  sessionId         String?
-  ipAddress         String?
-  userAgent         String?
-  
-  // Location
-  country           String?
-  region            String?
-  city              String?
-  
-  // Risk assessment
-  riskScore         Float
-  confidence        Float
-  
-  // Response
-  responseStatus    SecurityResponseStatus @default(PENDING)
-  responseActions   Json?
-  resolvedAt        DateTime?
-  resolvedBy        String?
-  
-  // System fields
-  detectedAt        DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  
-  @@map("security_events")
+model TeamMember {
+  id        String    @id
+  teamId    String
+  userId    String
+  role      String
+  joinDate  DateTime  @default(now())
+  leaveDate DateTime?
+  Team      Team      @relation(fields: [teamId], references: [id])
+  User      User      @relation(fields: [userId], references: [id])
+
+  @@unique([teamId, userId])
 }
 
-// Fraud Detection
-model FraudAssessment {
-  id                String              @id @default(cuid())
-  assessmentId      String              @unique
-  
-  // Relationships
-  userId            String
-  user              User                @relation(fields: [userId], references: [id])
-  htbClaimId        String?
-  htbClaim          HTBClaim?           @relation(fields: [htbClaimId], references: [id])
-  
-  // Assessment details
-  transactionId     String
-  transactionType   String
-  transactionAmount Decimal             @db.Decimal(12,2)
-  
-  // Risk assessment
-  overallRiskScore  Float
-  riskLevel         FraudRiskLevel
-  confidence        Float
-  
-  // Decision
-  decision          FraudDecision
-  decisionReason    String
-  
-  // Processing
-  processingTime    Int                 // in milliseconds
-  mlModelResults    Json?
-  triggeredRules    Json?
-  
-  // System fields
-  assessedAt        DateTime            @default(now())
-  
-  @@map("fraud_assessments")
+model ToolboxTalk {
+  id                  String              @id
+  planId              String
+  topic               String
+  presenterId         String
+  date                DateTime
+  duration            Int
+  location            String
+  content             String
+  attendees           String[]
+  signatures          String[]
+  documentIds         String[]
+  notes               String?
+  HealthAndSafetyPlan HealthAndSafetyPlan @relation(fields: [planId], references: [id])
 }
 
-// System Configuration
-model SystemConfiguration {
-  id                String              @id @default(cuid())
-  key               String              @unique
-  value             String
-  description       String?
-  category          String
-  isEncrypted       Boolean             @default(false)
-  isActive          Boolean             @default(true)
-  
-  // System fields
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  updatedBy         String?
-  
-  @@map("system_configuration")
+model TrainingRecord {
+  id                  String              @id
+  planId              String
+  trainingType        String
+  description         String
+  trainer             String
+  trainingDate        DateTime
+  expiryDate          DateTime?
+  attendees           Json[]
+  documentIds         String[]
+  notes               String?
+  HealthAndSafetyPlan HealthAndSafetyPlan @relation(fields: [planId], references: [id])
 }
 
-// Enums
+model Unit {
+  id                      String                    @id
+  developmentId           String
+  name                    String
+  type                    UnitType
+  size                    Float
+  bedrooms                Int
+  bathrooms               Int
+  floors                  Int
+  parkingSpaces           Int
+  basePrice               Float
+  status                  UnitStatus
+  berRating               String
+  features                String[]
+  primaryImage            String
+  images                  String[]
+  floorplans              String[]
+  virtualTourUrl          String?
+  unitNumber              String?
+  block                   String?
+  floor                   Int?
+  aspect                  String?
+  availableFrom           DateTime?
+  reservationEndDate      DateTime?
+  lastViewed              DateTime?
+  viewCount               Int                       @default(0)
+  updatedAt               DateTime
+  slug                    String?
+  BuyerJourneys           BuyerJourneys[]
+  CustomizationSelection  CustomizationSelection[]
+  Document                Document[]
+  HomePackDocument        HomePackDocument[]
+  HomePackItem            HomePackItem[]
+  InvestorWatchlistUnit   InvestorWatchlistUnit[]
+  PropertyReservation     PropertyReservation[]
+  Reservation             Reservation[]
+  Sale                    Sale[]
+  SnagList                SnagList[]
+  Development             Development               @relation(fields: [developmentId], references: [id])
+  UnitCustomizationOption UnitCustomizationOption[]
+  UnitOutdoorSpace        UnitOutdoorSpace[]
+  UnitRoom                UnitRoom[]
+  Viewing                 Viewing[]
+}
+
+model UnitCustomizationOption {
+  id                                                                                                                          String                                   @id
+  unitId                                                                                                                      String
+  category                                                                                                                    CustomizationCategory
+  name                                                                                                                        String
+  description                                                                                                                 String
+  baseOption                                                                                                                  Boolean
+  additionalCost                                                                                                              Float
+  images                                                                                                                      String[]
+  modelPath                                                                                                                   String?
+  installationTimeframe                                                                                                       Int?
+  supplierInfo                                                                                                                Json?
+  specificationDetails                                                                                                        String?
+  dimensions                                                                                                                  Json?
+  technicalRequirements                                                                                                       String?
+  maintenanceInfo                                                                                                             String?
+  warrantyPeriod                                                                                                              Int?
+  SelectedOption                                                                                                              SelectedOption[]
+  Unit                                                                                                                        Unit                                     @relation(fields: [unitId], references: [id])
+  UnitCustomizationOptionAlternative_UnitCustomizationOptionAlternative_alternativeOptionIdToUnitCustomizationOption          UnitCustomizationOptionAlternative[]     @relation("UnitCustomizationOptionAlternative_alternativeOptionIdToUnitCustomizationOption")
+  UnitCustomizationOptionAlternative_UnitCustomizationOptionAlternative_optionIdToUnitCustomizationOption                     UnitCustomizationOptionAlternative[]     @relation("UnitCustomizationOptionAlternative_optionIdToUnitCustomizationOption")
+  UnitCustomizationOptionIncompatibility_UnitCustomizationOptionIncompatibility_incompatibleOptionIdToUnitCustomizationOption UnitCustomizationOptionIncompatibility[] @relation("UnitCustomizationOptionIncompatibility_incompatibleOptionIdToUnitCustomizationOption")
+  UnitCustomizationOptionIncompatibility_UnitCustomizationOptionIncompatibility_optionIdToUnitCustomizationOption             UnitCustomizationOptionIncompatibility[] @relation("UnitCustomizationOptionIncompatibility_optionIdToUnitCustomizationOption")
+  UnitCustomizationOptionRequirement_UnitCustomizationOptionRequirement_optionIdToUnitCustomizationOption                     UnitCustomizationOptionRequirement[]     @relation("UnitCustomizationOptionRequirement_optionIdToUnitCustomizationOption")
+  UnitCustomizationOptionRequirement_UnitCustomizationOptionRequirement_requiredOptionIdToUnitCustomizationOption             UnitCustomizationOptionRequirement[]     @relation("UnitCustomizationOptionRequirement_requiredOptionIdToUnitCustomizationOption")
+}
+
+model UnitCustomizationOptionAlternative {
+  id                                                                                                      String                  @id
+  optionId                                                                                                String
+  alternativeOptionId                                                                                     String
+  UnitCustomizationOption_UnitCustomizationOptionAlternative_alternativeOptionIdToUnitCustomizationOption UnitCustomizationOption @relation("UnitCustomizationOptionAlternative_alternativeOptionIdToUnitCustomizationOption", fields: [alternativeOptionId], references: [id])
+  UnitCustomizationOption_UnitCustomizationOptionAlternative_optionIdToUnitCustomizationOption            UnitCustomizationOption @relation("UnitCustomizationOptionAlternative_optionIdToUnitCustomizationOption", fields: [optionId], references: [id])
+
+  @@unique([optionId, alternativeOptionId])
+}
+
+model UnitCustomizationOptionIncompatibility {
+  id                                                                                                           String                  @id
+  optionId                                                                                                     String
+  incompatibleOptionId                                                                                         String
+  UnitCustomizationOption_UnitCustomizationOptionIncompatibility_incompatibleOptionIdToUnitCustomizationOption UnitCustomizationOption @relation("UnitCustomizationOptionIncompatibility_incompatibleOptionIdToUnitCustomizationOption", fields: [incompatibleOptionId], references: [id])
+  UnitCustomizationOption_UnitCustomizationOptionIncompatibility_optionIdToUnitCustomizationOption             UnitCustomizationOption @relation("UnitCustomizationOptionIncompatibility_optionIdToUnitCustomizationOption", fields: [optionId], references: [id])
+
+  @@unique([optionId, incompatibleOptionId])
+}
+
+model UnitCustomizationOptionRequirement {
+  id                                                                                                   String                  @id
+  optionId                                                                                             String
+  requiredOptionId                                                                                     String
+  UnitCustomizationOption_UnitCustomizationOptionRequirement_optionIdToUnitCustomizationOption         UnitCustomizationOption @relation("UnitCustomizationOptionRequirement_optionIdToUnitCustomizationOption", fields: [optionId], references: [id])
+  UnitCustomizationOption_UnitCustomizationOptionRequirement_requiredOptionIdToUnitCustomizationOption UnitCustomizationOption @relation("UnitCustomizationOptionRequirement_requiredOptionIdToUnitCustomizationOption", fields: [requiredOptionId], references: [id])
+
+  @@unique([optionId, requiredOptionId])
+}
+
+model UnitOutdoorSpace {
+  id          String           @id
+  unitId      String
+  type        OutdoorSpaceType
+  size        Float
+  orientation String?
+  description String?
+  features    String[]
+  images      String[]
+  Unit        Unit             @relation(fields: [unitId], references: [id])
+}
+
+model UnitRoom {
+  id       String   @id
+  unitId   String
+  name     String
+  type     RoomType
+  size     Float
+  length   Float?
+  width    Float?
+  features String[]
+  images   String[]
+  Unit     Unit     @relation(fields: [unitId], references: [id])
+}
+
+model User {
+  id                                         String              @id
+  email                                      String              @unique
+  firstName                                  String
+  lastName                                   String
+  phone                                      String?
+  password                                   String?
+  roles                                      UserRole[]
+  status                                     UserStatus          @default(ACTIVE)
+  kycStatus                                  KYCStatus           @default(NOT_STARTED)
+  organization                               String?
+  position                                   String?
+  avatar                                     String?
+  preferences                                Json?
+  created                                    DateTime            @default(now())
+  lastActive                                 DateTime
+  lastLogin                                  DateTime?
+  metadata                                   Json?
+  BuyerEvent                                 BuyerEvent[]
+  BuyerJourneys                              BuyerJourneys?
+  BuyerProfile                               BuyerProfile?
+  Development                                Development[]
+  Document_Document_approvedByIdToUser       Document[]          @relation("Document_approvedByIdToUser")
+  Document_Document_uploadedByIdToUser       Document[]          @relation("Document_uploadedByIdToUser")
+  DocumentVersion                            DocumentVersion[]
+  Investment                                 Investment[]
+  Lead                                       Lead[]
+  MortgageTracking                           MortgageTracking?
+  Professional                               Professional?
+  Project                                    Project[]
+  ProjectTask_ProjectTask_assignedToIdToUser ProjectTask[]       @relation("ProjectTask_assignedToIdToUser")
+  ProjectTask_ProjectTask_createdByIdToUser  ProjectTask[]       @relation("ProjectTask_createdByIdToUser")
+  Reservation                                Reservation[]
+  Sale                                       Sale[]
+  SaleStatusHistory                          SaleStatusHistory[]
+  SnagList                                   SnagList[]
+  TeamMember                                 TeamMember[]
+  UserPermission                             UserPermission[]
+  Document_UserKycDocuments                  Document[]          @relation("UserKycDocuments")
+}
+
+model UserPermission {
+  id         String @id
+  userId     String
+  resource   String
+  action     String
+  conditions Json?
+  User       User   @relation(fields: [userId], references: [id])
+}
+
+model UserRoleMapping {
+  id     String @id
+  userId String
+  role   String
+
+  @@unique([userId, role])
+}
+
+model Viewing {
+  id                      String      @id
+  leadId                  String
+  developmentId           String
+  date                    DateTime
+  startTime               String
+  endTime                 String
+  duration                Int
+  type                    String
+  status                  String
+  hostId                  String
+  attendees               Json[]
+  location                String
+  meetingPoint            String?
+  virtualMeetingLink      String?
+  privateParkingAvailable Boolean     @default(false)
+  specialRequirements     String?
+  feedback                Json?
+  followUp                Json
+  reminderSent            Boolean     @default(false)
+  reminderSentDate        DateTime?
+  confirmationSent        Boolean     @default(false)
+  confirmationSentDate    DateTime?
+  created                 DateTime    @default(now())
+  updated                 DateTime
+  createdById             String
+  notes                   String?
+  Development             Development @relation(fields: [developmentId], references: [id])
+  Lead                    Lead        @relation(fields: [leadId], references: [id])
+  Unit                    Unit[]
+}
+
+model htb_claims {
+  id                                   String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  legacy_id                            String?              @unique
+  buyer_id                             String?              @db.Uuid
+  developer_id                         String?              @db.Uuid
+  property_id                          String
+  property_price                       Decimal              @db.Decimal(10, 2)
+  property_address                     String?
+  status                               htb_claim_status     @default(INITIATED)
+  requested_amount                     Decimal              @db.Decimal(10, 2)
+  approved_amount                      Decimal?             @db.Decimal(10, 2)
+  drawdown_amount                      Decimal?             @db.Decimal(10, 2)
+  access_code                          String?
+  access_code_expiry_date              DateTime?            @db.Timestamptz(6)
+  claim_code                           String?
+  claim_code_expiry_date               DateTime?            @db.Timestamptz(6)
+  application_date                     DateTime             @default(now()) @db.Timestamptz(6)
+  last_updated_date                    DateTime             @default(now()) @db.Timestamptz(6)
+  created_at                           DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at                           DateTime?            @default(now()) @db.Timestamptz(6)
+  users_htb_claims_buyer_idTousers     users?               @relation("htb_claims_buyer_idTousers", fields: [buyer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users_htb_claims_developer_idTousers users?               @relation("htb_claims_developer_idTousers", fields: [developer_id], references: [id], onUpdate: NoAction)
+  htb_documents                        htb_documents[]
+  htb_notes                            htb_notes[]
+  htb_status_history                   htb_status_history[]
+
+  @@index([buyer_id], map: "idx_htb_claims_buyer_id")
+  @@index([developer_id], map: "idx_htb_claims_developer_id")
+  @@index([property_id], map: "idx_htb_claims_property_id")
+  @@index([status], map: "idx_htb_claims_status")
+}
+
+model htb_documents {
+  id          String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  claim_id    String?     @db.Uuid
+  url         String
+  name        String
+  type        String
+  uploaded_by String?     @db.Uuid
+  uploaded_at DateTime    @default(now()) @db.Timestamptz(6)
+  created_at  DateTime?   @default(now()) @db.Timestamptz(6)
+  htb_claims  htb_claims? @relation(fields: [claim_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       users?      @relation(fields: [uploaded_by], references: [id], onUpdate: NoAction)
+
+  @@index([claim_id], map: "idx_htb_documents_claim_id")
+}
+
+model htb_notes {
+  id         String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  claim_id   String?     @db.Uuid
+  content    String
+  is_private Boolean?    @default(false)
+  created_by String?     @db.Uuid
+  created_at DateTime    @default(now()) @db.Timestamptz(6)
+  htb_claims htb_claims? @relation(fields: [claim_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users?      @relation(fields: [created_by], references: [id], onUpdate: NoAction)
+
+  @@index([claim_id], map: "idx_htb_notes_claim_id")
+}
+
+model htb_status_history {
+  id              String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  claim_id        String?           @db.Uuid
+  previous_status htb_claim_status?
+  new_status      htb_claim_status
+  updated_by      String?           @db.Uuid
+  updated_at      DateTime          @default(now()) @db.Timestamptz(6)
+  notes           String?
+  htb_claims      htb_claims?       @relation(fields: [claim_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users           users?            @relation(fields: [updated_by], references: [id], onUpdate: NoAction)
+
+  @@index([claim_id], map: "idx_htb_status_history_claim_id")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_audit_log {
+  id                                       String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id                                  String?  @db.Uuid
+  action                                   String
+  old_values                               Json?
+  new_values                               Json?
+  ip_address                               String?  @db.Inet
+  user_agent                               String?
+  performed_by                             String?  @db.Uuid
+  performed_at                             DateTime @default(now()) @db.Timestamptz(6)
+  users_user_audit_log_performed_byTousers users?   @relation("user_audit_log_performed_byTousers", fields: [performed_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_user_audit_log_user_idTousers      users?   @relation("user_audit_log_user_idTousers", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([action], map: "idx_audit_action")
+  @@index([performed_at], map: "idx_audit_performed_at")
+  @@index([user_id], map: "idx_audit_user_id")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model users {
+  id                                                String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  legacy_id                                         String?              @unique
+  cognito_user_id                                   String               @unique
+  email                                             String               @unique
+  email_verified                                    Boolean?             @default(false)
+  first_name                                        String
+  last_name                                         String
+  phone                                             String?
+  phone_verified                                    Boolean?             @default(false)
+  roles                                             user_role[]          @default([buyer])
+  status                                            user_status          @default(pending)
+  kyc_status                                        kyc_status           @default(not_started)
+  organization                                      String?
+  position                                          String?
+  avatar                                            String?
+  preferences                                       Json?                @default("{}")
+  metadata                                          Json?                @default("{}")
+  password_hash                                     String?
+  last_password_change                              DateTime?            @db.Timestamptz(6)
+  failed_login_attempts                             Int?                 @default(0)
+  locked_until                                      DateTime?            @db.Timestamptz(6)
+  created_at                                        DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at                                        DateTime             @default(now()) @db.Timestamptz(6)
+  last_active_at                                    DateTime             @default(now()) @db.Timestamptz(6)
+  last_login_at                                     DateTime?            @db.Timestamptz(6)
+  deleted_at                                        DateTime?            @db.Timestamptz(6)
+  htb_claims_htb_claims_buyer_idTousers             htb_claims[]         @relation("htb_claims_buyer_idTousers")
+  htb_claims_htb_claims_developer_idTousers         htb_claims[]         @relation("htb_claims_developer_idTousers")
+  htb_documents                                     htb_documents[]
+  htb_notes                                         htb_notes[]
+  htb_status_history                                htb_status_history[]
+  user_audit_log_user_audit_log_performed_byTousers user_audit_log[]     @relation("user_audit_log_performed_byTousers")
+  user_audit_log_user_audit_log_user_idTousers      user_audit_log[]     @relation("user_audit_log_user_idTousers")
+}
+
+enum BuyerPhase {
+  PLANNING
+  FINANCING
+  PROPERTY_SEARCH
+  RESERVATION
+  LEGAL_PROCESS
+  CONSTRUCTION
+  COMPLETION
+  POST_PURCHASE
+}
+
+enum ComponentStatus {
+  PENDING
+  UPLOADED
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum CurrencyCode {
+  EUR
+  USD
+  GBP
+  CAD
+  AUD
+  JPY
+  CHF
+  CNY
+}
+
+enum CustomizationCategory {
+  KITCHEN
+  BATHROOM
+  FLOORING
+  DOORS
+  WINDOWS
+  PAINT
+  ELECTRICAL
+  HEATING
+  STORAGE
+  FIXTURES
+  EXTERIOR
+  SMART_HOME
+  APPLIANCES
+  LIGHTING
+  OTHER
+}
+
+enum CustomizationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  CHANGES_REQUESTED
+  APPROVED
+  REJECTED
+  EXPIRED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum DevelopmentStatus {
+  PLANNING
+  PRE_CONSTRUCTION
+  CONSTRUCTION
+  MARKETING
+  SALES
+  HANDOVER
+  COMPLETED
+}
+
+enum FundingStatus {
+  PROPOSED
+  APPROVED
+  ACTIVE
+  FULLY_DRAWN
+  REPAID
+  CANCELLED
+  EXPIRED
+  PENDING_APPROVAL
+  PARTIALLY_DRAWN
+}
+
+enum FundingType {
+  DEVELOPMENT_LOAN
+  SENIOR_DEBT
+  MEZZANINE_DEBT
+  EQUITY_INVESTMENT
+  CROWDFUNDING
+  GRANT
+  PRESALES
+  JOINT_VENTURE
+  CONSTRUCTION_LOAN
+  BRIDGE_LOAN
+  INTERNAL_FUNDING
+  VENTURE_DEBT
+  OTHER
+}
+
+enum InvestmentStatus {
+  PROPOSED
+  OPEN
+  CLOSED
+  FULLY_SUBSCRIBED
+  ACTIVE
+  EXITED
+  DISTRESSED
+  DEFAULTED
+  RESTRUCTURED
+  ON_HOLD
+}
+
+enum InvestmentType {
+  EQUITY
+  DEBT
+  MEZZANINE
+  PREFERRED_EQUITY
+  JOINT_VENTURE
+  PRIVATE_PLACEMENT
+  SYNDICATION
+  FUND
+  REIT
+  OTHER
+}
+
+enum KYCStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
+}
+
+enum MortgageStatus {
+  PREPARING
+  SUBMITTED
+  INFO_REQUESTED
+  UNDERWRITING
+  DECLINED
+  APPROVED_IN_PRINCIPLE
+  VALUATION_PENDING
+  VALUATION_COMPLETE
+  FINAL_APPROVAL
+  MORTGAGE_OFFER
+  EXPIRED
+  DRAWDOWN
+  COMPLETED
+}
+
+enum OutdoorSpaceType {
+  BALCONY
+  TERRACE
+  GARDEN
+  PATIO
+  ROOF_TERRACE
+  YARD
+}
+
+enum ParticipantRole {
+  BUYER
+  SELLER
+  BUYER_SOLICITOR
+  SELLER_SOLICITOR
+  AGENT
+  DEVELOPER
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+  CHECK
+  DIRECT_DEBIT
+  ELECTRONIC_TRANSFER
+  WIRE_TRANSFER
+  ESCROW
+  OTHER
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+enum ReservationStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CONVERTED_TO_SALE
+  REFUNDED
+}
+
+enum RiskRating {
+  VERY_LOW
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum RoomType {
+  LIVING_ROOM
+  KITCHEN
+  DINING_ROOM
+  BEDROOM
+  BATHROOM
+  EN_SUITE
+  STUDY
+  UTILITY
+  HALL
+  LANDING
+  STORAGE
+  OTHER
+}
+
+enum SaleStatus {
+  ENQUIRY
+  VIEWING_SCHEDULED
+  VIEWED
+  INTERESTED
+  RESERVATION
+  PENDING_APPROVAL
+  RESERVATION_APPROVED
+  CONTRACT_ISSUED
+  CONTRACT_SIGNED
+  DEPOSIT_PAID
+  MORTGAGE_APPROVED
+  CLOSING
+  COMPLETED
+  HANDED_OVER
+  CANCELLED
+  EXPIRED
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+  SCHEDULED
+  PROCESSING
+  RECONCILED
+  DISPUTED
+}
+
+enum UnitStatus {
+  PLANNED
+  UNDER_CONSTRUCTION
+  COMPLETE
+  AVAILABLE
+  RESERVED
+  SALE_AGREED
+  SOLD
+  OCCUPIED
+}
+
+enum UnitType {
+  APARTMENT
+  DUPLEX
+  SEMI_DETACHED
+  DETACHED
+  TERRACED
+  PENTHOUSE
+  COMMERCIAL
+  RETAIL
+  OFFICE
+}
+
+enum UserRole {
+  DEVELOPER
+  BUYER
+  INVESTOR
+  ARCHITECT
+  ENGINEER
+  QUANTITY_SURVEYOR
+  LEGAL
+  PROJECT_MANAGER
+  AGENT
+  SOLICITOR
+  CONTRACTOR
+  ADMIN
+}
+
 enum UserStatus {
   PENDING
   ACTIVE
@@ -526,260 +2777,51 @@ enum UserStatus {
   INACTIVE
 }
 
-enum PropertyType {
-  NEW
-  SECONDHAND
-  
-  @@map("property_type")
-}
-
-enum PropertyCategory {
-  HOUSE
-  APARTMENT
-  TOWNHOUSE
-  DUPLEX
-  
-  @@map("property_category")
-}
-
-enum PropertyStatus {
-  AVAILABLE
-  RESERVED
-  SOLD
-  WITHDRAWN
-  UNDER_CONSTRUCTION
-  
-  @@map("property_status")
-}
-
-enum HTBClaimStatus {
+enum htb_claim_status {
   INITIATED
-  DOCUMENTS_PENDING
-  UNDER_REVIEW
+  ACCESS_CODE_RECEIVED
+  ACCESS_CODE_SUBMITTED
+  DEVELOPER_PROCESSING
+  CLAIM_CODE_RECEIVED
+  FUNDS_REQUESTED
+  FUNDS_RECEIVED
+  DEPOSIT_APPLIED
+  COMPLETED
+  REJECTED
+  EXPIRED
+  CANCELLED
   SUBMITTED
-  APPROVAL_PENDING
-  APPROVED
-  REJECTED
-  DISBURSEMENT_READY
-  DISBURSED
-  COMPLETED
-  CANCELLED
-  
-  @@map("htb_claim_status")
+  ACCESS_CODE_APPROVED
+  CLAIM_CODE_ISSUED
 }
 
-enum HTBProcessingStage {
-  INITIAL_ASSESSMENT
-  DOCUMENT_COLLECTION
-  ELIGIBILITY_VERIFICATION
-  PROPERTY_VALIDATION
-  FINANCIAL_VERIFICATION
-  APPLICATION_SUBMISSION
-  APPROVAL_PENDING
-  APPROVED
-  REJECTED
-  DISBURSEMENT_READY
-  COMPLETED
-  
-  @@map("htb_processing_stage")
+enum kyc_status {
+  not_started
+  in_progress
+  pending_review
+  approved
+  rejected
+  expired
 }
 
-enum HTBDocumentType {
-  SALARY_CERTIFICATE
-  BANK_STATEMENTS
-  MORTGAGE_APPROVAL
-  CONTRACTS_SALE
-  ID_VERIFICATION
-  PPS_CERTIFICATE
-  TAX_RETURNS
-  EMPLOYMENT_LETTER
-  P60
-  UTILITY_BILL
-  
-  @@map("htb_document_type")
+enum user_role {
+  developer
+  buyer
+  investor
+  architect
+  engineer
+  quantity_surveyor
+  legal
+  project_manager
+  agent
+  solicitor
+  contractor
+  admin
 }
 
-enum HTBDocumentVerificationStatus {
-  PENDING
-  PROCESSING
-  VERIFIED
-  REJECTED
-  EXPIRED
-  
-  @@map("htb_document_verification_status")
-}
-
-enum DocumentType {
-  IDENTITY
-  FINANCIAL
-  LEGAL
-  EMPLOYMENT
-  PROPERTY
-  OTHER
-  
-  @@map("document_type")
-}
-
-enum DocumentCategory {
-  INCOME_VERIFICATION
-  FINANCIAL_VERIFICATION
-  MORTGAGE_VERIFICATION
-  PROPERTY_LEGAL
-  IDENTITY_VERIFICATION
-  EMPLOYMENT_VERIFICATION
-  
-  @@map("document_category")
-}
-
-enum DocumentVerificationStatus {
-  PENDING
-  PROCESSING
-  VERIFIED
-  REJECTED
-  EXPIRED
-  
-  @@map("document_verification_status")
-}
-
-enum AuditEventType {
-  USER_ACTION
-  SYSTEM_EVENT
-  SECURITY_EVENT
-  COMPLIANCE_EVENT
-  FINANCIAL_EVENT
-  DATA_EVENT
-  CONFIGURATION_CHANGE
-  ERROR_EVENT
-  BUSINESS_PROCESS
-  REGULATORY_ACTION
-  
-  @@map("audit_event_type")
-}
-
-enum AuditEventCategory {
-  AUTHENTICATION
-  AUTHORIZATION
-  DATA_ACCESS
-  DATA_MODIFICATION
-  TRANSACTION_PROCESSING
-  SYSTEM_ADMINISTRATION
-  SECURITY_MONITORING
-  COMPLIANCE_TRACKING
-  ERROR_HANDLING
-  BUSINESS_LOGIC
-  
-  @@map("audit_event_category")
-}
-
-enum ActorType {
-  USER
-  SYSTEM
-  SERVICE
-  EXTERNAL
-  AUTOMATED
-  
-  @@map("actor_type")
-}
-
-enum TargetType {
-  USER
-  RESOURCE
-  DATA
-  SYSTEM
-  CONFIGURATION
-  TRANSACTION
-  
-  @@map("target_type")
-}
-
-enum ResultStatus {
-  SUCCESS
-  FAILURE
-  PARTIAL
-  WARNING
-  CANCELLED
-  
-  @@map("result_status")
-}
-
-enum ComplianceStatus {
-  COMPLIANT
-  NON_COMPLIANT
-  UNKNOWN
-  EXEMPT
-  
-  @@map("compliance_status")
-}
-
-enum SecurityClassification {
-  PUBLIC
-  INTERNAL
-  CONFIDENTIAL
-  SECRET
-  
-  @@map("security_classification")
-}
-
-enum RiskLevel {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
-  
-  @@map("risk_level")
-}
-
-enum SecurityEventType {
-  AUTHENTICATION_FAILURE
-  UNAUTHORIZED_ACCESS
-  DATA_BREACH_ATTEMPT
-  MALWARE_DETECTION
-  SUSPICIOUS_BEHAVIOR
-  COMPLIANCE_VIOLATION
-  SYSTEM_INTRUSION
-  DDOS_ATTACK
-  SQL_INJECTION
-  XSS_ATTEMPT
-  PRIVILEGE_ESCALATION
-  DATA_EXFILTRATION
-  ACCOUNT_TAKEOVER
-  FRAUD_ATTEMPT
-  
-  @@map("security_event_type")
-}
-
-enum SecuritySeverity {
-  INFO
-  WARNING
-  CRITICAL
-  EMERGENCY
-  
-  @@map("security_severity")
-}
-
-enum SecurityResponseStatus {
-  PENDING
-  IN_PROGRESS
-  RESOLVED
-  ESCALATED
-  
-  @@map("security_response_status")
-}
-
-enum FraudRiskLevel {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
-  
-  @@map("fraud_risk_level")
-}
-
-enum FraudDecision {
-  APPROVE
-  DECLINE
-  REVIEW
-  ADDITIONAL_AUTH_REQUIRED
-  
-  @@map("fraud_decision")
+enum user_status {
+  pending
+  active
+  suspended
+  deactivated
 }

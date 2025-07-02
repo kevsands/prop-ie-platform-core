@@ -81,7 +81,7 @@ export default function DevelopmentCTA({
 
   // For available units - urgent CTA
   return (
-    <>
+    <React.Fragment>
       {!showRegistration ? (
         <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-lg p-8 border-2 border-red-200">
           <div className="flex items-start justify-between mb-6">
@@ -192,6 +192,6 @@ export default function DevelopmentCTA({
           }}
         />
       )}
-    </>
+    </React.Fragment>
   );
 }

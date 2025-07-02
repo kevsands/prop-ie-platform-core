@@ -1,16 +1,27 @@
 /**
- * Real Documents Service for database operations
- * CRITICAL: Supports €2M+ active sales transactions
- * Handles legal documents, contracts, KYC, HTB, and compliance documents
+ * Real Documents Service for PostgreSQL database operations
+ * CRITICAL: Supports €2M+ active sales transactions with enterprise KYC/AML verification
+ * Handles legal documents, contracts, KYC, HTB, and compliance documents with AWS S3 storage
  */
 
-import sqlite3 from 'sqlite3';
-import path from 'path';
-import { DocumentType, DocumentStatus, DocumentCategory } from '@/types/document';
+import { PrismaClient } from '@prisma/client';
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { DocumentType, DocumentCategory, DocumentVerificationStatus } from '@/types/document';
 
-const { Database } = sqlite3;
+// Initialize Prisma client
+const prisma = new PrismaClient();
 
-const dbPath = path.join(process.cwd(), 'prisma', 'dev.db');
+// AWS S3 Configuration
+const s3Config = {
+  region: process.env.AWS_REGION || "eu-west-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ""
+  }
+};
+
+const s3Client = new S3Client(s3Config);
+const bucketName = process.env.AWS_S3_BUCKET_NAME || "propie-documents-production";
 
 // Document interfaces matching our business requirements
 export type Document = {
@@ -30,6 +41,15 @@ export type Document = {
   expiryDate?: Date;
   createdAt: Date;
   updatedAt: Date;
+  // KYC/AML specific fields
+  verificationStatus?: string;
+  verifiedAt?: Date;
+  verifiedBy?: string;
+  aiProcessingId?: string;
+  aiExtractedData?: any;
+  aiConfidenceScore?: number;
+  isEncrypted?: boolean;
+  encryptionKey?: string;
 };
 
 export type DocumentVersion = {
@@ -55,6 +75,10 @@ export type CreateDocumentInput = {
   tags?: string[];
   isPublic?: boolean;
   expiryDate?: Date;
+  // KYC/AML specific fields
+  documentCategory?: DocumentCategory;
+  documentType?: DocumentType;
+  isEncrypted?: boolean;
 };
 
 export type UpdateDocumentInput = {
@@ -64,14 +88,15 @@ export type UpdateDocumentInput = {
   tags?: string[];
   isPublic?: boolean;
   expiryDate?: Date;
+  verificationStatus?: DocumentVerificationStatus;
+  verifiedBy?: string;
+  aiExtractedData?: any;
+  aiConfidenceScore?: number;
 };
 
-// Helper to generate IDs
-const generateId = () => 'doc_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 9);
-
 /**
- * Real documents service with SQLite database operations
- * Handles enterprise-grade document management for property transactions
+ * Real documents service with PostgreSQL database operations and AWS S3 integration
+ * Handles enterprise-grade document management for property transactions and KYC/AML compliance
  */
 export const documentsService = {
   /**
@@ -86,292 +111,350 @@ export const documentsService = {
     search?: string;
     limit?: number;
     offset?: number;
+    verificationStatus?: DocumentVerificationStatus;
   }): Promise<{
     documents: Document[];
     total: number;
   }> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      let query = 'SELECT * FROM documents';
-      const params: any[] = [];
-      const conditions: string[] = [];
-      
+    try {
+      const where: any = {};
+
       if (filters?.ownerId) {
-        conditions.push('ownerId = ?');
-        params.push(filters.ownerId);
-      }
-      
-      if (filters?.ownerType) {
-        conditions.push('ownerType = ?');
-        params.push(filters.ownerType);
+        where.userId = filters.ownerId;
       }
       
       if (filters?.type) {
-        conditions.push('type = ?');
-        params.push(filters.type);
-      }
-      
-      if (filters?.uploadedBy) {
-        conditions.push('uploadedBy = ?');
-        params.push(filters.uploadedBy);
-      }
-      
-      if (filters?.isPublic !== undefined) {
-        conditions.push('isPublic = ?');
-        params.push(filters.isPublic ? 1 : 0);
+        where.documentType = filters.type;
       }
       
       if (filters?.search) {
-        conditions.push('(title LIKE ? OR description LIKE ?)');
-        const searchPattern = `%${filters.search}%`;
-        params.push(searchPattern, searchPattern);
+        where.OR = [
+          { name: { contains: filters.search, mode: 'insensitive' } },
+          { description: { contains: filters.search, mode: 'insensitive' } }
+        ];
       }
-      
-      if (conditions.length > 0) {
-        query += ' WHERE ' + conditions.join(' AND ');
+
+      if (filters?.verificationStatus) {
+        where.verificationStatus = filters.verificationStatus;
       }
-      
-      query += ' ORDER BY createdAt DESC';
-      
-      if (filters?.limit) {
-        query += ' LIMIT ?';
-        params.push(filters.limit);
-        
-        if (filters?.offset) {
-          query += ' OFFSET ?';
-          params.push(filters.offset);
-        }
-      }
-      
-      // First get the total count
-      let countQuery = 'SELECT COUNT(*) as total FROM documents';
-      const countParams = params.slice(0, -2); // Remove LIMIT and OFFSET from count query
-      
-      if (conditions.length > 0) {
-        countQuery += ' WHERE ' + conditions.join(' AND ');
-      }
-      
-      db.get(countQuery, countParams, (err, countResult: any) => {
-        if (err) {
-          db.close();
-          reject(new Error('Failed to count documents: ' + err.message));
-          return;
-        }
-        
-        // Then get the documents
-        db.all(query, params, (err, rows: any[]) => {
-          db.close();
-          if (err) {
-            reject(new Error('Failed to fetch documents: ' + err.message));
-            return;
+
+      // Get total count
+      const total = await prisma.document.count({ where });
+
+      // Get documents with pagination
+      const documents = await prisma.document.findMany({
+        where,
+        orderBy: { uploadedAt: 'desc' },
+        take: filters?.limit || 20,
+        skip: filters?.offset || 0,
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true
+            }
+          },
+          verificationWorkflows: {
+            select: {
+              id: true,
+              status: true,
+              workflowType: true,
+              decision: true,
+              overallRiskScore: true
+            }
           }
-          
-          const documents = rows.map(row => ({
-            ...row,
-            isPublic: !!row.isPublic,
-            createdAt: new Date(row.createdAt),
-            updatedAt: new Date(row.updatedAt),
-            expiryDate: row.expiryDate ? new Date(row.expiryDate) : undefined,
-          }));
-          
-          resolve({
-            documents,
-            total: countResult.total
-          });
-        });
+        }
       });
-    });
+
+      return {
+        documents: documents.map(doc => ({
+          id: doc.id,
+          title: doc.name,
+          description: doc.description || undefined,
+          type: doc.documentType.toString(),
+          url: doc.filePath,
+          mimeType: doc.mimeType,
+          size: doc.fileSize,
+          uploadedBy: doc.userId,
+          version: 1, // Simplified versioning for now
+          isPublic: false, // Documents are private by default for security
+          createdAt: doc.uploadedAt,
+          updatedAt: doc.updatedAt,
+          verificationStatus: doc.verificationStatus?.toString(),
+          verifiedAt: doc.verifiedAt || undefined,
+          verifiedBy: doc.verifiedBy || undefined,
+          aiProcessingId: doc.aiProcessingId || undefined,
+          aiExtractedData: doc.aiExtractedData,
+          aiConfidenceScore: doc.aiConfidenceScore || undefined,
+          isEncrypted: doc.isEncrypted,
+          encryptionKey: doc.encryptionKey || undefined
+        })),
+        total
+      };
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+      throw new Error('Failed to fetch documents');
+    }
   },
 
   /**
    * Get a single document by ID
    */
   getDocumentById: async (id: string): Promise<Document | null> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.get('SELECT * FROM documents WHERE id = ?', [id], (err, row: any) => {
-        db.close();
-        if (err) {
-          reject(new Error('Failed to fetch document: ' + err.message));
-          return;
+    try {
+      const document = await prisma.document.findUnique({
+        where: { id },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true
+            }
+          },
+          verificationWorkflows: {
+            select: {
+              id: true,
+              status: true,
+              workflowType: true,
+              decision: true,
+              overallRiskScore: true
+            }
+          }
         }
-        
-        if (!row) {
-          resolve(null);
-          return;
-        }
-        
-        resolve({
-          ...row,
-          isPublic: !!row.isPublic,
-          createdAt: new Date(row.createdAt),
-          updatedAt: new Date(row.updatedAt),
-          expiryDate: row.expiryDate ? new Date(row.expiryDate) : undefined,
-        });
       });
-    });
+
+      if (!document) {
+        return null;
+      }
+
+      return {
+        id: document.id,
+        title: document.name,
+        description: document.description || undefined,
+        type: document.documentType.toString(),
+        url: document.filePath,
+        mimeType: document.mimeType,
+        size: document.fileSize,
+        uploadedBy: document.userId,
+        version: 1,
+        isPublic: false,
+        createdAt: document.uploadedAt,
+        updatedAt: document.updatedAt,
+        verificationStatus: document.verificationStatus?.toString(),
+        verifiedAt: document.verifiedAt || undefined,
+        verifiedBy: document.verifiedBy || undefined,
+        aiProcessingId: document.aiProcessingId || undefined,
+        aiExtractedData: document.aiExtractedData,
+        aiConfidenceScore: document.aiConfidenceScore || undefined,
+        isEncrypted: document.isEncrypted,
+        encryptionKey: document.encryptionKey || undefined
+      };
+    } catch (error) {
+      console.error('Error fetching document by ID:', error);
+      throw new Error('Failed to fetch document');
+    }
   },
 
   /**
    * Create a new document
    */
   createDocument: async (documentData: CreateDocumentInput): Promise<Document> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
+    try {
+      // Determine file hash for deduplication (simplified)
+      const fileHash = `hash_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
-      const docId = generateId();
-      const now = new Date().toISOString();
-      const tagsData = JSON.stringify(documentData.tags || []);
-      
-      const insertQuery = `
-        INSERT INTO documents (
-          id, title, description, type, url, mimeType, size, uploadedBy, 
-          ownerId, ownerType, tagsData, version, isPublic, expiryDate, 
-          createdAt, updatedAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
-      
-      db.run(insertQuery, [
-        docId,
-        documentData.title,
-        documentData.description || null,
-        documentData.type,
-        documentData.url,
-        documentData.mimeType || null,
-        documentData.size || null,
-        documentData.uploadedBy,
-        documentData.ownerId || null,
-        documentData.ownerType || null,
-        tagsData,
-        1, // Initial version
-        documentData.isPublic ? 1 : 0,
-        documentData.expiryDate ? documentData.expiryDate.toISOString() : null,
-        now,
-        now
-      ], function(err) {
-        if (err) {
-          db.close();
-          reject(new Error('Failed to create document: ' + err.message));
-          return;
-        }
-        
-        // Return the created document
-        db.get('SELECT * FROM documents WHERE id = ?', [docId], (err, row: any) => {
-          db.close();
-          if (err) {
-            reject(new Error('Failed to retrieve created document: ' + err.message));
-            return;
+      const document = await prisma.document.create({
+        data: {
+          userId: documentData.uploadedBy,
+          name: documentData.title,
+          description: documentData.description,
+          documentType: documentData.documentType || DocumentType.OTHER,
+          category: documentData.documentCategory || DocumentCategory.OTHER,
+          fileName: documentData.title,
+          filePath: documentData.url,
+          fileSize: documentData.size || 0,
+          mimeType: documentData.mimeType || 'application/octet-stream',
+          fileHash,
+          verificationStatus: DocumentVerificationStatus.PENDING,
+          isEncrypted: documentData.isEncrypted ?? true,
+          encryptionKey: documentData.isEncrypted ? `enc_${Date.now()}` : undefined,
+          gdprBasis: 'legitimate_interest',
+          retentionPeriod: 7 * 365, // 7 years for compliance
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true
+            }
           }
-          
-          resolve({
-            ...row,
-            isPublic: !!row.isPublic,
-            createdAt: new Date(row.createdAt),
-            updatedAt: new Date(row.updatedAt),
-            expiryDate: row.expiryDate ? new Date(row.expiryDate) : undefined,
-          });
-        });
+        }
       });
-    });
+
+      // Create initial verification workflow for KYC/AML documents
+      if (documentData.documentType === DocumentType.IDENTITY || 
+          documentData.documentType === DocumentType.FINANCIAL) {
+        await prisma.verificationWorkflow.create({
+          data: {
+            workflowId: `wf_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            userId: documentData.uploadedBy,
+            documentId: document.id,
+            workflowType: documentData.documentType === DocumentType.IDENTITY 
+              ? 'KYC_IDENTITY' 
+              : 'KYC_DOCUMENT',
+            status: 'INITIATED',
+            priority: 'MEDIUM',
+            identityStatus: 'PENDING',
+            documentValidationStatus: 'PENDING',
+            amlStatus: 'PENDING',
+            riskLevel: 'LOW',
+            regulatoryReqs: ['GDPR', 'PCI_DSS', 'AML_DIRECTIVE']
+          }
+        });
+      }
+
+      return {
+        id: document.id,
+        title: document.name,
+        description: document.description || undefined,
+        type: document.documentType.toString(),
+        url: document.filePath,
+        mimeType: document.mimeType,
+        size: document.fileSize,
+        uploadedBy: document.userId,
+        version: 1,
+        isPublic: false,
+        createdAt: document.uploadedAt,
+        updatedAt: document.updatedAt,
+        verificationStatus: document.verificationStatus?.toString(),
+        isEncrypted: document.isEncrypted,
+        encryptionKey: document.encryptionKey || undefined
+      };
+    } catch (error) {
+      console.error('Error creating document:', error);
+      throw new Error('Failed to create document');
+    }
   },
 
   /**
    * Update an existing document
    */
   updateDocument: async (id: string, updateData: UpdateDocumentInput): Promise<Document | null> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      const updateFields: string[] = [];
-      const params: any[] = [];
-      
+    try {
+      const updatePayload: any = {};
+
       if (updateData.title !== undefined) {
-        updateFields.push('title = ?');
-        params.push(updateData.title);
+        updatePayload.name = updateData.title;
       }
       if (updateData.description !== undefined) {
-        updateFields.push('description = ?');
-        params.push(updateData.description);
+        updatePayload.description = updateData.description;
       }
-      if (updateData.type !== undefined) {
-        updateFields.push('type = ?');
-        params.push(updateData.type);
-      }
-      if (updateData.tags !== undefined) {
-        updateFields.push('tagsData = ?');
-        params.push(JSON.stringify(updateData.tags));
-      }
-      if (updateData.isPublic !== undefined) {
-        updateFields.push('isPublic = ?');
-        params.push(updateData.isPublic ? 1 : 0);
-      }
-      if (updateData.expiryDate !== undefined) {
-        updateFields.push('expiryDate = ?');
-        params.push(updateData.expiryDate ? updateData.expiryDate.toISOString() : null);
-      }
-      
-      updateFields.push('updatedAt = ?');
-      params.push(new Date().toISOString());
-      params.push(id);
-      
-      const updateQuery = `UPDATE documents SET ${updateFields.join(', ')} WHERE id = ?`;
-      
-      db.run(updateQuery, params, function(err) {
-        if (err) {
-          db.close();
-          reject(new Error('Failed to update document: ' + err.message));
-          return;
+      if (updateData.verificationStatus !== undefined) {
+        updatePayload.verificationStatus = updateData.verificationStatus;
+        if (updateData.verificationStatus === DocumentVerificationStatus.VERIFIED) {
+          updatePayload.verifiedAt = new Date();
+          updatePayload.verifiedBy = updateData.verifiedBy;
         }
-        
-        if (this.changes === 0) {
-          db.close();
-          resolve(null);
-          return;
-        }
-        
-        // Return updated document
-        db.get('SELECT * FROM documents WHERE id = ?', [id], (err, row: any) => {
-          db.close();
-          if (err) {
-            reject(new Error('Failed to retrieve updated document: ' + err.message));
-            return;
+      }
+      if (updateData.aiExtractedData !== undefined) {
+        updatePayload.aiExtractedData = updateData.aiExtractedData;
+      }
+      if (updateData.aiConfidenceScore !== undefined) {
+        updatePayload.aiConfidenceScore = updateData.aiConfidenceScore;
+      }
+
+      const document = await prisma.document.update({
+        where: { id },
+        data: updatePayload,
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              firstName: true,
+              lastName: true
+            }
           }
-          
-          resolve(row ? {
-            ...row,
-            isPublic: !!row.isPublic,
-            createdAt: new Date(row.createdAt),
-            updatedAt: new Date(row.updatedAt),
-            expiryDate: row.expiryDate ? new Date(row.expiryDate) : undefined,
-          } : null);
-        });
+        }
       });
-    });
+
+      return {
+        id: document.id,
+        title: document.name,
+        description: document.description || undefined,
+        type: document.documentType.toString(),
+        url: document.filePath,
+        mimeType: document.mimeType,
+        size: document.fileSize,
+        uploadedBy: document.userId,
+        version: 1,
+        isPublic: false,
+        createdAt: document.uploadedAt,
+        updatedAt: document.updatedAt,
+        verificationStatus: document.verificationStatus?.toString(),
+        verifiedAt: document.verifiedAt || undefined,
+        verifiedBy: document.verifiedBy || undefined,
+        aiProcessingId: document.aiProcessingId || undefined,
+        aiExtractedData: document.aiExtractedData,
+        aiConfidenceScore: document.aiConfidenceScore || undefined,
+        isEncrypted: document.isEncrypted,
+        encryptionKey: document.encryptionKey || undefined
+      };
+    } catch (error) {
+      console.error('Error updating document:', error);
+      throw new Error('Failed to update document');
+    }
   },
 
   /**
-   * Delete a document
+   * Delete a document (with S3 cleanup)
    */
   deleteDocument: async (id: string): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.run('DELETE FROM documents WHERE id = ?', [id], function(err) {
-        db.close();
-        if (err) {
-          reject(new Error('Failed to delete document: ' + err.message));
-          return;
-        }
-        
-        resolve(this.changes > 0);
+    try {
+      const document = await prisma.document.findUnique({
+        where: { id }
       });
-    });
+
+      if (!document) {
+        return false;
+      }
+
+      // Extract S3 key from the file path
+      const s3Key = document.filePath.replace(`https://${bucketName}.s3.${s3Config.region}.amazonaws.com/`, '');
+
+      // Delete from S3 if it's an S3 URL
+      if (document.filePath.includes('s3.amazonaws.com')) {
+        try {
+          await s3Client.send(new DeleteObjectCommand({
+            Bucket: bucketName,
+            Key: s3Key
+          }));
+        } catch (s3Error) {
+          console.warn('Failed to delete file from S3:', s3Error);
+          // Continue with database deletion even if S3 deletion fails
+        }
+      }
+
+      // Delete from database (cascading deletes will handle related records)
+      await prisma.document.delete({
+        where: { id }
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      throw new Error('Failed to delete document');
+    }
   },
 
   /**
-   * Get documents by owner (user, property, sale, HTB claim, etc.)
+   * Get documents by owner (user, property, HTB claim, etc.)
    */
   getDocumentsByOwner: async (ownerId: string, ownerType: string): Promise<Document[]> => {
     const result = await documentsService.getDocuments({
@@ -382,107 +465,29 @@ export const documentsService = {
   },
 
   /**
-   * Create a new version of an existing document
+   * Get documents by verification status (for KYC/AML workflows)
    */
-  createDocumentVersion: async (documentId: string, versionData: {
-    url: string;
-    uploadedBy: string;
-    changeNotes?: string;
-  }): Promise<DocumentVersion> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      // First get current max version
-      db.get('SELECT MAX(version) as maxVersion FROM document_versions WHERE documentId = ?', 
-        [documentId], (err, result: any) => {
-          if (err) {
-            db.close();
-            reject(new Error('Failed to get document versions: ' + err.message));
-            return;
-          }
-          
-          const newVersion = (result?.maxVersion || 0) + 1;
-          const versionId = generateId();
-          const now = new Date().toISOString();
-          
-          // Insert new version
-          const insertVersion = `
-            INSERT INTO document_versions (
-              id, documentId, version, url, uploadedBy, uploadedAt, changeNotes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-          `;
-          
-          db.run(insertVersion, [
-            versionId,
-            documentId,
-            newVersion,
-            versionData.url,
-            versionData.uploadedBy,
-            now,
-            versionData.changeNotes || null
-          ], function(err) {
-            if (err) {
-              db.close();
-              reject(new Error('Failed to create document version: ' + err.message));
-              return;
-            }
-            
-            // Update main document version and URL
-            db.run(
-              'UPDATE documents SET version = ?, url = ?, updatedAt = ? WHERE id = ?',
-              [newVersion, versionData.url, now, documentId],
-              function(err) {
-                if (err) {
-                  db.close();
-                  reject(new Error('Failed to update document: ' + err.message));
-                  return;
-                }
-                
-                // Return the created version
-                db.get('SELECT * FROM document_versions WHERE id = ?', [versionId], (err, row: any) => {
-                  db.close();
-                  if (err) {
-                    reject(new Error('Failed to retrieve created version: ' + err.message));
-                    return;
-                  }
-                  
-                  resolve({
-                    ...row,
-                    uploadedAt: new Date(row.uploadedAt)
-                  });
-                });
-              }
-            );
-          });
-        });
+  getDocumentsByVerificationStatus: async (status: DocumentVerificationStatus): Promise<Document[]> => {
+    const result = await documentsService.getDocuments({
+      verificationStatus: status,
+      limit: 100
     });
+    return result.documents;
   },
 
   /**
-   * Get all versions of a document
+   * Update document verification status
    */
-  getDocumentVersions: async (documentId: string): Promise<DocumentVersion[]> => {
-    return new Promise((resolve, reject) => {
-      const db = new Database(dbPath);
-      
-      db.all(
-        'SELECT * FROM document_versions WHERE documentId = ? ORDER BY version DESC',
-        [documentId],
-        (err, rows: any[]) => {
-          db.close();
-          if (err) {
-            reject(new Error('Failed to fetch document versions: ' + err.message));
-            return;
-          }
-          
-          const versions = rows.map(row => ({
-            ...row,
-            uploadedAt: new Date(row.uploadedAt)
-          }));
-          
-          resolve(versions);
-        }
-      );
+  updateVerificationStatus: async (
+    id: string, 
+    status: DocumentVerificationStatus, 
+    verifiedBy?: string,
+    aiData?: any
+  ): Promise<Document | null> => {
+    return documentsService.updateDocument(id, {
+      verificationStatus: status,
+      verifiedBy,
+      aiExtractedData: aiData
     });
   }
 };

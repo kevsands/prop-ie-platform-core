@@ -14,7 +14,33 @@ import {
 } from '@/types/project';
 import { agentBuyerIntegrationService, AgentProfile } from '@/services/AgentBuyerIntegrationService';
 import { projectDataService } from '@/services/ProjectDataService';
-import { realTimeServerManager } from '@/lib/realtime/realTimeServerManager';
+// Dynamic import to prevent client-side SQLite loading
+let realTimeServerManager: any = null;
+
+async function getRealTimeServerManager() {
+  if (typeof window === 'undefined' && !realTimeServerManager) {
+    try {
+      const { realTimeServerManager: manager } = await import('@/lib/realtime/realTimeServerManager');
+      realTimeServerManager = manager;
+    } catch (error) {
+      console.warn('RealTime server manager not available:', error);
+      // Provide fallback for client-side
+      realTimeServerManager = {
+        triggerEvent: () => {},
+        broadcastToUsers: () => {},
+        broadcastToRoles: () => {}
+      };
+    }
+  } else if (typeof window !== 'undefined') {
+    // Client-side fallback
+    realTimeServerManager = {
+      triggerEvent: () => {},
+      broadcastToUsers: () => {},
+      broadcastToRoles: () => {}
+    };
+  }
+  return realTimeServerManager;
+}
 
 // Enhanced interfaces for agent-developer communication
 export interface DeveloperAgentMessage {
@@ -758,28 +784,32 @@ export class AgentDeveloperCommunicationService {
   /**
    * Broadcast real-time events via WebSocket server
    */
-  private broadcastRealTimeEvent(eventType: string, data: any): void {
+  private async broadcastRealTimeEvent(eventType: string, data: any): Promise<void> {
     try {
+      const manager = await getRealTimeServerManager();
+      
       // Trigger server-side event for WebSocket broadcasting
-      realTimeServerManager.triggerEvent(eventType, data);
+      if (manager?.triggerEvent) {
+        await manager.triggerEvent(eventType, data);
+      }
 
       // Determine recipient for targeted broadcasting
-      if (data.recipientId) {
-        realTimeServerManager.broadcastToUsers([data.recipientId], eventType, data);
+      if (data.recipientId && manager?.broadcastToUsers) {
+        await manager.broadcastToUsers([data.recipientId], eventType, data);
       }
 
       // Broadcast to relevant professional roles based on event type
       if (eventType === 'message_sent' || eventType === 'notification_created') {
         const targetRoles = this.determineTargetRoles(data);
-        if (targetRoles.length > 0) {
-          realTimeServerManager.broadcastToRoles(targetRoles, eventType, data);
+        if (targetRoles.length > 0 && manager?.broadcastToRoles) {
+          await manager.broadcastToRoles(targetRoles, eventType, data);
         }
       }
 
       // Broadcast meeting events to all participants
-      if (eventType === 'meeting_scheduled' && data.participants) {
+      if (eventType === 'meeting_scheduled' && data.participants && manager?.broadcastToUsers) {
         const participantIds = data.participants.map((p: any) => p.id);
-        realTimeServerManager.broadcastToUsers(participantIds, eventType, data);
+        await manager.broadcastToUsers(participantIds, eventType, data);
       }
 
       console.log(`📡 Cross-professional communication event broadcasted: ${eventType}`);
@@ -933,13 +963,17 @@ export class AgentDeveloperCommunicationService {
           timestamp: new Date().toISOString()
         });
 
-        realTimeServerManager.broadcastToUsers(otherParticipants, 'typing_indicator', {
-          conversationId,
-          userId,
-          userType,
-          isTyping,
-          userName: participant?.name || 'Unknown User',
-          timestamp: new Date().toISOString()
+        getRealTimeServerManager().then(manager => {
+          if (manager?.broadcastToUsers) {
+            manager.broadcastToUsers(otherParticipants, 'typing_indicator', {
+              conversationId,
+              userId,
+              userType,
+              isTyping,
+              userName: participant?.name || 'Unknown User',
+              timestamp: new Date().toISOString()
+            });
+          }
         });
       }
     } catch (error) {
@@ -975,12 +1009,16 @@ export class AgentDeveloperCommunicationService {
         participants: conversation.participants.map(p => ({ id: p.id, type: p.type, name: p.name }))
       });
 
-      realTimeServerManager.broadcastToUsers(participantIds, 'conversation_status_updated', {
-        conversationId,
-        oldStatus,
-        newStatus: status,
-        updatedBy,
-        updatedAt: new Date().toISOString()
+      getRealTimeServerManager().then(manager => {
+        if (manager?.broadcastToUsers) {
+          manager.broadcastToUsers(participantIds, 'conversation_status_updated', {
+            conversationId,
+            oldStatus,
+            newStatus: status,
+            updatedBy,
+            updatedAt: new Date().toISOString()
+          });
+        }
       });
 
       return true;

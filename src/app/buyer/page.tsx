@@ -112,7 +112,7 @@ function IntelligentBuyerRouterContent() {
         title: 'Verify Identity',
         description: 'Upload documents for KYC/AML compliance',
         icon: Shield,
-        action: '/buyer/verification',
+        action: '/buyer/verification/unified',
         priority: 'high'
       });
     }

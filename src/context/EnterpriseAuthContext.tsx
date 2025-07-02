@@ -41,12 +41,22 @@ export function EnterpriseAuthProvider({ children }: EnterpriseAuthProviderProps
   // Initialize authentication state
   const initializeAuth = useCallback(async () => {
     try {
-      if (!authService.isAuthenticated()) {
+      console.log('🔄 EnterpriseAuthContext: Initializing auth...');
+      console.log('🔄 EnterpriseAuthContext: Checking if authenticated...');
+      
+      const isAuth = authService.isAuthenticated();
+      console.log('🔄 EnterpriseAuthContext: isAuthenticated result:', isAuth);
+      
+      if (!isAuth) {
+        console.log('🔄 EnterpriseAuthContext: Not authenticated, clearing state');
         setAuthState(prev => ({ ...prev, isLoading: false }));
         return;
       }
 
+      console.log('🔄 EnterpriseAuthContext: Getting current user...');
       const user = await authService.getCurrentUser();
+      console.log('🔄 EnterpriseAuthContext: Current user loaded:', user?.email);
+      
       setAuthState({
         user,
         isAuthenticated: true,
@@ -54,12 +64,15 @@ export function EnterpriseAuthProvider({ children }: EnterpriseAuthProviderProps
         error: null,
         sessionId: null // Will be set on next login
       });
+      
+      console.log('✅ EnterpriseAuthContext: Auth initialization complete');
     } catch (error: any) {
-      console.error('Auth initialization failed:', error);
+      console.error('❌ EnterpriseAuthContext: Auth initialization failed:', error);
       
       // If token is expired, try to refresh
       if (error.code === AuthErrorCode.SESSION_EXPIRED) {
         try {
+          console.log('🔄 EnterpriseAuthContext: Attempting token refresh...');
           await authService.refreshToken();
           const user = await authService.getCurrentUser();
           setAuthState({
@@ -69,13 +82,15 @@ export function EnterpriseAuthProvider({ children }: EnterpriseAuthProviderProps
             error: null,
             sessionId: null
           });
+          console.log('✅ EnterpriseAuthContext: Token refresh successful');
           return;
         } catch (refreshError) {
-          console.error('Token refresh failed:', refreshError);
+          console.error('❌ EnterpriseAuthContext: Token refresh failed:', refreshError);
         }
       }
 
       // Clear auth state on any failure
+      console.log('🔄 EnterpriseAuthContext: Clearing auth state due to error');
       await authService.signOut();
       setAuthState({
         user: null,
@@ -90,10 +105,17 @@ export function EnterpriseAuthProvider({ children }: EnterpriseAuthProviderProps
   // Sign in user
   const signIn = useCallback(async (credentials: LoginRequest) => {
     try {
+      console.log('🚀 EnterpriseAuthContext: Starting sign in process...');
+      console.log('🚀 EnterpriseAuthContext: Credentials check:', { email: credentials.email, hasPassword: !!credentials.password });
+      
       setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
+      console.log('🚀 EnterpriseAuthContext: Calling authService.signIn...');
       const loginResponse = await authService.signIn(credentials);
+      console.log('🚀 EnterpriseAuthContext: Login response received:', loginResponse);
+      console.log('🚀 EnterpriseAuthContext: Response type check:', typeof loginResponse, Object.keys(loginResponse || {}));
       
+      console.log('🚀 EnterpriseAuthContext: Updating auth state...');
       setAuthState({
         user: loginResponse.user,
         isAuthenticated: true,
@@ -102,12 +124,35 @@ export function EnterpriseAuthProvider({ children }: EnterpriseAuthProviderProps
         sessionId: loginResponse.sessionId
       });
 
-      // Redirect to appropriate dashboard
-      const dashboardRoute = authService.getUserDashboardRoute(loginResponse.user.role);
+      console.log('🚀 EnterpriseAuthContext: Auth state updated, checking tokens...');
+      console.log('🚀 EnterpriseAuthContext: localStorage tokens:', {
+        hasAccessToken: !!localStorage.getItem('prop_access_token'),
+        hasRefreshToken: !!localStorage.getItem('prop_refresh_token'),
+        hasSessionId: !!localStorage.getItem('prop_session_id')
+      });
+
+      // Use dashboard route from API response if available, otherwise compute it
+      let dashboardRoute = loginResponse.dashboardRoute;
+      if (!dashboardRoute) {
+        console.log('🚀 EnterpriseAuthContext: Getting dashboard route for role:', loginResponse.user.role);
+        dashboardRoute = authService.getUserDashboardRoute(loginResponse.user.role);
+      }
+      
+      console.log('🚀 EnterpriseAuthContext: About to redirect to:', dashboardRoute);
+      console.log('🚀 EnterpriseAuthContext: Current URL:', window.location.href);
+      
       router.push(dashboardRoute);
+      
+      console.log('✅ EnterpriseAuthContext: Sign in complete, redirect initiated!');
 
     } catch (error: any) {
-      console.error('Sign in failed:', error);
+      console.error('❌ EnterpriseAuthContext: Sign in failed:', error);
+      console.error('❌ EnterpriseAuthContext: Error details:', {
+        message: error?.message,
+        code: error?.code,
+        stack: error?.stack
+      });
+      
       setAuthState(prev => ({
         ...prev,
         isLoading: false,

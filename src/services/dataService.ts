@@ -9,6 +9,13 @@ import { DataService } from './data-service/index';
 import { Development } from '../types/developments';
 import { Property, PropertyFilters } from '../types/properties';
 import { PropertyStatus, PropertyType } from '../types/enums';
+import { 
+  DevelopmentRow, 
+  UnitRow, 
+  QueryParams, 
+  DatabaseError,
+  DatabaseConnection 
+} from '../types/database';
 
 // Real database connection
 const sqlite3 = require('sqlite3').verbose();
@@ -18,7 +25,7 @@ const path = require('path');
  * Production Data Service - uses real SQLite database
  */
 export class ProductionDataService implements DataService {
-  private getDatabase() {
+  private getDatabase(): DatabaseConnection {
     const dbPath = path.join(process.cwd(), 'prisma/dev.db');
     return new sqlite3.Database(dbPath);
   }
@@ -36,12 +43,12 @@ export class ProductionDataService implements DataService {
         LEFT JOIN Unit u ON d.id = u.developmentId 
         GROUP BY d.id, d.name, d.description, d.location
         ORDER BY d.name
-      `, [], (err: Error, rows: any[]) => {
+      `, [], (err: DatabaseError | null, rows: DevelopmentRow[]) => {
         db.close();
         if (err) {
           reject(err);
         } else {
-          const developments: Development[] = rows.map(row => ({
+          const developments: Development[] = rows.map((row: DevelopmentRow) => ({
             id: row.id,
             name: row.name,
             description: row.description,
@@ -70,7 +77,7 @@ export class ProductionDataService implements DataService {
         LEFT JOIN Unit u ON d.id = u.developmentId 
         WHERE d.id = ?
         GROUP BY d.id, d.name, d.description, d.location
-      `, [id], (err: Error, row: any) => {
+      `, [id], (err: DatabaseError | null, row: DevelopmentRow | undefined) => {
         db.close();
         if (err) {
           reject(err);
@@ -105,7 +112,7 @@ export class ProductionDataService implements DataService {
     
     return new Promise((resolve, reject) => {
       let whereClause = 'WHERE 1=1';
-      const queryParams: any[] = [];
+      const queryParams: QueryParams = [];
       
       if (filters?.developmentId) {
         whereClause += ' AND u.developmentId = ?';
@@ -128,12 +135,12 @@ export class ProductionDataService implements DataService {
         JOIN Development d ON u.developmentId = d.id 
         ${whereClause}
         ORDER BY u.price ASC
-      `, queryParams, (err: Error, rows: any[]) => {
+      `, queryParams, (err: DatabaseError | null, rows: UnitRow[]) => {
         db.close();
         if (err) {
           reject(err);
         } else {
-          const properties: Property[] = rows.map(row => ({
+          const properties: Property[] = rows.map((row: UnitRow) => ({
             id: row.id,
             name: row.name,
             slug: row.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),

@@ -15,7 +15,7 @@ import {
   Eye,
   Heart,
   Share2,
-  Grid2x2,
+  LayoutGrid,
   List,
   ChevronDown,
   CheckCircle,
@@ -26,7 +26,7 @@ import {
   Star
 } from 'lucide-react';
 
-import { developmentsService } from '@/lib/services/developments-prisma';
+// Removed direct Prisma import - using API routes instead
 import { Unit } from '@/lib/services/units';
 import DevelopmentCTA from '@/components/buyer/DevelopmentCTA';
 import { UnitCard } from '@/components/units';
@@ -129,17 +129,25 @@ export default function DevelopmentDetailClient({ initialDevelopmentId }: Develo
         setLoading(true);
         setError(null);
         
-        // Load development details
-        const devData = await developmentsService.getDevelopmentById(developmentId);
-        if (!devData) {
-          setError('Development not found');
+        // Load development details via API
+        const response = await fetch(`/api/developments/${developmentId}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('Development not found');
+          } else {
+            setError('Failed to load development data');
+          }
           return;
         }
-        setDevelopment(devData);
         
-        // Load units for this development
-        const unitsData = await developmentsService.getUnitsForDevelopment(developmentId);
-        setUnits(unitsData || []);
+        const result = await response.json();
+        if (result.data) {
+          setDevelopment(result.data);
+          // Units data is included in the API response
+          setUnits(result.data.units || []);
+        } else {
+          setError('Invalid development data received');
+        }
         
       } catch (err) {
         console.error('Error loading development data:', err);
@@ -282,7 +290,7 @@ export default function DevelopmentDetailClient({ initialDevelopmentId }: Develo
                   onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
                   className="flex items-center px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
                 >
-                  {viewMode === 'grid' ? <List className="h-5 w-5 mr-2" /> : <Grid2x2 className="h-5 w-5 mr-2" />}
+                  {viewMode === 'grid' ? <List className="h-5 w-5 mr-2" /> : <LayoutGrid className="h-5 w-5 mr-2" />}
                   {viewMode === 'grid' ? 'List View' : 'Grid View'}
                 </button>
               </div>

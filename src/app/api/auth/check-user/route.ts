@@ -30,12 +30,11 @@ export async function POST(request: NextRequest) {
       select: {
         id: true,
         email: true,
-        role: true,
+        roles: true,
         lastLogin: true,
-        loginAttempts: true,
-        lockedUntil: true,
-        twoFactorEnabled: true,
-        trustedDevices: true,
+        lastActive: true,
+        status: true,
+        metadata: true,
       }
     });
 
@@ -48,13 +47,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Check if account is locked
-    if (user.lockedUntil && new Date(user.lockedUntil) > new Date()) {
-      const remainingTime = Math.ceil((new Date(user.lockedUntil).getTime() - Date.now()) / 1000 / 60);
+    // Check if account is locked (using status field instead)
+    if (user.status === 'LOCKED' || user.status === 'SUSPENDED') {
       return NextResponse.json(
         { 
-          error: `Account is locked. Please try again in ${remainingTime} minutes.`,
-          lockedUntil: user.lockedUntil,
+          error: `Account is ${user.status.toLowerCase()}. Please contact support.`,
+          status: user.status,
         },
         { status: 423 } // Locked status
       );
@@ -76,13 +74,18 @@ export async function POST(request: NextRequest) {
       await prisma.user.update({
         where: { id: user.id },
         data: {
-          lockedUntil: new Date(Date.now() + 30 * 60 * 1000) // Lock for 30 minutes
+          status: 'LOCKED',
+          metadata: {
+            ...(user.metadata as object || {}),
+            lockedAt: new Date().toISOString(),
+            lockReason: 'Too many failed login attempts'
+          }
         }
       });
 
       return NextResponse.json(
         { 
-          error: 'Too many failed attempts. Account has been locked for 30 minutes.',
+          error: 'Too many failed attempts. Account has been locked.',
           requiresSupport: true,
         },
         { status: 423 }
@@ -99,15 +102,17 @@ export async function POST(request: NextRequest) {
       .update(`${userAgent}${acceptLanguage}${acceptEncoding}`)
       .digest('hex');
 
-    // Check if this is a trusted device
-    const isTrustedDevice = user.trustedDevices?.includes(deviceFingerprint);
+    // Check if this is a trusted device (from metadata)
+    const trustedDevices = (user.metadata as any)?.trustedDevices || [];
+    const isTrustedDevice = trustedDevices.includes(deviceFingerprint);
 
     // Determine authentication methods available
+    const userRoles = user.roles || [];
     const authMethods = {
       password: true,
       otp: true,
       biometric: isTrustedDevice && hasWebAuthnSupport(userAgent),
-      socialLogin: ['BUYER', 'SELLER'].includes(user.role || ''),
+      socialLogin: userRoles.some((role: any) => ['BUYER', 'SELLER'].includes(role)),
     };
 
     // Risk assessment
@@ -122,16 +127,18 @@ export async function POST(request: NextRequest) {
     // Determine if we need enhanced authentication
     const requiresEnhancedAuth = riskScore > 50 || 
                                !isTrustedDevice || 
-                               user.role === 'ADMIN' ||
-                               user.role === 'DEVELOPER';
+                               userRoles.includes('ADMIN') ||
+                               userRoles.includes('DEVELOPER');
+
+    const mfaEnabled = (user.metadata as any)?.twoFactorEnabled || false;
 
     return NextResponse.json({
       exists: true,
       userId: user.id,
-      role: user.role,
+      roles: user.roles,
       authMethods,
       requiresEnhancedAuth,
-      requiresMFA: user.twoFactorEnabled,
+      requiresMFA: mfaEnabled,
       isTrustedDevice,
       riskScore,
       lastLogin: user.lastLogin,
@@ -162,7 +169,8 @@ async function calculateRiskScore(params: {
   let score = 0;
   
   // New device
-  if (!params.user.trustedDevices?.includes(params.deviceFingerprint)) {
+  const trustedDevices = (params.user.metadata as any)?.trustedDevices || [];
+  if (!trustedDevices.includes(params.deviceFingerprint)) {
     score += 25;
   }
   

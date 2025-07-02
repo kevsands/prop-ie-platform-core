@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
 import MainNavigation from '@/components/navigation/MainNavigation';
 import { 
   Home, 
@@ -37,7 +37,7 @@ import {
  */
 export default function BuyerLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, isAuthenticated, isLoading, signOut } = useAuth();
+  const { user, isAuthenticated, isLoading, signOut } = useEnterpriseAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [toolkitOpen, setToolkitOpen] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);

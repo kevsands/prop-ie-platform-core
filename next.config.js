@@ -173,12 +173,26 @@ const nextConfig = {
         os: false,
         sqlite3: false,
         'better-sqlite3': false,
+        ws: false,
+        http: false,
+        url: false,
+        events: false,
       };
     }
     
+    // Exclude server-only modules from client bundle
+    if (!isServer) {
+      config.externals = config.externals || [];
+      config.externals.push({
+        'sqlite3': 'commonjs sqlite3',
+        'better-sqlite3': 'commonjs better-sqlite3',
+        'ws': 'commonjs ws',
+      });
+    }
+    
     // Exclude SQLite modules from bundling entirely (we use PostgreSQL in production)
-    config.externals = config.externals || [];
     if (isServer) {
+      config.externals = config.externals || [];
       config.externals.push('sqlite3', 'better-sqlite3');
     }
     

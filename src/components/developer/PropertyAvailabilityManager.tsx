@@ -129,13 +129,39 @@ export default function PropertyAvailabilityManager() {
         return;
       }
 
-      setProperties(data.properties);
+      // Convert date strings to Date objects for properties
+      const processedProperties = data.properties.map((property: any) => ({
+        ...property,
+        lastUpdated: new Date(property.lastUpdated),
+        statusChangedAt: new Date(property.statusChangedAt),
+        priceChangedAt: property.priceChangedAt ? new Date(property.priceChangedAt) : undefined,
+        reservedUntil: property.reservedUntil ? new Date(property.reservedUntil) : undefined
+      }));
+      
+      setProperties(processedProperties);
+      
       if (data.recentUpdates) {
-        setRecentUpdates(data.recentUpdates);
+        // Convert date strings to Date objects for recent updates
+        const processedUpdates = data.recentUpdates.map((update: any) => ({
+          ...update,
+          timestamp: new Date(update.timestamp)
+        }));
+        setRecentUpdates(processedUpdates);
       }
+      
       if (data.development) {
-        setDevelopmentStats(data.development);
+        // Convert date strings to Date objects for development stats
+        const processedStats = {
+          ...data.development,
+          lastUpdate: new Date(data.development.lastUpdate),
+          recentActivity: data.development.recentActivity.map((activity: any) => ({
+            ...activity,
+            timestamp: new Date(activity.timestamp)
+          }))
+        };
+        setDevelopmentStats(processedStats);
       }
+      
       setLastPolled(new Date(data.lastPolled));
 
     } catch (err) {
@@ -242,9 +268,10 @@ export default function PropertyAvailabilityManager() {
     }
   };
 
-  const formatTimeAgo = (date: Date) => {
+  const formatTimeAgo = (date: Date | string) => {
     const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+    const dateObj = new Date(date);
+    const diffInMinutes = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60));
     
     if (diffInMinutes < 1) return 'Just now';
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;

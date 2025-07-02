@@ -47,6 +47,8 @@ import { usePropertyRecommendations } from '@/hooks/usePropertyRecommendations';
 import { UserProfile } from '@/lib/algorithms/PropertyRecommendationEngine';
 import GuidedTour from '@/components/onboarding/GuidedTour';
 import { getToursForUser } from '@/lib/tours/tourDefinitions';
+import VerificationStatusCard from '@/components/verification/VerificationStatusCard';
+import { useVerification } from '@/context/VerificationContext';
 
 interface DashboardMetrics {
   totalBudget: number;
@@ -87,6 +89,13 @@ export default function BuyerDashboard() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [favoriteProperties, setFavoriteProperties] = useState<string[]>([]);
   const [activeTour, setActiveTour] = useState<string | undefined>();
+  
+  // Verification context
+  const { 
+    profile: verificationProfile, 
+    getOverallProgress, 
+    isVerificationComplete 
+  } = useVerification();
 
   // Check if user should see onboarding tour
   useEffect(() => {
@@ -150,19 +159,24 @@ export default function BuyerDashboard() {
     autoFetch: !!userProfile
   });
 
-  // Dashboard metrics
+  // Dashboard metrics - integrate verification data
+  const verificationProgress = getOverallProgress();
+  const verificationComplete = isVerificationComplete();
+  
   const metrics: DashboardMetrics = {
     totalBudget: 420000,
     availableFunds: 350000,
     htbBenefit: 30000,
     monthlyPayment: 1850,
     propertiesViewed: 12,
-    documentsCompleted: 8,
-    verificationStatus: 'completed',
-    journeyStage: 'Property Search',
-    completionPercentage: 72,
-    nextMilestone: 'Property Reservation',
-    estimatedCompletion: '6-8 weeks'
+    documentsCompleted: verificationProfile ? 
+      verificationProfile.steps.flatMap(s => s.documents.filter(d => d.status === 'approved')).length : 8,
+    verificationStatus: verificationComplete ? 'completed' : 
+      verificationProgress > 50 ? 'in_progress' : 'pending',
+    journeyStage: verificationComplete ? 'Property Search' : 'Identity Verification',
+    completionPercentage: verificationComplete ? 72 : Math.max(40, Math.round(verificationProgress * 0.6)),
+    nextMilestone: verificationComplete ? 'Property Reservation' : 'Complete Identity Verification',
+    estimatedCompletion: verificationComplete ? '6-8 weeks' : '2-3 weeks'
   };
 
   // Recent activity
@@ -676,6 +690,14 @@ export default function BuyerDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Verification Status Section */}
+      {!verificationComplete && (
+        <VerificationStatusCard 
+          className="mb-6" 
+          showDetails={true} 
+        />
+      )}
 
       {/* Property Recommendations Section */}
       <div className="bg-white rounded-lg border shadow-sm" data-tour="recommended-properties">

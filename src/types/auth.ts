@@ -1,52 +1,182 @@
 /**
- * Enterprise Authentication Types
- * Standardized types for authentication system
+ * Authentication Type Definitions
+ * 
+ * Comprehensive TypeScript interfaces for authentication, JWT tokens,
+ * and user management to replace 'any' types in auth-related code
  */
 
-// Core User Roles
-export enum UserRole {
-  BUYER = 'BUYER',
-  DEVELOPER = 'DEVELOPER', 
-  AGENT = 'AGENT',
-  SOLICITOR = 'SOLICITOR',
-  ADMIN = 'ADMIN',
-  INVESTOR = 'INVESTOR'
+import { UserRole, Permission } from '@/lib/permissions/ProfessionalPermissionMatrix';
+
+// Re-export UserRole and Permission for convenience
+export { UserRole, Permission } from '@/lib/permissions/ProfessionalPermissionMatrix';
+
+/**
+ * JWT token payload structure
+ * Standard JWT claims plus custom application claims
+ */
+export interface JWTPayload {
+  // Standard JWT claims
+  sub: string;              // Subject (user ID)
+  iat: number;              // Issued at timestamp
+  exp: number;              // Expiration timestamp
+  iss?: string;             // Issuer
+  aud?: string;             // Audience
+  
+  // Custom application claims
+  email: string;
+  user_id?: string;         // Alternative user ID field
+  role: UserRole;
+  permissions: Permission[];
+  given_name?: string;
+  family_name?: string;
+  
+  // Cognito-specific claims
+  'cognito:groups'?: string[];
+  'cognito:username'?: string;
+  token_use?: 'access' | 'id';
+  
+  // Custom fields
+  organization_id?: string;
+  tenant_id?: string;
 }
 
-// User Status
+/**
+ * Authenticated user object
+ * Represents a validated user with their permissions
+ */
+export interface AuthenticatedUser {
+  id: string;
+  email: string;
+  role: UserRole;
+  permissions: Permission[];
+  firstName?: string;
+  lastName?: string;
+  organizationId?: string;
+  tenantId?: string;
+}
+
+/**
+ * Route protection configuration
+ */
+export interface RouteProtection {
+  requiredRoles: UserRole[];
+  permissions: Permission[];
+}
+
+/**
+ * Route access check result
+ */
+export interface RouteAccessResult {
+  allowed: boolean;
+  reason?: string;
+  requiredRole?: UserRole;
+  requiredPermission?: Permission;
+}
+
+/**
+ * Authentication error codes
+ */
+export enum AuthErrorCode {
+  INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
+  TOKEN_EXPIRED = 'TOKEN_EXPIRED',
+  TOKEN_INVALID = 'TOKEN_INVALID',
+  ACCOUNT_DISABLED = 'ACCOUNT_DISABLED',
+  ACCOUNT_LOCKED = 'ACCOUNT_LOCKED',
+  ACCOUNT_INACTIVE = 'ACCOUNT_INACTIVE',
+  ACCOUNT_SETUP_REQUIRED = 'ACCOUNT_SETUP_REQUIRED',
+  USER_SUSPENDED = 'USER_SUSPENDED',
+  USER_NOT_FOUND = 'USER_NOT_FOUND',
+  ACCESS_DENIED = 'ACCESS_DENIED',
+  PASSWORD_RESET_REQUIRED = 'PASSWORD_RESET_REQUIRED',
+  MFA_REQUIRED = 'MFA_REQUIRED',
+  PERMISSION_DENIED = 'PERMISSION_DENIED',
+  SESSION_EXPIRED = 'SESSION_EXPIRED',
+  NETWORK_ERROR = 'NETWORK_ERROR',
+  INTERNAL_ERROR = 'INTERNAL_ERROR',
+  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+/**
+ * User status enumeration
+ */
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
   SUSPENDED = 'SUSPENDED',
+  INACTIVE = 'INACTIVE',
   PENDING_VERIFICATION = 'PENDING_VERIFICATION'
 }
 
-// Core User Interface
+/**
+ * Cognito user attributes from sign-up/profile
+ */
+export interface CognitoUserAttributes {
+  email?: string;
+  given_name?: string;
+  family_name?: string;
+  phone_number?: string;
+  'custom:role'?: string;
+  'custom:organization_id'?: string;
+  'custom:tenant_id'?: string;
+  'cognito:groups'?: string[];
+}
+
+/**
+ * Login request payload
+ */
+export interface LoginRequest {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+}
+
+/**
+ * User object as returned by our API
+ */
 export interface User {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
-  phone?: string;
-  role: UserRole;
-  status: UserStatus;
-  organisationId?: string;
-  permissions: Permission[];
-  emailVerified: boolean;
-  mfaEnabled: boolean;
-  lastLoginAt?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  role: string;
+  roles: string[];
+  status: string;
+  permissions?: Permission[];
 }
 
-// Permission Structure
-export interface Permission {
-  resource: string;
-  action: string;
-  conditions?: Record<string, any>;
+/**
+ * Login response from our API
+ */
+export interface LoginResponse {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+  sessionId: string;
+  dashboardRoute: string;
+  expiresIn: number;
 }
 
-// Authentication State
+/**
+ * Generic API response wrapper
+ */
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: AuthError;
+}
+
+/**
+ * Authentication error object
+ */
+export interface AuthError {
+  code: AuthErrorCode | string;
+  message: string;
+  field?: string;
+  details?: any;
+}
+
+/**
+ * Authentication state for context
+ */
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
@@ -55,74 +185,14 @@ export interface AuthState {
   sessionId: string | null;
 }
 
-// Error Types
-export interface AuthError {
-  code: AuthErrorCode;
-  message: string;
-  field?: string;
-  details?: Record<string, any>;
-}
-
-export enum AuthErrorCode {
-  INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
-  USER_NOT_FOUND = 'USER_NOT_FOUND',
-  USER_SUSPENDED = 'USER_SUSPENDED',
-  EMAIL_NOT_VERIFIED = 'EMAIL_NOT_VERIFIED',
-  MFA_REQUIRED = 'MFA_REQUIRED',
-  SESSION_EXPIRED = 'SESSION_EXPIRED',
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  UNKNOWN_ERROR = 'UNKNOWN_ERROR'
-}
-
-// API Request/Response Types
-export interface LoginRequest {
-  email: string;
-  password: string;
-  rememberMe?: boolean;
-}
-
-export interface LoginResponse {
-  success: boolean;
-  user: User;
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-  sessionId: string;
-}
-
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: {
-    code: string;
-    message: string;
-    field?: string;
-    details?: Record<string, any>;
-  };
-  meta?: {
-    timestamp: string;
-    requestId: string;
-  };
-}
-
-// Session Management
+/**
+ * Session information
+ */
 export interface Session {
   id: string;
   userId: string;
   accessToken: string;
   refreshToken: string;
   expiresAt: Date;
-  createdAt: Date;
-  lastAccessedAt: Date;
-  ipAddress?: string;
-  userAgent?: string;
-}
-
-// Route Configuration
-export interface RouteConfig {
-  path: string;
-  allowedRoles: UserRole[];
-  requiresAuth: boolean;
-  redirectOnSuccess?: string;
-  redirectOnFailure?: string;
+  isActive: boolean;
 }

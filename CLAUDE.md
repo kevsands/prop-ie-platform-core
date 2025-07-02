@@ -7,12 +7,14 @@ PROP.ie is Ireland's most advanced property technology platform - a comprehensiv
 ## Folder Structure & Version History
 
 ### Current Working Version
-- **`prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/`** - The perfect working backup from June 13, 2025
+- **`prop-ie-aws-app-PERFECT-WORKING-JUNE21-2025/`** - The perfect working backup from June 21, 2025
 - This is the current version with all enterprise features fully implemented
 - Contains 1,354+ TypeScript/React files with comprehensive functionality
+- **INCLUDES**: Recently integrated PROP Choice buyer customization functionality (July 1, 2025)
 
 ### Previous Versions
-- **`awsready_20250524/`** - AWS deployment ready version from May 24, 2025
+- **`prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/`** - Previous backup from June 13, 2025
+- **`awsready_20250524/`** - AWS deployment ready version from May 24, 2025 (CORRUPTED - DO NOT USE)
 - Multiple backup folders with different feature sets and deployment states
 
 ## Platform Architecture
@@ -147,20 +149,20 @@ PROP.ie is Ireland's most advanced property technology platform - a comprehensiv
 
 ## 🚀 DEVELOPMENT SERVER STARTUP GUIDE
 
-### Quick Start (Tested June 15, 2025)
+### Quick Start (Updated July 1, 2025)
 
-**Location**: `/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/`
+**Location**: `/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE21-2025/`
 
 **Prerequisites**: 
 - Node.js installed
 - npm available
-- Port 3000 available
+- Port 3000 available (or will auto-assign port 3001)
 
 ### 1. Start Development Server
 
 ```bash
 # Navigate to project directory
-cd "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025"
+cd "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE21-2025"
 
 # Clear port 3000 if needed
 lsof -ti:3000 | xargs kill -9
@@ -212,6 +214,8 @@ ps aux | grep next
 **Routes Confirmed Working:**
 - `/` - Homepage
 - `/buyer/first-time-buyers/welcome` - Buyer portal
+- `/buyer/prop-choice` - PROP Choice customization landing page ✨ NEW
+- `/buyer/prop-choice/[unitId]` - Unit-specific customization flow ✨ NEW
 - `/developer/projects/fitzgerald-gardens` - Project management
 - `/developer/sales/` - Sales analytics
 - `/developer/htb/` - Help to Buy management
@@ -270,12 +274,13 @@ npm run typecheck
 
 **For Future AI Assistance:**
 ```
-Project Location: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/
+Project Location: /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE21-2025/
 Platform: PROP.IE Enterprise Property Technology Platform
-Status: Fully functional development environment
-Server: Next.js 15.3.3 on localhost:3000
-Features: 1,354+ files, 245+ routes, enterprise B2B2C functionality
+Status: Fully functional development environment with PROP Choice integration
+Server: Next.js 15.3.3 on localhost:3001 (auto-assigned)
+Features: 1,354+ files, 245+ routes, enterprise B2B2C functionality + PROP Choice
 Database: PostgreSQL (PRODUCTION READY), Real data operations
+NEW: PROP Choice buyer customization functionality integrated July 1, 2025
 ```
 
 **Platform Context:**

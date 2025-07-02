@@ -4,6 +4,36 @@ import { AuthErrorCode } from '@/types/auth';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key';
 
+// Simple in-memory token blacklist (upgrade to Redis in production)
+const tokenBlacklist = new Map<string, number>(); // token -> expiration timestamp
+
+// Clean up expired tokens periodically
+setInterval(() => {
+  const now = Date.now() / 1000;
+  for (const [token, expiration] of tokenBlacklist.entries()) {
+    if (expiration < now) {
+      tokenBlacklist.delete(token);
+    }
+  }
+}, 5 * 60 * 1000); // Clean every 5 minutes
+
+export function isTokenBlacklisted(token: string): boolean {
+  const expiration = tokenBlacklist.get(token);
+  if (!expiration) return false;
+  
+  const now = Date.now() / 1000;
+  if (expiration < now) {
+    tokenBlacklist.delete(token);
+    return false;
+  }
+  
+  return true;
+}
+
+export function blacklistToken(token: string, expiration: number): void {
+  tokenBlacklist.set(token, expiration);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const authorization = request.headers.get('Authorization');
@@ -24,17 +54,17 @@ export async function POST(request: NextRequest) {
       // Verify token is valid before invalidating
       const decoded = jwt.verify(token, JWT_SECRET) as any;
       
-      // In a production system, you would:
-      // 1. Add the token to a blacklist/revocation list
-      // 2. Delete the session from the database
-      // 3. Clear any cache entries for this user
+      // Add token to blacklist to prevent reuse
+      blacklistToken(token, decoded.exp);
       
-      // For now, we'll just log the logout and return success
-      console.log(`User ${decoded.userId} logged out, session ${decoded.sessionId} invalidated`);
+      // Log successful logout for security monitoring
+      console.log(`✅ User ${decoded.userId} logged out successfully, session ${decoded.sessionId} invalidated`);
       
-      // TODO: Implement token blacklist in Redis/Database
-      // await tokenBlacklist.add(token, decoded.exp);
-      // await sessionService.deleteSession(decoded.sessionId);
+      // TODO: In production, consider:
+      // - Storing blacklist in Redis for multi-instance deployments
+      // - Notifying other user sessions of logout
+      // - Clearing user-specific caches
+      // - Logging logout event for audit trail
 
       return NextResponse.json({
         success: true,

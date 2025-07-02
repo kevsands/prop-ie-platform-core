@@ -30,19 +30,41 @@ class EnterpriseAuthService {
    */
   async signIn(credentials: LoginRequest): Promise<LoginResponse> {
     try {
-      const response = await this.makeRequest<LoginResponse>('/api/auth/enterprise/login', {
+      console.log('🔐 AuthService: Starting login for:', credentials.email);
+      
+      const response = await this.makeRequest<LoginResponse>('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify(credentials)
       });
 
+      console.log('🔐 AuthService: API response received:', response);
+      console.log('🔐 AuthService: Response structure check:', {
+        hasSuccess: 'success' in response,
+        successValue: response.success,
+        hasData: 'data' in response,
+        dataKeys: response.data ? Object.keys(response.data) : 'no data'
+      });
+
       if (response.success && response.data) {
+        console.log('✅ AuthService: Login successful, storing tokens...');
+        console.log('✅ AuthService: Token data:', {
+          hasAccessToken: !!response.data.accessToken,
+          hasRefreshToken: !!response.data.refreshToken,
+          hasSessionId: !!response.data.sessionId,
+          dashboardRoute: response.data.dashboardRoute
+        });
+        
         // Store tokens securely
         this.storeTokens(response.data);
+        console.log('✅ AuthService: Tokens stored successfully');
+        
         return response.data;
       } else {
+        console.error('❌ AuthService: Login failed:', response.error);
         throw this.createAuthError(response.error);
       }
     } catch (error) {
+      console.error('❌ AuthService: Login error:', error);
       throw this.handleError(error);
     }
   }
@@ -71,17 +93,23 @@ class EnterpriseAuthService {
    */
   async getCurrentUser(): Promise<User> {
     try {
-      const response = await this.makeRequest<User>('/api/auth/enterprise/me', {
+      console.log('👤 AuthService: Getting current user...');
+      const response = await this.makeRequest<User>('/api/auth/me', {
         method: 'GET',
         headers: this.getAuthHeaders()
       });
 
+      console.log('👤 AuthService: getCurrentUser response:', response);
+
       if (response.success && response.data) {
+        console.log('✅ AuthService: Current user loaded:', response.data.email);
         return response.data;
       } else {
+        console.error('❌ AuthService: getCurrentUser failed:', response.error);
         throw this.createAuthError(response.error);
       }
     } catch (error) {
+      console.error('❌ AuthService: getCurrentUser error:', error);
       throw this.handleError(error);
     }
   }
@@ -180,9 +208,18 @@ class EnterpriseAuthService {
   private storeTokens(loginResponse: LoginResponse): void {
     if (typeof window === 'undefined') return;
     
+    // Store in localStorage for client-side access
     localStorage.setItem(this.tokenKey, loginResponse.accessToken);
     localStorage.setItem(this.refreshTokenKey, loginResponse.refreshToken);
     localStorage.setItem(this.sessionKey, loginResponse.sessionId);
+    
+    // Also store in cookies for server-side middleware access
+    const secure = window.location.protocol === 'https:';
+    const sameSite = 'lax';
+    
+    document.cookie = `${this.tokenKey}=${loginResponse.accessToken}; path=/; ${secure ? 'secure;' : ''} SameSite=${sameSite}; max-age=3600`;
+    document.cookie = `${this.refreshTokenKey}=${loginResponse.refreshToken}; path=/; ${secure ? 'secure;' : ''} SameSite=${sameSite}; max-age=604800`;
+    document.cookie = `${this.sessionKey}=${loginResponse.sessionId}; path=/; ${secure ? 'secure;' : ''} SameSite=${sameSite}; max-age=3600`;
   }
 
   /**
@@ -191,9 +228,15 @@ class EnterpriseAuthService {
   private clearTokens(): void {
     if (typeof window === 'undefined') return;
     
+    // Clear from localStorage
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.refreshTokenKey);
     localStorage.removeItem(this.sessionKey);
+    
+    // Clear from cookies
+    document.cookie = `${this.tokenKey}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `${this.refreshTokenKey}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `${this.sessionKey}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 
   /**
@@ -225,13 +268,29 @@ class EnterpriseAuthService {
         credentials: 'include'
       });
 
+      const data = await response.json();
+      
+      console.log('🌐 Raw API response:', {
+        status: response.status,
+        ok: response.ok,
+        data: data
+      });
+
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        // Handle API error responses
+        return {
+          success: false,
+          error: data.error || {
+            code: 'HTTP_ERROR',
+            message: `HTTP ${response.status}: ${response.statusText}`
+          }
+        };
       }
 
-      const data = await response.json();
+      // Return the API response as-is (it should already be in ApiResponse<T> format)
       return data;
     } catch (error) {
+      console.error('🌐 Network/Parse error:', error);
       throw this.handleError(error);
     }
   }
@@ -304,14 +363,25 @@ class EnterpriseAuthService {
   /**
    * Get user dashboard route based on role
    */
-  getUserDashboardRoute(role: UserRole): string {
-    const dashboardRoutes: Record<UserRole, string> = {
+  getUserDashboardRoute(role: UserRole | string): string {
+    // Convert string role to uppercase to match enum values
+    const roleKey = typeof role === 'string' ? role.toUpperCase() : role;
+    
+    const dashboardRoutes: Record<string, string> = {
       [UserRole.BUYER]: '/buyer',
       [UserRole.DEVELOPER]: '/developer',
-      [UserRole.AGENT]: '/agents',
       [UserRole.SOLICITOR]: '/solicitor',
       [UserRole.ADMIN]: '/admin',
       [UserRole.INVESTOR]: '/investor',
+      
+      // Database roles that map to similar dashboard routes
+      'AGENT': '/agents',
+      'ARCHITECT': '/architect',
+      'ENGINEER': '/engineer', 
+      'CONTRACTOR': '/contractor',
+      'PROJECT_MANAGER': '/project-manager',
+      'QUANTITY_SURVEYOR': '/quantity-surveyor',
+      'LEGAL': '/solicitor',
       
       // Professional roles
       [UserRole.BUYER_SOLICITOR]: '/solicitor',
@@ -386,7 +456,7 @@ class EnterpriseAuthService {
       [UserRole.MORTGAGE_UNDERWRITER]: '/mortgage'
     };
 
-    return dashboardRoutes[role] || '/dashboard';
+    return dashboardRoutes[roleKey] || '/dashboard';
   }
 
   /**

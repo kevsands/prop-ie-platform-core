@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, AlertCircle, Lock, FileCheck, Euro, Shield } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Check, AlertCircle, Lock, FileCheck, Euro, Shield, CheckCircle, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 interface BuyerRegistrationFlowProps {
@@ -283,70 +284,93 @@ function RegistrationStep({ onNext }: { onNext: () => void }) {
 }
 
 function KYCStep({ onNext }: { onNext: () => void }) {
-  const [documents, setDocuments] = useState({
-    identity: null,
-    address: null,
-  });
-
-  const handleUpload = (docType: string, file: File) => {
-    setDocuments({ ...documents, [docType]: file });
+  const router = useRouter();
+  
+  const handleProceedToVerification = () => {
+    // Save current registration progress
+    localStorage.setItem('registrationInProgress', 'true');
+    // Redirect to unified verification system
+    router.push('/buyer/verification/unified?return=/buyer/register&step=kyc');
   };
 
   return (
     <div className="space-y-6">
-      <h3 className="text-2xl font-bold mb-6">Verify Your Identity</h3>
+      <h3 className="text-2xl font-bold mb-6">Enhanced Identity Verification</h3>
       
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
         <div className="flex items-start">
-          <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+          <Shield className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" />
           <div className="ml-3">
-            <h4 className="text-sm font-medium text-yellow-800">Required Documents</h4>
-            <p className="text-sm text-yellow-700 mt-1">
-              We need to verify your identity to comply with anti-money laundering regulations.
+            <h4 className="text-lg font-medium text-blue-800 mb-2">Streamlined Verification Process</h4>
+            <p className="text-sm text-blue-700 mb-4">
+              We've upgraded our verification system! Complete your identity verification with our new, 
+              intuitive step-by-step process that's faster and more secure.
             </p>
+            
+            <div className="space-y-2">
+              <div className="flex items-center text-sm text-blue-700">
+                <CheckCircle className="w-4 h-4 mr-2 text-blue-600" />
+                <span>Bank-level security</span>
+              </div>
+              <div className="flex items-center text-sm text-blue-700">
+                <CheckCircle className="w-4 h-4 mr-2 text-blue-600" />
+                <span>Real-time document processing</span>
+              </div>
+              <div className="flex items-center text-sm text-blue-700">
+                <CheckCircle className="w-4 h-4 mr-2 text-blue-600" />
+                <span>Progress tracking</span>
+              </div>
+              <div className="flex items-center text-sm text-blue-700">
+                <CheckCircle className="w-4 h-4 mr-2 text-blue-600" />
+                <span>Compliant with Irish AML regulations</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Proof of Identity
-          </label>
-          <p className="text-sm text-gray-500 mb-2">
-            Upload a clear photo of your passport or driver's license
-          </p>
-          <input
-            type="file"
-            accept="image/*,.pdf"
-            onChange={(e) => e.target.files && handleUpload('identity', e.target.files[0])}
-            className="w-full px-4 py-2 border border-dashed rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Proof of Address
-          </label>
-          <p className="text-sm text-gray-500 mb-2">
-            Upload a recent utility bill or bank statement (within 3 months)
-          </p>
-          <input
-            type="file"
-            accept="image/*,.pdf"
-            onChange={(e) => e.target.files && handleUpload('address', e.target.files[0])}
-            className="w-full px-4 py-2 border border-dashed rounded-md"
-          />
-        </div>
+      <div className="bg-gray-50 rounded-lg p-6">
+        <h4 className="font-medium text-gray-900 mb-3">What you'll need:</h4>
+        <ul className="space-y-2 text-sm text-gray-600">
+          <li className="flex items-center">
+            <FileText className="w-4 h-4 mr-2 text-gray-400" />
+            <span>Government-issued photo ID (passport, driver's license, or national ID)</span>
+          </li>
+          <li className="flex items-center">
+            <FileText className="w-4 h-4 mr-2 text-gray-400" />
+            <span>Proof of address (utility bill, bank statement, or government letter)</span>
+          </li>
+          <li className="flex items-center">
+            <FileText className="w-4 h-4 mr-2 text-gray-400" />
+            <span>Recent payslips or employment documentation</span>
+          </li>
+          <li className="flex items-center">
+            <FileText className="w-4 h-4 mr-2 text-gray-400" />
+            <span>Bank statements (last 6 months)</span>
+          </li>
+        </ul>
       </div>
 
-      <button
-        onClick={onNext}
-        disabled={!documents.identity || !documents.address}
-        className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400"
-      >
-        Continue to Proof of Funds
-      </button>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button
+          onClick={handleProceedToVerification}
+          className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
+        >
+          <Shield className="w-5 h-5 mr-2" />
+          Continue to Verification
+        </button>
+        
+        <button
+          onClick={onNext}
+          className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+        >
+          Skip for Now
+        </button>
+      </div>
+      
+      <p className="text-xs text-gray-500 text-center">
+        You can complete verification later, but it's required before making any property reservations.
+      </p>
     </div>
   );
 }

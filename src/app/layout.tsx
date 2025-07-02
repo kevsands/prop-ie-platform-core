@@ -6,6 +6,7 @@ import ClientLayout from "./ClientLayout";
 import Providers from "./Providers";
 import PerformanceProvider from "@/components/performance/PerformanceProvider";
 // import ServiceWorkerRegistration from "@/components/performance/ServiceWorkerRegistration";
+import { APIErrorBoundary } from "@/components/error-boundaries";
 
 // Initialize fonts with performance optimizations
 const inter = Inter({ 
@@ -118,9 +119,18 @@ export default function RootLayout({
         <Providers>
           {/* <PerformanceProvider> */}
             {/* <ServiceWorkerRegistration /> */}
-            <ClientLayout>
-              {children}
-            </ClientLayout>
+            <APIErrorBoundary 
+              config={{
+                name: 'Global API Error Boundary',
+                retryEnabled: true,
+                maxRetries: 3,
+                showTechnicalDetails: process.env.NODE_ENV === 'development'
+              }}
+            >
+              <ClientLayout>
+                {children}
+              </ClientLayout>
+            </APIErrorBoundary>
           {/* </PerformanceProvider> */}
         </Providers>
       </body>

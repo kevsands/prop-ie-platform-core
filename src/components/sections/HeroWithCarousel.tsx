@@ -19,14 +19,14 @@ const heroImages = [
     link: '/developments/fitzgerald-gardens'
   },
   {
-    src: '/images/ballymakenny-view/hero.jpg',
+    src: '/images/developments/Ballymakenny-View/hero.jpg',
     alt: 'Ballymakenny View',
     title: 'Ballymakenny View',
     subtitle: '3 Bed Homes in Drogheda',
     link: '/developments/ballymakenny-view'
   },
   {
-    src: '/images/ellwood/hero.jpg',
+    src: '/images/developments/Ellwood-Logos/hero.jpg',
     alt: 'Ellwood',
     title: 'Ellwood',
     subtitle: '2 and 3 Bed Homes in Drogheda',
