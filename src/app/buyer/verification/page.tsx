@@ -192,6 +192,25 @@ export default function VerificationPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Identity Verification</h1>
           <p className="text-gray-600 mt-1">Complete your verification to access all features</p>
+          
+          {/* Option to try Advanced Verification */}
+          <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-medium text-blue-900">Advanced Verification Available</h3>
+                <p className="text-sm text-blue-700 mt-1">
+                  Try our new unified KYC flow with enhanced features and better user experience.
+                </p>
+              </div>
+              <a
+                href="/buyer/verification/unified"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Try Advanced Version
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </a>
+            </div>
+          </div>
         </div>
         
         {/* Overall Progress */}
