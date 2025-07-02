@@ -4,28 +4,2856 @@
 
    ▲ Next.js 15.3.3
    - Local:        http://localhost:3000
-   - Network:      http://192.168.0.44:3000
-   - Environments: .env.local, .env
+   - Network:      http://192.168.0.23:3000
+   - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 5.5s
- ✓ Compiled /middleware in 314ms (154 modules)
- ○ Compiling / ...
- ✓ Compiled / in 10.5s (4291 modules)
+ ✓ Ready in 7s
+ ○ Compiling /login ...
+ ✓ Compiled /login in 9.3s (4055 modules)
 ✅ AWS Amplify configuration validated successfully
-Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
- HEAD / 200 in 11005ms
- ○ Compiling /api/health ...
- ✓ Compiled /api/health in 695ms (4292 modules)
- GET /api/health 200 in 811ms
- ✓ Compiled in 606ms (1875 modules)
- ✓ Compiled in 446ms (1875 modules)
- ✓ Compiled in 416ms (1875 modules)
+ HEAD / 200 in 9898ms
+ GET /login 200 in 9905ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 936ms (4036 modules)
 ✅ AWS Amplify configuration validated successfully
-Warning: The amplify.ts file is deprecated and will be removed in a future version. Please use the new modules in src/lib/amplify/ instead.
- HEAD / 200 in 360ms
- ✓ Compiled in 672ms (1875 modules)
- ✓ Compiled in 550ms (1875 modules)
- ✓ Compiled in 435ms (1875 modules)
- ✓ Compiled in 647ms (1875 modules)
- ✓ Compiled in 467ms (1875 modules)
+ GET /auth/login 404 in 1246ms
+ GET /login 200 in 322ms
+ GET /login?redirect=%2Fauth%2Flogin 200 in 208ms
+ GET /login 200 in 46ms
+ ○ Compiling /api/auth/login ...
+ ✓ Compiled /api/auth/login in 1133ms (4116 modules)
+🔐 PostgreSQL Login attempt for: luke@buyer.com
+✅ User found in PostgreSQL: luke@buyer.com
+✅ Password valid for: luke@buyer.com
+✅ PostgreSQL Login successful for: luke@buyer.com Role: buyer Dashboard: /buyer
+ POST /api/auth/login 200 in 1735ms
+ ○ Compiling /api/transactions ...
+ ✓ Compiled /api/transactions in 1529ms (4971 modules)
+ GET /api/transactions 200 in 1706ms
+ GET /buyer 200 in 1750ms
+✅ AWS Amplify configuration validated successfully
+ GET /login?redirect=/buyer 200 in 381ms
+ ○ Compiling /api/auth/me ...
+ ✓ Compiled /api/auth/me in 592ms (4973 modules)
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 736ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 43ms
+ GET /api/transactions 200 in 82ms
+ GET /api/transactions 200 in 23ms
+✅ AWS Amplify configuration validated successfully
+ GET /buyer 200 in 279ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 43ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 561ms
+ ○ Compiling /api/htb/status/[userId] ...
+ ✓ Compiled /api/htb/status/[userId] in 974ms (4978 modules)
+ GET /api/transactions 200 in 1572ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 1070ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 2617ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 2681ms
+ ○ Compiling /buyer/first-time-buyers/welcome ...
+ ✓ Compiled /buyer/first-time-buyers/welcome in 1294ms (5004 modules)
+ GET /buyer/first-time-buyers/welcome 200 in 1408ms
+ GET /buyer/first-time-buyers/welcome 200 in 40ms
+ ○ Compiling /buyer/verification ...
+ ✓ Compiled /buyer/verification in 807ms (5093 modules)
+ GET /buyer/verification 200 in 894ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 132ms
+ ○ Compiling /buyer/properties/availability ...
+ ✓ Compiled /buyer/properties/availability in 682ms (5104 modules)
+ GET /buyer/properties/availability 200 in 798ms
+ ○ Compiling /api/properties/availability ...
+ ✓ Compiled /api/properties/availability in 617ms (5106 modules)
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 674ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 28ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 24ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 27ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 25ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 30ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 31ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 26ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 31ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 26ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 67ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 77ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 29ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 26ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 27ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 26ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 14ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 27ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 44ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 28ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 24ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 23ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 21ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 22ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 19ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 18ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 17ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 16ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 20ms
+ ○ Compiling /buyer/documents ...
+ ✓ Compiled /buyer/documents in 864ms (5135 modules)
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 921ms
+ GET /buyer/documents 200 in 967ms
+ GET /api/properties/availability?includeUpdates=true&includeStats=true 200 in 29ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 115ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 151ms
+ ○ Compiling /buyer/overview ...
+ ✓ Compiled /buyer/overview in 728ms (4265 modules)
+ GET /buyer/overview 200 in 901ms
+ ✓ Compiled /api/auth/session in 377ms (4269 modules)
+[DEV] Session check with token: dev-token-cmc6bjiez0004y302rf8y50t8
+Error fetching user by ID: Error [PrismaClientValidationError]: 
+Invalid `prisma.user.findUnique()` invocation:
+
+{
+  where: {
+    id: "cmc6bjiez0004y302rf8y50t8"
+  },
+  include: {
+    buyerJourneys: true,
+    ~~~~~~~~~~~~~
+    reservations: true,
+?   BuyerEvent?: true,
+?   BuyerJourneys?: true,
+?   BuyerProfile?: true,
+?   Development?: true,
+?   Document_Document_approvedByIdToUser?: true,
+?   Document_Document_uploadedByIdToUser?: true,
+?   DocumentVersion?: true,
+?   Investment?: true,
+?   Lead?: true,
+?   MortgageTracking?: true,
+?   Professional?: true,
+?   Project?: true,
+?   ProjectTask_ProjectTask_assignedToIdToUser?: true,
+?   ProjectTask_ProjectTask_createdByIdToUser?: true,
+?   Reservation?: true,
+?   Sale?: true,
+?   SaleStatusHistory?: true,
+?   SnagList?: true,
+?   TeamMember?: true,
+?   UserPermission?: true,
+?   Document_UserKycDocuments?: true
+  }
+}
+
+Unknown field `buyerJourneys` for include statement on model `User`. Available options are marked with ?.
+    at async UserService.getUserById (src/lib/services/users-production.ts:109:19)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  107 |   async getUserById(id: string) {
+  108 |     try {
+> 109 |       const user = await prisma.user.findUnique({
+      |                   ^
+  110 |         where: { id },
+  111 |         include: {
+  112 |           buyerJourneys: true, {
+  clientVersion: '6.7.0'
+}
+Session check error: Error: Failed to fetch user
+    at UserService.getUserById (src/lib/services/users-production.ts:120:12)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  118 |     } catch (error) {
+  119 |       console.error('Error fetching user by ID:', error);
+> 120 |       throw new Error('Failed to fetch user');
+      |            ^
+  121 |     }
+  122 |   }
+  123 |
+ GET /api/auth/session 500 in 767ms
+[DEV] Session check with token: dev-token-cmc6bjiez0004y302rf8y50t8
+Error fetching user by ID: Error [PrismaClientValidationError]: 
+Invalid `prisma.user.findUnique()` invocation:
+
+{
+  where: {
+    id: "cmc6bjiez0004y302rf8y50t8"
+  },
+  include: {
+    buyerJourneys: true,
+    ~~~~~~~~~~~~~
+    reservations: true,
+?   BuyerEvent?: true,
+?   BuyerJourneys?: true,
+?   BuyerProfile?: true,
+?   Development?: true,
+?   Document_Document_approvedByIdToUser?: true,
+?   Document_Document_uploadedByIdToUser?: true,
+?   DocumentVersion?: true,
+?   Investment?: true,
+?   Lead?: true,
+?   MortgageTracking?: true,
+?   Professional?: true,
+?   Project?: true,
+?   ProjectTask_ProjectTask_assignedToIdToUser?: true,
+?   ProjectTask_ProjectTask_createdByIdToUser?: true,
+?   Reservation?: true,
+?   Sale?: true,
+?   SaleStatusHistory?: true,
+?   SnagList?: true,
+?   TeamMember?: true,
+?   UserPermission?: true,
+?   Document_UserKycDocuments?: true
+  }
+}
+
+Unknown field `buyerJourneys` for include statement on model `User`. Available options are marked with ?.
+    at async UserService.getUserById (src/lib/services/users-production.ts:109:19)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  107 |   async getUserById(id: string) {
+  108 |     try {
+> 109 |       const user = await prisma.user.findUnique({
+      |                   ^
+  110 |         where: { id },
+  111 |         include: {
+  112 |           buyerJourneys: true, {
+  clientVersion: '6.7.0'
+}
+Session check error: Error: Failed to fetch user
+    at UserService.getUserById (src/lib/services/users-production.ts:120:12)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  118 |     } catch (error) {
+  119 |       console.error('Error fetching user by ID:', error);
+> 120 |       throw new Error('Failed to fetch user');
+      |            ^
+  121 |     }
+  122 |   }
+  123 |
+ GET /api/auth/session 500 in 83ms
+ ○ Compiling /auth ...
+ ✓ Compiled /auth in 616ms (4280 modules)
+ GET /auth 200 in 735ms
+ GET /auth 200 in 35ms
+[DEV] Session check with token: dev-token-cmc6bjiez0004y302rf8y50t8
+Error fetching user by ID: Error [PrismaClientValidationError]: 
+Invalid `prisma.user.findUnique()` invocation:
+
+{
+  where: {
+    id: "cmc6bjiez0004y302rf8y50t8"
+  },
+  include: {
+    buyerJourneys: true,
+    ~~~~~~~~~~~~~
+    reservations: true,
+?   BuyerEvent?: true,
+?   BuyerJourneys?: true,
+?   BuyerProfile?: true,
+?   Development?: true,
+?   Document_Document_approvedByIdToUser?: true,
+?   Document_Document_uploadedByIdToUser?: true,
+?   DocumentVersion?: true,
+?   Investment?: true,
+?   Lead?: true,
+?   MortgageTracking?: true,
+?   Professional?: true,
+?   Project?: true,
+?   ProjectTask_ProjectTask_assignedToIdToUser?: true,
+?   ProjectTask_ProjectTask_createdByIdToUser?: true,
+?   Reservation?: true,
+?   Sale?: true,
+?   SaleStatusHistory?: true,
+?   SnagList?: true,
+?   TeamMember?: true,
+?   UserPermission?: true,
+?   Document_UserKycDocuments?: true
+  }
+}
+
+Unknown field `buyerJourneys` for include statement on model `User`. Available options are marked with ?.
+    at async UserService.getUserById (src/lib/services/users-production.ts:109:19)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  107 |   async getUserById(id: string) {
+  108 |     try {
+> 109 |       const user = await prisma.user.findUnique({
+      |                   ^
+  110 |         where: { id },
+  111 |         include: {
+  112 |           buyerJourneys: true, {
+  clientVersion: '6.7.0'
+}
+Session check error: Error: Failed to fetch user
+    at UserService.getUserById (src/lib/services/users-production.ts:120:12)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  118 |     } catch (error) {
+  119 |       console.error('Error fetching user by ID:', error);
+> 120 |       throw new Error('Failed to fetch user');
+      |            ^
+  121 |     }
+  122 |   }
+  123 |
+ GET /api/auth/session 500 in 115ms
+[DEV] Session check with token: dev-token-cmc6bjiez0004y302rf8y50t8
+Error fetching user by ID: Error [PrismaClientValidationError]: 
+Invalid `prisma.user.findUnique()` invocation:
+
+{
+  where: {
+    id: "cmc6bjiez0004y302rf8y50t8"
+  },
+  include: {
+    buyerJourneys: true,
+    ~~~~~~~~~~~~~
+    reservations: true,
+?   BuyerEvent?: true,
+?   BuyerJourneys?: true,
+?   BuyerProfile?: true,
+?   Development?: true,
+?   Document_Document_approvedByIdToUser?: true,
+?   Document_Document_uploadedByIdToUser?: true,
+?   DocumentVersion?: true,
+?   Investment?: true,
+?   Lead?: true,
+?   MortgageTracking?: true,
+?   Professional?: true,
+?   Project?: true,
+?   ProjectTask_ProjectTask_assignedToIdToUser?: true,
+?   ProjectTask_ProjectTask_createdByIdToUser?: true,
+?   Reservation?: true,
+?   Sale?: true,
+?   SaleStatusHistory?: true,
+?   SnagList?: true,
+?   TeamMember?: true,
+?   UserPermission?: true,
+?   Document_UserKycDocuments?: true
+  }
+}
+
+Unknown field `buyerJourneys` for include statement on model `User`. Available options are marked with ?.
+    at async UserService.getUserById (src/lib/services/users-production.ts:109:19)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  107 |   async getUserById(id: string) {
+  108 |     try {
+> 109 |       const user = await prisma.user.findUnique({
+      |                   ^
+  110 |         where: { id },
+  111 |         include: {
+  112 |           buyerJourneys: true, {
+  clientVersion: '6.7.0'
+}
+Session check error: Error: Failed to fetch user
+    at UserService.getUserById (src/lib/services/users-production.ts:120:12)
+    at async GET (src/app/api/auth/session/route.ts:28:21)
+  118 |     } catch (error) {
+  119 |       console.error('Error fetching user by ID:', error);
+> 120 |       throw new Error('Failed to fetch user');
+      |            ^
+  121 |     }
+  122 |   }
+  123 |
+ GET /api/auth/session 500 in 74ms
+ ✓ Compiled /api/auth/login in 261ms (2503 modules)
+🔐 PostgreSQL Login attempt for: buyer@example.com
+❌ User not found in PostgreSQL: buyer@example.com
+ POST /api/auth/login 401 in 352ms
+ ✓ Compiled /buyer in 275ms (2510 modules)
+✅ AWS Amplify configuration validated successfully
+ GET /buyer 200 in 638ms
+ ✓ Compiled /api/auth/me in 285ms (2512 modules)
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 391ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 81ms
+ ○ Compiling /api/transactions ...
+ ✓ Compiled /api/transactions in 524ms (3320 modules)
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 1046ms
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 1046ms
+ GET /api/transactions 200 in 1146ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 1076ms
+ GET /buyer/first-time-buyers/welcome 200 in 76ms
+ GET /buyer/first-time-buyers/welcome 200 in 38ms
+ GET /buyer/verification 200 in 48ms
+ ○ Compiling /developments/[id] ...
+ ✓ Compiled /developments/[id] in 1184ms (5330 modules)
+✅ AWS Amplify configuration validated successfully
+ GET /developments/fitzgerald-gardens 200 in 2470ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 101ms
+ ○ Compiling /api/developments/[id] ...
+ ✓ Compiled /api/developments/[id] in 868ms (5333 modules)
+ GET /api/transactions 200 in 921ms
+ GET /api/developments/fitzgerald-gardens 200 in 1417ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 111ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 153ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 185ms
+✅ AWS Amplify configuration validated successfully
+ GET /developments/fitzgerald-gardens 200 in 303ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+ GET /api/developments/fitzgerald-gardens 200 in 65ms
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 69ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 124ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 2.6s (4428 modules)
+ ○ Compiling /login ...
+ ✓ Compiled /login in 1410ms (4438 modules)
+ GET /auth/login 404 in 1711ms
+✅ AWS Amplify configuration validated successfully
+ GET /buyer/verification 200 in 1972ms
+ GET /login 200 in 1965ms
+ GET /developments/fitzgerald-gardens 200 in 1996ms
+ GET /auth/login 404 in 370ms
+ GET /buyer/verification 200 in 2906ms
+ GET /auth/login 404 in 102ms
+ GET /login 200 in 97ms
+ GET /developments/fitzgerald-gardens 200 in 105ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 70ms
+ ✓ Compiled /api/transactions in 433ms (3332 modules)
+ GET /api/transactions 200 in 891ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 766ms
+ GET /api/transactions 200 in 46ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 128ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 155ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 135ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 111ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 144ms
+ ✓ Compiled in 2.2s (4414 modules)
+ GET /login 200 in 223ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /developments/fitzgerald-gardens 200 in 224ms
+ GET /buyer/verification 200 in 253ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 608ms (4404 modules)
+✅ AWS Amplify configuration validated successfully
+ GET /auth/login 404 in 1138ms
+ GET /buyer/verification 200 in 903ms
+ GET /auth/login 404 in 35ms
+ ✓ Compiled /api/auth/me in 228ms (2548 modules)
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 314ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 34ms
+ ○ Compiling /api/transactions ...
+ ✓ Compiled /api/transactions in 1269ms (3356 modules)
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 1673ms
+ GET /api/transactions 200 in 1926ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 1821ms
+ GET /api/transactions 200 in 23ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 116ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 109ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 145ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 165ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 114ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 153ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 99ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 110ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 144ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 73ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 114ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 64ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 125ms
+✅ AWS Amplify configuration validated successfully
+ GET /buyer/verification 200 in 362ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 206ms
+ GET /api/transactions 200 in 50ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 72ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 134ms
+ ○ Compiling /buyer/verification/unified ...
+ ✓ Compiled /buyer/verification/unified in 1482ms (5299 modules)
+✅ AWS Amplify configuration validated successfully
+ GET /buyer/verification/unified 200 in 1817ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 47ms
+ GET /api/transactions 200 in 104ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 142ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 203ms
+ GET /developments/fitzgerald-gardens 200 in 109ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 51ms
+ ○ Compiling /api/developments/[id] ...
+ ✓ Compiled /api/developments/[id] in 573ms (3352 modules)
+ GET /api/transactions 200 in 849ms
+ GET /api/developments/fitzgerald-gardens 200 in 937ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 134ms
+ ○ Compiling /first-time-buyers ...
+ ✓ Compiled /first-time-buyers in 1903ms (5322 modules)
+✅ AWS Amplify configuration validated successfully
+ GET /first-time-buyers 200 in 2292ms
+🔍 /api/auth/me: Token decoded for user: luke@buyer.com
+✅ /api/auth/me: User found: luke@buyer.com
+ GET /api/auth/me 200 in 82ms
+ GET /api/transactions 200 in 46ms
+ ○ Compiling /first-time-buyers/kyc ...
+ ✓ Compiled /first-time-buyers/kyc in 869ms (5363 modules)
+ GET /first-time-buyers/kyc 200 in 953ms
+ GET /first-time-buyers/kyc 200 in 38ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 174ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 210ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 173ms
+✅ AWS Amplify configuration validated successfully
+ ⨯ ReferenceError: Cloud is not defined
+    at eval (src/components/verification/VerificationSyncStatus.tsx:39:11)
+    at (ssr)/./src/components/verification/VerificationSyncStatus.tsx (.next/server/_ssr_src_components_verification_VerificationSyncStatus_tsx.js:20:1)
+    at Function.__webpack_require__ (.next/server/webpack-runtime.js:33:43)
+  37 |     name: 'Document Upload',
+  38 |     description: 'Advanced document categorization',
+> 39 |     icon: <Cloud className="w-4 h-4" />,
+     |           ^
+  40 |     critical: true
+  41 |   },
+  42 |   { {
+  digest: '904480749'
+}
+ HEAD /first-time-buyers/kyc 200 in 250ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 222ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 257ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 143ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 141ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 179ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 188ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 62ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 129ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 61ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 179ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 55ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 144ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 196ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 227ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 152ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 190ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 207ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 234ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 156ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 727ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 134ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 165ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 150ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 186ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 142ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 173ms
+ ○ Compiling /api/auth/enterprise/refresh ...
+ ✓ Compiled /api/auth/enterprise/refresh in 1702ms (4502 modules)
+Refresh token verification failed: ReferenceError: user is not defined
+    at POST (src/app/api/auth/enterprise/refresh/route.ts:51:8)
+  49 |
+  50 |         // Check if user is active
+> 51 |         if (user.status !== 'active') {
+     |        ^
+  52 |           return NextResponse.json({
+  53 |             success: false,
+  54 |             error: {
+ POST /api/auth/enterprise/refresh 401 in 1952ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 623ms (4506 modules)
+ GET /auth/login 404 in 727ms
+✅ AWS Amplify configuration validated successfully
+ GET /auth/login 404 in 246ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 144ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 178ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 232ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 262ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 123ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 153ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 153ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 186ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 125ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 164ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 125ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 156ms
+ ⨯ ReferenceError: Cloud is not defined
+    at eval (src/components/verification/VerificationSyncStatus.tsx:39:11)
+    at (ssr)/./src/components/verification/VerificationSyncStatus.tsx (.next/server/_ssr_src_components_verification_VerificationSyncStatus_tsx.js:20:1)
+    at Function.__webpack_require__ (.next/server/webpack-runtime.js:33:43)
+  37 |     name: 'Document Upload',
+  38 |     description: 'Advanced document categorization',
+> 39 |     icon: <Cloud className="w-4 h-4" />,
+     |           ^
+  40 |     critical: true
+  41 |   },
+  42 |   { {
+  digest: '904480749'
+}
+ GET /first-time-buyers/kyc 200 in 250ms
+ ⨯ ReferenceError: Cloud is not defined
+    at eval (src/components/verification/VerificationSyncStatus.tsx:39:11)
+    at (ssr)/./src/components/verification/VerificationSyncStatus.tsx (.next/server/_ssr_src_components_verification_VerificationSyncStatus_tsx.js:20:1)
+    at Function.__webpack_require__ (.next/server/webpack-runtime.js:33:43)
+  37 |     name: 'Document Upload',
+  38 |     description: 'Advanced document categorization',
+> 39 |     icon: <Cloud className="w-4 h-4" />,
+     |           ^
+  40 |     critical: true
+  41 |   },
+  42 |   { {
+  digest: '904480749'
+}
+ GET /first-time-buyers/kyc 200 in 178ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 135ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 162ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 140ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 169ms
+ HEAD /buyer/verification/unified 200 in 77ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 115ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 147ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 149ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 241ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 120ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 148ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 127ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 170ms
+Error: Route "/api/notifications/user/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/notifications/user/[userId]/route.ts:25:12)
+  23 | ) {
+  24 |   try {
+> 25 |     const { userId } = params;
+     |            ^
+  26 |     const { searchParams } = new URL(request.url);
+  27 |     const limit = parseInt(searchParams.get('limit') || '10');
+  28 |     const unreadOnly = searchParams.get('unreadOnly') === 'true';
+Error checking ROS.ie updates: TypeError: Failed to parse URL from /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0
+    at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+    at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+  126 |   try {
+  127 |     // Get user's HTB claims
+> 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+      |                           ^
+  129 |     if (!response.ok) return;
+  130 |
+  131 |     const htbStatus = await response.json(); {
+  [cause]: TypeError: Invalid URL
+      at checkForROSIeUpdates (src/app/api/notifications/user/[userId]/route.ts:128:27)
+      at GET (src/app/api/notifications/user/[userId]/route.ts:45:10)
+    126 |   try {
+    127 |     // Get user's HTB claims
+  > 128 |     const response = await fetch(`/api/htb/status/${userId}`);
+        |                           ^
+    129 |     if (!response.ok) return;
+    130 |
+    131 |     const htbStatus = await response.json(); {
+    code: 'ERR_INVALID_URL',
+    input: '/api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0'
+  }
+}
+ GET /api/notifications/user/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 112ms
+Error: Route "/api/htb/status/[userId]" used `params.userId`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at GET (src/app/api/htb/status/[userId]/route.ts:48:12)
+  46 | ) {
+  47 |   try {
+> 48 |     const { userId } = params;
+     |            ^
+  49 |     
+  50 |     // Get stored status or create default
+  51 |     let htbStatus = htbStatuses.get(userId);
+ GET /api/htb/status/f25c3f7c-23ce-404f-b9fa-d53ef97554b0 200 in 139ms

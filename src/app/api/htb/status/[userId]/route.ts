@@ -42,10 +42,10 @@ const htbStatuses: Map<string, HTBStatus> = new Map();
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const { userId } = params;
+    const { userId } = await params;
     
     // Get stored status or create default
     let htbStatus = htbStatuses.get(userId);

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-06-22T09:26:37.587Z",
+  "timestamp": "2025-06-24T20:22:02.446Z",
   "platform": "PropIE Enterprise Platform",
   "readinessScore": 92,
   "summary": {
@@ -10,232 +10,232 @@
   },
   "details": [
     {
-      "timestamp": "2025-06-22T09:24:52.918Z",
+      "timestamp": "2025-06-24T20:20:21.799Z",
       "type": "info",
       "message": "Checking Node.js environment..."
     },
     {
-      "timestamp": "2025-06-22T09:24:52.979Z",
+      "timestamp": "2025-06-24T20:20:21.842Z",
       "type": "success",
       "message": "Node.js version check - OK"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.166Z",
+      "timestamp": "2025-06-24T20:20:22.181Z",
       "type": "success",
       "message": "npm version check - OK"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.167Z",
+      "timestamp": "2025-06-24T20:20:22.181Z",
       "type": "success",
       "message": "Node.js version 23.11.0 is compatible"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.167Z",
+      "timestamp": "2025-06-24T20:20:22.181Z",
       "type": "info",
       "message": "Validating project structure..."
     },
     {
-      "timestamp": "2025-06-22T09:24:53.167Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Package.json exists"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.167Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Next.js configuration exists"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.167Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Amplify build configuration exists"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.167Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Main application page exists"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Database schema exists"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "info",
       "message": "Checking dependencies..."
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Dependency next found"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Dependency react found"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Dependency react-dom found"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Dependency @prisma/client found"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "success",
       "message": "Dependency tailwindcss found"
     },
     {
-      "timestamp": "2025-06-22T09:24:53.168Z",
+      "timestamp": "2025-06-24T20:20:22.182Z",
       "type": "info",
       "message": "Running TypeScript validation..."
     },
     {
-      "timestamp": "2025-06-22T09:25:30.121Z",
+      "timestamp": "2025-06-24T20:21:27.319Z",
       "type": "warning",
       "message": "TypeScript compilation - Warning: Command failed: npm run typecheck"
     },
     {
-      "timestamp": "2025-06-22T09:25:30.121Z",
+      "timestamp": "2025-06-24T20:21:27.319Z",
       "type": "info",
       "message": "Testing production build..."
     },
     {
-      "timestamp": "2025-06-22T09:26:28.213Z",
+      "timestamp": "2025-06-24T20:21:57.748Z",
       "type": "error",
-      "message": "Production build test - Failed: Command failed: npm run build\n ⚠ Linting is disabled.\nFailed to compile.\n\n./node_modules/bindings/bindings.js\nModule not found: Can't resolve 'fs'\n\nhttps://nextjs.org/docs/messages/module-not-found\n\nImport trace for requested module:\n./node_modules/sqlite3/lib/sqlite3-binding.js\n./node_modules/sqlite3/lib/sqlite3.js\n./src/services/realTimeWebSocketServer.ts\n./src/lib/realtime/realTimeServerManager.ts\n./src/services/AgentDeveloperCommunicationService.ts\n./src/app/agent/developer-chat/page.tsx\n\n\n> Build failed because of webpack errors\n"
+      "message": "Production build test - Failed: Command failed: npm run build\n ⚠ Linting is disabled.\nFailed to compile.\n\n./src/lib/mongodb-helper.ts\nModule not found: Can't resolve 'mongodb'\nDid you mean './mongodb'?\nRequests that should resolve in the current directory need to start with './'.\nRequests that start with a name are treated as module requests and resolve within module directories (node_modules, /Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE21-2025).\nIf changing the source code is not an option there is also a resolve options called 'preferRelative' which tries to resolve these kind of requests in the current directory too.\n\nhttps://nextjs.org/docs/messages/module-not-found\n\nImport trace for requested module:\n./src/app/api/customization/options/route.ts\n\n\n> Build failed because of webpack errors\n"
     },
     {
-      "timestamp": "2025-06-22T09:26:28.214Z",
+      "timestamp": "2025-06-24T20:21:57.748Z",
       "type": "info",
       "message": "Validating environment configuration..."
     },
     {
-      "timestamp": "2025-06-22T09:26:28.214Z",
+      "timestamp": "2025-06-24T20:21:57.748Z",
       "type": "success",
       "message": "Environment file .env.example exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:28.214Z",
+      "timestamp": "2025-06-24T20:21:57.748Z",
       "type": "success",
       "message": "Environment file .env.production.deploy exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:28.214Z",
+      "timestamp": "2025-06-24T20:21:57.748Z",
       "type": "success",
       "message": "Environment file amplify.yml exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:28.214Z",
+      "timestamp": "2025-06-24T20:21:57.748Z",
       "type": "info",
       "message": "Validating database schema..."
     },
     {
-      "timestamp": "2025-06-22T09:26:31.410Z",
+      "timestamp": "2025-06-24T20:22:01.158Z",
       "type": "error",
       "message": "Prisma schema validation - Failed: Command failed: npx prisma validate\nError: Prisma schema validation - (get-config wasm)\nError code: P1012\nerror: Error validating datasource `db`: the URL must start with the protocol `postgresql://` or `postgres://`.\n  -->  prisma/schema.prisma:10\n   | \n 9 |   provider = \"postgresql\"\n10 |   url      = env(\"DATABASE_URL\")\n   | \n\nValidation Error Count: 1\n[Context: getConfig]\n\nPrisma CLI Version : 6.7.0\n"
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.251Z",
       "type": "success",
       "message": "Prisma client generation - OK"
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.251Z",
       "type": "info",
       "message": "Checking security configuration..."
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.252Z",
       "type": "warning",
       "message": "Security header X-Frame-Options not found"
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.252Z",
       "type": "warning",
       "message": "Security header X-Content-Type-Options not found"
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.252Z",
       "type": "warning",
       "message": "Security header Strict-Transport-Security not found"
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.252Z",
       "type": "warning",
       "message": "Security header Content-Security-Policy not found"
     },
     {
-      "timestamp": "2025-06-22T09:26:32.467Z",
+      "timestamp": "2025-06-24T20:22:02.252Z",
       "type": "info",
       "message": "Testing local server response..."
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "warning",
       "message": "Local server not responding (this is OK if not running)"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "info",
       "message": "Checking performance optimizations..."
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "success",
       "message": "Cache manager exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "success",
       "message": "Connection pool manager exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "success",
       "message": "Performance optimization service exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "info",
       "message": "Validating real-time features..."
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "success",
       "message": "WebSocket server exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "success",
       "message": "Real-time server startup script exists"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.476Z",
+      "timestamp": "2025-06-24T20:22:02.325Z",
       "type": "info",
       "message": "Analyzing component structure..."
     },
     {
-      "timestamp": "2025-06-22T09:26:37.514Z",
+      "timestamp": "2025-06-24T20:22:02.362Z",
       "type": "success",
-      "message": "Found 517 components - Excellent component coverage"
+      "message": "Found 528 components - Excellent component coverage"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.514Z",
+      "timestamp": "2025-06-24T20:22:02.362Z",
       "type": "info",
       "message": "Analyzing application routes..."
     },
     {
-      "timestamp": "2025-06-22T09:26:37.587Z",
+      "timestamp": "2025-06-24T20:22:02.446Z",
       "type": "success",
-      "message": "Found 261 routes - Comprehensive application"
+      "message": "Found 267 routes - Comprehensive application"
     },
     {
-      "timestamp": "2025-06-22T09:26:37.587Z",
+      "timestamp": "2025-06-24T20:22:02.446Z",
       "type": "info",
       "message": "Generating deployment readiness report..."
     }
