@@ -112,7 +112,7 @@ export const GET = async (request: NextRequest) => {
       }
     });
   } catch (error: any) {
-    logger.error("Error fetching units:", { 
+    console.error("Error fetching units:", { 
       error: error.message, 
       stack: error.stack
     });

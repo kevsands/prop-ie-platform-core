@@ -1,0 +1,188 @@
+// KYC Enhancement Schema Addition
+// This contains additional models to enhance KYC verification capabilities
+// Add these models to the main schema.prisma file
+
+model KYCVerification {
+  id                    String         @id
+  userId                String         @unique
+  
+  // Personal Information
+  fullName              String
+  dateOfBirth           DateTime
+  nationality           String
+  ppsNumber             String
+  
+  // Identity Verification
+  idType                IDType
+  idNumber              String
+  idExpiryDate          DateTime
+  idFrontImageId        String?
+  idBackImageId         String?
+  selfieImageId         String?
+  
+  // Address Information
+  addressLine1          String
+  addressLine2          String?
+  city                  String
+  county                String
+  eircode               String
+  addressProofType      AddressProofType
+  addressProofImageId   String?
+  
+  // AML/Compliance
+  sourceOfFunds         SourceOfFunds
+  isPoliticallyExposed  Boolean       @default(false)
+  isHighRiskCountry     Boolean       @default(false)
+  
+  // Verification Status
+  status                KYCStatus     @default(NOT_STARTED)
+  progress              Int           @default(0)
+  submittedAt           DateTime?
+  reviewedAt            DateTime?
+  reviewedBy            String?
+  reviewNotes           String?
+  
+  // Compliance Scoring
+  riskScore             Int?          // 0-100, higher = more risk
+  complianceFlags       String[]      // Array of compliance concerns
+  
+  // Audit Trail
+  created               DateTime      @default(now())
+  updated               DateTime      @updatedAt
+  metadata              Json?
+  
+  // Relations
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  idFrontImage          Document?     @relation("KYCIdFrontImage", fields: [idFrontImageId], references: [id])
+  idBackImage           Document?     @relation("KYCIdBackImage", fields: [idBackImageId], references: [id])
+  selfieImage           Document?     @relation("KYCSelfieImage", fields: [selfieImageId], references: [id])
+  addressProofImage     Document?     @relation("KYCAddressProofImage", fields: [addressProofImageId], references: [id])
+  verificationHistory   KYCVerificationHistory[]
+}
+
+model KYCVerificationHistory {
+  id                    String         @id
+  verificationId        String
+  
+  // Change tracking
+  previousStatus        KYCStatus?
+  newStatus             KYCStatus
+  changedBy             String
+  changeReason          String?
+  changeNotes           String?
+  
+  // Timestamp
+  created               DateTime       @default(now())
+  metadata              Json?
+  
+  // Relations
+  verification          KYCVerification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+}
+
+model KYCComplianceCheck {
+  id                    String         @id
+  verificationId        String
+  
+  // Check Details
+  checkType             ComplianceCheckType
+  checkProvider         String         // "internal", "external_service", etc.
+  checkReference        String?        // External reference number
+  
+  // Results
+  status                CheckStatus
+  result                CheckResult
+  confidence            Float?         // 0.0-1.0
+  flags                 String[]
+  
+  // Risk Assessment
+  riskLevel             RiskLevel
+  riskFactors           String[]
+  
+  // Timing
+  requestedAt           DateTime       @default(now())
+  completedAt           DateTime?
+  expiresAt             DateTime?
+  
+  // Metadata
+  requestData           Json?
+  responseData          Json?
+  metadata              Json?
+  
+  // Relations
+  verification          KYCVerification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+}
+
+// Enhanced enums for KYC
+enum IDType {
+  PASSPORT
+  DRIVING_LICENSE
+  NATIONAL_ID
+  EU_ID_CARD
+  OTHER
+}
+
+enum AddressProofType {
+  UTILITY_BILL
+  BANK_STATEMENT
+  GOVERNMENT_LETTER
+  COUNCIL_TAX
+  RENTAL_AGREEMENT
+  MORTGAGE_STATEMENT
+  OTHER
+}
+
+enum SourceOfFunds {
+  EMPLOYMENT
+  SAVINGS
+  INVESTMENT
+  INHERITANCE
+  BUSINESS_INCOME
+  PENSION
+  GIFT
+  LOAN
+  OTHER
+}
+
+enum ComplianceCheckType {
+  IDENTITY_VERIFICATION
+  ADDRESS_VERIFICATION
+  PEP_SCREENING
+  SANCTIONS_SCREENING
+  ADVERSE_MEDIA_SCREENING
+  DOCUMENT_VERIFICATION
+  BIOMETRIC_VERIFICATION
+  FRAUD_CHECK
+}
+
+enum CheckStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  EXPIRED
+  CANCELLED
+}
+
+enum CheckResult {
+  PASS
+  FAIL
+  REVIEW_REQUIRED
+  INSUFFICIENT_DATA
+  ERROR
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// Add to existing User model:
+// kycVerification       KYCVerification?
+
+// Add to existing Document model relations:
+// KYCIdFrontImage       KYCVerification[] @relation("KYCIdFrontImage")
+// KYCIdBackImage        KYCVerification[] @relation("KYCIdBackImage") 
+// KYCSelfieImage        KYCVerification[] @relation("KYCSelfieImage")
+// KYCAddressProofImage  KYCVerification[] @relation("KYCAddressProofImage")

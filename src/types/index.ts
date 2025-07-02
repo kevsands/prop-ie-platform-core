@@ -14,7 +14,7 @@ export interface CustomizationOption {
   room?: string;
   image?: string;
   description?: string;
-  customData?: Record<string, any>;
+  customData?: Record<string, string | number | boolean>;
 }
 
 /**
@@ -56,7 +56,7 @@ export interface CustomizationSession {
   id: string;
   propertyId: string;
   userId: string;
-  selectedOptions: Record<string, any>;
+  selectedOptions: Record<string, CustomizationOption>;
   totalCost: number;
   status: 'DRAFT' | 'SUBMITTED' | 'APPROVED' | 'REJECTED';
   createdAt: string;
@@ -66,12 +66,12 @@ export interface CustomizationSession {
 /**
  * Common API response wrapper
  */
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: {
     code: string;
     message: string;
-    details?: any;
+    details?: Record<string, unknown>;
   };
 }
