@@ -32,15 +32,28 @@ import {
   Zap,
   Award,
   Euro,
-  Calculator
+  Calculator,
+  Phone,
+  RefreshCw
 } from 'lucide-react';
 import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
 import { unitsService, Unit, UnitFilters } from '@/lib/services/units';
-import { developmentsService } from '@/lib/services/developments-prisma';
+// Removed direct Prisma import - using API routes instead
+import { apiCache, enhancedAsyncCache, uiStateCache } from '@/utils/performance/enhancedCache';
 
-// AI scoring helper for units
+// AI scoring helper for units with caching
 const calculateAIScore = (unit: Unit, preferences: any = {}) => {
-  let score = 85; // Base score
+  // Create cache key based on unit properties and preferences
+  const cacheKey = `ai_score_${unit.id}_${unit.basePrice}_${unit.bedrooms}_${unit.status}_${JSON.stringify(preferences.budget)}_${preferences.bedrooms}`;
+  
+  // Check cache first
+  let score = apiCache.get(cacheKey);
+  if (score !== undefined) {
+    return score;
+  }
+  
+  // Calculate score if not cached
+  score = 85; // Base score
   
   // Price preference matching
   if (preferences.budget) {
@@ -62,7 +75,12 @@ const calculateAIScore = (unit: Unit, preferences: any = {}) => {
     score += 5;
   }
   
-  return Math.min(100, Math.max(60, score));
+  const finalScore = Math.min(100, Math.max(60, score));
+  
+  // Cache the result for 5 minutes
+  apiCache.set(cacheKey, finalScore, 300000, ['ai', 'score', 'units']);
+  
+  return finalScore;
 };
 
 // Helper to determine unit status display
@@ -264,6 +282,58 @@ const buyerPreferences = {
   timeline: '3-6 months'
 };
 
+// User preferences utility function with caching
+const getUserPreferences = () => {
+  // Check cache first for localStorage access optimization
+  const cacheKey = 'user_preferences_cached';
+  let preferences = uiStateCache.get(cacheKey);
+  
+  if (!preferences) {
+    try {
+      // Try to get from localStorage first
+      const storedPrefs = localStorage.getItem('userPropertyPreferences');
+      if (storedPrefs) {
+        const parsed = JSON.parse(storedPrefs);
+        preferences = {
+          budget: parsed.budget || [250000, 450000],
+          bedrooms: parsed.bedrooms || 3,
+          propertyType: parsed.propertyType || 'House',
+          mustHaves: parsed.mustHaves || ['Garden', 'Parking'],
+          location: parsed.location || '',
+          maxCommute: parsed.maxCommute || 30
+        };
+      } else {
+        // Default preferences if none stored
+        preferences = {
+          budget: [250000, 450000],
+          bedrooms: 3,
+          propertyType: 'House',
+          mustHaves: ['Garden', 'Parking'],
+          location: '',
+          maxCommute: 30
+        };
+      }
+      
+      // Cache for 30 seconds to avoid repeated localStorage access
+      uiStateCache.set(cacheKey, preferences, 30000, ['user', 'preferences']);
+    } catch (error) {
+      console.error('Error loading user preferences:', error);
+      
+      // Return default preferences on error
+      preferences = {
+        budget: [250000, 450000],
+        bedrooms: 3,
+        propertyType: 'House',
+        mustHaves: ['Garden', 'Parking'],
+        location: '',
+        maxCommute: 30
+      };
+    }
+  }
+  
+  return preferences;
+};
+
 export default function PropertySearchPage() {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
@@ -293,18 +363,41 @@ export default function PropertySearchPage() {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [htbEligibleOnly, setHtbEligibleOnly] = useState(false);
   const [availableOnly, setAvailableOnly] = useState(false);
+  
+  // Real-time updates state
+  const [realtimeUpdates, setRealtimeUpdates] = useState<Map<number, any>>(new Map());
+  const [showUpdateNotification, setShowUpdateNotification] = useState<{
+    type: 'price' | 'status' | 'new';
+    property: any;
+    message: string;
+  } | null>(null);
+  const [updatedPropertyIds, setUpdatedPropertyIds] = useState<Set<number>>(new Set());
 
-  // Load real units data from database
+  // Load real units data from database with enhanced caching
   const loadUnitsData = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      // Fetch developments and units in parallel
-      const [developmentsData, unitsData] = await Promise.all([
-        developmentsService.getDevelopments({ isPublished: true }),
-        fetch('/api/units').then(res => res.ok ? res.json() : { data: [] })
-      ]);
+      // Use enhanced cache for developments data with 5-minute TTL
+      const cachedDevelopmentsLoader = async () => {
+        // Fetch via API route instead of direct Prisma
+        const response = await fetch('/api/developments');
+        const result = await response.json();
+        return result.data || [];
+      };
+      const developmentsData = await enhancedAsyncCache(cachedDevelopmentsLoader, {
+        cacheTTL: 300000, // 5 minutes
+        namespace: 'developments'
+      })();
+
+      // Use enhanced cache for units data with 2-minute TTL (more frequent updates)
+      const cachedUnitsLoader = () => 
+        fetch('/api/units').then(res => res.ok ? res.json() : { data: [] });
+      const unitsData = await enhancedAsyncCache(cachedUnitsLoader, {
+        cacheTTL: 120000, // 2 minutes
+        namespace: 'units_search'
+      })();
 
       setDevelopments(developmentsData);
 
@@ -314,14 +407,24 @@ export default function PropertySearchPage() {
         setAllProperties(mockProperties);
         setFilteredProperties(mockProperties);
       } else {
-        // Transform real units data for display
-        const transformedUnits = unitsData.data.map((unit: Unit) => {
-          const development = developmentsData.find(dev => dev.id === unit.developmentId);
-          const userPreferences = { budget: [250000, 450000], bedrooms: 3 }; // TODO: Get from user profile
-          const aiScore = calculateAIScore(unit, userPreferences);
+        // Cache the data transformation using API cache
+        const cacheKey = `transformed_units_${unitsData.data.length}_${developmentsData.length}`;
+        
+        let transformedUnits = apiCache.get(cacheKey);
+        if (!transformedUnits) {
+          // Transform real units data for display
+          transformedUnits = unitsData.data.map((unit: Unit) => {
+            const development = developmentsData.find(dev => dev.id === unit.developmentId);
+            // Get user preferences from localStorage or API
+            const userPreferences = getUserPreferences();
+            const aiScore = calculateAIScore(unit, userPreferences);
+            
+            return transformUnitForDisplay(unit, development, aiScore);
+          });
           
-          return transformUnitForDisplay(unit, development, aiScore);
-        });
+          // Store in cache for 1 minute (quick invalidation for data freshness)
+          apiCache.set(cacheKey, transformedUnits, 60000, ['units', 'search', 'transformed']);
+        }
 
         setAllProperties(transformedUnits);
         setFilteredProperties(transformedUnits);
@@ -496,60 +599,231 @@ export default function PropertySearchPage() {
     setFilteredProperties(filtered);
   }, [allProperties, searchQuery, selectedPriceRange, selectedType, selectedBeds, selectedDevelopment, sortBy, htbEligibleOnly, availableOnly, selectedFeatures, customPriceRange]);
 
+  // Real-time property updates via WebSocket
+  useEffect(() => {
+    let ws: WebSocket | null = null;
+    
+    const connectToRealTime = () => {
+      try {
+        // Connect to real-time server (would be configured for production)
+        ws = new WebSocket('ws://localhost:3001/realtime?userId=buyer123&userRole=BUYER');
+        
+        ws.onopen = () => {
+          console.log('🔗 Connected to real-time property updates');
+          // Subscribe to property updates
+          ws?.send(JSON.stringify({
+            type: 'subscribe',
+            events: ['property_update', 'property_status_change', 'property_price_change']
+          }));
+        };
+        
+        ws.onmessage = (event) => {
+          try {
+            const message = JSON.parse(event.data);
+            
+            if (message.type === 'property_update' && message.data) {
+              const { propertyId, updatedData, type: updateType } = message.data;
+              
+              // Update the properties in real-time
+              setAllProperties(prev => prev.map(prop => {
+                if (prop.id === parseInt(propertyId)) {
+                  const updatedProperty = { ...prop, ...updatedData };
+                  
+                  // Show notification for significant changes
+                  if (updateType === 'price_change') {
+                    setShowUpdateNotification({
+                      type: 'price',
+                      property: updatedProperty,
+                      message: `Price updated to ${updatedData.priceFormatted || `€${updatedData.price?.toLocaleString()}`}`
+                    });
+                  } else if (updateType === 'status_change') {
+                    setShowUpdateNotification({
+                      type: 'status',
+                      property: updatedProperty,
+                      message: `Status changed to ${updatedData.status}`
+                    });
+                  }
+                  
+                  // Mark property as recently updated
+                  setUpdatedPropertyIds(prev => new Set([...prev, parseInt(propertyId)]));
+                  
+                  // Auto-remove update indicator after 10 seconds
+                  setTimeout(() => {
+                    setUpdatedPropertyIds(prev => {
+                      const newSet = new Set(prev);
+                      newSet.delete(parseInt(propertyId));
+                      return newSet;
+                    });
+                  }, 10000);
+                  
+                  return updatedProperty;
+                }
+                return prop;
+              }));
+              
+              // Auto-hide notification after 5 seconds
+              setTimeout(() => setShowUpdateNotification(null), 5000);
+            }
+          } catch (parseError) {
+            console.error('Error parsing real-time message:', parseError);
+          }
+        };
+        
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+        };
+        
+        ws.onclose = () => {
+          console.log('🔌 Disconnected from real-time updates');
+          // Reconnect after 5 seconds
+          setTimeout(connectToRealTime, 5000);
+        };
+        
+      } catch (error) {
+        console.error('Failed to connect to real-time server:', error);
+      }
+    };
+    
+    // Only connect in development/production with real-time server
+    if (process.env.NODE_ENV === 'development') {
+      connectToRealTime();
+    }
+    
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
+
   const PropertyCard = ({ property }: { property: typeof mockProperties[0] }) => {
     const isHot = property.developerPriority === 'urgent' || property.developerPriority === 'high';
     const priceDropped = property.priceHistory[0].price > property.price;
+    const isSaved = savedProperties.has(property.id);
+    const isActive = activeProperty === property.id;
+    const isRecentlyUpdated = updatedPropertyIds.has(property.id);
+
+    const handleSave = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setSavedProperties(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(property.id)) {
+          newSet.delete(property.id);
+        } else {
+          newSet.add(property.id);
+        }
+        return newSet;
+      });
+    };
+
+    const handleCalculator = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setSelectedPropertyForHTB(property);
+      setShowHTBCalculator(true);
+    };
 
     return (
       <div 
-        className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 ${
-          property.developerPriority === 'urgent' ? 'ring-2 ring-red-500' : ''
+        className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 cursor-pointer group relative ${
+          property.developerPriority === 'urgent' ? 'ring-2 ring-red-400 ring-opacity-50' : ''
+        } ${isActive ? 'shadow-2xl scale-105 -translate-y-1' : 'hover:shadow-xl hover:scale-102'} ${
+          isRecentlyUpdated ? 'ring-2 ring-blue-400 ring-opacity-70 animate-pulse' : ''
         }`}
         onMouseEnter={() => setActiveProperty(property.id)}
         onMouseLeave={() => setActiveProperty(null)}
       >
-        <div className="relative">
+        {/* Real-time Update Indicator */}
+        {isRecentlyUpdated && (
+          <div className="absolute top-2 left-2 z-10 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 animate-bounce">
+            <RefreshCw className="w-3 h-3 animate-spin" />
+            Just Updated!
+          </div>
+        )}
+        <div className="relative overflow-hidden">
           <Image
             src={property.image}
             alt={property.title}
             width={400}
             height={300}
-            className="w-full h-64 object-cover"
+            className={`w-full h-64 object-cover transition-transform duration-500 ${
+              isActive ? 'scale-110' : 'group-hover:scale-105'
+            }`}
           />
+          
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Status Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2">
             {property.aiScore >= 90 && (
-              <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+              <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1 backdrop-blur-sm animate-pulse">
                 <Sparkles className="w-4 h-4" />
                 AI Match {property.aiScore}%
               </div>
             )}
             {isHot && (
-              <div className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+              <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1 backdrop-blur-sm">
                 <Zap className="w-4 h-4" />
                 Hot Property
               </div>
             )}
             {priceDropped && (
-              <div className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-                <TrendingUp className="w-4 h-4" />
+              <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1 backdrop-blur-sm">
+                <ArrowUp className="w-4 h-4 rotate-180" />
                 Price Reduced
               </div>
             )}
             {property.status !== 'Available' && (
-              <div className="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+              <div className="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
                 {property.status}
+              </div>
+            )}
+            {property.htbEligible && (
+              <div className="bg-gradient-to-r from-green-600 to-green-700 text-white px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1 backdrop-blur-sm">
+                <Heart className="w-4 h-4" />
+                HTB Eligible
               </div>
             )}
           </div>
           
-          {/* Property Actions */}
+          {/* Enhanced Property Actions */}
           <div className="absolute top-4 right-4 flex gap-2">
-            <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
-              <Heart className="w-5 h-5 text-gray-600" />
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                const newSaved = new Set(savedProperties);
+                if (newSaved.has(property.id)) {
+                  newSaved.delete(property.id);
+                } else {
+                  newSaved.add(property.id);
+                }
+                setSavedProperties(newSaved);
+              }}
+              className={`p-2 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-110 ${
+                savedProperties.has(property.id) 
+                  ? 'bg-red-500 hover:bg-red-600 text-white' 
+                  : 'bg-white/90 hover:bg-white text-gray-600 hover:text-red-500'
+              }`}
+              title={savedProperties.has(property.id) ? 'Remove from saved' : 'Save property'}
+            >
+              <Heart className={`w-5 h-5 transition-all duration-300 ${
+                savedProperties.has(property.id) ? 'fill-current' : ''
+              }`} />
             </button>
-            <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.share?.({
+                  title: property.title,
+                  text: `Check out this property: ${property.priceDisplay}`,
+                  url: window.location.href
+                }).catch(() => {
+                  navigator.clipboard.writeText(window.location.href);
+                });
+              }}
+              className="p-2 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300 hover:scale-110 hover:text-blue-600"
+              title="Share property"
+            >
               <Share2 className="w-5 h-5 text-gray-600" />
             </button>
             {property.htbEligible && (
@@ -559,7 +833,7 @@ export default function PropertySearchPage() {
                   setSelectedPropertyForHTB(property);
                   setShowHTBCalculator(true);
                 }}
-                className="p-2 bg-green-600/90 backdrop-blur-sm rounded-full hover:bg-green-700 transition-colors"
+                className="p-2 bg-green-600/90 backdrop-blur-sm rounded-full hover:bg-green-700 transition-all duration-300 hover:scale-110"
                 title="Calculate Help-to-Buy"
               >
                 <Calculator className="w-5 h-5 text-white" />
@@ -694,16 +968,35 @@ export default function PropertySearchPage() {
             </div>
           </div>
           
-          {/* Actions */}
+          {/* Enhanced Actions */}
           <div className="flex gap-3">
             <Link
               href={`/developments/${property.developmentSlug}/units/${property.unitNumber || property.id}`}
-              className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-medium text-center hover:bg-blue-700 transition-colors"
+              className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium text-center hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
             >
               View Details
             </Link>
-            <button className="px-4 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                // Handle viewing booking - could open modal or navigate
+                alert('Booking viewing functionality would be implemented here');
+              }}
+              className="px-4 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-medium hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center"
+              title="Book viewing"
+            >
               <Calendar className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                // Handle quick contact - could open chat or call
+                alert('Quick contact functionality would be implemented here');
+              }}
+              className="px-4 py-3 border-2 border-gray-300 text-gray-600 rounded-lg font-medium hover:border-gray-400 hover:bg-gray-50 transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center"
+              title="Quick contact"
+            >
+              <Phone className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -1315,6 +1608,48 @@ export default function PropertySearchPage() {
               </div>
               
               <HelpToBuyCalculator />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Real-time Property Update Notification */}
+      {showUpdateNotification && (
+        <div className="fixed bottom-4 right-4 z-50 max-w-sm">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 animate-slide-up">
+            <div className="flex items-start gap-3">
+              <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                showUpdateNotification.type === 'price' ? 'bg-green-100' : 
+                showUpdateNotification.type === 'status' ? 'bg-blue-100' : 'bg-purple-100'
+              }`}>
+                {showUpdateNotification.type === 'price' ? (
+                  <Euro className={`w-4 h-4 ${
+                    showUpdateNotification.type === 'price' ? 'text-green-600' : 
+                    showUpdateNotification.type === 'status' ? 'text-blue-600' : 'text-purple-600'
+                  }`} />
+                ) : showUpdateNotification.type === 'status' ? (
+                  <RefreshCw className="w-4 h-4 text-blue-600" />
+                ) : (
+                  <Sparkles className="w-4 h-4 text-purple-600" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-medium text-gray-900">
+                  Property Updated
+                </h4>
+                <p className="text-sm text-gray-600 mt-1">
+                  {showUpdateNotification.property?.title}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {showUpdateNotification.message}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowUpdateNotification(null)}
+                className="flex-shrink-0 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>

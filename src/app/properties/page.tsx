@@ -5,7 +5,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { developmentsService } from '@/lib/services/developments-prisma';
+// Removed direct Prisma import - will use API route instead
 
 export const metadata: Metadata = {
   title: 'Properties | Prop.ie',
@@ -57,10 +57,18 @@ function transformDevelopmentForFeatured(dev: any) {
   };
 }
 
-export default async function PropertiesPage() {
-  // Fetch developer-managed developments for featured section
-  const dbDevelopments = await developmentsService.getDevelopments({ isPublished: true });
-  const featuredDevelopments = dbDevelopments.map(transformDevelopmentForFeatured);
+export default function PropertiesPage() {
+  // Use static data for now - TODO: implement client-side fetch from API
+  const featuredDevelopments = [
+    {
+      id: 'fitzgerald-gardens',
+      name: 'Fitzgerald Gardens',
+      location: 'Ballymakenny Road, Drogheda, Co. Louth',
+      startingPrice: '€295,000',
+      image: '/images/developments/fitzgerald-gardens/hero.jpeg',
+      status: 'Now Selling',
+    }
+  ];
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}

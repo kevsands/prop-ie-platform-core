@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useAuth } from '@/context/ProductionAuthContext';
+import { useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
 import { api } from '@/lib/api-client';
 
 // Transaction-related types
@@ -149,7 +149,7 @@ interface TransactionProviderProps {
 }
 
 export const TransactionProvider: React.FC<TransactionProviderProps> = ({ children }) => {
-  const { user } = useAuth();
+  const { user } = useEnterpriseAuth();
   const [currentTransaction, setCurrentTransaction] = useState<Transaction | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loadingTransactions, setLoadingTransactions] = useState(false);
@@ -415,23 +415,181 @@ export const TransactionProvider: React.FC<TransactionProviderProps> = ({ childr
 
   // Subscribe to transaction updates (WebSocket or SSE)
   const subscribeToTransaction = (transactionId: string) => {
-    // TODO: Implement WebSocket subscription
     console.log('Subscribing to transaction:', transactionId);
+    
+    // Create WebSocket connection for real-time updates
+    let ws: WebSocket | null = null;
+    
+    try {
+      // Connect to real-time server (configured for production)
+      const wsUrl = process.env.NODE_ENV === 'production' 
+        ? `wss://${window.location.host}/realtime`
+        : 'ws://localhost:3001/realtime';
+      
+      ws = new WebSocket(`${wsUrl}?userId=${user?.id || 'anonymous'}&userRole=${user?.role || 'BUYER'}`);
+      
+      ws.onopen = () => {
+        console.log('📡 Connected to transaction real-time updates');
+        // Subscribe to specific transaction updates
+        ws?.send(JSON.stringify({
+          type: 'subscribe',
+          events: ['transaction_update', 'transaction_status_change'],
+          filters: { transactionId }
+        }));
+      };
+      
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          
+          if (message.type === 'transaction_update' && message.data?.transactionId === transactionId) {
+            // Update the specific transaction in state
+            setTransactions(prev => prev.map(tx => 
+              tx.id === transactionId 
+                ? { ...tx, ...message.data.updatedData }
+                : tx
+            ));
+            
+            console.log(`📡 Transaction ${transactionId} updated:`, message.data.updatedData);
+          }
+        } catch (error) {
+          console.error('Error parsing transaction update:', error);
+        }
+      };
+      
+      ws.onerror = (error) => {
+        console.error('WebSocket error for transaction:', error);
+      };
+      
+      ws.onclose = () => {
+        console.log('🔌 Disconnected from transaction updates');
+      };
+      
+    } catch (error) {
+      console.error('Failed to connect to transaction real-time updates:', error);
+    }
     
     // Return unsubscribe function
     return () => {
       console.log('Unsubscribing from transaction:', transactionId);
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'unsubscribe',
+          events: ['transaction_update', 'transaction_status_change'],
+          filters: { transactionId }
+        }));
+        ws.close();
+      }
     };
   };
 
   // Subscribe to user's transactions updates
   const subscribeToUserTransactions = () => {
-    // TODO: Implement WebSocket subscription
     console.log('Subscribing to user transactions');
+    
+    // Create WebSocket connection for user transaction updates
+    let ws: WebSocket | null = null;
+    
+    if (!user?.id) {
+      console.warn('Cannot subscribe to user transactions: no user ID');
+      return () => {};
+    }
+    
+    try {
+      // Connect to real-time server
+      const wsUrl = process.env.NODE_ENV === 'production' 
+        ? `wss://${window.location.host}/realtime`
+        : 'ws://localhost:3001/realtime';
+      
+      ws = new WebSocket(`${wsUrl}?userId=${user.id}&userRole=${user.role || 'BUYER'}`);
+      
+      ws.onopen = () => {
+        console.log('📡 Connected to user transaction real-time updates');
+        // Subscribe to user-specific transaction events
+        ws?.send(JSON.stringify({
+          type: 'subscribe',
+          events: [
+            'transaction_created', 
+            'transaction_update', 
+            'transaction_status_change',
+            'payment_update',
+            'document_update'
+          ],
+          filters: { userId: user.id }
+        }));
+      };
+      
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          
+          if (message.data?.userId === user.id || message.data?.affectedUsers?.includes(user.id)) {
+            switch (message.type) {
+              case 'transaction_created':
+                // Add new transaction to the list
+                if (message.data.transaction) {
+                  setTransactions(prev => [message.data.transaction, ...prev]);
+                  console.log('📡 New transaction created:', message.data.transaction.id);
+                }
+                break;
+                
+              case 'transaction_update':
+              case 'transaction_status_change':
+                // Update existing transaction
+                if (message.data.transactionId) {
+                  setTransactions(prev => prev.map(tx => 
+                    tx.id === message.data.transactionId 
+                      ? { ...tx, ...message.data.updatedData }
+                      : tx
+                  ));
+                  console.log(`📡 Transaction ${message.data.transactionId} updated`);
+                }
+                break;
+                
+              case 'payment_update':
+              case 'document_update':
+                // Refresh transaction data for payment/document updates
+                if (message.data.transactionId) {
+                  console.log(`📡 ${message.type} for transaction ${message.data.transactionId}`);
+                  // Could trigger a refresh of the specific transaction
+                }
+                break;
+            }
+          }
+        } catch (error) {
+          console.error('Error parsing user transaction update:', error);
+        }
+      };
+      
+      ws.onerror = (error) => {
+        console.error('WebSocket error for user transactions:', error);
+      };
+      
+      ws.onclose = () => {
+        console.log('🔌 Disconnected from user transaction updates');
+      };
+      
+    } catch (error) {
+      console.error('Failed to connect to user transaction real-time updates:', error);
+    }
     
     // Return unsubscribe function
     return () => {
       console.log('Unsubscribing from user transactions');
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'unsubscribe',
+          events: [
+            'transaction_created', 
+            'transaction_update', 
+            'transaction_status_change',
+            'payment_update',
+            'document_update'
+          ],
+          filters: { userId: user.id }
+        }));
+        ws.close();
+      }
     };
   };
 

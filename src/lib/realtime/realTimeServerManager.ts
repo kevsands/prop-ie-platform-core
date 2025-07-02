@@ -4,7 +4,29 @@
  * Manages the lifecycle of the WebSocket server and integrates with Next.js
  */
 
-import { realTimeWebSocketServer } from '@/services/realTimeWebSocketServer';
+// Use dynamic import to prevent client-side loading
+let realTimeWebSocketServer: any = null;
+
+// Dynamically import server-only modules
+async function getWebSocketServer() {
+  if (typeof window === 'undefined' && !realTimeWebSocketServer) {
+    try {
+      const { realTimeWebSocketServer: server } = await import('@/services/realTimeWebSocketServer');
+      realTimeWebSocketServer = server;
+    } catch (error) {
+      console.warn('WebSocket server not available in this environment:', error);
+      // Fallback to client-safe version
+      const { realTimeWebSocketServer: clientServer } = await import('@/services/realTimeWebSocketServer.client');
+      realTimeWebSocketServer = clientServer;
+    }
+  } else if (typeof window !== 'undefined') {
+    // Client-side: use client-safe version
+    const { realTimeWebSocketServer: clientServer } = await import('@/services/realTimeWebSocketServer.client');
+    realTimeWebSocketServer = clientServer;
+  }
+  return realTimeWebSocketServer;
+}
+
 import { connectionPoolManager } from './connectionPoolManager';
 
 export class RealTimeServerManager {
@@ -44,14 +66,19 @@ export class RealTimeServerManager {
 
     try {
       console.log('🚀 Starting Real-Time WebSocket Server...');
-      await realTimeWebSocketServer.start();
-      this.isServerRunning = true;
-      
-      console.log('✅ Real-Time WebSocket Server initialized successfully');
-      console.log('📡 WebSocket endpoint: ws://localhost:3001/realtime');
-      
-      // Setup graceful shutdown
-      this.setupGracefulShutdown();
+      const server = await getWebSocketServer();
+      if (server && server.start) {
+        await server.start();
+        this.isServerRunning = true;
+        
+        console.log('✅ Real-Time WebSocket Server initialized successfully');
+        console.log('📡 WebSocket endpoint: ws://localhost:3001/realtime');
+        
+        // Setup graceful shutdown
+        this.setupGracefulShutdown();
+      } else {
+        console.log('📡 WebSocket server not available in this environment');
+      }
       
     } catch (error) {
       console.error('❌ Failed to start WebSocket server:', error);
@@ -69,7 +96,10 @@ export class RealTimeServerManager {
 
     try {
       console.log('🛑 Stopping Real-Time WebSocket Server...');
-      await realTimeWebSocketServer.stop();
+      const server = await getWebSocketServer();
+      if (server && server.stop) {
+        await server.stop();
+      }
       this.isServerRunning = false;
       this.initializationPromise = null;
       console.log('✅ WebSocket server stopped');
@@ -82,13 +112,14 @@ export class RealTimeServerManager {
   /**
    * Get server status
    */
-  public getStatus(): {
+  public async getStatus(): Promise<{
     isRunning: boolean;
     stats?: any;
-  } {
+  }> {
+    const server = await getWebSocketServer();
     return {
       isRunning: this.isServerRunning,
-      stats: this.isServerRunning ? realTimeWebSocketServer.getStats() : undefined
+      stats: this.isServerRunning && server ? server.getStats() : undefined
     };
   }
 
@@ -124,27 +155,36 @@ export class RealTimeServerManager {
   /**
    * Trigger real-time event
    */
-  public triggerEvent(eventType: string, data: any): void {
+  public async triggerEvent(eventType: string, data: any): Promise<void> {
     if (this.isServerRunning) {
-      realTimeWebSocketServer.emit(eventType, data);
+      const server = await getWebSocketServer();
+      if (server && server.emit) {
+        server.emit(eventType, data);
+      }
     }
   }
 
   /**
    * Broadcast to specific users
    */
-  public broadcastToUsers(userIds: string[], eventType: string, data: any): void {
+  public async broadcastToUsers(userIds: string[], eventType: string, data: any): Promise<void> {
     if (this.isServerRunning) {
-      realTimeWebSocketServer.broadcastToUsers(userIds, eventType, data);
+      const server = await getWebSocketServer();
+      if (server && server.broadcastToUsers) {
+        server.broadcastToUsers(userIds, eventType, data);
+      }
     }
   }
 
   /**
    * Broadcast to specific roles
    */
-  public broadcastToRoles(roles: string[], eventType: string, data: any): void {
+  public async broadcastToRoles(roles: string[], eventType: string, data: any): Promise<void> {
     if (this.isServerRunning) {
-      realTimeWebSocketServer.broadcastToRoles(roles, eventType, data);
+      const server = await getWebSocketServer();
+      if (server && server.broadcastToRoles) {
+        server.broadcastToRoles(roles, eventType, data);
+      }
     }
   }
 }

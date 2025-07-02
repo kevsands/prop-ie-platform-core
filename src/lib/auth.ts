@@ -10,6 +10,7 @@ import { AuthUser, SignInParams, SignInResult } from "@/types/amplify/auth";
 import { GraphQLContext, AuthContext, AuthResolverFunction, ResolverFunction } from "@/types/graphql";
 import { GraphQLError } from 'graphql';
 import { UserRole } from '@/types/core/user';
+import { CognitoUserAttributes } from '@/types/auth';
 
 /**
  * Production Authentication Service
@@ -143,7 +144,7 @@ export class Auth {
   /**
    * Extract user roles from Cognito token
    */
-  private static extractUserRoles(userAttributes: any): UserRole[] {
+  private static extractUserRoles(userAttributes: CognitoUserAttributes): UserRole[] {
     const defaultRoles: UserRole[] = ['USER'];
     
     if (!userAttributes) return defaultRoles;

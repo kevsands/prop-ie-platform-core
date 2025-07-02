@@ -53,11 +53,15 @@ function LoginPageContent() {
             
             {/* Test user credentials hint */}
             <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-900 font-medium mb-2">Enterprise Test Credentials:</p>
+              <p className="text-sm text-blue-900 font-medium mb-2">Test Accounts Available:</p>
               <div className="text-sm text-blue-800 space-y-1">
-                <p>• kevin@prop.ie - Real user from database</p>
-                <p>• Or use any email with "buyer", "developer", "agent", etc.</p>
-                <p className="mt-2 text-xs">Password: any value (development mode)</p>
+                <p>• luke@buyer.com → Buyer Dashboard</p>
+                <p>• luke@developer.com → Developer Dashboard</p>
+                <p>• luke@solicitor.com → Solicitor Dashboard</p>
+                <p>• luke@agent.com → Agent Dashboard</p>
+                <p>• luke@admin.com → Admin Dashboard</p>
+                <p>• + 11 more role types...</p>
+                <p className="mt-2 text-xs font-medium">Password: test12345</p>
               </div>
             </div>
             
