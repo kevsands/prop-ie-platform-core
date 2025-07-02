@@ -138,4 +138,17 @@ credentials/
 
 # Local configuration files
 config.local.js
-config.local.json
+config.local.json# Exclude development and temporary files from git
+*.log
+dev-server.log
+dev-test.log
+*.db
+.env.studio
+fix-mcp-servers.sh
+mcp-config.json
+middleware.ts.temp-disabled
+src/middleware.orig.ts.disabled  
+src/middleware.ts.disabled
+test-mcp.js
+tsconfig.tsbuildinfo
+production-readiness-report.json
