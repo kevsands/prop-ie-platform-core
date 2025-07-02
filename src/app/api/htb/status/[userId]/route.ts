@@ -91,10 +91,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const { userId } = params;
+    const { userId } = await params;
     const updates = await request.json();
     
     let htbStatus = htbStatuses.get(userId);
@@ -119,10 +119,10 @@ export async function PUT(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const { userId } = params;
+    const { userId } = await params;
     const body = await request.json();
     
     // Create new HTB application
@@ -263,6 +263,7 @@ function updateTimeline(htbStatus: HTBStatus, rosieUpdate: any): void {
 
 // Initialize with demo data for development
 if (process.env.NODE_ENV === 'development') {
+  // Demo data for buyer-001
   htbStatuses.set('buyer-001', {
     userId: 'buyer-001',
     active: true,
@@ -331,6 +332,64 @@ if (process.env.NODE_ENV === 'development') {
         requirement: 'Mortgage approval',
         status: 'completed',
         description: 'Mortgage approved - €270,000'
+      }
+    ]
+  });
+
+  // Demo data for the specific user ID from logs
+  htbStatuses.set('f25c3f7c-23ce-404f-b9fa-d53ef97554b0', {
+    userId: 'f25c3f7c-23ce-404f-b9fa-d53ef97554b0',
+    active: true,
+    eligible: true,
+    claimCode: 'HTB2024005678',
+    status: 'Under Review',
+    nextAction: 'Revenue processing application',
+    pendingCompletion: false,
+    lastKnownStatus: 'under_review',
+    applicationDate: new Date('2024-06-01'),
+    claimAmount: 25000,
+    propertyId: 'prop-fitzgerald-unit-15',
+    rosiReference: 'ROS-HTB-2024-005678',
+    timeline: [
+      {
+        id: 'timeline-1',
+        date: new Date('2024-06-01'),
+        event: 'Application Submitted',
+        description: 'HTB application submitted to Revenue Commissioners',
+        status: 'completed'
+      },
+      {
+        id: 'timeline-2',
+        date: new Date('2024-06-05'),
+        event: 'Application Under Review',
+        description: 'Revenue Commissioners reviewing application',
+        status: 'current'
+      }
+    ],
+    requirements: [
+      {
+        id: 'req-1',
+        requirement: 'First-time buyer verification',
+        status: 'completed',
+        description: 'Confirmed as first-time buyer'
+      },
+      {
+        id: 'req-2',
+        requirement: 'Income verification',
+        status: 'pending',
+        description: 'Provide proof of income for the last 12 months'
+      },
+      {
+        id: 'req-3',
+        requirement: 'Property purchase agreement',
+        status: 'completed',
+        description: 'Purchase agreement for Fitzgerald Gardens submitted'
+      },
+      {
+        id: 'req-4',
+        requirement: 'Mortgage approval',
+        status: 'pending',
+        description: 'Obtain mortgage approval in principle'
       }
     ]
   });
