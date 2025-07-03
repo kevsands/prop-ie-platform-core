@@ -345,6 +345,42 @@ export class DeveloperRestApiService {
     }));
   }
 
+  private calculateProjectProgress(projectId: string): number {
+    // Dynamic calculation based on actual project metrics
+    const project = this.getMockProjects().find(p => p.id === projectId);
+    if (!project) return 0;
+
+    // Calculate progress based on multiple factors
+    const salesProgress = ((project.soldUnits + project.reservedUnits) / project.totalUnits) * 100;
+    const constructionProgress = this.getConstructionProgress(projectId);
+    const legalProgress = this.getLegalProgress(projectId);
+    
+    // Weighted average: 40% sales, 40% construction, 20% legal
+    const overallProgress = (salesProgress * 0.4) + (constructionProgress * 0.4) + (legalProgress * 0.2);
+    
+    return Math.round(Math.min(overallProgress, 100));
+  }
+
+  private getConstructionProgress(projectId: string): number {
+    // Simulate construction progress based on timeline
+    const today = new Date();
+    const projectStart = new Date('2024-01-15'); // Example start date
+    const plannedCompletion = new Date('2025-06-30');
+    
+    const totalDuration = plannedCompletion.getTime() - projectStart.getTime();
+    const elapsed = today.getTime() - projectStart.getTime();
+    const timeProgress = (elapsed / totalDuration) * 100;
+    
+    // Construction typically lags behind time by 10-15%
+    return Math.max(0, Math.min(timeProgress - 15, 95));
+  }
+
+  private getLegalProgress(projectId: string): number {
+    // Simulate legal/planning progress
+    // This would normally be based on actual milestones
+    return 85; // Assume most legal milestones are complete
+  }
+
   // Mock data for development fallback
   private getMockProjects(): DeveloperProject[] {
     return [
@@ -359,7 +395,7 @@ export class DeveloperRestApiService {
         soldUnits: 45,
         reservedUnits: 23,
         completionDate: '2025-06-30T00:00:00Z',
-        progressPercentage: 68,
+        progressPercentage: this.calculateProjectProgress('1'),
       },
       {
         id: '2',
