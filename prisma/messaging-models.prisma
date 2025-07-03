@@ -1,0 +1,409 @@
+// PROP.ie Messaging System Prisma Models
+// Add these models to the main schema-unified.prisma file
+
+// ======= MESSAGING ENUMS =======
+
+enum MessageType {
+  TEXT
+  DOCUMENT
+  SYSTEM
+  TASK_UPDATE
+  PAYMENT_NOTIFICATION
+  APPROVAL_REQUEST
+  MEETING_REQUEST
+  PROGRESS_UPDATE
+}
+
+enum MessagePriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+  EXECUTIVE
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+  APPROVED
+  REJECTED
+  PENDING_APPROVAL
+}
+
+enum ConversationType {
+  TEAM_COMMUNICATION
+  BUYER_QUERY
+  APPROVAL_REQUEST
+  MEETING_DISCUSSION
+  PROJECT_UPDATE
+  EXECUTIVE_COMMUNICATION
+}
+
+enum ConversationStatus {
+  ACTIVE
+  ARCHIVED
+  CLOSED
+  PENDING_APPROVAL
+  URGENT
+}
+
+// ParticipantRole enum already exists in unified schema
+
+enum RoutingConditionType {
+  KEYWORD
+  SENDER_ROLE
+  PRIORITY
+  TIME_OF_DAY
+  PROJECT
+  MESSAGE_TYPE
+  ATTACHMENT_COUNT
+  SENTIMENT
+}
+
+enum RoutingOperator {
+  CONTAINS
+  EQUALS
+  GREATER_THAN
+  LESS_THAN
+  BETWEEN
+  NOT_CONTAINS
+}
+
+enum RoutingActionType {
+  ASSIGN_TO
+  SET_PRIORITY
+  ADD_TAG
+  SEND_NOTIFICATION
+  CREATE_TASK
+  ESCALATE
+  AUTO_REPLY
+  FORWARD_TO_TEAM
+}
+
+// ======= MESSAGING MODELS =======
+
+model Conversation {
+  id              String            @id @default(uuid())
+  title           String
+  conversationType ConversationType
+  status          ConversationStatus @default(ACTIVE)
+  priority        MessagePriority    @default(NORMAL)
+  
+  // Project/context linking
+  projectId       String?
+  propertyId      String?
+  teamId          String?
+  
+  // Conversation metadata
+  lastMessageAt      DateTime?
+  lastMessageContent String?
+  lastMessageSender  String?
+  
+  // Security and access
+  createdById     String
+  isPrivate       Boolean @default(false)
+  
+  // Approval workflow
+  requiresApproval    Boolean @default(false)
+  approvalRequiredFrom String?
+  approvedAt          DateTime?
+  approvedById        String?
+  
+  // Metadata
+  metadata        Json    @default("{}")
+  tags            String[] @default([])
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  createdBy       User     @relation("ConversationCreatedBy", fields: [createdById], references: [id])
+  approvedBy      User?    @relation("ConversationApprovedBy", fields: [approvedById], references: [id])
+  approvalRequired User?   @relation("ConversationApprovalRequired", fields: [approvalRequiredFrom], references: [id])
+  project         Project? @relation(fields: [projectId], references: [id])
+  
+  participants    ConversationParticipant[]
+  messages        Message[]
+  notifications   Notification[]
+  
+  @@index([conversationType])
+  @@index([projectId])
+  @@index([status])
+  @@index([createdById])
+  @@index([updatedAt])
+  @@index([priority])
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  id             String          @id @default(uuid())
+  conversationId String
+  userId         String
+  
+  role           ParticipantRole @default(MEMBER)
+  joinedAt       DateTime        @default(now())
+  lastSeenAt     DateTime?
+  leftAt         DateTime?
+  
+  // Permissions
+  canAddParticipants    Boolean @default(false)
+  canRemoveParticipants Boolean @default(false)
+  canArchiveConversation Boolean @default(false)
+  
+  // Notification preferences
+  notificationsEnabled Boolean @default(true)
+  emailNotifications   Boolean @default(true)
+  
+  createdAt      DateTime @default(now())
+  
+  // Relations
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([conversationId, userId])
+  @@index([conversationId])
+  @@index([userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             String         @id @default(uuid())
+  conversationId String
+  
+  // Sender information
+  senderId       String
+  senderName     String
+  senderRole     String?
+  
+  // Message content
+  content        String
+  messageType    MessageType    @default(TEXT)
+  priority       MessagePriority @default(NORMAL)
+  status         MessageStatus  @default(SENT)
+  
+  // Threading and replies
+  parentMessageId String?
+  threadRootId    String?
+  
+  // Scheduling
+  scheduledFor   DateTime?
+  
+  // Message metadata
+  metadata       Json    @default("{}")
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  deletedAt      DateTime?
+  
+  // Relations
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation(fields: [senderId], references: [id])
+  parentMessage  Message?     @relation("MessageReplies", fields: [parentMessageId], references: [id])
+  threadRoot     Message?     @relation("ThreadMessages", fields: [threadRootId], references: [id])
+  
+  // Child relations
+  replies        Message[]    @relation("MessageReplies")
+  threadMessages Message[]    @relation("ThreadMessages")
+  readReceipts   MessageReadReceipt[]
+  attachments    MessageAttachment[]
+  notifications  Notification[]
+  routingLogs    RoutingLog[]
+  
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([messageType])
+  @@index([priority])
+  @@index([status])
+  @@index([createdAt])
+  @@index([parentMessageId])
+  @@map("messages")
+}
+
+model MessageReadReceipt {
+  id        String   @id @default(uuid())
+  messageId String
+  userId    String
+  readAt    DateTime @default(now())
+  
+  // Relations
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([messageId, userId])
+  @@index([messageId])
+  @@index([userId])
+  @@map("message_read_receipts")
+}
+
+model MessageAttachment {
+  id           String @id @default(uuid())
+  messageId    String
+  
+  // File information
+  fileName     String
+  originalName String
+  fileType     String
+  fileSize     BigInt
+  filePath     String
+  fileUrl      String?
+  
+  // File metadata
+  mimeType     String?
+  isImage      Boolean @default(false)
+  imageWidth   Int?
+  imageHeight  Int?
+  
+  // Security
+  isVirusScanned Boolean @default(false)
+  scanResult     String?
+  
+  uploadedById   String
+  uploadedAt     DateTime @default(now())
+  
+  // Relations
+  message      Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  uploadedBy   User    @relation(fields: [uploadedById], references: [id])
+  
+  @@index([messageId])
+  @@index([uploadedById])
+  @@index([fileType])
+  @@map("message_attachments")
+}
+
+model RoutingRule {
+  id           String @id @default(uuid())
+  name         String
+  description  String?
+  
+  isActive     Boolean @default(true)
+  priority     Int     @default(5)
+  
+  // Rule execution tracking
+  triggerCount   Int      @default(0)
+  successCount   Int      @default(0)
+  lastTriggeredAt DateTime?
+  
+  createdById  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relations
+  createdBy    User              @relation(fields: [createdById], references: [id])
+  conditions   RoutingCondition[]
+  actions      RoutingAction[]
+  routingLogs  RoutingLog[]
+  
+  @@index([isActive])
+  @@index([priority])
+  @@index([createdById])
+  @@map("routing_rules")
+}
+
+model RoutingCondition {
+  id            String              @id @default(uuid())
+  ruleId        String
+  
+  conditionType RoutingConditionType
+  operator      RoutingOperator
+  conditionValue String             // JSON array for multiple values
+  caseSensitive Boolean             @default(false)
+  
+  orderIndex    Int                 @default(0)
+  
+  // Relations
+  rule          RoutingRule         @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  
+  @@index([ruleId])
+  @@index([conditionType])
+  @@map("routing_conditions")
+}
+
+model RoutingAction {
+  id             String            @id @default(uuid())
+  ruleId         String
+  
+  actionType     RoutingActionType
+  actionValue    String
+  delayMinutes   Int               @default(0)
+  templateContent String?
+  
+  orderIndex     Int               @default(0)
+  
+  // Relations
+  rule           RoutingRule       @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  
+  @@index([ruleId])
+  @@index([actionType])
+  @@map("routing_actions")
+}
+
+model Notification {
+  id             String          @id @default(uuid())
+  userId         String
+  
+  // Notification content
+  type           String
+  title          String
+  content        String?
+  actionUrl      String?
+  
+  // Priority and status
+  priority       MessagePriority @default(NORMAL)
+  status         String          @default("UNREAD") // UNREAD, READ, DISMISSED
+  
+  // Delivery tracking
+  emailSent      Boolean         @default(false)
+  emailSentAt    DateTime?
+  pushSent       Boolean         @default(false)
+  pushSentAt     DateTime?
+  
+  // Related entities
+  conversationId String?
+  messageId      String?
+  
+  // Metadata
+  metadata       Json            @default("{}")
+  
+  createdAt      DateTime        @default(now())
+  readAt         DateTime?
+  dismissedAt    DateTime?
+  
+  // Relations
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation   Conversation?   @relation(fields: [conversationId], references: [id])
+  message        Message?        @relation(fields: [messageId], references: [id])
+  
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@index([conversationId])
+  @@map("notifications")
+}
+
+model RoutingLog {
+  id               String       @id @default(uuid())
+  messageId        String
+  ruleId           String?
+  
+  // Routing details
+  matchedConditions Json?
+  executedActions   Json?
+  executionTimeMs   Int?
+  
+  // Results
+  success          Boolean      @default(true)
+  errorMessage     String?
+  
+  routedAt         DateTime     @default(now())
+  
+  // Relations
+  message          Message      @relation(fields: [messageId], references: [id])
+  rule             RoutingRule? @relation(fields: [ruleId], references: [id])
+  
+  @@index([messageId])
+  @@index([ruleId])
+  @@index([routedAt])
+  @@map("routing_logs")
+}

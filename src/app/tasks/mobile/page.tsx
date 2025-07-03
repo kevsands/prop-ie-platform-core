@@ -17,8 +17,8 @@ import MobileTaskManager from '@/components/MobileTaskManager';
 import { usePWA, useOfflineTasks, usePWANotifications, useDeviceCapabilities } from '@/hooks/usePWA';
 import { 
   Task, 
-  TaskStatus, 
-  TaskPriority, 
+  UniversalTaskStatus as TaskStatus, 
+  UniversalTaskPriority as TaskPriority, 
   TaskCategory,
   TaskComplexityLevel,
   TaskOrchestrationContext 
