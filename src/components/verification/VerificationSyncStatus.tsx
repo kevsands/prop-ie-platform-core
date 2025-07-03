@@ -12,6 +12,7 @@ import {
   Activity,
   Shield,
   Database,
+  Cloud,
   CloudCheck
 } from 'lucide-react';
 import { useVerificationSync } from '@/hooks/useVerificationSync';

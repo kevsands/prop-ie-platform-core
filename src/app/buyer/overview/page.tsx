@@ -36,6 +36,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { HTBDashboard } from '@/components/buyer/HTBDashboard';
+import { useOverviewSync } from '@/hooks/useBuyerSync';
 
 interface BuyerMetrics {
   budget: number;
@@ -87,6 +88,19 @@ function BuyerOverview() {
   const [buyerMetrics, setBuyerMetrics] = useState<BuyerMetrics | null>(null);
   const [recentTasks, setRecentTasks] = useState<Task[]>([]);
   const [savedProperties, setSavedProperties] = useState<Property[]>([]);
+  
+  // Use the buyer sync hook for real-time data
+  const {
+    budget,
+    preApprovalAmount,
+    htbBenefit,
+    savedProperties: syncedSavedProperties,
+    propChoiceSelections,
+    propChoiceValue,
+    overallProgress,
+    journeyStatus,
+    lastSyncedAt
+  } = useOverviewSync();
 
   // Fetch buyer overview data
   useEffect(() => {
@@ -107,16 +121,16 @@ function BuyerOverview() {
         setLastUpdated(new Date());
       } catch (error) {
         console.error('Error fetching buyer data:', error);
-        // Fallback to mock data for development
+        // Use synced data as fallback
         setBuyerMetrics({
-          budget: 380000,
-          htbBenefit: 30000,
-          preApprovalAmount: 350000,
+          budget: budget || 380000,
+          htbBenefit: htbBenefit || 30000,
+          preApprovalAmount: preApprovalAmount || 350000,
           monthlyPayment: 1650,
-          savedProperties: 7,
+          savedProperties: syncedSavedProperties || 7,
           documentsUploaded: 8,
           verificationStatus: 'completed',
-          journeyProgress: 75,
+          journeyProgress: overallProgress || 75,
           tasksCompleted: 12,
           totalTasks: 16,
           nextAppointment: {

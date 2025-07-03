@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 interface BuyerDashboardSidebarProps {
   activeTab: string;
@@ -12,12 +13,15 @@ const BuyerDashboardSidebar: React.FC<BuyerDashboardSidebarProps> = ({
   onTabChange,
 }) => {
   const tabs = [
-    { id: "overview", name: "Overview", icon: "home" },
-    { id: "properties", name: "My Properties", icon: "building" },
-    { id: "documents", name: "Documents", icon: "document" },
-    { id: "payments", name: "Payments", icon: "credit-card" },
-    { id: "messages", name: "Messages", icon: "chat" },
-    { id: "profile", name: "Profile", icon: "user" },
+    { id: "overview", name: "Overview", icon: "home", href: "/buyer" },
+    { id: "journey", name: "My Journey", icon: "map", href: "/buyer/journey" },
+    { id: "verification", name: "Verification", icon: "shield", href: "/buyer/verification" },
+    { id: "properties", name: "My Properties", icon: "building", href: "/buyer/properties" },
+    { id: "prop-choice", name: "Prop Choice", icon: "palette", href: "/buyer/prop-choice" },
+    { id: "documents", name: "Documents", icon: "document", href: "/buyer/documents" },
+    { id: "payments", name: "Payments", icon: "credit-card", href: "/buyer/payments" },
+    { id: "messages", name: "Messages", icon: "chat", href: "/buyer/messages" },
+    { id: "profile", name: "Profile", icon: "user", href: "/buyer/profile" },
   ];
 
   const getIcon = (iconName: string) => {
@@ -118,6 +122,54 @@ const BuyerDashboardSidebar: React.FC<BuyerDashboardSidebarProps> = ({
             />
           </svg>
         );
+      case "palette":
+        return (
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v7a4 4 0 004 4h4a2 2 0 002-2V5z"
+            />
+          </svg>
+        );
+      case "map":
+        return (
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+            />
+          </svg>
+        );
+      case "shield":
+        return (
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            />
+          </svg>
+        );
       default:
         return null;
     }
@@ -130,8 +182,9 @@ const BuyerDashboardSidebar: React.FC<BuyerDashboardSidebarProps> = ({
       </div>
       <nav className="mt-5 px-2 space-y-1">
         {tabs.map((tab) => (
-          <button
+          <Link
             key={tab.id}
+            href={tab.href}
             onClick={() => onTabChange(tab.id)}
             className={`${
               activeTab === tab.id
@@ -149,7 +202,7 @@ const BuyerDashboardSidebar: React.FC<BuyerDashboardSidebarProps> = ({
               {getIcon(tab.icon)}
             </div>
             {tab.name}
-          </button>
+          </Link>
         ))}
       </nav>
     </div>

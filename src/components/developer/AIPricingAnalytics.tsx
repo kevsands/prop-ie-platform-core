@@ -50,9 +50,21 @@ interface AIPricingAnalyticsProps {
   projectId: string;
   units: any[];
   onPriceUpdate: (unitId: string, newPrice: number) => Promise<boolean>;
+  totalRevenue?: number;
+  averageUnitPrice?: number;
+  salesVelocity?: number;
+  conversionRate?: number;
 }
 
-export default function AIPricingAnalytics({ projectId, units, onPriceUpdate }: AIPricingAnalyticsProps) {
+export default function AIPricingAnalytics({ 
+  projectId, 
+  units, 
+  onPriceUpdate, 
+  totalRevenue = 0,
+  averageUnitPrice = 0,
+  salesVelocity = 0,
+  conversionRate = 0 
+}: AIPricingAnalyticsProps) {
   const [recommendations, setRecommendations] = useState<PricingRecommendation[]>([]);
   const [marketAnalytics, setMarketAnalytics] = useState<MarketAnalytics | null>(null);
   const [isLoading, setIsLoading] = useState(true);

@@ -36,7 +36,8 @@ import {
   User,
   X,
   Activity,
-  ArrowUpRight
+  ArrowUpRight,
+  Cpu
 } from 'lucide-react';
 import Link from 'next/link';
 import InteractiveSitePlan from '@/components/developer/InteractiveSitePlan';
@@ -545,6 +546,36 @@ export default function FitzgeraldGardensProject() {
             </div>
           )}
 
+          {activeTab === 'property-data' && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <Edit3 className="h-6 w-6 text-blue-600" />
+                <h3 className="text-xl font-semibold text-gray-900">Property Data Manager</h3>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
+                  LIVE DATA
+                </span>
+              </div>
+              <PropertyDataManager
+                projectId={project.id}
+                onDataUpdate={async (dataType, updates) => {
+                  try {
+                    const response = await fetch(`/api/projects/${project.id}/data`, {
+                      method: 'PATCH',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ dataType, updates })
+                    });
+                    const result = await response.json();
+                    return result.success;
+                  } catch (error) {
+                    console.error('Failed to update property data:', error);
+                    return false;
+                  }
+                }}
+              />
+            </div>
+          )}
 
           {activeTab === 'enterprise-analytics' && (
             <EnterpriseAnalyticsEngine

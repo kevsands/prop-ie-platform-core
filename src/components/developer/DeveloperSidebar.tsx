@@ -9,7 +9,8 @@ import {
   FileText, 
   Users, 
   Settings, 
-  Home
+  Home,
+  MessageSquare
 } from 'lucide-react';
 
 /**
@@ -30,6 +31,13 @@ export default function DeveloperSidebar({ isOpen, onCloseAction }: DeveloperSid
       href: '/developer',
       icon: LayoutDashboard,
       active: pathname === '/developer'
+    },
+    {
+      name: 'Messages',
+      href: '/developer/messages',
+      icon: MessageSquare,
+      active: pathname.startsWith('/developer/messages'),
+      badge: 5 // Unread count
     },
     {
       name: 'Developments',
@@ -108,16 +116,23 @@ export default function DeveloperSidebar({ isOpen, onCloseAction }: DeveloperSid
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
+                  className={`group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md ${
                     item.active 
                       ? 'bg-blue-50 text-blue-700' 
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                   }`}
                 >
-                  <item.icon 
-                    className={`mr-3 h-5 w-5 ${item.active ? 'text-blue-700' : 'text-gray-500'}`} 
-                  />
-                  {item.name}
+                  <div className="flex items-center">
+                    <item.icon 
+                      className={`mr-3 h-5 w-5 ${item.active ? 'text-blue-700' : 'text-gray-500'}`} 
+                    />
+                    {item.name}
+                  </div>
+                  {item.badge && item.badge > 0 && (
+                    <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
+                      {item.badge}
+                    </span>
+                  )}
                 </Link>
               ))}
             </nav>

@@ -23,6 +23,7 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
   function getActiveTabFromPath(path: string): string {
     if (path === '/buyer') return 'overview';
     if (path.includes('/buyer/properties')) return 'properties';
+    if (path.includes('/buyer/prop-choice')) return 'prop-choice';
     if (path.includes('/buyer/documents')) return 'documents';
     if (path.includes('/buyer/payments')) return 'payments';
     if (path.includes('/buyer/messages')) return 'messages';
@@ -30,16 +31,18 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
     if (path.includes('/buyer/htb')) return 'htb';
     if (path.includes('/buyer/customization')) return 'customization';
     if (path.includes('/buyer/journey')) return 'journey';
+    if (path.includes('/buyer/verification')) return 'verification';
     return 'overview';
   }
 
-  // Define the journey phases for the FTB experience
+  // Define the journey phases for the FTB experience - integrated with verification status
   const journeyPhases = [
-    { id: 'planning', name: 'Planning', path: '/buyer/journey/planning', status: 'complete' },
-    { id: 'financing', name: 'Financing', path: '/buyer/journey/financing', status: 'active' },
-    { id: 'reservation', name: 'Reservation', path: '/buyer/journey/reservation', status: 'pending' },
-    { id: 'transaction', name: 'Transaction', path: '/buyer/journey/transaction', status: 'pending' },
-    { id: 'closing', name: 'Closing & Moving', path: '/buyer/journey/closing', status: 'pending' }
+    { id: 'verification', name: 'Verification', path: '/buyer/verification', status: 'pending' },
+    { id: 'preparation', name: 'Preparation', path: '/buyer/journey', status: 'pending' },
+    { id: 'property-search', name: 'Property Search', path: '/buyer/journey', status: 'pending' },
+    { id: 'htb-application', name: 'HTB Application', path: '/buyer/htb', status: 'pending' },
+    { id: 'legal', name: 'Legal Process', path: '/buyer/journey', status: 'pending' },
+    { id: 'closing', name: 'Closing', path: '/buyer/journey', status: 'pending' }
   ];
 
   return (
@@ -66,13 +69,24 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
             <span className="mt-1">My Journey</span>
           </Link>
           <Link 
-            href="/buyer/documents"
+            href="/buyer/prop-choice"
             className={`flex flex-col items-center justify-center text-xs ${
-              activeTab === 'documents' ? 'text-blue-600' : 'text-gray-600'
+              activeTab === 'prop-choice' ? 'text-blue-600' : 'text-gray-600'
             }`}
           >
-            <FileText size={20} />
-            <span className="mt-1">Documents</span>
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v7a4 4 0 004 4h4a2 2 0 002-2V5z" />
+            </svg>
+            <span className="mt-1">Prop Choice</span>
           </Link>
           <Link 
             href="/buyer/messages"
@@ -109,10 +123,15 @@ export function BuyerDashboardLayout({ children }: BuyerDashboardLayoutProps) {
           {/* Journey Tracker - visible on all pages for FTB */}
           <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-semibold">Your Home Buying Journey</h2>
-              <Link href="/buyer/journey" className="text-blue-600 text-sm flex items-center">
-                View Details <ArrowRight size={16} className="ml-1" />
-              </Link>
+              <h2 className="text-lg font-semibold">Your Property Buying Journey</h2>
+              <div className="flex items-center space-x-4">
+                <Link href="/buyer/verification" className="text-blue-600 text-sm flex items-center">
+                  Complete Verification <ArrowRight size={16} className="ml-1" />
+                </Link>
+                <Link href="/buyer/journey" className="text-blue-600 text-sm flex items-center">
+                  View Full Journey <ArrowRight size={16} className="ml-1" />
+                </Link>
+              </div>
             </div>
             <div className="flex items-center">
               {journeyPhases.map((phase, index) => (

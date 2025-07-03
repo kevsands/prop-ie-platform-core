@@ -21,6 +21,9 @@ import {
 } from 'lucide-react';
 import { useVerification } from '@/context/VerificationContext';
 import { useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
+import IdentityVerificationWorkflow from './IdentityVerificationWorkflow';
+import DocumentUploadSystem from './DocumentUploadSystem';
+import ComprehensiveKYCForm from '@/components/kyc/ComprehensiveKYCForm';
 
 interface UnifiedKYCFlowProps {
   onComplete?: () => void;
@@ -53,6 +56,8 @@ export default function UnifiedKYCFlow({
   const [uploadingDocId, setUploadingDocId] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadModalDoc, setUploadModalDoc] = useState<string | null>(null);
+  const [currentWorkflowView, setCurrentWorkflowView] = useState<'overview' | 'comprehensive_form' | 'document_upload' | 'verification_workflow'>('overview');
+  const [uploadedDocuments, setUploadedDocuments] = useState<any[]>([]);
 
   // Set initial active step
   React.useEffect(() => {
@@ -183,11 +188,11 @@ export default function UnifiedKYCFlow({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Identity Verification</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Advanced Identity Verification</h1>
               <p className="text-gray-600 mt-1">
                 {developmentName 
-                  ? `Verify your identity for ${developmentName}` 
-                  : 'Complete your verification to access all platform features'
+                  ? `Enterprise KYC/AML verification for ${developmentName}` 
+                  : 'Complete enterprise-grade KYC/AML verification with compliance scoring'
                 }
               </p>
             </div>
@@ -217,6 +222,65 @@ export default function UnifiedKYCFlow({
                 </svg>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Verification Options */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <button
+              onClick={() => setCurrentWorkflowView('overview')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                currentWorkflowView === 'overview' 
+                  ? 'border-blue-500 bg-blue-50 text-blue-900' 
+                  : 'border-gray-200 bg-white hover:border-blue-300'
+              }`}
+            >
+              <Shield className="w-6 h-6 mx-auto mb-2 text-blue-600" />
+              <p className="font-medium">Standard Flow</p>
+              <p className="text-sm text-gray-600">Step-by-step verification</p>
+            </button>
+            
+            <button
+              onClick={() => setCurrentWorkflowView('comprehensive_form')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                currentWorkflowView === 'comprehensive_form' 
+                  ? 'border-green-500 bg-green-50 text-green-900' 
+                  : 'border-gray-200 bg-white hover:border-green-300'
+              }`}
+            >
+              <FileText className="w-6 h-6 mx-auto mb-2 text-green-600" />
+              <p className="font-medium">Irish KYC Form</p>
+              <p className="text-sm text-gray-600">PPS, Eircode, PEP screening</p>
+            </button>
+            
+            <button
+              onClick={() => setCurrentWorkflowView('document_upload')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                currentWorkflowView === 'document_upload' 
+                  ? 'border-purple-500 bg-purple-50 text-purple-900' 
+                  : 'border-gray-200 bg-white hover:border-purple-300'
+              }`}
+            >
+              <Upload className="w-6 h-6 mx-auto mb-2 text-purple-600" />
+              <p className="font-medium">Document System</p>
+              <p className="text-sm text-gray-600">AI-powered validation</p>
+            </button>
+            
+            <button
+              onClick={() => setCurrentWorkflowView('verification_workflow')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                currentWorkflowView === 'verification_workflow' 
+                  ? 'border-orange-500 bg-orange-50 text-orange-900' 
+                  : 'border-gray-200 bg-white hover:border-orange-300'
+              }`}
+            >
+              <User className="w-6 h-6 mx-auto mb-2 text-orange-600" />
+              <p className="font-medium">Enterprise Workflow</p>
+              <p className="text-sm text-gray-600">Compliance & risk scoring</p>
+            </button>
           </div>
         </div>
       </div>
@@ -265,8 +329,75 @@ export default function UnifiedKYCFlow({
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Advanced Component Rendering */}
+      {currentWorkflowView !== 'overview' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Back to Overview Button */}
+          <button
+            onClick={() => setCurrentWorkflowView('overview')}
+            className="mb-6 flex items-center text-blue-600 hover:text-blue-700 font-medium"
+          >
+            <ChevronLeft className="w-4 h-4 mr-1" />
+            Back to Standard Flow
+          </button>
+
+          {currentWorkflowView === 'comprehensive_form' && (
+            <div className="bg-white rounded-lg shadow-sm border p-8">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Irish KYC Comprehensive Form</h2>
+                <p className="text-gray-600">Complete Irish-specific KYC verification with PPS number validation, Eircode integration, and PEP screening</p>
+              </div>
+              <ComprehensiveKYCForm 
+                onBack={() => setCurrentWorkflowView('overview')}
+                onComplete={(data) => {
+                  console.log('KYC Form completed:', data);
+                  setCurrentWorkflowView('overview');
+                }}
+              />
+            </div>
+          )}
+
+          {currentWorkflowView === 'document_upload' && (
+            <div className="bg-white rounded-lg shadow-sm border p-8">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Advanced Document Upload System</h2>
+                <p className="text-gray-600">AI-powered document validation with automatic extraction and verification</p>
+              </div>
+              <DocumentUploadSystem 
+                onDocumentsChange={setUploadedDocuments}
+                uploadedDocuments={uploadedDocuments}
+              />
+            </div>
+          )}
+
+          {currentWorkflowView === 'verification_workflow' && (
+            <div className="bg-white rounded-lg shadow-sm border p-8">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Enterprise Identity Verification Workflow</h2>
+                <p className="text-gray-600">Advanced verification with compliance scoring, risk assessment, and automated database cross-checking</p>
+              </div>
+              <IdentityVerificationWorkflow 
+                uploadedDocuments={uploadedDocuments}
+                userProfile={user}
+                onVerificationComplete={(status) => {
+                  console.log('Verification completed:', status);
+                  if (onComplete) onComplete();
+                }}
+                onStepComplete={(step) => {
+                  console.log('Step completed:', step);
+                }}
+                onActionRequired={(step, action) => {
+                  console.log('Action required:', step, action);
+                }}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Main Content - Standard Overview */}
+      {currentWorkflowView === 'overview' && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar - Step Navigation */}
           <div className="lg:col-span-1">
@@ -450,6 +581,7 @@ export default function UnifiedKYCFlow({
           </div>
         </div>
       </div>
+      )}
 
       {/* Upload Modal */}
       {uploadModalDoc && (
