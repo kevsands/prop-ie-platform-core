@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import MainNavigation from '@/components/navigation/MainNavigation';
 import { 
   Home, 
   Building2, 
@@ -33,7 +32,11 @@ import {
   Globe,
   Zap,
   Award,
-  Activity
+  Activity,
+  Sparkles,
+  Package,
+  ShoppingCart,
+  Wrench
 } from 'lucide-react';
 
 /**
@@ -47,6 +50,7 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
   const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const [financeOpen, setFinanceOpen] = useState(false);
   const [htbOpen, setHtbOpen] = useState(false);
+  const [propChoiceOpen, setPropChoiceOpen] = useState(false);
   const [salesOpen, setSalesOpen] = useState(false);
   const [teamOpen, setTeamOpen] = useState(false);
 
@@ -126,6 +130,22 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
       ]
     },
 
+    // PROP Choice Management
+    {
+      name: 'PROP Choice',
+      icon: Sparkles,
+      isDropdown: true,
+      subItems: [
+        { name: 'PROP Choice Dashboard', href: '/developer/prop-choice', icon: Sparkles },
+        { name: 'Package Management', href: '/developer/prop-choice/packages', icon: Package },
+        { name: 'Order Management', href: '/developer/prop-choice/orders', icon: ShoppingCart },
+        { name: 'Inventory Management', href: '/developer/prop-choice/inventory', icon: Target },
+        { name: 'Unit Configuration', href: '/developer/prop-choice/units', icon: Building2 },
+        { name: 'Manufacturing', href: '/developer/prop-choice/manufacturing', icon: Wrench },
+        { name: 'Analytics & Insights', href: '/developer/prop-choice/analytics', icon: BarChart3 },
+      ]
+    },
+
     { name: 'Documents', href: '/developer/documents', icon: FileText },
     { name: 'System Health', href: '/developer/system/integration-test', icon: Activity },
     { name: 'Agent Communications', href: '/developer/agent-communications', icon: Users },
@@ -165,13 +185,10 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Navigation - Always on top */}
-      <MainNavigation />
-      
-      {/* Content wrapper with top padding */}
-      <div className="pt-16">
+      {/* Content wrapper - no main navigation, no top padding needed */}
+      <div>
         {/* Mobile header */}
-        <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b md:hidden">
+        <div className="fixed top-0 left-0 right-0 z-40 bg-white border-b md:hidden">
           <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-bold text-gray-900">Developer Portal</h2>
             <button 
@@ -193,7 +210,7 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
 
         {/* Enterprise Sidebar */}
         <div className={`
-          fixed top-16 left-0 z-30 h-[calc(100vh-4rem)] w-80 bg-white border-r transform transition-transform duration-200 ease-in-out overflow-y-auto
+          fixed top-0 left-0 z-30 h-screen w-80 bg-white border-r transform transition-transform duration-200 ease-in-out overflow-y-auto
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           md:translate-x-0
         `}>
@@ -213,12 +230,14 @@ export default function DeveloperLayout({ children }: { children: React.ReactNod
                                    item.name === 'Sales' ? salesOpen :
                                    item.name === 'Finance' ? financeOpen :
                                    item.name === 'Help-to-Buy' ? htbOpen :
+                                   item.name === 'PROP Choice' ? propChoiceOpen :
                                    item.name === 'Team' ? teamOpen : false;
                   const setExpanded = item.name === 'Projects' ? setProjectsOpen :
                                      item.name === 'Analytics' ? setAnalyticsOpen : 
                                      item.name === 'Sales' ? setSalesOpen :
                                      item.name === 'Finance' ? setFinanceOpen :
                                      item.name === 'Help-to-Buy' ? setHtbOpen :
+                                     item.name === 'PROP Choice' ? setPropChoiceOpen :
                                      item.name === 'Team' ? setTeamOpen : () => {};
                   
                   return (

@@ -21,6 +21,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   // Check if current page is homepage
   const isHomePage = pathname === '/';
   
+  // Check if current page is a portal/dashboard route
+  const isPortalRoute = pathname.startsWith('/buyer/') || 
+                       pathname.startsWith('/developer/') || 
+                       pathname.startsWith('/solicitor/');
+  
   // Only show footer on pages that are not the homepage
   const isMainPage = pathname === '/';
   
@@ -33,16 +38,17 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <TransactionProvider>
       <UserRoleProvider>
         <EnterpriseNotificationProvider>
-          {/* Use the CleanProfessionalNav component */}
-          <CleanProfessionalNav />
+          {/* Only show main navigation on non-portal routes */}
+          {!isPortalRoute && <CleanProfessionalNav />}
           
-          {/* Main content - preserve all child content */}
-          <div className="pt-16"> {/* Add spacing for fixed navigation */}
+          {/* Main content - conditional spacing for navigation */}
+          <div className={isPortalRoute ? "" : "pt-16"}> {/* Add spacing for fixed navigation only when nav is present */}
             {children}
           </div>
           
-          {/* Global Footer with navigation */}
-          <footer className="bg-gray-900 text-white pt-12 pb-6">
+          {/* Global Footer with navigation - only on non-portal routes */}
+          {!isPortalRoute && (
+            <footer className="bg-gray-900 text-white pt-12 pb-6">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Main Grid */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -99,6 +105,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
               </div>
             </div>
           </footer>
+          )}
         </EnterpriseNotificationProvider>
       </UserRoleProvider>
     </TransactionProvider>

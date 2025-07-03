@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import MainNavigation from '@/components/navigation/MainNavigation';
 import { 
   Home, 
   Scale, 
@@ -97,13 +96,10 @@ export default function SolicitorLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Navigation - Always on top */}
-      <MainNavigation />
-      
-      {/* Content wrapper with top padding */}
-      <div className="pt-16">
+      {/* Content wrapper - no main navigation needed */}
+      <div>
         {/* Mobile header */}
-        <div className="fixed top-16 left-0 right-0 z-40 bg-white border-b md:hidden">
+        <div className="fixed top-0 left-0 right-0 z-40 bg-white border-b md:hidden">
           <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-bold text-gray-900">Solicitor Portal</h2>
             <button 
@@ -125,7 +121,7 @@ export default function SolicitorLayout({ children }: { children: React.ReactNod
 
         {/* Solicitor Sidebar */}
         <div className={`
-          fixed top-16 left-0 z-30 h-[calc(100vh-4rem)] w-80 bg-white border-r transform transition-transform duration-200 ease-in-out overflow-y-auto
+          fixed top-0 left-0 z-30 h-screen w-80 bg-white border-r transform transition-transform duration-200 ease-in-out overflow-y-auto
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           md:translate-x-0
         `}>

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
-import MainNavigation from '@/components/navigation/MainNavigation';
 import { 
   Home, 
   FileText, 
@@ -117,6 +116,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
     { name: 'Overview', href: '/buyer/overview', icon: Home },
     { name: 'My Journey', href: '/buyer/journey', icon: TrendingUp },
     { name: 'Live Availability', href: '/buyer/properties/availability', icon: Clock, isNew: true },
+    { name: 'Prop Choice', href: '/buyer/prop-choice', icon: Sparkles },
     { name: 'Documents', href: '/buyer/documents', icon: FileText },
     { 
       name: 'Transaction Status', 
@@ -170,11 +170,8 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Navigation - Always on top */}
-      <MainNavigation />
-      
-      {/* User Profile Banner - Fixed position below navigation */}
-      <div className="fixed top-16 left-0 right-0 bg-white border-b shadow-sm px-6 py-5 z-40">
+      {/* User Profile Banner - Fixed position at top */}
+      <div className="fixed top-0 left-0 right-0 bg-white border-b shadow-sm px-6 py-5 z-40">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-sm">
@@ -238,7 +235,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
       {/* Content wrapper */}
       <div className="relative">
         {/* Mobile header with proper spacing to avoid overlap */}
-        <div className="fixed top-36 left-0 right-0 z-30 bg-white border-b md:hidden">
+        <div className="fixed top-20 left-0 right-0 z-30 bg-white border-b md:hidden">
           <div className="flex items-center justify-between p-4">
             <h2 className="text-lg font-bold text-gray-900">Buyer Dashboard</h2>
             <button 
@@ -260,7 +257,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
 
         {/* Sidebar */}
         <div className={`
-          fixed top-36 left-0 z-30 h-full w-64 bg-white border-r transform transition-transform duration-200 ease-in-out
+          fixed top-20 left-0 z-30 h-[calc(100vh-5rem)] w-64 bg-white border-r transform transition-transform duration-200 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           md:translate-x-0 md:fixed md:transform-none
         `}>
@@ -468,7 +465,7 @@ export default function BuyerLayout({ children }: { children: React.ReactNode })
         {/* Main content with proper spacing */}
         <div className="flex-1 md:ml-64">
           {/* Page content with proper top padding for fixed banner */}
-          <main className="p-4 md:p-6 pt-32 md:pt-24">
+          <main className="p-4 md:p-6 pt-28 md:pt-24">
             <div className="flex gap-6">
               {/* Primary content area */}
               <div className="flex-1">
