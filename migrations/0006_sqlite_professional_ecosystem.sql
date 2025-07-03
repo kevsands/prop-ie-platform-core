@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS users (
     id TEXT NOT NULL PRIMARY KEY DEFAULT (lower(hex(randomblob(16)))),
     email TEXT UNIQUE NOT NULL,
     name TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     -- Core user fields
     password_hash TEXT,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS professional_associations (
     membership_number TEXT,
     membership_status TEXT DEFAULT 'active' CHECK (membership_status IN ('active', 'suspended', 'expired', 'pending', 'lapsed')),
     membership_grade TEXT, -- Fellow, Member, Associate, Student, etc.
-    verified_at DATETIME,
+    verified_at TIMESTAMP,
     verified_by TEXT,
     issue_date DATE,
     expiry_date DATE,
@@ -101,8 +101,8 @@ CREATE TABLE IF NOT EXISTS professional_associations (
     professional_indemnity_amount DECIMAL(12,2), -- PI insurance coverage
     professional_indemnity_expiry DATE,
     metadata TEXT DEFAULT '{}', -- JSON for association-specific data
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (verified_by) REFERENCES users(id)
@@ -122,11 +122,11 @@ CREATE TABLE IF NOT EXISTS professional_certifications (
     expiry_date DATE,
     renewal_requirements TEXT,
     scope_of_certification TEXT, -- What this certification covers
-    verified_at DATETIME,
+    verified_at TIMESTAMP,
     verified_by TEXT,
     metadata TEXT DEFAULT '{}', -- JSON for certification-specific data
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (verified_by) REFERENCES users(id)
@@ -146,9 +146,9 @@ CREATE TABLE IF NOT EXISTS professional_specializations (
     project_count INTEGER, -- Number of projects completed in this specialization
     verified BOOLEAN DEFAULT FALSE,
     verified_by TEXT,
-    verified_at DATETIME,
+    verified_at TIMESTAMP,
     portfolio_examples TEXT DEFAULT '[]', -- JSON array of project references/descriptions
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (verified_by) REFERENCES users(id)

@@ -30,6 +30,24 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    // Create test location first (required for development foreign key)
+    const testLocation = await prisma.location.upsert({
+      where: { id: 'test-location-001' },
+      update: {},
+      create: {
+        id: 'test-location-001',
+        city: 'Dublin',
+        county: 'Dublin',
+        country: 'Ireland',
+        address: 'Test Street, Dublin 1',
+        addressLine1: 'Test Street',
+        addressLine2: 'Dublin 1',
+        latitude: 53.3498,
+        longitude: -6.2603,
+        eircode: 'D01X123'
+      }
+    });
+
     // Create test development first (required for project foreign key)
     const testDevelopment = await prisma.development.upsert({
       where: { id: 'dev-test-001' },
@@ -38,14 +56,15 @@ export async function POST(request: NextRequest) {
         id: 'dev-test-001',
         name: 'Test Development',
         slug: 'test-development',
-        description: 'Sample development for testing',
+        developerId: testUser.id,
+        locationId: 'test-location-001', // We'll need to create this
         status: 'PLANNING',
-        type: 'RESIDENTIAL',
-        location: 'Dublin, Ireland',
-        developerCompany: 'Test Developer Ltd',
-        totalUnits: 10,
-        availableUnits: 10,
-        priceRange: '€300,000 - €500,000',
+        marketingStatus: {},
+        salesStatus: {},
+        constructionStatus: {},
+        complianceStatus: {},
+        mainImage: '/images/test-development.jpg',
+        description: 'Sample development for testing document management',
         created: new Date(),
         updated: new Date()
       }
@@ -79,76 +98,21 @@ export async function POST(request: NextRequest) {
         id: 'template-contract-001',
         name: 'Property Sale Contract',
         description: 'Standard property sale contract template for Ireland',
-        category: 'legal',
-        fileType: 'pdf',
+        category: 'legal_contract',
         status: 'active',
         version: '1.0',
-        content: `
-          <div class="contract-template">
-            <h1>Property Sale Contract</h1>
-            <h2>Contract for Sale of Property at {{property_address}}</h2>
-            
-            <div class="parties">
-              <h3>Vendor Details</h3>
-              <p>Name: {{vendor_name}}</p>
-              <p>Address: {{vendor_address}}</p>
-              
-              <h3>Purchaser Details</h3>
-              <p>Name: {{purchaser_name}}</p>
-              <p>Address: {{purchaser_address}}</p>
-            </div>
-            
-            <div class="property-details">
-              <h3>Property Details</h3>
-              <p>Address: {{property_address}}</p>
-              <p>Purchase Price: €{{purchase_price}}</p>
-              <p>Deposit: €{{deposit_amount}}</p>
-              <p>Completion Date: {{completion_date}}</p>
-            </div>
-            
-            <div class="terms">
-              <h3>Terms and Conditions</h3>
-              <p>1. The purchaser agrees to purchase the property for the sum of €{{purchase_price}}</p>
-              <p>2. A deposit of €{{deposit_amount}} is payable upon signing</p>
-              <p>3. Completion shall take place on {{completion_date}}</p>
-              <p>4. The property is sold subject to planning permission {{planning_reference}}</p>
-            </div>
-            
-            <div class="signatures">
-              <div class="signature-section">
-                <p>Vendor Signature: _____________________ Date: {{signature_date}}</p>
-              </div>
-              <div class="signature-section">
-                <p>Purchaser Signature: _____________________ Date: {{signature_date}}</p>
-              </div>
-            </div>
-          </div>
-        `,
-        placeholders: JSON.stringify([
-          { key: 'property_address', label: 'Property Address', type: 'text', required: true },
-          { key: 'vendor_name', label: 'Vendor Name', type: 'text', required: true },
-          { key: 'vendor_address', label: 'Vendor Address', type: 'text', required: true },
-          { key: 'purchaser_name', label: 'Purchaser Name', type: 'text', required: true },
-          { key: 'purchaser_address', label: 'Purchaser Address', type: 'text', required: true },
-          { key: 'purchase_price', label: 'Purchase Price', type: 'number', required: true },
-          { key: 'deposit_amount', label: 'Deposit Amount', type: 'number', required: true },
-          { key: 'completion_date', label: 'Completion Date', type: 'date', required: true },
-          { key: 'planning_reference', label: 'Planning Reference', type: 'text', required: false },
-          { key: 'signature_date', label: 'Signature Date', type: 'date', required: true }
-        ]),
-        styling: JSON.stringify({
-          fonts: [{ name: 'Arial', size: 12, weight: 'normal', style: 'normal', color: '#000000' }],
-          colors: { primary: '#2B5273', secondary: '#ffffff', accent: '#1e3347', text: '#000000', background: '#ffffff' },
-          spacing: { lineHeight: 1.5, paragraphSpacing: 12, marginTop: 20, marginBottom: 20, marginLeft: 20, marginRight: 20 },
-          pageSettings: { size: 'A4', orientation: 'portrait', margins: { top: 20, bottom: 20, left: 20, right: 20 } }
-        }),
+        templateData: {
+          type: 'contract',
+          sections: ['parties', 'property-details', 'terms', 'signatures'],
+          fields: ['property_address', 'vendor_name', 'vendor_address', 'purchaser_name', 'purchaser_address', 'purchase_price', 'deposit_amount', 'completion_date', 'planning_reference', 'signature_date']
+        },
         createdBy: testUser.id,
         projectTypes: ['residential', 'commercial'],
         tags: ['contract', 'legal', 'sale', 'property'],
         metadata: JSON.stringify({
           version: '1.0',
           created: new Date(),
-          category: 'legal',
+          category: 'legal_contract',
           jurisdiction: 'Ireland'
         })
       }
@@ -161,89 +125,22 @@ export async function POST(request: NextRequest) {
         id: 'template-htb-001',
         name: 'Help to Buy Application',
         description: 'Help to Buy scheme application form for first-time buyers',
-        category: 'financial',
-        fileType: 'pdf',
+        category: 'authorization',
         status: 'active',
         version: '1.0',
-        content: `
-          <div class="htb-application">
-            <h1>Help to Buy Application Form</h1>
-            <p>Application for Help to Buy Incentive for First Time Buyers</p>
-            
-            <div class="applicant-details">
-              <h2>Applicant Details</h2>
-              <p>First Name: {{first_name}}</p>
-              <p>Last Name: {{last_name}}</p>
-              <p>Date of Birth: {{date_of_birth}}</p>
-              <p>PPS Number: {{pps_number}}</p>
-              <p>Email: {{email}}</p>
-              <p>Phone: {{phone}}</p>
-              <p>Address: {{current_address}}</p>
-            </div>
-            
-            <div class="property-details">
-              <h2>Property Information</h2>
-              <p>Property Address: {{property_address}}</p>
-              <p>Property Type: {{property_type}}</p>
-              <p>Purchase Price: €{{purchase_price}}</p>
-              <p>Mortgage Amount: €{{mortgage_amount}}</p>
-              <p>Deposit Amount: €{{deposit_amount}}</p>
-              <p>HTB Amount Requested: €{{htb_amount}}</p>
-            </div>
-            
-            <div class="employment">
-              <h2>Employment Details</h2>
-              <p>Employer: {{employer_name}}</p>
-              <p>Annual Income: €{{annual_income}}</p>
-              <p>Employment Start Date: {{employment_start_date}}</p>
-            </div>
-            
-            <div class="declaration">
-              <h2>Declaration</h2>
-              <p>I declare that:</p>
-              <p>☐ This is my first time purchasing a property</p>
-              <p>☐ I will occupy this property as my principal private residence</p>
-              <p>☐ The information provided is true and accurate</p>
-              <p>☐ I understand the terms and conditions of the HTB scheme</p>
-            </div>
-            
-            <div class="signature">
-              <p>Applicant Signature: _____________________ Date: {{application_date}}</p>
-            </div>
-          </div>
-        `,
-        placeholders: JSON.stringify([
-          { key: 'first_name', label: 'First Name', type: 'text', required: true },
-          { key: 'last_name', label: 'Last Name', type: 'text', required: true },
-          { key: 'date_of_birth', label: 'Date of Birth', type: 'date', required: true },
-          { key: 'pps_number', label: 'PPS Number', type: 'text', required: true },
-          { key: 'email', label: 'Email Address', type: 'text', required: true },
-          { key: 'phone', label: 'Phone Number', type: 'text', required: true },
-          { key: 'current_address', label: 'Current Address', type: 'text', required: true },
-          { key: 'property_address', label: 'Property Address', type: 'text', required: true },
-          { key: 'property_type', label: 'Property Type', type: 'text', required: true },
-          { key: 'purchase_price', label: 'Purchase Price', type: 'number', required: true },
-          { key: 'mortgage_amount', label: 'Mortgage Amount', type: 'number', required: true },
-          { key: 'deposit_amount', label: 'Deposit Amount', type: 'number', required: true },
-          { key: 'htb_amount', label: 'HTB Amount Requested', type: 'number', required: true },
-          { key: 'employer_name', label: 'Employer Name', type: 'text', required: true },
-          { key: 'annual_income', label: 'Annual Income', type: 'number', required: true },
-          { key: 'employment_start_date', label: 'Employment Start Date', type: 'date', required: true },
-          { key: 'application_date', label: 'Application Date', type: 'date', required: true }
-        ]),
-        styling: JSON.stringify({
-          fonts: [{ name: 'Arial', size: 11, weight: 'normal', style: 'normal', color: '#000000' }],
-          colors: { primary: '#2B5273', secondary: '#ffffff', accent: '#1e3347', text: '#000000', background: '#ffffff' },
-          spacing: { lineHeight: 1.4, paragraphSpacing: 10, marginTop: 15, marginBottom: 15, marginLeft: 15, marginRight: 15 },
-          pageSettings: { size: 'A4', orientation: 'portrait', margins: { top: 15, bottom: 15, left: 15, right: 15 } }
-        }),
+        templateData: {
+          type: 'government_application',
+          scheme: 'help_to_buy',
+          sections: ['applicant-details', 'property-details', 'employment', 'declaration', 'signature'],
+          fields: ['first_name', 'last_name', 'date_of_birth', 'pps_number', 'email', 'phone', 'current_address', 'property_address', 'property_type', 'purchase_price', 'mortgage_amount', 'deposit_amount', 'htb_amount', 'employer_name', 'annual_income', 'employment_start_date', 'application_date']
+        },
         createdBy: testUser.id,
         projectTypes: ['residential'],
         tags: ['htb', 'help-to-buy', 'government', 'financial'],
         metadata: JSON.stringify({
           version: '1.0',
           created: new Date(),
-          category: 'financial',
+          category: 'authorization',
           scheme: 'help-to-buy'
         })
       }
@@ -257,9 +154,7 @@ export async function POST(request: NextRequest) {
         id: 'workflow-approval-001',
         name: 'Document Approval Workflow',
         description: 'Standard workflow for document review and approval',
-        category: 'approval',
-        version: '1.0',
-        isActive: true,
+        documentCategory: 'legal_contract',
         stages: JSON.stringify([
           {
             id: 'stage-1',
@@ -292,12 +187,7 @@ export async function POST(request: NextRequest) {
             notifications: [{ type: 'email', template: 'final_approval', recipients: ['developer@prop.ie'], triggerOn: 'stage_complete' }]
           }
         ]),
-        globalVariables: JSON.stringify({
-          timeout_hours: 48,
-          auto_approve_threshold: 1000,
-          notification_enabled: true
-        }),
-        createdBy: testUser.id
+        estimatedDuration: '48 hours'
       }
     });
 
@@ -307,13 +197,14 @@ export async function POST(request: NextRequest) {
         id: 'doc-contract-001',
         name: 'Sample_Property_Contract.pdf',
         category: 'generated',
+        type: 'CONTRACT',
         fileType: 'pdf',
         fileUrl: '/api/documents/generated/Sample_Property_Contract.pdf',
         fileSize: 156789,
         uploadedById: testUser.id,
-        projectId: testProject.id,
+        developmentId: testDevelopment.id,
         status: 'active',
-        version: '1.0',
+        version: 1,
         metadata: JSON.stringify({
           templateId: contractTemplate.id,
           generatedAt: new Date(),
