@@ -1,0 +1,37 @@
+{
+  "name": "prop-ie-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "prop-ie-cdk": "bin/prop-ie-app.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "deploy:dev": "cdk deploy '*' --context environment=dev --require-approval never",
+    "deploy:staging": "cdk deploy '*' --context environment=staging --require-approval never",
+    "deploy:prod": "cdk deploy '*' --context environment=prod --require-approval never",
+    "diff:dev": "cdk diff '*' --context environment=dev",
+    "diff:staging": "cdk diff '*' --context environment=staging",
+    "diff:prod": "cdk diff '*' --context environment=prod",
+    "synth:dev": "cdk synth '*' --context environment=dev",
+    "synth:staging": "cdk synth '*' --context environment=staging",
+    "synth:prod": "cdk synth '*' --context environment=prod"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/node": "20.1.0",
+    "aws-cdk": "2.86.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.0.4"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-amplify-alpha": "^2.86.0-alpha.0",
+    "aws-cdk-lib": "2.86.0",
+    "constructs": "^10.2.0",
+    "source-map-support": "^0.5.21"
+  }
+}

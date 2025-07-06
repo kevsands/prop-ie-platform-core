@@ -1,0 +1,168 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+export default function DeveloperPropertiesContent() {
+  const router = useRouter();
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading properties from an API
+    setTimeout(() => {
+      // Mock data - in production this would come from your API
+      const mockProperties = [
+        {
+          id: 'prop1',
+          title: 'Fitzgerald Gardens - 2 Bed Apartment',
+          development: 'Fitzgerald Gardens',
+          price: 320000,
+          bedrooms: 2,
+          bathrooms: 2,
+          area: 85,
+          status: 'For Sale',
+          image: '/images/fitzgerald-gardens/apartment-2bed.jpg'
+        },
+        {
+          id: 'prop2',
+          title: 'Fitzgerald Gardens - 3 Bed Duplex',
+          development: 'Fitzgerald Gardens',
+          price: 420000,
+          bedrooms: 3,
+          bathrooms: 2,
+          area: 110,
+          status: 'For Sale',
+          image: '/images/fitzgerald-gardens/duplex-3bed.jpg'
+        },
+        {
+          id: 'prop3',
+          title: 'Fitzgerald Gardens - 2 Bed Mid-Terrace',
+          development: 'Fitzgerald Gardens',
+          price: 350000,
+          bedrooms: 2,
+          bathrooms: 2,
+          area: 90,
+          status: 'For Sale',
+          image: '/images/fitzgerald-gardens/mid-terrace-2bed.jpg'
+        }
+      ];
+      
+      setProperties(mockProperties);
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0
+    }).format(price);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Developer Properties</h1>
+          <button
+            onClick={() => router.push('/developer/new-project')}
+            className="bg-[#2B5273] text-white px-4 py-2 rounded-md hover:bg-[#1E3142] transition-colors"
+          >
+            Add New Property
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2B5273]"></div>
+          </div>
+        ) : properties.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {properties.map((property) => (
+              <div 
+                key={property.id}
+                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="relative h-64">
+                  <Image
+                    src={property.image}
+                    alt={property.title}
+                    width={500}
+                    height={300}
+                    style={{ objectFit: 'cover' }}
+                    className="rounded-t-lg"
+                  />
+                  <div className="absolute top-0 right-0 bg-[#2B5273] text-white px-3 py-1 m-2 rounded-md">
+                    {property.status}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="text-sm text-[#2B5273] font-medium">{property.development}</span>
+                      <h3 className="text-xl font-bold text-gray-900 mt-1">{property.title}</h3>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-[#2B5273]">{formatPrice(property.price)}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="flex space-x-4">
+                      <div className="flex items-center">
+                        <svg className="h-5 w-5 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span className="text-sm text-gray-600">{property.bedrooms} bed</span>
+                      </div>
+                      <div className="flex items-center">
+                        <svg className="h-5 w-5 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm text-gray-600">{property.bathrooms} bath</span>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-600">{property.area} m²</div>
+                  </div>
+                  <div className="mt-6 flex space-x-2">
+                    <button
+                      onClick={() => router.push(`/developer/properties/${property.id}/edit`)}
+                      className="flex-1 bg-[#2B5273] text-white text-center px-4 py-2 rounded-md hover:bg-[#1E3142] transition-colors"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => router.push(`/developer/properties/${property.id}/manage`)}
+                      className="flex-1 border border-[#2B5273] text-[#2B5273] text-center px-4 py-2 rounded-md hover:bg-gray-50 transition-colors"
+                    >
+                      Manage
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow-md p-8 text-center">
+            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <h3 className="mt-2 text-xl font-medium text-gray-900">No properties found</h3>
+            <p className="mt-1 text-gray-500">Get started by creating a new property listing.</p>
+            <div className="mt-6">
+              <button
+                onClick={() => router.push('/developer/new-project')}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#2B5273] hover:bg-[#1E3142]"
+              >
+                Add New Property
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

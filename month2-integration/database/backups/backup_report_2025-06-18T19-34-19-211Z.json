@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-06-18T19:34:19.218Z",
+  "backupType": "pre_migration_safety_backup",
+  "source": {
+    "database": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/dev.db",
+    "size": 20480,
+    "lastModified": "2025-06-18T19:06:58.270Z"
+  },
+  "backup": {
+    "fileBackup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/dev_backup_2025-06-18T19-34-19-211Z.db",
+    "csvExport": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/users_export_2025-06-18T19-34-19-211Z.csv",
+    "recordCount": 5,
+    "checksum": "ca6326b9673485546acac49b3bdc4e13f3f043d0cf3f9c595514d4ea705e220d"
+  },
+  "verification": {
+    "integrityCheck": "passed",
+    "filesCreated": [
+      "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/dev_backup_2025-06-18T19-34-19-211Z.db",
+      "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/users_export_2025-06-18T19-34-19-211Z.csv"
+    ],
+    "dataIntegrity": "verified"
+  },
+  "migration": {
+    "status": "ready_for_migration",
+    "rollbackCapable": true,
+    "nextStep": "postgresql_connection_test"
+  }
+}

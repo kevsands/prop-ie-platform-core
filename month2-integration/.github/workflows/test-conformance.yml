@@ -1,0 +1,114 @@
+name: Test Conformance Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  test-conformance:
+    name: Test Conformance Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run Test Conformance Checker
+        run: node scripts/test-conformance-checker.js --strict
+        
+      - name: Run Test Health Dashboard
+        run: node scripts/test-health-dashboard.js --ci
+        
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: test-reports/
+          
+      - name: Comment on PR with test conformance results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            
+            // Read the conformance report
+            const reportPath = './test-reports/test-conformance.json';
+            if (!fs.existsSync(reportPath)) {
+              console.log('No conformance report found');
+              return;
+            }
+            
+            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+            
+            // Format the report as a Markdown table
+            let commentBody = `## Test Conformance Report\n\n`;
+            commentBody += `Found ${report.totalIssues} issues in ${report.totalFiles} test files.\n\n`;
+            
+            if (report.totalIssues > 0) {
+              commentBody += '### Issues by File\n\n';
+              commentBody += '| File | Issues | Fixable |\n';
+              commentBody += '| --- | --- | --- |\n';
+              
+              // Add the top 10 files with issues
+              const topIssues = report.fileResults
+                .filter(file => file.issueCount > 0)
+                .sort((a, b) => b.issueCount - a.issueCount)
+                .slice(0, 10);
+                
+              for (const file of topIssues) {
+                const relativePath = file.path.replace(/^\.\//, '');
+                commentBody += `| ${relativePath} | ${file.issueCount} | ${file.fixableCount} |\n`;
+              }
+              
+              if (report.fileResults.filter(f => f.issueCount > 0).length > 10) {
+                commentBody += '| ... | ... | ... |\n';
+              }
+              
+              commentBody += '\n';
+              
+              // Add the top issues by rule
+              const issuesByRule = {};
+              for (const file of report.fileResults) {
+                for (const issue of file.issues) {
+                  issuesByRule[issue.rule] = (issuesByRule[issue.rule] || 0) + 1;
+                }
+              }
+              
+              commentBody += '### Issues by Rule\n\n';
+              commentBody += '| Rule | Count |\n';
+              commentBody += '| --- | --- |\n';
+              
+              Object.entries(issuesByRule)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([rule, count]) => {
+                  commentBody += `| ${rule} | ${count} |\n`;
+                });
+              
+              commentBody += '\n';
+            }
+            
+            commentBody += `See the [Test Patterns documentation](/docs/TESTING_PATTERNS.md) for guidance on fixing these issues.\n`;
+            
+            // Post the comment on the PR
+            const { owner, repo } = context.repo;
+            github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              body: commentBody
+            });

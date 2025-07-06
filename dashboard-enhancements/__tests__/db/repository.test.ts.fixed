@@ -1,0 +1,686 @@
+/**
+ * Repository pattern integration tests
+ * Tests the repository pattern implementations with mocked Prisma client
+ */
+
+import { setupTestEnvironment } from '../helpers/app-router-test-utils';
+import { PrismaClient, UserRole, UserStatus, KYCStatus, User, Prisma, DevelopmentStatus, UnitType, UnitStatus } from '@prisma/client';
+import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
+import { expect, describe, it, jest, beforeEach } from '@jest/globals';
+import * as mappers from '../../src/lib/db/mappers';
+import { Document, DevelopmentFinance } from '../../src/lib/db/types';
+
+// Import repository classes directly from their files
+import { UserRepository } from '../../src/lib/db/repositories';
+import { DevelopmentRepository } from '../../src/lib/db/repositories';
+import { UnitRepository } from '../../src/lib/db/repositories';
+import { DocumentRepository } from '../../src/lib/db/repositories/document-repository';
+import { FinancialRepository } from '../../src/lib/db/repositories/financial-repository';
+
+import { BaseRepository } from '../../src/lib/db/repositories/base-repository';
+
+// Create a mock of the Prisma client
+const prismaMock = mockDeep<PrismaClient>() as unknown as DeepMockProxy<PrismaClient>;
+
+// Reset all mocks between tests
+jest.mock('@prisma/client', () => ({
+  PrismaClient: jest.fn(() => prismaMock),
+}));
+
+// Create a concrete test repository class
+class TestRepository extends BaseRepository<User, Prisma.UserCreateInput, Prisma.UserUpdateInput> {
+  protected model: any;
+  
+  constructor(prismaClient: PrismaClient) {
+    super(prismaClient);
+    this.model = prismaClient.user;
+  }
+}
+
+describe('Repository Pattern Integration', () => {
+  let restoreEnv: () => void;
+  let userRepository: UserRepository;
+  let developmentRepository: DevelopmentRepository;
+  let unitRepository: UnitRepository;
+  let documentRepository: DocumentRepository;
+  let financialRepository: FinancialRepository;
+  
+  beforeEach(() => {
+    // Setup test environment
+    restoreEnv = setupTestEnvironment();
+    
+    // Reset mocks
+    mockReset(prismaMock);
+    
+    // Create repositories with mock Prisma client
+    userRepository = new UserRepository(prismaMock);
+    developmentRepository = new DevelopmentRepository(prismaMock);
+    unitRepository = new UnitRepository(prismaMock);
+    documentRepository = new DocumentRepository(prismaMock);
+    financialRepository = new FinancialRepository(prismaMock);
+  });
+  
+  afterEach(() => {
+    // Restore original environment after each test
+    restoreEnv();
+  });
+  
+  describe('UserRepository', () => {
+    it('should find a user by ID', async () => {
+      // Mock user data
+      const mockUser = {
+        id: '1',
+        email: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        phone: null,
+        password: null,
+        roles: [UserRole.DEVELOPER],
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        organization: null,
+        position: null,
+        avatar: null,
+        preferences: null,
+        created: new Date(),
+        lastActive: new Date(),
+        lastLogin: null,
+        metadata: null,
+        role: UserRole.DEVELOPER,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false
+      };
+      
+      // Setup mock response
+      prismaMock.user.findUnique.mockResolvedValue(mockUser);
+      
+      // Call the repository method
+      const result = await userRepository.findById('1');
+      
+      // Verify result
+      expect(result).toEqual(mockUser);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+        where: { id: '1' },
+      });
+    });
+    
+    it('should find a user by email', async () => {
+      // Mock user data
+      const mockUser = {
+        id: '1',
+        email: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        phone: null,
+        password: null,
+        roles: [UserRole.DEVELOPER],
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        organization: null,
+        position: null,
+        avatar: null,
+        preferences: null,
+        created: new Date(),
+        lastActive: new Date(),
+        lastLogin: null,
+        metadata: null,
+        role: UserRole.DEVELOPER,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false
+      };
+      
+      // Setup mock response
+      prismaMock.user.findUnique.mockResolvedValue(mockUser);
+      
+      // Call the repository method
+      const result = await userRepository.findByEmail('test@example.com');
+      
+      // Verify result
+      expect(result).toEqual(mockUser);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+        where: { email: 'test@example.com' },
+      });
+    });
+    
+    it('should create a new user', async () => {
+      // Mock created user
+      const createdUser = {
+        id: '1',
+        email: 'new@example.com',
+        firstName: 'New',
+        lastName: 'User',
+        phone: '+1234567890',
+        password: 'hashedPassword',
+        roles: [UserRole.DEVELOPER],
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        organization: 'Test Org',
+        position: 'Test Position',
+        avatar: null,
+        preferences: null,
+        created: new Date(),
+        lastActive: new Date(),
+        lastLogin: null,
+        metadata: null,
+        role: UserRole.DEVELOPER,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false
+      };
+      
+      // Setup mock response
+      prismaMock.user.create.mockResolvedValue(createdUser);
+      
+      // Input for creating a user - properly typed for Prisma
+      const input: Prisma.UserCreateInput = {
+        email: 'new@example.com',
+        firstName: 'New',
+        lastName: 'User',
+        phone: '+1234567890',
+        roles: { set: [UserRole.DEVELOPER] },
+        organization: 'Test Org',
+        position: 'Test Position',
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        role: UserRole.DEVELOPER,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false
+      };
+      
+      // Call the repository method
+      const result = await userRepository.create(input);
+      
+      // Verify result
+      expect(result).toEqual(createdUser);
+      
+      // Verify the create function was called with correct data
+      expect(prismaMock.user.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          email: 'new@example.com',
+          firstName: 'New',
+          lastName: 'User',
+        }),
+      });
+    });
+    
+    it('should update an existing user', async () => {
+      // Mock updated user
+      const updatedUser = {
+        id: '1',
+        email: 'test@example.com',
+        firstName: 'Updated',
+        lastName: 'User',
+        phone: null,
+        password: null,
+        roles: [UserRole.DEVELOPER],
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        organization: null,
+        position: null,
+        avatar: null,
+        preferences: null,
+        created: new Date(),
+        lastActive: new Date(),
+        lastLogin: null,
+        metadata: null,
+        role: UserRole.DEVELOPER,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false
+      };
+      
+      // Setup mock response
+      prismaMock.user.update.mockResolvedValue(updatedUser);
+      
+      // Input for updating a user
+      const updateData = {
+        firstName: 'Updated',
+      };
+      
+      // Call the repository method
+      const result = await userRepository.update('1', updateData);
+      
+      // Verify result
+      expect(result).toEqual(updatedUser);
+      
+      // Verify the update function was called with correct data
+      expect(prismaMock.user.update).toHaveBeenCalledWith({
+        where: { id: '1' },
+        data: updateData,
+      });
+    });
+  });
+  
+  describe('DevelopmentRepository', () => {
+    it('should find a development by ID', async () => {
+      // Mock development data with proper types
+      const mockDevelopment = {
+        id: '1',
+        name: 'Test Development',
+        slug: 'test-development',
+        developerId: '1',
+        locationId: '1',
+        status: DevelopmentStatus.PLANNING,
+        totalUnits: 10,
+        mainImage: 'image.jpg',
+        images: ['image1.jpg', 'image2.jpg'],
+        description: 'Test description',
+        shortDescription: null,
+        features: ['Feature 1', 'Feature 2'],
+        amenities: ['Amenity 1', 'Amenity 2'],
+        buildingSpecs: null,
+        created: new Date(),
+        updated: new Date(),
+        publishedDate: null,
+        isPublished: false,
+        tags: ['Tag 1', 'Tag 2'],
+        awards: [],
+        startDate: null,
+        completionDate: null,
+        virtualTourUrl: null,
+        sitePlanUrl: null,
+        marketingStatus: 'ACTIVE',
+        salesStatus: 'AVAILABLE',
+        constructionStatus: 'IN_PROGRESS',
+        complianceStatus: 'COMPLIANT',
+        timelineId: null,
+        financialsId: null,
+        videos: [],
+        brochureUrl: null,
+        websiteUrl: null,
+        buildingType: 'APARTMENT',
+        location: {
+          id: '1',
+          address: '123 Test Street',
+          addressLine1: '123 Test Street',
+          addressLine2: null,
+          city: 'Test City',
+          county: 'Test County',
+          eircode: null,
+          country: 'Ireland',
+          longitude: null,
+          latitude: null,
+        }
+      };
+      
+      // Setup mock response
+      prismaMock.development.findUnique.mockResolvedValue(mockDevelopment);
+      
+      // Call the repository method
+      const result = await developmentRepository.findById('1');
+      
+      // Verify result
+      expect(result).toEqual(mockDevelopment);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.development.findUnique).toHaveBeenCalledWith({
+        where: { id: '1' },
+        include: expect.any(Object),
+      });
+    });
+    
+    it('should find developments with filters', async () => {
+      // Mock developments data with proper types
+      const mockDevelopments = [{
+        id: '1',
+        name: 'Test Development 1',
+        slug: 'test-development-1',
+        developerId: '1',
+        locationId: '1',
+        status: DevelopmentStatus.PLANNING,
+        totalUnits: 10,
+        mainImage: 'image.jpg',
+        images: ['image1.jpg', 'image2.jpg'],
+        description: 'Test description',
+        shortDescription: null,
+        features: ['Feature 1', 'Feature 2'],
+        amenities: ['Amenity 1', 'Amenity 2'],
+        buildingSpecs: null,
+        created: new Date(),
+        updated: new Date(),
+        publishedDate: null,
+        isPublished: false,
+        tags: ['Tag 1', 'Tag 2'],
+        awards: [],
+        startDate: null,
+        completionDate: null,
+        virtualTourUrl: null,
+        sitePlanUrl: null,
+        marketingStatus: { status: 'ACTIVE' },
+        salesStatus: { status: 'AVAILABLE' },
+        constructionStatus: { status: 'IN_PROGRESS' },
+        complianceStatus: { status: 'COMPLIANT' },
+        timelineId: null,
+        financialsId: null,
+        videos: [],
+        brochureUrl: null,
+        websiteUrl: null,
+        buildingType: 'APARTMENT'
+      }];
+      
+      // Setup mock response
+      prismaMock.development.findMany.mockResolvedValue(mockDevelopments);
+      
+      // Call the repository method with filters
+      const filters = { where: { status: DevelopmentStatus.PLANNING } };
+      const result = await developmentRepository.findAll(filters);
+      
+      // Verify result
+      expect(result).toEqual(mockDevelopments);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.development.findMany).toHaveBeenCalledWith({
+        where: filters.where,
+        include: expect.any(Object),
+        orderBy: expect.any(Object),
+      });
+    });
+
+    it('should find developments by developer ID', async () => {
+      // Mock development data with proper types
+      const mockDevelopments = [{
+        id: '1',
+        name: 'Test Development',
+        slug: 'test-development',
+        developerId: 'dev1',
+        locationId: 'loc1',
+        status: DevelopmentStatus.PLANNING,
+        totalUnits: 100,
+        mainImage: 'image.jpg',
+        images: ['image1.jpg', 'image2.jpg'],
+        description: 'Test description',
+        shortDescription: null,
+        created: new Date(),
+        tags: [],
+        timelineId: 'timeline1',
+        financialsId: 'finance1',
+        videos: [],
+        brochureUrl: null,
+        awards: [],
+        features: [],
+        amenities: [],
+        specifications: {},
+        virtualTourUrl: null,
+        marketingStatus: { status: 'ACTIVE' },
+        salesStatus: { status: 'ACTIVE' },
+        constructionStatus: { status: 'PLANNING' },
+        complianceStatus: { status: 'COMPLIANT' },
+        sitePlanUrl: null,
+        websiteUrl: null,
+        buildingSpecs: {},
+        buildingType: 'APARTMENT',
+        completionDate: new Date(),
+        startDate: new Date(),
+        updated: new Date(),
+        publishedDate: null,
+        isPublished: false,
+        location: {
+          id: 'loc1',
+          name: 'Test Location'
+        }
+      }];
+      
+      // Setup mock response
+      prismaMock.development.findMany.mockResolvedValue(mockDevelopments);
+      
+      // Call the repository method
+      const result = await developmentRepository.findByDeveloperId('dev1');
+      
+      // Verify result
+      expect(result).toEqual(mockDevelopments);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.development.findMany).toHaveBeenCalledWith({
+        where: { developerId: 'dev1' },
+      });
+    });
+  });
+  
+  describe('UnitRepository', () => {
+    it('should find units by development ID', async () => {
+      // Mock unit data with proper types
+      const mockUnits = [{
+        id: '1',
+        developmentId: 'dev1',
+        name: 'Test Unit',
+        type: UnitType.APARTMENT,
+        status: UnitStatus.AVAILABLE,
+        price: 100000,
+        size: 100,
+        bedrooms: 2,
+        bathrooms: 2,
+        images: ['image1.jpg'],
+        slug: 'test-unit',
+        description: 'Test description',
+        block: 'A',
+        basePrice: 100000,
+        updatedAt: new Date(),
+        floors: 1,
+        parkingSpaces: 1,
+        features: [],
+        amenities: [],
+        specifications: {},
+        virtualTourUrl: null,
+        viewCount: 0,
+        berRating: 'A',
+        primaryImage: 'image1.jpg',
+        floorplans: [],
+        unitNumber: 'A101',
+        created: new Date(),
+        updated: new Date(),
+        metadata: {},
+        floor: 1,
+        aspect: 'NORTH',
+        availableFrom: new Date(),
+        reservationEndDate: null,
+        lastViewed: null
+      }];
+      
+      // Setup mock response
+      prismaMock.unit.findMany.mockResolvedValue(mockUnits);
+      
+      // Call the repository method
+      const result = await unitRepository.findByDevelopment('dev1');
+      
+      // Verify result
+      expect(result).toEqual(mockUnits);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.unit.findMany).toHaveBeenCalledWith({
+        where: { developmentId: 'dev1' },
+      });
+    });
+  });
+  
+  describe('DocumentRepository', () => {
+    it('should find documents by unit ID', async () => {
+      // Mock document data with proper types
+      const mockDocuments = [{
+        id: '1',
+        unitId: 'unit1',
+        developmentId: null,
+        name: 'Test Document',
+        type: 'PDF',
+        status: 'ACTIVE',
+        metadata: {},
+        description: 'Test description',
+        category: 'CONTRACT',
+        fileUrl: 'https://example.com/doc.pdf',
+        fileType: 'application/pdf',
+        fileSize: 1024,
+        uploadedById: 'user1',
+        uploadedByName: 'Test User',
+        uploadDate: new Date(),
+        version: 1,
+        tags: [],
+        expiryDate: null,
+        signatureRequired: false,
+        signedBy: null,
+        signedAt: null,
+        relatedTo: null,
+        mortgageTrackingId: null,
+        created: new Date(),
+        updated: new Date(),
+        signatureStatus: 'NOT_SIGNED',
+        organizationId: null,
+        saleId: null,
+        approvedById: null,
+        reservationId: null
+      }];
+      
+      // Setup mock response
+      prismaMock.document.findMany.mockResolvedValue(mockDocuments);
+      
+      // Call the repository method
+      const result = await documentRepository.findByUnitId('unit1');
+      
+      // Verify result
+      expect(result).toEqual(mockDocuments);
+      
+      // Verify the database was called correctly
+      expect(prismaMock.document.findMany).toHaveBeenCalledWith({
+        where: { unitId: 'unit1' },
+      });
+    });
+  });
+  
+  describe('Transaction support', () => {
+    it('should use transaction context for database operations', async () => {
+      // Mock transaction objects
+      const mockTx = mockDeep<PrismaClient>();
+      const mockUser = {
+        id: '1',
+        email: 'test@transaction.com',
+        firstName: 'Transaction',
+        lastName: 'Test',
+        role: UserRole.DEVELOPER,
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        phone: null,
+        password: null,
+        organization: null,
+        position: null,
+        avatar: null,
+        preferences: null,
+        created: new Date(),
+        lastActive: new Date(),
+        lastLogin: null,
+        metadata: null,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      
+      // Setup mock responses
+      mockTx.user.create.mockResolvedValue(mockUser);
+      prismaMock.$transaction.mockImplementation(async (callback) => {
+        if (typeof callback === 'function') {
+          return callback(mockTx);
+        }
+        return [];
+      });
+      
+      // Execute a transaction using the user repository
+      const input = {
+        email: 'test@transaction.com',
+        firstName: 'Transaction',
+        lastName: 'Test',
+        role: UserRole.DEVELOPER,
+        status: UserStatus.ACTIVE,
+        kycStatus: KYCStatus.NOT_STARTED,
+        twoFactorEnabled: false,
+        termsAccepted: true,
+        marketingConsent: false
+      };
+      
+      // Create a transaction-specific repository
+      const userRepo = new UserRepository();
+      
+      // Execute the transaction
+      await prismaMock.$transaction(async (tx) => {
+        const txUserRepo = new UserRepository(tx);
+        const result = await txUserRepo.create(input);
+        
+        // Verify the user was created
+        expect(result).toEqual(mockUser);
+        
+        // Verify correct transaction client was used
+        expect(mockTx.user.create).toHaveBeenCalled();
+      });
+      
+      // Verify the transaction was called
+      expect(prismaMock.$transaction).toHaveBeenCalled();
+    });
+  });
+
+  describe('BaseRepository', () => {
+    let repository: TestRepository;
+    
+    beforeEach(() => {
+      repository = new TestRepository(prismaMock);
+    });
+    
+    describe('transaction', () => {
+      it('should execute operations in a transaction', async () => {
+        // Mock data
+        const mockUser = {
+          id: '1',
+          email: 'test@example.com',
+          firstName: 'Test',
+          lastName: 'User',
+          roles: [UserRole.DEVELOPER],
+          status: UserStatus.ACTIVE,
+          kycStatus: KYCStatus.NOT_STARTED,
+          phone: null,
+          password: null,
+          organization: null,
+          position: null,
+          avatar: null,
+          preferences: null,
+          created: new Date(),
+          lastActive: new Date(),
+          lastLogin: null,
+          metadata: null
+        };
+        
+        // Mock transaction behavior
+        const mockTx = mockDeep<PrismaClient>();
+        mockTx.user.create.mockResolvedValue(mockUser);
+        prismaMock.$transaction.mockImplementation(async (callback) => {
+          if (typeof callback === 'function') {
+            return callback(mockTx);
+          }
+          return [];
+        });
+        
+        // Execute transaction
+        const result = await repository.transaction(async (tx) => {
+          const createInput: Prisma.UserCreateInput = {
+            email: 'test@example.com',
+            firstName: 'Test',
+            lastName: 'User',
+            role: UserRole.DEVELOPER,
+            status: UserStatus.ACTIVE,
+            kycStatus: KYCStatus.NOT_STARTED
+          };
+          
+          return tx.user.create({ data: createInput });
+        });
+        
+        // Verify results
+        expect(result).toEqual(mockUser);
+        expect(prismaMock.$transaction).toHaveBeenCalled();
+        expect(mockTx.user.create).toHaveBeenCalled();
+      });
+    });
+  });
+});

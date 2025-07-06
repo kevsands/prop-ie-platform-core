@@ -1,0 +1,124 @@
+// src/app/layout.tsx
+import React from "react";
+import { Inter } from "next/font/google";
+import { InvestorModeProvider } from "@/components/investor/InvestorModeContext";
+import { AuthProvider } from "@/context/AuthContext";
+import MainNavigation from "@/components/navigation/MainNavigation";
+import Navbar from "@/components/navigation/Navbar";
+import Footer from "@/components/navigation/Footer";
+import "./globals.css";
+import { ErrorBoundary } from 'react-error-boundary';
+import { usePathname } from "next/navigation";
+
+// Moved from _app.tsx
+import { useEffect } from "react";
+import { safeConfigureAmplify } from '@/lib/amplify-config';
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
+export const metadata = {
+  title: "Prop.ie - Premium Property Development Platform",
+  description: "The premier platform for off-plan property sales in Ireland",
+  keywords: "property, real estate, ireland, development, new homes, apartments, houses",
+  authors: [{ name: "Prop.ie Team" }],
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IE",
+    url: "https://prop.ie",
+    title: "Prop.ie - Premium Property Development Platform",
+    description: "The premier platform for off-plan property sales in Ireland",
+    siteName: "Prop.ie",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Prop.ie - Premium Property Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Prop.ie - Premium Property Development Platform",
+    description: "The premier platform for off-plan property sales in Ireland",
+    images: ["/twitter-image.jpg"],
+  },
+};
+
+// Client-side only wrapper component
+'use client';
+
+function ClientLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname() || "";
+
+  // Configure Amplify on client-side only
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      safeConfigureAmplify();
+    }
+  }, []);
+
+  // Main page or landing page (with hero section)
+  const isMainPage = pathname === '/';
+  // Developer dashboard pages
+  const isDeveloperPage = pathname.match(/\/[^\/]+\/projects/) || 
+                          pathname.match(/\/[^\/]+\/dashboard/) || 
+                          pathname.match(/\/[^\/]+\/analytics/);
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* For the main landing page, use MainNavigation with transparent style */}
+      {isMainPage && (
+        <MainNavigation theme="dark" isTransparent={true} />
+      )}
+      
+      {/* For developer dashboard pages, use the correct navigation from Sidebar */}
+      {isDeveloperPage && (
+        <Navbar />
+      )}
+      
+      {/* For regular content pages, use standard Navbar */}
+      {!isMainPage && !isDeveloperPage && (
+        <Navbar />
+      )}
+      
+      <main className="flex-grow">
+        {children}
+      </main>
+      
+      <Footer />
+    </div>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <ErrorBoundary fallback={<div>Something went wrong. Please refresh.</div>}>
+          <InvestorModeProvider>
+            <AuthProvider>
+              <ClientLayout>
+                {children}
+              </ClientLayout>
+            </AuthProvider>
+          </InvestorModeProvider>
+        </ErrorBoundary>
+      </body>
+    </html>
+  );
+}

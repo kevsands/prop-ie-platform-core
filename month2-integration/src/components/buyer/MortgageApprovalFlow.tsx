@@ -1,0 +1,290 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Upload, Check, AlertCircle, Euro, Calculator, FileText, Shield } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+
+interface MortgageStep {
+  id: number;
+  title: string;
+  description: string;
+  required: boolean;
+  documents: string[];
+  status: 'pending' | 'in-progress' | 'completed' | 'verified';
+}
+
+const mortgageSteps: MortgageStep[] = [
+  {
+    id: 1,
+    title: 'Personal Information',
+    description: 'Provide your personal and employment details',
+    required: true,
+    documents: ['Photo ID', 'Proof of Address', 'Employment Contract'],
+    status: 'pending'
+  },
+  {
+    id: 2,
+    title: 'Income Verification',
+    description: 'Submit proof of income and employment',
+    required: true,
+    documents: ['P60', 'Payslips (6 months)', 'Bank Statements (6 months)', 'Employment Letter'],
+    status: 'pending'
+  },
+  {
+    id: 3,
+    title: 'Financial Assessment',
+    description: 'Provide details of savings, debts, and financial commitments',
+    required: true,
+    documents: ['Savings Statements', 'Credit Card Statements', 'Loan Agreements', 'Rent Receipts'],
+    status: 'pending'
+  },
+  {
+    id: 4,
+    title: 'Property Details',
+    description: 'Submit information about your intended purchase',
+    required: true,
+    documents: ['Property Brochure', 'Booking Form', 'Price Confirmation'],
+    status: 'pending'
+  }
+];
+
+export default function MortgageApprovalFlow() {
+  const { user } = useAuth();
+  const [currentStep, setCurrentStep] = useState(0);
+  const [uploadedDocuments, setUploadedDocuments] = useState<{[key: string]: File[]}>({});
+  const [mortgageAmount, setMortgageAmount] = useState('');
+  const [deposit, setDeposit] = useState('');
+  const [monthlyIncome, setMonthlyIncome] = useState('');
+
+  const handleDocumentUpload = (stepId: number, files: FileList) => {
+    const newFiles = Array.from(files);
+    setUploadedDocuments(prev => ({
+      ...prev,
+      [stepId]: [...(prev[stepId] || []), ...newFiles]
+    }));
+  };
+
+  const calculateAffordability = () => {
+    const income = parseFloat(monthlyIncome) * 12; // Annual income
+    const maxLoan = income * 3.5; // Standard Irish multiplier
+    const depositAmount = parseFloat(deposit);
+    const maxPurchasePrice = maxLoan + depositAmount;
+    
+    return {
+      maxLoan: maxLoan.toFixed(0),
+      maxPurchase: maxPurchasePrice.toFixed(0),
+      monthlyPayment: ((maxLoan * 0.035) / 12).toFixed(0) // Rough estimate at 3.5% interest
+    };
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-6">
+          <h2 className="text-3xl font-bold mb-2">Mortgage Approval in Principle</h2>
+          <p className="text-green-50">
+            Complete your application for mortgage pre-approval
+          </p>
+        </div>
+
+        {/* Progress Indicator */}
+        <div className="p-6 border-b bg-gray-50">
+          <div className="flex items-center justify-between mb-4">
+            {mortgageSteps.map((step, index) => (
+              <div key={step.id} className="flex items-center">
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    index < currentStep
+                      ? 'bg-green-600 text-white'
+                      : index === currentStep
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-300 text-gray-600'
+                  }`}
+                >
+                  {index < currentStep ? <Check size={20} /> : step.id}
+                </div>
+                {index < mortgageSteps.length - 1 && (
+                  <div
+                    className={`w-24 h-1 ${
+                      index < currentStep ? 'bg-green-600' : 'bg-gray-300'
+                    }`}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <h3 className="font-semibold text-lg">
+              {mortgageSteps[currentStep].title}
+            </h3>
+            <p className="text-gray-600 mt-1">
+              {mortgageSteps[currentStep].description}
+            </p>
+          </div>
+        </div>
+
+        {/* Affordability Calculator */}
+        {currentStep === 0 && (
+          <div className="p-6">
+            <h4 className="text-xl font-semibold mb-4 flex items-center">
+              <Calculator className="mr-2 text-green-600" />
+              Affordability Calculator
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Monthly Income (€)
+                </label>
+                <input
+                  type="number"
+                  value={monthlyIncome}
+                  onChange={(e) => setMonthlyIncome(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+                  placeholder="4,000"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Available Deposit (€)
+                </label>
+                <input
+                  type="number"
+                  value={deposit}
+                  onChange={(e) => setDeposit(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+                  placeholder="50,000"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Mortgage Required (€)
+                </label>
+                <input
+                  type="number"
+                  value={mortgageAmount}
+                  onChange={(e) => setMortgageAmount(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+                  placeholder="250,000"
+                />
+              </div>
+            </div>
+
+            {monthlyIncome && deposit && (
+              <div className="bg-green-50 rounded-lg p-6">
+                <h5 className="font-semibold mb-3">Your Affordability Summary</h5>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-600">Maximum Loan</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      €{calculateAffordability().maxLoan}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Maximum Purchase Price</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      €{calculateAffordability().maxPurchase}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Est. Monthly Payment</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      €{calculateAffordability().monthlyPayment}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 mt-4">
+                  * Based on 3.5x income multiplier and 3.5% interest rate
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Document Upload Section */}
+        {currentStep > 0 && (
+          <div className="p-6">
+            <h4 className="text-xl font-semibold mb-4 flex items-center">
+              <FileText className="mr-2 text-blue-600" />
+              Required Documents
+            </h4>
+            <div className="space-y-4">
+              {mortgageSteps[currentStep].documents.map((doc, index) => (
+                <div key={index} className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h5 className="font-medium">{doc}</h5>
+                    <span className={`text-sm ${
+                      uploadedDocuments[currentStep]?.some(f => f.name.includes(doc))
+                        ? 'text-green-600'
+                        : 'text-gray-500'
+                    }`}>
+                      {uploadedDocuments[currentStep]?.some(f => f.name.includes(doc))
+                        ? 'Uploaded'
+                        : 'Required'
+                      }
+                    </span>
+                  </div>
+                  <div className="mt-2">
+                    <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">
+                      <Upload size={16} className="mr-2" />
+                      Upload Document
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => e.target.files && handleDocumentUpload(currentStep, e.target.files)}
+                        accept=".pdf,.jpg,.jpeg,.png"
+                      />
+                    </label>
+                  </div>
+                  {uploadedDocuments[currentStep]?.filter(f => f.name.includes(doc)).map((file, fileIndex) => (
+                    <div key={fileIndex} className="mt-2 text-sm text-gray-600">
+                      {file.name}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Legal Notice */}
+        <div className="p-6 bg-amber-50 border-t">
+          <div className="flex items-start">
+            <AlertCircle className="text-amber-600 mr-3 flex-shrink-0 mt-1" />
+            <div>
+              <h4 className="font-semibold text-amber-900">Important Information</h4>
+              <p className="text-amber-800 text-sm mt-1">
+                This is an application for Approval in Principle only. A full mortgage application 
+                will be required before drawdown. Approval is subject to underwriting and property valuation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="p-6 bg-gray-50 flex justify-between">
+          <button
+            onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+            disabled={currentStep === 0}
+            className="px-6 py-2 border border-gray-300 rounded-lg disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => {
+              if (currentStep < mortgageSteps.length - 1) {
+                setCurrentStep(currentStep + 1);
+              } else {
+                // Submit application
+                alert('Application submitted for review');
+              }
+            }}
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          >
+            {currentStep === mortgageSteps.length - 1 ? 'Submit Application' : 'Next Step'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,92 @@
+// Invoice-only database schema for immediate functionality
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./invoices.db"
+}
+
+model Invoice {
+  id              String        @id @default(cuid())
+  number          String        @unique
+  type            InvoiceType
+  status          InvoiceStatus @default(DRAFT)
+  clientName      String
+  clientEmail     String?
+  clientAddress   String?
+  projectId       String?
+  developmentId   String?
+  subtotal        Float
+  taxRate         Float?
+  taxAmount       Float?
+  totalAmount     Float
+  currency        String        @default("EUR")
+  issueDate       DateTime      @default(now())
+  dueDate         DateTime
+  paidDate        DateTime?
+  description     String
+  notes           String?
+  termsConditions String?
+  paymentMethod   String?
+  paymentReference String?
+  createdBy       String
+  approvedBy      String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  lineItems       InvoiceLineItem[]
+  payments        InvoicePayment[]
+
+  @@map("invoices")
+}
+
+model InvoiceLineItem {
+  id          String  @id @default(cuid())
+  invoiceId   String
+  description String
+  quantity    Float
+  unitPrice   Float
+  lineTotal   Float
+  category    String?
+  taxRate     Float?
+  
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_line_items")
+}
+
+model InvoicePayment {
+  id            String   @id @default(cuid())
+  invoiceId     String
+  amount        Float
+  currency      String   @default("EUR")
+  paymentDate   DateTime
+  paymentMethod String
+  reference     String?
+  notes         String?
+  status        String   @default("COMPLETED")
+  recordedBy    String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_payments")
+}
+
+enum InvoiceType {
+  RECEIVABLE
+  PAYABLE
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  CANCELLED
+  PARTIALLY_PAID
+  REFUNDED
+}

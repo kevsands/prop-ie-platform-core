@@ -1,0 +1,418 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+/* Hero Section */
+.heroSection {
+  position: relative;
+  height: 80vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  overflow: hidden;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.heroBackground::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* Mission Section */
+.missionSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.missionContent {
+  max-width: 500px;
+}
+
+.missionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.missionStatement {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+.missionImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Team Section */
+.teamSection {
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.teamMember {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.teamMember:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.memberImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.memberInfo {
+  padding: 1.5rem;
+}
+
+.memberName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.memberRole {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.memberBio {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.socialIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+}
+
+.socialIcon:hover {
+  background: #333;
+  color: white;
+}
+
+/* Values Section */
+.valuesSection {
+  background-color: #f9f9f9;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.valueCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.valueCard:hover {
+  transform: translateY(-5px);
+}
+
+.valueIcon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+}
+
+.valueTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.valueDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Timeline Section */
+.timelineSection {
+  position: relative;
+  overflow: hidden;
+}
+
+.timelineContainer {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 0;
+}
+
+.timelineContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 100%;
+  background: #ddd;
+  transform: translateX(-50%);
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 4rem;
+  display: flex;
+}
+
+.timelineItem:nth-child(odd) {
+  justify-content: flex-start;
+  padding-right: calc(50% + 2rem);
+}
+
+.timelineItem:nth-child(even) {
+  justify-content: flex-end;
+  padding-left: calc(50% + 2rem);
+}
+
+.timelineYear {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100px;
+  padding: 0.5rem 1rem;
+  background: #333;
+  color: white;
+  text-align: center;
+  border-radius: 20px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.timelineContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.timelineTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.timelineDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.timelineImage {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+/* CTA Section */
+.ctaSection {
+  text-align: center;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  padding: 5rem 0;
+}
+
+.ctaContent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.ctaText {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  background: white;
+  color: #1e3c72;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ctaButton:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .missionSection {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .missionContent {
+    max-width: 100%;
+  }
+
+  .timelineContainer::before {
+    left: 2rem;
+  }
+
+  .timelineItem:nth-child(odd),
+  .timelineItem:nth-child(even) {
+    justify-content: flex-start;
+    padding-right: 0;
+    padding-left: 5rem;
+  }
+
+  .timelineYear {
+    left: 2rem;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 767px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .timelineItem:nth-child(odd),
+  .timelineItem:nth-child(even) {
+    padding-left: 4rem;
+  }
+
+  .timelineYear {
+    width: 80px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSection {
+    min-height: 500px;
+  }
+
+  .teamGrid,
+  .valuesGrid {
+    grid-template-columns: 1fr;
+  }
+}

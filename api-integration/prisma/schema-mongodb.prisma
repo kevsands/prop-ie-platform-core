@@ -1,0 +1,41 @@
+// This is your Prisma schema file for MongoDB
+// Used for local development
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Development {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  location  String
+  units     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Property {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  developmentId String   @db.ObjectId
+  type         String
+  price        Float
+  bedrooms     Int
+  bathrooms    Int
+  status       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

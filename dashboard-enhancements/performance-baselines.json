@@ -1,0 +1,12 @@
+{
+  "HomePage-render": 64,
+  "PropertyListing-render": 95,
+  "PropertyDetail-render": 127,
+  "BuyerDashboard-render": 158,
+  "CustomizationPage-render": 191,
+  "LoginForm-render": 48,
+  "RegisterForm-render": 64,
+  "PropertySearch-journey": 254,
+  "Auth-journey": 191,
+  "Customization-journey": 380
+}

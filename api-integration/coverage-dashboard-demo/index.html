@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coverage Dashboard Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <style>
+    .bg-success-light { background-color: rgba(40, 167, 69, 0.1); }
+    .bg-warning-light { background-color: rgba(255, 193, 7, 0.1); }
+    .bg-danger-light { background-color: rgba(220, 53, 69, 0.1); }
+    .progress { height: 20px; }
+    .progress-bar { transition: width 0.5s; }
+    .chart-container { height: 300px; margin-bottom: 20px; }
+    .table-responsive { max-height: 600px; overflow-y: auto; }
+    #moduleTable th, #fileTable th { position: sticky; top: 0; background: white; z-index: 10; }
+    .badge { font-size: 0.875em; }
+    .coverage-card { transition: transform 0.2s; }
+    .coverage-card:hover { transform: translateY(-5px); }
+    .demo-badge {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      background-color: #ff6b6b;
+      color: white;
+      font-weight: bold;
+      z-index: 1000;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-badge">DEMO DATA</div>
+  <div class="container-fluid py-4">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h1 class="mb-3">Test Coverage Dashboard <small class="text-muted">(Demo)</small></h1>
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title mb-0">Project Overview</h5>
+              <span class="badge bg-secondary">
+                feature/test-improvements (1234abc) - 2025-05-07
+              </span>
+            </div>
+            <p class="text-muted mb-1">Latest commit: Improve test coverage tracking</p>
+            <div class="row mt-3">
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card coverage-card border-0 bg-warning-light">
+                  <div class="card-body text-center">
+                    <h6 class="text-muted">Overall Coverage</h6>
+                    <h2 class="text-warning">67.39%</h2>
+                    <div class="progress">
+                      <div class="progress-bar bg-warning" 
+                           style="width: 67.39%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card coverage-card border-0 bg-warning-light">
+                  <div class="card-body text-center">
+                    <h6 class="text-muted">Statement Coverage</h6>
+                    <h2 class="text-warning">67.45%</h2>
+                    <div class="progress">
+                      <div class="progress-bar bg-warning" 
+                           style="width: 67.45%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card coverage-card border-0 bg-warning-light">
+                  <div class="card-body text-center">
+                    <h6 class="text-muted">Function Coverage</h6>
+                    <h2 class="text-warning">68.89%</h2>
+                    <div class="progress">
+                      <div class="progress-bar bg-warning" 
+                           style="width: 68.89%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-6 mb-3">
+                <div class="card coverage-card border-0 bg-warning-light">
+                  <div class="card-body text-center">
+                    <h6 class="text-muted">Branch Coverage</h6>
+                    <h2 class="text-warning">66.06%</h2>
+                    <div class="progress">
+                      <div class="progress-bar bg-warning" 
+                           style="width: 66.06%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historical Charts Section -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Coverage Trends</h5>
+            <div class="chart-container">
+              <canvas id="historyChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module Trends -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Module Coverage Trends</h5>
+            <div class="chart-container">
+              <canvas id="moduleHistoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modules Table -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Coverage by Module</h5>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover" id="moduleTable">
+                <thead>
+                  <tr>
+                    <th>Module</th>
+                    <th>Files</th>
+                    <th>Overall</th>
+                    <th>Statements</th>
+                    <th>Functions</th>
+                    <th>Branches</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                    <tr>
+                      <td>services</td>
+                      <td>12</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 53.22%"></div>
+                          </div>
+                          <span>53.22%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 53.22%"></div>
+                          </div>
+                          <span>53.22%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 53.22%"></div>
+                          </div>
+                          <span>53.22%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 53.22%"></div>
+                          </div>
+                          <span>53.22%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>api</td>
+                      <td>22</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.24%"></div>
+                          </div>
+                          <span>62.24%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.24%"></div>
+                          </div>
+                          <span>62.24%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.24%"></div>
+                          </div>
+                          <span>62.24%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.24%"></div>
+                          </div>
+                          <span>62.24%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>lib</td>
+                      <td>28</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.58%"></div>
+                          </div>
+                          <span>64.58%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.58%"></div>
+                          </div>
+                          <span>64.58%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.58%"></div>
+                          </div>
+                          <span>64.58%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.58%"></div>
+                          </div>
+                          <span>64.58%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>context</td>
+                      <td>7</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 74.80%"></div>
+                          </div>
+                          <span>74.80%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 74.80%"></div>
+                          </div>
+                          <span>74.80%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 74.80%"></div>
+                          </div>
+                          <span>74.80%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 74.80%"></div>
+                          </div>
+                          <span>74.80%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>utils</td>
+                      <td>15</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 80.74%"></div>
+                          </div>
+                          <span>80.74%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 80.74%"></div>
+                          </div>
+                          <span>80.74%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 80.74%"></div>
+                          </div>
+                          <span>80.74%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 80.74%"></div>
+                          </div>
+                          <span>80.74%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>components</td>
+                      <td>45</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.43%"></div>
+                          </div>
+                          <span>81.43%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.43%"></div>
+                          </div>
+                          <span>81.43%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.43%"></div>
+                          </div>
+                          <span>81.43%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.43%"></div>
+                          </div>
+                          <span>81.43%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>hooks</td>
+                      <td>18</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.64%"></div>
+                          </div>
+                          <span>81.64%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.64%"></div>
+                          </div>
+                          <span>81.64%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.64%"></div>
+                          </div>
+                          <span>81.64%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-success" 
+                                style="width: 81.64%"></div>
+                          </div>
+                          <span>81.64%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Low Coverage Files -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Files Needing Attention (Bottom 20)</h5>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover" id="fileTable">
+                <thead>
+                  <tr>
+                    <th>File</th>
+                    <th>Module</th>
+                    <th>Overall</th>
+                    <th>Statements</th>
+                    <th>Functions</th>
+                    <th>Branches</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                    <tr>
+                      <td>src/services/file-20.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 46.36%"></div>
+                          </div>
+                          <span>46.36%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 47.41%"></div>
+                          </div>
+                          <span>47.41%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 46.25%"></div>
+                          </div>
+                          <span>46.25%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 45.36%"></div>
+                          </div>
+                          <span>45.36%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-42.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 51.56%"></div>
+                          </div>
+                          <span>51.56%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 54.68%"></div>
+                          </div>
+                          <span>54.68%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 52.82%"></div>
+                          </div>
+                          <span>52.82%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.13%"></div>
+                          </div>
+                          <span>56.13%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-13.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 54.26%"></div>
+                          </div>
+                          <span>54.26%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 54.42%"></div>
+                          </div>
+                          <span>54.42%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.06%"></div>
+                          </div>
+                          <span>56.06%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.98%"></div>
+                          </div>
+                          <span>55.98%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-35.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.21%"></div>
+                          </div>
+                          <span>55.21%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 51.36%"></div>
+                          </div>
+                          <span>51.36%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.24%"></div>
+                          </div>
+                          <span>55.24%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 58.46%"></div>
+                          </div>
+                          <span>58.46%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-44.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.43%"></div>
+                          </div>
+                          <span>56.43%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 53.58%"></div>
+                          </div>
+                          <span>53.58%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.85%"></div>
+                          </div>
+                          <span>55.85%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 52.72%"></div>
+                          </div>
+                          <span>52.72%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-8.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 57.68%"></div>
+                          </div>
+                          <span>57.68%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.05%"></div>
+                          </div>
+                          <span>59.05%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.61%"></div>
+                          </div>
+                          <span>59.61%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.29%"></div>
+                          </div>
+                          <span>62.29%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-14.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 58.81%"></div>
+                          </div>
+                          <span>58.81%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.12%"></div>
+                          </div>
+                          <span>59.12%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.91%"></div>
+                          </div>
+                          <span>55.91%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 58.16%"></div>
+                          </div>
+                          <span>58.16%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-30.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.23%"></div>
+                          </div>
+                          <span>59.23%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.52%"></div>
+                          </div>
+                          <span>63.52%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.13%"></div>
+                          </div>
+                          <span>56.13%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.18%"></div>
+                          </div>
+                          <span>56.18%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-38.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.55%"></div>
+                          </div>
+                          <span>59.55%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.37%"></div>
+                          </div>
+                          <span>56.37%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 56.71%"></div>
+                          </div>
+                          <span>56.71%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.70%"></div>
+                          </div>
+                          <span>55.70%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-17.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.65%"></div>
+                          </div>
+                          <span>59.65%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.54%"></div>
+                          </div>
+                          <span>63.54%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 55.54%"></div>
+                          </div>
+                          <span>55.54%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 60.32%"></div>
+                          </div>
+                          <span>60.32%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-49.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.99%"></div>
+                          </div>
+                          <span>59.99%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 60.23%"></div>
+                          </div>
+                          <span>60.23%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.71%"></div>
+                          </div>
+                          <span>63.71%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.86%"></div>
+                          </div>
+                          <span>59.86%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-5.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 60.89%"></div>
+                          </div>
+                          <span>60.89%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 57.62%"></div>
+                          </div>
+                          <span>57.62%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.36%"></div>
+                          </div>
+                          <span>63.36%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.57%"></div>
+                          </div>
+                          <span>64.57%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-3.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 61.61%"></div>
+                          </div>
+                          <span>61.61%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 66.07%"></div>
+                          </div>
+                          <span>66.07%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 66.24%"></div>
+                          </div>
+                          <span>66.24%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 60.69%"></div>
+                          </div>
+                          <span>60.69%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/services/file-24.ts</td>
+                      <td>services</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 61.78%"></div>
+                          </div>
+                          <span>61.78%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.09%"></div>
+                          </div>
+                          <span>59.09%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 61.55%"></div>
+                          </div>
+                          <span>61.55%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 61.46%"></div>
+                          </div>
+                          <span>61.46%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-26.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.31%"></div>
+                          </div>
+                          <span>62.31%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 65.72%"></div>
+                          </div>
+                          <span>65.72%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 58.52%"></div>
+                          </div>
+                          <span>58.52%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.99%"></div>
+                          </div>
+                          <span>62.99%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-25.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 62.54%"></div>
+                          </div>
+                          <span>62.54%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 58.89%"></div>
+                          </div>
+                          <span>58.89%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.34%"></div>
+                          </div>
+                          <span>63.34%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 60.80%"></div>
+                          </div>
+                          <span>60.80%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-34.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.29%"></div>
+                          </div>
+                          <span>64.29%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 68.88%"></div>
+                          </div>
+                          <span>68.88%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 67.61%"></div>
+                          </div>
+                          <span>67.61%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-danger" 
+                                style="width: 59.93%"></div>
+                          </div>
+                          <span>59.93%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/lib/file-9.ts</td>
+                      <td>lib</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.89%"></div>
+                          </div>
+                          <span>64.89%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.11%"></div>
+                          </div>
+                          <span>64.11%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 66.36%"></div>
+                          </div>
+                          <span>66.36%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.67%"></div>
+                          </div>
+                          <span>64.67%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/api/file-48.ts</td>
+                      <td>api</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 65.56%"></div>
+                          </div>
+                          <span>65.56%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 67.78%"></div>
+                          </div>
+                          <span>67.78%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 65.02%"></div>
+                          </div>
+                          <span>65.02%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.29%"></div>
+                          </div>
+                          <span>63.29%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                    <tr>
+                      <td>src/context/file-33.ts</td>
+                      <td>context</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 65.56%"></div>
+                          </div>
+                          <span>65.56%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 68.18%"></div>
+                          </div>
+                          <span>68.18%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 64.83%"></div>
+                          </div>
+                          <span>64.83%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1 me-2">
+                            <div class="progress-bar bg-warning" 
+                                style="width: 63.17%"></div>
+                          </div>
+                          <span>63.17%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="my-4 text-center text-muted">
+      <small>Coverage Dashboard Demo - Generated 5/9/2025, 12:20:22 AM</small>
+    </footer>
+  </div>
+
+  <script>
+    // Historical coverage chart
+    const historyCtx = document.getElementById('historyChart').getContext('2d');
+    new Chart(historyCtx, {
+      type: 'line',
+      data: {
+        labels: ["2025-04-08","2025-04-09","2025-04-10","2025-04-11","2025-04-12","2025-04-13","2025-04-14","2025-04-15","2025-04-16","2025-04-17","2025-04-18","2025-04-19","2025-04-20","2025-04-21","2025-04-22","2025-04-23","2025-04-24","2025-04-25","2025-04-26","2025-04-27","2025-04-28","2025-04-29","2025-04-30","2025-05-01","2025-05-02","2025-05-03","2025-05-04","2025-05-05","2025-05-06","2025-05-07"],
+        datasets: [
+          {
+            label: 'Overall',
+            data: ["67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39","67.39"],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: 'Statements',
+            data: ["67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45","67.45"],
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'transparent',
+            tension: 0.4,
+            borderDash: [5, 5]
+          },
+          {
+            label: 'Functions',
+            data: ["68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89","68.89"],
+            borderColor: 'rgba(255, 159, 64, 1)',
+            backgroundColor: 'transparent',
+            tension: 0.4,
+            borderDash: [10, 5]
+          },
+          {
+            label: 'Branches',
+            data: ["66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06","66.06"],
+            borderColor: 'rgba(153, 102, 255, 1)',
+            backgroundColor: 'transparent',
+            tension: 0.4,
+            borderDash: [3, 3]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            ticks: {
+              callback: function(value) {
+                return value + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Module history chart
+    const moduleHistoryCtx = document.getElementById('moduleHistoryChart').getContext('2d');
+    new Chart(moduleHistoryCtx, {
+      type: 'line',
+      data: {
+        labels: ["2025-04-08","2025-04-09","2025-04-10","2025-04-11","2025-04-12","2025-04-13","2025-04-14","2025-04-15","2025-04-16","2025-04-17","2025-04-18","2025-04-19","2025-04-20","2025-04-21","2025-04-22","2025-04-23","2025-04-24","2025-04-25","2025-04-26","2025-04-27","2025-04-28","2025-04-29","2025-04-30","2025-05-01","2025-05-02","2025-05-03","2025-05-04","2025-05-05","2025-05-06","2025-05-07"],
+        datasets: [{"label":"services","data":["28.18","21.41","29.73","25.39","30.50","27.99","33.73","28.40","34.65","33.33","39.31","37.81","38.77","35.92","40.30","44.86","43.84","46.74","40.36","43.47","47.28","45.19","50.29","51.36","52.93","53.35","54.67","55.15","55.12","53.22"],"borderColor":"hsl(0, 70%, 60%)","backgroundColor":"transparent","tension":0.4},{"label":"api","data":["29.67","30.68","36.95","33.93","31.77","33.40","40.13","34.36","40.01","39.36","35.01","41.70","45.43","43.58","41.15","47.69","50.28","44.84","50.68","45.66","47.43","54.57","54.56","55.59","49.80","50.88","57.57","56.80","60.99","62.24"],"borderColor":"hsl(137, 70%, 60%)","backgroundColor":"transparent","tension":0.4},{"label":"lib","data":["34.37","32.53","40.18","36.63","37.28","38.88","43.53","43.03","44.25","45.67","43.07","49.29","49.37","48.75","49.04","51.59","46.05","49.97","55.21","50.58","55.34","52.97","59.65","55.32","63.88","62.84","58.80","61.24","62.94","64.58"],"borderColor":"hsl(274, 70%, 60%)","backgroundColor":"transparent","tension":0.4},{"label":"context","data":["47.51","49.62","45.07","49.41","47.18","45.39","47.21","53.10","56.59","56.04","52.67","55.32","58.90","60.28","61.05","60.60","60.12","66.89","63.60","65.05","65.74","64.06","62.17","72.28","72.56","69.21","66.87","73.22","71.76","74.80"],"borderColor":"hsl(51, 70%, 60%)","backgroundColor":"transparent","tension":0.4},{"label":"components","data":["48.07","51.25","47.96","57.59","55.19","56.90","56.63","57.29","53.33","57.28","59.20","64.67","58.51","66.61","60.73","68.61","62.11","70.90","72.97","71.53","67.90","73.35","72.82","76.56","76.23","76.70","76.92","75.55","73.55","81.43"],"borderColor":"hsl(188, 70%, 60%)","backgroundColor":"transparent","tension":0.4},{"label":"utils","data":["49.34","50.84","50.52","55.63","52.25","51.09","50.67","51.06","53.29","59.29","59.05","58.24","59.78","59.44","62.98","67.03","59.75","66.04","62.76","62.46","70.15","71.15","70.12","68.47","69.30","72.79","71.52","76.37","71.12","80.74"],"borderColor":"hsl(325, 70%, 60%)","backgroundColor":"transparent","tension":0.4},{"label":"hooks","data":["51.32","52.02","56.96","53.03","60.06","63.06","58.43","65.10","65.45","67.28","64.20","64.73","68.22","64.36","73.00","69.51","72.30","71.27","72.02","73.25","76.21","76.44","73.89","73.90","74.86","84.95","79.27","83.72","82.37","81.64"],"borderColor":"hsl(102, 70%, 60%)","backgroundColor":"transparent","tension":0.4}]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            ticks: {
+              callback: function(value) {
+                return value + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

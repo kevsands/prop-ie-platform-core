@@ -1,0 +1,109 @@
+{
+  "timestamp": "2025-06-18T19:45:59.820Z",
+  "tests": [
+    {
+      "name": "Basic Connection",
+      "startTime": "2025-06-18T19:45:59.821Z",
+      "status": "passed",
+      "result": {
+        "connected": true,
+        "serverTime": "2025-06-18T19:45:59.832Z",
+        "version": "PostgreSQL 14.17 (Homebrew) on aarch64-apple-darwin24.2.0, compiled by Apple clang version 16.0.0 (clang-1600.0.26.6), 64-bit"
+      },
+      "message": "✓ Basic Connection passed",
+      "endTime": "2025-06-18T19:45:59.833Z",
+      "duration": 12
+    },
+    {
+      "name": "Database Permissions",
+      "startTime": "2025-06-18T19:45:59.833Z",
+      "status": "passed",
+      "result": {
+        "permissions": {
+          "user": "postgres",
+          "database": "propie_dev",
+          "can_create": true,
+          "can_connect": true
+        },
+        "createTest": "passed"
+      },
+      "message": "✓ Database Permissions passed",
+      "endTime": "2025-06-18T19:45:59.856Z",
+      "duration": 23
+    },
+    {
+      "name": "Required Extensions",
+      "startTime": "2025-06-18T19:45:59.856Z",
+      "status": "passed",
+      "result": {
+        "uuid-ossp": {
+          "available": true,
+          "installedVersion": "1.1",
+          "defaultVersion": "1.1"
+        },
+        "pgcrypto": {
+          "available": true,
+          "installedVersion": "1.3",
+          "defaultVersion": "1.3"
+        },
+        "btree_gin": {
+          "available": true,
+          "installedVersion": "1.3",
+          "defaultVersion": "1.3"
+        }
+      },
+      "message": "✓ Required Extensions passed",
+      "endTime": "2025-06-18T19:45:59.884Z",
+      "duration": 28
+    },
+    {
+      "name": "Connection Pooling",
+      "startTime": "2025-06-18T19:45:59.884Z",
+      "status": "passed",
+      "result": {
+        "concurrentConnections": 3,
+        "connectionIds": [
+          {
+            "connection_id": "1",
+            "pid": 75607
+          },
+          {
+            "connection_id": "2",
+            "pid": 75608
+          },
+          {
+            "connection_id": "3",
+            "pid": 75609
+          }
+        ],
+        "poolStats": {
+          "totalCount": 3,
+          "idleCount": 3,
+          "waitingCount": 0
+        }
+      },
+      "message": "✓ Connection Pooling passed",
+      "endTime": "2025-06-18T19:45:59.890Z",
+      "duration": 6
+    },
+    {
+      "name": "Performance Check",
+      "startTime": "2025-06-18T19:45:59.890Z",
+      "status": "passed",
+      "result": {
+        "queryTime": "0.35ms",
+        "connectionTime": "3.20ms",
+        "acceptable": true
+      },
+      "message": "✓ Performance Check passed",
+      "endTime": "2025-06-18T19:45:59.900Z",
+      "duration": 10
+    }
+  ],
+  "overall": "all_tests_passed",
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+  }
+}

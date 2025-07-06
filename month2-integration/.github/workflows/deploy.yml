@@ -1,0 +1,224 @@
+name: Deploy PropIE AWS Platform
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Environment to deploy to'
+        required: true
+        default: 'development'
+        options:
+          - development
+          - staging
+          - production
+
+env:
+  NODE_VERSION: 18
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AMPLIFY_APP_ID: ${{ secrets.AMPLIFY_APP_ID }}
+  AMPLIFY_ROLE_ARN: ${{ secrets.AMPLIFY_ROLE_ARN }}
+
+jobs:
+  validate:
+    name: Validate Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run type checking
+        run: npm run type-check
+
+      - name: Run security checks
+        run: npm run security-check
+
+  test:
+    name: Run Tests
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run integration tests
+        run: npm run test:integration
+
+  build:
+    name: Build Application
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set environment variables
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "BUILD_ENV=production" >> $GITHUB_ENV
+            echo "DEPLOYMENT_ENVIRONMENT=production" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.environment }}" == "staging" ]]; then
+            echo "BUILD_ENV=staging" >> $GITHUB_ENV
+            echo "DEPLOYMENT_ENVIRONMENT=staging" >> $GITHUB_ENV
+          else
+            echo "BUILD_ENV=development" >> $GITHUB_ENV
+            echo "DEPLOYMENT_ENVIRONMENT=development" >> $GITHUB_ENV
+          fi
+
+      - name: Build application
+        run: npm run build:${{ env.BUILD_ENV }}
+        env:
+          NEXT_PUBLIC_AWS_REGION: ${{ secrets.AWS_REGION }}
+          NEXT_PUBLIC_COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
+          NEXT_PUBLIC_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
+          NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.GRAPHQL_ENDPOINT }}
+          NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+          NEXT_PUBLIC_S3_BUCKET: ${{ secrets.S3_BUCKET }}
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nextjs-build
+          path: .next/
+          retention-days: 1
+
+  deploy-infrastructure:
+    name: Deploy Infrastructure
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd infrastructure/cdk
+          npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set environment for deployment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "CDK_ENV=prod" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.environment }}" == "staging" ]]; then
+            echo "CDK_ENV=staging" >> $GITHUB_ENV
+          else
+            echo "CDK_ENV=dev" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy CDK infrastructure
+        run: |
+          cd infrastructure/cdk
+          npm run deploy:${{ env.CDK_ENV }}
+
+  deploy-application:
+    name: Deploy Application
+    needs: deploy-infrastructure
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: ${{ env.DEPLOYMENT_ENVIRONMENT }}
+      url: ${{ steps.deployment-url.outputs.url }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: nextjs-build
+          path: .next/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set environment for deployment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "DEPLOYMENT_BRANCH=production" >> $GITHUB_ENV
+            echo "DEPLOYMENT_URL=https://prop-ie-app.com" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.environment }}" == "staging" ]]; then
+            echo "DEPLOYMENT_BRANCH=staging" >> $GITHUB_ENV
+            echo "DEPLOYMENT_URL=https://staging.prop-ie-app.com" >> $GITHUB_ENV
+          else
+            echo "DEPLOYMENT_BRANCH=development" >> $GITHUB_ENV
+            echo "DEPLOYMENT_URL=https://dev.prop-ie-app.com" >> $GITHUB_ENV
+          fi
+
+      - name: Set deployment URL output
+        id: deployment-url
+        run: echo "url=${{ env.DEPLOYMENT_URL }}" >> $GITHUB_OUTPUT
+
+      - name: Deploy to AWS Amplify
+        run: |
+          aws amplify start-job \
+            --app-id ${{ env.AMPLIFY_APP_ID }} \
+            --branch-name ${{ env.DEPLOYMENT_BRANCH }} \
+            --job-type RELEASE
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
+            echo "Deployed to: ${{ env.DEPLOYMENT_URL }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Deployment Failed" >> $GITHUB_STEP_SUMMARY
+            echo "Please check the logs for more details." >> $GITHUB_STEP_SUMMARY
+          fi

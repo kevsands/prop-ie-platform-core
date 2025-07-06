@@ -1,0 +1,229 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+// Mock regulatory reports data
+const regulatoryReports = [
+  {
+    id: 'report-1',
+    templateId: 'template-1',
+    name: 'GDPR Monthly Compliance Report - November 2024',
+    regulation: 'GDPR',
+    type: 'MONTHLY',
+    status: 'IN_REVIEW',
+    period: 'November 2024',
+    createdDate: new Date('2024-11-25'),
+    dueDate: new Date('2024-12-01'),
+    submittedDate: null,
+    author: 'John Smith',
+    reviewer: 'Jane Doe',
+    approver: null,
+    completeness: 85,
+    fileSize: 1024 * 1024 * 2.5, // 2.5 MB
+    sections: [
+      {
+        title: 'Executive Summary',
+        status: 'COMPLETE',
+        completeness: 100
+      },
+      {
+        title: 'Data Processing Activities',
+        status: 'IN_PROGRESS',
+        completeness: 75
+      },
+      {
+        title: 'Incident Report',
+        status: 'PENDING',
+        completeness: 0
+      }
+    ],
+    submissionHistory: [
+      {
+        timestamp: new Date('2024-11-25T10:00:00'),
+        action: 'CREATED',
+        user: 'John Smith',
+        details: 'Report created from template'
+      },
+      {
+        timestamp: new Date('2024-11-26T14:30:00'),
+        action: 'UPDATED',
+        user: 'John Smith',
+        details: 'Added executive summary'
+      }
+    ]
+  },
+  {
+    id: 'report-2',
+    templateId: 'template-2',
+    name: 'AML Quarterly Report - Q3 2024',
+    regulation: 'AML',
+    type: 'QUARTERLY',
+    status: 'SUBMITTED',
+    period: 'Q3 2024',
+    createdDate: new Date('2024-10-01'),
+    dueDate: new Date('2024-10-15'),
+    submittedDate: new Date('2024-10-14'),
+    author: 'Sarah Johnson',
+    reviewer: 'Michael Brown',
+    approver: 'David Wilson',
+    completeness: 100,
+    fileSize: 1024 * 1024 * 5.2, // 5.2 MB
+    sections: [
+      {
+        title: 'Transaction Analysis',
+        status: 'COMPLETE',
+        completeness: 100
+      },
+      {
+        title: 'Suspicious Activities',
+        status: 'COMPLETE',
+        completeness: 100
+      },
+      {
+        title: 'Risk Assessment',
+        status: 'COMPLETE',
+        completeness: 100
+      }
+    ],
+    submissionHistory: [
+      {
+        timestamp: new Date('2024-10-01T09:00:00'),
+        action: 'CREATED',
+        user: 'Sarah Johnson',
+        details: 'Report created from template'
+      },
+      {
+        timestamp: new Date('2024-10-14T16:00:00'),
+        action: 'SUBMITTED',
+        user: 'David Wilson',
+        details: 'Report submitted to Central Bank'
+      },
+      {
+        timestamp: new Date('2024-10-15T10:00:00'),
+        action: 'ACCEPTED',
+        user: 'System',
+        details: 'Report accepted by regulatory authority'
+      }
+    ]
+  }
+];
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const regulation = searchParams.get('regulation');
+  const status = searchParams.get('status');
+  const period = searchParams.get('period');
+  const type = searchParams.get('type');
+  
+  let filtered = [...regulatoryReports];
+  
+  if (regulation) {
+    filtered = filtered.filter(report => report.regulation === regulation);
+  }
+  
+  if (status) {
+    filtered = filtered.filter(report => report.status === status);
+  }
+  
+  if (period) {
+    filtered = filtered.filter(report => report.period.includes(period));
+  }
+  
+  if (type) {
+    filtered = filtered.filter(report => report.type === type);
+  }
+  
+  return NextResponse.json(filtered);
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const newReport = {
+      id: `report-${Date.now()}`,
+      ...body,
+      createdDate: new Date(),
+      status: 'DRAFT',
+      completeness: 0,
+      fileSize: 0,
+      submissionHistory: [
+        {
+          timestamp: new Date(),
+          action: 'CREATED',
+          user: body.author,
+          details: 'Report created from template'
+        }
+      ]
+    };
+    
+    regulatoryReports.push(newReport);
+    
+    return NextResponse.json(newReport, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to create report' },
+      { status: 400 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { id, ...updates } = body;
+    
+    const reportIndex = regulatoryReports.findIndex(report => report.id === id);
+    if (reportIndex === -1) {
+      return NextResponse.json(
+        { error: 'Report not found' },
+        { status: 404 }
+      );
+    }
+    
+    const existingReport = regulatoryReports[reportIndex];
+    const updatedReport = {
+      ...existingReport,
+      ...updates,
+      submissionHistory: [
+        ...existingReport.submissionHistory,
+        {
+          timestamp: new Date(),
+          action: 'UPDATED',
+          user: updates.lastModifiedBy || 'System',
+          details: updates.updateDetails || 'Report updated'
+        }
+      ]
+    };
+    
+    regulatoryReports[reportIndex] = updatedReport;
+    
+    return NextResponse.json(updatedReport);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to update report' },
+      { status: 400 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  
+  if (!id) {
+    return NextResponse.json(
+      { error: 'Report ID required' },
+      { status: 400 }
+    );
+  }
+  
+  const reportIndex = regulatoryReports.findIndex(report => report.id === id);
+  if (reportIndex === -1) {
+    return NextResponse.json(
+      { error: 'Report not found' },
+      { status: 404 }
+    );
+  }
+  
+  const deletedReport = regulatoryReports.splice(reportIndex, 1)[0];
+  
+  return NextResponse.json(deletedReport);
+}

@@ -1,0 +1,33 @@
+{
+  "stripe": {
+    "mode": "test",
+    "publishableKey": "pk_test_staging_key_placeholder",
+    "secretKey": "sk_test_staging_key_placeholder",
+    "webhookSecret": "whsec_staging_placeholder",
+    "testCards": [
+      {
+        "number": "4242424242424242",
+        "description": "Successful payment test card"
+      },
+      {
+        "number": "4000000000000002",
+        "description": "Card declined test card"
+      },
+      {
+        "number": "4000000000009995",
+        "description": "Insufficient funds test card"
+      }
+    ]
+  },
+  "features": {
+    "autoConfirmPayments": true,
+    "simulateFailures": true,
+    "logAllTransactions": true,
+    "allowTestAmounts": true
+  },
+  "stagingSettings": {
+    "maxTestAmount": 100000,
+    "enableRefunds": true,
+    "simulateProcessingDelays": true
+  }
+}

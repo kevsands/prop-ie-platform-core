@@ -1,0 +1,6 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f0f4f8" />
+  <circle cx="150" cy="100" r="50" fill="#2B5273" opacity="0.2" />
+  <path d="M120,100 L180,100 M150,70 L150,130" stroke="#2B5273" stroke-width="4" stroke-linecap="round" />
+  <text x="150" y="170" text-anchor="middle" font-family="Arial" font-size="12" fill="#2B5273">Transaction Flow Visualization</text>
+</svg> 

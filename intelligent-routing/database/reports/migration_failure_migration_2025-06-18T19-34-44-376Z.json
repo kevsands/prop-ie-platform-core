@@ -1,0 +1,45 @@
+{
+  "migrationId": "migration_2025-06-18T19-34-44-376Z",
+  "status": "failed",
+  "failedPhase": "schema_creation",
+  "errors": [
+    {
+      "phase": "schema_creation",
+      "error": "CREATE INDEX CONCURRENTLY cannot run inside a transaction block",
+      "timestamp": "2025-06-18T19:34:44.621Z"
+    }
+  ],
+  "checkpoints": [
+    {
+      "phase": "safety_checks",
+      "description": "Running pre-migration safety verification",
+      "timestamp": "2025-06-18T19:34:44.382Z",
+      "success": true
+    },
+    {
+      "phase": "backup_creation",
+      "description": "Creating comprehensive safety backups",
+      "timestamp": "2025-06-18T19:34:44.392Z",
+      "success": true
+    },
+    {
+      "phase": "postgresql_testing",
+      "description": "Verifying PostgreSQL connection and capabilities",
+      "timestamp": "2025-06-18T19:34:44.426Z",
+      "success": true
+    },
+    {
+      "phase": "schema_creation",
+      "description": "Creating PostgreSQL enterprise schema",
+      "timestamp": "2025-06-18T19:34:44.523Z",
+      "success": false,
+      "error": "CREATE INDEX CONCURRENTLY cannot run inside a transaction block"
+    }
+  ],
+  "canRollback": true,
+  "rollbackInstructions": [
+    "SQLite database remains unchanged",
+    "No data has been migrated",
+    "Safe to retry after resolving errors"
+  ]
+}

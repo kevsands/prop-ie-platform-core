@@ -1,0 +1,110 @@
+# Claude Code VSCode Problem Resolution Configuration
+
+# API Configuration
+apiKey: ${ANTHROPIC_API_KEY}  # Can be left empty if set as environment variable
+model: "claude-3-7-sonnet-20250219"
+maxTokens: 4096
+temperature: 0.2
+
+# Fix Preferences
+maxChangesPerFix: 5
+requireApproval: true
+autoCommit: false
+createPullRequest: false
+
+# Categories to enable/disable
+enabledCategories: []
+disabledCategories: ["documentation"]
+
+# Verification steps
+reviewSteps:
+  runTests: true
+  runLinters: true
+  runBuild: true
+  validatePerformance: false
+
+# Prompt templates for different problem types
+promptTemplates:
+  default: |
+    # VSCode Problem Fix Request
+    
+    ## Problem Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Error**: {message}
+    
+    ## Code Context
+    ```
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix this error. Provide only the corrected code that should replace the problematic section.
+    
+  typescript: |
+    # TypeScript Error Fix Request
+    
+    ## Problem Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **TypeScript Error**: {message}
+    
+    ## Code Context
+    ```typescript
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix this TypeScript error. Analyze the surrounding code to understand the correct types and usage patterns.
+    Provide only the corrected code that should replace the problematic section.
+    
+    ## Important Guidelines
+    1. Make sure your solution maintains compatibility with existing code
+    2. Keep the same coding style as the original file
+    3. Don't add comments unless absolutely necessary
+    4. Focus on fixing the specific type error, don't refactor unrelated code
+    
+  eslint: |
+    # ESLint Fix Request
+    
+    ## Problem Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **ESLint Rule**: {message}
+    
+    ## Code Context
+    ```javascript
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix this ESLint issue. Provide only the corrected code that should replace the problematic section.
+    
+    ## Important Guidelines
+    1. Make minimal changes to fix just this specific issue
+    2. Follow the project's coding style
+    3. Don't disable ESLint rules with comments
+    4. Ensure the fix respects the intent of the ESLint rule
+    
+  react: |
+    # React Component Fix Request
+    
+    ## Problem Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Error**: {message}
+    
+    ## Code Context
+    ```jsx
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix this React component issue. Provide only the corrected code that should replace the problematic section.
+    
+    ## Important Guidelines
+    1. Respect React best practices and component lifecycle
+    2. Ensure props and state are handled correctly
+    3. Maintain the component's existing functionality
+    4. Preserve the component's performance characteristics
+    5. Keep React hooks rules in mind (if hooks are used)

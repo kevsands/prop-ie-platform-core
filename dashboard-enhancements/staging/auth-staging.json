@@ -1,0 +1,44 @@
+{
+  "provider": "mock-auth",
+  "mode": "staging",
+  "allowedDomains": [
+    "staging.prop.ie",
+    "localhost:3000"
+  ],
+  "mockUsers": [
+    {
+      "id": "staging-buyer-1",
+      "email": "buyer.test@staging.prop.ie",
+      "role": "first-time-buyer",
+      "profile": "Complete buyer journey testing"
+    },
+    {
+      "id": "staging-developer-1",
+      "email": "developer.test@staging.prop.ie",
+      "role": "developer",
+      "profile": "Developer portal testing"
+    },
+    {
+      "id": "staging-agent-1",
+      "email": "agent.test@staging.prop.ie",
+      "role": "estate-agent",
+      "profile": "Agent workflow testing"
+    },
+    {
+      "id": "staging-admin-1",
+      "email": "admin.test@staging.prop.ie",
+      "role": "admin",
+      "profile": "Full admin access testing"
+    }
+  ],
+  "sessionConfig": {
+    "maxAge": 86400000,
+    "secure": false,
+    "sameSite": "lax"
+  },
+  "features": {
+    "autoLogin": true,
+    "skipEmailVerification": true,
+    "allowRoleSwitch": true
+  }
+}

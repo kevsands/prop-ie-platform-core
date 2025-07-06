@@ -1,0 +1,326 @@
+# Claude Code VSCode Problem Resolver Configuration
+# Enterprise-grade configuration for automated problem resolution
+
+# Claude Code configuration
+claude:
+  apiKey: ${ANTHROPIC_API_KEY}  # Will use environment variable if not specified
+  model: "claude-3-7-sonnet-20250219"  # Model to use
+  maxTokens: 4096  # Maximum tokens for Claude responses
+  temperature: 0.2  # Temperature for Claude responses
+  systemPrompt: |
+    You're Claude Code, an AI pair programmer. Your task is to fix the specified code issue.
+    Focus on:
+    1. Understanding the root cause of the problem
+    2. Providing a minimally invasive fix that follows best practices
+    3. Explaining your solution clearly
+    4. Ensuring backward compatibility where possible
+    5. Following the project's coding standards and patterns
+
+# Problem categorization and prioritization
+categories:
+  enabled: []  # Empty means all categories are enabled
+  disabled:  # Categories to skip
+    - documentation
+    - style
+  priority:  # Adjust base priority for categories (higher number = higher priority)
+    security: 100
+    accessibility: 90 
+    errors: 90
+    typescript: 80
+    build: 80
+    performance: 70
+    warnings: 60
+    testing: 50
+    hints: 40
+
+# File patterns to include/exclude
+files:
+  include:
+    - "src/**/*.{ts,tsx,js,jsx}"
+    - "lib/**/*.{ts,tsx,js,jsx}"
+  exclude:
+    - "**/*.test.{ts,tsx,js,jsx}"
+    - "**/*.spec.{ts,tsx,js,jsx}"
+    - "**/node_modules/**"
+    - "**/dist/**"
+    - "**/build/**"
+
+# Fix generation settings
+fixes:
+  maxChangesPerFix: 5  # Maximum number of files to change in a single fix
+  requireApproval: true  # Whether to require manual approval before applying fixes
+  autoCommit: false  # Whether to automatically commit fixes
+  createPullRequest: false  # Whether to create a pull request for fixes
+  maxFixAttempts: 3  # Maximum number of fix attempts per problem
+  batchSimilarProblems: true  # Whether to batch similar problems together
+  autoSkipAfterFailures: true  # Whether to auto-skip after multiple failures
+
+# Verification settings
+verification:
+  runTests: true  # Whether to run tests after fixes
+  runLinters: true  # Whether to run linters after fixes
+  runBuild: true  # Whether to run build after fixes
+  validatePerformance: false  # Whether to validate performance after fixes
+  testCommand: "npm test"  # Command to run tests
+  lintCommand: "npm run lint"  # Command to run linters
+  buildCommand: "npm run build"  # Command to run build
+  timeoutSeconds: 300  # Timeout for verification commands
+  allowNewWarnings: false  # Whether to allow new warnings after fixes
+  failOnNewProblems: true  # Whether to fail if new problems are introduced
+  custom:  # Custom verification steps
+    - name: "Schema Validation"
+      command: "npm run validate-schema"
+      failOnError: true
+    - name: "API Integration Tests"
+      command: "npm run test:api"
+      failOnError: false
+
+# Prompt templates for different problem categories
+promptTemplates:
+  general: |
+    # VSCode Problem Fix Request
+    
+    ## Problem Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Severity**: {severity}
+    - **Source**: {source}
+    - **Code**: {code}
+    - **Message**: {message}
+    
+    ## Code Context
+    ```{language}
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix the problem described above. Provide a clear explanation of the issue and your solution, then the exact code changes needed.
+    Format your solution as follows:
+    
+    1. **Problem Analysis**: Explain what's causing the problem
+    2. **Solution Approach**: Describe your approach to fixing it
+    3. **Code Changes**: For each file that needs to be modified, provide:
+    
+    ```
+    FILE: path/to/file.ext
+    ```{language}
+    // Complete updated file content
+    ```
+    ```
+    
+    If multiple files need changes, provide each one separately following the format above.
+  
+  typescript: |
+    # TypeScript Error Fix Request
+    
+    ## Error Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Error Code**: TS{code}
+    - **Message**: {message}
+    
+    ## Code Context
+    ```typescript
+    {surrounding_code}
+    ```
+    
+    ## Related Type Definitions
+    {related_types}
+    
+    ## Task
+    Please fix this TypeScript error. Explain the root cause of the type error and provide a type-safe solution that follows TypeScript best practices.
+    
+    Format your solution as follows:
+    
+    1. **Problem Analysis**: Explain what's causing the type error
+    2. **Solution Approach**: Describe your approach to fixing it
+    3. **Code Changes**: For each file that needs to be modified, provide:
+    
+    ```
+    FILE: path/to/file.ext
+    ```typescript
+    // Complete updated file content
+    ```
+    ```
+
+  eslint: |
+    # ESLint Issue Fix Request
+    
+    ## Issue Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Rule**: {code}
+    - **Message**: {message}
+    
+    ## Code Context
+    ```javascript
+    {surrounding_code}
+    ```
+    
+    ## ESLint Configuration
+    ```json
+    {eslint_config}
+    ```
+    
+    ## Task
+    Please fix this ESLint issue. Explain the purpose of the rule and provide a fix that adheres to the project's coding standards.
+
+  security: |
+    # Security Vulnerability Fix Request
+    
+    ## Vulnerability Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Severity**: {severity}
+    - **Type**: {code}
+    - **Description**: {message}
+    
+    ## Code Context
+    ```{language}
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix this security vulnerability. Explain the security implications of the current code and provide a secure solution that follows security best practices.
+    
+    Your fix should:
+    1. Eliminate the vulnerability
+    2. Maintain the existing functionality
+    3. Follow the principle of least privilege
+    4. Include proper input validation and sanitization if applicable
+    5. Add appropriate comments explaining the security considerations
+
+  performance: |
+    # Performance Issue Fix Request
+    
+    ## Issue Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **Type**: {code}
+    - **Description**: {message}
+    
+    ## Code Context
+    ```{language}
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please optimize this code to address the performance issue. Explain the performance implications of the current code and provide an optimized solution.
+    
+    Your optimization should:
+    1. Improve performance (time/space complexity)
+    2. Maintain the same functionality and output
+    3. Remain readable and maintainable
+    4. Include comments explaining the performance benefits
+
+  accessibility: |
+    # Accessibility Issue Fix Request
+    
+    ## Issue Details
+    - **File**: {file_name}
+    - **Location**: {range}
+    - **WCAG Guideline**: {code}
+    - **Description**: {message}
+    
+    ## Code Context
+    ```{language}
+    {surrounding_code}
+    ```
+    
+    ## Task
+    Please fix this accessibility issue. Explain the accessibility implications and provide a solution that follows WCAG guidelines and accessibility best practices.
+
+# Version control integration
+versionControl:
+  git:
+    enabled: true  # Whether to use git
+    branchPrefix: "fix/"  # Prefix for automatically created branches
+    commitMessageTemplate: "fix({category}): {message}"  # Template for commit messages
+    pushToRemote: false  # Whether to push to remote
+    createPullRequest: false  # Whether to create a pull request
+    pullRequestTemplate: |
+      ## Description
+      
+      This PR addresses the following VSCode problems:
+      
+      {problem_summary}
+      
+      ## Changes
+      
+      {change_summary}
+      
+      ## Verification
+      
+      {verification_summary}
+      
+      Automatically generated using Claude Code VSCode Problem Resolver.
+
+# CI/CD pipeline integration
+ci:
+  enabled: false  # Whether to integrate with CI/CD pipelines
+  nonInteractive: true  # Whether to run in non-interactive mode
+  exitCodeOnFailure: 1  # Exit code to return on failure
+  reportPath: "claude-resolver-report.json"  # Path to write report for CI systems
+  artifactsPath: "claude-resolver-artifacts"  # Path to write artifacts for CI systems
+  uploadBackups: true  # Whether to upload backups as artifacts
+  maxProblemsToFix: 100  # Maximum number of problems to fix in CI mode
+  timeoutMinutes: 30  # Overall timeout in minutes for CI mode
+
+# Logging and output
+logging:
+  level: "info"  # Log level (debug, info, warn, error)
+  file: "claude-resolver.log"  # Log file path
+  format: "json"  # Log format (json, text)
+  console: true  # Whether to log to console
+  colorize: true  # Whether to colorize console output
+  includeTimestamp: true  # Whether to include timestamp in logs
+  rotation:
+    enabled: true  # Whether to rotate logs
+    maxFiles: 5  # Maximum number of log files to keep
+    maxSize: "10MB"  # Maximum size of each log file
+
+# Reporting
+reporting:
+  enabled: true  # Whether to generate reports
+  format: "markdown"  # Report format (markdown, html, json)
+  detailedFixInformation: true  # Whether to include detailed fix information
+  includeUnfixedProblems: true  # Whether to include unfixed problems in report
+  problemSummaryLength: 100  # Maximum length of problem summaries
+
+# Safety mechanisms
+safety:
+  createBackups: true  # Whether to create backups before applying fixes
+  backupLocation: "./backups"  # Location to store backups
+  rollbackOnFailure: true  # Whether to roll back on verification failure
+  maxConcurrent: 1  # Maximum number of problems to fix concurrently
+  fileChangeLimit: 20  # Maximum number of files to change in a single run
+  excludeCriticalFiles:  # Files that should never be modified
+    - "package.json"
+    - "package-lock.json"
+    - ".env*"
+    - "*.config.js"
+  requireApprovalFor:  # Categories that always require approval
+    - "security"
+    - "build"
+  timeoutMinutes: 60  # Overall timeout in minutes
+
+# Advanced features
+advanced:
+  cachePrompts: true  # Whether to cache prompts
+  cacheSolutions: true  # Whether to cache solutions for similar problems
+  cacheLocation: "./.claude-resolver-cache"  # Location to store cache
+  cacheMaxAge: 604800  # Cache max age in seconds (1 week)
+  telemetry:
+    enabled: false  # Whether to collect anonymous usage statistics
+    endpoint: "https://telemetry.example.com/collect"  # Telemetry endpoint
+  preprocessors:  # Custom preprocessors to run before resolving problems
+    - name: "dependency-analyzer"
+      path: "./scripts/dependency-analyzer.js"
+  postprocessors:  # Custom postprocessors to run after resolving problems
+    - name: "quality-checker"
+      path: "./scripts/quality-checker.js"
+  hooks:  # Custom hooks
+    beforeFix: "./scripts/before-fix.js"
+    afterFix: "./scripts/after-fix.js"
+    beforeVerification: "./scripts/before-verification.js"
+    afterVerification: "./scripts/after-verification.js"

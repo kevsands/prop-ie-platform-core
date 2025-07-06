@@ -1,0 +1,42 @@
+{
+  "healthChecks": {
+    "interval": 60000,
+    "endpoints": [
+      "/api/health",
+      "/api/health/database",
+      "/api/auth/session",
+      "/buyer/first-time-buyers/welcome",
+      "/developer/overview"
+    ],
+    "alertThreshold": 3
+  },
+  "performance": {
+    "responseTimeWarning": 3000,
+    "responseTimeCritical": 5000,
+    "errorRateWarning": 10,
+    "errorRateCritical": 25
+  },
+  "logging": {
+    "level": "debug",
+    "destinations": [
+      "console",
+      "file",
+      "staging-analytics"
+    ],
+    "retention": "7 days",
+    "structuredLogging": true
+  },
+  "alerts": {
+    "email": [
+      "staging-alerts@prop.ie"
+    ],
+    "slack": "#staging-alerts",
+    "webhook": "https://staging.prop.ie/api/alerts/webhook"
+  },
+  "stagingSpecific": {
+    "testDataTracking": true,
+    "userJourneyMonitoring": true,
+    "performanceBaselines": true,
+    "errorPatternAnalysis": true
+  }
+}

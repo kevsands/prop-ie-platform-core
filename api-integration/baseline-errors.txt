@@ -1,0 +1,29 @@
+src/components/developer/MicrosoftIntegration.tsx(466,12): error TS1005: ')' expected.
+src/components/developer/MicrosoftIntegration.tsx(467,3): error TS1128: Declaration or statement expected.
+src/components/developer/MicrosoftIntegration.tsx(468,1): error TS1128: Declaration or statement expected.
+src/components/pages/Page.tsx(26,6): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/pages/Page.tsx(231,8): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/pages/Page.tsx(232,10): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/pages/Page.tsx(287,12): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/pages/Page.tsx(289,16): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/pages/Page.tsx(298,18): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/pages/Page.tsx(304,20): error TS17008: JSX element 'ul' has no corresponding closing tag.
+src/components/pages/Page.tsx(317,22): error TS17008: JSX element 'li' has no corresponding closing tag.
+src/components/pages/Page.tsx(318,24): error TS17008: JSX element 'svg' has no corresponding closing tag.
+src/components/pages/Page.tsx(320,73): error TS1002: Unterminated string literal.
+src/components/pages/Page.tsx(320,73): error TS1005: '</' expected.
+src/components/property/PropertyReservation.tsx(133,6): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/property/PropertyReservation.tsx(217,8): error TS17008: JSX element 'form' has no corresponding closing tag.
+src/components/property/PropertyReservation.tsx(304,12): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/property/PropertyReservation.tsx(394,14): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/components/property/PropertyReservation.tsx(397,73): error TS1002: Unterminated string literal.
+src/components/property/PropertyReservation.tsx(397,73): error TS1005: '</' expected.
+src/lib/amplify-data.ts(430,10): error TS1005: ')' expected.
+src/lib/amplify-data.ts(430,20): error TS1434: Unexpected keyword or identifier.
+src/lib/amplify-data.ts(430,24): error TS1434: Unexpected keyword or identifier.
+src/lib/amplify-data.ts(430,27): error TS1434: Unexpected keyword or identifier.
+src/lib/amplify-data.ts(430,43): error TS1005: ';' expected.
+src/lib/amplify-data.ts(430,48): error TS1434: Unexpected keyword or identifier.
+src/lib/amplify-data.ts(430,55): error TS1434: Unexpected keyword or identifier.
+src/lib/amplify-data.ts(430,72): error TS1005: ';' expected.
+src/lib/amplify-data.ts(430,73): error TS1005: '}' expected.

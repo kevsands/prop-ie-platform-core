@@ -1,0 +1,1279 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import * as THREE from "three";
+
+// --- Mock Data (replace with actual data fetching/management) ---
+interface Development {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  image: string;
+  status?:
+    | "Selling Fast"
+    | "New Release"
+    | "Launching Soon"
+    | "Completed"
+    | "Future";
+  statusColor?: string;
+}
+
+interface Property {
+  id: string;
+  development: string;
+  title: string;
+  price: number;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  image: string;
+  isNew?: boolean;
+  isReduced?: boolean;
+}
+
+const mockDevelopments: Development[] = [
+  {
+    id: "fitzgerald-gardens",
+    name: "Fitzgerald Gardens",
+    description: "Luxury homes in a prime location",
+    location: "North Drogheda",
+    image: "/images/developments/fitzgerald-gardens/hero.jpg",
+    status: "Selling Fast",
+    statusColor: "green",
+  },
+  {
+    id: "riverside-manor",
+    name: "Riverside Manor",
+    description: "Waterfront apartments with stunning views",
+    location: "South Drogheda",
+    image: "/images/developments/riverside-manor/hero.jpg",
+    status: "New Release",
+    statusColor: "blue",
+  },
+  {
+    id: "meadow-heights",
+    name: "Meadow Heights",
+    description: "Spacious family houses near amenities",
+    location: "West Drogheda",
+    image: "/images/developments/meadow-heights/hero.jpg",
+    status: "Launching Soon",
+    statusColor: "yellow",
+  },
+  {
+    id: "harbour-view",
+    name: "Harbour View",
+    description: "Modern townhouses close to the coast",
+    location: "East Drogheda",
+    image: "/images/developments/harbour-view/hero.jpg",
+    status: "Completed",
+    statusColor: "gray",
+  },
+  {
+    id: "bayside-villas",
+    name: "Bayside Villas",
+    description: "Exclusive coastal properties",
+    location: "Coastal",
+    image: "/images/developments/placeholder-dev-2.jpg",
+    status: "Future",
+    statusColor: "purple",
+  },
+];
+
+const mockProperties: Property[] = [
+  {
+    id: "prop-fg-101",
+    development: "Fitzgerald Gardens",
+    title: "3 Bed Semi-Detached",
+    price: 385000,
+    bedrooms: 3,
+    bathrooms: 3,
+    area: 110,
+    image: "/images/properties/fg101.jpg",
+    isNew: true,
+    isReduced: false,
+  },
+  {
+    id: "prop-fg-105",
+    development: "Fitzgerald Gardens",
+    title: "4 Bed Detached",
+    price: 450000,
+    bedrooms: 4,
+    bathrooms: 4,
+    area: 140,
+    image: "/images/properties/fg105.jpg",
+    isNew: true,
+    isReduced: false,
+  },
+  {
+    id: "prop-rm-203",
+    development: "Riverside Manor",
+    title: "2 Bed Apartment",
+    price: 295000,
+    bedrooms: 2,
+    bathrooms: 2,
+    area: 85,
+    image: "/images/properties/rm203.jpg",
+    isNew: false,
+    isReduced: true,
+  },
+  {
+    id: "prop-mh-301",
+    development: "Meadow Heights",
+    title: "3 Bed Terrace",
+    price: 350000,
+    bedrooms: 3,
+    bathrooms: 2,
+    area: 100,
+    image: "/images/properties/mh301.jpg",
+    isNew: false,
+    isReduced: false,
+  },
+  {
+    id: "prop-fg-110",
+    development: "Fitzgerald Gardens",
+    title: "3 Bed Semi-Detached",
+    price: 380000,
+    bedrooms: 3,
+    bathrooms: 3,
+    area: 110,
+    image: "/images/properties/fg101.jpg",
+    isNew: false,
+    isReduced: true,
+  },
+  {
+    id: "prop-rm-208",
+    development: "Riverside Manor",
+    title: "2 Bed Apartment",
+    price: 300000,
+    bedrooms: 2,
+    bathrooms: 2,
+    area: 85,
+    image: "/images/properties/rm203.jpg",
+    isNew: true,
+    isReduced: false,
+  },
+  {
+    id: "prop-mh-305",
+    development: "Meadow Heights",
+    title: "3 Bed Semi-Detached",
+    price: 365000,
+    bedrooms: 3,
+    bathrooms: 2,
+    area: 105,
+    image: "/images/properties/mh301.jpg",
+    isNew: false,
+    isReduced: false,
+  },
+  {
+    id: "prop-hv-401",
+    development: "Harbour View",
+    title: "4 Bed Townhouse",
+    price: 410000,
+    bedrooms: 4,
+    bathrooms: 3,
+    area: 125,
+    image: "/images/properties/hv401.jpg",
+    isNew: true,
+    isReduced: false,
+  },
+  {
+    id: "prop-fg-115",
+    development: "Fitzgerald Gardens",
+    title: "4 Bed Detached",
+    price: 445000,
+    bedrooms: 4,
+    bathrooms: 4,
+    area: 140,
+    image: "/images/properties/fg105.jpg",
+    isNew: false,
+    isReduced: false,
+  },
+];
+
+const getFeaturedDevelopments = () => mockDevelopments.slice(0, 4);
+const getFeaturedProperties = () => mockProperties.slice(0, 6);
+
+export default function HomePage() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("buyers");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const featuredDevelopments: Development[] = getFeaturedDevelopments();
+  const featuredProperties: Property[] = getFeaturedProperties();
+
+  // Simulate loading state for better UX
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Helper function to format price in Euro currency
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-IE", {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  // Helper function to get Tailwind color class based on status
+  const getStatusColorClass = (statusColor: string | undefined) => {
+    switch (statusColor) {
+      case "green":
+        return "bg-green-500";
+      case "blue":
+        return "bg-blue-500";
+      case "yellow":
+        return "bg-yellow-500";
+      case "gray":
+        return "bg-gray-500";
+      case "purple":
+        return "bg-purple-500";
+      default:
+        return "bg-gray-500"; // Default color
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2B5273]"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white text-gray-900">
+      {/* Hero Section with Navigation */}
+      <div className="relative bg-gray-900 h-[80vh] flex items-center">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero-background-drogheda.jpg"
+            alt="Drogheda Property Background"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+        </div>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1E3142]/80 to-[#2B5273]/60"></div>
+
+        {/* Navigation */}
+        <header className="absolute top-0 left-0 right-0 z-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <div className="flex items-center">
+                <Link
+                  href="/"
+                  className="text-white font-bold text-2xl"
+                  aria-label="Prop.ie Home"
+                >
+                  Prop.ie
+                </Link>
+              </div>
+
+              {/* Desktop Navigation */}
+              <nav
+                className="hidden md:flex items-center space-x-8"
+                aria-label="Main Navigation"
+              >
+                <Link
+                  href="/properties"
+                  className="text-white hover:text-gray-200 transition-colors"
+                >
+                  Properties
+                </Link>
+                <Link
+                  href="/developments"
+                  className="text-white hover:text-gray-200 transition-colors"
+                >
+                  Developments
+                </Link>
+                <Link
+                  href="/about"
+                  className="text-white hover:text-gray-200 transition-colors"
+                >
+                  About Us
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-white hover:text-gray-200 transition-colors"
+                >
+                  Contact
+                </Link>
+                <Link
+                  href="/login"
+                  className="text-white hover:text-gray-200 transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="bg-white text-[#2B5273] px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  Register
+                </Link>
+              </nav>
+
+              {/* Mobile Navigation Button */}
+              <button
+                type="button"
+                className="md:hidden text-white"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-expanded={isMenuOpen}
+                aria-label="Toggle navigation menu"
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Navigation Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden bg-white shadow-lg absolute top-full inset-x-0 z-20">
+              <nav
+                className="px-2 pt-2 pb-3 space-y-1 sm:px-3"
+                aria-label="Mobile Navigation"
+              >
+                <Link
+                  href="/properties"
+                  className="block px-3 py-2 text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Properties
+                </Link>
+                <Link
+                  href="/developments"
+                  className="block px-3 py-2 text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Developments
+                </Link>
+                <Link
+                  href="/about"
+                  className="block px-3 py-2 text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  About Us
+                </Link>
+                <Link
+                  href="/contact"
+                  className="block px-3 py-2 text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+                <Link
+                  href="/login"
+                  className="block px-3 py-2 text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="block px-3 py-2 bg-[#2B5273] text-white rounded-md transition-colors text-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Register
+                </Link>
+              </nav>
+            </div>
+          )}
+        </header>
+
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              Find Your Dream Home in Drogheda
+            </h1>
+            <p className="mt-4 text-xl text-white/90">
+              Discover exceptional properties in premium locations with our
+              expert guidance.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <button
+                onClick={() => router.push("/developments")}
+                className="bg-white text-[#2B5273] px-6 py-3 rounded-md hover:bg-gray-100 transition-colors text-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+              >
+                Explore Developments
+              </button>
+              <button
+                onClick={() => router.push("/register")}
+                className="bg-[#2B5273] text-white px-6 py-3 rounded-md hover:bg-[#1E3142] transition-colors text-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
+              >
+                Register Interest
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search Section */}
+      <section aria-labelledby="search-heading" className="bg-white py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow-xl p-6 -mt-20 md:-mt-24 relative z-10">
+            <h2
+              id="search-heading"
+              className="text-2xl font-bold text-gray-900 mb-6"
+            >
+              Find Your New Home
+            </h2>
+            <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div>
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Location
+                </label>
+                <select
+                  id="location"
+                  name="location"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#2B5273] focus:border-[#2B5273]"
+                >
+                  <option value="">All Locations</option>
+                  <option value="drogheda-north">North Drogheda</option>
+                  <option value="drogheda-south">South Drogheda</option>
+                  <option value="drogheda-east">East Drogheda</option>
+                  <option value="drogheda-west">West Drogheda</option>
+                  <option value="coastal">Coastal</option>
+                  <option value="outskirts">Outskirts</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="bedrooms"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Bedrooms
+                </label>
+                <select
+                  id="bedrooms"
+                  name="bedrooms"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#2B5273] focus:border-[#2B5273]"
+                >
+                  <option value="">Any</option>
+                  <option value="1">1+</option>
+                  <option value="2">2+</option>
+                  <option value="3">3+</option>
+                  <option value="4">4+</option>
+                  <option value="5">5+</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="priceRange"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Price Range
+                </label>
+                <select
+                  id="priceRange"
+                  name="priceRange"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#2B5273] focus:border-[#2B5273]"
+                >
+                  <option value="">Any</option>
+                  <option value="0-300000">Up to €300,000</option>
+                  <option value="300000-400000">€300,000 - €400,000</option>
+                  <option value="400000-500000">€400,000 - €500,000</option>
+                  <option value="500000+">€500,000+</option>
+                </select>
+              </div>
+
+              <div className="flex items-end">
+                <button
+                  type="submit"
+                  className="w-full bg-[#2B5273] text-white px-4 py-2 rounded-md hover:bg-[#1E3142] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
+                  aria-label="Search properties"
+                >
+                  Search Properties
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Communities Section */}
+      <section
+        aria-labelledby="our-communities-heading"
+        className="py-16 bg-white"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2
+              id="our-communities-heading"
+              className="text-3xl font-bold text-gray-900"
+            >
+              Our Communities
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              Discover our premium new developments in Drogheda and surrounding
+              areas
+            </p>
+          </div>
+
+          {/* Development Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredDevelopments.map((development) => (
+              <Link
+                key={development.id}
+                href={`/developments/${development.id}`}
+                className="block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow group"
+              >
+                <div className="relative h-48 sm:h-56">
+                  <Image
+                    src={development.image}
+                    alt={development.name}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    className="rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {development.status && (
+                    <div
+                      className={`absolute top-4 left-4 ${getStatusColorClass(development.statusColor)} text-white text-xs px-3 py-1 rounded-md uppercase font-semibold`}
+                    >
+                      {development.status}
+                    </div>
+                  )}
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">
+                    {development.name}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-3">
+                    {development.description} • {development.location}
+                  </p>
+                  <div className="text-[#2B5273] font-medium group-hover:underline transition-colors">
+                    View Development →
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/developments"
+              className="inline-flex items-center px-6 py-3 border border-[#2B5273] text-[#2B5273] rounded-md hover:bg-[#2B5273] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
+            >
+              View All Developments
+              <svg
+                className="ml-2 h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Properties Section */}
+      <section
+        aria-labelledby="featured-properties-heading"
+        className="py-16 bg-gray-50"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2
+              id="featured-properties-heading"
+              className="text-3xl font-bold text-gray-900"
+            >
+              Featured Properties
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              Discover a selection of premium properties available now
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredProperties.map((property) => (
+              <div
+                key={property.id}
+                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="relative h-56">
+                  <Image
+                    src={property.image}
+                    alt={property.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    className="rounded-t-lg"
+                  />
+                  {property.isNew && (
+                    <div className="absolute top-4 left-4 bg-[#2B5273] text-white px-3 py-1 rounded-md text-sm font-medium">
+                      New
+                    </div>
+                  )}
+                  {property.isReduced && (
+                    <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+                      Price Reduced
+                    </div>
+                  )}
+                </div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <span className="text-sm text-[#2B5273] font-medium">
+                        {property.development}
+                      </span>
+                      <h3 className="text-xl font-bold text-gray-900 mt-1">
+                        {property.title}
+                      </h3>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xl font-bold text-[#2B5273]">
+                        {formatPrice(property.price)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-gray-600 text-sm">
+                    <div className="flex space-x-4">
+                      <div className="flex items-center">
+                        <svg
+                          className="h-5 w-5 text-gray-400 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                          />
+                        </svg>
+                        <span>{property.bedrooms} bed</span>
+                      </div>
+                      <div className="flex items-center">
+                        <svg
+                          className="h-5 w-5 text-gray-400 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                          />
+                        </svg>
+                        <span>{property.bathrooms} bath</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-gray-400 mr-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                        />
+                      </svg>
+                      <span>{property.area} m²</span>
+                    </div>
+                  </div>
+                  <div className="mt-6">
+                    <Link
+                      href={`/properties/${property.id}`}
+                      className="block w-full bg-[#2B5273] text-white text-center px-4 py-2 rounded-md hover:bg-[#1E3142] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
+                      aria-label={`View details for ${property.title} in ${property.development}`}
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/properties"
+              className="inline-flex items-center px-6 py-3 border border-[#2B5273] text-[#2B5273] rounded-md hover:bg-[#2B5273] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
+            >
+              View All Properties
+              <svg
+                className="ml-2 h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section aria-labelledby="about-us-heading" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2
+                id="about-us-heading"
+                className="text-3xl font-bold text-gray-900 mb-6"
+              >
+                About Property Developments
+              </h2>
+              <p className="text-lg text-gray-600 mb-4">
+                With over 25 years of experience in the Irish property market,
+                we're committed to creating exceptional homes in thriving
+                communities across Drogheda and the surrounding areas.
+              </p>
+              <p className="text-lg text-gray-600 mb-6">
+                Our developments are built to the highest standards, combining
+                quality craftsmanship, sustainable design and thoughtful
+                planning to create homes that our customers love. We prioritize
+                locations with excellent amenities and connectivity.
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center text-[#2B5273] font-medium hover:underline transition-colors"
+              >
+                Learn more about us
+                <svg
+                  className="ml-2 h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </Link>
+            </div>
+            <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-xl">
+              <Image
+                src="/images/about-image-placeholder.jpg"
+                alt="Our projects overview"
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section
+        aria-labelledby="testimonials-heading"
+        className="py-16 bg-gray-50"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2
+              id="testimonials-heading"
+              className="text-3xl font-bold text-gray-900"
+            >
+              What Our Customers Say
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              Hear from the families who have made our developments their home
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-gray-300 mr-4 flex-shrink-0"></div>
+                <div>
+                  <h3 className="font-medium text-gray-900">
+                    David & Sarah Murphy
+                  </h3>
+                  <p className="text-gray-600 text-sm">Meadow Heights</p>
+                </div>
+              </div>
+              <p className="text-gray-700 flex-grow">
+                "We couldn't be happier with our new home at Meadow Heights. The
+                quality of the build is excellent, and the location is perfect
+                for our family. The entire process from viewing to moving in was
+                smooth and professional. Highly recommend!"
+              </p>
+              <div className="flex mt-4">
+                {[...Array(5)].map((_, i) => (
+                  <svg
+                    key={i}
+                    className="h-5 w-5 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-gray-300 mr-4 flex-shrink-0"></div>
+                <div>
+                  <h3 className="font-medium text-gray-900">
+                    John & Emma O'Brien
+                  </h3>
+                  <p className="text-gray-600 text-sm">Riverside Manor</p>
+                </div>
+              </div>
+              <p className="text-gray-700 flex-grow">
+                "The quality of construction and attention to detail in our
+                apartment is exceptional. The riverside views are stunning, and
+                the community atmosphere is exactly what we were looking for.
+                We've recommended Property Developments to all our friends."
+              </p>
+              <div className="flex mt-4">
+                {[...Array(5)].map((_, i) => (
+                  <svg
+                    key={i}
+                    className="h-5 w-5 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-gray-300 mr-4 flex-shrink-0"></div>
+                <div>
+                  <h3 className="font-medium text-gray-900">
+                    Michael & Lisa Kelly
+                  </h3>
+                  <p className="text-gray-600 text-sm">Harbour View</p>
+                </div>
+              </div>
+              <p className="text-gray-700 flex-grow">
+                "Moving into our Harbour View townhouse has been a dream come
+                true. The energy efficiency of the home has kept our bills
+                surprisingly low, and the location near the coast is perfect.
+                The sales team was helpful and transparent throughout the
+                process. Highly satisfied."
+              </p>
+              <div className="flex mt-4">
+                {[...Array(5)].map((_, i) => (
+                  <svg
+                    key={i}
+                    className="h-5 w-5 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section aria-labelledby="features-heading" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2
+              id="features-heading"
+              className="text-3xl font-bold text-gray-900"
+            >
+              Why Choose Our Properties
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              We build homes with quality, sustainability and community in mind
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-[#2B5273] rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="h-6 w-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Quality Construction
+              </h3>
+              <p className="text-gray-600">
+                Our homes are built to the highest standards using premium
+                materials and skilled craftsmanship. Each property undergoes
+                rigorous quality checks throughout the build process to ensure
+                durability and finish.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-[#2B5273] rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="h-6 w-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Energy Efficient
+              </h3>
+              <p className="text-gray-600">
+                All our new homes achieve excellent BER ratings, with
+                energy-efficient features like solar panels, high-performance
+                insulation, and smart heating systems to reduce your carbon
+                footprint and energy bills.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-[#2B5273] rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="h-6 w-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Prime Locations
+              </h3>
+              <p className="text-gray-600">
+                Our developments are carefully selected in desirable locations
+                with access to schools, transportation, shopping, and leisure
+                facilities, making everyday life more convenient for residents.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* User Type Tabs Section */}
+      <section aria-labelledby="user-types-heading" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2
+              id="user-types-heading"
+              className="text-3xl font-bold text-gray-900"
+            >
+              How Prop.ie Works For You
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              Tailored solutions for every stakeholder in the property journey
+            </p>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex justify-center mb-8 overflow-x-auto">
+            <div className="border border-gray-200 rounded-lg flex flex-wrap md:flex-nowrap">
+              <button
+                className={`px-4 sm:px-6 py-3 text-base sm:text-lg font-medium ${
+                  activeTab === "buyers"
+                    ? "bg-[#2B5273] text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                } rounded-l-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
+                onClick={() => setActiveTab("buyers")}
+                aria-pressed={activeTab === "buyers"}
+                aria-label="Show information for buyers"
+              >
+                For Buyers
+              </button>
+              <button
+                className={`px-4 sm:px-6 py-3 text-base sm:text-lg font-medium ${
+                  activeTab === "investors"
+                    ? "bg-[#2B5273] text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
+                onClick={() => setActiveTab("investors")}
+                aria-pressed={activeTab === "investors"}
+                aria-label="Show information for investors"
+              >
+                For Investors
+              </button>
+              <button
+                className={`px-4 sm:px-6 py-3 text-base sm:text-lg font-medium ${
+                  activeTab === "developers"
+                    ? "bg-[#2B5273] text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
+                onClick={() => setActiveTab("developers")}
+                aria-pressed={activeTab === "developers"}
+                aria-label="Show information for developers"
+              >
+                For Developers
+              </button>
+              <button
+                className={`px-4 sm:px-6 py-3 text-base sm:text-lg font-medium ${
+                  activeTab === "agents"
+                    ? "bg-[#2B5273] text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                } transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
+                onClick={() => setActiveTab("agents")}
+                aria-pressed={activeTab === "agents"}
+                aria-label="Show information for agents"
+              >
+                For Agents
+              </button>
+              <button
+                className={`px-4 sm:px-6 py-3 text-base sm:text-lg font-medium ${
+                  activeTab === "solicitors"
+                    ? "bg-[#2B5273] text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                } rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273] whitespace-nowrap`}
+                onClick={() => setActiveTab("solicitors")}
+                aria-pressed={activeTab === "solicitors"}
+                aria-label="Show information for solicitors"
+              >
+                For Solicitors
+              </button>
+            </div>
+          </div>
+
+          {/* Tab Content */}
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            {activeTab === "buyers" && (
+              <div className="md:flex">
+                <div className="md:flex-shrink-0 relative h-64 md:h-auto md:w-1/2 bg-gray-100 flex items-center justify-center p-4">
+                  <Image
+                    src="/images/buyer-illustration-placeholder.svg"
+                    alt="Illustration of a person looking at houses"
+                    width={300}
+                    height={300}
+                    className="object-contain max-h-full max-w-full"
+                  />
+                </div>
+                <div className="p-8 md:w-1/2">
+                  <div className="uppercase tracking-wide text-sm text-[#2B5273] font-semibold">
+                    For Home Buyers
+                  </div>
+                  <h3 className="mt-1 text-2xl font-semibold text-gray-900">
+                    Find Your Dream Home
+                  </h3>
+                  <p className="mt-4 text-gray-600">
+                    Prop.ie makes buying your new home easier than ever:
+                  </p>
+                  <ul className="mt-4 space-y-3 text-gray-700">
+                    <li className="flex items-start">
+                      <svg
+                        className="h-6 w-6 text-green-500 mr-2 flex-shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span>
+                        Browse detailed property listings with interactive site
+                        maps
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="h-6 w-6 text-green-500 mr-2 flex-shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span>
+                        Customize your interior finishes before construction is
+                        complete
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="h-6 w-6 text-green-500 mr-2 flex-shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span>
+                        Integrated Help-to-Buy application and tracking
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="h-6 w-6 text-green-500 mr-2 flex-shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span>
+                        Secure document management for all your purchase
+                        paperwork
+                      </span>
+                    </li>
+                  </ul>
+                  <div className="mt-6">
+                    <Link
+                      href="/buyer/register"
+                      className="inline-flex items-center px-4 py-2 bg-[#2B5273] text-white rounded-md hover:bg-[#1E3142] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2B5273]"
+                    >
+                      Register as a Buyer
+                      <svg
+                        className="ml-2 h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Other tab contents - Investors, Developers, Agents, Solicitors */}
+            {/* Similar structure as the buyers tab */}
+            {/* Add other tab content here as needed */}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section aria-labelledby="cta-heading" className="py-16 bg-[#2B5273]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 id="cta-heading" className="text-3xl font-bold text-white">
+            Ready to Find Your Dream Home?
+          </h2>
+          <p className="mt-4 text-xl text-white/90 max-w-3xl mx-auto">
+            Register today to get exclusive access to new property releases,
+            customization options, and stay updated on our latest developments.
+          </p>
+          <div className="mt-8">
+            <button
+              onClick={() => router.push("/register")}
+              className="bg-white text-[#2B5273] px-6 py-3 rounded-md hover:bg-gray-100 transition-colors text-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+              aria-label="Register for an account"
+            >
+              Register Now
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

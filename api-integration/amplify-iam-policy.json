@@ -1,0 +1,24 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "amplify:*",
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:PassRole",
+        "iam:GetRole",
+        "cloudformation:*",
+        "s3:*",
+        "lambda:*",
+        "apigateway:*",
+        "cognito-idp:*",
+        "cognito-identity:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

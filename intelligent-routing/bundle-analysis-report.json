@@ -1,0 +1,82 @@
+{
+  "timestamp": "2025-06-19T13:16:46.913Z",
+  "reports": [
+    {
+      "name": "client.html",
+      "size": "2068.51 KB",
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/analyze/client.html",
+      "exists": true
+    },
+    {
+      "name": "nodejs.html",
+      "size": "2874.95 KB",
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/analyze/nodejs.html",
+      "exists": true
+    },
+    {
+      "name": "edge.html",
+      "size": "346.64 KB",
+      "path": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.next/analyze/edge.html",
+      "exists": true
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Code Splitting",
+      "title": "Implement Dynamic Imports",
+      "description": "Use dynamic imports for large components and routes to reduce initial bundle size",
+      "implementation": "\n// Example: Dynamic import for heavy components\nconst HeavyComponent = dynamic(() => import('@/components/heavy/Component'), {\n  loading: () => <div>Loading...</div>,\n  ssr: false\n});\n\n// Route-level code splitting\nconst AdminDashboard = dynamic(() => import('@/app/admin/dashboard'));\n      ",
+      "estimatedSavings": "20-30% initial bundle size"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Bundle Optimization",
+      "title": "Optimize Heavy Dependencies",
+      "description": "Replace or optimize large dependencies",
+      "recommendations": [
+        "Replace moment.js with date-fns (smaller footprint)",
+        "Use tree-shaking for lodash imports",
+        "Consider lighter alternatives for chart libraries",
+        "Optimize Three.js imports to only include used modules"
+      ],
+      "estimatedSavings": "15-25% bundle size"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Asset Optimization",
+      "title": "Image and Asset Optimization",
+      "description": "Implement next/image optimization and asset compression",
+      "implementation": "\n// Use Next.js Image component\nimport Image from 'next/image';\n\n// Implement WebP format with fallbacks\n// Use responsive images with multiple sizes\n// Implement lazy loading for below-fold images\n      ",
+      "estimatedSavings": "40-60% image file sizes"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Performance",
+      "title": "Implement Caching Strategy",
+      "description": "Add strategic caching for API responses and static content",
+      "implementation": "\n// Service Worker for asset caching\n// Redis for API response caching\n// Browser caching headers optimization\n// CDN integration for static assets\n      ",
+      "estimatedSavings": "50-80% load time improvement"
+    },
+    {
+      "priority": "LOW",
+      "category": "Development",
+      "title": "Clean Up Unused Code",
+      "description": "Remove unused imports, components, and dependencies",
+      "recommendations": [
+        "Run eslint with unused-imports plugin",
+        "Use webpack-bundle-analyzer to identify unused code",
+        "Remove dev dependencies from production builds",
+        "Clean up console.log statements"
+      ],
+      "estimatedSavings": "5-10% bundle size"
+    }
+  ],
+  "summary": {
+    "totalReports": 3,
+    "highPriorityRecommendations": 2,
+    "mediumPriorityRecommendations": 2,
+    "lowPriorityRecommendations": 1,
+    "estimatedImprovementPotential": "35-50% performance improvement"
+  }
+}

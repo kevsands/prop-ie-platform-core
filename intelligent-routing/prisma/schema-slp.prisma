@@ -1,0 +1,134 @@
+// This is your Prisma schema file for SLP components
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/slp-client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id              String           @id @default(uuid())
+  name            String
+  description     String?
+  developerId     String
+  status          ProjectStatus    @default(ACTIVE)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  slpComponents   SLPComponent[]
+  transactions    Transaction[]
+}
+
+model SLPComponent {
+  id              String           @id @default(uuid())
+  projectId       String
+  name            String
+  description     String
+  required        Boolean          @default(true)
+  status          ComponentStatus  @default(PENDING)
+  uploadedBy      String?
+  uploadedAt      DateTime?
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  documentId      String?
+  documentUrl     String?
+  notes           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  project         Project          @relation(fields: [projectId], references: [id])
+  changeHistory   SLPHistory[]
+}
+
+model SLPHistory {
+  id              String           @id @default(uuid())
+  componentId     String
+  action          String
+  performedBy     String
+  performedAt     DateTime         @default(now())
+  oldStatus       ComponentStatus?
+  newStatus       ComponentStatus?
+  notes           String?
+  
+  component       SLPComponent     @relation(fields: [componentId], references: [id])
+}
+
+model Transaction {
+  id              String           @id @default(uuid())
+  projectId       String
+  buyerId         String
+  status          TransactionStatus @default(INITIATED)
+  startedAt       DateTime         @default(now())
+  completedAt     DateTime?
+  
+  project         Project          @relation(fields: [projectId], references: [id])
+  milestones      Milestone[]
+  participants    Participant[]
+}
+
+model Milestone {
+  id              String           @id @default(uuid())
+  transactionId   String
+  name            String
+  description     String?
+  status          MilestoneStatus  @default(PENDING)
+  dueDate         DateTime?
+  completedAt     DateTime?
+  
+  transaction     Transaction      @relation(fields: [transactionId], references: [id])
+}
+
+model Participant {
+  id              String           @id @default(uuid())
+  transactionId   String
+  userId          String
+  role            ParticipantRole
+  joinedAt        DateTime         @default(now())
+  
+  transaction     Transaction      @relation(fields: [transactionId], references: [id])
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+enum ComponentStatus {
+  PENDING
+  UPLOADED
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum TransactionStatus {
+  INITIATED
+  OFFER_MADE
+  OFFER_ACCEPTED
+  CONTRACTS_EXCHANGED
+  COMPLETED
+  CANCELLED
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
+}
+
+enum ParticipantRole {
+  BUYER
+  SELLER
+  BUYER_SOLICITOR
+  SELLER_SOLICITOR
+  AGENT
+  DEVELOPER
+}

@@ -1,0 +1,220 @@
+{
+  "timestamp": "2025-06-19T13:17:50.474Z",
+  "summary": {
+    "totalIndexes": 16,
+    "queryOptimizations": 3,
+    "cachingStrategies": 4,
+    "estimatedImprovements": {
+      "querySpeed": "60-80% faster",
+      "concurrentUsers": "5x more",
+      "responseTime": "50-70% reduction"
+    }
+  },
+  "indexes": [
+    {
+      "table": "User",
+      "columns": [
+        "email"
+      ],
+      "type": "UNIQUE",
+      "name": "idx_user_email",
+      "rationale": "Fast user lookup by email for authentication"
+    },
+    {
+      "table": "User",
+      "columns": [
+        "role",
+        "status"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_user_role_status",
+      "rationale": "Query users by role and status efficiently"
+    },
+    {
+      "table": "Property",
+      "columns": [
+        "developerId",
+        "status"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_property_developer_status",
+      "rationale": "Fast property queries by developer and availability"
+    },
+    {
+      "table": "Property",
+      "columns": [
+        "priceMin",
+        "priceMax"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_property_price_range",
+      "rationale": "Efficient price range queries"
+    },
+    {
+      "table": "Property",
+      "columns": [
+        "location",
+        "propertyType"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_property_location_type",
+      "rationale": "Location and type filtering"
+    },
+    {
+      "table": "Transaction",
+      "columns": [
+        "buyerId"
+      ],
+      "type": "INDEX",
+      "name": "idx_transaction_buyer",
+      "rationale": "Fast buyer transaction lookup"
+    },
+    {
+      "table": "Transaction",
+      "columns": [
+        "propertyId"
+      ],
+      "type": "INDEX",
+      "name": "idx_transaction_property",
+      "rationale": "Property transaction history"
+    },
+    {
+      "table": "Transaction",
+      "columns": [
+        "status",
+        "createdAt"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_transaction_status_date",
+      "rationale": "Transaction monitoring and reporting"
+    },
+    {
+      "table": "HTBApplication",
+      "columns": [
+        "buyerId"
+      ],
+      "type": "INDEX",
+      "name": "idx_htb_buyer",
+      "rationale": "Fast HTB application lookup by buyer"
+    },
+    {
+      "table": "HTBApplication",
+      "columns": [
+        "status",
+        "submittedAt"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_htb_status_date",
+      "rationale": "HTB application processing and reporting"
+    },
+    {
+      "table": "Task",
+      "columns": [
+        "assignedTo",
+        "status"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_task_assigned_status",
+      "rationale": "User task dashboard queries"
+    },
+    {
+      "table": "Task",
+      "columns": [
+        "milestone",
+        "dueDate"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_task_milestone_due",
+      "rationale": "Milestone tracking and deadline monitoring"
+    },
+    {
+      "table": "Message",
+      "columns": [
+        "conversationId",
+        "createdAt"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_message_conversation_date",
+      "rationale": "Message chronological retrieval"
+    },
+    {
+      "table": "Message",
+      "columns": [
+        "senderId"
+      ],
+      "type": "INDEX",
+      "name": "idx_message_sender",
+      "rationale": "User message history"
+    },
+    {
+      "table": "Document",
+      "columns": [
+        "uploadedBy",
+        "createdAt"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_document_uploader_date",
+      "rationale": "User document history"
+    },
+    {
+      "table": "Document",
+      "columns": [
+        "associatedWith",
+        "documentType"
+      ],
+      "type": "COMPOSITE",
+      "name": "idx_document_association_type",
+      "rationale": "Document categorization and retrieval"
+    }
+  ],
+  "queryOptimizations": [
+    {
+      "name": "Paginated Property Search",
+      "before": "SELECT * FROM Property WHERE location LIKE ?",
+      "after": "SELECT * FROM Property USE INDEX (idx_property_location_type) WHERE location = ? AND propertyType = ? LIMIT ? OFFSET ?",
+      "improvement": "Use exact matches and proper indexing"
+    },
+    {
+      "name": "User Dashboard Tasks",
+      "before": "SELECT * FROM Task WHERE assignedTo = ?",
+      "after": "SELECT * FROM Task USE INDEX (idx_task_assigned_status) WHERE assignedTo = ? AND status IN (?, ?) ORDER BY dueDate ASC",
+      "improvement": "Filter by status and order by due date"
+    },
+    {
+      "name": "Transaction History",
+      "before": "SELECT * FROM Transaction WHERE buyerId = ? ORDER BY createdAt DESC",
+      "after": "SELECT * FROM Transaction USE INDEX (idx_transaction_buyer) WHERE buyerId = ? ORDER BY createdAt DESC LIMIT ?",
+      "improvement": "Add limit for pagination"
+    }
+  ],
+  "caching": [
+    {
+      "name": "Property Search Results",
+      "key": "property:search:{location}:{type}:{page}",
+      "ttl": "15 minutes",
+      "invalidation": "On property updates"
+    },
+    {
+      "name": "User Profile Data",
+      "key": "user:profile:{userId}",
+      "ttl": "30 minutes",
+      "invalidation": "On profile updates"
+    },
+    {
+      "name": "HTB Application Status",
+      "key": "htb:status:{applicationId}",
+      "ttl": "5 minutes",
+      "invalidation": "On status changes"
+    },
+    {
+      "name": "Task Counts by User",
+      "key": "task:counts:{userId}",
+      "ttl": "10 minutes",
+      "invalidation": "On task updates"
+    }
+  ],
+  "files": {
+    "postgresql": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/optimize-postgresql.sql",
+    "sqlite": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/optimize-sqlite.sql"
+  }
+}

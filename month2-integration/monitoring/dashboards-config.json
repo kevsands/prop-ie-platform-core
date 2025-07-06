@@ -1,0 +1,38 @@
+{
+  "operations": {
+    "name": "PROP.ie Operations Dashboard",
+    "panels": [
+      "System Health Overview",
+      "Response Time Trends",
+      "Error Rate Monitoring",
+      "Request Volume",
+      "Database Performance",
+      "Payment Processing Status"
+    ],
+    "refreshInterval": 30000
+  },
+  "business": {
+    "name": "PROP.ie Business Metrics",
+    "panels": [
+      "User Registration Rate",
+      "Property Search Volume",
+      "Transaction Value",
+      "Geographic Usage Distribution",
+      "Feature Adoption Metrics",
+      "Revenue Tracking"
+    ],
+    "refreshInterval": 300000
+  },
+  "security": {
+    "name": "PROP.ie Security Dashboard",
+    "panels": [
+      "Authentication Attempts",
+      "Failed Login Monitoring",
+      "Rate Limiting Triggers",
+      "Security Alerts",
+      "Suspicious Activity Detection",
+      "API Abuse Monitoring"
+    ],
+    "refreshInterval": 60000
+  }
+}

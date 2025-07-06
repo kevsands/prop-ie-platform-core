@@ -1,0 +1,411 @@
+// Enhanced schema additions for comprehensive project management
+// Including company details, development phases, and enhanced unit management
+
+// ======= ENHANCED ENUMS =======
+
+enum PhaseStatus {
+  PLANNED
+  IN_PROGRESS  
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+enum CompanyType {
+  LIMITED_COMPANY
+  PLC
+  LLP
+  PARTNERSHIP
+  SOLE_TRADER
+  CHARITY
+  OTHER
+}
+
+enum VATStatus {
+  REGISTERED
+  NOT_REGISTERED
+  EXEMPT
+  PENDING
+}
+
+// ======= COMPANY & DEVELOPER INFORMATION =======
+
+model DeveloperCompany {
+  id                    String            @id @default(cuid())
+  
+  // Basic Company Information
+  name                  String
+  tradingName           String?
+  companyType           CompanyType
+  registrationNumber    String?           // CRO Number in Ireland
+  vatNumber             String?
+  vatStatus             VATStatus         @default(NOT_REGISTERED)
+  
+  // Address Information
+  registeredAddress     Address           @relation("RegisteredAddress", fields: [registeredAddressId], references: [id])
+  registeredAddressId   String
+  tradingAddress        Address?          @relation("TradingAddress", fields: [tradingAddressId], references: [id])
+  tradingAddressId      String?
+  
+  // Contact Information
+  primaryEmail          String
+  secondaryEmail        String?
+  primaryPhone          String
+  secondaryPhone        String?
+  website               String?
+  
+  // Financial Information
+  authorizedShare       Decimal?          @db.Decimal(12, 2)
+  issuedShare          Decimal?          @db.Decimal(12, 2)
+  currency             String            @default("EUR")
+  
+  // Key Personnel
+  directors            CompanyDirector[]
+  secretary            CompanySecretary[]
+  
+  // Compliance & Certifications
+  insurancePolicyNumber String?
+  insuranceProvider     String?
+  insuranceExpiry       DateTime?
+  professionalIndemnity Decimal?          @db.Decimal(12, 2)
+  publicLiability       Decimal?          @db.Decimal(12, 2)
+  
+  // Banking Information
+  bankName              String?
+  bankAddress           String?
+  accountName           String?
+  accountNumber         String?
+  sortCode              String?
+  iban                  String?
+  swift                 String?
+  
+  // Operational Information
+  establishedDate       DateTime?
+  yearEnd               String?           // MM-DD format
+  accountingPeriod      String?
+  
+  // Relations
+  developments          Development[]     @relation("CompanyDevelopments")
+  projects              DevelopmentProject[]
+  
+  // Metadata
+  created               DateTime          @default(now())
+  updated               DateTime          @updatedAt
+  isActive              Boolean           @default(true)
+  notes                 String?           @db.Text
+  
+  @@map("developer_companies")
+}
+
+model Address {
+  id              String    @id @default(cuid())
+  line1           String
+  line2           String?
+  line3           String?
+  city            String
+  county          String?
+  postcode        String?
+  country         String    @default("Ireland")
+  
+  // GPS Coordinates
+  latitude        Decimal?  @db.Decimal(10, 8)
+  longitude       Decimal?  @db.Decimal(11, 8)
+  
+  // Relations
+  registeredCompanies DeveloperCompany[] @relation("RegisteredAddress")
+  tradingCompanies    DeveloperCompany[] @relation("TradingAddress")
+  developmentLocation Development[]      @relation("DevelopmentAddress")
+  
+  created         DateTime  @default(now())
+  updated         DateTime  @updatedAt
+  
+  @@map("addresses")
+}
+
+model CompanyDirector {
+  id               String           @id @default(cuid())
+  company          DeveloperCompany @relation(fields: [companyId], references: [id])
+  companyId        String
+  
+  firstName        String
+  lastName         String
+  middleName       String?
+  title            String?
+  
+  // Director Information
+  directorSince    DateTime
+  directorType     String           @default("DIRECTOR") // DIRECTOR, MANAGING_DIRECTOR, EXECUTIVE, NON_EXECUTIVE
+  ppsNumber        String?
+  nationality      String?
+  
+  // Contact Information
+  email            String?
+  phone            String?
+  address          String?          @db.Text
+  
+  // Status
+  isActive         Boolean          @default(true)
+  resignedDate     DateTime?
+  
+  created          DateTime         @default(now())
+  updated          DateTime         @updatedAt
+  
+  @@map("company_directors")
+}
+
+model CompanySecretary {
+  id               String           @id @default(cuid())
+  company          DeveloperCompany @relation(fields: [companyId], references: [id])
+  companyId        String
+  
+  firstName        String
+  lastName         String
+  email            String?
+  phone            String?
+  
+  appointedDate    DateTime
+  resignedDate     DateTime?
+  isActive         Boolean          @default(true)
+  
+  created          DateTime         @default(now())
+  updated          DateTime         @updatedAt
+  
+  @@map("company_secretaries")
+}
+
+// ======= ENHANCED DEVELOPMENT PHASES =======
+
+model DevelopmentProject {
+  id               String              @id @default(cuid())
+  
+  // Link to existing Development
+  development      Development?        @relation(fields: [developmentId], references: [id])
+  developmentId    String?
+  
+  // Link to Company
+  company          DeveloperCompany    @relation(fields: [companyId], references: [id])
+  companyId        String
+  
+  // Project Information
+  name             String
+  description      String?             @db.Text
+  projectCode      String?             @unique
+  
+  // Project Phases
+  phases           ProjectPhase[]
+  
+  // Overall Project Details
+  totalEstimatedCost   Decimal?        @db.Decimal(12, 2)
+  totalEstimatedUnits  Int?
+  planningReference    String?
+  planningStatus       String?
+  
+  // Timeline
+  estimatedStartDate   DateTime?
+  estimatedEndDate     DateTime?
+  actualStartDate      DateTime?
+  actualEndDate        DateTime?
+  
+  // Status and Progress
+  overallStatus        ProjectStatus   @default(ACTIVE)
+  completionPercentage Int             @default(0)
+  
+  created              DateTime        @default(now())
+  updated              DateTime        @updatedAt
+  
+  @@map("development_projects")
+}
+
+model ProjectPhase {
+  id                   String              @id @default(cuid())
+  project              DevelopmentProject  @relation(fields: [projectId], references: [id])
+  projectId            String
+  
+  // Phase Information
+  name                 String
+  description          String?             @db.Text
+  phaseNumber          Int
+  orderIndex           Int                 @default(0)
+  
+  // Phase Details
+  estimatedUnits       Int?
+  plannedUnits         Int?
+  completedUnits       Int                 @default(0)
+  availableForSale     Int                 @default(0)
+  
+  // Financial Information
+  estimatedCost        Decimal?            @db.Decimal(12, 2)
+  actualCost           Decimal?            @db.Decimal(12, 2)
+  estimatedSalesValue  Decimal?            @db.Decimal(12, 2)
+  
+  // Timeline
+  estimatedStartDate   DateTime?
+  estimatedEndDate     DateTime?
+  actualStartDate      DateTime?
+  actualEndDate        DateTime?
+  
+  // Status and Progress
+  status               PhaseStatus         @default(PLANNED)
+  completionPercentage Int                 @default(0)
+  
+  // Phase-specific Units
+  units                Unit[]              @relation("PhaseUnits")
+  
+  // Milestones and Tasks
+  milestones           PhaseMilestone[]
+  
+  // Dependencies
+  dependencies         PhaseDependency[]   @relation("DependentPhase")
+  dependents           PhaseDependency[]   @relation("PrecedingPhase")
+  
+  created              DateTime            @default(now())
+  updated              DateTime            @updatedAt
+  
+  @@map("project_phases")
+}
+
+model PhaseMilestone {
+  id              String           @id @default(cuid())
+  phase           ProjectPhase     @relation(fields: [phaseId], references: [id])
+  phaseId         String
+  
+  name            String
+  description     String?          @db.Text
+  category        String?          // PLANNING, CONSTRUCTION, SALES, LEGAL, etc.
+  
+  // Timeline
+  targetDate      DateTime
+  actualDate      DateTime?
+  
+  // Status
+  status          MilestoneStatus  @default(PENDING)
+  completionPercentage Int         @default(0)
+  
+  // Dependencies
+  dependencies    String[]         // Array of milestone IDs
+  
+  // Assignee
+  assignedTo      String?
+  
+  created         DateTime         @default(now())
+  updated         DateTime         @updatedAt
+  
+  @@map("phase_milestones")
+}
+
+model PhaseDependency {
+  id                  String       @id @default(cuid())
+  dependentPhase      ProjectPhase @relation("DependentPhase", fields: [dependentPhaseId], references: [id])
+  dependentPhaseId    String
+  precedingPhase      ProjectPhase @relation("PrecedingPhase", fields: [precedingPhaseId], references: [id])
+  precedingPhaseId    String
+  
+  dependencyType      String       @default("FINISH_TO_START") // FINISH_TO_START, START_TO_START, FINISH_TO_FINISH, START_TO_FINISH
+  lagTime             Int?         // Days
+  
+  created             DateTime     @default(now())
+  
+  @@unique([dependentPhaseId, precedingPhaseId])
+  @@map("phase_dependencies")
+}
+
+// ======= ENHANCED UNIT MANAGEMENT =======
+
+model EnhancedUnit {
+  id                  String           @id @default(cuid())
+  
+  // Link to existing Unit model
+  originalUnit        Unit?            @relation(fields: [originalUnitId], references: [id])
+  originalUnitId      String?          @unique
+  
+  // Phase Association
+  phase               ProjectPhase?    @relation("PhaseUnits", fields: [phaseId], references: [id])
+  phaseId             String?
+  
+  // Enhanced Unit Information
+  unitNumber          String
+  block               String?
+  floor               Int?
+  unitTypeDetailed    String
+  
+  // Specifications
+  bedrooms            Int
+  bathrooms           Int
+  balconies           Int              @default(0)
+  parking             Int              @default(0)
+  storage             Boolean          @default(false)
+  
+  // Areas (in square meters)
+  floorArea           Decimal          @db.Decimal(8, 2)
+  balconyArea         Decimal?         @db.Decimal(8, 2)
+  terrace Area        Decimal?         @db.Decimal(8, 2)
+  totalArea           Decimal          @db.Decimal(8, 2)
+  
+  // Pricing
+  basePrice           Decimal          @db.Decimal(12, 2)
+  currentPrice        Decimal          @db.Decimal(12, 2)
+  currency            String           @default("EUR")
+  
+  // Pricing History
+  priceHistory        UnitPriceHistory[]
+  
+  // Features and Specifications
+  features            String[]
+  appliances          String[]
+  finishes            Json?            // Detailed finish specifications
+  
+  // Orientation and Views
+  orientation         String?          // NORTH, SOUTH, EAST, WEST, etc.
+  views               String[]         // SEA, MOUNTAIN, GARDEN, etc.
+  
+  // Status and Availability
+  status              UnitStatus       @default(PLANNED)
+  availability        UnitAvailability?
+  
+  // Sales Information
+  sales               Sale[]           @relation("EnhancedUnitSales")
+  
+  created             DateTime         @default(now())
+  updated             DateTime         @updatedAt
+  
+  @@map("enhanced_units")
+}
+
+model UnitPriceHistory {
+  id              String       @id @default(cuid())
+  unit            EnhancedUnit @relation(fields: [unitId], references: [id])
+  unitId          String
+  
+  oldPrice        Decimal      @db.Decimal(12, 2)
+  newPrice        Decimal      @db.Decimal(12, 2)
+  reason          String?      // MARKET_ADJUSTMENT, PROMOTION, INCENTIVE, etc.
+  changedBy       String       // User ID
+  
+  effectiveFrom   DateTime
+  created         DateTime     @default(now())
+  
+  @@map("unit_price_history")
+}
+
+model UnitAvailability {
+  id                  String       @id @default(cuid())
+  unit                EnhancedUnit @relation(fields: [unitId], references: [id])
+  unitId              String       @unique
+  
+  isAvailable         Boolean      @default(true)
+  availableFrom       DateTime?
+  reservedUntil       DateTime?
+  
+  // Restrictions
+  reservationRequired Boolean      @default(false)
+  minimumDeposit      Decimal?     @db.Decimal(12, 2)
+  
+  // Marketing
+  isFeatured          Boolean      @default(false)
+  isPromoted          Boolean      @default(false)
+  promotionDetails    String?      @db.Text
+  
+  updated             DateTime     @updatedAt
+  
+  @@map("unit_availability")
+}

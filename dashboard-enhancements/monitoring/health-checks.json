@@ -1,0 +1,43 @@
+{
+  "checks": [
+    {
+      "name": "Application Health",
+      "endpoint": "/api/health",
+      "method": "GET",
+      "expectedStatus": 200,
+      "timeout": 5000
+    },
+    {
+      "name": "Database Connectivity",
+      "endpoint": "/api/health/database",
+      "method": "GET",
+      "expectedStatus": 200,
+      "timeout": 10000
+    },
+    {
+      "name": "Payment Processing",
+      "endpoint": "/api/health/payments",
+      "method": "GET",
+      "expectedStatus": 200,
+      "timeout": 8000
+    },
+    {
+      "name": "Authentication Service",
+      "endpoint": "/api/auth/session",
+      "method": "GET",
+      "expectedStatus": 200,
+      "timeout": 5000
+    },
+    {
+      "name": "Real-time Services",
+      "endpoint": "/api/realtime",
+      "method": "GET",
+      "expectedStatus": 200,
+      "timeout": 5000
+    }
+  ],
+  "schedule": "*/30 * * * * *",
+  "alertOnFailure": true,
+  "retryAttempts": 3,
+  "escalationDelay": 300000
+}

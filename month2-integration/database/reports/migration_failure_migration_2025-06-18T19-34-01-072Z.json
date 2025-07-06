@@ -1,0 +1,45 @@
+{
+  "migrationId": "migration_2025-06-18T19-34-01-072Z",
+  "status": "failed",
+  "failedPhase": "schema_creation",
+  "errors": [
+    {
+      "phase": "schema_creation",
+      "error": "role \"authenticated_user\" does not exist",
+      "timestamp": "2025-06-18T19:34:01.414Z"
+    }
+  ],
+  "checkpoints": [
+    {
+      "phase": "safety_checks",
+      "description": "Running pre-migration safety verification",
+      "timestamp": "2025-06-18T19:34:01.079Z",
+      "success": true
+    },
+    {
+      "phase": "backup_creation",
+      "description": "Creating comprehensive safety backups",
+      "timestamp": "2025-06-18T19:34:01.086Z",
+      "success": true
+    },
+    {
+      "phase": "postgresql_testing",
+      "description": "Verifying PostgreSQL connection and capabilities",
+      "timestamp": "2025-06-18T19:34:01.112Z",
+      "success": true
+    },
+    {
+      "phase": "schema_creation",
+      "description": "Creating PostgreSQL enterprise schema",
+      "timestamp": "2025-06-18T19:34:01.196Z",
+      "success": false,
+      "error": "role \"authenticated_user\" does not exist"
+    }
+  ],
+  "canRollback": true,
+  "rollbackInstructions": [
+    "SQLite database remains unchanged",
+    "No data has been migrated",
+    "Safe to retry after resolving errors"
+  ]
+}

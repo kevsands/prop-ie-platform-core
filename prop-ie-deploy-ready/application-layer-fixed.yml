@@ -1,0 +1,234 @@
+# AWS CloudFormation Template - PropIE Application Layer (Phase 3) - FIXED
+# AWS Amplify deployment with database integration - Environment variables fixed
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'PropIE Irish Property Platform - Application Layer (Phase 3) - Fixed'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+    Description: Deployment environment
+    
+  ProjectName:
+    Type: String
+    Default: propie-irish-property
+    Description: Project name for resource naming
+    
+  GitHubRepository:
+    Type: String
+    Default: 'https://github.com/your-org/propie-irish-property-platform'
+    Description: GitHub repository URL
+    
+  BranchName:
+    Type: String
+    Default: main
+    Description: Git branch to deploy
+    
+  DomainName:
+    Type: String
+    Default: 'prop.ie'
+    Description: Custom domain name (optional)
+
+Conditions:
+  IsProduction: !Equals [!Ref Environment, production]
+  HasCustomDomain: !Not [!Equals [!Ref DomainName, '']]
+
+Resources:
+  # IAM Role for Amplify
+  AmplifyServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess-Amplify
+      Policies:
+        - PolicyName: DatabaseAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                  - secretsmanager:DescribeSecret
+                Resource: 
+                  - !ImportValue 
+                    Fn::Sub: '${ProjectName}-${Environment}-db-secret-arn'
+              - Effect: Allow
+                Action:
+                  - rds:DescribeDBInstances
+                Resource: '*'
+
+  # Amplify App for Next.js Frontend
+  AmplifyApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: !Sub '${ProjectName}-${Environment}'
+      Description: 'PropIE Irish Property Platform - Enterprise B2B2C Property Transaction Ecosystem'
+      Repository: !Ref GitHubRepository
+      
+      Platform: WEB
+      
+      # Build settings from amplify.yml
+      BuildSpec: |
+        version: 1
+        env:
+          variables:
+            NODE_ENV: production
+            PLATFORM_VERSION: '2.1.0'
+            IRISH_MARKET_SUPPORT: 'true'
+        frontend:
+          phases:
+            preBuild:
+              commands:
+                - echo "🇮🇪 Building PropIE Irish Property Platform"
+                - nvm use 18
+                - npm ci --prefer-offline --no-audit
+                - npm run typecheck
+                - npm run lint
+            build:
+              commands:
+                - echo "🚀 Building application..."
+                - npm run build
+                - echo "✅ Build completed successfully"
+          artifacts:
+            baseDirectory: .next
+            files:
+              - '**/*'
+          cache:
+            paths:
+              - node_modules/**/*
+              - .next/cache/**/*
+              
+      # Environment Variables - FIXED: No AWS_ prefix
+      EnvironmentVariables:
+        - Name: NODE_ENV
+          Value: !Ref Environment
+        - Name: DATABASE_URL
+          Value: !Sub 
+            - 'postgresql://propie_admin:${SecretArn}@${Endpoint}:${Port}/${DatabaseName}?sslmode=require'
+            - SecretArn: !ImportValue 
+                Fn::Sub: '${ProjectName}-${Environment}-db-secret-arn'
+              Endpoint: !ImportValue 
+                Fn::Sub: '${ProjectName}-${Environment}-db-endpoint'
+              Port: !ImportValue 
+                Fn::Sub: '${ProjectName}-${Environment}-db-port'
+              DatabaseName: !ImportValue 
+                Fn::Sub: '${ProjectName}-${Environment}-db-name'
+        - Name: IRISH_MARKET_COMPLIANCE
+          Value: 'true'
+        - Name: AMPLIFY_ENVIRONMENT
+          Value: !Ref Environment
+        - Name: PLATFORM_VERSION
+          Value: '2.1.0'
+        - Name: PROPIE_AWS_REGION
+          Value: !Ref 'AWS::Region'
+        - Name: VPC_ID
+          Value: !ImportValue 
+            Fn::Sub: '${ProjectName}-${Environment}-vpc-id'
+          
+      # Custom Headers for Security
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: 'Strict-Transport-Security'
+                value: 'max-age=31536000; includeSubDomains; preload'
+              - key: 'X-Frame-Options'
+                value: 'DENY'
+              - key: 'X-Content-Type-Options'
+                value: 'nosniff'
+              - key: 'X-XSS-Protection'
+                value: '1; mode=block'
+              - key: 'Referrer-Policy'
+                value: 'strict-origin-when-cross-origin'
+              - key: 'X-Irish-Property-Platform'
+                value: 'PropIE-v2.1.0'
+          - pattern: '/api/**'
+            headers:
+              - key: 'Cache-Control'
+                value: 'no-cache, no-store, must-revalidate'
+              - key: 'X-API-Version'
+                value: '2.1.0'
+                
+      Tags:
+        - Key: Name
+          Value: !Sub '${ProjectName}-${Environment}-app'
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Phase
+          Value: Application
+
+  # Production Branch
+  AmplifyBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt AmplifyApp.AppId
+      BranchName: !Ref BranchName
+      Description: !Sub 'PropIE ${Environment} deployment branch'
+      EnableAutoBuild: true
+      EnablePullRequestPreview: !If [IsProduction, false, true]
+      
+      # Branch-specific environment variables - FIXED: No AWS_ prefix
+      EnvironmentVariables:
+        - Name: AMPLIFY_BRANCH_NAME
+          Value: !Ref BranchName
+        - Name: DEPLOYMENT_ENVIRONMENT
+          Value: !Ref Environment
+        - Name: DATABASE_CONNECTION_POOL_SIZE
+          Value: '20'
+        - Name: NEXT_TELEMETRY_DISABLED
+          Value: '1'
+          
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Branch
+          Value: !Ref BranchName
+
+  # Custom Domain (if specified)
+  AmplifyDomain:
+    Type: AWS::Amplify::Domain
+    Condition: HasCustomDomain
+    Properties:
+      AppId: !GetAtt AmplifyApp.AppId
+      DomainName: !Ref DomainName
+      CertificateSettings:
+        CertificateType: AMPLIFY_MANAGED
+      SubDomainSettings:
+        - Prefix: ''
+          BranchName: !GetAtt AmplifyBranch.BranchName
+        - Prefix: 'www'
+          BranchName: !GetAtt AmplifyBranch.BranchName
+
+Outputs:
+  AmplifyAppId:
+    Description: Amplify Application ID
+    Value: !GetAtt AmplifyApp.AppId
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-amplify-app-id'
+
+  AmplifyAppUrl:
+    Description: Amplify Application URL
+    Value: !Sub 'https://${AmplifyBranch.BranchName}.${AmplifyApp.DefaultDomain}'
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-app-url'
+
+  CustomDomainUrl:
+    Condition: HasCustomDomain
+    Description: Custom domain URL
+    Value: !Sub 'https://${DomainName}'
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-custom-domain-url'
+
+  ApplicationEnvironment:
+    Description: Application deployment environment
+    Value: !Ref Environment
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-app-environment'

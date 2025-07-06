@@ -1,0 +1,208 @@
+"""
+User schema for the PropIE GraphQL API
+Defines user types, queries, and mutations
+"""
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+enum KYCStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+"""
+User preferences for application settings
+"""
+type UserPreferences {
+  notifications: NotificationPreferences!
+  theme: String!
+  language: String!
+  timezone: String!
+  dashboardLayout: JSON
+}
+
+"""
+Notification preferences for the user
+"""
+type NotificationPreferences {
+  email: Boolean!
+  sms: Boolean!
+  push: Boolean!
+}
+
+"""
+User permission for a specific resource and action
+"""
+type UserPermission {
+  id: ID!
+  resource: String!
+  action: String!
+  conditions: JSON
+}
+
+"""
+Full user profile with all details
+"""
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  fullName: String!
+  phone: String
+  roles: [Role!]!
+  status: UserStatus!
+  kycStatus: KYCStatus!
+  organization: String
+  position: String
+  avatar: String
+  preferences: UserPreferences
+  created: DateTime!
+  lastActive: DateTime!
+  lastLogin: DateTime
+  metadata: JSON
+  permissions: [UserPermission!]
+}
+
+"""
+Simplified user representation for lists and references
+"""
+type UserSummary {
+  id: ID!
+  fullName: String!
+  email: String!
+  roles: [Role!]!
+  avatar: String
+}
+
+"""
+Response type for user queries that include pagination
+"""
+type UsersResponse {
+  users: [User!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Common pagination information
+"""
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+"""
+Input type for creating a new user
+"""
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String
+  roles: [Role!]!
+  organization: String
+  position: String
+  password: String
+}
+
+"""
+Input type for updating an existing user
+"""
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  phone: String
+  roles: [Role!]
+  status: UserStatus
+  organization: String
+  position: String
+  avatar: String
+  preferences: JSON
+}
+
+"""
+Input for user filtering
+"""
+input UserFilterInput {
+  search: String
+  roles: [Role!]
+  status: UserStatus
+  kycStatus: KYCStatus
+  createdAfter: DateTime
+  createdBefore: DateTime
+}
+
+"""
+Input for pagination
+"""
+input PaginationInput {
+  first: Int
+  after: String
+  last: Int
+  before: String
+}
+
+# Extend the root Query type with user queries
+extend type Query {
+  """
+  Get the currently authenticated user
+  """
+  me: User @auth
+
+  """
+  Get a user by ID
+  """
+  user(id: ID!): User @auth(requires: [ADMIN])
+  
+  """
+  List users with filtering and pagination
+  """
+  users(
+    filter: UserFilterInput
+    pagination: PaginationInput
+  ): UsersResponse @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  Search for users by name or email
+  """
+  searchUsers(
+    query: String!
+    roles: [Role!]
+    pagination: PaginationInput
+  ): UsersResponse @auth
+}
+
+# Extend the root Mutation type with user mutations
+extend type Mutation {
+  """
+  Create a new user (admin only)
+  """
+  createUser(input: CreateUserInput!): User @auth(requires: [ADMIN])
+  
+  """
+  Update an existing user
+  Admin can update any user, regular users can only update themselves
+  """
+  updateUser(id: ID!, input: UpdateUserInput!): User @auth
+  
+  """
+  Change a user's status (admin only)
+  """
+  changeUserStatus(id: ID!, status: UserStatus!): User @auth(requires: [ADMIN])
+  
+  """
+  Update KYC status (admin only)
+  """
+  updateKYCStatus(id: ID!, status: KYCStatus!): User @auth(requires: [ADMIN])
+}

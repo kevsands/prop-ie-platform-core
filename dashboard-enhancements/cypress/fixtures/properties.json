@@ -1,0 +1,79 @@
+{
+  "properties": [
+    {
+      "id": "property-1",
+      "title": "Modern 3-Bedroom Home",
+      "description": "A beautiful modern home with 3 bedrooms in FitzGerald Gardens development. Features include a spacious living area, modern kitchen with premium appliances, master bedroom with en-suite, and a landscaped garden. Perfect for families looking for a comfortable, contemporary living space.",
+      "price": 350000,
+      "address": "123 Main St, Dublin",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "type": "house",
+      "status": "available",
+      "developmentId": "dev-1",
+      "features": [
+        "Open plan kitchen",
+        "Underfloor heating",
+        "Solar panels",
+        "Smart home system",
+        "EV charging point"
+      ],
+      "images": [
+        "/public/images/properties/10-maple-ave-1.jpg",
+        "/public/images/properties/10-maple-ave-2.jpg",
+        "/public/images/properties/10-maple-ave-3.jpg"
+      ],
+      "floorPlanUrl": "/public/images/floor-plans/type-a.jpg"
+    },
+    {
+      "id": "property-2",
+      "title": "City Center Apartment",
+      "description": "Luxury apartment in the heart of the city, part of the Riverside Manor development. This stylish apartment offers contemporary urban living with city views, high ceilings, and premium finishes throughout. Walking distance to restaurants, shops, and public transportation.",
+      "price": 275000,
+      "address": "45 City Lane, Dublin",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "type": "apartment",
+      "status": "reserved",
+      "developmentId": "dev-2",
+      "features": [
+        "City views",
+        "Concierge service",
+        "Gym access",
+        "Secure parking",
+        "Balcony"
+      ],
+      "images": [
+        "/public/images/fitzgerald-gardens/1.jpg",
+        "/public/images/fitzgerald-gardens/2.jpg",
+        "/public/images/fitzgerald-gardens/3.jpg"
+      ],
+      "floorPlanUrl": "/public/images/floor-plans/type-b.jpg"
+    },
+    {
+      "id": "property-3",
+      "title": "Family Suburban Home",
+      "description": "Spacious family home in a quiet suburb, part of the Ballymakenny View development. This home features generous living spaces, a large kitchen-diner perfect for family gatherings, and a private back garden. Located in a family-friendly neighborhood with excellent schools nearby.",
+      "price": 425000,
+      "address": "78 Oak Road, Galway",
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "type": "house",
+      "status": "available",
+      "developmentId": "dev-3",
+      "features": [
+        "South-facing garden",
+        "Double garage",
+        "Home office space",
+        "Energy efficient",
+        "Storage attic"
+      ],
+      "images": [
+        "/public/images/ballymakenny-view/1.jpg",
+        "/public/images/ballymakenny-view/2.jpg",
+        "/public/images/ballymakenny-view/3.jpg"
+      ],
+      "floorPlanUrl": "/public/images/floor-plans/type-c.jpg"
+    }
+  ]
+}

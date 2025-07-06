@@ -1,0 +1,401 @@
+"""
+Development schema for the PropIE GraphQL API
+Defines development types, queries, and mutations
+"""
+
+enum DevelopmentStatus {
+  PLANNING
+  PRE_CONSTRUCTION
+  CONSTRUCTION
+  MARKETING
+  SALES
+  HANDOVER
+  COMPLETED
+}
+
+enum ProfessionalRole {
+  ARCHITECT
+  STRUCTURAL_ENGINEER
+  MECHANICAL_ENGINEER
+  ELECTRICAL_ENGINEER
+  QUANTITY_SURVEYOR
+  SOLICITOR
+  PROJECT_MANAGER
+  ENERGY_ASSESSOR
+  ASSIGNED_CERTIFIER
+  CONTRACTOR
+  ESTATE_AGENT
+}
+
+enum AppointmentStatus {
+  APPOINTED
+  PENDING
+  TERMINATED
+  COMPLETED
+}
+
+enum MilestoneStatus {
+  PLANNED
+  IN_PROGRESS
+  DELAYED
+  COMPLETED
+  CANCELLED
+}
+
+"""
+Address and geographic location
+"""
+type Location {
+  id: ID!
+  address: String!
+  addressLine1: String
+  addressLine2: String
+  city: String!
+  county: String!
+  eircode: String
+  country: String!
+  longitude: Float
+  latitude: Float
+}
+
+"""
+Professional team member assigned to a development
+"""
+type ProfessionalTeamMember {
+  id: ID!
+  user: UserSummary!
+  role: ProfessionalRole!
+  company: String!
+  appointmentDocument: Document
+  status: AppointmentStatus!
+  startDate: DateTime
+  endDate: DateTime
+  notes: String
+}
+
+"""
+Project milestone in the development timeline
+"""
+type ProjectMilestone {
+  id: ID!
+  name: String!
+  description: String!
+  plannedDate: DateTime!
+  actualDate: DateTime
+  status: MilestoneStatus!
+  dependencies: [ProjectMilestone!]
+  documents: [Document!]
+}
+
+"""
+Project timeline with key dates
+"""
+type ProjectTimeline {
+  id: ID!
+  planningSubmissionDate: DateTime!
+  planningDecisionDate: DateTime
+  constructionStartDate: DateTime
+  constructionEndDate: DateTime
+  marketingLaunchDate: DateTime
+  salesLaunchDate: DateTime
+  milestones: [ProjectMilestone!]!
+}
+
+"""
+Marketing status tracking
+"""
+type MarketingStatus {
+  website: Boolean!
+  brochuresReady: Boolean!
+  showUnitReady: Boolean!
+  launchDate: DateTime
+}
+
+"""
+Sales tracking
+"""
+type SalesStatus {
+  totalUnits: Int!
+  availableUnits: Int!
+  reservedUnits: Int!
+  saleAgreedUnits: Int!
+  soldUnits: Int!
+  salesVelocity: Float!
+  targetPriceAverage: Float!
+  actualPriceAverage: Float!
+  projectedSelloutDate: DateTime
+}
+
+"""
+Building specifications
+"""
+type BuildingSpecifications {
+  structure: String!
+  foundation: String!
+  exteriorWalls: String!
+  roofing: String!
+  windows: String!
+  doors: String!
+  interiorFinishes: String!
+  heatingSystem: String!
+  coolingSystem: String
+  electricalSystem: String!
+  plumbingSystem: String!
+  insulation: String!
+  energyFeatures: [String!]!
+  smartHomeFeatures: [String!]
+  securityFeatures: [String!]
+  accessibilityFeatures: [String!]
+  sustainabilityFeatures: [String!]
+}
+
+"""
+Development summary for list views
+"""
+type DevelopmentSummary {
+  id: ID!
+  name: String!
+  slug: String
+  status: DevelopmentStatus!
+  mainImage: String!
+  shortDescription: String
+  location: Location!
+  totalUnits: Int!
+  availableUnits: Int!
+  priceRange: String
+  developer: UserSummary!
+}
+
+"""
+Complete development details
+"""
+type Development {
+  id: ID!
+  name: String!
+  slug: String
+  developer: UserSummary!
+  location: Location!
+  status: DevelopmentStatus!
+  
+  # Units and accommodation
+  totalUnits: Int!
+  availableUnits: Int!
+  
+  # Team and documentation
+  professionalTeam: [ProfessionalTeamMember!]!
+  documents: [Document!]!
+  
+  # Status tracking
+  marketingStatus: MarketingStatus!
+  salesStatus: SalesStatus!
+  
+  # Timeline
+  timeline: ProjectTimeline
+  
+  # Media
+  mainImage: String!
+  images: [String!]!
+  videos: [String!]
+  sitePlanUrl: String
+  brochureUrl: String
+  virtualTourUrl: String
+  websiteUrl: String
+  
+  # Descriptions
+  description: String!
+  shortDescription: String
+  features: [String!]!
+  amenities: [String!]!
+  buildingSpecs: BuildingSpecifications
+  
+  # Additional metadata
+  buildingType: String
+  completionDate: DateTime
+  startDate: DateTime
+  created: DateTime!
+  updated: DateTime!
+  publishedDate: DateTime
+  isPublished: Boolean!
+  tags: [String!]
+  awards: [String!]
+}
+
+"""
+Response type for development queries with pagination
+"""
+type DevelopmentsResponse {
+  developments: [DevelopmentSummary!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Input for creating a location
+"""
+input LocationInput {
+  address: String!
+  addressLine1: String
+  addressLine2: String
+  city: String!
+  county: String!
+  eircode: String
+  longitude: Float
+  latitude: Float
+}
+
+"""
+Input for creating a new development
+"""
+input CreateDevelopmentInput {
+  name: String!
+  location: LocationInput!
+  description: String!
+  shortDescription: String
+  mainImage: String!
+  features: [String!]!
+  amenities: [String!]!
+  totalUnits: Int!
+  status: DevelopmentStatus!
+  buildingType: String
+  startDate: DateTime
+  completionDate: DateTime
+  tags: [String!]
+}
+
+"""
+Input for updating an existing development
+"""
+input UpdateDevelopmentInput {
+  name: String
+  description: String
+  shortDescription: String
+  mainImage: String
+  features: [String!]
+  amenities: [String!]
+  status: DevelopmentStatus
+  buildingType: String
+  startDate: DateTime
+  completionDate: DateTime
+  isPublished: Boolean
+  tags: [String!]
+}
+
+"""
+Input for updating development location
+"""
+input UpdateLocationInput {
+  address: String
+  addressLine1: String
+  addressLine2: String
+  city: String
+  county: String
+  eircode: String
+  longitude: Float
+  latitude: Float
+}
+
+"""
+Input for development filtering
+"""
+input DevelopmentFilterInput {
+  search: String
+  status: [DevelopmentStatus!]
+  developer: ID
+  city: String
+  county: String
+  minUnits: Int
+  maxUnits: Int
+  isPublished: Boolean
+  tags: [String!]
+}
+
+# Extend the root Query type with development queries
+extend type Query {
+  """
+  Get a development by ID
+  """
+  development(id: ID!): Development
+  
+  """
+  Get a development by slug
+  """
+  developmentBySlug(slug: String!): Development
+  
+  """
+  List developments with filtering and pagination
+  """
+  developments(
+    filter: DevelopmentFilterInput
+    pagination: PaginationInput
+  ): DevelopmentsResponse
+  
+  """
+  Get developments managed by the current user
+  """
+  myDevelopments(
+    filter: DevelopmentFilterInput
+    pagination: PaginationInput
+  ): DevelopmentsResponse @auth(requires: [DEVELOPER])
+  
+  """
+  Get development statistics for dashboard
+  """
+  developmentStatistics(id: ID!): JSON @auth
+}
+
+# Extend the root Mutation type with development mutations
+extend type Mutation {
+  """
+  Create a new development
+  """
+  createDevelopment(input: CreateDevelopmentInput!): Development @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Update an existing development
+  """
+  updateDevelopment(id: ID!, input: UpdateDevelopmentInput!): Development @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Update development location
+  """
+  updateDevelopmentLocation(developmentId: ID!, input: UpdateLocationInput!): Location @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Add a professional team member to a development
+  """
+  addProfessionalTeamMember(
+    developmentId: ID!,
+    userId: ID!,
+    role: ProfessionalRole!,
+    company: String!,
+    appointmentDocumentId: ID
+  ): ProfessionalTeamMember @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Update a team member's status
+  """
+  updateTeamMemberStatus(
+    teamMemberId: ID!,
+    status: AppointmentStatus!
+  ): ProfessionalTeamMember @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Add a milestone to a development timeline
+  """
+  addProjectMilestone(
+    developmentId: ID!,
+    name: String!,
+    description: String!,
+    plannedDate: DateTime!,
+    dependencyIds: [ID!]
+  ): ProjectMilestone @auth(requires: [DEVELOPER, ADMIN, PROJECT_MANAGER])
+  
+  """
+  Update a milestone's status
+  """
+  updateMilestoneStatus(
+    milestoneId: ID!,
+    status: MilestoneStatus!,
+    actualDate: DateTime
+  ): ProjectMilestone @auth(requires: [DEVELOPER, ADMIN, PROJECT_MANAGER])
+}

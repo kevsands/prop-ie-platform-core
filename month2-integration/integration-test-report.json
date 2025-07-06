@@ -1,0 +1,191 @@
+{
+  "timestamp": "2025-06-15T17:06:19.525Z",
+  "testConfig": {
+    "projectId": "fitzgerald-gardens",
+    "testUnitId": "unit-001",
+    "buyerInfo": {
+      "id": "test-buyer-001",
+      "name": "Test Buyer John",
+      "email": "test.buyer@example.com",
+      "phone": "+353 87 123 4567"
+    },
+    "reservationAmount": 500
+  },
+  "results": {
+    "passed": 31,
+    "failed": 2,
+    "tests": [
+      {
+        "name": "Buyer Purchase Page exists",
+        "passed": true,
+        "details": "Found: src/app/buyer/purchase/[id]/page.tsx"
+      },
+      {
+        "name": "Buyer Payments Page exists",
+        "passed": true,
+        "details": "Found: src/app/buyer/payments/page.tsx"
+      },
+      {
+        "name": "Buyer Transaction Page exists",
+        "passed": true,
+        "details": "Found: src/app/buyer/transaction/page.tsx"
+      },
+      {
+        "name": "Buyer FAQ Page exists",
+        "passed": true,
+        "details": "Found: src/app/buyer/faq/page.tsx"
+      },
+      {
+        "name": "Buyer Dashboard Page exists",
+        "passed": true,
+        "details": "Found: src/app/buyer/dashboard/page.tsx"
+      },
+      {
+        "name": "Fitzgerald Gardens Developer Page exists",
+        "passed": true,
+        "details": "Found: src/app/developer/projects/fitzgerald-gardens/page.tsx"
+      },
+      {
+        "name": "Project Data Service exists",
+        "passed": true,
+        "details": "Found: src/services/ProjectDataService.ts"
+      },
+      {
+        "name": "Project Types exists",
+        "passed": true,
+        "details": "Found: src/types/project.ts"
+      },
+      {
+        "name": "Buyer Purchase Page has required imports",
+        "passed": true,
+        "details": "All imports found"
+      },
+      {
+        "name": "Buyer Purchase Page has required functions",
+        "passed": true,
+        "details": "All functions found"
+      },
+      {
+        "name": "Project Data Service has required functions",
+        "passed": false,
+        "details": "Missing: updateUnitBuyer, broadcastStateUpdate, getUnitById, updateUnitStatus"
+      },
+      {
+        "name": "Purchase page calls updateUnitStatusInDeveloperPortal",
+        "passed": true,
+        "details": "Function call found in handlePayment"
+      },
+      {
+        "name": "Purchase page shows real-time integration status",
+        "passed": true,
+        "details": "Real-time status indicators present"
+      },
+      {
+        "name": "Purchase page handles real vs mock data",
+        "passed": true,
+        "details": "Data source differentiation implemented"
+      },
+      {
+        "name": "Developer portal uses real project data hook",
+        "passed": true,
+        "details": "Real-time data hook implementation found"
+      },
+      {
+        "name": "Developer portal shows buyer information",
+        "passed": false,
+        "details": "Buyer information display capability present"
+      },
+      {
+        "name": "Developer portal has unit status management",
+        "passed": true,
+        "details": "Unit status update handlers present"
+      },
+      {
+        "name": "Project service has event broadcasting",
+        "passed": true,
+        "details": "Event broadcasting system implemented"
+      },
+      {
+        "name": "Project service tracks audit log",
+        "passed": true,
+        "details": "Audit logging capability present"
+      },
+      {
+        "name": "Project service supports buyer updates",
+        "passed": true,
+        "details": "Buyer information update methods present"
+      },
+      {
+        "name": "Buyer layout includes transaction navigation",
+        "passed": true,
+        "details": "Transaction page accessible from navigation"
+      },
+      {
+        "name": "Buyer layout includes payments navigation",
+        "passed": true,
+        "details": "Payments page accessible from navigation"
+      },
+      {
+        "name": "Project types include buyer information",
+        "passed": true,
+        "details": "BuyerInformation interface defined"
+      },
+      {
+        "name": "Project types include unit status",
+        "passed": true,
+        "details": "UnitStatus type includes reservation status"
+      },
+      {
+        "name": "Project types include state updates",
+        "passed": true,
+        "details": "State update types defined"
+      },
+      {
+        "name": "Buyer can reserve units",
+        "passed": true,
+        "details": "Reservation flow implementation"
+      },
+      {
+        "name": "Developer receives real-time updates",
+        "passed": true,
+        "details": "Real-time notification system"
+      },
+      {
+        "name": "Transaction tracking available",
+        "passed": true,
+        "details": "Transaction status page exists"
+      },
+      {
+        "name": "Payment history tracking",
+        "passed": true,
+        "details": "Payment tracking page exists"
+      },
+      {
+        "name": "FAQ support available",
+        "passed": true,
+        "details": "Comprehensive FAQ page"
+      },
+      {
+        "name": "Async operations properly handled",
+        "passed": true,
+        "details": "Asynchronous operations implemented"
+      },
+      {
+        "name": "Error handling implemented",
+        "passed": true,
+        "details": "Error boundaries and handling present"
+      },
+      {
+        "name": "Loading states managed",
+        "passed": true,
+        "details": "Loading state management implemented"
+      }
+    ]
+  },
+  "summary": {
+    "totalTests": 33,
+    "passed": 31,
+    "failed": 2,
+    "successRate": 94
+  }
+}

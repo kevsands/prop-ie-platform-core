@@ -1,0 +1,737 @@
+// Production PostgreSQL Schema for PROP.ie Enterprise Platform
+// Optimized for €847M+ annual transaction volume
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+  ARCHIVED
+}
+
+enum UserRole {
+  BUYER
+  DEVELOPER
+  ESTATE_AGENT
+  SOLICITOR
+  INVESTOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum PropertyStatus {
+  PLANNING
+  CONSTRUCTION
+  AVAILABLE
+  RESERVED
+  SOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum TransactionStatus {
+  INITIATED
+  PENDING_APPROVAL
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum HTBStatus {
+  NOT_ELIGIBLE
+  ELIGIBLE
+  APPLIED
+  PROCESSING
+  APPROVED
+  REJECTED
+  PAID
+}
+
+enum NotificationType {
+  HTB_UPDATE
+  COMPLETION_STATUS
+  DOCUMENT_REQUIRED
+  PAYMENT_DUE
+  SYSTEM_ALERT
+  GENERAL
+}
+
+enum DocumentType {
+  CONTRACT
+  MORTGAGE_APPROVAL
+  HTB_CERTIFICATE
+  SURVEY_REPORT
+  INSURANCE_CERTIFICATE
+  IDENTITY_VERIFICATION
+  BANK_STATEMENT
+  OTHER
+}
+
+// ============================================================================
+// CORE USER MANAGEMENT
+// ============================================================================
+
+model User {
+  id                String     @id @default(cuid())
+  email             String     @unique
+  emailVerified     Boolean    @default(false)
+  firstName         String
+  lastName          String
+  phone             String?
+  password          String?
+  profileImage      String?
+  role              UserRole   @default(BUYER)
+  status            UserStatus @default(PENDING)
+  lastLoginAt       DateTime?
+  emailVerifiedAt   DateTime?
+  phoneVerifiedAt   DateTime?
+  twoFactorEnabled  Boolean    @default(false)
+  preferences       Json?      // User preferences and settings
+  metadata          Json?      // Additional user data
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  // Relations
+  buyerProfiles     BuyerProfile[]
+  developerProfiles DeveloperProfile[]
+  agentProfiles     EstateAgentProfile[]
+  solicitorProfiles SolicitorProfile[]
+  investorProfiles  InvestorProfile[]
+  
+  sessions          UserSession[]
+  auditLogs         AuditLog[]
+  notifications     Notification[]
+  documents         Document[]
+  transactions      Transaction[]
+  htbApplications   HTBApplication[]
+  
+  // Buyer specific relations
+  buyerJourneys     BuyerJourney[]
+  reservations      Reservation[]
+  propertyViews     PropertyView[]
+  savedProperties   SavedProperty[]
+
+  @@map("users")
+  @@index([email])
+  @@index([role, status])
+  @@index([createdAt])
+}
+
+model UserSession {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  userAgent String?
+  ipAddress String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("user_sessions")
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// ============================================================================
+// USER PROFILES BY ROLE
+// ============================================================================
+
+model BuyerProfile {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isFirstTimeBuyer  Boolean  @default(true)
+  maxBudget         Float?
+  minBedrooms       Int?
+  maxBedrooms       Int?
+  preferredAreas    String[] // Array of area preferences
+  currentPhase      String   @default("research") // research, viewing, offering, purchasing, completing
+  annualIncome      Float?
+  employmentStatus  String?
+  creditRating      String?
+  hasDeposit        Boolean  @default(false)
+  depositAmount     Float?
+  mortgagePreApproved Boolean @default(false)
+  htbEligible       Boolean  @default(false)
+  onboardingComplete Boolean @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("buyer_profiles")
+  @@index([userId])
+  @@index([isFirstTimeBuyer])
+  @@index([maxBudget])
+}
+
+model DeveloperProfile {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName       String
+  registrationNumber String?
+  vatNumber         String?
+  address           Json     // Structured address
+  website           String?
+  description       String?
+  specialties       String[] // Types of developments
+  yearsInBusiness   Int?
+  totalUnitsBuilt   Int?     @default(0)
+  activeProjects    Int?     @default(0)
+  verified          Boolean  @default(false)
+  verifiedAt        DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  developments      Development[]
+  projects          Project[]
+
+  @@map("developer_profiles")
+  @@index([userId])
+  @@index([companyName])
+  @@index([verified])
+}
+
+model EstateAgentProfile {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  licenseMID      String   @unique // Property Services Regulatory Authority license
+  companyName     String
+  branchLocation  String?
+  specialAreas    String[] // Geographic specialties
+  yearsExperience Int?
+  averageRating   Float?   @default(0)
+  totalSales      Int?     @default(0)
+  verified        Boolean  @default(false)
+  verifiedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("estate_agent_profiles")
+  @@index([userId])
+  @@index([licenseMID])
+  @@index([verified])
+}
+
+model SolicitorProfile {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  practiceNumber   String   @unique // Law Society practice number
+  firmName         String
+  specializations  String[] // conveyancing, commercial, etc.
+  barAdmissionDate DateTime?
+  averageRating    Float?   @default(0)
+  totalTransactions Int?    @default(0)
+  verified         Boolean  @default(false)
+  verifiedAt       DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("solicitor_profiles")
+  @@index([userId])
+  @@index([practiceNumber])
+  @@index([verified])
+}
+
+model InvestorProfile {
+  id                  String   @id @default(cuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  investorType        String   // individual, institutional, fund
+  investmentRange     Json     // min/max investment amounts
+  preferredAssetTypes String[] // residential, commercial, mixed
+  riskTolerance       String   // low, medium, high
+  investmentHorizon   String   // short, medium, long
+  totalInvestments    Float?   @default(0)
+  activeInvestments   Int?     @default(0)
+  averageROI          Float?   @default(0)
+  verified            Boolean  @default(false)
+  verifiedAt          DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("investor_profiles")
+  @@index([userId])
+  @@index([investorType])
+  @@index([verified])
+}
+
+// ============================================================================
+// PROPERTY & DEVELOPMENT MANAGEMENT
+// ============================================================================
+
+model Development {
+  id              String         @id @default(cuid())
+  developerId     String
+  developer       DeveloperProfile @relation(fields: [developerId], references: [id])
+  name            String
+  slug            String         @unique
+  description     String?
+  location        Json           // Structured location data
+  address         String
+  eircode         String?
+  coordinates     Json?          // lat/lng
+  totalUnits      Int
+  availableUnits  Int
+  priceRange      Json           // min/max pricing
+  amenities       String[]
+  transportLinks  Json?
+  nearbyServices  Json?
+  planningRef     String?
+  buildingRegs    String?
+  completionDate  DateTime?
+  status          String         @default("planning")
+  images          String[]       // Image URLs
+  floorPlans      String[]       // Floor plan URLs
+  virtualTour     String?
+  featured        Boolean        @default(false)
+  metadata        Json?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relations
+  units           Unit[]
+  projects        Project[]
+  analytics       PropertyAnalytics[]
+
+  @@map("developments")
+  @@index([developerId])
+  @@index([slug])
+  @@index([status])
+  @@index([featured])
+  @@index([completionDate])
+  @@index([eircode])
+}
+
+model Unit {
+  id            String         @id @default(cuid())
+  developmentId String
+  development   Development    @relation(fields: [developmentId], references: [id])
+  unitNumber    String
+  type          String         // apartment, house, townhouse
+  bedrooms      Int
+  bathrooms     Int
+  squareMeters  Float
+  price         Float
+  htbEligible   Boolean        @default(true)
+  floor         Int?
+  orientation   String?        // north, south, east, west
+  balcony       Boolean        @default(false)
+  garden        Boolean        @default(false)
+  parking       Boolean        @default(false)
+  storage       Boolean        @default(false)
+  features      String[]       // Additional features
+  floorPlan     String?        // Floor plan URL
+  images        String[]       // Unit-specific images
+  status        PropertyStatus @default(AVAILABLE)
+  reservedAt    DateTime?
+  soldAt        DateTime?
+  completionDate DateTime?
+  ber           String?        // Building Energy Rating
+  berNumber     String?
+  metadata      Json?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  // Relations
+  reservations  Reservation[]
+  transactions  Transaction[]
+  views         PropertyView[]
+  savedBy       SavedProperty[]
+  analytics     PropertyAnalytics[]
+
+  @@map("units")
+  @@index([developmentId])
+  @@index([status])
+  @@index([price])
+  @@index([bedrooms])
+  @@index([type])
+  @@index([htbEligible])
+}
+
+// ============================================================================
+// TRANSACTION MANAGEMENT
+// ============================================================================
+
+model Transaction {
+  id                String            @id @default(cuid())
+  buyerId           String
+  buyer             User              @relation(fields: [buyerId], references: [id])
+  unitId            String
+  unit              Unit              @relation(fields: [unitId], references: [id])
+  purchasePrice     Float
+  htbAmount         Float?            @default(0)
+  depositAmount     Float
+  mortgageAmount    Float?
+  status            TransactionStatus @default(INITIATED)
+  currentPhase      String            @default("reservation") // reservation, contract, mortgage, completion
+  keyDates          Json              // Important dates and milestones
+  solicitorDetails  Json?             // Buyer's solicitor information
+  mortgageProvider  String?
+  completionDate    DateTime?
+  keyHandoverDate   DateTime?
+  metadata          Json?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  reservation       Reservation?
+  documents         Document[]
+  milestones        TransactionMilestone[]
+  htbApplication    HTBApplication?
+
+  @@map("transactions")
+  @@index([buyerId])
+  @@index([unitId])
+  @@index([status])
+  @@index([currentPhase])
+  @@index([completionDate])
+}
+
+model Reservation {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  unitId        String
+  unit          Unit        @relation(fields: [unitId], references: [id])
+  transactionId String?     @unique
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
+  amount        Float
+  status        String      @default("pending") // pending, confirmed, expired, cancelled
+  expiresAt     DateTime
+  paymentMethod String?
+  paymentRef    String?
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("reservations")
+  @@index([userId])
+  @@index([unitId])
+  @@index([status])
+  @@index([expiresAt])
+}
+
+// ============================================================================
+// HTB (HELP-TO-BUY) MANAGEMENT
+// ============================================================================
+
+model HTBApplication {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  transactionId   String?   @unique
+  transaction     Transaction? @relation(fields: [transactionId], references: [id])
+  applicationRef  String?   @unique // ROS.ie reference
+  status          HTBStatus @default(NOT_ELIGIBLE)
+  eligibilityData Json      // Eligibility assessment data
+  claimAmount     Float?
+  submittedAt     DateTime?
+  approvedAt      DateTime?
+  paidAt          DateTime?
+  rejectionReason String?
+  rosieData       Json?     // Data from ROS.ie integration
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  documents       Document[]
+  timeline        HTBTimeline[]
+
+  @@map("htb_applications")
+  @@index([userId])
+  @@index([status])
+  @@index([applicationRef])
+  @@index([submittedAt])
+}
+
+model HTBTimeline {
+  id              String         @id @default(cuid())
+  htbApplicationId String
+  htbApplication  HTBApplication @relation(fields: [htbApplicationId], references: [id], onDelete: Cascade)
+  event           String         // Event type
+  description     String
+  status          String?        // Event status
+  eventDate       DateTime
+  metadata        Json?
+  createdAt       DateTime       @default(now())
+
+  @@map("htb_timeline")
+  @@index([htbApplicationId])
+  @@index([eventDate])
+}
+
+// ============================================================================
+// DOCUMENT MANAGEMENT
+// ============================================================================
+
+model Document {
+  id               String         @id @default(cuid())
+  userId           String
+  user             User           @relation(fields: [userId], references: [id])
+  transactionId    String?
+  transaction      Transaction?   @relation(fields: [transactionId], references: [id])
+  htbApplicationId String?
+  htbApplication   HTBApplication? @relation(fields: [htbApplicationId], references: [id])
+  name             String
+  type             DocumentType
+  category         String?        // Additional categorization
+  fileUrl          String
+  fileSize         Int
+  mimeType         String
+  checksum         String?        // File integrity verification
+  version          Int            @default(1)
+  status           String         @default("uploaded") // uploaded, verified, rejected, expired
+  verifiedAt       DateTime?
+  verifiedBy       String?        // UserID of verifier
+  expiresAt        DateTime?
+  metadata         Json?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@map("documents")
+  @@index([userId])
+  @@index([transactionId])
+  @@index([htbApplicationId])
+  @@index([type])
+  @@index([status])
+  @@index([expiresAt])
+}
+
+// ============================================================================
+// NOTIFICATIONS & COMMUNICATIONS
+// ============================================================================
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        NotificationType
+  title       String
+  message     String
+  data        Json?            // Additional notification data
+  read        Boolean          @default(false)
+  readAt      DateTime?
+  priority    String           @default("medium") // low, medium, high, urgent
+  actionUrl   String?          // Link for action
+  expiresAt   DateTime?
+  metadata    Json?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@map("notifications")
+  @@index([userId])
+  @@index([type])
+  @@index([read])
+  @@index([priority])
+  @@index([createdAt])
+  @@index([expiresAt])
+}
+
+// ============================================================================
+// BUYER JOURNEY & ANALYTICS
+// ============================================================================
+
+model BuyerJourney {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phase       String   @default("planning") // planning, searching, viewing, offering, purchasing, completing
+  subPhase    String?  // More granular phase tracking
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  data        Json     // Journey data and progress
+  milestones  Json     // Completed milestones
+  preferences Json?    // User preferences and criteria
+  notes       String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("buyer_journeys")
+  @@index([userId])
+  @@index([phase])
+  @@index([startDate])
+}
+
+model PropertyView {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  unitId     String
+  unit       Unit     @relation(fields: [unitId], references: [id])
+  ipAddress  String?
+  userAgent  String?
+  source     String?  // Source of traffic
+  duration   Int?     // View duration in seconds
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@map("property_views")
+  @@index([userId])
+  @@index([unitId])
+  @@index([createdAt])
+  @@index([ipAddress])
+}
+
+model SavedProperty {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  unitId    String
+  unit      Unit     @relation(fields: [unitId], references: [id])
+  notes     String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, unitId])
+  @@map("saved_properties")
+  @@index([userId])
+  @@index([unitId])
+}
+
+// ============================================================================
+// SYSTEM MANAGEMENT & ANALYTICS
+// ============================================================================
+
+model Project {
+  id            String          @id @default(cuid())
+  developerId   String
+  developer     DeveloperProfile @relation(fields: [developerId], references: [id])
+  developmentId String?
+  development   Development?    @relation(fields: [developmentId], references: [id])
+  name          String
+  description   String?
+  status        String          @default("planning")
+  startDate     DateTime?
+  endDate       DateTime?
+  budget        Float?
+  currentSpend  Float?          @default(0)
+  milestones    Json            // Project milestones
+  team          Json?           // Team members and roles
+  metadata      Json?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@map("projects")
+  @@index([developerId])
+  @@index([developmentId])
+  @@index([status])
+}
+
+model TransactionMilestone {
+  id            String      @id @default(cuid())
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+  status        String      @default("pending") // pending, in_progress, completed, blocked
+  dueDate       DateTime?
+  completedDate DateTime?
+  responsible   String?     // Role or person responsible
+  dependencies  String[]    // IDs of dependent milestones
+  metadata      Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("transaction_milestones")
+  @@index([transactionId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model PropertyAnalytics {
+  id            String       @id @default(cuid())
+  developmentId String?
+  development   Development? @relation(fields: [developmentId], references: [id])
+  unitId        String?
+  unit          Unit?        @relation(fields: [unitId], references: [id])
+  date          DateTime     @db.Date
+  views         Int          @default(0)
+  inquiries     Int          @default(0)
+  viewings      Int          @default(0)
+  reservations  Int          @default(0)
+  sales         Int          @default(0)
+  avgViewTime   Int?         // Average view time in seconds
+  bounceRate    Float?       // Percentage
+  conversionRate Float?      // Percentage
+  metadata      Json?
+  createdAt     DateTime     @default(now())
+
+  @@unique([developmentId, unitId, date])
+  @@map("property_analytics")
+  @@index([date])
+  @@index([developmentId])
+  @@index([unitId])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  action      String   // Action performed
+  resource    String   // Resource affected
+  resourceId  String?  // ID of affected resource
+  oldValues   Json?    // Previous values
+  newValues   Json?    // New values
+  ipAddress   String?
+  userAgent   String?
+  sessionId   String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@map("audit_logs")
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+}
+
+// ============================================================================
+// PERFORMANCE OPTIMIZATION INDEXES
+// ============================================================================
+
+// Additional indexes for performance optimization
+// These are automatically created by Prisma but listed here for documentation
+
+// User search and filtering
+// @@index([role, status, createdAt])
+// @@index([email, emailVerified])
+
+// Property search and filtering  
+// @@index([status, price, bedrooms])
+// @@index([developmentId, status, price])
+// @@index([eircode, status])
+
+// Transaction monitoring
+// @@index([status, currentPhase, createdAt])
+// @@index([buyerId, status])
+
+// Analytics and reporting
+// @@index([date, developmentId])
+// @@index([createdAt, type]) // for notifications
+// @@index([userId, createdAt]) // for user activity
+
+// Search optimization
+// @@index([name]) // for developments
+// @@index([title]) // for notifications

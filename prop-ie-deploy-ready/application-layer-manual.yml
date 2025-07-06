@@ -1,0 +1,97 @@
+# AWS CloudFormation Template - PropIE Application Layer - Manual Deployment
+# AWS Amplify deployment without GitHub integration
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'PropIE Irish Property Platform - Application Layer - Manual Deployment'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+    Description: Deployment environment
+    
+  ProjectName:
+    Type: String
+    Default: propie-irish-property
+    Description: Project name for resource naming
+
+Resources:
+  # IAM Role for Amplify
+  AmplifyServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess-Amplify
+
+  # Amplify App for Next.js Frontend - Manual Deployment
+  AmplifyApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: !Sub '${ProjectName}-${Environment}'
+      Description: 'PropIE Irish Property Platform - Enterprise Property Transaction Ecosystem'
+      
+      Platform: WEB
+      
+      # Build settings
+      BuildSpec: |
+        version: 1
+        frontend:
+          phases:
+            preBuild:
+              commands:
+                - export NODE_ENV=development
+                - echo "Building for environment: ${NODE_ENV}"
+                - npm ci
+            build:
+              commands:
+                - echo "Running build for environment: ${NODE_ENV}"
+                - npm run build
+          artifacts:
+            baseDirectory: .next
+            files:
+              - "**/*"
+          cache:
+            paths:
+              - node_modules/**/*
+              - .next/cache/**/*
+              
+      # Environment Variables - No AWS_ prefix
+      EnvironmentVariables:
+        - Name: NEXT_PUBLIC_APP_ENV
+          Value: !Ref Environment
+        - Name: NEXT_PUBLIC_API_ENDPOINT
+          Value: https://api.prop-ie-app.com
+        - Name: NEXT_PUBLIC_APP_URL
+          Value: https://prop-ie-app.com
+        - Name: AMPLIFY_AWS_REGION
+          Value: !Ref 'AWS::Region'
+        - Name: NEXT_TELEMETRY_DISABLED
+          Value: '1'
+          
+      Tags:
+        - Key: Name
+          Value: !Sub '${ProjectName}-${Environment}-app'
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Phase
+          Value: Application
+
+Outputs:
+  AmplifyAppId:
+    Description: Amplify Application ID
+    Value: !GetAtt AmplifyApp.AppId
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-amplify-app-id'
+
+  AmplifyAppUrl:
+    Description: Amplify Application URL (manual deployment needed)
+    Value: !Sub 'https://main.${AmplifyApp.DefaultDomain}'
+    Export:
+      Name: !Sub '${ProjectName}-${Environment}-app-url'

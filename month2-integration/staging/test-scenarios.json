@@ -1,0 +1,58 @@
+{
+  "userJourneys": [
+    {
+      "name": "First-Time Buyer Complete Journey",
+      "user": "staging-buyer-1",
+      "steps": [
+        "Login with mock authentication",
+        "Browse properties and use search filters",
+        "View property details and 3D visualization",
+        "Add property to favorites",
+        "Submit HTB application",
+        "Make property reservation",
+        "Track application status"
+      ],
+      "expectedOutcome": "Complete buyer journey validation"
+    },
+    {
+      "name": "Developer Property Management",
+      "user": "staging-developer-1",
+      "steps": [
+        "Access developer portal",
+        "View project analytics dashboard",
+        "Update property information",
+        "Review buyer applications",
+        "Process HTB claims",
+        "Generate sales reports"
+      ],
+      "expectedOutcome": "Developer workflow validation"
+    },
+    {
+      "name": "Agent Client Management",
+      "user": "staging-agent-1",
+      "steps": [
+        "Access agent portal",
+        "View client pipeline",
+        "Assist client with property search",
+        "Submit client application",
+        "Track commission status"
+      ],
+      "expectedOutcome": "Agent workflow validation"
+    }
+  ],
+  "testData": {
+    "properties": 3,
+    "users": 4,
+    "projects": 2,
+    "transactions": 2,
+    "htbApplications": 2,
+    "analyticsEvents": 3
+  },
+  "stagingFeatures": {
+    "mockAuthentication": true,
+    "testPayments": true,
+    "debugLogging": true,
+    "performanceTracking": true,
+    "errorSimulation": true
+  }
+}

@@ -1,0 +1,80 @@
+// Minimal working schema for PROP.ie
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+model User {
+  id         String     @id @default(cuid())
+  email      String     @unique
+  firstName  String
+  lastName   String
+  phone      String?
+  password   String?
+  roleData   String     // JSON string for roles
+  status     UserStatus @default(ACTIVE)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  // Relations for buyer journeys
+  buyerJourneys BuyerJourney[]
+  reservations  Reservation[]
+}
+
+model BuyerJourney {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  phase     String   @default("planning")
+  data      String   // JSON string for journey data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Development {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  units Unit[]
+}
+
+model Unit {
+  id            String      @id @default(cuid())
+  developmentId String
+  development   Development @relation(fields: [developmentId], references: [id])
+  name          String
+  type          String
+  price         Float
+  status        String      @default("available")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  reservations Reservation[]
+}
+
+model Reservation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  unitId    String
+  unit      Unit     @relation(fields: [unitId], references: [id])
+  status    String   @default("pending")
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

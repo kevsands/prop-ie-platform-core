@@ -1,0 +1,76 @@
+{
+  "updateId": "config_update_2025-06-18T19-41-17-051Z",
+  "timestamp": "2025-06-18T19:41:17.070Z",
+  "phase": "application_configuration_update",
+  "migration": {
+    "from": "SQLite",
+    "to": "PostgreSQL",
+    "configurationChanges": 4,
+    "backupsCreated": 4,
+    "errors": 0
+  },
+  "updates": [
+    {
+      "file": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/config/database.config.ts",
+      "type": "database_config",
+      "description": "Updated to use PostgreSQL by default",
+      "timestamp": "2025-06-18T19:41:17.061Z"
+    },
+    {
+      "file": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.env.local",
+      "type": "environment_config",
+      "description": "Added PostgreSQL configuration",
+      "timestamp": "2025-06-18T19:41:17.064Z"
+    },
+    {
+      "file": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/package.json",
+      "type": "package_scripts",
+      "description": "Added PostgreSQL-specific scripts",
+      "timestamp": "2025-06-18T19:41:17.068Z"
+    },
+    {
+      "file": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/scripts/connect_postgresql.js",
+      "type": "connection_script",
+      "description": "Created PostgreSQL connection test script",
+      "timestamp": "2025-06-18T19:41:17.069Z"
+    }
+  ],
+  "backups": [
+    {
+      "original": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/config/database.config.ts",
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/config_backups/database.config.ts_backup_config_update_2025-06-18T19-41-17-051Z",
+      "checksum": "1b68240ce95f8ca12313cb6d963417f4073687aa6633f6c3b3676900dd214936",
+      "timestamp": "2025-06-18T19:41:17.060Z"
+    },
+    {
+      "original": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/.env.local",
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/config_backups/.env.local_backup_config_update_2025-06-18T19-41-17-051Z",
+      "checksum": "857a3967fe4023e912d2840e05e64e897d44c1e8c55481785e18c30565350393",
+      "timestamp": "2025-06-18T19:41:17.063Z"
+    },
+    {
+      "original": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/next.config.js",
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/config_backups/next.config.js_backup_config_update_2025-06-18T19-41-17-051Z",
+      "checksum": "beb3c9214c722307a552204b1ac948fbf95f3f092f026ad67ba44a1c4ffe331e",
+      "timestamp": "2025-06-18T19:41:17.065Z"
+    },
+    {
+      "original": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/package.json",
+      "backup": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/config_backups/package.json_backup_config_update_2025-06-18T19-41-17-051Z",
+      "checksum": "0ffd048904416cc1ea42b761575021d53935462ec9b3c2ca79e27a96682fec3a",
+      "timestamp": "2025-06-18T19:41:17.067Z"
+    }
+  ],
+  "errors": [],
+  "nextSteps": [
+    "Test application with PostgreSQL configuration",
+    "Verify all authentication flows work",
+    "Monitor performance with new database",
+    "Update deployment configurations if needed"
+  ],
+  "rollbackInstructions": {
+    "description": "To rollback configuration changes, restore files from backups",
+    "backupLocation": "/Users/kevin/backups/awsready_20250524/prop-ie-aws-app-PERFECT-WORKING-JUNE13-2025/database/backups/config_backups",
+    "automatedRollback": "npm run db:rollback-config"
+  }
+}

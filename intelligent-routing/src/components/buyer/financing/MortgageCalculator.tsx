@@ -1,0 +1,847 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { 
+  Calculator, 
+  PieChart, 
+  CreditCard, 
+  Home, 
+  Info, 
+  Download,
+  Share2,
+  Percent,
+  ArrowRight,
+  Calendar
+} from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/useToast';
+
+interface MortgageCalculatorProps {
+  onCalculate?: (result: MortgageCalculationResult) => void;
+  initialValues?: {
+    propertyPrice: number;
+    deposit: number;
+    interestRate: number;
+    mortgageTerm: number;
+    mortgageType: 'fixed' | 'variable';
+    fixedRateTerm?: number;
+  };
+}
+
+export interface MortgageCalculationResult {
+  monthlyPayment: number;
+  totalRepayment: number;
+  totalInterest: number;
+  loanAmount: number;
+  loanToValue: number;
+  amortizationSchedule: {
+    year: number;
+    totalPayment: number;
+    principalPaid: number;
+    interestPaid: number;
+    remainingBalance: number;
+  }[];
+}
+
+export default function MortgageCalculator({ onCalculate, initialValues }: MortgageCalculatorProps) {
+  const { toast } = useToast();
+
+  // Form state
+  const [propertyPrice, setPropertyPrice] = useState(initialValues?.propertyPrice || 350000);
+  const [deposit, setDeposit] = useState(initialValues?.deposit || 35000);
+  const [interestRate, setInterestRate] = useState(initialValues?.interestRate || 3.5);
+  const [mortgageTerm, setMortgageTerm] = useState(initialValues?.mortgageTerm || 30);
+  const [mortgageType, setMortgageType] = useState<'fixed' | 'variable'>(initialValues?.mortgageType || 'fixed');
+  const [fixedRateTerm, setFixedRateTerm] = useState(initialValues?.fixedRateTerm || 5);
+  const [variableRateOffset, setVariableRateOffset] = useState(1.5); // Default offset for variable rate
+  const [activeTab, setActiveTab] = useState<'calculator' | 'insights' | 'amortization'>('calculator');
+  
+  // Derived state
+  const [depositPercentage, setDepositPercentage] = useState(10);
+  const [loanAmount, setLoanAmount] = useState(0);
+  const [loanToValue, setLoanToValue] = useState(0);
+  const [monthlyPayment, setMonthlyPayment] = useState(0);
+  const [totalRepayment, setTotalRepayment] = useState(0);
+  const [totalInterest, setTotalInterest] = useState(0);
+  const [amortizationSchedule, setAmortizationSchedule] = useState<MortgageCalculationResult['amortizationSchedule']>([]);
+  
+  // Initialize calculator
+  useEffect(() => {
+    // Set initial deposit percentage
+    const initialDepositPercentage = (deposit / propertyPrice) * 100;
+    setDepositPercentage(initialDepositPercentage);
+    
+    // Calculate initial results
+    calculateMortgage();
+  }, []);
+
+  // Update deposit amount when percentage changes
+  const handleDepositPercentageChange = (value: number[]) => {
+    const newPercentage = value[0];
+    setDepositPercentage(newPercentage);
+    const newDepositAmount = (propertyPrice * newPercentage) / 100;
+    setDeposit(Math.round(newDepositAmount));
+    calculateMortgage();
+  };
+
+  // Update deposit percentage when amount changes
+  const handleDepositAmountChange = (value: number) => {
+    setDeposit(value);
+    const newPercentage = (value / propertyPrice) * 100;
+    setDepositPercentage(newPercentage);
+    calculateMortgage();
+  };
+
+  // Calculate mortgage details
+  const calculateMortgage = () => {
+    try {
+      // Basic calculations
+      const loanAmt = propertyPrice - deposit;
+      const ltv = (loanAmt / propertyPrice) * 100;
+      
+      // Monthly interest rate
+      const monthlyInterestRate = interestRate / 100 / 12;
+      const numberOfPayments = mortgageTerm * 12;
+      
+      // Monthly payment formula: M = P[r(1+r)^n]/[(1+r)^n-1]
+      const monthlyPmt = (loanAmt * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / 
+                         (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+      
+      const totalRpmt = monthlyPmt * numberOfPayments;
+      const totalIntrst = totalRpmt - loanAmt;
+      
+      // Generate amortization schedule
+      const schedule = generateAmortizationSchedule(loanAmt, interestRate, mortgageTerm);
+      
+      // Update state
+      setLoanAmount(loanAmt);
+      setLoanToValue(ltv);
+      setMonthlyPayment(monthlyPmt);
+      setTotalRepayment(totalRpmt);
+      setTotalInterest(totalIntrst);
+      setAmortizationSchedule(schedule);
+      
+      // Call onCalculate callback with results
+      if (onCalculate) {
+        onCalculate({
+          monthlyPayment: monthlyPmt,
+          totalRepayment: totalRpmt,
+          totalInterest: totalIntrst,
+          loanAmount: loanAmt,
+          loanToValue: ltv,
+          amortizationSchedule: schedule
+        });
+      }
+    } catch (error) {
+      console.error('Error calculating mortgage:', error);
+      toast({
+        title: "Calculation Error",
+        description: "There was a problem calculating your mortgage. Please check your inputs.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Generate yearly amortization schedule
+  const generateAmortizationSchedule = (
+    loanAmount: number, 
+    interestRate: number, 
+    termInYears: number
+  ) => {
+    const monthlyInterestRate = interestRate / 100 / 12;
+    const totalPayments = termInYears * 12;
+    const monthlyPayment = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments)) / 
+                          (Math.pow(1 + monthlyInterestRate, totalPayments) - 1);
+    
+    let remainingBalance = loanAmount;
+    const yearlySchedule: MortgageCalculationResult['amortizationSchedule'] = [];
+    
+    for (let year = 1; year <= termInYears; year++) {
+      let yearlyPrincipalPaid = 0;
+      let yearlyInterestPaid = 0;
+      let yearlyTotalPayment = 0;
+      
+      for (let month = 1; month <= 12; month++) {
+        if ((year - 1) * 12 + month <= totalPayments) {
+          const interestPayment = remainingBalance * monthlyInterestRate;
+          const principalPayment = monthlyPayment - interestPayment;
+          
+          yearlyPrincipalPaid += principalPayment;
+          yearlyInterestPaid += interestPayment;
+          yearlyTotalPayment += monthlyPayment;
+          
+          remainingBalance -= principalPayment;
+        }
+      }
+      
+      yearlySchedule.push({
+        year,
+        totalPayment: yearlyTotalPayment,
+        principalPaid: yearlyPrincipalPaid,
+        interestPaid: yearlyInterestPaid,
+        remainingBalance: Math.max(0, remainingBalance)
+      });
+    }
+    
+    return yearlySchedule;
+  };
+
+  // Format currency for display
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IE', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  // Export amortization schedule as CSV
+  const exportAmortizationSchedule = () => {
+    const headers = ['Year', 'Payment', 'Principal', 'Interest', 'Remaining Balance'];
+    const rows = amortizationSchedule.map(row => [
+      row.year,
+      formatCurrency(row.totalPayment).replace('€', ''),
+      formatCurrency(row.principalPaid).replace('€', ''),
+      formatCurrency(row.interestPaid).replace('€', ''),
+      formatCurrency(row.remainingBalance).replace('€', '')
+    ]);
+    
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "mortgage-amortization.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Schedule exported",
+      description: "Your amortization schedule has been downloaded as a CSV file.",
+      variant: "success",
+    });
+  };
+
+  return (
+    <Card className="overflow-hidden">
+      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-white">
+        <div className="flex items-center mb-2">
+          <Calculator className="h-6 w-6 mr-2" />
+          <h2 className="text-xl font-semibold">Mortgage Calculator</h2>
+        </div>
+        <p className="text-emerald-100">
+          Plan your mortgage and understand your monthly payments
+        </p>
+      </div>
+      
+      <Tabs defaultValue="calculator" value={activeTab} onValueChange={(value) => setActiveTab(value as any)}>
+        <div className="px-6 pt-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="calculator" className="flex items-center">
+              <Calculator className="h-4 w-4 mr-2" /> Calculator
+            </TabsTrigger>
+            <TabsTrigger value="insights" className="flex items-center">
+              <PieChart className="h-4 w-4 mr-2" /> Insights
+            </TabsTrigger>
+            <TabsTrigger value="amortization" className="flex items-center">
+              <Calendar className="h-4 w-4 mr-2" /> Schedule
+            </TabsTrigger>
+          </TabsList>
+        </div>
+        
+        <TabsContent value="calculator" className="p-6 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Mortgage Inputs */}
+            <div className="space-y-5">
+              <div>
+                <label htmlFor="property-price" className="block text-sm font-medium text-gray-700 mb-1">
+                  Property Price (€)
+                </label>
+                <Input
+                  id="property-price"
+                  type="number"
+                  value={propertyPrice}
+                  onChange={(e) => {
+                    const newPrice = Number(e.target.value);
+                    setPropertyPrice(newPrice);
+                    
+                    // Update deposit to maintain the same percentage
+                    const newDeposit = Math.round((newPrice * depositPercentage) / 100);
+                    setDeposit(newDeposit);
+                    
+                    calculateMortgage();
+                  }}
+                  min={0}
+                  step={5000}
+                  className="w-full"
+                />
+              </div>
+              
+              <div>
+                <div className="flex justify-between">
+                  <label htmlFor="deposit-percentage" className="block text-sm font-medium text-gray-700 mb-1">
+                    Deposit ({depositPercentage.toFixed(1)}%)
+                  </label>
+                  <span className="text-sm text-gray-500">{formatCurrency(deposit)}</span>
+                </div>
+                <Slider
+                  defaultValue={[depositPercentage]}
+                  value={[depositPercentage]}
+                  max={50}
+                  min={5}
+                  step={0.5}
+                  onValueChange={handleDepositPercentageChange}
+                  className="my-4"
+                />
+                <div className="mt-2">
+                  <Input
+                    id="deposit-amount"
+                    type="number"
+                    value={deposit}
+                    onChange={(e) => handleDepositAmountChange(Number(e.target.value))}
+                    min={0}
+                    step={1000}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex justify-between">
+                  <label htmlFor="mortgage-term" className="block text-sm font-medium text-gray-700 mb-1">
+                    Mortgage Term ({mortgageTerm} years)
+                  </label>
+                </div>
+                <Slider
+                  defaultValue={[mortgageTerm]}
+                  value={[mortgageTerm]}
+                  max={35}
+                  min={5}
+                  step={1}
+                  onValueChange={(value) => {
+                    setMortgageTerm(value[0]);
+                    calculateMortgage();
+                  }}
+                  className="my-4"
+                />
+              </div>
+              
+              <div>
+                <div className="flex justify-between">
+                  <label htmlFor="interest-rate" className="block text-sm font-medium text-gray-700 mb-1">
+                    Interest Rate ({interestRate}%)
+                  </label>
+                </div>
+                <Slider
+                  defaultValue={[interestRate]}
+                  value={[interestRate]}
+                  max={10}
+                  min={1}
+                  step={0.05}
+                  onValueChange={(value) => {
+                    setInterestRate(value[0]);
+                    calculateMortgage();
+                  }}
+                  className="my-4"
+                />
+                <div className="mt-2">
+                  <Input
+                    id="interest-rate-input"
+                    type="number"
+                    value={interestRate}
+                    onChange={(e) => {
+                      setInterestRate(Number(e.target.value));
+                      calculateMortgage();
+                    }}
+                    min={0}
+                    step={0.05}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Mortgage Type
+                </label>
+                <div className="flex space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="mortgage-type"
+                      value="fixed"
+                      checked={mortgageType === 'fixed'}
+                      onChange={() => {
+                        setMortgageType('fixed');
+                        calculateMortgage();
+                      }}
+                      className="h-4 w-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Fixed Rate</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="mortgage-type"
+                      value="variable"
+                      checked={mortgageType === 'variable'}
+                      onChange={() => {
+                        setMortgageType('variable');
+                        calculateMortgage();
+                      }}
+                      className="h-4 w-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Variable Rate</span>
+                  </label>
+                </div>
+                
+                {mortgageType === 'fixed' && (
+                  <div className="mt-3">
+                    <label htmlFor="fixed-rate-term" className="block text-sm font-medium text-gray-700 mb-1">
+                      Fixed Rate Period ({fixedRateTerm} years)
+                    </label>
+                    <Slider
+                      defaultValue={[fixedRateTerm]}
+                      value={[fixedRateTerm]}
+                      max={10}
+                      min={1}
+                      step={1}
+                      onValueChange={(value) => {
+                        setFixedRateTerm(value[0]);
+                        calculateMortgage();
+                      }}
+                      className="my-2"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Results */}
+            <div className="space-y-6">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6">
+                <h3 className="text-lg font-medium text-emerald-800 mb-4">Monthly Payment</h3>
+                <div className="flex items-baseline">
+                  <span className="text-3xl font-bold text-emerald-700">{formatCurrency(monthlyPayment)}</span>
+                  <span className="ml-2 text-emerald-600">per month</span>
+                </div>
+                
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-emerald-700">Loan Amount</p>
+                    <p className="text-lg font-semibold">{formatCurrency(loanAmount)}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-emerald-700">Loan to Value</p>
+                    <p className="text-lg font-semibold">{loanToValue.toFixed(1)}%</p>
+                  </div>
+                </div>
+                
+                <div className="mt-4 pt-4 border-t border-emerald-200">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-emerald-700">Total Repayment</p>
+                      <p className="text-lg font-semibold">{formatCurrency(totalRepayment)}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-emerald-700">Total Interest</p>
+                      <p className="text-lg font-semibold">{formatCurrency(totalInterest)}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start">
+                  <Info className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-blue-800">
+                    <p className="font-medium mb-1">Mortgage Requirements</p>
+                    <p>Most Irish lenders require a minimum 10% deposit for first-time buyers. Your loan-to-value ratio is {loanToValue.toFixed(1)}%, which is {loanToValue <= 80 ? 'favorable' : loanToValue <= 90 ? 'acceptable' : 'high'}.</p>
+                    
+                    {loanToValue > 90 && (
+                      <p className="mt-2 text-red-600">
+                        You may need to increase your deposit to meet the minimum requirements.
+                      </p>
+                    )}
+                    
+                    {loanToValue <= 80 && (
+                      <p className="mt-2 text-green-600">
+                        With a LTV below 80%, you might qualify for better interest rates.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="flex items-center"
+                  onClick={() => window.print()}
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share Results
+                </Button>
+                
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  className="flex items-center"
+                  onClick={() => setActiveTab('insights')}
+                >
+                  <PieChart className="h-4 w-4 mr-2" />
+                  View Insights
+                </Button>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="insights" className="p-6 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div className="bg-gray-50 border rounded-lg p-6">
+                <h3 className="text-lg font-medium mb-4">Payment Breakdown</h3>
+                <div className="relative pt-1">
+                  <div className="overflow-hidden h-6 text-xs flex rounded-full bg-gray-200">
+                    <div 
+                      className="bg-emerald-500 text-white text-center p-1 flex items-center justify-center" 
+                      style={{ width: `${(loanAmount / totalRepayment) * 100}%` }}
+                    >
+                      Principal
+                    </div>
+                    <div 
+                      className="bg-red-500 text-white text-center p-1 flex items-center justify-center" 
+                      style={{ width: `${(totalInterest / totalRepayment) * 100}%` }}
+                    >
+                      Interest
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></div>
+                    <div>
+                      <p className="text-sm text-gray-500">Principal</p>
+                      <p className="font-medium">{formatCurrency(loanAmount)}</p>
+                      <p className="text-xs text-gray-500">{((loanAmount / totalRepayment) * 100).toFixed(1)}%</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                    <div>
+                      <p className="text-sm text-gray-500">Interest</p>
+                      <p className="font-medium">{formatCurrency(totalInterest)}</p>
+                      <p className="text-xs text-gray-500">{((totalInterest / totalRepayment) * 100).toFixed(1)}%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 border rounded-lg p-6">
+                <h3 className="text-lg font-medium mb-4">Mortgage Rate Analysis</h3>
+                
+                <div className="space-y-4">
+                  {/* Current vs Average */}
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <Percent className="h-5 w-5 text-emerald-600 mr-2" />
+                      <span className="text-sm font-medium">Your Rate</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-lg font-bold">{interestRate}%</span>
+                      <span className="text-sm text-gray-500 block">
+                        {interestRate <= 3.5 ? 'Below' : interestRate <= 4.0 ? 'Near' : 'Above'} average
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Impact of 1% rate change */}
+                  <div className="border-t pt-4">
+                    <p className="text-sm font-medium mb-2">Impact of 1% rate change</p>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-green-50 p-3 rounded-lg">
+                        <p className="text-xs text-green-600 uppercase font-semibold">If rate drops 1%</p>
+                        <p className="text-lg font-bold text-green-700">
+                          {formatCurrency(
+                            (loanAmount * ((interestRate - 1) / 100 / 12) * Math.pow(1 + ((interestRate - 1) / 100 / 12), mortgageTerm * 12)) / 
+                            (Math.pow(1 + ((interestRate - 1) / 100 / 12), mortgageTerm * 12) - 1)
+                          )}
+                        </p>
+                        <p className="text-xs text-green-600">
+                          {formatCurrency(
+                            monthlyPayment - (
+                              (loanAmount * ((interestRate - 1) / 100 / 12) * Math.pow(1 + ((interestRate - 1) / 100 / 12), mortgageTerm * 12)) / 
+                              (Math.pow(1 + ((interestRate - 1) / 100 / 12), mortgageTerm * 12) - 1)
+                            )
+                          )} less per month
+                        </p>
+                      </div>
+                      <div className="bg-red-50 p-3 rounded-lg">
+                        <p className="text-xs text-red-600 uppercase font-semibold">If rate rises 1%</p>
+                        <p className="text-lg font-bold text-red-700">
+                          {formatCurrency(
+                            (loanAmount * ((interestRate + 1) / 100 / 12) * Math.pow(1 + ((interestRate + 1) / 100 / 12), mortgageTerm * 12)) / 
+                            (Math.pow(1 + ((interestRate + 1) / 100 / 12), mortgageTerm * 12) - 1)
+                          )}
+                        </p>
+                        <p className="text-xs text-red-600">
+                          {formatCurrency(
+                            (
+                              (loanAmount * ((interestRate + 1) / 100 / 12) * Math.pow(1 + ((interestRate + 1) / 100 / 12), mortgageTerm * 12)) / 
+                              (Math.pow(1 + ((interestRate + 1) / 100 / 12), mortgageTerm * 12) - 1)
+                            ) - monthlyPayment
+                          )} more per month
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="bg-gray-50 border rounded-lg p-6">
+                <h3 className="text-lg font-medium mb-4">Mortgage Term Impact</h3>
+                
+                <div className="space-y-4">
+                  {/* 25 Year Option */}
+                  {mortgageTerm !== 25 && (
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="font-medium">25 Year Term</p>
+                          <p className="text-sm text-gray-500">instead of {mortgageTerm} years</p>
+                        </div>
+                        <button 
+                          className="text-sm text-emerald-600 hover:text-emerald-700"
+                          onClick={() => {
+                            setMortgageTerm(25);
+                            calculateMortgage();
+                          }}
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      
+                      <div className="mt-3 grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-gray-500">Monthly Payment</p>
+                          <p className="font-bold">
+                            {formatCurrency(
+                              (loanAmount * (interestRate / 100 / 12) * Math.pow(1 + (interestRate / 100 / 12), 25 * 12)) / 
+                              (Math.pow(1 + (interestRate / 100 / 12), 25 * 12) - 1)
+                            )}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Total Interest</p>
+                          <p className="font-bold">
+                            {formatCurrency(
+                              ((loanAmount * (interestRate / 100 / 12) * Math.pow(1 + (interestRate / 100 / 12), 25 * 12)) / 
+                              (Math.pow(1 + (interestRate / 100 / 12), 25 * 12) - 1)) * 25 * 12 - loanAmount
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 30 Year Option */}
+                  {mortgageTerm !== 30 && (
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="font-medium">30 Year Term</p>
+                          <p className="text-sm text-gray-500">instead of {mortgageTerm} years</p>
+                        </div>
+                        <button 
+                          className="text-sm text-emerald-600 hover:text-emerald-700"
+                          onClick={() => {
+                            setMortgageTerm(30);
+                            calculateMortgage();
+                          }}
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      
+                      <div className="mt-3 grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-gray-500">Monthly Payment</p>
+                          <p className="font-bold">
+                            {formatCurrency(
+                              (loanAmount * (interestRate / 100 / 12) * Math.pow(1 + (interestRate / 100 / 12), 30 * 12)) / 
+                              (Math.pow(1 + (interestRate / 100 / 12), 30 * 12) - 1)
+                            )}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Total Interest</p>
+                          <p className="font-bold">
+                            {formatCurrency(
+                              ((loanAmount * (interestRate / 100 / 12) * Math.pow(1 + (interestRate / 100 / 12), 30 * 12)) / 
+                              (Math.pow(1 + (interestRate / 100 / 12), 30 * 12) - 1)) * 30 * 12 - loanAmount
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 35 Year Option */}
+                  {mortgageTerm !== 35 && (
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="font-medium">35 Year Term</p>
+                          <p className="text-sm text-gray-500">instead of {mortgageTerm} years</p>
+                        </div>
+                        <button 
+                          className="text-sm text-emerald-600 hover:text-emerald-700"
+                          onClick={() => {
+                            setMortgageTerm(35);
+                            calculateMortgage();
+                          }}
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      
+                      <div className="mt-3 grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-gray-500">Monthly Payment</p>
+                          <p className="font-bold">
+                            {formatCurrency(
+                              (loanAmount * (interestRate / 100 / 12) * Math.pow(1 + (interestRate / 100 / 12), 35 * 12)) / 
+                              (Math.pow(1 + (interestRate / 100 / 12), 35 * 12) - 1)
+                            )}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Total Interest</p>
+                          <p className="font-bold">
+                            {formatCurrency(
+                              ((loanAmount * (interestRate / 100 / 12) * Math.pow(1 + (interestRate / 100 / 12), 35 * 12)) / 
+                              (Math.pow(1 + (interestRate / 100 / 12), 35 * 12) - 1)) * 35 * 12 - loanAmount
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6">
+                <h3 className="text-lg font-medium text-emerald-800 mb-3">Mortgage Affordability</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-emerald-700">Recommended income for this mortgage</p>
+                    <p className="text-xl font-bold">
+                      {formatCurrency(monthlyPayment * 12 * 3)}
+                      <span className="text-sm font-normal text-emerald-600 ml-1">per year</span>
+                    </p>
+                    <p className="text-sm text-emerald-700 mt-1">
+                      (Based on monthly payment being no more than 33% of income)
+                    </p>
+                  </div>
+                  
+                  <div className="pt-3 border-t border-emerald-200">
+                    <Button className="w-full">
+                      Apply for Mortgage Approval <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="amortization" className="p-6 pt-4">
+          <div className="space-y-4">
+            <div className="bg-gray-50 border rounded-lg p-4 mb-4 flex justify-between items-center">
+              <h3 className="text-lg font-medium">Amortization Schedule</h3>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={exportAmortizationSchedule}
+                className="flex items-center"
+              >
+                <Download className="h-4 w-4 mr-2" /> Export CSV
+              </Button>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Year
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Payment
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Principal
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Interest
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Remaining Balance
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {amortizationSchedule.map((yearData) => (
+                    <tr key={yearData.year}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">Year {yearData.year}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{formatCurrency(yearData.totalPayment)}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-emerald-600">{formatCurrency(yearData.principalPaid)}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-red-600">{formatCurrency(yearData.interestPaid)}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">{formatCurrency(yearData.remainingBalance)}</div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+              <div className="flex items-start">
+                <Info className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                <div className="text-sm text-blue-800">
+                  <p className="font-medium mb-1">Understanding Amortization</p>
+                  <p>In the early years of your mortgage, most of your payment goes toward interest. Over time, more goes to principal. This is why making extra payments early in your mortgage can significantly reduce the total interest paid.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </Card>
+  );
+}

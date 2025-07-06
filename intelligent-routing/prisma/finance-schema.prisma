@@ -1,0 +1,672 @@
+// Financial models for real estate development platform
+// Include this in your main schema.prisma file
+
+// Currency enum (ISO 4217)
+enum CurrencyCode {
+  EUR
+  USD
+  GBP
+  CAD
+  AUD
+  JPY
+  CHF
+  CNY
+}
+
+// Transaction status 
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+  SCHEDULED
+  PROCESSING
+  RECONCILED
+  DISPUTED
+}
+
+// Payment method
+enum PaymentMethod {
+  BANK_TRANSFER
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+  CHECK
+  DIRECT_DEBIT
+  ELECTRONIC_TRANSFER
+  WIRE_TRANSFER
+  ESCROW
+  OTHER
+}
+
+// Funding type
+enum FundingType {
+  DEVELOPMENT_LOAN
+  SENIOR_DEBT
+  MEZZANINE_DEBT
+  EQUITY_INVESTMENT
+  CROWDFUNDING
+  GRANT
+  PRESALES
+  JOINT_VENTURE
+  CONSTRUCTION_LOAN
+  BRIDGE_LOAN
+  INTERNAL_FUNDING
+  VENTURE_DEBT
+  OTHER
+}
+
+// Funding status
+enum FundingStatus {
+  PROPOSED
+  APPROVED
+  ACTIVE
+  FULLY_DRAWN
+  REPAID
+  CANCELLED
+  EXPIRED
+  PENDING_APPROVAL
+  PARTIALLY_DRAWN
+}
+
+// Investment type
+enum InvestmentType {
+  EQUITY
+  DEBT
+  MEZZANINE
+  PREFERRED_EQUITY
+  JOINT_VENTURE
+  PRIVATE_PLACEMENT
+  SYNDICATION
+  FUND
+  REIT
+  OTHER
+}
+
+// Investment status
+enum InvestmentStatus {
+  PROPOSED
+  OPEN
+  CLOSED
+  FULLY_SUBSCRIBED
+  ACTIVE
+  EXITED
+  DISTRESSED
+  DEFAULTED
+  RESTRUCTURED
+  ON_HOLD
+}
+
+// Risk rating
+enum RiskRating {
+  VERY_LOW
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+// Development finance models
+
+model DevelopmentFinance {
+  id                String      @id @default(cuid())
+  development       Development @relation(fields: [developmentId], references: [id])
+  developmentId     String      @unique
+  projectCost       Decimal     @db.Decimal(12, 2)
+  projectCostCurrency CurrencyCode
+  reportingPeriod   String      // 'monthly', 'quarterly', 'annually'
+  
+  // Locks
+  lockedBy          String?     // User ID
+  lockedUntil       DateTime?
+  
+  // Timestamps
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  // Relations
+  fundingSources    FundingSource[]
+  budget            DevelopmentBudget?
+  cashFlows         CashFlowProjection[]
+  financialReturns  FinancialReturns?
+  financialStatements FinancialStatement[]
+  transactions      FinancialTransaction[]
+  documents         Document[]
+}
+
+model FundingSource {
+  id                String      @id @default(cuid())
+  finance           DevelopmentFinance @relation(fields: [financeId], references: [id])
+  financeId         String
+  name              String
+  type              FundingType
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  interestRate      Decimal?    @db.Decimal(5, 2)  // For debt financing (percentage)
+  term              Int?        // Term in months
+  termUnit          String?     // 'days', 'weeks', 'months', 'years'
+  startDate         DateTime?
+  endDate           DateTime?
+  ltvRatio          Decimal?    @db.Decimal(5, 2)  // Loan to value ratio (percentage)
+  ltcRatio          Decimal?    @db.Decimal(5, 2)  // Loan to cost ratio (percentage)
+  covenants         String[]    // Financial covenants
+  securityType      String?     // What secures the financing
+  providerName      String
+  providerContact   String?
+  status            FundingStatus
+  notes             String?     @db.Text
+  
+  // Relations
+  drawdowns         Drawdown[]
+  repayments        Repayment[]
+  documents         Document[]  @relation("FundingSourceDocuments")
+}
+
+model Drawdown {
+  id                String      @id @default(cuid())
+  fundingSource     FundingSource @relation(fields: [fundingSourceId], references: [id])
+  fundingSourceId   String
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  date              DateTime
+  status            TransactionStatus
+  purpose           String
+  notes             String?     @db.Text
+  transactionId     String?     // Link to the transaction record
+  conditions        String[]    // Conditions that must be met for drawdown
+}
+
+model Repayment {
+  id                String      @id @default(cuid())
+  fundingSource     FundingSource @relation(fields: [fundingSourceId], references: [id])
+  fundingSourceId   String
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  date              DateTime
+  status            TransactionStatus
+  type              String      // 'interest', 'principal', 'fees', 'combined'
+  principalAmount   Decimal?    @db.Decimal(12, 2)
+  interestAmount    Decimal?    @db.Decimal(12, 2)
+  feesAmount        Decimal?    @db.Decimal(12, 2)
+  notes             String?     @db.Text
+  transactionId     String?     // Link to the transaction record
+}
+
+model DevelopmentBudget {
+  id                String      @id @default(cuid())
+  finance           DevelopmentFinance @relation(fields: [financeId], references: [id])
+  financeId         String      @unique
+  name              String
+  description       String?     @db.Text
+  totalBudget       Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  contingencyPercentage Decimal @db.Decimal(5, 2)
+  contingencyAmount Decimal     @db.Decimal(12, 2)
+  startDate         DateTime
+  endDate           DateTime
+  version           Int         // For tracking budget revisions
+  status            String      // 'draft', 'approved', 'active', 'closed', 'revised'
+  createdBy         String      // User ID
+  approvedBy        String?     // User ID
+  approvedAt        DateTime?
+  notes             String?     @db.Text
+  
+  // Relations
+  categories        BudgetCategory[]
+  documents         Document[]  @relation("BudgetDocuments")
+  
+  // Timestamps
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model BudgetCategory {
+  id                String      @id @default(cuid())
+  budget            DevelopmentBudget @relation(fields: [budgetId], references: [id])
+  budgetId          String
+  name              String
+  description       String?     @db.Text
+  parentCategoryId  String?     // For hierarchical budget structures
+  plannedAmount     Decimal     @db.Decimal(12, 2)
+  actualAmount      Decimal     @db.Decimal(12, 2)
+  varianceAmount    Decimal     @db.Decimal(12, 2)
+  variancePercentage Decimal    @db.Decimal(5, 2)
+  isMilestone       Boolean     @default(false)
+  milestoneDate     DateTime?
+  status            String      // 'pending', 'in_progress', 'completed'
+  notes             String?     @db.Text
+  
+  // Relations
+  items             BudgetLineItem[]
+}
+
+model BudgetLineItem {
+  id                String      @id @default(cuid())
+  category          BudgetCategory @relation(fields: [categoryId], references: [id])
+  categoryId        String
+  name              String
+  description       String?     @db.Text
+  quantity          Decimal     @db.Decimal(12, 2)
+  unit              String
+  unitPrice         Decimal     @db.Decimal(12, 2)
+  plannedAmount     Decimal     @db.Decimal(12, 2)
+  actualAmount      Decimal     @db.Decimal(12, 2)
+  varianceAmount    Decimal     @db.Decimal(12, 2)
+  variancePercentage Decimal    @db.Decimal(5, 2)
+  responsible       String?     // Who is responsible for this line item
+  invoices          String[]    // Invoice IDs related to this line item
+  purchaseOrders    String[]    // Purchase order IDs
+  status            String      // 'pending', 'in_progress', 'completed'
+  notes             String?     @db.Text
+}
+
+model FinancialTransaction {
+  id                String      @id @default(cuid())
+  finance           DevelopmentFinance @relation(fields: [financeId], references: [id])
+  financeId         String
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  date              DateTime
+  description       String
+  referenceNumber   String?
+  status            TransactionStatus
+  category          String
+  transactionType   String      // 'income', 'expense', 'transfer', 'adjustment'
+  paymentMethod     PaymentMethod
+  counterpartyName  String
+  counterpartyType  String      // 'contractor', 'supplier', 'buyer', 'lender', 'investor', 'other'
+  counterpartyId    String?     // Foreign key to entity if available
+  budgetCategoryId  String?     // Link to budget category
+  invoiceId         String?
+  accountId         String?     // Account ID where transaction occurred
+  relatedTransactionId String?  // For linked transactions
+  tags              String[]
+  notes             String?     @db.Text
+  
+  // Timestamps
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model FinancialStatement {
+  id                String      @id @default(cuid())
+  finance           DevelopmentFinance @relation(fields: [financeId], references: [id])
+  financeId         String
+  type              String      // 'balance_sheet', 'income_statement', 'cash_flow_statement'
+  period            String      // e.g., 'Q1 2023', 'Jan 2023'
+  startDate         DateTime
+  endDate           DateTime
+  data              Json        // Financial statement data structure
+  createdBy         String      // User ID
+  approvedBy        String?     // User ID
+  approvedAt        DateTime?
+  status            String      // 'draft', 'final', 'audited'
+  
+  // Timestamps
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  // Relations
+  documents         Document[]  @relation("FinancialStatementDocuments")
+}
+
+model FinancialReturns {
+  id                String      @id @default(cuid())
+  finance           DevelopmentFinance @relation(fields: [financeId], references: [id])
+  financeId         String      @unique
+  
+  // Basic profit metrics
+  totalRevenue      Decimal     @db.Decimal(12, 2)
+  totalRevenueCurrency CurrencyCode
+  totalCost         Decimal     @db.Decimal(12, 2)
+  totalCostCurrency CurrencyCode
+  grossProfit       Decimal     @db.Decimal(12, 2)
+  grossProfitCurrency CurrencyCode
+  grossMargin       Decimal     @db.Decimal(5, 2) // percentage
+  netProfit         Decimal     @db.Decimal(12, 2)
+  netProfitCurrency CurrencyCode
+  netMargin         Decimal     @db.Decimal(5, 2) // percentage
+  
+  // Investment metrics
+  ror               Decimal     @db.Decimal(5, 2) // Return on Revenue (percentage)
+  roi               Decimal     @db.Decimal(5, 2) // Return on Investment (percentage)
+  irr               Decimal     @db.Decimal(5, 2) // Internal Rate of Return (percentage)
+  paybackPeriod     Int         // In months
+  profitOnCost      Decimal     @db.Decimal(5, 2) // (Revenue - Cost) / Cost (percentage)
+  breakEvenPoint    Json?       // Structured data for break-even analysis
+  
+  // Time-based metrics
+  constructionStartDate DateTime?
+  constructionEndDate DateTime?
+  salesStartDate     DateTime?
+  salesEndDate       DateTime?
+  constructionDuration Int       // In months
+  salesDuration      Int         // In months
+  
+  // Financial modeling
+  npv               Decimal     @db.Decimal(12, 2) // Net Present Value
+  npvCurrency       CurrencyCode
+  sensitivity       Json?       // Structured data for sensitivity analysis
+  
+  // Updated times
+  lastCalculated    DateTime
+  calculatedBy      String      // User ID
+}
+
+// Cash flow models
+
+model CashFlowProjection {
+  id                String      @id @default(cuid())
+  finance           DevelopmentFinance @relation(fields: [financeId], references: [id])
+  financeId         String
+  name              String
+  description       String?     @db.Text
+  startDate         DateTime
+  endDate           DateTime
+  frequency         String      // 'weekly', 'monthly', 'quarterly', 'annually'
+  baseCurrency      CurrencyCode
+  version           Int
+  status            String      // 'draft', 'approved', 'active', 'archived'
+  createdBy         String      // User ID
+  approvedBy        String?     // User ID
+  approvedAt        DateTime?
+  lastUpdated       DateTime    @updatedAt
+  scenarioType      String      // 'base', 'optimistic', 'pessimistic', 'custom'
+  assumptions       Json?       // Structured data for cash flow assumptions
+  
+  // Relations
+  periods           CashFlowPeriod[]
+  summary           CashFlowSummary?
+  
+  // Scenarios if this is the base
+  scenarios         CashFlowScenario[] @relation("BaseScenarioRelation")
+  
+  // If this is a scenario
+  baseScenario      CashFlowProjection? @relation("BaseScenarioRelation", fields: [baseScenarioId], references: [id])
+  baseScenarioId    String?
+}
+
+model CashFlowPeriod {
+  id                String      @id @default(cuid())
+  cashFlow          CashFlowProjection @relation(fields: [cashFlowId], references: [id])
+  cashFlowId        String
+  periodNumber      Int
+  startDate         DateTime
+  endDate           DateTime
+  isActual          Boolean     // Whether this period contains actual or projected figures
+  
+  // Inflows
+  salesRevenue      Decimal     @db.Decimal(12, 2)
+  salesRevenueCurrency CurrencyCode
+  rentalIncome      Decimal     @db.Decimal(12, 2)
+  rentalIncomeCurrency CurrencyCode
+  fundingDrawdowns  Decimal     @db.Decimal(12, 2)
+  fundingDrawdownsCurrency CurrencyCode
+  otherInflows      Decimal     @db.Decimal(12, 2)
+  otherInflowsCurrency CurrencyCode
+  totalInflows      Decimal     @db.Decimal(12, 2)
+  totalInflowsCurrency CurrencyCode
+  
+  // Outflows
+  landCosts         Decimal     @db.Decimal(12, 2)
+  landCostsCurrency CurrencyCode
+  constructionCosts Decimal     @db.Decimal(12, 2)
+  constructionCostsCurrency CurrencyCode
+  professionalFees  Decimal     @db.Decimal(12, 2)
+  professionalFeesCurrency CurrencyCode
+  marketingCosts    Decimal     @db.Decimal(12, 2)
+  marketingCostsCurrency CurrencyCode
+  financeCosts      Decimal     @db.Decimal(12, 2)
+  financeCostsCurrency CurrencyCode
+  legalFees         Decimal     @db.Decimal(12, 2)
+  legalFeesCurrency CurrencyCode
+  contingencyCosts  Decimal     @db.Decimal(12, 2)
+  contingencyCostsCurrency CurrencyCode
+  taxPayments       Decimal     @db.Decimal(12, 2)
+  taxPaymentsCurrency CurrencyCode
+  otherOutflows     Decimal     @db.Decimal(12, 2)
+  otherOutflowsCurrency CurrencyCode
+  totalOutflows     Decimal     @db.Decimal(12, 2)
+  totalOutflowsCurrency CurrencyCode
+  
+  // Net cash flow
+  netCashFlow       Decimal     @db.Decimal(12, 2)
+  netCashFlowCurrency CurrencyCode
+  cumulativeCashFlow Decimal    @db.Decimal(12, 2)
+  cumulativeCashFlowCurrency CurrencyCode
+  
+  // Additional details
+  notes             String?     @db.Text
+  
+  // Relations
+  categories        CashFlowCategory[]
+}
+
+model CashFlowCategory {
+  id                String      @id @default(cuid())
+  period            CashFlowPeriod @relation(fields: [periodId], references: [id])
+  periodId          String
+  name              String
+  description       String?     @db.Text
+  type              String      // 'inflow', 'outflow'
+  plannedAmount     Decimal     @db.Decimal(12, 2)
+  plannedAmountCurrency CurrencyCode
+  actualAmount      Decimal     @db.Decimal(12, 2)
+  actualAmountCurrency CurrencyCode
+  variance          Decimal     @db.Decimal(12, 2)
+  varianceCurrency  CurrencyCode
+  variancePercentage Decimal    @db.Decimal(5, 2)
+  parentCategoryId  String?     // For nested categories
+  
+  // Relations
+  items             CashFlowLineItem[]
+}
+
+model CashFlowLineItem {
+  id                String      @id @default(cuid())
+  category          CashFlowCategory @relation(fields: [categoryId], references: [id])
+  categoryId        String
+  name              String
+  description       String?     @db.Text
+  type              String      // 'inflow', 'outflow'
+  plannedAmount     Decimal     @db.Decimal(12, 2)
+  plannedAmountCurrency CurrencyCode
+  actualAmount      Decimal     @db.Decimal(12, 2)
+  actualAmountCurrency CurrencyCode
+  variance          Decimal     @db.Decimal(12, 2)
+  varianceCurrency  CurrencyCode
+  variancePercentage Decimal    @db.Decimal(5, 2)
+  date              DateTime?
+  transactionId     String?     // Reference to actual transaction if this is an actual line item
+  budgetLineItemId  String?     // Reference to budget line item
+  notes             String?     @db.Text
+}
+
+model CashFlowSummary {
+  id                String      @id @default(cuid())
+  cashFlow          CashFlowProjection @relation(fields: [cashFlowId], references: [id])
+  cashFlowId        String      @unique
+  
+  // Total inflows and outflows
+  totalInflows      Decimal     @db.Decimal(12, 2)
+  totalInflowsCurrency CurrencyCode
+  totalOutflows     Decimal     @db.Decimal(12, 2)
+  totalOutflowsCurrency CurrencyCode
+  netCashFlow       Decimal     @db.Decimal(12, 2)
+  netCashFlowCurrency CurrencyCode
+  
+  // Key metrics
+  peakNegativeCashFlow Decimal  @db.Decimal(12, 2)
+  peakNegativeCashFlowCurrency CurrencyCode
+  peakNegativeCashFlowPeriod Int
+  breakEvenPeriod    Int        // Period when cumulative cash flow becomes positive
+  cashFlowPositiveDate DateTime?
+  
+  // Period-based metrics
+  periodsWithNegativeCashFlow Int
+  periodsWithPositiveCashFlow Int
+  
+  // Financial metrics
+  npv               Decimal     @db.Decimal(12, 2) // Net Present Value
+  npvCurrency       CurrencyCode
+  irr               Decimal     @db.Decimal(5, 2) // Internal Rate of Return (percentage)
+  paybackPeriod     Int         // Number of periods
+  profitability     Decimal     @db.Decimal(5, 2) // Total cash inflow / Total cash outflow
+  
+  // Cash flow stability metrics
+  volatilityIndex   Decimal     @db.Decimal(5, 2) // Measure of cash flow volatility
+  
+  // Liquidity indicators
+  liquidityRatio    Decimal     @db.Decimal(5, 2) // Current inflows / Current outflows
+  
+  // Distribution of cash flows
+  inflowDistribution Json       // Percentage by category
+  outflowDistribution Json      // Percentage by category
+  
+  // Last calculated timestamp
+  lastCalculated    DateTime
+}
+
+model CashFlowScenario {
+  id                String      @id @default(cuid())
+  name              String
+  description       String?     @db.Text
+  type              String      // 'optimistic', 'pessimistic', 'custom', 'market_downturn', 'accelerated_sales', 'increased_costs'
+  baseScenario      CashFlowProjection @relation("BaseScenarioRelation", fields: [baseScenarioId], references: [id])
+  baseScenarioId    String
+  modifiedAssumptions Json
+  
+  // Result differences
+  netCashFlowDifference Decimal @db.Decimal(12, 2)
+  netCashFlowDifferenceCurrency CurrencyCode
+  netCashFlowDifferencePercentage Decimal @db.Decimal(5, 2)
+  npvDifference     Decimal     @db.Decimal(12, 2)
+  npvDifferenceCurrency CurrencyCode
+  npvDifferencePercentage Decimal @db.Decimal(5, 2)
+  irrDifference     Decimal     @db.Decimal(5, 2) // Percentage points
+  paybackPeriodDifference Int   // Periods
+  
+  // Likelihood assessment
+  probabilityAssessment Decimal? @db.Decimal(5, 2) // Estimated probability (0-100%)
+  
+  // Scenario-specific metrics
+  scenarioSpecificMetrics Json?
+  
+  // Creation metadata
+  createdBy         String      // User ID
+  createdAt         DateTime    @default(now())
+  lastUpdated       DateTime    @updatedAt
+}
+
+// Investment analysis models
+
+model Investment {
+  id                String      @id @default(cuid())
+  developmentId     String
+  name              String
+  description       String?     @db.Text
+  investmentType    InvestmentType
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  term              Int         // In months
+  startDate         DateTime
+  maturityDate      DateTime
+  status            InvestmentStatus
+  riskRating        RiskRating
+  
+  // Relations
+  investors         InvestmentInvestor[]
+  distributions     InvestmentDistribution[]
+  performanceHistory InvestmentPerformancePeriod[]
+  documents         Document[]  @relation("InvestmentDocuments")
+  
+  // Returns
+  expectedReturns   Json        // Structured data including projections
+  actualReturns     Json?       // Structured data including actual returns
+  analysis          Json        // Structured investment analysis data
+  
+  // Timestamps
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+}
+
+model InvestmentInvestor {
+  id                String      @id @default(cuid())
+  investment        Investment  @relation(fields: [investmentId], references: [id])
+  investmentId      String
+  userId            String?     // Link to user if registered
+  name              String
+  type              String      // 'individual', 'company', 'pension_fund', 'investment_fund', 'institution', 'trust', 'other'
+  contactEmail      String?
+  contactPhone      String?
+  contactAddress    String?
+  investmentAmount  Decimal     @db.Decimal(12, 2)
+  investmentCurrency CurrencyCode
+  investmentDate    DateTime
+  distributionPreference String? // 'cash', 'reinvest', 'mixed'
+  distributionMethod String?    // 'direct_deposit', 'check', 'wire_transfer'
+  taxInformation    Json?       // Structured tax data
+  accreditationStatus String?   // 'accredited', 'non_accredited', 'qualified_purchaser'
+  verificationStatus String     // 'pending', 'verified', 'rejected'
+  kycStatus         String      // 'pending', 'approved', 'rejected'
+  notes             String?     @db.Text
+  
+  // Relations
+  documents         Document[]  @relation("InvestorDocuments")
+  distributions     InvestorDistribution[]
+}
+
+model InvestmentDistribution {
+  id                String      @id @default(cuid())
+  investment        Investment  @relation(fields: [investmentId], references: [id])
+  investmentId      String
+  distributionDate  DateTime
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  distributionType  String      // 'regular', 'special', 'return_of_capital', 'final'
+  description       String
+  status            String      // 'scheduled', 'processing', 'distributed', 'failed'
+  notes             String?     @db.Text
+  
+  // Relations
+  investorDistributions InvestorDistribution[]
+}
+
+model InvestorDistribution {
+  id                String      @id @default(cuid())
+  distribution      InvestmentDistribution @relation(fields: [distributionId], references: [id])
+  distributionId    String
+  investor          InvestmentInvestor @relation(fields: [investorId], references: [id])
+  investorId        String
+  amount            Decimal     @db.Decimal(12, 2)
+  currency          CurrencyCode
+  status            String      // 'pending', 'paid', 'failed'
+  transferReference String?
+  transferDate      DateTime?
+  notes             String?     @db.Text
+}
+
+model InvestmentPerformancePeriod {
+  id                String      @id @default(cuid())
+  investment        Investment  @relation(fields: [investmentId], references: [id])
+  investmentId      String
+  periodStart       DateTime
+  periodEnd         DateTime
+  projectedValue    Decimal     @db.Decimal(12, 2)
+  projectedValueCurrency CurrencyCode
+  actualValue       Decimal     @db.Decimal(12, 2)
+  actualValueCurrency CurrencyCode
+  valueDelta        Decimal     @db.Decimal(12, 2)
+  valueDeltaCurrency CurrencyCode
+  valueDeltaPercentage Decimal  @db.Decimal(5, 2)
+  distributions     Decimal     @db.Decimal(12, 2)
+  distributionsCurrency CurrencyCode
+  expenses          Decimal     @db.Decimal(12, 2)
+  expensesCurrency  CurrencyCode
+  netIncome         Decimal     @db.Decimal(12, 2)
+  netIncomeCurrency CurrencyCode
+  occupancyRate     Decimal?    @db.Decimal(5, 2) // For rental properties (percentage)
+  rentalYield       Decimal?    @db.Decimal(5, 2) // For rental properties (percentage)
+  appreciationRate  Decimal?    @db.Decimal(5, 2) // Percentage
+  performanceNotes  String?     @db.Text
+}

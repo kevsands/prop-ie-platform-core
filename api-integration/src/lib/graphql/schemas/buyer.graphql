@@ -1,0 +1,537 @@
+"""
+First-Time Buyer schema for the PropIE GraphQL API
+Defines all buyer-related types, queries, and mutations
+"""
+
+enum BuyerJourneyPhase {
+  PLANNING
+  FINANCING
+  SEARCHING
+  BUYING
+  MOVED_IN
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum MortgageStatus {
+  NOT_STARTED
+  AIP_RECEIVED
+  AIP_EXPIRED
+  MORTGAGE_OFFERED
+  MORTGAGE_COMPLETED
+}
+
+enum SnagStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum SnagItemStatus {
+  PENDING
+  ACKNOWLEDGED
+  FIXED
+  DISPUTED
+}
+
+enum HomePackItemCategory {
+  WARRANTY
+  MANUAL
+  CERTIFICATE
+  UTILITY
+}
+
+"""
+Buyer profile for tracking the buyer's journey
+"""
+type BuyerProfile {
+  id: ID!
+  user: User!
+  currentJourneyPhase: BuyerJourneyPhase!
+  financialDetails: JSON
+  preferences: JSON
+  governmentSchemes: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  reservations: [Reservation!]
+  mortgageTracking: MortgageTracking
+  snagLists: [SnagList!]
+}
+
+"""
+Property reservation information
+"""
+type Reservation {
+  id: ID!
+  property: Unit!
+  user: User!
+  status: ReservationStatus!
+  depositAmount: Float!
+  depositPaid: Boolean!
+  reservationDate: DateTime!
+  agreementSigned: Boolean!
+  agreementDocument: String
+  expiryDate: DateTime
+  completionDate: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  documents: [Document!]
+}
+
+"""
+Mortgage application tracking
+"""
+type MortgageTracking {
+  id: ID!
+  user: User!
+  status: MortgageStatus!
+  lenderName: String
+  amount: Float
+  aipDate: DateTime
+  aipExpiryDate: DateTime
+  formalOfferDate: DateTime
+  mortgageDocuments: [Document!]
+  conditions: [String!]
+  notes: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Snag list for property issues
+"""
+type SnagList {
+  id: ID!
+  property: Unit!
+  user: User!
+  status: SnagStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  items: [SnagItem!]!
+}
+
+"""
+Individual snag item
+"""
+type SnagItem {
+  id: ID!
+  snagList: SnagList!
+  description: String!
+  location: String!
+  status: SnagItemStatus!
+  images: [String!]!
+  developerNotes: String
+  fixedDate: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Digital home pack item
+"""
+type HomePackItem {
+  id: ID!
+  property: Unit!
+  title: String!
+  category: HomePackItemCategory!
+  documentUrl: String!
+  expiryDate: DateTime
+  issuer: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Input for creating a new buyer profile
+"""
+input CreateBuyerProfileInput {
+  userId: ID!
+  currentJourneyPhase: BuyerJourneyPhase
+  financialDetails: JSON
+  preferences: JSON
+  governmentSchemes: JSON
+}
+
+"""
+Input for updating a buyer profile
+"""
+input UpdateBuyerProfileInput {
+  currentJourneyPhase: BuyerJourneyPhase
+  financialDetails: JSON
+  preferences: JSON
+  governmentSchemes: JSON
+}
+
+"""
+Input for creating a property reservation
+"""
+input CreateReservationInput {
+  propertyId: ID!
+  userId: ID!
+  depositAmount: Float!
+  expiryDate: DateTime
+}
+
+"""
+Input for updating a reservation
+"""
+input UpdateReservationInput {
+  status: ReservationStatus
+  depositPaid: Boolean
+  agreementSigned: Boolean
+  agreementDocument: String
+  completionDate: DateTime
+}
+
+"""
+Input for creating mortgage tracking
+"""
+input CreateMortgageTrackingInput {
+  userId: ID!
+  status: MortgageStatus
+  lenderName: String
+  amount: Float
+  aipDate: DateTime
+  aipExpiryDate: DateTime
+  notes: String
+}
+
+"""
+Input for updating mortgage tracking
+"""
+input UpdateMortgageTrackingInput {
+  status: MortgageStatus
+  lenderName: String
+  amount: Float
+  aipDate: DateTime
+  aipExpiryDate: DateTime
+  formalOfferDate: DateTime
+  conditions: [String!]
+  notes: String
+}
+
+"""
+Input for creating a snag list
+"""
+input CreateSnagListInput {
+  propertyId: ID!
+  userId: ID!
+}
+
+"""
+Input for updating a snag list
+"""
+input UpdateSnagListInput {
+  status: SnagStatus
+}
+
+"""
+Input for creating a snag item
+"""
+input CreateSnagItemInput {
+  snagListId: ID!
+  description: String!
+  location: String!
+  images: [String!]
+}
+
+"""
+Input for updating a snag item
+"""
+input UpdateSnagItemInput {
+  description: String
+  location: String
+  status: SnagItemStatus
+  images: [String!]
+  developerNotes: String
+  fixedDate: DateTime
+}
+
+"""
+Input for creating a home pack item
+"""
+input CreateHomePackItemInput {
+  propertyId: ID!
+  title: String!
+  category: HomePackItemCategory!
+  documentUrl: String!
+  expiryDate: DateTime
+  issuer: String
+}
+
+"""
+Input for updating a home pack item
+"""
+input UpdateHomePackItemInput {
+  title: String
+  category: HomePackItemCategory
+  documentUrl: String
+  expiryDate: DateTime
+  issuer: String
+}
+
+"""
+Input for filtering buyer profiles
+"""
+input BuyerProfileFilterInput {
+  userId: ID
+  currentJourneyPhase: BuyerJourneyPhase
+}
+
+"""
+Input for filtering reservations
+"""
+input ReservationFilterInput {
+  propertyId: ID
+  userId: ID
+  status: ReservationStatus
+  dateFrom: DateTime
+  dateTo: DateTime
+}
+
+"""
+Input for filtering snag lists
+"""
+input SnagListFilterInput {
+  propertyId: ID
+  userId: ID
+  status: SnagStatus
+}
+
+"""
+Response for buyer profiles with pagination
+"""
+type BuyerProfilesResponse {
+  buyerProfiles: [BuyerProfile!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Response for reservations with pagination
+"""
+type ReservationsResponse {
+  reservations: [Reservation!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Response for snag lists with pagination
+"""
+type SnagListsResponse {
+  snagLists: [SnagList!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Response for home pack items with pagination
+"""
+type HomePackItemsResponse {
+  homePackItems: [HomePackItem!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+# Extend the User type to include buyer-related fields
+extend type User {
+  buyerProfile: BuyerProfile
+  reservations: [Reservation!]
+  mortgageTracking: MortgageTracking
+  snagLists: [SnagList!]
+}
+
+# Extend the Unit type to include buyer-related fields
+extend type Unit {
+  reservations: [Reservation!]
+  snagLists: [SnagList!]
+  homePackItems: [HomePackItem!]
+}
+
+# Extend the Query type with buyer queries
+extend type Query {
+  """
+  Get the buyer profile for the current user
+  """
+  myBuyerProfile: BuyerProfile @auth(requires: [BUYER])
+  
+  """
+  Get a buyer profile by ID
+  """
+  buyerProfile(id: ID!): BuyerProfile @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  List buyer profiles with filtering and pagination
+  """
+  buyerProfiles(
+    filter: BuyerProfileFilterInput
+    pagination: PaginationInput
+  ): BuyerProfilesResponse @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  Get a reservation by ID
+  """
+  reservation(id: ID!): Reservation @auth
+  
+  """
+  List reservations with filtering and pagination
+  """
+  reservations(
+    filter: ReservationFilterInput
+    pagination: PaginationInput
+  ): ReservationsResponse @auth(requires: [ADMIN, DEVELOPER, AGENT])
+  
+  """
+  Get reservations for the current user
+  """
+  myReservations: [Reservation!] @auth(requires: [BUYER])
+  
+  """
+  Get mortgage tracking for a user
+  """
+  mortgageTracking(userId: ID!): MortgageTracking @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  Get mortgage tracking for the current user
+  """
+  myMortgageTracking: MortgageTracking @auth(requires: [BUYER])
+  
+  """
+  Get a snag list by ID
+  """
+  snagList(id: ID!): SnagList @auth
+  
+  """
+  List snag lists with filtering and pagination
+  """
+  snagLists(
+    filter: SnagListFilterInput
+    pagination: PaginationInput
+  ): SnagListsResponse @auth(requires: [ADMIN, DEVELOPER, CONTRACTOR])
+  
+  """
+  Get snag lists for the current user
+  """
+  mySnagLists: [SnagList!] @auth(requires: [BUYER])
+  
+  """
+  Get a snag item by ID
+  """
+  snagItem(id: ID!): SnagItem @auth
+  
+  """
+  Get home pack items for a property
+  """
+  homePackItems(propertyId: ID!): [HomePackItem!] @auth
+}
+
+# Extend the Mutation type with buyer mutations
+extend type Mutation {
+  """
+  Create a buyer profile
+  """
+  createBuyerProfile(input: CreateBuyerProfileInput!): BuyerProfile 
+    @auth(requires: [ADMIN, DEVELOPER, BUYER])
+  
+  """
+  Update a buyer profile
+  """
+  updateBuyerProfile(id: ID!, input: UpdateBuyerProfileInput!): BuyerProfile 
+    @auth
+  
+  """
+  Create a property reservation
+  """
+  createReservation(input: CreateReservationInput!): Reservation 
+    @auth(requires: [ADMIN, DEVELOPER, BUYER, AGENT])
+  
+  """
+  Update a reservation
+  """
+  updateReservation(id: ID!, input: UpdateReservationInput!): Reservation 
+    @auth
+  
+  """
+  Cancel a reservation
+  """
+  cancelReservation(id: ID!, reason: String): Reservation 
+    @auth
+  
+  """
+  Complete a reservation (mark as sold)
+  """
+  completeReservation(id: ID!): Reservation 
+    @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  Create mortgage tracking for a user
+  """
+  createMortgageTracking(input: CreateMortgageTrackingInput!): MortgageTracking 
+    @auth(requires: [ADMIN, DEVELOPER, BUYER])
+  
+  """
+  Update mortgage tracking
+  """
+  updateMortgageTracking(id: ID!, input: UpdateMortgageTrackingInput!): MortgageTracking 
+    @auth
+  
+  """
+  Add a document to mortgage tracking
+  """
+  addMortgageDocument(mortgageTrackingId: ID!, documentId: ID!): MortgageTracking 
+    @auth
+  
+  """
+  Remove a document from mortgage tracking
+  """
+  removeMortgageDocument(mortgageTrackingId: ID!, documentId: ID!): MortgageTracking 
+    @auth
+  
+  """
+  Create a snag list for a property
+  """
+  createSnagList(input: CreateSnagListInput!): SnagList 
+    @auth(requires: [ADMIN, DEVELOPER, BUYER])
+  
+  """
+  Update a snag list
+  """
+  updateSnagList(id: ID!, input: UpdateSnagListInput!): SnagList 
+    @auth
+  
+  """
+  Create a snag item
+  """
+  createSnagItem(input: CreateSnagItemInput!): SnagItem 
+    @auth(requires: [ADMIN, DEVELOPER, BUYER])
+  
+  """
+  Update a snag item
+  """
+  updateSnagItem(id: ID!, input: UpdateSnagItemInput!): SnagItem 
+    @auth
+  
+  """
+  Create a home pack item
+  """
+  createHomePackItem(input: CreateHomePackItemInput!): HomePackItem 
+    @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  Update a home pack item
+  """
+  updateHomePackItem(id: ID!, input: UpdateHomePackItemInput!): HomePackItem 
+    @auth(requires: [ADMIN, DEVELOPER])
+  
+  """
+  Delete a home pack item
+  """
+  deleteHomePackItem(id: ID!): Boolean 
+    @auth(requires: [ADMIN, DEVELOPER])
+}

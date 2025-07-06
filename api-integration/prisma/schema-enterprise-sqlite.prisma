@@ -1,0 +1,634 @@
+// PROP.ie Enterprise Database Schema (SQLite Compatible)
+// Comprehensive platform functionality using JSON for arrays/complex data
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ======= CORE ENUMS =======
+
+enum UserRole {
+  DEVELOPER
+  BUYER
+  INVESTOR
+  ARCHITECT
+  ENGINEER
+  QUANTITY_SURVEYOR
+  LEGAL
+  PROJECT_MANAGER
+  AGENT
+  SOLICITOR
+  CONTRACTOR
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+enum DevelopmentStatus {
+  PLANNING
+  PRE_CONSTRUCTION
+  CONSTRUCTION
+  MARKETING
+  SALES
+  HANDOVER
+  COMPLETED
+}
+
+enum UnitType {
+  APARTMENT
+  DUPLEX
+  SEMI_DETACHED
+  DETACHED
+  TERRACED
+  PENTHOUSE
+  COMMERCIAL
+  RETAIL
+  OFFICE
+}
+
+enum UnitStatus {
+  PLANNED
+  UNDER_CONSTRUCTION
+  COMPLETE
+  AVAILABLE
+  RESERVED
+  SALE_AGREED
+  SOLD
+  OCCUPIED
+}
+
+enum SaleStatus {
+  ENQUIRY
+  VIEWING_SCHEDULED
+  VIEWED
+  INTERESTED
+  RESERVATION
+  PENDING_APPROVAL
+  RESERVATION_APPROVED
+  CONTRACT_ISSUED
+  CONTRACT_SIGNED
+  DEPOSIT_PAID
+  MORTGAGE_APPROVED
+  CLOSING
+  COMPLETED
+  HANDED_OVER
+  CANCELLED
+  EXPIRED
+}
+
+// ======= USER MANAGEMENT =======
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  firstName    String
+  lastName     String
+  phone        String?
+  password     String?
+  roleData     Json       // Store roles as JSON: ["BUYER", "INVESTOR"]
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  // Relationships
+  profile            Profile?
+  buyerJourneys      BuyerJourney[]
+  sales              Sale[]
+  investments        Investment[]
+  viewingSlots       ViewingSlot[]
+  documents          Document[]
+  notifications      Notification[]
+  securityLogs       SecurityLog[]
+  developerProfile   DeveloperProfile?
+  agentProfile       AgentProfile?
+  reservations       Reservation[]
+  viewings           Viewing[]
+  customizations     UnitCustomization[]
+  
+  @@map("users")
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  bio         String?
+  avatar      String?
+  preferences Json?    // Store preferences as JSON
+  metadata    Json?    // Additional profile data
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ======= DEVELOPMENT MANAGEMENT =======
+
+model Development {
+  id               String            @id @default(cuid())
+  name             String
+  description      String?
+  location         String
+  city             String
+  county           String
+  eircode          String?
+  status           DevelopmentStatus @default(PLANNING)
+  developerId      String
+  
+  // Media (stored as JSON arrays)
+  mainImage        String
+  imagesData       Json              // JSON array of image URLs
+  videosData       Json?             // JSON array of video URLs
+  sitePlanUrl      String?
+  brochureUrl      String?
+  
+  // Details
+  totalUnits       Int
+  startDate        DateTime?
+  estimatedCompletion DateTime?
+  actualCompletion DateTime?
+  shortDescription String?
+  featuresData     Json?             // JSON array of features
+  amenitiesData    Json?             // JSON array of amenities
+  buildingSpecs    Json?
+  
+  // Financial
+  startingPrice    Float?
+  avgPrice         Float?
+  totalValue       Float?
+  
+  // Marketing
+  isPublished      Boolean   @default(false)
+  tagsData         Json?     // JSON array of tags
+  awardsData       Json?     // JSON array of awards
+  
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relationships
+  developer        DeveloperProfile  @relation(fields: [developerId], references: [id])
+  units            Unit[]
+  projectUpdates   ProjectUpdate[]
+  phases           DevelopmentPhase[]
+  
+  @@map("developments")
+}
+
+model Unit {
+  id               String     @id @default(cuid())
+  developmentId    String
+  unitNumber       String
+  floor            String?
+  type             UnitType
+  status           UnitStatus @default(PLANNED)
+  
+  // Specifications
+  bedrooms         Int
+  bathrooms        Int
+  size             Float      // in sq meters
+  price            Float
+  
+  // Details
+  title            String?
+  description      String?
+  berRating        String
+  featuresData     Json?      // JSON array of features
+  
+  // Media
+  primaryImage     String
+  imagesData       Json?      // JSON array of images
+  floorplansData   Json?      // JSON array of floorplan URLs
+  virtualTourUrl   String?
+  
+  // Dates
+  availableFrom    DateTime?
+  estimatedCompletion DateTime?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relationships
+  development      Development @relation(fields: [developmentId], references: [id])
+  sales            Sale[]
+  viewings         Viewing[]
+  customizations   UnitCustomization[]
+  reservations     Reservation[]
+  
+  @@map("units")
+}
+
+// ======= SALES MANAGEMENT =======
+
+model Sale {
+  id               String     @id @default(cuid())
+  unitId           String
+  buyerId          String
+  agentId          String?
+  status           SaleStatus @default(ENQUIRY)
+  
+  // Financial
+  agreedPrice      Float?
+  deposit          Float?
+  mortgageAmount   Float?
+  
+  // Timeline
+  enquiryDate      DateTime   @default(now())
+  reservationDate  DateTime?
+  contractDate     DateTime?
+  completionDate   DateTime?
+  
+  // Documents & Notes
+  notes            String?
+  metadata         Json?
+  tagsData         Json?      // JSON array of tags
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relationships
+  unit             Unit       @relation(fields: [unitId], references: [id])
+  buyer            User       @relation(fields: [buyerId], references: [id])
+  milestones       SaleMilestone[]
+  communications   SaleCommunication[]
+  
+  @@map("sales")
+}
+
+model Reservation {
+  id               String     @id @default(cuid())
+  unitId           String     @unique
+  buyerId          String
+  reservationFee   Float
+  expiryDate       DateTime
+  isActive         Boolean    @default(true)
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relationships
+  unit             Unit       @relation(fields: [unitId], references: [id])
+  buyer            User       @relation(fields: [buyerId], references: [id])
+  
+  @@map("reservations")
+}
+
+// ======= BUYER JOURNEY =======
+
+model BuyerJourney {
+  id               String     @id @default(cuid())
+  buyerId          String
+  currentPhase     String     @default("PLANNING")
+  
+  // Journey tracking
+  startedAt        DateTime   @default(now())
+  lastActivity     DateTime   @default(now())
+  completedSteps   Json       // JSON array of completed step IDs
+  preferences      Json?      // Buyer preferences as JSON
+  
+  // Help to Buy
+  isFirstTimeBuyer Boolean    @default(false)
+  htbEligible      Boolean?
+  htbApplicationId String?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relationships
+  buyer            User       @relation(fields: [buyerId], references: [id])
+  milestones       BuyerMilestone[]
+  
+  @@map("buyer_journeys")
+}
+
+model BuyerMilestone {
+  id               String        @id @default(cuid())
+  journeyId        String
+  name             String
+  description      String?
+  status           String        @default("PENDING")
+  dueDate          DateTime?
+  completedAt      DateTime?
+  
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  journey          BuyerJourney  @relation(fields: [journeyId], references: [id])
+  
+  @@map("buyer_milestones")
+}
+
+// ======= PROFESSIONAL PROFILES =======
+
+model DeveloperProfile {
+  id               String     @id @default(cuid())
+  userId           String     @unique
+  companyName      String
+  companyRegistration String?
+  website          String?
+  description      String?
+  logo             String?
+  
+  // Verification
+  isVerified       Boolean    @default(false)
+  verifiedAt       DateTime?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relationships
+  user             User       @relation(fields: [userId], references: [id])
+  developments     Development[]
+  
+  @@map("developer_profiles")
+}
+
+model AgentProfile {
+  id               String     @id @default(cuid())
+  userId           String     @unique
+  licenseNumber    String?
+  agency           String?
+  specializations  Json?      // JSON array of specializations
+  
+  isVerified       Boolean    @default(false)
+  verifiedAt       DateTime?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  user             User       @relation(fields: [userId], references: [id])
+  
+  @@map("agent_profiles")
+}
+
+// ======= DOCUMENTS =======
+
+model Document {
+  id               String     @id @default(cuid())
+  title            String
+  description      String?
+  type             String
+  url              String
+  mimeType         String?
+  size             Int?
+  
+  // Ownership
+  uploadedBy       String
+  ownerId          String?    // Generic owner (could be user, sale, development, etc)
+  ownerType        String?    // "USER", "SALE", "DEVELOPMENT", etc
+  
+  // Metadata
+  tagsData         Json?      // JSON array of tags
+  version          Int        @default(1)
+  isPublic         Boolean    @default(false)
+  expiryDate       DateTime?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relationships
+  uploader         User       @relation(fields: [uploadedBy], references: [id])
+  versions         DocumentVersion[]
+  
+  @@map("documents")
+}
+
+model DocumentVersion {
+  id               String     @id @default(cuid())
+  documentId       String
+  version          Int
+  url              String
+  uploadedBy       String
+  uploadedAt       DateTime   @default(now())
+  changeNotes      String?
+
+  document         Document   @relation(fields: [documentId], references: [id])
+  
+  @@map("document_versions")
+}
+
+// ======= COMMUNICATIONS =======
+
+model SaleCommunication {
+  id               String     @id @default(cuid())
+  saleId           String
+  fromUserId       String
+  toUserId         String?
+  type             String     @default("NOTE")
+  subject          String?
+  content          String
+  isInternal       Boolean    @default(false)
+  
+  createdAt        DateTime   @default(now())
+
+  sale             Sale       @relation(fields: [saleId], references: [id])
+  
+  @@map("sale_communications")
+}
+
+model Notification {
+  id               String     @id @default(cuid())
+  userId           String
+  type             String
+  title            String
+  message          String
+  isRead           Boolean    @default(false)
+  actionUrl        String?
+  metadata         Json?
+  
+  createdAt        DateTime   @default(now())
+
+  user             User       @relation(fields: [userId], references: [id])
+  
+  @@map("notifications")
+}
+
+// ======= VIEWINGS =======
+
+model Viewing {
+  id               String     @id @default(cuid())
+  unitId           String
+  buyerId          String
+  scheduledFor     DateTime
+  status           String     @default("SCHEDULED")
+  notes            String?
+  feedback         String?
+  rating           Int?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  unit             Unit       @relation(fields: [unitId], references: [id])
+  buyer            User       @relation(fields: [buyerId], references: [id])
+  
+  @@map("viewings")
+}
+
+model ViewingSlot {
+  id               String     @id @default(cuid())
+  agentId          String
+  startTime        DateTime
+  endTime          DateTime
+  isAvailable      Boolean    @default(true)
+  maxViewings      Int        @default(1)
+  
+  createdAt        DateTime   @default(now())
+
+  agent            User       @relation(fields: [agentId], references: [id])
+  
+  @@map("viewing_slots")
+}
+
+// ======= CUSTOMIZATIONS =======
+
+model UnitCustomization {
+  id               String     @id @default(cuid())
+  unitId           String
+  buyerId          String
+  category         String
+  option           String
+  additionalCost   Float      @default(0)
+  status           String     @default("PENDING")
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  unit             Unit       @relation(fields: [unitId], references: [id])
+  buyer            User       @relation(fields: [buyerId], references: [id])
+  
+  @@map("unit_customizations")
+}
+
+// ======= INVESTMENTS =======
+
+model Investment {
+  id               String     @id @default(cuid())
+  investorId       String
+  developmentId    String?
+  unitId           String?
+  amount           Float
+  type             String     // "DEVELOPMENT", "UNIT", "PORTFOLIO"
+  status           String     @default("ACTIVE")
+  expectedReturn   Float?
+  actualReturn     Float?
+  
+  investmentDate   DateTime   @default(now())
+  maturityDate     DateTime?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  investor         User       @relation(fields: [investorId], references: [id])
+  
+  @@map("investments")
+}
+
+// ======= PROJECT MANAGEMENT =======
+
+model ProjectUpdate {
+  id               String       @id @default(cuid())
+  developmentId    String
+  title            String
+  content          String
+  type             String       @default("GENERAL")
+  isPublic         Boolean      @default(true)
+  imagesData       Json?        // JSON array of image URLs
+  
+  publishedAt      DateTime     @default(now())
+
+  development      Development  @relation(fields: [developmentId], references: [id])
+  
+  @@map("project_updates")
+}
+
+model DevelopmentPhase {
+  id               String       @id @default(cuid())
+  developmentId    String
+  name             String
+  description      String?
+  startDate        DateTime?
+  endDate          DateTime?
+  status           String       @default("PLANNED")
+  progress         Int          @default(0)
+  
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  development      Development  @relation(fields: [developmentId], references: [id])
+  
+  @@map("development_phases")
+}
+
+// ======= MILESTONES =======
+
+model SaleMilestone {
+  id               String     @id @default(cuid())
+  saleId           String
+  name             String
+  description      String?
+  status           String     @default("PENDING")
+  dueDate          DateTime?
+  completedAt      DateTime?
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  sale             Sale       @relation(fields: [saleId], references: [id])
+  
+  @@map("sale_milestones")
+}
+
+// ======= SECURITY & AUDIT =======
+
+model SecurityLog {
+  id               String     @id @default(cuid())
+  userId           String?
+  action           String
+  resource         String?
+  ipAddress        String?
+  userAgent        String?
+  metadata         Json?
+  
+  createdAt        DateTime   @default(now())
+
+  user             User?      @relation(fields: [userId], references: [id])
+  
+  @@map("security_logs")
+}
+
+// ======= ANALYTICS =======
+
+model AnalyticsEvent {
+  id               String     @id @default(cuid())
+  userId           String?
+  event            String
+  properties       Json?
+  sessionId        String?
+  
+  createdAt        DateTime   @default(now())
+  
+  @@map("analytics_events")
+}
+
+// ======= SETTINGS =======
+
+model SystemSetting {
+  id               String     @id @default(cuid())
+  key              String     @unique
+  value            String
+  description      String?
+  isPublic         Boolean    @default(false)
+  
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  
+  @@map("system_settings")
+}

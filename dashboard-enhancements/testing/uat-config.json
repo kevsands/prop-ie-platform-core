@@ -1,0 +1,59 @@
+{
+  "staging": {
+    "baseUrl": "https://prop-ie-staging.vercel.app",
+    "apiUrl": "https://prop-ie-staging.vercel.app/api",
+    "environment": "staging",
+    "features": {
+      "mockAuth": true,
+      "testPayments": true,
+      "debugMode": true,
+      "autoLogin": true
+    }
+  },
+  "users": {
+    "buyer": {
+      "email": "buyer.test@staging.prop.ie",
+      "password": "staging123",
+      "role": "first-time-buyer"
+    },
+    "developer": {
+      "email": "developer.test@staging.prop.ie",
+      "password": "staging123",
+      "role": "developer"
+    },
+    "agent": {
+      "email": "agent.test@staging.prop.ie",
+      "password": "staging123",
+      "role": "estate-agent"
+    },
+    "admin": {
+      "email": "admin.test@staging.prop.ie",
+      "password": "staging123",
+      "role": "admin"
+    }
+  },
+  "testData": {
+    "properties": [
+      {
+        "id": "staging-prop-1",
+        "title": "Staging Test Property - Dublin 2",
+        "price": 450000,
+        "status": "available"
+      },
+      {
+        "id": "staging-prop-2",
+        "title": "Staging Test House - Cork",
+        "price": 320000,
+        "status": "available"
+      }
+    ],
+    "projects": [
+      {
+        "id": "staging-project-1",
+        "name": "Staging Gardens Development",
+        "location": "Dublin 4",
+        "totalUnits": 50
+      }
+    ]
+  }
+}

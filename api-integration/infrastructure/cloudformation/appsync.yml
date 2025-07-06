@@ -1,0 +1,725 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Prop-IE AWS AppSync GraphQL API'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - test
+      - staging
+      - prod
+    Description: Deployment environment
+    
+  ApplicationName:
+    Type: String
+    Default: 'prop-ie'
+    Description: The name of the application
+    
+  UserPoolId:
+    Type: String
+    Description: The ID of the Cognito User Pool
+    
+  AuthenticatedUserRole:
+    Type: String
+    Description: ARN of the IAM role for authenticated users
+    
+  MaxQueryDepth:
+    Type: Number
+    Default: 8
+    Description: Maximum nesting depth allowed for GraphQL queries
+    
+  MaxResolverCount:
+    Type: Number
+    Default: 30
+    Description: Maximum number of resolvers that can be invoked in a single request
+
+Resources:
+  # AppSync API
+  AppSyncApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties:
+      Name: !Sub ${ApplicationName}-${Environment}-api
+      AuthenticationType: API_KEY
+      AdditionalAuthenticationProviders:
+        - AuthenticationType: AMAZON_COGNITO_USER_POOLS
+          UserPoolConfig:
+            UserPoolId: !Ref UserPoolId
+            AwsRegion: !Ref "AWS::Region"
+            DefaultAction: ALLOW
+        - AuthenticationType: AWS_IAM
+      XrayEnabled: true
+      LogConfig:
+        CloudWatchLogsRoleArn: !GetAtt AppSyncLoggingServiceRole.Arn
+        FieldLogLevel: ERROR
+      ApiType: GRAPHQL
+      LambdaAuthorizerConfig:
+        AuthorizerUri: !GetAtt AuthorizerLambda.Arn
+        AuthorizerResultTtlInSeconds: 300
+        IdentityValidationExpression: .*
+
+  # API Key for AppSync (for public endpoints)
+  AppSyncApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Description: !Sub ${ApplicationName}-${Environment} API Key
+      Expires: !ToSeconds 
+        'Fn::Add': 
+          - !Ref "AWS::Timestamp"
+          - 31536000 # 1 year in seconds
+
+  # Schema file for AppSync API
+  AppSyncSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Definition: |
+        schema {
+          query: Query
+          mutation: Mutation
+        }
+        
+        type Query {
+          # Public query - available to all users
+          getDevelopments(limit: Int, offset: Int): DevelopmentConnection!
+          
+          # Authenticated query - available only to authenticated users
+          getDevelopment(id: ID!): Development @aws_auth(cognito_groups: ["User", "Admin", "Developer"])
+          getProperties(developmentId: ID!, limit: Int, offset: Int): PropertyConnection @aws_auth(cognito_groups: ["User", "Admin", "Developer"])
+          getProperty(id: ID!): Property @aws_auth(cognito_groups: ["User", "Admin", "Developer"])
+          getUser: User @aws_auth(cognito_groups: ["User", "Admin", "Developer"])
+          
+          # Admin-only queries
+          getUsers(limit: Int, offset: Int): UserConnection @aws_auth(cognito_groups: ["Admin"])
+          getAuditLogs(limit: Int, offset: Int, filter: AuditLogFilterInput): AuditLogConnection @aws_auth(cognito_groups: ["Admin"])
+        }
+        
+        type Mutation {
+          # Public mutations (with captcha protection)
+          requestContact(input: ContactRequestInput!): ContactRequestResult
+          
+          # Authenticated mutations
+          updateUser(input: UpdateUserInput!): User @aws_auth(cognito_groups: ["User", "Admin", "Developer"])
+          createPropertyInterest(input: PropertyInterestInput!): PropertyInterest @aws_auth(cognito_groups: ["User", "Admin", "Developer"])
+          
+          # Developer-only mutations
+          createDevelopment(input: CreateDevelopmentInput!): Development @aws_auth(cognito_groups: ["Developer", "Admin"])
+          updateDevelopment(id: ID!, input: UpdateDevelopmentInput!): Development @aws_auth(cognito_groups: ["Developer", "Admin"])
+          createProperty(input: CreatePropertyInput!): Property @aws_auth(cognito_groups: ["Developer", "Admin"])
+          updateProperty(id: ID!, input: UpdatePropertyInput!): Property @aws_auth(cognito_groups: ["Developer", "Admin"])
+          
+          # Admin-only mutations
+          createUser(input: CreateUserInput!): User @aws_auth(cognito_groups: ["Admin"])
+          deleteUser(id: ID!): Boolean @aws_auth(cognito_groups: ["Admin"])
+          assignUserRole(userId: ID!, role: String!): User @aws_auth(cognito_groups: ["Admin"])
+        }
+        
+        # Common Types
+        
+        type Development {
+          id: ID!
+          name: String!
+          description: String
+          location: String
+          coordinates: Coordinates
+          image: String
+          images: [String]
+          status: String
+          statusColor: String
+          sitePlanUrl: String
+          brochureUrl: String
+          features: [String]
+          properties: PropertyConnection
+          createdAt: String
+          updatedAt: String
+        }
+        
+        type Property {
+          id: ID!
+          developmentId: ID!
+          title: String!
+          description: String
+          price: Float
+          priceDisplay: String
+          bedrooms: Int
+          bathrooms: Int
+          area: Float
+          image: String
+          images: [String]
+          floorPlanUrl: String
+          status: String
+          statusColor: String
+          isNew: Boolean
+          isReduced: Boolean
+          features: [String]
+          createdAt: String
+          updatedAt: String
+        }
+        
+        type User {
+          id: ID!
+          email: String!
+          firstName: String
+          lastName: String
+          phone: String
+          role: String
+          createdAt: String
+          updatedAt: String
+        }
+        
+        type PropertyInterest {
+          id: ID!
+          userId: ID!
+          propertyId: ID!
+          type: String!
+          notes: String
+          status: String
+          createdAt: String
+          updatedAt: String
+        }
+        
+        type AuditLog {
+          id: ID!
+          timestamp: String!
+          userId: ID
+          userName: String
+          action: String!
+          category: String!
+          resource: String
+          resourceId: String
+          status: String!
+          severity: String!
+          description: String
+          metadata: AWSJSON
+          ipAddress: String
+          sessionId: String
+        }
+        
+        type Coordinates {
+          latitude: Float!
+          longitude: Float!
+        }
+        
+        # Connection Types for Pagination
+        
+        type DevelopmentConnection {
+          items: [Development!]!
+          nextToken: String
+          totalCount: Int
+        }
+        
+        type PropertyConnection {
+          items: [Property!]!
+          nextToken: String
+          totalCount: Int
+        }
+        
+        type UserConnection {
+          items: [User!]!
+          nextToken: String
+          totalCount: Int
+        }
+        
+        type AuditLogConnection {
+          items: [AuditLog!]!
+          nextToken: String
+          totalCount: Int
+        }
+        
+        # Input Types
+        
+        input ContactRequestInput {
+          name: String!
+          email: String!
+          phone: String
+          message: String!
+          propertyId: ID
+          developmentId: ID
+          captchaToken: String!
+        }
+        
+        input CreateDevelopmentInput {
+          name: String!
+          description: String
+          location: String
+          coordinates: CoordinatesInput
+          image: String
+          images: [String]
+          status: String
+          statusColor: String
+          sitePlanUrl: String
+          brochureUrl: String
+          features: [String]
+        }
+        
+        input UpdateDevelopmentInput {
+          name: String
+          description: String
+          location: String
+          coordinates: CoordinatesInput
+          image: String
+          images: [String]
+          status: String
+          statusColor: String
+          sitePlanUrl: String
+          brochureUrl: String
+          features: [String]
+        }
+        
+        input CreatePropertyInput {
+          developmentId: ID!
+          title: String!
+          description: String
+          price: Float
+          priceDisplay: String
+          bedrooms: Int
+          bathrooms: Int
+          area: Float
+          image: String
+          images: [String]
+          floorPlanUrl: String
+          status: String
+          statusColor: String
+          isNew: Boolean
+          isReduced: Boolean
+          features: [String]
+        }
+        
+        input UpdatePropertyInput {
+          title: String
+          description: String
+          price: Float
+          priceDisplay: String
+          bedrooms: Int
+          bathrooms: Int
+          area: Float
+          image: String
+          images: [String]
+          floorPlanUrl: String
+          status: String
+          statusColor: String
+          isNew: Boolean
+          isReduced: Boolean
+          features: [String]
+        }
+        
+        input CreateUserInput {
+          email: String!
+          firstName: String!
+          lastName: String!
+          phone: String
+          role: String!
+          password: String
+        }
+        
+        input UpdateUserInput {
+          firstName: String
+          lastName: String
+          phone: String
+        }
+        
+        input PropertyInterestInput {
+          propertyId: ID!
+          type: String!
+          notes: String
+        }
+        
+        input CoordinatesInput {
+          latitude: Float!
+          longitude: Float!
+        }
+        
+        input AuditLogFilterInput {
+          startDate: String
+          endDate: String
+          userId: ID
+          action: String
+          category: String
+          status: String
+          severity: String
+          sessionId: String
+          resourceId: String
+        }
+        
+        # Result Types
+        
+        type ContactRequestResult {
+          success: Boolean!
+          message: String
+          requestId: String
+        }
+
+  # Lambda Data Source for AppSync API
+  AppSyncLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Name: LambdaDataSource
+      Type: AWS_LAMBDA
+      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt GraphQLLambda.Arn
+        
+  # DynamoDB Data Source for AppSync API
+  AppSyncDynamoDBDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Name: DynamoDBDataSource
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn
+      DynamoDBConfig:
+        TableName: !Ref DynamoDBTable
+        AwsRegion: !Ref "AWS::Region"
+        
+  # IAM Role for AppSync to access Lambda
+  AppSyncServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: appsync.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSAppSyncServiceRolePolicy
+      Policies:
+        - PolicyName: AppSyncLambdaInvocationPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource:
+                  - !GetAtt GraphQLLambda.Arn
+                  - !GetAtt AuthorizerLambda.Arn
+                  
+  # IAM Role for AppSync Logging
+  AppSyncLoggingServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: appsync.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs
+
+  # Lambda authorizer function for additional API security
+  AuthorizerLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${ApplicationName}-${Environment}-api-authorizer
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            // Check for API rate limiting and security
+            const token = event.authorizationToken;
+            const requestContext = event.requestContext || {};
+            const ip = requestContext.identity ? requestContext.identity.sourceIp : null;
+            
+            // Implement rate limiting, IP blocking, etc. here
+            const isBlocked = false; // Placeholder for actual implementation
+            
+            if (isBlocked) {
+              return {
+                isAuthorized: false,
+                resolverContext: {
+                  error: 'Rate limit exceeded or IP blocked'
+                }
+              };
+            }
+            
+            // Implement additional security checks here
+            // Use JWT validation, CSRF checks, etc.
+            
+            return {
+              isAuthorized: true,
+              resolverContext: {
+                userId: event.userSub || null,
+                sourceIp: ip,
+                requestTime: new Date().toISOString()
+              }
+            };
+          };
+      Timeout: 10
+      MemorySize: 256
+      
+  # Lambda function for GraphQL resolvers
+  GraphQLLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${ApplicationName}-${Environment}-graphql-resolvers
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            try {
+              const fieldName = event.info.fieldName;
+              const resolvers = {
+                getDevelopments: handleGetDevelopments,
+                getDevelopment: handleGetDevelopment,
+                // Add more resolvers here
+              };
+              
+              // Check if we have a resolver for this field
+              if (resolvers[fieldName]) {
+                return await resolvers[fieldName](event);
+              } else {
+                return {
+                  error: `Resolver not implemented for field: ${fieldName}`
+                };
+              }
+            } catch (error) {
+              console.error('Error in GraphQL resolver:', error);
+              return {
+                error: error.message || 'Unknown error occurred'
+              };
+            }
+          };
+          
+          // Example resolver implementation
+          async function handleGetDevelopments(event) {
+            const { limit = 20, offset = 0 } = event.arguments;
+            
+            // Implement your data access logic here
+            // Example mock data for now
+            const items = Array(10).fill(0).map((_, i) => ({
+              id: `dev-${i + offset}`,
+              name: `Development ${i + offset}`,
+              description: 'A mock development',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            }));
+            
+            return {
+              items,
+              nextToken: offset + items.length < 100 ? 'next-token' : null,
+              totalCount: 100
+            };
+          }
+          
+          async function handleGetDevelopment(event) {
+            const { id } = event.arguments;
+            
+            // Example implementation
+            return {
+              id,
+              name: `Development ${id}`,
+              description: 'A mock development',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            };
+          }
+      Environment:
+        Variables:
+          ENVIRONMENT: !Ref Environment
+          DYNAMODB_TABLE: !Ref DynamoDBTable
+      Timeout: 30
+      MemorySize: 512
+          
+  # IAM Role for Lambda
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource:
+                  - !GetAtt DynamoDBTable.Arn
+                  - !Sub ${DynamoDBTable.Arn}/index/*
+                  
+  # DynamoDB Table for storing data
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${ApplicationName}-${Environment}-data
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+        - AttributeName: GSI1PK
+          AttributeType: S
+        - AttributeName: GSI1SK
+          AttributeType: S
+        - AttributeName: EntityType
+          AttributeType: S
+        - AttributeName: CreatedAt
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: GSI1
+          KeySchema:
+            - AttributeName: GSI1PK
+              KeyType: HASH
+            - AttributeName: GSI1SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: EntityTypeIndex
+          KeySchema:
+            - AttributeName: EntityType
+              KeyType: HASH
+            - AttributeName: CreatedAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+        
+  # Lambda permission for AppSync
+  AppSyncLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt GraphQLLambda.Arn
+      Principal: appsync.amazonaws.com
+      SourceArn: !GetAtt AppSyncApi.Arn
+      
+  # Lambda permission for AppSync authorizer
+  AuthorizerLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt AuthorizerLambda.Arn
+      Principal: appsync.amazonaws.com
+      SourceArn: !GetAtt AppSyncApi.Arn
+
+  # WAF Web ACL for the AppSync API
+  AppSyncWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: !Sub ${ApplicationName}-${Environment}-appsync-waf
+      Scope: REGIONAL
+      DefaultAction:
+        Allow: {}
+      Rules:
+        - Name: RateBasedRule
+          Priority: 1
+          Statement:
+            RateBasedStatement:
+              Limit: 1000
+              AggregateKeyType: IP
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RateBasedRule
+        - Name: AWS-AWSManagedRulesBotControlRuleSet
+          Priority: 2
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesBotControlRuleSet
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWS-AWSManagedRulesBotControlRuleSet
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub ${ApplicationName}-${Environment}-appsync-waf
+
+  # Association of WebACL with AppSync API
+  WebACLAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: !GetAtt AppSyncApi.Arn
+      WebACLArn: !GetAtt AppSyncWebACL.Arn
+      
+  # CloudWatch Alarms for AppSync metrics
+  AppSyncErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${ApplicationName}-${Environment}-appsync-errors
+      AlarmDescription: Alarm when AppSync has elevated error rates
+      MetricName: 5XXError
+      Namespace: AWS/AppSync
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 5
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      Dimensions:
+        - Name: GraphQLAPIId
+          Value: !GetAtt AppSyncApi.ApiId
+          
+  AppSyncLatencyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub ${ApplicationName}-${Environment}-appsync-latency
+      AlarmDescription: Alarm when AppSync has high latency
+      MetricName: Latency
+      Namespace: AWS/AppSync
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 5
+      Threshold: 1000 # 1 second
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      Dimensions:
+        - Name: GraphQLAPIId
+          Value: !GetAtt AppSyncApi.ApiId
+
+Outputs:
+  GraphQLApiId:
+    Description: AppSync GraphQL API ID
+    Value: !GetAtt AppSyncApi.ApiId
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-graphql-api-id
+      
+  GraphQLApiEndpoint:
+    Description: AppSync GraphQL API Endpoint
+    Value: !GetAtt AppSyncApi.GraphQLUrl
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-graphql-endpoint
+      
+  GraphQLApiKey:
+    Description: AppSync GraphQL API Key (for public access)
+    Value: !GetAtt AppSyncApiKey.ApiKey
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-graphql-api-key

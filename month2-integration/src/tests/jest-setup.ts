@@ -1,0 +1,405 @@
+/**
+ * Comprehensive Jest Setup for Next.js 14 with App Router
+ */
+
+import '@testing-library/jest-dom';
+import 'jest-extended';
+import React from 'react';
+
+// Mock environment variables
+process.env.NEXT_PUBLIC_AUTH_TYPE = 'cognito';
+process.env.NEXT_PUBLIC_API_URL = 'http://localhost:3000/api';
+process.env.NODE_ENV = 'test';
+process.env.NEXTAUTH_URL = 'http://localhost:3000';
+process.env.NEXTAUTH_SECRET = 'test-secret';
+
+// Mock Next.js navigation with App Router
+jest.mock('next/navigation', () => {
+  const mockRouter = {
+    push: jest.fn(),
+    replace: jest.fn(),
+    reload: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    prefetch: jest.fn(),
+    refresh: jest.fn(),
+  };
+  
+  return {
+    useRouter: () => mockRouter,
+    usePathname: () => '/',
+    useSearchParams: () => new URLSearchParams(),
+    useParams: () => ({}),
+    notFound: jest.fn(),
+    redirect: jest.fn(),
+    permanentRedirect: jest.fn(),
+    ReadonlyURLSearchParams: URLSearchParams,
+  };
+});
+
+// Mock Next.js headers
+jest.mock('next/headers', () => ({
+  cookies: jest.fn(() => ({
+    get: jest.fn((name: string) => ({ name, value: 'mock-value' })),
+    set: jest.fn(),
+    has: jest.fn(() => false),
+    delete: jest.fn(),
+    getAll: jest.fn(() => []),
+  })),
+  headers: jest.fn(() => ({
+    get: jest.fn((name: string) => null),
+    has: jest.fn(() => false),
+    forEach: jest.fn(),
+    entries: jest.fn(() => []),
+    keys: jest.fn(() => []),
+    values: jest.fn(() => []),
+  })),
+  draftMode: jest.fn(() => ({
+    enable: jest.fn(),
+    disable: jest.fn(),
+    isEnabled: false,
+  })),
+}));
+
+// Mock Next.js Image component
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: any) => {
+     
+    return React.createElement('img', { src, alt, ...props });
+  },
+}));
+
+// Mock Next.js Link component
+jest.mock('next/link', () => ({
+  __esModule: true,
+  default: ({ children, href, ...props }: any) => {
+    return React.createElement('a', { href, ...props }, children);
+  },
+}));
+
+// Mock React Query
+jest.mock('@tanstack/react-query', () => {
+  const actualModule = jest.requireActual('@tanstack/react-query');
+  
+  const mockQueryClient = {
+    defaultOptions: {
+      queries: {
+        retry: false,
+        staleTime: 0,
+        cacheTime: 0,
+      },
+    },
+    invalidateQueries: jest.fn(),
+    setQueryData: jest.fn(),
+    getQueryData: jest.fn(),
+    prefetchQuery: jest.fn(),
+    clear: jest.fn(),
+    cancelQueries: jest.fn(),
+    removeQueries: jest.fn(),
+    refetchQueries: jest.fn(),
+    fetchQuery: jest.fn(),
+    getDefaultOptions: jest.fn(),
+    setDefaultOptions: jest.fn(),
+    getQueryCache: jest.fn(() => ({
+      add: jest.fn(),
+      remove: jest.fn(),
+      clear: jest.fn(),
+      get: jest.fn(),
+    })),
+    getMutationCache: jest.fn(() => ({
+      add: jest.fn(),
+      remove: jest.fn(),
+      clear: jest.fn(),
+      get: jest.fn(),
+    })),
+  };
+  
+  return {
+    ...actualModule,
+    QueryClient: jest.fn(() => mockQueryClient),
+    QueryClientProvider: ({ children }: any) => children,
+    useQuery: jest.fn(() => ({
+      data: undefined,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isFetching: false,
+      refetch: jest.fn(),
+      status: 'success',
+    })),
+    useMutation: jest.fn(() => ({
+      mutate: jest.fn(),
+      mutateAsync: jest.fn(),
+      data: undefined,
+      error: null,
+      isError: false,
+      isSuccess: false,
+      isLoading: false,
+      isPending: false,
+      status: 'idle',
+      reset: jest.fn(),
+    })),
+    useQueryClient: jest.fn(() => mockQueryClient),
+    useInfiniteQuery: jest.fn(() => ({
+      data: undefined,
+      error: null,
+      isError: false,
+      isSuccess: true,
+      isLoading: false,
+      isFetching: false,
+      fetchNextPage: jest.fn(),
+      hasNextPage: false,
+      isFetchingNextPage: false,
+      refetch: jest.fn(),
+      status: 'success',
+    })),
+  };
+});
+
+// Mock AWS Amplify
+jest.mock('aws-amplify/auth', () => ({
+  getCurrentUser: jest.fn().mockResolvedValue({
+    userId: 'test-user',
+    username: 'testuser',
+  }),
+  signIn: jest.fn().mockResolvedValue({
+    isSignedIn: true,
+    nextStep: { signInStep: 'DONE' },
+  }),
+  signOut: jest.fn().mockResolvedValue(undefined),
+  signUp: jest.fn().mockResolvedValue({
+    isSignUpComplete: false,
+    userId: 'test-user',
+    nextStep: { signUpStep: 'CONFIRM_SIGN_UP' },
+  }),
+  confirmSignUp: jest.fn().mockResolvedValue({
+    isSignUpComplete: true,
+    nextStep: { signUpStep: 'DONE' },
+  }),
+  resendSignUpCode: jest.fn().mockResolvedValue({
+    destination: 'test@example.com',
+    deliveryMedium: 'EMAIL',
+  }),
+  fetchAuthSession: jest.fn().mockResolvedValue({
+    tokens: {
+      accessToken: { payload: {} },
+      idToken: { payload: {} },
+    },
+    credentials: {},
+  }),
+  updateUserAttributes: jest.fn().mockResolvedValue({
+    unverifiedAttributes: {},
+  }),
+  deleteUser: jest.fn().mockResolvedValue(undefined),
+  resetPassword: jest.fn().mockResolvedValue({
+    isPasswordReset: false,
+    nextStep: { resetPasswordStep: 'CONFIRM_RESET_PASSWORD_WITH_CODE' },
+  }),
+  confirmResetPassword: jest.fn().mockResolvedValue({
+    isPasswordReset: true,
+  }),
+}));
+
+jest.mock('aws-amplify/api', () => {
+  const mockClient = {
+    graphql: jest.fn().mockResolvedValue({ data: {} }),
+    models: {},
+  };
+  
+  return {
+    generateClient: jest.fn(() => mockClient),
+  };
+});
+
+jest.mock('aws-amplify/storage', () => ({
+  uploadData: jest.fn().mockReturnValue({
+    result: Promise.resolve({ key: 'test-key' }),
+    state: 'SUCCESS',
+    pause: jest.fn(),
+    resume: jest.fn(),
+    cancel: jest.fn(),
+  }),
+  downloadData: jest.fn().mockReturnValue({
+    result: Promise.resolve({ body: { blob: () => Promise.resolve(new Blob()) } }),
+    state: 'SUCCESS',
+    pause: jest.fn(),
+    resume: jest.fn(),
+    cancel: jest.fn(),
+  }),
+  remove: jest.fn().mockResolvedValue({ key: 'test-key' }),
+  list: jest.fn().mockResolvedValue({ items: [] }),
+  getUrl: jest.fn().mockResolvedValue({ url: 'https://example.com/test.jpg' }),
+  getProperties: jest.fn().mockResolvedValue({ contentType: 'image/jpeg', size: 1024 }),
+}));
+
+// Mock crypto for Node.js environment
+global.crypto = {
+  getRandomValues: (array: any) => {
+    for (let i = 0; i < array.length; i++) {
+      array[i] = Math.floor(Math.random() * 256);
+    }
+    return array;
+  },
+  randomUUID: () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  },
+  subtle: {} as SubtleCrypto,
+} as Crypto;
+
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor(callback: IntersectionObserverCallback) {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+  takeRecords() { return []; }
+  root = null;
+  rootMargin = '';
+  thresholds = [0];
+};
+
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserver {
+  constructor(callback: ResizeObserverCallback) {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+};
+
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
+// Mock console methods to reduce noise in tests
+const originalConsole = global.console;
+global.console = {
+  ...originalConsole,
+  error: jest.fn((...args) => {
+    // Only log errors that are not expected React warnings
+    if (!args[0]?.includes?.('Warning:') && !args[0]?.includes?.('act()')) {
+      originalConsole.error(...args);
+    }
+  }),
+  warn: jest.fn((...args) => {
+    // Only log warnings that are not expected
+    if (!args[0]?.includes?.('Warning:')) {
+      originalConsole.warn(...args);
+    }
+  }),
+  log: jest.fn(),
+  debug: jest.fn(),
+  info: jest.fn(),
+  trace: originalConsole.trace,
+  assert: originalConsole.assert,
+  clear: originalConsole.clear,
+  count: originalConsole.count,
+  countReset: originalConsole.countReset,
+  dir: originalConsole.dir,
+  dirxml: originalConsole.dirxml,
+  group: originalConsole.group,
+  groupCollapsed: originalConsole.groupCollapsed,
+  groupEnd: originalConsole.groupEnd,
+  profile: originalConsole.profile,
+  profileEnd: originalConsole.profileEnd,
+  table: originalConsole.table,
+  time: originalConsole.time,
+  timeEnd: originalConsole.timeEnd,
+  timeLog: originalConsole.timeLog,
+  timeStamp: originalConsole.timeStamp,
+};
+
+// Mock fetch
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    ok: true,
+    status: 200,
+    json: async () => ({}),
+    text: async () => '',
+    blob: async () => new Blob(),
+    arrayBuffer: async () => new ArrayBuffer(0),
+    formData: async () => new FormData(),
+    headers: new Headers(),
+    redirected: false,
+    statusText: 'OK',
+    type: 'basic',
+    url: '',
+    clone: jest.fn(),
+  } as Response)
+);
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+  key: jest.fn(),
+  length: 0,
+};
+global.localStorage = localStorageMock as Storage;
+
+// Mock sessionStorage
+const sessionStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+  key: jest.fn(),
+  length: 0,
+};
+global.sessionStorage = sessionStorageMock as Storage;
+
+// Mock Request/Response for middleware tests
+global.Request = jest.fn() as any;
+global.Response = jest.fn() as any;
+
+// Mock TextEncoder/TextDecoder
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+// Add custom matchers for better test assertions
+expect.extend({
+  toBeWithinRange(received: number, floor: number, ceiling: number) {
+    const pass = received >= floor && received <= ceiling;
+    if (pass) {
+      return {
+        message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
+        pass: true,
+      };
+    } else {
+      return {
+        message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
+        pass: false,
+      };
+    }
+  },
+});
+
+// Configure test timeouts
+jest.setTimeout(30000);
+
+// Cleanup after each test
+afterEach(() => {
+  jest.clearAllMocks();
+  localStorageMock.clear();
+  sessionStorageMock.clear();
+});
+
+export {};

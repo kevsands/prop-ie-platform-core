@@ -1,0 +1,50 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install development tools and dependencies
+RUN apk add --no-cache git bash curl python3 make g++ aws-cli \
+    # Add additional tools for development
+    vim nano jq yq ca-certificates
+
+# Create non-root user for security
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN chown -R appuser:appgroup /app
+
+# Set up global Node.js cache settings
+ENV NPM_CONFIG_CACHE=/app/.npm
+
+# Set environment variables
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV HUSKY=0
+
+# Copy package files first for better caching
+COPY package*.json ./
+COPY .npmrc* ./
+
+# Install dependencies with caching
+RUN npm ci --prefer-offline --no-audit
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3000/ || exit 1
+
+# Create and configure necessary directories
+RUN mkdir -p /app/.next && chown -R appuser:appgroup /app/.next
+RUN mkdir -p /app/node_modules/.cache && chown -R appuser:appgroup /app/node_modules/.cache
+
+# Copy the rest of the application code
+COPY . .
+
+# Change ownership of files
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose dev server port
+EXPOSE 3000
+
+# Start dev server with proper error handling
+CMD ["npm", "run", "dev"]

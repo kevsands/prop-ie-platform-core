@@ -1,0 +1,100 @@
+{
+  "title": "PROP.ie Staging User Acceptance Testing Report",
+  "timestamp": "2025-06-19T16:44:01.716Z",
+  "environment": {
+    "staging_url": "https://prop-ie-staging.vercel.app",
+    "test_environment": "staging",
+    "browser_support": [
+      "Chrome",
+      "Firefox",
+      "Safari",
+      "Mobile"
+    ],
+    "testing_duration": "2-4 hours"
+  },
+  "testSummary": {
+    "criticalPathTests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "status": "PASSED"
+    },
+    "userJourneyTests": {
+      "buyerJourney": "Ready for execution",
+      "developerJourney": "Ready for execution",
+      "agentJourney": "Ready for execution",
+      "adminJourney": "Ready for execution"
+    },
+    "businessProcessValidation": {
+      "propertyManagement": "Framework configured",
+      "transactionWorkflow": "Framework configured",
+      "userManagement": "Framework configured",
+      "reportingAnalytics": "Framework configured"
+    },
+    "performanceTesting": {
+      "loadTesting": "Scenarios configured",
+      "stressTesting": "Parameters defined",
+      "browserPerformance": "Metrics tracking ready"
+    },
+    "securityTesting": {
+      "authentication": "Test cases defined",
+      "dataProtection": "Compliance checks ready",
+      "apiSecurity": "Validation framework configured",
+      "infrastructure": "Security verification ready"
+    }
+  },
+  "testUsers": {
+    "buyer": "buyer.test@staging.prop.ie",
+    "developer": "developer.test@staging.prop.ie",
+    "agent": "agent.test@staging.prop.ie",
+    "admin": "admin.test@staging.prop.ie"
+  },
+  "testData": {
+    "properties": 3,
+    "projects": 2,
+    "transactions": 2,
+    "users": 4,
+    "mockDataEnabled": true
+  },
+  "stagingFeatures": {
+    "mockAuthentication": "Enabled for easy testing",
+    "testPayments": "Stripe test mode configured",
+    "debugLogging": "Comprehensive logging enabled",
+    "performanceTracking": "Real-time metrics available",
+    "errorSimulation": "Failure scenarios testable"
+  },
+  "executionInstructions": {
+    "manual_testing": [
+      "1. Open browser to staging URL",
+      "2. Execute critical path tests manually",
+      "3. Run complete user journey for each role",
+      "4. Validate business process workflows",
+      "5. Verify performance under load",
+      "6. Test security and data protection",
+      "7. Document any issues or observations"
+    ],
+    "automated_testing": [
+      "1. npm install playwright",
+      "2. npx playwright install",
+      "3. npx playwright test --config=./testing/playwright.config.js",
+      "4. Review generated reports in ./testing/uat-reports/",
+      "5. Analyze performance metrics and screenshots"
+    ]
+  },
+  "successCriteria": {
+    "functionality": "All critical paths must work without errors",
+    "performance": "Response times under 3 seconds for staging",
+    "usability": "User journeys must be intuitive and complete",
+    "security": "No security vulnerabilities or data exposure",
+    "compatibility": "Works across all supported browsers",
+    "business_logic": "All business processes function correctly"
+  },
+  "signOffRequirements": {
+    "technical_validation": "All automated tests pass",
+    "business_validation": "Stakeholder approval of user journeys",
+    "performance_validation": "Performance metrics meet staging targets",
+    "security_validation": "Security testing completed without issues",
+    "user_experience": "UX/UI validation and approval",
+    "data_integrity": "Data handling and processing verification"
+  }
+}

@@ -1,0 +1,496 @@
+"""
+Unit schema for the PropIE GraphQL API
+Defines unit types, queries, and mutations
+"""
+
+enum UnitType {
+  APARTMENT
+  DUPLEX
+  SEMI_DETACHED
+  DETACHED
+  TERRACED
+  PENTHOUSE
+  COMMERCIAL
+  RETAIL
+  OFFICE
+}
+
+enum UnitStatus {
+  PLANNED
+  UNDER_CONSTRUCTION
+  COMPLETE
+  AVAILABLE
+  RESERVED
+  SALE_AGREED
+  SOLD
+  OCCUPIED
+}
+
+enum OutdoorSpaceType {
+  BALCONY
+  TERRACE
+  GARDEN
+  PATIO
+  ROOF_TERRACE
+  YARD
+}
+
+enum RoomType {
+  LIVING_ROOM
+  KITCHEN
+  DINING_ROOM
+  BEDROOM
+  BATHROOM
+  EN_SUITE
+  STUDY
+  UTILITY
+  HALL
+  LANDING
+  STORAGE
+  OTHER
+}
+
+enum CustomizationCategory {
+  KITCHEN
+  BATHROOM
+  FLOORING
+  DOORS
+  WINDOWS
+  PAINT
+  ELECTRICAL
+  HEATING
+  STORAGE
+  FIXTURES
+  EXTERIOR
+  SMART_HOME
+  APPLIANCES
+  LIGHTING
+  OTHER
+}
+
+enum CustomizationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  CHANGES_REQUESTED
+  APPROVED
+  REJECTED
+  EXPIRED
+  IN_PROGRESS
+  COMPLETED
+}
+
+"""
+Room within a unit
+"""
+type UnitRoom {
+  id: ID!
+  name: String!
+  type: RoomType!
+  size: Float!
+  length: Float
+  width: Float
+  features: [String!]!
+  images: [String!]!
+}
+
+"""
+Outdoor space attached to a unit
+"""
+type UnitOutdoorSpace {
+  id: ID!
+  type: OutdoorSpaceType!
+  size: Float!
+  orientation: String
+  description: String
+  features: [String!]!
+  images: [String!]!
+}
+
+"""
+Customization option for a unit
+"""
+type CustomizationOption {
+  id: ID!
+  category: CustomizationCategory!
+  name: String!
+  description: String!
+  baseOption: Boolean!
+  additionalCost: Float!
+  images: [String!]!
+  modelPath: String
+  installationTimeframe: Int
+  supplierInfo: JSON
+  specificationDetails: String
+  dimensions: JSON
+  technicalRequirements: String
+  maintenanceInfo: String
+  warrantyPeriod: Int
+  alternatives: [CustomizationOption!]
+  requiredWith: [CustomizationOption!]
+  incompatibleWith: [CustomizationOption!]
+}
+
+"""
+Selected customization option
+"""
+type SelectedOption {
+  id: ID!
+  option: CustomizationOption!
+  location: String
+  notes: String
+  color: String
+  finish: String
+  quantity: Int!
+}
+
+"""
+Customization selections for a unit
+"""
+type CustomizationSelection {
+  id: ID!
+  unit: UnitSummary!
+  buyer: UserSummary!
+  status: CustomizationStatus!
+  totalCost: Float!
+  notes: String
+  submittedDate: DateTime
+  approvedDate: DateTime
+  deadlineDate: DateTime
+  meetingBooked: Boolean!
+  meetingDate: DateTime
+  selections: [SelectedOption!]!
+  documents: [Document!]!
+}
+
+"""
+Summary view of a unit
+"""
+type UnitSummary {
+  id: ID!
+  name: String!
+  type: UnitType!
+  development: DevelopmentSummary!
+  bedrooms: Int!
+  bathrooms: Int!
+  size: Float!
+  basePrice: Float!
+  status: UnitStatus!
+  primaryImage: String!
+  berRating: String!
+}
+
+"""
+Complete unit details
+"""
+type Unit {
+  id: ID!
+  name: String!
+  type: UnitType!
+  development: DevelopmentSummary!
+  
+  # Basic specifications
+  size: Float!
+  bedrooms: Int!
+  bathrooms: Int!
+  floors: Int!
+  parkingSpaces: Int!
+  
+  # Pricing and status
+  basePrice: Float!
+  status: UnitStatus!
+  
+  # Features
+  berRating: String!
+  features: [String!]!
+  
+  # Media
+  primaryImage: String!
+  images: [String!]!
+  floorplans: [String!]!
+  virtualTourUrl: String
+  
+  # Additional details
+  unitNumber: String
+  block: String
+  floor: Int
+  aspect: String
+  availableFrom: DateTime
+  reservationEndDate: DateTime
+  slug: String
+  
+  # Related entities
+  outdoorSpaces: [UnitOutdoorSpace!]!
+  rooms: [UnitRoom!]!
+  customizationOptions: [CustomizationOption!]!
+}
+
+"""
+Response type for unit queries with pagination
+"""
+type UnitsResponse {
+  units: [UnitSummary!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Input for creating a room
+"""
+input RoomInput {
+  name: String!
+  type: RoomType!
+  size: Float!
+  length: Float
+  width: Float
+  features: [String!]!
+  images: [String!]!
+}
+
+"""
+Input for creating an outdoor space
+"""
+input OutdoorSpaceInput {
+  type: OutdoorSpaceType!
+  size: Float!
+  orientation: String
+  description: String
+  features: [String!]!
+  images: [String!]!
+}
+
+"""
+Input for creating a new unit
+"""
+input CreateUnitInput {
+  developmentId: ID!
+  name: String!
+  type: UnitType!
+  size: Float!
+  bedrooms: Int!
+  bathrooms: Int!
+  floors: Int!
+  parkingSpaces: Int!
+  basePrice: Float!
+  status: UnitStatus!
+  berRating: String!
+  features: [String!]!
+  primaryImage: String!
+  images: [String!]!
+  floorplans: [String!]!
+  unitNumber: String
+  block: String
+  floor: Int
+  aspect: String
+  rooms: [RoomInput!]
+  outdoorSpaces: [OutdoorSpaceInput!]
+}
+
+"""
+Input for updating an existing unit
+"""
+input UpdateUnitInput {
+  name: String
+  size: Float
+  bedrooms: Int
+  bathrooms: Int
+  floors: Int
+  parkingSpaces: Int
+  basePrice: Float
+  status: UnitStatus
+  berRating: String
+  features: [String!]
+  primaryImage: String
+  images: [String!]
+  floorplans: [String!]
+  unitNumber: String
+  block: String
+  floor: Int
+  aspect: String
+}
+
+"""
+Input for unit filtering
+"""
+input UnitFilterInput {
+  developmentId: ID
+  types: [UnitType!]
+  status: [UnitStatus!]
+  minBedrooms: Int
+  maxBedrooms: Int
+  minBathrooms: Int
+  maxBathrooms: Int
+  minSize: Float
+  maxSize: Float
+  minPrice: Float
+  maxPrice: Float
+  berRating: [String!]
+  features: [String!]
+}
+
+"""
+Input for creating a customization option
+"""
+input CustomizationOptionInput {
+  unitId: ID!
+  category: CustomizationCategory!
+  name: String!
+  description: String!
+  baseOption: Boolean!
+  additionalCost: Float!
+  images: [String!]!
+  modelPath: String
+  installationTimeframe: Int
+  supplierInfo: JSON
+  specificationDetails: String
+  dimensions: JSON
+  technicalRequirements: String
+  maintenanceInfo: String
+  warrantyPeriod: Int
+  alternativeIds: [ID!]
+  requiredWithIds: [ID!]
+  incompatibleWithIds: [ID!]
+}
+
+"""
+Input for selecting a customization option
+"""
+input SelectedOptionInput {
+  optionId: ID!
+  location: String
+  notes: String
+  color: String
+  finish: String
+  quantity: Int!
+}
+
+"""
+Input for creating a customization selection
+"""
+input CreateCustomizationSelectionInput {
+  unitId: ID!
+  buyerId: ID!
+  notes: String
+  selections: [SelectedOptionInput!]!
+  deadlineDate: DateTime
+}
+
+"""
+Input for updating a customization selection
+"""
+input UpdateCustomizationSelectionInput {
+  status: CustomizationStatus
+  notes: String
+  selections: [SelectedOptionInput!]
+  meetingBooked: Boolean
+  meetingDate: DateTime
+}
+
+# Extend the root Query type with unit queries
+extend type Query {
+  """
+  Get a unit by ID
+  """
+  unit(id: ID!): Unit
+  
+  """
+  List units with filtering and pagination
+  """
+  units(
+    filter: UnitFilterInput
+    pagination: PaginationInput
+  ): UnitsResponse
+  
+  """
+  Get units for a specific development
+  """
+  developmentUnits(
+    developmentId: ID!
+    filter: UnitFilterInput
+    pagination: PaginationInput
+  ): UnitsResponse
+  
+  """
+  Get customization options for a unit
+  """
+  unitCustomizationOptions(unitId: ID!): [CustomizationOption!]!
+  
+  """
+  Get a customization selection by ID
+  """
+  customizationSelection(id: ID!): CustomizationSelection @auth
+  
+  """
+  Get customization selections for a buyer
+  """
+  buyerCustomizationSelections(
+    buyerId: ID!
+    pagination: PaginationInput
+  ): [CustomizationSelection!]! @auth
+  
+  """
+  Get customization selections for a unit
+  """
+  unitCustomizationSelections(
+    unitId: ID!
+    pagination: PaginationInput
+  ): [CustomizationSelection!]! @auth(requires: [DEVELOPER, ADMIN])
+}
+
+# Extend the root Mutation type with unit mutations
+extend type Mutation {
+  """
+  Create a new unit
+  """
+  createUnit(input: CreateUnitInput!): Unit @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Update an existing unit
+  """
+  updateUnit(id: ID!, input: UpdateUnitInput!): Unit @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Change a unit's status
+  """
+  changeUnitStatus(id: ID!, status: UnitStatus!): Unit @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Add a room to a unit
+  """
+  addUnitRoom(unitId: ID!, input: RoomInput!): UnitRoom @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Add an outdoor space to a unit
+  """
+  addUnitOutdoorSpace(unitId: ID!, input: OutdoorSpaceInput!): UnitOutdoorSpace @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Create a customization option for a unit
+  """
+  createCustomizationOption(input: CustomizationOptionInput!): CustomizationOption @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Create a customization selection for a unit
+  """
+  createCustomizationSelection(input: CreateCustomizationSelectionInput!): CustomizationSelection @auth(requires: [BUYER, DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Update a customization selection
+  """
+  updateCustomizationSelection(id: ID!, input: UpdateCustomizationSelectionInput!): CustomizationSelection @auth
+  
+  """
+  Submit a customization selection for approval
+  """
+  submitCustomizationSelection(id: ID!): CustomizationSelection @auth(requires: [BUYER, AGENT])
+  
+  """
+  Approve a customization selection
+  """
+  approveCustomizationSelection(id: ID!, notes: String): CustomizationSelection @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Reject a customization selection
+  """
+  rejectCustomizationSelection(id: ID!, notes: String!): CustomizationSelection @auth(requires: [DEVELOPER, ADMIN])
+}

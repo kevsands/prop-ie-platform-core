@@ -1,0 +1,33 @@
+{
+  "sources": [
+    "application_logs",
+    "access_logs",
+    "error_logs",
+    "security_logs",
+    "audit_logs",
+    "performance_logs"
+  ],
+  "retention": {
+    "debug": "7 days",
+    "info": "30 days",
+    "warning": "90 days",
+    "error": "1 year",
+    "critical": "2 years"
+  },
+  "parsing": {
+    "structured": true,
+    "timestampExtraction": true,
+    "fieldExtraction": [
+      "userId",
+      "sessionId",
+      "requestId",
+      "responseTime",
+      "statusCode"
+    ]
+  },
+  "alerting": {
+    "errorSpikes": true,
+    "unknownErrors": true,
+    "securityEvents": true
+  }
+}

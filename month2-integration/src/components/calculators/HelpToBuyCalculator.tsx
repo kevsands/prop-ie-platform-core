@@ -1,0 +1,441 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Info, Calculator, CheckCircle, AlertCircle, Euro } from 'lucide-react';
+
+/**
+ * IrishHelpToBuyCalculator - Component for calculating Help-to-Buy scheme benefits
+ * Updated to reflect current Irish Revenue rules as of 2025
+ */
+export const HelpToBuyCalculator = () => {
+  // State for form inputs
+  const [propertyPrice, setPropertyPrice] = useState<number>(350000);
+  const [isFirstTimeBuyer, setIsFirstTimeBuyer] = useState<boolean>(true);
+  const [isNewBuild, setIsNewBuild] = useState<boolean>(true);
+  const [taxYear1, setTaxYear1] = useState<number>(8000);
+  const [taxYear2, setTaxYear2] = useState<number>(8000);
+  const [taxYear3, setTaxYear3] = useState<number>(8000);
+  const [taxYear4, setTaxYear4] = useState<number>(8000);
+  const [uscYear1, setUscYear1] = useState<number>(1600);
+  const [uscYear2, setUscYear2] = useState<number>(1600);
+  const [uscYear3, setUscYear3] = useState<number>(1600);
+  const [uscYear4, setUscYear4] = useState<number>(1600);
+  const [dirtPaid, setDirtPaid] = useState<number>(0);
+  const [depositAmount, setDepositAmount] = useState<number>(35000);
+  
+  // State for calculation results
+  const [htbAmount, setHtbAmount] = useState<number>(0);
+  const [eligibility, setEligibility] = useState<boolean>(true);
+  const [eligibilityWarnings, setEligibilityWarnings] = useState<string[]>([]);
+  const [eligibilityErrors, setEligibilityErrors] = useState<string[]>([]);
+  const [loanAmount, setLoanAmount] = useState<number>(0);
+  const [totalTaxPaid, setTotalTaxPaid] = useState<number>(0);
+  
+  // Constants for Irish Help-to-Buy scheme (2025)
+  const HTB_MAX_PROPERTY_VALUE = 500000;
+  const HTB_MAX_RELIEF = 30000;
+  const HTB_RELIEF_PERCENTAGE = 0.10; // 10% of purchase price
+  const HTB_MIN_PROPERTY_VALUE = 100000; // Minimum property value for HTB
+  
+  // Calculate the Help-to-Buy amount and eligibility
+  useEffect(() => {
+    setEligibilityWarnings([]);
+    setEligibilityErrors([]);
+    let isEligible = true;
+    
+    // Check eligibility criteria
+    if (!isFirstTimeBuyer) {
+      isEligible = false;
+      setEligibilityErrors(prev => [...prev, 'You must be a first-time buyer to qualify for the Help-to-Buy scheme.']);
+    }
+    
+    if (!isNewBuild) {
+      isEligible = false;
+      setEligibilityErrors(prev => [...prev, 'The property must be a new build or self-build to qualify for HTB.']);
+    }
+    
+    if (propertyPrice > HTB_MAX_PROPERTY_VALUE) {
+      isEligible = false;
+      setEligibilityErrors(prev => [...prev, `The property value must not exceed €${HTB_MAX_PROPERTY_VALUE.toLocaleString()}.`]);
+    }
+    
+    if (propertyPrice < HTB_MIN_PROPERTY_VALUE) {
+      isEligible = false;
+      setEligibilityErrors(prev => [...prev, `The property value must be at least €${HTB_MIN_PROPERTY_VALUE.toLocaleString()}.`]);
+    }
+    
+    // Calculate total taxes paid in last 4 years (Irish rules)
+    const totalIncomeTax = taxYear1 + taxYear2 + taxYear3 + taxYear4;
+    const totalUSC = uscYear1 + uscYear2 + uscYear3 + uscYear4;
+    const totalTaxes = totalIncomeTax + totalUSC + dirtPaid;
+    setTotalTaxPaid(totalTaxes);
+    
+    // Calculate HTB relief according to Irish rules
+    const calculatedRelief = Math.min(
+      propertyPrice * HTB_RELIEF_PERCENTAGE,  // 10% of property price
+      totalTaxes,                              // Can't exceed taxes paid
+      HTB_MAX_RELIEF                           // Maximum relief amount
+    );
+    
+    // Warnings for low tax paid
+    if (totalTaxes < propertyPrice * HTB_RELIEF_PERCENTAGE && isEligible) {
+      setEligibilityWarnings(prev => [...prev, 
+        `Your HTB amount is limited by the taxes you've paid (€${totalTaxes.toLocaleString()}). The maximum possible would be €${(propertyPrice * HTB_RELIEF_PERCENTAGE).toLocaleString()}.`
+      ]);
+    }
+    
+    setEligibility(isEligible);
+    setHtbAmount(isEligible ? calculatedRelief : 0);
+    
+    // Calculate loan amount
+    const totalDownPayment = depositAmount + (isEligible ? calculatedRelief : 0);
+    const calculatedLoanAmount = propertyPrice - totalDownPayment;
+    setLoanAmount(calculatedLoanAmount > 0 ? calculatedLoanAmount : 0);
+    
+  }, [propertyPrice, isFirstTimeBuyer, isNewBuild, taxYear1, taxYear2, taxYear3, taxYear4, 
+      uscYear1, uscYear2, uscYear3, uscYear4, dirtPaid, depositAmount]);
+  
+  // Format currency in Euro
+  const formatCurrency = (amount: number): string => {
+    return `€${amount.toLocaleString('en-IE', { maximumFractionDigits: 0 })}`;
+  };
+  
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6 max-w-5xl mx-auto">
+      <div className="mb-6">
+        <h2 className="text-3xl font-bold text-blue-900 text-center mb-2">
+          Irish Help-to-Buy Calculator
+        </h2>
+        <p className="text-center text-gray-600">
+          Calculate your Help-to-Buy refund under Irish Revenue rules (2025)
+        </p>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Input form */}
+        <div>
+          <h3 className="text-xl font-semibold mb-4 text-gray-900">Property & Buyer Details</h3>
+          
+          <div className="space-y-4">
+            {/* Property price */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Property Price
+              </label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Euro className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="number"
+                  value={propertyPrice}
+                  onChange={(e) => setPropertyPrice(Number(e.target.value))}
+                  className="border border-gray-300 rounded-md pl-10 py-2 pr-3 w-full focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="350000"
+                  min="0"
+                  max="1000000"
+                  step="1000"
+                />
+              </div>
+              {propertyPrice > HTB_MAX_PROPERTY_VALUE && (
+                <p className="mt-1 text-sm text-red-600">
+                  Exceeds HTB maximum of €{HTB_MAX_PROPERTY_VALUE.toLocaleString()}
+                </p>
+              )}
+            </div>
+            
+            {/* Deposit amount */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Personal Deposit Amount
+              </label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Euro className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="number"
+                  value={depositAmount}
+                  onChange={(e) => setDepositAmount(Number(e.target.value))}
+                  className="border border-gray-300 rounded-md pl-10 py-2 pr-3 w-full focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="35000"
+                  min="0"
+                  step="1000"
+                />
+              </div>
+              <p className="mt-1 text-sm text-gray-500">
+                Your cash contribution (excluding HTB)
+              </p>
+            </div>
+            
+            {/* Checkboxes */}
+            <div className="space-y-3">
+              <div className="flex items-center">
+                <input
+                  id="first-time-buyer"
+                  type="checkbox"
+                  checked={isFirstTimeBuyer}
+                  onChange={(e) => setIsFirstTimeBuyer(e.target.checked)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="first-time-buyer" className="ml-2 block text-sm text-gray-700">
+                  I am a first-time buyer
+                </label>
+              </div>
+              
+              <div className="flex items-center">
+                <input
+                  id="new-build"
+                  type="checkbox"
+                  checked={isNewBuild}
+                  onChange={(e) => setIsNewBuild(e.target.checked)}
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label htmlFor="new-build" className="ml-2 block text-sm text-gray-700">
+                  This is a new build property
+                </label>
+              </div>
+            </div>
+            
+            {/* Tax paid section */}
+            <div className="mt-6">
+              <h4 className="text-lg font-medium text-gray-900 mb-3">
+                Taxes Paid (Last 4 Years)
+              </h4>
+              <p className="text-sm text-gray-500 mb-4">
+                Enter Income Tax, USC, and DIRT paid to Revenue
+              </p>
+              
+              {/* Tax years */}
+              {[
+                { year: 1, tax: taxYear1, setTax: setTaxYear1, usc: uscYear1, setUsc: setUscYear1 },
+                { year: 2, tax: taxYear2, setTax: setTaxYear2, usc: uscYear2, setUsc: setUscYear2 },
+                { year: 3, tax: taxYear3, setTax: setTaxYear3, usc: uscYear3, setUsc: setUscYear3 },
+                { year: 4, tax: taxYear4, setTax: setTaxYear4, usc: uscYear4, setUsc: setUscYear4 },
+              ].map(({ year, tax, setTax, usc, setUsc }) => (
+                <div key={year} className="grid grid-cols-2 gap-2 mb-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Year {year} Income Tax
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                        <span className="text-gray-500 text-sm">€</span>
+                      </div>
+                      <input
+                        type="number"
+                        value={tax}
+                        onChange={(e) => setTax(Number(e.target.value))}
+                        className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
+                        min="0"
+                        step="100"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Year {year} USC
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                        <span className="text-gray-500 text-sm">€</span>
+                      </div>
+                      <input
+                        type="number"
+                        value={usc}
+                        onChange={(e) => setUsc(Number(e.target.value))}
+                        className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
+                        min="0"
+                        step="100"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {/* DIRT */}
+              <div className="mt-3">
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  DIRT Paid (if any)
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                    <span className="text-gray-500 text-sm">€</span>
+                  </div>
+                  <input
+                    type="number"
+                    value={dirtPaid}
+                    onChange={(e) => setDirtPaid(Number(e.target.value))}
+                    className="border border-gray-300 rounded-md pl-6 py-1 pr-2 w-full text-sm focus:ring-blue-500 focus:border-blue-500"
+                    min="0"
+                    step="10"
+                  />
+                </div>
+              </div>
+              
+              <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                <p className="text-sm font-medium text-blue-900">
+                  Total Taxes: {formatCurrency(totalTaxPaid)}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Results */}
+        <div>
+          <h3 className="text-xl font-semibold mb-4 text-gray-900">Your HTB Calculation</h3>
+          
+          {/* Eligibility status */}
+          <div className={`p-4 rounded-lg mb-6 ${
+            eligibility ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
+          }`}>
+            <div className="flex items-start">
+              {eligibility ? (
+                <CheckCircle className="w-6 h-6 text-green-500 mr-2 flex-shrink-0" />
+              ) : (
+                <AlertCircle className="w-6 h-6 text-red-500 mr-2 flex-shrink-0" />
+              )}
+              <div className="flex-1">
+                <h4 className={`font-semibold ${eligibility ? 'text-green-700' : 'text-red-700'}`}>
+                  {eligibility ? 'You are eligible for the Help-to-Buy scheme' : 'You are not eligible for the Help-to-Buy scheme'}
+                </h4>
+                
+                {eligibilityErrors.length > 0 && (
+                  <ul className="mt-2 space-y-1">
+                    {eligibilityErrors.map((error, index) => (
+                      <li key={index} className="text-sm text-red-600">{error}</li>
+                    ))}
+                  </ul>
+                )}
+                
+                {eligibilityWarnings.length > 0 && eligibility && (
+                  <ul className="mt-2 space-y-1">
+                    {eligibilityWarnings.map((warning, index) => (
+                      <li key={index} className="text-sm text-yellow-700">{warning}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+          
+          {/* HTB calculation breakdown */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-semibold mb-4 text-blue-900">Purchase Breakdown</h4>
+            
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Property Price:</span>
+                <span className="font-medium">{formatCurrency(propertyPrice)}</span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-gray-600">Your Cash Deposit:</span>
+                <span className="font-medium">{formatCurrency(depositAmount)}</span>
+              </div>
+              
+              <div className={`flex justify-between pb-3 border-b ${!eligibility ? 'opacity-50' : ''}`}>
+                <span className="text-gray-600">Help-to-Buy Refund:</span>
+                <span className={`font-medium ${eligibility ? 'text-green-600' : 'text-gray-400'}`}>
+                  {formatCurrency(htbAmount)}
+                </span>
+              </div>
+              
+              <div className="flex justify-between pt-3">
+                <span className="text-gray-700 font-medium">Total Deposit:</span>
+                <span className="font-bold text-blue-900">
+                  {formatCurrency(depositAmount + htbAmount)}
+                </span>
+              </div>
+              
+              <div className="flex justify-between">
+                <span className="text-gray-600">Deposit Percentage:</span>
+                <span className="font-medium">
+                  {((depositAmount + htbAmount) / propertyPrice * 100).toFixed(1)}%
+                </span>
+              </div>
+              
+              <div className="flex justify-between pt-3 border-t">
+                <span className="text-gray-700 font-medium">Mortgage Required:</span>
+                <span className="font-bold text-blue-900">{formatCurrency(loanAmount)}</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* How HTB is calculated */}
+          <div className="mt-6 bg-blue-50 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-900 mb-2">How HTB is Calculated</h4>
+            <p className="text-sm text-gray-700 mb-2">
+              Your HTB refund is the <strong>lowest</strong> of:
+            </p>
+            <ul className="text-sm text-gray-700 space-y-1 ml-4">
+              <li>• 10% of property price: {formatCurrency(propertyPrice * 0.1)}</li>
+              <li>• Total taxes paid: {formatCurrency(totalTaxPaid)}</li>
+              <li>• Maximum HTB limit: {formatCurrency(HTB_MAX_RELIEF)}</li>
+            </ul>
+            <p className="text-sm text-blue-800 font-medium mt-2">
+              Your HTB amount: {formatCurrency(htbAmount)}
+            </p>
+          </div>
+          
+          {/* Next steps */}
+          {eligibility && (
+            <div className="mt-6">
+              <h4 className="font-semibold mb-2 text-blue-900">Next Steps</h4>
+              <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                <li>Apply for HTB online through Revenue's myAccount</li>
+                <li>Receive your HTB approval summary</li>
+                <li>Share your HTB number with your solicitor</li>
+                <li>HTB will be paid directly to your solicitor at closing</li>
+              </ol>
+              
+              <div className="mt-4 space-y-2">
+                <a 
+                  href="https://www.revenue.ie/en/property/help-to-buy-incentive/index.aspx" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Official Revenue HTB Information
+                  <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+                <br />
+                <Link 
+                  href="/first-time-buyers/help-to-buy/apply"
+                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  Start Your HTB Application
+                  <svg className="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Legal disclaimer */}
+      <div className="mt-8 p-4 bg-gray-100 rounded-lg">
+        <div className="flex items-start">
+          <Info className="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" />
+          <div className="ml-3">
+            <h4 className="text-sm font-medium text-gray-700">Important Information</h4>
+            <p className="text-xs text-gray-600 mt-1">
+              This calculator provides estimates based on current Irish Revenue HTB rules. 
+              Always verify your eligibility and exact refund amount with Revenue and consult 
+              with a qualified financial advisor. HTB is only available for new properties 
+              purchased from a qualifying contractor.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HelpToBuyCalculator;

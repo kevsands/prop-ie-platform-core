@@ -1,0 +1,785 @@
+// PropIE Enterprise PostgreSQL Schema
+// Production-ready schema for HTB, Audit, Security, and Document Management
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  firstName         String
+  lastName          String
+  phone             String?
+  ppsNumber         String?  @unique
+  dateOfBirth       DateTime?
+  isVerified        Boolean  @default(false)
+  isFirstTimeBuyer  Boolean  @default(true)
+  
+  // Address
+  addressLine1      String?
+  addressLine2      String?
+  city              String?
+  county            String?
+  eircode           String?
+  country           String   @default("IE")
+  
+  // System fields
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  lastLoginAt       DateTime?
+  isActive          Boolean  @default(true)
+  
+  // Legacy support
+  roleData          String?  // JSON string for roles
+  status            UserStatus @default(ACTIVE)
+  password          String?
+  
+  // Relationships
+  htbClaims         HTBClaim[]
+  documents         Document[]
+  auditEvents       AuditEvent[]
+  securityEvents    SecurityEvent[]
+  fraudAssessments  FraudAssessment[]
+  
+  // Legacy relationships
+  buyerJourneys     BuyerJourney[]
+  reservations      Reservation[]
+  
+  @@map("users")
+}
+
+// Legacy models for backward compatibility
+model BuyerJourney {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  phase     String   @default("planning")
+  data      String   // JSON string for journey data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("buyer_journeys")
+}
+
+model Development {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  units Unit[]
+  
+  @@map("developments")
+}
+
+model Unit {
+  id            String      @id @default(cuid())
+  developmentId String
+  development   Development @relation(fields: [developmentId], references: [id])
+  name          String
+  type          String
+  price         Float
+  status        String      @default("available")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  reservations Reservation[]
+  
+  @@map("units")
+}
+
+model Reservation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  unitId    String
+  unit      Unit     @relation(fields: [unitId], references: [id])
+  status    String   @default("pending")
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("reservations")
+}
+
+// Properties
+model Property {
+  id                String      @id @default(cuid())
+  propertyId        String      @unique
+  address           String
+  addressLine1      String
+  addressLine2      String?
+  city              String
+  county            String
+  eircode           String?
+  
+  // Property details
+  propertyType      PropertyType
+  propertyCategory  PropertyCategory
+  bedrooms          Int?
+  bathrooms         Int?
+  floorArea         Float?
+  buildYear         Int?
+  buildingEnergyRating String?
+  
+  // Pricing
+  currentPrice      Decimal     @db.Decimal(12,2)
+  priceHistory      PropertyPriceHistory[]
+  
+  // Development info
+  developerId       String?
+  developer         Developer?  @relation(fields: [developerId], references: [id])
+  
+  // Status
+  status            PropertyStatus @default(AVAILABLE)
+  isNewBuild        Boolean     @default(false)
+  completionDate    DateTime?
+  
+  // System fields
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  // Relationships
+  htbClaims         HTBClaim[]
+  
+  @@map("properties")
+}
+
+model PropertyPriceHistory {
+  id           String   @id @default(cuid())
+  propertyId   String
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  price        Decimal  @db.Decimal(12,2)
+  priceDate    DateTime
+  reason       String?
+  
+  createdAt    DateTime @default(now())
+  
+  @@map("property_price_history")
+}
+
+// Developer Management
+model Developer {
+  id                String   @id @default(cuid())
+  companyName       String
+  registrationNumber String  @unique
+  email             String   @unique
+  phone             String
+  website           String?
+  
+  // Address
+  addressLine1      String
+  addressLine2      String?
+  city              String
+  county            String
+  eircode           String?
+  
+  // Status
+  isVerified        Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  
+  // System fields
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relationships
+  properties        Property[]
+  htbClaims         HTBClaim[]
+  
+  @@map("developers")
+}
+
+// HTB Claims
+model HTBClaim {
+  id                String         @id @default(cuid())
+  claimId           String         @unique
+  
+  // Relationships
+  buyerId           String
+  buyer             User           @relation(fields: [buyerId], references: [id])
+  propertyId        String
+  property          Property       @relation(fields: [propertyId], references: [id])
+  developerId       String?
+  developer         Developer?     @relation(fields: [developerId], references: [id])
+  
+  // Claim details
+  propertyPrice     Decimal        @db.Decimal(12,2)
+  requestedAmount   Decimal        @db.Decimal(12,2)
+  approvedAmount    Decimal?       @db.Decimal(12,2)
+  disbursedAmount   Decimal?       @db.Decimal(12,2)
+  
+  // Application details
+  applicationDate   DateTime       @default(now())
+  submissionDate    DateTime?
+  approvalDate      DateTime?
+  disbursementDate  DateTime?
+  completionDate    DateTime?
+  
+  // Status tracking
+  status            HTBClaimStatus @default(INITIATED)
+  processingStage   HTBProcessingStage @default(INITIAL_ASSESSMENT)
+  eligibilityScore  Float?
+  
+  // Financial details
+  depositAmount     Decimal?       @db.Decimal(12,2)
+  mortgageAmount    Decimal?       @db.Decimal(12,2)
+  mortgageProvider  String?
+  grossAnnualIncome Decimal?       @db.Decimal(12,2)
+  
+  // Automation metadata
+  automationEnabled Boolean        @default(true)
+  lastProcessedAt   DateTime?
+  nextActionDate    DateTime?
+  
+  // System fields
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  
+  // Relationships
+  documents         HTBDocument[]
+  statusHistory     HTBStatusHistory[]
+  fraudAssessments  FraudAssessment[]
+  auditEvents       AuditEvent[]
+  
+  @@map("htb_claims")
+}
+
+model HTBDocument {
+  id              String         @id @default(cuid())
+  htbClaimId      String
+  htbClaim        HTBClaim       @relation(fields: [htbClaimId], references: [id], onDelete: Cascade)
+  
+  // Document details
+  documentName    String
+  documentType    HTBDocumentType
+  category        String
+  description     String?
+  
+  // File details
+  fileName        String
+  filePath        String
+  fileSize        Int
+  mimeType        String
+  fileHash        String         @unique
+  
+  // Verification
+  isRequired      Boolean        @default(true)
+  isUploaded      Boolean        @default(false)
+  isVerified      Boolean        @default(false)
+  verificationStatus HTBDocumentVerificationStatus @default(PENDING)
+  verifiedAt      DateTime?
+  verifiedBy      String?
+  
+  // AI Verification
+  aiVerificationId String?
+  aiConfidenceScore Float?
+  aiExtractedData  Json?
+  
+  // Compliance
+  gdprProcessed   Boolean        @default(false)
+  retentionDate   DateTime?
+  
+  // System fields
+  uploadedAt      DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  @@map("htb_documents")
+}
+
+model HTBStatusHistory {
+  id            String         @id @default(cuid())
+  htbClaimId    String
+  htbClaim      HTBClaim       @relation(fields: [htbClaimId], references: [id], onDelete: Cascade)
+  
+  oldStatus     HTBClaimStatus?
+  newStatus     HTBClaimStatus
+  changedBy     String
+  changeReason  String?
+  notes         String?
+  
+  createdAt     DateTime       @default(now())
+  
+  @@map("htb_status_history")
+}
+
+// Document Management
+model Document {
+  id                String              @id @default(cuid())
+  userId            String
+  user              User                @relation(fields: [userId], references: [id])
+  
+  // Document details
+  name              String
+  description       String?
+  documentType      DocumentType
+  category          DocumentCategory
+  
+  // File details
+  fileName          String
+  filePath          String
+  fileSize          Int
+  mimeType          String
+  fileHash          String              @unique
+  
+  // Verification
+  verificationStatus DocumentVerificationStatus @default(PENDING)
+  verifiedAt        DateTime?
+  verifiedBy        String?
+  
+  // AI Processing
+  aiProcessingId    String?
+  aiExtractedData   Json?
+  aiConfidenceScore Float?
+  
+  // Security
+  encryptionKey     String?
+  isEncrypted       Boolean             @default(true)
+  
+  // Compliance
+  gdprBasis         String?
+  retentionPeriod   Int?                // in days
+  destructionDate   DateTime?
+  
+  // System fields
+  uploadedAt        DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  @@map("documents")
+}
+
+// Audit System
+model AuditEvent {
+  id                String              @id @default(cuid())
+  eventId           String              @unique
+  
+  // Event classification
+  eventType         AuditEventType
+  eventCategory     AuditEventCategory
+  eventSubcategory  String?
+  
+  // Timing
+  timestamp         DateTime            @default(now())
+  duration          Int?                // in milliseconds
+  timeZone          String              @default("Europe/Dublin")
+  
+  // Actor information
+  actorId           String?
+  actorType         ActorType
+  actorName         String?
+  userId            String?
+  user              User?               @relation(fields: [userId], references: [id])
+  htbClaimId        String?
+  htbClaim          HTBClaim?           @relation(fields: [htbClaimId], references: [id])
+  
+  // Target information
+  targetId          String
+  targetType        TargetType
+  targetName        String
+  resourceType      String?
+  dataClassification String?
+  
+  // Event details
+  action            String
+  actionDescription String
+  businessProcess   String?
+  actionParameters  Json?
+  
+  // Context
+  requestId         String?
+  sessionId         String?
+  correlationId     String?
+  ipAddress         String?
+  userAgent         String?
+  
+  // Result
+  resultStatus      ResultStatus
+  resultCode        String?
+  resultMessage     String?
+  
+  // Compliance
+  applicableRegulations String[]
+  complianceStatus  ComplianceStatus    @default(COMPLIANT)
+  legalBasis        String?
+  retentionPeriod   Int                 // in milliseconds
+  
+  // Security
+  securityClassification SecurityClassification @default(INTERNAL)
+  riskLevel         RiskLevel           @default(LOW)
+  
+  // System fields
+  createdAt         DateTime            @default(now())
+  
+  @@map("audit_events")
+}
+
+// Security Events
+model SecurityEvent {
+  id                String              @id @default(cuid())
+  eventId           String              @unique
+  
+  // Event details
+  eventType         SecurityEventType
+  severity          SecuritySeverity
+  description       String
+  
+  // Source
+  sourceSystem      String
+  sourceId          String
+  
+  // User context
+  userId            String?
+  user              User?               @relation(fields: [userId], references: [id])
+  sessionId         String?
+  ipAddress         String?
+  userAgent         String?
+  
+  // Location
+  country           String?
+  region            String?
+  city              String?
+  
+  // Risk assessment
+  riskScore         Float
+  confidence        Float
+  
+  // Response
+  responseStatus    SecurityResponseStatus @default(PENDING)
+  responseActions   Json?
+  resolvedAt        DateTime?
+  resolvedBy        String?
+  
+  // System fields
+  detectedAt        DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  @@map("security_events")
+}
+
+// Fraud Detection
+model FraudAssessment {
+  id                String              @id @default(cuid())
+  assessmentId      String              @unique
+  
+  // Relationships
+  userId            String
+  user              User                @relation(fields: [userId], references: [id])
+  htbClaimId        String?
+  htbClaim          HTBClaim?           @relation(fields: [htbClaimId], references: [id])
+  
+  // Assessment details
+  transactionId     String
+  transactionType   String
+  transactionAmount Decimal             @db.Decimal(12,2)
+  
+  // Risk assessment
+  overallRiskScore  Float
+  riskLevel         FraudRiskLevel
+  confidence        Float
+  
+  // Decision
+  decision          FraudDecision
+  decisionReason    String
+  
+  // Processing
+  processingTime    Int                 // in milliseconds
+  mlModelResults    Json?
+  triggeredRules    Json?
+  
+  // System fields
+  assessedAt        DateTime            @default(now())
+  
+  @@map("fraud_assessments")
+}
+
+// System Configuration
+model SystemConfiguration {
+  id                String              @id @default(cuid())
+  key               String              @unique
+  value             String
+  description       String?
+  category          String
+  isEncrypted       Boolean             @default(false)
+  isActive          Boolean             @default(true)
+  
+  // System fields
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  updatedBy         String?
+  
+  @@map("system_configuration")
+}
+
+// Enums
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+enum PropertyType {
+  NEW
+  SECONDHAND
+  
+  @@map("property_type")
+}
+
+enum PropertyCategory {
+  HOUSE
+  APARTMENT
+  TOWNHOUSE
+  DUPLEX
+  
+  @@map("property_category")
+}
+
+enum PropertyStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  WITHDRAWN
+  UNDER_CONSTRUCTION
+  
+  @@map("property_status")
+}
+
+enum HTBClaimStatus {
+  INITIATED
+  DOCUMENTS_PENDING
+  UNDER_REVIEW
+  SUBMITTED
+  APPROVAL_PENDING
+  APPROVED
+  REJECTED
+  DISBURSEMENT_READY
+  DISBURSED
+  COMPLETED
+  CANCELLED
+  
+  @@map("htb_claim_status")
+}
+
+enum HTBProcessingStage {
+  INITIAL_ASSESSMENT
+  DOCUMENT_COLLECTION
+  ELIGIBILITY_VERIFICATION
+  PROPERTY_VALIDATION
+  FINANCIAL_VERIFICATION
+  APPLICATION_SUBMISSION
+  APPROVAL_PENDING
+  APPROVED
+  REJECTED
+  DISBURSEMENT_READY
+  COMPLETED
+  
+  @@map("htb_processing_stage")
+}
+
+enum HTBDocumentType {
+  SALARY_CERTIFICATE
+  BANK_STATEMENTS
+  MORTGAGE_APPROVAL
+  CONTRACTS_SALE
+  ID_VERIFICATION
+  PPS_CERTIFICATE
+  TAX_RETURNS
+  EMPLOYMENT_LETTER
+  P60
+  UTILITY_BILL
+  
+  @@map("htb_document_type")
+}
+
+enum HTBDocumentVerificationStatus {
+  PENDING
+  PROCESSING
+  VERIFIED
+  REJECTED
+  EXPIRED
+  
+  @@map("htb_document_verification_status")
+}
+
+enum DocumentType {
+  IDENTITY
+  FINANCIAL
+  LEGAL
+  EMPLOYMENT
+  PROPERTY
+  OTHER
+  
+  @@map("document_type")
+}
+
+enum DocumentCategory {
+  INCOME_VERIFICATION
+  FINANCIAL_VERIFICATION
+  MORTGAGE_VERIFICATION
+  PROPERTY_LEGAL
+  IDENTITY_VERIFICATION
+  EMPLOYMENT_VERIFICATION
+  
+  @@map("document_category")
+}
+
+enum DocumentVerificationStatus {
+  PENDING
+  PROCESSING
+  VERIFIED
+  REJECTED
+  EXPIRED
+  
+  @@map("document_verification_status")
+}
+
+enum AuditEventType {
+  USER_ACTION
+  SYSTEM_EVENT
+  SECURITY_EVENT
+  COMPLIANCE_EVENT
+  FINANCIAL_EVENT
+  DATA_EVENT
+  CONFIGURATION_CHANGE
+  ERROR_EVENT
+  BUSINESS_PROCESS
+  REGULATORY_ACTION
+  
+  @@map("audit_event_type")
+}
+
+enum AuditEventCategory {
+  AUTHENTICATION
+  AUTHORIZATION
+  DATA_ACCESS
+  DATA_MODIFICATION
+  TRANSACTION_PROCESSING
+  SYSTEM_ADMINISTRATION
+  SECURITY_MONITORING
+  COMPLIANCE_TRACKING
+  ERROR_HANDLING
+  BUSINESS_LOGIC
+  
+  @@map("audit_event_category")
+}
+
+enum ActorType {
+  USER
+  SYSTEM
+  SERVICE
+  EXTERNAL
+  AUTOMATED
+  
+  @@map("actor_type")
+}
+
+enum TargetType {
+  USER
+  RESOURCE
+  DATA
+  SYSTEM
+  CONFIGURATION
+  TRANSACTION
+  
+  @@map("target_type")
+}
+
+enum ResultStatus {
+  SUCCESS
+  FAILURE
+  PARTIAL
+  WARNING
+  CANCELLED
+  
+  @@map("result_status")
+}
+
+enum ComplianceStatus {
+  COMPLIANT
+  NON_COMPLIANT
+  UNKNOWN
+  EXEMPT
+  
+  @@map("compliance_status")
+}
+
+enum SecurityClassification {
+  PUBLIC
+  INTERNAL
+  CONFIDENTIAL
+  SECRET
+  
+  @@map("security_classification")
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+  
+  @@map("risk_level")
+}
+
+enum SecurityEventType {
+  AUTHENTICATION_FAILURE
+  UNAUTHORIZED_ACCESS
+  DATA_BREACH_ATTEMPT
+  MALWARE_DETECTION
+  SUSPICIOUS_BEHAVIOR
+  COMPLIANCE_VIOLATION
+  SYSTEM_INTRUSION
+  DDOS_ATTACK
+  SQL_INJECTION
+  XSS_ATTEMPT
+  PRIVILEGE_ESCALATION
+  DATA_EXFILTRATION
+  ACCOUNT_TAKEOVER
+  FRAUD_ATTEMPT
+  
+  @@map("security_event_type")
+}
+
+enum SecuritySeverity {
+  INFO
+  WARNING
+  CRITICAL
+  EMERGENCY
+  
+  @@map("security_severity")
+}
+
+enum SecurityResponseStatus {
+  PENDING
+  IN_PROGRESS
+  RESOLVED
+  ESCALATED
+  
+  @@map("security_response_status")
+}
+
+enum FraudRiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+  
+  @@map("fraud_risk_level")
+}
+
+enum FraudDecision {
+  APPROVE
+  DECLINE
+  REVIEW
+  ADDITIONAL_AUTH_REQUIRED
+  
+  @@map("fraud_decision")
+}

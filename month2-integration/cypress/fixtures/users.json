@@ -1,0 +1,57 @@
+{
+  "buyers": [
+    {
+      "id": "buyer-1",
+      "email": "buyer1@example.com",
+      "password": "Password123!",
+      "name": "John Buyer",
+      "role": "buyer"
+    },
+    {
+      "id": "buyer-2",
+      "email": "buyer2@example.com",
+      "password": "Password123!",
+      "name": "Jane Buyer",
+      "role": "buyer"
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent-1",
+      "email": "agent1@example.com",
+      "password": "Password123!",
+      "name": "Mark Agent",
+      "role": "agent"
+    },
+    {
+      "id": "agent-2",
+      "email": "agent2@example.com",
+      "password": "Password123!",
+      "name": "Sarah Agent",
+      "role": "agent"
+    }
+  ],
+  "developers": [
+    {
+      "id": "developer-1",
+      "email": "developer1@example.com",
+      "password": "Password123!",
+      "name": "Mike Developer",
+      "role": "developer"
+    },
+    {
+      "id": "developer-2",
+      "email": "developer2@example.com",
+      "password": "Password123!",
+      "name": "Lisa Developer",
+      "role": "developer"
+    }
+  ],
+  "admin": {
+    "id": "admin-1",
+    "email": "admin@example.com",
+    "password": "Password123!",
+    "name": "Admin User",
+    "role": "admin"
+  }
+}

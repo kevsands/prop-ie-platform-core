@@ -1,0 +1,77 @@
+{
+  "title": "PROP.ie Staging Environment Configuration",
+  "timestamp": "2025-06-19T16:41:44.370Z",
+  "environment": "staging",
+  "configuration": {
+    "database": {
+      "type": "PostgreSQL",
+      "name": "propie_staging",
+      "host": "localhost",
+      "port": 5432,
+      "features": [
+        "Test data seeded",
+        "Debug logging enabled",
+        "Performance tracking"
+      ]
+    },
+    "services": {
+      "redis": {
+        "configured": true,
+        "database": 1,
+        "keyPrefix": "propie:staging:"
+      },
+      "authentication": {
+        "provider": "Mock Authentication",
+        "testUsers": 4,
+        "features": [
+          "Auto-login",
+          "Role switching",
+          "Skip email verification"
+        ]
+      },
+      "payments": {
+        "provider": "Stripe Test Mode",
+        "testCards": 3,
+        "features": [
+          "Auto-confirm",
+          "Failure simulation",
+          "Transaction logging"
+        ]
+      }
+    },
+    "monitoring": {
+      "healthChecks": "Every 60 seconds",
+      "responseTimeWarning": "3000ms",
+      "errorRateWarning": "10%",
+      "logging": "Debug level with file output"
+    }
+  },
+  "testData": {
+    "properties": 3,
+    "users": 4,
+    "projects": 2,
+    "transactions": 2,
+    "htbApplications": 2
+  },
+  "testScenarios": {
+    "buyerJourney": "Complete first-time buyer flow",
+    "developerWorkflow": "Property management and analytics",
+    "agentProcess": "Client management and commission tracking",
+    "adminFunctions": "System monitoring and user management"
+  },
+  "stagingFeatures": {
+    "mockAuth": true,
+    "testPayments": true,
+    "debugMode": true,
+    "performanceTracking": true,
+    "errorSimulation": true
+  },
+  "nextSteps": [
+    "Execute database setup scripts",
+    "Deploy staging environment",
+    "Run comprehensive user acceptance testing",
+    "Validate all user journeys",
+    "Performance and security testing",
+    "Stakeholder review and approval"
+  ]
+}

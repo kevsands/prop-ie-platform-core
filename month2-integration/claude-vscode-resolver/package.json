@@ -1,0 +1,55 @@
+{
+  "name": "@claude/vscode-resolver",
+  "version": "1.0.0",
+  "description": "Enterprise-grade solution for systematically detecting, fixing, and verifying solutions for problems identified in VSCode using Claude Code",
+  "main": "index.js",
+  "bin": {
+    "claude-resolver": "./index.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "start": "node index.js",
+    "build": "echo \"No build step required\" && exit 0"
+  },
+  "keywords": [
+    "claude",
+    "vscode",
+    "problems",
+    "diagnostics",
+    "ai",
+    "code-quality",
+    "fix",
+    "resolver"
+  ],
+  "author": "Anthropic",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.10.0",
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "dotenv": "^16.3.1",
+    "glob": "^10.3.1",
+    "inquirer": "^8.2.5",
+    "js-yaml": "^4.1.0",
+    "simple-git": "^3.19.1",
+    "temp": "^0.9.4",
+    "uuid": "^9.0.0",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "jest": "^29.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthropic/claude-vscode-resolver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anthropic/claude-vscode-resolver/issues"
+  },
+  "homepage": "https://github.com/anthropic/claude-vscode-resolver#readme"
+}

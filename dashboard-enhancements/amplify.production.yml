@@ -1,0 +1,75 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Building for production environment"
+        - export NODE_ENV=production
+        - npm ci --production=false
+        - npm run verify-lockfile
+        - npm run security-check
+        - npm run generate-sbom
+        - npm run validate-sbom
+    build:
+      commands:
+        - echo "Running production build"
+        - npm run build:prod
+    postBuild:
+      commands:
+        - echo "Running post-build optimizations"
+        - npm run optimize-bundle
+        - npm run generate-bundle-report
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
+
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: 'Strict-Transport-Security'
+          value: 'max-age=31536000; includeSubDomains; preload'
+        - key: 'X-Content-Type-Options'
+          value: 'nosniff'
+        - key: 'X-Frame-Options'
+          value: 'DENY'
+        - key: 'X-XSS-Protection'
+          value: '1; mode=block'
+        - key: 'Referrer-Policy'
+          value: 'strict-origin-when-cross-origin'
+        - key: 'Permissions-Policy'
+          value: 'camera=(), microphone=(), geolocation=()'
+        - key: 'Content-Security-Policy'
+          value: "default-src 'self'; script-src 'self' https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://*.amazonaws.com https://*.amplifyapp.com https://www.google-analytics.com; font-src 'self'; frame-src 'self'; object-src 'none'; form-action 'self'; base-uri 'self'; upgrade-insecure-requests"
+
+  environmentVariables:
+    - name: NEXT_PUBLIC_APP_ENV
+      value: production
+    - name: NEXT_PUBLIC_API_ENDPOINT
+      value: https://api.prop-ie-app.com
+    - name: NEXT_PUBLIC_APP_URL
+      value: https://prop-ie-app.com
+    - name: NEXT_PUBLIC_CSP_ENABLED
+      value: true
+    - name: NEXT_PUBLIC_SECURITY_MONITORING_ENABLED
+      value: true
+    - name: NEXT_PUBLIC_CACHE_TTL
+      value: 3600
+    - name: NEXT_PUBLIC_IMAGE_OPTIMIZATION_ENABLED
+      value: true
+    - name: NEXT_PUBLIC_FEATURE_ENHANCED_SECURITY
+      value: true
+    - name: NEXT_PUBLIC_FEATURE_ADVANCED_MONITORING
+      value: true
+
+  # Performance settings
+  performance:
+    maxConcurrentUsers: 100
+    responseCompressionEnabled: true
+    cache:
+      htmlPageCachingEnabled: true
+      prefetchingEnabled: true

@@ -1,0 +1,48 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "incremental": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2018",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": [
+      "jest", 
+      "node", 
+      "@testing-library/jest-dom", 
+      "jest-extended"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/setupTests.ts",
+    "__tests__/**/*.ts",
+    "__tests__/**/*.tsx",
+    "src/types/**/*.d.ts",
+    "jest.setup.js",
+    "jest.dom.setup.js"
+  ],
+  "exclude": ["node_modules", ".next", "out"]
+}

@@ -1,0 +1,31 @@
+{
+  "responseTime": {
+    "endpoints": [
+      "/api/*",
+      "/",
+      "/buyer/*",
+      "/developer/*"
+    ],
+    "thresholds": {
+      "warning": 1000,
+      "critical": 3000
+    }
+  },
+  "throughput": {
+    "metric": "requests_per_second",
+    "baseline": 100,
+    "alertOn": "deviation_25_percent"
+  },
+  "errorRate": {
+    "metric": "error_percentage",
+    "thresholds": {
+      "warning": 2,
+      "critical": 5
+    }
+  },
+  "apdex": {
+    "target": 0.5,
+    "tolerance": 2,
+    "threshold": 0.85
+  }
+}

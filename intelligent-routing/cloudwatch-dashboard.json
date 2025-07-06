@@ -1,0 +1,160 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 24,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Amplify", "Requests", "App", "${AMPLIFY_APP_ID}"],
+          [".", "BytesDownloaded", ".", "."],
+          [".", "BytesUploaded", ".", "."],
+          [".", "4XXErrors", ".", "."],
+          [".", "5XXErrors", ".", "."]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "Amplify App Metrics",
+        "period": 300,
+        "stat": "Sum"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 6,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Amplify", "4XXErrors", "App", "${AMPLIFY_APP_ID}"],
+          [".", "5XXErrors", ".", "."]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "Amplify Error Rates",
+        "period": 300,
+        "stat": "Sum"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 6,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Amplify", "Latency", "App", "${AMPLIFY_APP_ID}", {"stat": "Average"}],
+          ["...", {"stat": "p90"}],
+          ["...", {"stat": "p99"}]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "Amplify Latency",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 12,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/AppSync", "Latency", "GraphQLAPIId", "${GRAPHQL_API_ID}"],
+          [".", "4XXError", ".", "."],
+          [".", "5XXError", ".", "."]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "AppSync API Metrics",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 12,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Cognito", "SignInSuccesses", "UserPool", "${USER_POOL_ID}"],
+          [".", "SignUpSuccesses", ".", "."],
+          [".", "TokenRefreshSuccesses", ".", "."]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "Cognito Authentication Metrics",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 18,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/S3", "BucketSizeBytes", "BucketName", "${S3_BUCKET_NAME}", "StorageType", "StandardStorage"],
+          [".", "NumberOfObjects", ".", ".", "StorageType", "AllStorageTypes"]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "S3 Storage Metrics",
+        "period": 86400,
+        "stat": "Average"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 18,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Cognito", "SignUpThrottles", "UserPool", "${USER_POOL_ID}"],
+          [".", "SignInThrottles", ".", "."],
+          [".", "TokenRefreshThrottles", ".", "."],
+          [".", "ForgotPasswordThrottles", ".", "."]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "Cognito Throttling Metrics",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 24,
+      "width": 24,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["PropIE/Security", "AuthFailures"],
+          [".", "UnauthorizedAccess"],
+          ["PropIE/API", "GraphQLErrors"]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "${AWS_REGION}",
+        "title": "Application Security Metrics",
+        "period": 300
+      }
+    }
+  ]
+}

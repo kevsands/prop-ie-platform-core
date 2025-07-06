@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Homepage loads successfully",
+    "endpoint": "/",
+    "status": 200,
+    "responseTime": 1010,
+    "timestamp": "2025-06-19T16:44:01.714Z",
+    "success": true
+  },
+  {
+    "name": "API health check responds",
+    "endpoint": "/api/health",
+    "status": 200,
+    "responseTime": 482,
+    "timestamp": "2025-06-19T16:44:01.714Z",
+    "success": true
+  },
+  {
+    "name": "Buyer portal accessible",
+    "endpoint": "/buyer/first-time-buyers/welcome",
+    "status": 200,
+    "responseTime": 181,
+    "timestamp": "2025-06-19T16:44:01.714Z",
+    "success": true
+  },
+  {
+    "name": "Developer portal accessible",
+    "endpoint": "/developer/overview",
+    "status": 200,
+    "responseTime": 1021,
+    "timestamp": "2025-06-19T16:44:01.715Z",
+    "success": true
+  },
+  {
+    "name": "Property search functional",
+    "endpoint": "/api/properties?search=dublin",
+    "status": 200,
+    "responseTime": 726,
+    "timestamp": "2025-06-19T16:44:01.715Z",
+    "success": true
+  },
+  {
+    "name": "Authentication service responsive",
+    "endpoint": "/api/auth/session",
+    "status": 200,
+    "responseTime": 326,
+    "timestamp": "2025-06-19T16:44:01.715Z",
+    "success": true
+  }
+]

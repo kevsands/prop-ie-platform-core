@@ -1,0 +1,417 @@
+"""
+Sales schema for the PropIE GraphQL API
+Defines sales types, queries, and mutations
+"""
+
+enum SaleStatus {
+  ENQUIRY
+  VIEWING_SCHEDULED
+  VIEWED
+  INTERESTED
+  RESERVATION
+  PENDING_APPROVAL
+  RESERVATION_APPROVED
+  CONTRACT_ISSUED
+  CONTRACT_SIGNED
+  DEPOSIT_PAID
+  MORTGAGE_APPROVED
+  CLOSING
+  COMPLETED
+  HANDED_OVER
+  CANCELLED
+  EXPIRED
+}
+
+enum DepositStatus {
+  NOT_PAID
+  INITIAL_PAID
+  BALANCE_PAID
+  FULLY_PAID
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum MortgageStatus {
+  NOT_APPLIED
+  APPLIED
+  APPROVAL_IN_PRINCIPLE
+  APPROVED
+  REJECTED
+  EXPIRED
+  COMPLETED
+}
+
+enum HTBClaimStatus {
+  NOT_APPLIED
+  APPLIED
+  VERIFIED
+  APPROVED
+  REJECTED
+  PAYMENT_PROCESSING
+  PAYMENT_COMPLETE
+}
+
+"""
+Sale timeline with key dates
+"""
+type SaleTimeline {
+  id: ID!
+  initialEnquiryDate: DateTime
+  firstViewingDate: DateTime
+  reservationDate: DateTime
+  reservationExpiryDate: DateTime
+  contractIssuedDate: DateTime
+  contractReturnDeadline: DateTime
+  contractReturnedDate: DateTime
+  depositDueDate: DateTime
+  depositPaidDate: DateTime
+  mortgageApprovalDate: DateTime
+  closingDate: DateTime
+  fundsDisbursedDate: DateTime
+  saleCompletedDate: DateTime
+  handoverDate: DateTime
+  keyCollectionDate: DateTime
+  warrantyStartDate: DateTime
+  warrantyEndDate: DateTime
+}
+
+"""
+Deposit information
+"""
+type Deposit {
+  id: ID!
+  initialAmount: Float!
+  initialAmountPercentage: Float!
+  initialPaidDate: DateTime
+  balanceAmount: Float!
+  balanceDueDate: DateTime
+  balancePaidDate: DateTime
+  totalPaid: Float!
+  status: DepositStatus!
+  paymentMethod: String
+}
+
+"""
+Mortgage details
+"""
+type MortgageDetails {
+  id: ID!
+  lender: String!
+  amount: Float!
+  term: Int!
+  interestRate: Float!
+  approvalInPrincipleDate: DateTime
+  finalApprovalDate: DateTime
+  status: MortgageStatus!
+  broker: String
+  brokerFee: Float
+  loanType: String!
+  applicationDate: DateTime
+  offerExpiryDate: DateTime
+  completionDate: DateTime
+  drawdownDate: DateTime
+  documents: [DocumentSummary!]!
+}
+
+"""
+Help To Buy details
+"""
+type HTBDetails {
+  id: ID!
+  applicationNumber: String!
+  status: HTBClaimStatus!
+  applicationDate: DateTime!
+  approvalDate: DateTime
+  amount: Float!
+  claimSubmissionDate: DateTime
+  claimPaymentDate: DateTime
+  accessCode: String
+  claimCode: String
+  expiryDate: DateTime
+  documents: [DocumentSummary!]!
+}
+
+"""
+Sale note
+"""
+type SaleNote {
+  id: ID!
+  authorId: ID!
+  authorName: String!
+  content: String!
+  timestamp: DateTime!
+  isPrivate: Boolean!
+  category: String
+}
+
+"""
+Status history entry
+"""
+type StatusHistoryEntry {
+  id: ID!
+  status: SaleStatus!
+  previousStatus: SaleStatus
+  timestamp: DateTime!
+  updatedBy: UserSummary!
+  notes: String
+}
+
+"""
+Sale summary for list views
+"""
+type SaleSummary {
+  id: ID!
+  unit: UnitSummary!
+  development: DevelopmentSummary!
+  buyerId: ID!
+  buyerName: String!
+  status: SaleStatus!
+  totalPrice: Float!
+  referenceNumber: String!
+  createdAt: DateTime!
+  completionDate: DateTime
+}
+
+"""
+Complete sale details
+"""
+type Sale {
+  id: ID!
+  unit: Unit!
+  development: DevelopmentSummary!
+  buyerId: ID!
+  buyerName: String!
+  sellingAgent: UserSummary
+  
+  # Status and timeline
+  status: SaleStatus!
+  contractStatus: String!
+  statusHistory: [StatusHistoryEntry!]!
+  timeline: SaleTimeline
+  
+  # Financial details
+  basePrice: Float!
+  customizationCost: Float!
+  totalPrice: Float!
+  depositInfo: Deposit
+  mortgageDetails: MortgageDetails
+  htbDetails: HTBDetails
+  
+  # Documents
+  documents: [DocumentSummary!]!
+  
+  # Dates
+  completionDate: DateTime
+  handoverDate: DateTime
+  keyCollectionDate: DateTime
+  
+  # Additional details
+  referenceNumber: String!
+  notes: [SaleNote!]!
+  metadata: JSON
+  tags: [String!]!
+  
+  # Timestamps
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+Response type for sale queries with pagination
+"""
+type SalesResponse {
+  sales: [SaleSummary!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Input for sale filtering
+"""
+input SaleFilterInput {
+  developmentId: ID
+  unitId: ID
+  buyerId: ID
+  sellingAgentId: ID
+  status: [SaleStatus!]
+  search: String
+  fromDate: DateTime
+  toDate: DateTime
+  minPrice: Float
+  maxPrice: Float
+  tags: [String!]
+}
+
+"""
+Input for creating a new sale
+"""
+input CreateSaleInput {
+  unitId: ID!
+  developmentId: ID!
+  buyerId: ID!
+  sellingAgentId: ID
+  basePrice: Float!
+  customizationCost: Float
+  status: SaleStatus
+  notes: String
+}
+
+"""
+Input for updating a sale
+"""
+input UpdateSaleInput {
+  status: SaleStatus
+  basePrice: Float
+  customizationCost: Float
+  completionDate: DateTime
+  handoverDate: DateTime
+  keyCollectionDate: DateTime
+  tags: [String!]
+}
+
+"""
+Input for creating a sale note
+"""
+input CreateSaleNoteInput {
+  saleId: ID!
+  content: String!
+  isPrivate: Boolean
+  category: String
+}
+
+"""
+Input for deposit details
+"""
+input DepositInput {
+  initialAmount: Float!
+  initialPaidDate: DateTime
+  balanceAmount: Float!
+  balanceDueDate: DateTime
+  paymentMethod: String
+}
+
+"""
+Input for mortgage details
+"""
+input MortgageDetailsInput {
+  lender: String!
+  amount: Float!
+  term: Int!
+  interestRate: Float!
+  approvalInPrincipleDate: DateTime
+  finalApprovalDate: DateTime
+  status: MortgageStatus!
+  broker: String
+  brokerFee: Float
+  loanType: String!
+  applicationDate: DateTime
+  offerExpiryDate: DateTime
+}
+
+"""
+Input for HTB details
+"""
+input HTBDetailsInput {
+  applicationNumber: String!
+  applicationDate: DateTime!
+  amount: Float!
+  accessCode: String
+  claimCode: String
+  expiryDate: DateTime
+}
+
+# Extend the root Query type with sale queries
+extend type Query {
+  """
+  Get a sale by ID
+  """
+  sale(id: ID!): Sale @auth
+  
+  """
+  Get a sale by reference number
+  """
+  saleByReference(referenceNumber: String!): Sale @auth
+  
+  """
+  List sales with filtering and pagination
+  """
+  sales(
+    filter: SaleFilterInput
+    pagination: PaginationInput
+  ): SalesResponse @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Get sales for a specific development
+  """
+  developmentSales(
+    developmentId: ID!
+    filter: SaleFilterInput
+    pagination: PaginationInput
+  ): SalesResponse @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Get sales for a specific buyer
+  """
+  buyerSales(
+    buyerId: ID!
+    pagination: PaginationInput
+  ): SalesResponse @auth
+  
+  """
+  Get my sales (for current buyer)
+  """
+  mySales(
+    pagination: PaginationInput
+  ): SalesResponse @auth(requires: [BUYER])
+  
+  """
+  Get sales handled by the current agent
+  """
+  myAgentSales(
+    filter: SaleFilterInput
+    pagination: PaginationInput
+  ): SalesResponse @auth(requires: [AGENT])
+}
+
+# Extend the root Mutation type with sale mutations
+extend type Mutation {
+  """
+  Create a new sale
+  """
+  createSale(input: CreateSaleInput!): Sale @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Update an existing sale
+  """
+  updateSale(id: ID!, input: UpdateSaleInput!): Sale @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Change a sale's status
+  """
+  changeSaleStatus(id: ID!, status: SaleStatus!, notes: String): Sale @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Add a note to a sale
+  """
+  addSaleNote(input: CreateSaleNoteInput!): SaleNote @auth
+  
+  """
+  Update deposit information
+  """
+  updateDepositInfo(saleId: ID!, input: DepositInput!): Deposit @auth(requires: [DEVELOPER, ADMIN, AGENT])
+  
+  """
+  Update mortgage details
+  """
+  updateMortgageDetails(saleId: ID!, input: MortgageDetailsInput!): MortgageDetails @auth(requires: [DEVELOPER, ADMIN, AGENT, BUYER])
+  
+  """
+  Update HTB details
+  """
+  updateHTBDetails(saleId: ID!, input: HTBDetailsInput!): HTBDetails @auth(requires: [DEVELOPER, ADMIN, AGENT, BUYER])
+  
+  """
+  Cancel a sale
+  """
+  cancelSale(id: ID!, reason: String!): Sale @auth(requires: [DEVELOPER, ADMIN])
+}

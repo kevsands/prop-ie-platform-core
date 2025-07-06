@@ -1,0 +1,162 @@
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+interface Unit {
+  id: string;
+  number: string;
+  type: string;
+  bedrooms: number;
+  bathrooms: number;
+  sqm: number;
+  status: "available" | "reserved" | "sold";
+  price: number;
+  coordinates: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+}
+
+interface DevelopmentSiteMapProps {
+  development: {
+    id: string;
+    name: string;
+    slug: string;
+    units: Unit[];
+  };
+}
+
+const DevelopmentSiteMap: React.FC<DevelopmentSiteMapProps> = ({
+  development,
+}) => {
+  const [hoveredUnit, setHoveredUnit] = useState<Unit | null>(null);
+
+  const statusColors = {
+    available: "bg-green-500/30 hover:bg-green-500/50",
+    reserved: "bg-yellow-500/30 hover:bg-yellow-500/50",
+    sold: "bg-red-500/30 hover:bg-red-500/50",
+  };
+
+  return (
+    <div className="relative w-full h-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="p-4 border-b">
+        <h2 className="text-xl font-semibold text-gray-900">
+          Development Site Plan
+        </h2>
+        <p className="text-sm text-gray-500">
+          Click on a unit to view details. Hover for quick information.
+        </p>
+      </div>
+
+      <div className="relative">
+        <Image
+          src={`/images/${development.id}/site_plan.png`}
+          alt={`${development.name} Site Plan`}
+          width={1200}
+          height={800}
+          className="w-full h-auto"
+          priority
+        />
+
+        {/* Map overlay with clickable areas for each unit */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          {development.units.map((unit) => (
+            <Link
+              key={unit.id}
+              href={`/developments/${development.id}/properties/${unit.id}`}
+              className={`absolute cursor-pointer transition-colors duration-200 border-2 ${
+                unit.status === "available"
+                  ? "border-green-500 " + statusColors.available
+                  : unit.status === "reserved"
+                    ? "border-yellow-500 " + statusColors.reserved
+                    : "border-red-500 " + statusColors.sold
+              }`}
+              style={{
+                left: `${unit.coordinates.x}%`,
+                top: `${unit.coordinates.y}%`,
+                width: `${unit.coordinates.width}%`,
+                height: `${unit.coordinates.height}%`,
+              }}
+              onMouseEnter={() => setHoveredUnit(unit)}
+              onMouseLeave={() => setHoveredUnit(null)}
+            />
+          ))}
+        </div>
+
+        {/* Tooltip for hovered unit */}
+        {hoveredUnit && (
+          <div
+            className="absolute z-10 bg-white rounded-md shadow-lg p-3 border border-gray-200 min-w-[200px]"
+            style={{
+              left: `${Math.min(hoveredUnit.coordinates.x + hoveredUnit.coordinates.width + 1, 80)}%`,
+              top: `${hoveredUnit.coordinates.y}%`,
+            }}
+          >
+            <div className="flex justify-between items-start">
+              <h3 className="font-bold text-gray-900">
+                Unit {hoveredUnit.number}
+              </h3>
+              <span
+                className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                  hoveredUnit.status === "available"
+                    ? "bg-green-100 text-green-800"
+                    : hoveredUnit.status === "reserved"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"
+                }`}
+              >
+                {hoveredUnit.status.charAt(0).toUpperCase() +
+                  hoveredUnit.status.slice(1)}
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mt-1">{hoveredUnit.type}</p>
+            <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-1 text-sm">
+              <div>
+                <span className="text-gray-500">Bedrooms:</span>{" "}
+                {hoveredUnit.bedrooms}
+              </div>
+              <div>
+                <span className="text-gray-500">Bathrooms:</span>{" "}
+                {hoveredUnit.bathrooms}
+              </div>
+              <div>
+                <span className="text-gray-500">Size:</span> {hoveredUnit.sqm}{" "}
+                m²
+              </div>
+              <div>
+                <span className="text-gray-500">Price:</span> €
+                {hoveredUnit.price.toLocaleString()}
+              </div>
+            </div>
+            {hoveredUnit.status === "available" && (
+              <div className="mt-2 text-xs text-blue-600 font-medium">
+                Click to view details
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 border-t bg-gray-50">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center">
+            <div className="w-4 h-4 bg-green-500/30 border-2 border-green-500 mr-2"></div>
+            <span className="text-sm">Available</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-4 h-4 bg-yellow-500/30 border-2 border-yellow-500 mr-2"></div>
+            <span className="text-sm">Reserved</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-4 h-4 bg-red-500/30 border-2 border-red-500 mr-2"></div>
+            <span className="text-sm">Sold</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DevelopmentSiteMap;

@@ -1,0 +1,49 @@
+{
+  "endpoints": [
+    {
+      "name": "PROP.ie Homepage",
+      "url": "https://prop.ie",
+      "method": "GET",
+      "interval": 60000,
+      "timeout": 10000,
+      "expectedStatus": [
+        200
+      ],
+      "locations": [
+        "Dublin",
+        "London",
+        "Frankfurt",
+        "New York"
+      ]
+    },
+    {
+      "name": "API Health Check",
+      "url": "https://prop.ie/api/health",
+      "method": "GET",
+      "interval": 30000,
+      "timeout": 5000,
+      "expectedStatus": [
+        200
+      ]
+    },
+    {
+      "name": "User Authentication",
+      "url": "https://prop.ie/api/auth/session",
+      "method": "GET",
+      "interval": 120000,
+      "timeout": 8000,
+      "expectedStatus": [
+        200,
+        401
+      ]
+    }
+  ],
+  "sla": {
+    "target": 99.9,
+    "measurement_window": "30_days",
+    "alerting": {
+      "below_target": true,
+      "downtime_duration": 300000
+    }
+  }
+}

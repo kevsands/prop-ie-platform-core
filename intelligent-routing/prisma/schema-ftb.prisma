@@ -1,0 +1,333 @@
+# First-Time Buyer Extension Models
+# These models should be added to the main schema.prisma
+
+// Buyer journey model to track first-time buyer progress
+model BuyerJourney {
+  id            String         @id @default(cuid())
+  buyer         User           @relation(fields: [buyerId], references: [id])
+  buyerId       String         @unique // Each buyer has one journey
+  currentPhase  BuyerPhase
+  startDate     DateTime       @default(now())
+  lastUpdated   DateTime       @updatedAt
+  targetMoveInDate DateTime?
+  targetProperty Unit?         @relation(fields: [targetPropertyId], references: [id])
+  targetPropertyId String?
+  preferences   BuyerPreference?
+  notes         String?
+
+  // Related entities
+  phaseHistory  BuyerPhaseHistory[]
+  affordabilityChecks AffordabilityCheck[]
+  mortgageDetails MortgageApplication[]
+  propertyReservations PropertyReservation[]
+  snaggingLists SnagList[]
+}
+
+// Buyer journey phases
+enum BuyerPhase {
+  PLANNING            // Research, education, affordability
+  FINANCING           // Mortgage approval, HTB application
+  PROPERTY_SEARCH     // Viewing properties, selecting options
+  RESERVATION         // Reserving a property, paying deposit
+  LEGAL_PROCESS       // Contracts, legal work
+  CONSTRUCTION        // For new builds: watching construction progress
+  COMPLETION          // Closing, funds transfer
+  POST_PURCHASE       // Moving in, snagging, settling
+}
+
+// Track phase transitions in the buyer journey
+model BuyerPhaseHistory {
+  id            String      @id @default(cuid())
+  journey       BuyerJourney @relation(fields: [journeyId], references: [id])
+  journeyId     String
+  phase         BuyerPhase
+  startDate     DateTime    @default(now())
+  endDate       DateTime?
+  completedTasks Json?      // Store completed tasks within the phase
+  notes         String?
+}
+
+// Buyer preferences for property search
+model BuyerPreference {
+  id            String      @id @default(cuid())
+  journey       BuyerJourney @relation(fields: [journeyId], references: [id])
+  journeyId     String      @unique
+  
+  // Location preferences
+  locations     String[]    // Preferred locations/counties
+  maxDistanceToWork Int?    // Max distance to work in km
+  maxDistanceToSchool Int?  // Max distance to schools in km
+  
+  // Property preferences
+  minBedrooms   Int?
+  maxBedrooms   Int?
+  minBathrooms  Int?
+  propertyTypes String[]    // House, apartment, etc.
+  mustHaveFeatures String[] // Garden, parking, etc.
+  niceToHaveFeatures String[]
+  
+  // Financial preferences
+  budget        BudgetInfo?
+  
+  // Updated when preferences change
+  lastUpdated   DateTime    @updatedAt
+}
+
+// Budget information for buyers
+model BudgetInfo {
+  id                String    @id @default(cuid())
+  preference        BuyerPreference @relation(fields: [preferenceId], references: [id])
+  preferenceId      String    @unique
+  
+  maxTotalPrice     Int
+  maxMonthlyPayment Int?
+  estimatedDeposit  Int
+  includesHTB       Boolean   @default(false)
+  htbAmount         Int?
+  otherFundingSources Json?
+  
+  created           DateTime  @default(now())
+  updated           DateTime  @updatedAt
+}
+
+// Affordability calculations and history
+model AffordabilityCheck {
+  id                 String      @id @default(cuid())
+  journey            BuyerJourney @relation(fields: [journeyId], references: [id])
+  journeyId          String
+  
+  // Input values
+  grossAnnualIncome  Int
+  partnerIncome      Int?
+  monthlyDebts       Int
+  depositAmount      Int
+  htbAmount          Int?
+  
+  // Calculated values
+  maxMortgage        Int
+  maxPropertyPrice   Int
+  monthlyRepayment   Int
+  loanToValue        Float
+  debtToIncomeRatio  Float
+  
+  // Associated lender if applicable
+  lender             String?
+  calculator         String?     // Which lender's calculator was used
+  
+  notes              String?
+  created            DateTime    @default(now())
+}
+
+// Mortgage application tracking
+model MortgageApplication {
+  id                 String      @id @default(cuid())
+  journey            BuyerJourney @relation(fields: [journeyId], references: [id])
+  journeyId          String
+  
+  // Application details
+  lender             String
+  applicationType    String      // AIP, Full application
+  applicationDate    DateTime
+  applicationReference String?
+  status             MortgageStatus
+  
+  // Mortgage details
+  loanAmount         Int
+  term               Int         // In years
+  interestRate       Float?
+  fixedRatePeriod    Int?        // In years
+  monthlyRepayment   Int?
+  
+  // Key dates
+  approvalDate       DateTime?
+  approvalExpiryDate DateTime?
+  offerReceivedDate  DateTime?
+  offerValidUntil    DateTime?
+  
+  // Mortgage broker if applicable
+  brokerName         String?
+  brokerContact      String?
+  brokerFee          Int?
+  
+  // Documents
+  documents          MortgageDocument[]
+  
+  notes              String?
+  created            DateTime    @default(now())
+  updated            DateTime    @updatedAt
+}
+
+// Mortgage application status
+enum MortgageStatus {
+  PREPARING
+  SUBMITTED
+  INFO_REQUESTED
+  UNDERWRITING
+  DECLINED
+  APPROVED_IN_PRINCIPLE
+  VALUATION_PENDING
+  VALUATION_COMPLETE
+  FINAL_APPROVAL
+  MORTGAGE_OFFER
+  EXPIRED
+  DRAWDOWN
+  COMPLETED
+}
+
+// Mortgage documents
+model MortgageDocument {
+  id                 String      @id @default(cuid())
+  mortgage           MortgageApplication @relation(fields: [mortgageId], references: [id])
+  mortgageId         String
+  
+  name               String
+  documentType       String      // Payslip, bank statement, ID, etc.
+  fileUrl            String
+  mimeType           String
+  size               Int
+  uploadDate         DateTime    @default(now())
+  
+  // Document status
+  status             String      // Uploaded, verified, rejected
+  verificationDate   DateTime?
+  notes              String?
+}
+
+// Property reservation 
+model PropertyReservation {
+  id                 String      @id @default(cuid())
+  journey            BuyerJourney @relation(fields: [journeyId], references: [id])
+  journeyId          String
+  unit               Unit        @relation(fields: [unitId], references: [id])
+  unitId             String
+  
+  // Reservation details
+  reservationDate    DateTime    @default(now())
+  reservationFee     Int
+  status             ReservationStatus
+  expiryDate         DateTime
+  termsUrl           String?     // URL to terms document
+  
+  // Payment details
+  paymentMethod      String
+  paymentReference   String?
+  paymentStatus      String
+  paymentDate        DateTime?
+  refundAmount       Int?
+  refundDate         DateTime?
+  
+  // Contract details
+  contractSentDate   DateTime?
+  contractSignedDate DateTime?
+  
+  notes              String?
+  created            DateTime    @default(now())
+  updated            DateTime    @updatedAt
+}
+
+// Reservation status
+enum ReservationStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  CONVERTED_TO_SALE
+  REFUNDED
+}
+
+// Digital snagging list for buyers
+model SnagList {
+  id                 String      @id @default(cuid())
+  journey            BuyerJourney @relation(fields: [journeyId], references: [id])
+  journeyId          String
+  unit               Unit        @relation(fields: [unitId], references: [id])
+  unitId             String
+  
+  // List details
+  name               String      // e.g. "Pre-closing inspection"
+  inspectionDate     DateTime
+  status             String      // Draft, submitted, in progress, resolved
+  
+  // Items and resolution
+  items              SnagItem[]
+  createdBy          String      // User ID
+  created            DateTime    @default(now())
+  updated            DateTime    @updatedAt
+}
+
+// Individual snag items
+model SnagItem {
+  id                 String      @id @default(cuid())
+  snagList           SnagList    @relation(fields: [snagListId], references: [id])
+  snagListId         String
+  
+  // Item details  
+  title              String
+  description        String
+  room               String
+  category           String      // Plumbing, electrical, etc.
+  severity           String      // Low, medium, high
+  
+  // Images
+  images             String[]
+  
+  // Status and resolution
+  status             String      // Reported, acknowledged, in progress, resolved
+  reportedDate       DateTime    @default(now())
+  resolvedDate       DateTime?
+  resolution         String?
+  developerNotes     String?
+}
+
+// Digital Home Pack for buyers after purchase
+model HomePackDocument {
+  id                 String      @id @default(cuid())
+  unit               Unit        @relation(fields: [unitId], references: [id])
+  unitId             String
+  
+  // Document details
+  name               String
+  category           String      // Warranty, manual, certificate, etc.  
+  description        String?
+  fileUrl            String
+  mimeType           String
+  size               Int
+  uploadDate         DateTime    @default(now())
+  
+  // Related info
+  expiryDate         DateTime?   // For warranties
+  manufacturer       String?
+  modelNumber        String?
+  serialNumber       String?
+  purchaseDate       String?
+  supplierContact    String?
+  
+  notes              String?
+}
+
+// Buyer calendar events
+model BuyerEvent {
+  id                 String      @id @default(cuid())
+  buyer              User        @relation(fields: [buyerId], references: [id])
+  buyerId            String
+  
+  // Event details
+  title              String
+  description        String?
+  eventType          String      // Appointment, viewing, milestone, etc.
+  location           String?
+  startTime          DateTime
+  endTime            DateTime
+  
+  // Related entities
+  unitId             String?     // Unit ID if relevant
+  developmentId      String?     // Development ID if relevant
+  
+  // Notifications
+  reminderSent       Boolean     @default(false)
+  reminderSentTime   DateTime?
+  
+  notes              String?
+  created            DateTime    @default(now())
+  updated            DateTime    @updatedAt
+}

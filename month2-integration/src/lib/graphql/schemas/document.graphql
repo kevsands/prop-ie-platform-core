@@ -1,0 +1,296 @@
+"""
+Document schema for the PropIE GraphQL API
+Defines document types, queries, and mutations
+"""
+
+enum DocumentStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+  REVOKED
+  ARCHIVED
+}
+
+enum DocumentCategory {
+  CONTRACT
+  PLANNING
+  LEGAL
+  MARKETING
+  FINANCIAL
+  TECHNICAL
+  WARRANTY
+  CERTIFICATE
+  COMPLIANCE
+  PERSONAL
+  KYC
+  OTHER
+}
+
+"""
+Document version details
+"""
+type DocumentVersion {
+  id: ID!
+  versionNumber: Int!
+  fileUrl: String!
+  createdBy: UserSummary!
+  created: DateTime!
+  notes: String
+  changes: String
+  size: Int!
+  checksum: String
+}
+
+"""
+Document signature information
+"""
+type DocumentSignature {
+  id: ID!
+  signerId: ID!
+  signerName: String!
+  signatureDate: DateTime!
+  signatureImageUrl: String
+  signaturePosition: JSON
+  signatureMethod: String!
+  ipAddress: String
+  verified: Boolean!
+  verificationMethod: String
+  certificateUrl: String
+}
+
+"""
+Related entity reference for documents
+"""
+type RelatedEntity {
+  type: String!
+  id: ID!
+  name: String!
+}
+
+"""
+Complete document details
+"""
+type Document {
+  id: ID!
+  name: String!
+  description: String
+  type: String!
+  status: DocumentStatus!
+  category: DocumentCategory!
+  fileUrl: String!
+  fileType: String!
+  fileSize: Int!
+  uploadedBy: UserSummary!
+  uploadedByName: String
+  uploadDate: DateTime!
+  expiryDate: DateTime
+  tags: [String!]!
+  version: Int!
+  relatedTo: RelatedEntity
+  metadata: JSON
+  signatureRequired: Boolean!
+  signatureStatus: String
+  previousVersions: [DocumentVersion!]!
+  signatures: [DocumentSignature!]!
+}
+
+"""
+Document summary for list views
+"""
+type DocumentSummary {
+  id: ID!
+  name: String!
+  type: String!
+  status: DocumentStatus!
+  category: DocumentCategory!
+  fileUrl: String!
+  fileType: String!
+  uploadedBy: UserSummary!
+  uploadDate: DateTime!
+  version: Int!
+  signatureRequired: Boolean!
+}
+
+"""
+Response type for document queries with pagination
+"""
+type DocumentsResponse {
+  documents: [DocumentSummary!]!
+  totalCount: Int!
+  pageInfo: PageInfo!
+}
+
+"""
+Input for document filtering
+"""
+input DocumentFilterInput {
+  developmentId: ID
+  unitId: ID
+  saleId: ID
+  uploadedById: ID
+  types: [String!]
+  categories: [DocumentCategory!]
+  status: [DocumentStatus!]
+  search: String
+  tags: [String!]
+  fromDate: DateTime
+  toDate: DateTime
+  signatureRequired: Boolean
+}
+
+"""
+Input for creating a new document
+"""
+input CreateDocumentInput {
+  name: String!
+  description: String
+  type: String!
+  category: DocumentCategory!
+  fileUrl: String!
+  fileType: String!
+  fileSize: Int!
+  tags: [String!]
+  expiryDate: DateTime
+  developmentId: ID
+  unitId: ID
+  saleId: ID
+  relatedTo: RelatedEntityInput
+  metadata: JSON
+  signatureRequired: Boolean
+}
+
+"""
+Input for related entity
+"""
+input RelatedEntityInput {
+  type: String!
+  id: ID!
+  name: String!
+}
+
+"""
+Input for updating a document
+"""
+input UpdateDocumentInput {
+  name: String
+  description: String
+  category: DocumentCategory
+  tags: [String!]
+  expiryDate: DateTime
+  metadata: JSON
+}
+
+"""
+Input for creating a document version
+"""
+input CreateDocumentVersionInput {
+  documentId: ID!
+  fileUrl: String!
+  size: Int!
+  notes: String
+  changes: String
+  checksum: String
+}
+
+"""
+Input for signing a document
+"""
+input SignDocumentInput {
+  documentId: ID!
+  signatureImageUrl: String
+  signaturePosition: JSON
+  signatureMethod: String!
+}
+
+# Extend the root Query type with document queries
+extend type Query {
+  """
+  Get a document by ID
+  """
+  document(id: ID!): Document
+  
+  """
+  List documents with filtering and pagination
+  """
+  documents(
+    filter: DocumentFilterInput
+    pagination: PaginationInput
+  ): DocumentsResponse
+  
+  """
+  Get documents for a specific development
+  """
+  developmentDocuments(
+    developmentId: ID!
+    filter: DocumentFilterInput
+    pagination: PaginationInput
+  ): DocumentsResponse
+  
+  """
+  Get documents for a specific unit
+  """
+  unitDocuments(
+    unitId: ID!
+    filter: DocumentFilterInput
+    pagination: PaginationInput
+  ): DocumentsResponse
+  
+  """
+  Get documents for a specific sale
+  """
+  saleDocuments(
+    saleId: ID!
+    filter: DocumentFilterInput
+    pagination: PaginationInput
+  ): DocumentsResponse @auth
+  
+  """
+  Get documents uploaded by the current user
+  """
+  myDocuments(
+    filter: DocumentFilterInput
+    pagination: PaginationInput
+  ): DocumentsResponse @auth
+  
+  """
+  Get documents requiring signature by the current user
+  """
+  documentsRequiringMySignature(
+    pagination: PaginationInput
+  ): DocumentsResponse @auth
+}
+
+# Extend the root Mutation type with document mutations
+extend type Mutation {
+  """
+  Create a new document
+  """
+  createDocument(input: CreateDocumentInput!): Document @auth
+  
+  """
+  Update an existing document
+  """
+  updateDocument(id: ID!, input: UpdateDocumentInput!): Document @auth
+  
+  """
+  Change a document's status
+  """
+  changeDocumentStatus(id: ID!, status: DocumentStatus!): Document @auth(requires: [DEVELOPER, ADMIN])
+  
+  """
+  Create a new version of a document
+  """
+  createDocumentVersion(input: CreateDocumentVersionInput!): DocumentVersion @auth
+  
+  """
+  Sign a document
+  """
+  signDocument(input: SignDocumentInput!): DocumentSignature @auth
+  
+  """
+  Delete a document (mark as archived)
+  """
+  archiveDocument(id: ID!): Document @auth
+}

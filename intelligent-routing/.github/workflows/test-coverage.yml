@@ -1,0 +1,128 @@
+name: Test Coverage Dashboard
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        # Fetch history for accurate git-based metrics
+        fetch-depth: 30
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run Tests with Coverage
+      run: npm test -- --coverage
+    
+    - name: Generate Coverage Dashboard
+      run: node scripts/coverage-dashboard.js --save
+    
+    - name: Archive coverage reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-reports
+        path: |
+          coverage/
+          coverage-dashboard/
+    
+    # If this is a PR, add a comment with coverage info
+    - name: Comment on PR with Coverage Info
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const fs = require('fs');
+          const coverageJson = JSON.parse(fs.readFileSync('./coverage-dashboard/coverage-data.json', 'utf8'));
+          
+          const { totals, modules } = coverageJson;
+          
+          // Format a percentage with 2 decimal places
+          const format = (num) => (Math.round(num * 100) / 100).toFixed(2);
+          
+          // Get coverage color based on percentage
+          const getColor = (pct) => {
+            if (pct >= 80) return '🟢';
+            if (pct >= 60) return '🟡';
+            return '🔴';
+          };
+          
+          // Create a markdown table for the modules
+          const createModuleTable = () => {
+            const lowCoverageModules = modules
+              .filter(m => m.coverage < 70)
+              .sort((a, b) => a.coverage - b.coverage)
+              .slice(0, 5);
+              
+            if (lowCoverageModules.length === 0) return '';
+            
+            let table = '### Low Coverage Modules\n\n';
+            table += '| Module | Files | Coverage |\n';
+            table += '| ------ | ----- | -------- |\n';
+            
+            lowCoverageModules.forEach(module => {
+              table += `| ${module.name} | ${module.files} | ${getColor(module.coverage)} ${format(module.coverage)}% |\n`;
+            });
+            
+            return table;
+          };
+          
+          const comment = `## Test Coverage Report
+
+${getColor(totals.coverage)} Overall coverage: ${format(totals.coverage)}%
+${getColor(totals.statementCoverage)} Statement coverage: ${format(totals.statementCoverage)}%
+${getColor(totals.functionCoverage)} Function coverage: ${format(totals.functionCoverage)}%
+${getColor(totals.branchCoverage)} Branch coverage: ${format(totals.branchCoverage)}%
+
+${createModuleTable()}
+
+[View full coverage dashboard](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})
+`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+    
+    # If this is a push to main/master, update the README badge
+    - name: Update Coverage Badge
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      run: |
+        # Extract coverage percentage
+        COVERAGE=$(node -e "const data = require('./coverage-dashboard/coverage-data.json'); console.log(Math.round(data.totals.coverage))")
+        
+        # Determine color based on coverage
+        if [ $COVERAGE -ge 80 ]; then
+          COLOR="brightgreen"
+        elif [ $COVERAGE -ge 60 ]; then
+          COLOR="yellow"
+        else
+          COLOR="red"
+        fi
+        
+        # Generate badge URL
+        BADGE_URL="https://img.shields.io/badge/coverage-${COVERAGE}%25-${COLOR}"
+        
+        echo "Coverage: $COVERAGE%, Badge URL: $BADGE_URL"
+        
+        # TODO: Update README.md with new badge URL - This would typically be done with a git commit,
+        # but for simplicity we're just showing the badge URL here.
+        # In a real setup, you'd update and commit changes to the README.md file.

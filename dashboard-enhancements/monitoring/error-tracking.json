@@ -1,0 +1,33 @@
+{
+  "sentry": {
+    "dsn": "CONFIGURE_SENTRY_DSN",
+    "environment": "production",
+    "tracesSampleRate": 0.1,
+    "errorSampleRate": 1,
+    "beforeSend": "filter_sensitive_data",
+    "integrations": [
+      "Browser",
+      "Http",
+      "OnUncaughtException",
+      "OnUnhandledRejection"
+    ]
+  },
+  "customErrorTracking": {
+    "businessLogicErrors": true,
+    "paymentErrors": true,
+    "authenticationErrors": true,
+    "apiErrors": true
+  },
+  "alerting": {
+    "newErrorTypes": true,
+    "errorSpikes": {
+      "threshold": 10,
+      "timeWindow": 300000
+    },
+    "criticalErrors": [
+      "PaymentProcessingError",
+      "AuthenticationFailure",
+      "DatabaseConnectionError"
+    ]
+  }
+}

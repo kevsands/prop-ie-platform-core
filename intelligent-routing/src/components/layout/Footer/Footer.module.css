@@ -1,0 +1,102 @@
+/* Additional animations and styles */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.footer-gradient {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -1000px;
+  width: 2000px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.1),
+    transparent
+  );
+  animation: shimmer 8s infinite;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .footer-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  
+  .footer-text {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+}
+
+/* Newsletter input focus animation */
+.newsletter-input:focus {
+  animation: pulse 0.3s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+  }
+}
+
+/* Micro-interactions */
+.footer-link {
+  position: relative;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3b82f6;
+  transition: width 0.3s ease;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .footer-bg {
+    background: linear-gradient(to bottom, #0f172a, #020617);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .footer-link {
+    text-decoration: underline;
+  }
+  
+  .footer-link:hover {
+    text-decoration-thickness: 2px;
+  }
+}

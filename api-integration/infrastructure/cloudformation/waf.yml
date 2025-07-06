@@ -1,0 +1,554 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Prop-IE AWS WAF Configuration'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - test
+      - staging
+      - prod
+    Description: Deployment environment
+    
+  ApplicationName:
+    Type: String
+    Default: 'prop-ie'
+    Description: The name of the application
+    
+  RequestThreshold:
+    Type: Number
+    Default: 2000
+    Description: The maximum number of requests allowed in a 5-minute period from a single IP address
+    
+  APIGatewayId:
+    Type: String
+    Description: The ID of the API Gateway
+    
+  CloudFrontId:
+    Type: String
+    Description: The ID of the CloudFront distribution
+    
+  LogRetentionDays:
+    Type: Number
+    Default: 90
+    Description: Number of days to retain WAF logs
+    
+  BlockChinaIPs:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Whether to block IPs from China
+    
+  BlockTorExitNodes:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Whether to block Tor exit nodes
+
+Conditions:
+  IsProd: !Equals [!Ref Environment, 'prod']
+  IsBlockChinaIPs: !Equals [!Ref BlockChinaIPs, 'true']
+  IsBlockTorExitNodes: !Equals [!Ref BlockTorExitNodes, 'true']
+
+Resources:
+  # WAF Web ACL for CloudFront (Global)
+  CloudFrontWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: !Sub ${ApplicationName}-${Environment}-cloudfront-waf
+      Scope: CLOUDFRONT
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub ${ApplicationName}-${Environment}-cloudfront-waf
+      Rules:
+        # Common WAF Rules
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: CommonRules
+            
+        # SQL Injection Protection
+        - Name: AWS-AWSManagedRulesSQLiRuleSet
+          Priority: 1
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesSQLiRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: SQLiRules
+            
+        # Cross-Site Scripting Protection
+        - Name: AWS-AWSManagedRulesKnownBadInputsRuleSet
+          Priority: 2
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesKnownBadInputsRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: KnownBadInputs
+            
+        # Bot Control
+        - Name: AWS-AWSManagedRulesBotControlRuleSet
+          Priority: 3
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesBotControlRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: BotControlRules
+            
+        # Rate-based rule to prevent DDoS
+        - Name: RateBasedRule
+          Priority: 4
+          Statement:
+            RateBasedStatement:
+              Limit: !Ref RequestThreshold
+              AggregateKeyType: IP
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: RateBasedRule
+            
+        # Block known malicious IP addresses
+        - Name: AWS-AWSManagedRulesAmazonIpReputationList
+          Priority: 5
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesAmazonIpReputationList
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: IPReputationList
+            
+        # Block China IPs if enabled
+        - !If
+          - IsBlockChinaIPs
+          - Name: BlockChinaIPs
+            Priority: 6
+            Statement:
+              GeoMatchStatement:
+                CountryCodes:
+                  - CN
+            Action:
+              Block: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: BlockChinaIPs
+          - !Ref AWS::NoValue
+          
+        # Block Tor exit nodes if enabled
+        - !If
+          - IsBlockTorExitNodes
+          - Name: BlockTorExitNodes
+            Priority: 7
+            Statement:
+              IPSetReferenceStatement:
+                ARN: !GetAtt TorExitNodeIPSet.Arn
+            Action:
+              Block: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: BlockTorExitNodes
+          - !Ref AWS::NoValue
+          
+        # Prevent path traversal attacks
+        - Name: PreventPathTraversal
+          Priority: 8
+          Statement:
+            ByteMatchStatement:
+              SearchString: '../'
+              FieldToMatch:
+                UriPath: {}
+              TextTransformations:
+                - Priority: 0
+                  Type: URL_DECODE
+              PositionalConstraint: CONTAINS
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: PreventPathTraversal
+
+  # WAF Web ACL for Regional Resources (API Gateway, AppSync)
+  RegionalWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: !Sub ${ApplicationName}-${Environment}-regional-waf
+      Scope: REGIONAL
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub ${ApplicationName}-${Environment}-regional-waf
+      Rules:
+        # Common WAF Rules
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: CommonRules
+            
+        # SQL Injection Protection
+        - Name: AWS-AWSManagedRulesSQLiRuleSet
+          Priority: 1
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesSQLiRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: SQLiRules
+            
+        # API-specific protections
+        - Name: AWS-AWSManagedRulesKnownBadInputsRuleSet
+          Priority: 2
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesKnownBadInputsRuleSet
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: KnownBadInputs
+            
+        # Rate-based rule to prevent API abuse
+        - Name: RateBasedRule
+          Priority: 3
+          Statement:
+            RateBasedStatement:
+              Limit: !If [IsProd, 500, 1000]
+              AggregateKeyType: IP
+              ScopeDownStatement:
+                ByteMatchStatement:
+                  SearchString: "POST"
+                  FieldToMatch:
+                    Method: {}
+                  TextTransformations:
+                    - Priority: 0
+                      Type: NONE
+                  PositionalConstraint: EXACTLY
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: APIRateBasedRule
+            
+        # Block known malicious IP addresses
+        - Name: AWS-AWSManagedRulesAmazonIpReputationList
+          Priority: 4
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesAmazonIpReputationList
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: IPReputationList
+            
+        # Protect against large bodies (potential DoS)
+        - Name: LargeBodySizeProtection
+          Priority: 5
+          Statement:
+            SizeConstraintStatement:
+              FieldToMatch:
+                Body: {}
+              ComparisonOperator: GT
+              Size: 262144  # 256 KB
+              TextTransformations:
+                - Priority: 0
+                  Type: NONE
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: LargeBodyBlock
+
+  # IP Set for Tor exit nodes (managed by Lambda function)
+  TorExitNodeIPSet:
+    Type: AWS::WAFv2::IPSet
+    Properties:
+      Name: !Sub ${ApplicationName}-${Environment}-tor-exit-nodes
+      Scope: CLOUDFRONT
+      IPAddressVersion: IPV4
+      Addresses: []  # Initially empty, filled by Lambda
+
+  # WAF Logging Configuration for CloudFront WAF
+  CloudFrontWAFLoggingConfiguration:
+    Type: AWS::WAFv2::LoggingConfiguration
+    Properties:
+      ResourceArn: !GetAtt CloudFrontWebACL.Arn
+      LogDestinationConfigs:
+        - !GetAtt WAFLogBucket.Arn
+      RedactedFields:
+        - SingleHeader:
+            Name: authorization
+        - SingleHeader:
+            Name: cookie
+
+  # WAF Logging Configuration for Regional WAF
+  RegionalWAFLoggingConfiguration:
+    Type: AWS::WAFv2::LoggingConfiguration
+    Properties:
+      ResourceArn: !GetAtt RegionalWebACL.Arn
+      LogDestinationConfigs:
+        - !GetAtt WAFLogBucket.Arn
+      RedactedFields:
+        - SingleHeader:
+            Name: authorization
+        - SingleHeader:
+            Name: cookie
+
+  # S3 Bucket for WAF Logs
+  WAFLogBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${ApplicationName}-${Environment}-waf-logs
+      LifecycleConfiguration:
+        Rules:
+          - Id: LogRetention
+            Status: Enabled
+            ExpirationInDays: !Ref LogRetentionDays
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  # Lambda function to update Tor exit node IP list
+  TorExitNodeUpdaterFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub ${ApplicationName}-${Environment}-tor-exit-updater
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt TorExitNodeUpdaterRole.Arn
+      Code:
+        ZipFile: |
+          const https = require('https');
+          const AWS = require('aws-sdk');
+          
+          exports.handler = async (event) => {
+            console.log('Starting Tor exit node IP list update');
+            
+            try {
+              // Get Tor exit node list
+              const torExitNodes = await getTorExitNodes();
+              console.log(`Found ${torExitNodes.length} Tor exit nodes`);
+              
+              // Update IP set
+              const wafv2 = new AWS.WAFV2();
+              
+              // Get current IP set
+              const ipSetId = process.env.IP_SET_ID;
+              const ipSetName = process.env.IP_SET_NAME;
+              const ipSetScope = process.env.IP_SET_SCOPE;
+              
+              const ipSetResponse = await wafv2.getIPSet({
+                Id: ipSetId,
+                Name: ipSetName,
+                Scope: ipSetScope
+              }).promise();
+              
+              // Update IP set
+              await wafv2.updateIPSet({
+                Id: ipSetId,
+                Name: ipSetName,
+                Scope: ipSetScope,
+                Addresses: torExitNodes,
+                LockToken: ipSetResponse.LockToken
+              }).promise();
+              
+              console.log('Successfully updated Tor exit node IP set');
+              return { status: 'success', ipCount: torExitNodes.length };
+            } catch (error) {
+              console.error('Error updating Tor exit node list:', error);
+              return { status: 'error', message: error.message };
+            }
+          };
+          
+          // Function to get Tor exit nodes
+          async function getTorExitNodes() {
+            return new Promise((resolve, reject) => {
+              const url = 'https://check.torproject.org/exit-addresses';
+              
+              https.get(url, (res) => {
+                let data = '';
+                
+                res.on('data', (chunk) => {
+                  data += chunk;
+                });
+                
+                res.on('end', () => {
+                  try {
+                    // Extract IP addresses
+                    const ipRegex = /ExitAddress\s+(\d+\.\d+\.\d+\.\d+)/g;
+                    const ips = [];
+                    let match;
+                    
+                    while ((match = ipRegex.exec(data)) !== null) {
+                      ips.push(match[1] + '/32');
+                    }
+                    
+                    resolve(ips);
+                  } catch (error) {
+                    reject(error);
+                  }
+                });
+              }).on('error', (error) => {
+                reject(error);
+              });
+            });
+          }
+      Environment:
+        Variables:
+          IP_SET_ID: !GetAtt TorExitNodeIPSet.Id
+          IP_SET_NAME: !Sub ${ApplicationName}-${Environment}-tor-exit-nodes
+          IP_SET_SCOPE: CLOUDFRONT
+      Timeout: 300
+      MemorySize: 256
+
+  # IAM Role for Lambda
+  TorExitNodeUpdaterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: WAFIPSetUpdatePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - wafv2:GetIPSet
+                  - wafv2:UpdateIPSet
+                Resource: !GetAtt TorExitNodeIPSet.Arn
+
+  # CloudWatch Event to trigger Lambda
+  TorExitNodeUpdaterSchedule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Schedule for updating Tor exit node IP list
+      ScheduleExpression: rate(12 hours)
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt TorExitNodeUpdaterFunction.Arn
+          Id: TorExitNodeUpdater
+
+  # Permission for CloudWatch Event to invoke Lambda
+  TorExitNodeUpdaterPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref TorExitNodeUpdaterFunction
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt TorExitNodeUpdaterSchedule.Arn
+      
+  # Associate API Gateway with WAF
+  ApiGatewayWafAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: !Sub arn:aws:apigateway:${AWS::Region}::/restapis/${APIGatewayId}/stages/prod
+      WebACLArn: !GetAtt RegionalWebACL.Arn
+      
+  # Associate CloudFront with WAF
+  CloudFrontWafAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontId}
+      WebACLArn: !GetAtt CloudFrontWebACL.Arn
+
+Outputs:
+  CloudFrontWebACLId:
+    Description: ID of the CloudFront Web ACL
+    Value: !GetAtt CloudFrontWebACL.Id
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-cloudfront-waf-id
+      
+  RegionalWebACLId:
+    Description: ID of the Regional Web ACL
+    Value: !GetAtt RegionalWebACL.Id
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-regional-waf-id
+      
+  WAFLogBucketName:
+    Description: Name of the WAF logs bucket
+    Value: !Ref WAFLogBucket
+    Export:
+      Name: !Sub ${ApplicationName}-${Environment}-waf-logs-bucket

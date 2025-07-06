@@ -1,0 +1,82 @@
+/* Navigation styles */
+
+/* Add space for fixed navbar */
+.pageWithFixedNav {
+  padding-top: 4rem; /* 64px, same as navbar height */
+}
+
+/* Add smooth transition for hover effects */
+.navLink {
+  transition: all 0.2s ease-in-out;
+}
+
+.navLink:hover {
+  opacity: 1;
+}
+
+/* Add subtle animation for active indicator */
+@keyframes borderFadeIn {
+  from { opacity: 0; width: 0; }
+  to { opacity: 1; width: 100%; }
+}
+
+.activeIndicator {
+  position: relative;
+}
+
+.activeIndicator::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  animation: borderFadeIn 0.3s ease-in-out;
+}
+
+/* Mobile menu animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobileMenu {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.mobileMenuContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Account buttons styling */
+.loginButton {
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.registerButton {
+  background-color: white;
+  color: #1e3347;
+  transition: background-color 0.3s ease;
+}
+
+.registerButton:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .mobileMenuContainer {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}

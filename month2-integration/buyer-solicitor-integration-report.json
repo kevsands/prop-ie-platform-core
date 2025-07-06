@@ -1,0 +1,90 @@
+{
+  "timestamp": "2025-06-15T17:25:18.040Z",
+  "testType": "buyer-solicitor-integration",
+  "results": {
+    "passed": 13,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "Buyer-Solicitor Integration Service exists",
+        "passed": true,
+        "details": "Found: src/services/BuyerSolicitorIntegrationService.ts"
+      },
+      {
+        "name": "Integration Service API has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Buyer Purchase Flow has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Solicitor New Cases Page exists",
+        "passed": true,
+        "details": "Found: src/app/solicitor/cases/new/page.tsx"
+      },
+      {
+        "name": "Solicitor Cases Dashboard has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Buyer Transaction Solicitor Display has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Data Structure Definitions has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Automated Workflow Features has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Case Management API has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Help-to-Buy Integration has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Document Management Integration has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Communication System has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      },
+      {
+        "name": "Real-time Synchronization has required patterns",
+        "passed": true,
+        "details": "All patterns found"
+      }
+    ]
+  },
+  "summary": {
+    "totalTests": 13,
+    "passed": 13,
+    "failed": 0,
+    "successRate": 100
+  },
+  "integrationFeatures": {
+    "transactionHandoff": true,
+    "documentSync": true,
+    "realTimeUpdates": true,
+    "htbIntegration": true,
+    "caseManagement": true,
+    "communicationBridge": true,
+    "automatedWorkflows": true
+  }
+}
