@@ -1,0 +1,149 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+# CodeRabbit Configuration for Enterprise Property Platform
+# Platform: PROP.IE - Ireland's Advanced Property Technology Platform
+# Transaction Volume: €847M+ annually
+
+# Review Settings
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  auto_title_placeholder: "@coderabbitai"
+  
+  # Enterprise Features
+  review_status: true
+  commit_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+  suggested_labels: true
+  auto_apply_labels: true
+  suggested_reviewers: true
+  auto_assign_reviewers: true
+  poem: false
+  
+  # GitHub Integration
+  github_checks:
+    enabled: true
+    timeout_ms: 90000
+
+# Security-First Analysis
+early_access: false
+disable_cache: false
+abort_on_close: true
+
+# File Patterns for Comprehensive Analysis
+path_filters:
+  # Include all source code
+  - "**/*.ts"
+  - "**/*.tsx" 
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.json"
+  - "**/*.md"
+  - "**/*.yml"
+  - "**/*.yaml"
+  - "**/*.sql"
+  - "**/*.env*"
+  
+  # Exclude build artifacts and dependencies
+  - "!node_modules/**"
+  - "!.next/**"
+  - "!dist/**"
+  - "!build/**"
+  - "!coverage/**"
+  - "!*.min.js"
+
+# Language-Specific Tools Configuration
+language_tool:
+  enabled: true
+  level: "picky"
+  enabled_rules: []
+  disabled_rules: ["EN_UNPAIRED_BRACKETS", "EN_UNPAIRED_QUOTES"]
+  enabled_categories: []
+  disabled_categories: ["TYPOS", "TYPOGRAPHY", "CASING"]
+  enabled_only: false
+
+# AST-grep for Advanced Code Analysis
+ast_grep:
+  essential_rules: true
+  rule_dirs: []
+  util_dirs: []
+  packages: []
+
+# Security and Code Quality Tools
+tools:
+  # JavaScript/TypeScript
+  eslint:
+    enabled: true
+  
+  biome:
+    enabled: true
+  
+  # Security Scanning
+  gitleaks:
+    enabled: true
+  
+  # Infrastructure Security
+  checkov:
+    enabled: true
+  
+  # Documentation
+  markdownlint:
+    enabled: true
+  
+  # Configuration Files
+  yamllint:
+    enabled: true
+  
+  # GitHub Actions
+  actionlint:
+    enabled: true
+
+# Path-Specific Instructions
+path_instructions:
+  # Security-Critical Files
+  "**/*.env*":
+    instructions: "Scan for exposed secrets, weak passwords, and hardcoded credentials. Ensure all sensitive data uses strong encryption."
+  
+  # Authentication & Authorization
+  "**/auth/**":
+    instructions: "Review authentication flows, session management, and authorization logic. Check for security vulnerabilities like session fixation, CSRF, and privilege escalation."
+  
+  # API Endpoints
+  "**/api/**":
+    instructions: "Analyze API security, input validation, rate limiting, and data exposure. Ensure proper error handling and authentication."
+  
+  # Database Access
+  "**/db/**":
+    instructions: "Review database queries for SQL injection, performance issues, and data access patterns. Check connection security."
+  
+  # Component Security
+  "**/components/**":
+    instructions: "Check for XSS vulnerabilities, prop validation, and performance issues. Ensure accessibility compliance."
+  
+  # Configuration Files
+  "**/*.config.*":
+    instructions: "Review configuration security, exposed endpoints, and environment-specific settings."
+  
+  # AWS Infrastructure
+  "**/aws/**":
+    instructions: "Analyze AWS configurations for security misconfigurations, over-permissive policies, and cost optimization."
+
+# Custom Labels for Issue Categorization
+labeling_instructions: |
+  Apply labels based on these categories:
+  - security: For security vulnerabilities and concerns
+  - performance: For performance optimization opportunities
+  - bug: For functional issues and errors
+  - enhancement: For feature improvements
+  - documentation: For documentation updates
+  - technical-debt: For code quality and maintainability issues
+  - urgent: For critical issues requiring immediate attention
+  - property-platform: For domain-specific property/real-estate logic
+  - enterprise: For enterprise-grade scalability and reliability concerns
