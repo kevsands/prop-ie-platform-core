@@ -189,6 +189,8 @@ export function useDevelopmentUnitsRealTimeSync(developmentId: string) {
   const handleDevelopmentUnitUpdate = useCallback((event: UnitUpdateEvent) => {
     if (event.developmentId !== developmentId) return;
 
+    console.log(`👥 Buyer platform received update: Unit ${event.unitId} ${event.updateType}`, event);
+
     // Update the units list
     setUnits(prev => prev.map(unit => {
       if (unit.id !== event.unitId) return unit;
@@ -197,15 +199,20 @@ export function useDevelopmentUnitsRealTimeSync(developmentId: string) {
       
       switch (event.updateType) {
         case 'STATUS_CHANGE':
+        case 'UNIT_STATUS_CHANGE': // Support both formats
           updatedUnit.status = event.newValue;
+          console.log(`🔄 Unit ${event.unitId} status updated: ${event.oldValue} → ${event.newValue}`);
           break;
         case 'PRICE_CHANGE':
+        case 'UNIT_PRICE_UPDATE': // Support both formats
           updatedUnit.basePrice = event.newValue;
+          console.log(`💰 Unit ${event.unitId} price updated: €${event.oldValue} → €${event.newValue}`);
           break;
         case 'VIEW_COUNT_UPDATE':
           updatedUnit.viewCount = event.newValue;
           break;
         case 'AVAILABILITY_CHANGE':
+        case 'UNIT_AVAILABILITY_CHANGE': // Support both formats
           updatedUnit.availableFrom = event.newValue;
           break;
       }

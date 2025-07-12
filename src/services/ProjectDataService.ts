@@ -27,6 +27,7 @@ import {
   UnitPricing
 } from '@/types/project';
 import { realDataService } from '@/services/RealDataService';
+import { metricsEngine } from '@/services/MetricsCalculationEngine';
 import { fitzgeraldGardensConfig } from '@/data/fitzgerald-gardens-config';
 
 // =============================================================================
@@ -625,37 +626,17 @@ export class ProjectDataService {
   // =============================================================================
 
   /**
-   * Calculate real-time project metrics from actual unit data
+   * Calculate real-time project metrics using unified calculation engine
    */
   private calculateProjectMetrics(units: ReadonlyArray<Unit>): ProjectMetrics {
-    const soldUnits = units.filter(u => u.status === 'sold').length;
-    const reservedUnits = units.filter(u => u.status === 'reserved').length;
-    const availableUnits = units.filter(u => u.status === 'available').length;
-    const heldUnits = units.filter(u => u.status === 'held').length;
-    const withdrawnUnits = units.filter(u => u.status === 'withdrawn').length;
+    // Use unified metrics engine for consistency across all services
+    const unitMetrics = metricsEngine.calculateUnitMetrics(units);
     
-    const totalRevenue = units
-      .filter(u => u.status === 'sold')
-      .reduce((sum, u) => sum + u.pricing.currentPrice, 0);
-    
-    const projectedRevenue = units
-      .reduce((sum, u) => sum + u.pricing.currentPrice, 0);
-    
-    const averageUnitPrice = units.length > 0 ? 
-      units.reduce((sum, u) => sum + u.pricing.currentPrice, 0) / units.length : 0;
-
     return {
-      totalUnits: units.length,
-      soldUnits,
-      reservedUnits,
-      availableUnits,
-      heldUnits,
-      withdrawnUnits,
-      totalRevenue,
-      projectedRevenue,
-      averageUnitPrice,
-      salesVelocity: 2.3, // units per week - would be calculated from historical data
-      conversionRate: (soldUnits / units.length) * 100,
+      ...unitMetrics,
+      // Legacy properties for backward compatibility
+      totalRevenue: unitMetrics.totalRevenue || 0,
+      projectedRevenue: units.reduce((sum, u) => sum + u.pricing.currentPrice, 0),
       lastCalculated: new Date()
     };
   }

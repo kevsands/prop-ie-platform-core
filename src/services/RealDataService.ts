@@ -29,7 +29,7 @@ export class RealDataService {
       for (let i = 0; i < details.count; i++) {
         const unit: Unit = {
           id: `unit-${unitNumber}`,
-          number: `Unit ${unitNumber}`,
+          number: unitNumber.toString().padStart(3, '0'), // Use padded format for consistency (001, 002, etc.)
           type: this.mapUnitType(unitType),
           status: 'available' as UnitStatus, // All units start as available
           features: {
@@ -43,7 +43,9 @@ export class RealDataService {
             sqm: details.size,
             floor: this.assignFloor(unitNumber, unitType),
             building: this.assignBuilding(unitNumber),
-            orientation: this.assignOrientation(unitNumber)
+            orientation: this.assignOrientation(unitNumber),
+            // Add missing properties expected by API
+            amenities: ['Landscaped gardens', 'Secure parking', 'Modern kitchen', 'Energy efficient heating']
           },
           pricing: {
             basePrice: details.basePrice,
@@ -66,6 +68,8 @@ export class RealDataService {
             },
             eircode: `T12 XXXX` // Update with actual Eircode
           },
+          // Add unit features list for API compatibility
+          unitFeatures: this.generateUnitFeatures(unitType),
           buyer: null, // No buyers initially
           viewings: [],
           documents: [],
@@ -193,6 +197,38 @@ export class RealDataService {
     if (role.toLowerCase().includes('manager') || role.toLowerCase().includes('construction')) return 'construction';
     if (role.toLowerCase().includes('sales') || role.toLowerCase().includes('marketing')) return 'sales';
     return 'administration';
+  }
+
+  /**
+   * Generate realistic unit features based on type
+   */
+  private generateUnitFeatures(unitType: string): string[] {
+    const allFeatures = [
+      'Hardwood flooring',
+      'Granite countertops', 
+      'Stainless steel appliances',
+      'Walk-in closet',
+      'En-suite bathroom',
+      'Balcony/Terrace',
+      'Built-in wardrobes',
+      'Smart home system',
+      'Underfloor heating',
+      'Double glazed windows',
+      'Security system',
+      'Storage unit',
+      'High ceilings',
+      'Modern kitchen',
+      'Energy efficient lighting',
+      'Air conditioning'
+    ];
+
+    const featureCount = unitType.includes('1_bed') ? 6 :
+                        unitType.includes('2_bed') ? 8 :
+                        unitType.includes('3_bed') ? 10 : 12;
+
+    return allFeatures
+      .sort(() => Math.random() - 0.5)
+      .slice(0, featureCount);
   }
 }
 

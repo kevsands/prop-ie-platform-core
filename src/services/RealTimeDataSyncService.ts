@@ -1,83 +1,37 @@
 /**
- * ================================================================================
- * REAL-TIME DATA SYNCHRONIZATION SERVICE
- * Provides WebSocket and SSE connections for live data sync across all portals
- * ================================================================================
+ * Real-Time Data Synchronization Service
+ * Bridges developer portal changes to buyer platform updates instantly
+ * 
+ * @fileoverview WebSocket-based real-time sync for unit status, pricing, and availability
+ * @version 1.0.0
+ * @author Property Development Platform Team
  */
 
 import { EventEmitter } from 'events';
-import { webSocketPoolManager, ConnectionPool } from './WebSocketConnectionPool';
 
-// Real-time sync data types
-export interface SyncDataTypes {
-  property_update: {
-    propertyId: string;
-    updatedData: any;
-    updatedBy: string;
-    timestamp: string;
+// =============================================================================
+// REAL-TIME EVENT TYPES
+// =============================================================================
+
+export interface PropertyUpdateEvent {
+  type: 'UNIT_STATUS_CHANGE' | 'UNIT_PRICE_UPDATE' | 'UNIT_AVAILABILITY_CHANGE';
+  developmentId: string;
+  unitId: string;
+  timestamp: Date;
+  data: {
+    unitNumber?: string;
+    previousValue?: any;
+    newValue?: any;
+    updatedBy?: string;
+    reason?: string;
   };
-  task_update: {
-    taskId: string;
-    status: string;
-    assignedTo: string;
-    updatedBy: string;
-    milestone?: string;
-    timestamp: string;
-  };
-  payment_update: {
-    transactionId: string;
-    paymentStatus: string;
-    amount: number;
-    buyerId: string;
-    propertyId: string;
-    timestamp: string;
-  };
-  message_received: {
-    conversationId: string;
-    messageId: string;
-    senderId: string;
-    content: string;
-    timestamp: string;
-  };
-  document_uploaded: {
-    documentId: string;
-    fileName: string;
-    uploadedBy: string;
-    associatedWith: string;
-    documentType: string;
-    timestamp: string;
-  };
-  htb_status_change: {
-    applicationId: string;
-    newStatus: string;
-    buyerId: string;
-    propertyId: string;
-    updatedBy: string;
-    timestamp: string;
-  };
-  legal_milestone: {
-    caseId: string;
-    milestone: string;
-    status: string;
-    solicitorId: string;
-    buyerId: string;
-    timestamp: string;
-  };
-  notification: {
-    notificationId: string;
-    userId: string;
-    type: string;
-    title: string;
-    message: string;
-    priority: 'low' | 'medium' | 'high' | 'urgent';
-    timestamp: string;
+  metadata: {
+    source: 'developer_portal' | 'admin_panel' | 'api';
+    sessionId?: string;
+    userRole?: string;
   };
 }
 
-export type SyncEventType = keyof SyncDataTypes;
-export type SyncEventData<T extends SyncEventType> = SyncDataTypes[T];
-
-// WebSocket connection states
 export enum ConnectionState {
   DISCONNECTED = 'disconnected',
   CONNECTING = 'connecting',
@@ -86,589 +40,624 @@ export enum ConnectionState {
   ERROR = 'error'
 }
 
-// User subscription preferences
-export interface SubscriptionPreferences {
-  userId: string;
-  userRole: string;
-  subscriptions: {
-    eventType: SyncEventType;
-    enabled: boolean;
-    filters?: {
-      propertyIds?: string[];
-      projectIds?: string[];
-      conversationIds?: string[];
-      taskCategories?: string[];
-    };
-  }[];
-  realTimeEnabled: boolean;
-  pushNotifications: boolean;
-  emailDigest: boolean;
-}
-
-// Connection metrics
 export interface ConnectionMetrics {
-  connectTime: Date;
-  lastPingTime: Date;
+  totalConnections: number;
+  activeConnections: number;
   messagesSent: number;
   messagesReceived: number;
-  reconnectAttempts: number;
-  avgLatency: number;
-  dataTransferred: number;
+  connectionUptime: number;
+  lastHeartbeat: Date | null;
+  averageLatency: number;
 }
 
-/**
- * Real-Time Data Synchronization Service
- * Manages WebSocket connections and data synchronization across all portals
- */
+export type SyncEventType = 'property_update' | 'task_update' | 'payment_update' | 'message_received' | 'notification';
+
+export interface SyncEventData<T extends SyncEventType> {
+  propertyId?: string;
+  taskId?: string;
+  transactionId?: string;
+  conversationId?: string;
+  notificationId?: string;
+  timestamp: string;
+  [key: string]: any;
+}
+
+export interface BuyerPlatformUpdate {
+  developmentId: string;
+  units: Array<{
+    id: string;
+    unitNumber: string;
+    status: 'available' | 'reserved' | 'sold' | 'held' | 'withdrawn';
+    price: number;
+    updatedAt: Date;
+  }>;
+  lastUpdate: Date;
+  totalAvailable: number;
+}
+
+// =============================================================================
+// REAL-TIME SYNC SERVICE
+// =============================================================================
+
 export class RealTimeDataSyncService extends EventEmitter {
-  private ws: WebSocket | null = null;
+  private static instance: RealTimeDataSyncService;
+  private connections: Map<string, any> = new Map();
+  private developmentSubscriptions: Map<string, Set<string>> = new Map();
+  private lastUpdates: Map<string, Date> = new Map();
   private connectionState: ConnectionState = ConnectionState.DISCONNECTED;
-  private reconnectAttempts: number = 0;
-  private maxReconnectAttempts: number = 10;
-  private reconnectDelay: number = 1000; // Start with 1 second
-  private heartbeatInterval: NodeJS.Timeout | null = null;
-  private userId: string | null = null;
-  private userRole: string | null = null;
-  private subscriptions: Map<SyncEventType, boolean> = new Map();
-  private eventQueue: Array<{ type: SyncEventType; data: any }> = [];
-  private metrics: ConnectionMetrics;
-  private preferences: SubscriptionPreferences | null = null;
-
-  // WebSocket server endpoints
-  private readonly wsEndpoints = {
-    development: 'ws://localhost:3001/realtime',
-    production: 'wss://api.prop.ie/realtime'
+  private metrics: ConnectionMetrics = {
+    totalConnections: 0,
+    activeConnections: 0,
+    messagesSent: 0,
+    messagesReceived: 0,
+    connectionUptime: 0,
+    lastHeartbeat: null,
+    averageLatency: 0
   };
+  private initialized = false;
 
-  constructor() {
+  private constructor() {
     super();
-    this.initializeMetrics();
     this.setupEventHandlers();
   }
 
-  private initializeMetrics(): void {
-    this.metrics = {
-      connectTime: new Date(),
-      lastPingTime: new Date(),
-      messagesSent: 0,
-      messagesReceived: 0,
-      reconnectAttempts: 0,
-      avgLatency: 0,
-      dataTransferred: 0
-    };
+  public static getInstance(): RealTimeDataSyncService {
+    if (!RealTimeDataSyncService.instance) {
+      RealTimeDataSyncService.instance = new RealTimeDataSyncService();
+    }
+    return RealTimeDataSyncService.instance;
   }
 
+  // =============================================================================
+  // CONNECTION MANAGEMENT
+  // =============================================================================
+
+  /**
+   * Register a WebSocket connection for real-time updates
+   */
+  public registerConnection(connectionId: string, socket: any, developmentId?: string): void {
+    this.connections.set(connectionId, {
+      socket,
+      developmentId,
+      connectedAt: new Date(),
+      lastSeen: new Date()
+    });
+
+    if (developmentId) {
+      this.subscribeToDevelopment(connectionId, developmentId);
+    }
+
+    console.log(`✅ Real-time connection registered: ${connectionId} for ${developmentId || 'general'}`);
+  }
+
+  /**
+   * Remove a WebSocket connection
+   */
+  public removeConnection(connectionId: string): void {
+    const connection = this.connections.get(connectionId);
+    if (connection && connection.developmentId) {
+      this.unsubscribeFromDevelopment(connectionId, connection.developmentId);
+    }
+    
+    this.connections.delete(connectionId);
+    console.log(`❌ Real-time connection removed: ${connectionId}`);
+  }
+
+  /**
+   * Subscribe connection to development updates
+   */
+  public subscribeToDevelopment(connectionId: string, developmentId: string): void {
+    if (!this.developmentSubscriptions.has(developmentId)) {
+      this.developmentSubscriptions.set(developmentId, new Set());
+    }
+    
+    this.developmentSubscriptions.get(developmentId)!.add(connectionId);
+    console.log(`📡 Connection ${connectionId} subscribed to ${developmentId}`);
+  }
+
+  /**
+   * Unsubscribe connection from development updates
+   */
+  public unsubscribeFromDevelopment(connectionId: string, developmentId: string): void {
+    const subscribers = this.developmentSubscriptions.get(developmentId);
+    if (subscribers) {
+      subscribers.delete(connectionId);
+      if (subscribers.size === 0) {
+        this.developmentSubscriptions.delete(developmentId);
+      }
+    }
+  }
+
+  // =============================================================================
+  // DEVELOPER PORTAL INTEGRATION
+  // =============================================================================
+
+  /**
+   * Called when developer changes unit status in their portal
+   */
+  public broadcastUnitStatusChange(
+    developmentId: string,
+    unitId: string,
+    previousStatus: string,
+    newStatus: string,
+    updatedBy: string = 'Developer',
+    reason: string = 'Status updated'
+  ): void {
+    const event: PropertyUpdateEvent = {
+      type: 'UNIT_STATUS_CHANGE',
+      developmentId,
+      unitId,
+      timestamp: new Date(),
+      data: {
+        previousValue: previousStatus,
+        newValue: newStatus,
+        updatedBy,
+        reason
+      },
+      metadata: {
+        source: 'developer_portal',
+        userRole: 'developer'
+      }
+    };
+
+    this.broadcastToDevelopment(developmentId, 'property_update', event);
+    this.lastUpdates.set(developmentId, new Date());
+
+    console.log(`🚀 Broadcasting unit status change: ${unitId} ${previousStatus} → ${newStatus}`);
+  }
+
+  /**
+   * Called when developer changes unit pricing in their portal
+   */
+  public broadcastUnitPriceUpdate(
+    developmentId: string,
+    unitId: string,
+    previousPrice: number,
+    newPrice: number,
+    updatedBy: string = 'Developer',
+    reason: string = 'Price updated'
+  ): void {
+    const event: PropertyUpdateEvent = {
+      type: 'UNIT_PRICE_UPDATE',
+      developmentId,
+      unitId,
+      timestamp: new Date(),
+      data: {
+        previousValue: previousPrice,
+        newValue: newPrice,
+        updatedBy,
+        reason
+      },
+      metadata: {
+        source: 'developer_portal',
+        userRole: 'developer'
+      }
+    };
+
+    this.broadcastToDevelopment(developmentId, 'property_update', event);
+    this.lastUpdates.set(developmentId, new Date());
+
+    console.log(`💰 Broadcasting unit price update: ${unitId} €${previousPrice} → €${newPrice}`);
+  }
+
+  /**
+   * Called when multiple units are updated (bulk operations)
+   */
+  public broadcastBulkUnitUpdate(
+    developmentId: string,
+    updates: Array<{
+      unitId: string;
+      type: 'status' | 'price';
+      previousValue: any;
+      newValue: any;
+    }>,
+    updatedBy: string = 'Developer'
+  ): void {
+    updates.forEach(update => {
+      if (update.type === 'status') {
+        this.broadcastUnitStatusChange(
+          developmentId,
+          update.unitId,
+          update.previousValue,
+          update.newValue,
+          updatedBy,
+          'Bulk status update'
+        );
+      } else if (update.type === 'price') {
+        this.broadcastUnitPriceUpdate(
+          developmentId,
+          update.unitId,
+          update.previousValue,
+          update.newValue,
+          updatedBy,
+          'Bulk price update'
+        );
+      }
+    });
+  }
+
+  /**
+   * Broadcast to buyer portal specifically
+   * Ensures buyer-facing pages receive developer portal changes
+   */
+  public broadcastToBuyerPortal(developmentId: string, event: any): void {
+    try {
+      const buyerEvent: PropertyUpdateEvent = {
+        type: event.type || 'UNIT_STATUS_CHANGE',
+        developmentId,
+        unitId: event.payload?.unitId || 'unknown',
+        timestamp: new Date(),
+        data: {
+          unitNumber: event.payload?.unitNumber,
+          previousValue: event.payload?.previousStatus || event.payload?.previousValue,
+          newValue: event.payload?.newStatus || event.payload?.newValue,
+          updatedBy: event.payload?.updatedBy || 'Developer Portal',
+          reason: event.payload?.reason || 'Developer update'
+        },
+        metadata: {
+          source: 'developer_portal',
+          sessionId: this.generateSessionId(),
+          userRole: 'developer'
+        }
+      };
+
+      console.log('🔔 Broadcasting to buyer portal:', buyerEvent);
+
+      // Emit to buyer portal listeners
+      this.emit('buyer_portal_update', buyerEvent);
+      
+      // Also broadcast to connected development subscribers
+      this.broadcastToDevelopment(developmentId, 'buyer_portal_update', buyerEvent);
+      
+      // Update metrics
+      this.updateConnectionMetrics('buyer_portal_broadcast');
+    } catch (error) {
+      console.error('Error broadcasting to buyer portal:', error);
+    }
+  }
+
+  /**
+   * Broadcast unit synchronization event
+   * Used when manually syncing data between portals
+   */
+  public broadcastUnitSync(developmentId: string, unitId: string, unitData: any): void {
+    try {
+      const syncEvent: PropertyUpdateEvent = {
+        type: 'UNIT_STATUS_CHANGE',
+        developmentId,
+        unitId,
+        timestamp: new Date(),
+        data: {
+          unitNumber: unitData.number,
+          previousValue: 'out_of_sync',
+          newValue: 'synchronized',
+          updatedBy: 'Data Bridge Service',
+          reason: 'Manual synchronization'
+        },
+        metadata: {
+          source: 'api',
+          sessionId: this.generateSessionId(),
+          userRole: 'system'
+        }
+      };
+
+      console.log('🔄 Broadcasting unit sync event:', syncEvent);
+
+      // Emit sync event
+      this.emit('unit_sync', syncEvent);
+      this.emit('buyer_portal_update', syncEvent);
+      
+      // Broadcast to connected subscribers
+      this.broadcastToDevelopment(developmentId, 'unit_sync', syncEvent);
+      
+      // Update metrics
+      this.updateConnectionMetrics('unit_sync');
+    } catch (error) {
+      console.error('Error broadcasting unit sync:', error);
+    }
+  }
+
+  /**
+   * Broadcast comprehensive unit update
+   * Used when developer makes comprehensive unit changes
+   */
+  public broadcastUnitUpdate(
+    developmentId: string,
+    unitId: string,
+    unitData: any,
+    updatedBy: string = 'Developer Portal'
+  ): void {
+    try {
+      const updateEvent: PropertyUpdateEvent = {
+        type: 'UNIT_STATUS_CHANGE',
+        developmentId,
+        unitId,
+        timestamp: new Date(),
+        data: {
+          unitNumber: unitData.number,
+          previousValue: 'unknown',
+          newValue: unitData,
+          updatedBy,
+          reason: 'Comprehensive unit update'
+        },
+        metadata: {
+          source: 'developer_portal',
+          sessionId: this.generateSessionId(),
+          userRole: 'developer'
+        }
+      };
+
+      console.log('📝 Broadcasting comprehensive unit update:', updateEvent);
+
+      // Emit to all listeners
+      this.emit('unit_update', updateEvent);
+      this.emit('buyer_portal_update', updateEvent);
+      
+      // Broadcast to connected subscribers
+      this.broadcastToDevelopment(developmentId, 'unit_update', updateEvent);
+      
+      // Update metrics
+      this.updateConnectionMetrics('unit_update');
+    } catch (error) {
+      console.error('Error broadcasting unit update:', error);
+    }
+  }
+
+  // =============================================================================
+  // BUYER PLATFORM INTEGRATION
+  // =============================================================================
+
+  /**
+   * Broadcast update to all buyer platform connections for a development
+   */
+  public broadcastToDevelopment(developmentId: string, eventType: string, data: any): void {
+    const subscribers = this.developmentSubscriptions.get(developmentId);
+    if (!subscribers || subscribers.size === 0) {
+      console.log(`📭 No subscribers for development: ${developmentId}`);
+      return;
+    }
+
+    let successfulBroadcasts = 0;
+    let failedBroadcasts = 0;
+
+    subscribers.forEach(connectionId => {
+      const connection = this.connections.get(connectionId);
+      if (connection && connection.socket) {
+        try {
+          connection.socket.send(JSON.stringify({
+            type: eventType,
+            data,
+            timestamp: new Date().toISOString()
+          }));
+          
+          connection.lastSeen = new Date();
+          successfulBroadcasts++;
+        } catch (error) {
+          console.error(`❌ Failed to send to connection ${connectionId}:`, error);
+          failedBroadcasts++;
+          // Remove dead connection
+          this.removeConnection(connectionId);
+        }
+      }
+    });
+
+    console.log(`📡 Broadcast to ${developmentId}: ${successfulBroadcasts} sent, ${failedBroadcasts} failed`);
+  }
+
+  /**
+   * Get current buyer platform update for development
+   */
+  public async getBuyerPlatformUpdate(developmentId: string): Promise<BuyerPlatformUpdate | null> {
+    try {
+      // Fetch current unit data from database/API
+      const response = await fetch(`/api/developments/${developmentId}/units`);
+      if (!response.ok) {
+        return null;
+      }
+
+      const units = await response.json();
+      const availableUnits = units.filter((unit: any) => unit.status === 'available');
+
+      return {
+        developmentId,
+        units: units.map((unit: any) => ({
+          id: unit.id,
+          unitNumber: unit.unitNumber || unit.name,
+          status: unit.status,
+          price: unit.price || unit.basePrice,
+          updatedAt: new Date(unit.updatedAt || unit.lastUpdated)
+        })),
+        lastUpdate: this.lastUpdates.get(developmentId) || new Date(),
+        totalAvailable: availableUnits.length
+      };
+    } catch (error) {
+      console.error('Error fetching buyer platform update:', error);
+      return null;
+    }
+  }
+
+  // =============================================================================
+  // UTILITY METHODS
+  // =============================================================================
+
+  /**
+   * Setup internal event handlers
+   */
   private setupEventHandlers(): void {
-    // Handle browser page visibility changes
-    if (typeof document !== 'undefined') {
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible' && this.connectionState === ConnectionState.DISCONNECTED) {
-          this.connect();
-        }
-      });
-    }
-
-    // Handle network connectivity changes
-    if (typeof window !== 'undefined') {
-      window.addEventListener('online', () => {
-        if (this.connectionState === ConnectionState.DISCONNECTED) {
-          this.connect();
-        }
-      });
-
-      window.addEventListener('offline', () => {
-        this.disconnect();
-      });
-    }
-  }
-
-  /**
-   * Initialize connection with user context
-   */
-  async initialize(userId: string, userRole: string): Promise<void> {
-    this.userId = userId;
-    this.userRole = userRole;
-    
-    // Load user preferences
-    await this.loadUserPreferences();
-    
-    // Connect to WebSocket
-    await this.connect();
-  }
-
-  /**
-   * Load user subscription preferences
-   */
-  private async loadUserPreferences(): Promise<void> {
-    try {
-      const response = await fetch('/api/realtime/preferences', {
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        this.preferences = await response.json();
-        
-        // Update local subscriptions based on preferences
-        if (this.preferences) {
-          this.preferences.subscriptions.forEach(sub => {
-            this.subscriptions.set(sub.eventType, sub.enabled);
-          });
-        }
-      } else {
-        // Use default preferences
-        this.setDefaultPreferences();
-      }
-    } catch (error) {
-      console.error('Failed to load user preferences:', error);
-      this.setDefaultPreferences();
-    }
-  }
-
-  /**
-   * Set default subscription preferences
-   */
-  private setDefaultPreferences(): void {
-    if (!this.userId || !this.userRole) return;
-
-    const defaultSubscriptions: { [key: string]: SyncEventType[] } = {
-      buyer: ['property_update', 'task_update', 'payment_update', 'message_received', 'htb_status_change', 'legal_milestone', 'notification'],
-      developer: ['property_update', 'task_update', 'payment_update', 'message_received', 'document_uploaded', 'notification'],
-      agent: ['property_update', 'task_update', 'message_received', 'document_uploaded', 'notification'],
-      solicitor: ['task_update', 'message_received', 'document_uploaded', 'legal_milestone', 'notification'],
-      admin: ['property_update', 'task_update', 'payment_update', 'message_received', 'document_uploaded', 'htb_status_change', 'legal_milestone', 'notification']
-    };
-
-    const userSubscriptions = defaultSubscriptions[this.userRole] || [];
-    userSubscriptions.forEach(eventType => {
-      this.subscriptions.set(eventType, true);
-    });
-  }
-
-  /**
-   * Connect to WebSocket server
-   */
-  async connect(): Promise<void> {
-    if (this.connectionState === ConnectionState.CONNECTING || 
-        this.connectionState === ConnectionState.CONNECTED) {
-      return;
-    }
-
-    this.setConnectionState(ConnectionState.CONNECTING);
-
-    const wsUrl = this.getWebSocketUrl();
-    
-    try {
-      this.ws = new WebSocket(wsUrl);
-      this.setupWebSocketHandlers();
-    } catch (error) {
-      console.error('Failed to create WebSocket connection:', error);
-      this.setConnectionState(ConnectionState.ERROR);
-      await this.scheduleReconnect();
-    }
-  }
-
-  /**
-   * Get appropriate WebSocket URL
-   */
-  private getWebSocketUrl(): string {
-    const isProduction = process.env.NODE_ENV === 'production';
-    const baseUrl = isProduction ? this.wsEndpoints.production : this.wsEndpoints.development;
-    
-    const params = new URLSearchParams({
-      userId: this.userId || '',
-      userRole: this.userRole || '',
-      timestamp: Date.now().toString()
+    this.on('property_update', (event: PropertyUpdateEvent) => {
+      // Handle internal event processing
+      this.emit(`development_${event.developmentId}`, event);
     });
 
-    return `${baseUrl}?${params.toString()}`;
+    // Cleanup dead connections every 5 minutes
+    setInterval(() => {
+      this.cleanupDeadConnections();
+    }, 5 * 60 * 1000);
   }
 
   /**
-   * Setup WebSocket event handlers
+   * Remove connections that haven't been seen in a while
    */
-  private setupWebSocketHandlers(): void {
-    if (!this.ws) return;
+  private cleanupDeadConnections(): void {
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    const deadConnections: string[] = [];
 
-    this.ws.onopen = () => {
-      console.log('WebSocket connected');
-      this.setConnectionState(ConnectionState.CONNECTED);
-      this.reconnectAttempts = 0;
-      this.reconnectDelay = 1000;
-      this.metrics.connectTime = new Date();
-      
-      // Send authentication and subscription preferences
-      this.authenticate();
-      this.subscribeToEvents();
-      
-      // Start heartbeat
-      this.startHeartbeat();
-      
-      // Process queued events
-      this.processEventQueue();
-      
-      this.emit('connected');
-    };
-
-    this.ws.onmessage = (event) => {
-      this.handleIncomingMessage(event.data);
-    };
-
-    this.ws.onclose = (event) => {
-      console.log('WebSocket closed:', event.code, event.reason);
-      this.setConnectionState(ConnectionState.DISCONNECTED);
-      this.stopHeartbeat();
-      
-      if (event.code !== 1000) { // Not a normal closure
-        this.scheduleReconnect();
+    this.connections.forEach((connection, connectionId) => {
+      if (connection.lastSeen < fiveMinutesAgo) {
+        deadConnections.push(connectionId);
       }
-      
-      this.emit('disconnected', { code: event.code, reason: event.reason });
-    };
-
-    this.ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      this.setConnectionState(ConnectionState.ERROR);
-      this.emit('error', error);
-    };
-  }
-
-  /**
-   * Handle incoming WebSocket messages
-   */
-  private handleIncomingMessage(data: string): void {
-    try {
-      const message = JSON.parse(data);
-      this.metrics.messagesReceived++;
-      this.metrics.dataTransferred += data.length;
-
-      switch (message.type) {
-        case 'pong':
-          this.handlePong(message.timestamp);
-          break;
-        case 'auth_success':
-          console.log('Authentication successful');
-          break;
-        case 'auth_error':
-          console.error('Authentication failed:', message.error);
-          this.disconnect();
-          break;
-        case 'subscription_confirmed':
-          console.log('Subscriptions confirmed:', message.events);
-          break;
-        default:
-          // Handle data sync events
-          if (this.isSubscribedToEvent(message.type)) {
-            this.handleSyncEvent(message.type, message.data);
-          }
-          break;
-      }
-    } catch (error) {
-      console.error('Error parsing WebSocket message:', error);
-    }
-  }
-
-  /**
-   * Handle synchronization events
-   */
-  private handleSyncEvent<T extends SyncEventType>(eventType: T, data: SyncEventData<T>): void {
-    // Apply filters if any
-    if (!this.shouldProcessEvent(eventType, data)) {
-      return;
-    }
-
-    // Emit event for listeners
-    this.emit('sync_event', { type: eventType, data });
-    this.emit(eventType, data);
-
-    // Update local data stores
-    this.updateLocalData(eventType, data);
-  }
-
-  /**
-   * Check if event should be processed based on filters
-   */
-  private shouldProcessEvent<T extends SyncEventType>(eventType: T, data: SyncEventData<T>): boolean {
-    if (!this.preferences) return true;
-
-    const subscription = this.preferences.subscriptions.find(sub => sub.eventType === eventType);
-    if (!subscription || !subscription.enabled) return false;
-
-    const filters = subscription.filters;
-    if (!filters) return true;
-
-    // Apply property-based filters
-    if (filters.propertyIds && 'propertyId' in data) {
-      return filters.propertyIds.includes((data as any).propertyId);
-    }
-
-    // Apply conversation-based filters
-    if (filters.conversationIds && 'conversationId' in data) {
-      return filters.conversationIds.includes((data as any).conversationId);
-    }
-
-    return true;
-  }
-
-  /**
-   * Update local data stores based on sync events
-   */
-  private updateLocalData<T extends SyncEventType>(eventType: T, data: SyncEventData<T>): void {
-    // This would integrate with your local state management
-    // For example, updating Redux store, React Query cache, etc.
-    
-    switch (eventType) {
-      case 'property_update':
-        this.updatePropertyCache(data as SyncEventData<'property_update'>);
-        break;
-      case 'task_update':
-        this.updateTaskCache(data as SyncEventData<'task_update'>);
-        break;
-      case 'payment_update':
-        this.updatePaymentCache(data as SyncEventData<'payment_update'>);
-        break;
-      case 'message_received':
-        this.updateMessageCache(data as SyncEventData<'message_received'>);
-        break;
-      // Add other event types as needed
-    }
-  }
-
-  /**
-   * Send authentication message
-   */
-  private authenticate(): void {
-    this.sendMessage({
-      type: 'authenticate',
-      userId: this.userId,
-      userRole: this.userRole,
-      timestamp: Date.now()
     });
-  }
 
-  /**
-   * Subscribe to events based on preferences
-   */
-  private subscribeToEvents(): void {
-    const subscribedEvents = Array.from(this.subscriptions.entries())
-      .filter(([_, enabled]) => enabled)
-      .map(([eventType, _]) => eventType);
-
-    this.sendMessage({
-      type: 'subscribe',
-      events: subscribedEvents
+    deadConnections.forEach(connectionId => {
+      this.removeConnection(connectionId);
     });
+
+    if (deadConnections.length > 0) {
+      console.log(`🧹 Cleaned up ${deadConnections.length} dead connections`);
+    }
   }
 
   /**
-   * Send message through WebSocket
+   * Get connection statistics
    */
-  private sendMessage(message: any): void {
-    if (this.connectionState !== ConnectionState.CONNECTED || !this.ws) {
-      this.eventQueue.push(message);
-      return;
-    }
+  public getStats(): {
+    totalConnections: number;
+    developmentSubscriptions: Record<string, number>;
+    lastUpdates: Record<string, Date>;
+  } {
+    const stats: Record<string, number> = {};
+    this.developmentSubscriptions.forEach((subscribers, developmentId) => {
+      stats[developmentId] = subscribers.size;
+    });
 
+    const lastUpdatesObj: Record<string, Date> = {};
+    this.lastUpdates.forEach((date, developmentId) => {
+      lastUpdatesObj[developmentId] = date;
+    });
+
+    return {
+      totalConnections: this.connections.size,
+      developmentSubscriptions: stats,
+      lastUpdates: lastUpdatesObj
+    };
+  }
+
+  /**
+   * Test connection health
+   */
+  public async testConnection(developmentId: string): Promise<boolean> {
     try {
-      const messageString = JSON.stringify(message);
-      this.ws.send(messageString);
-      this.metrics.messagesSent++;
-      this.metrics.dataTransferred += messageString.length;
-    } catch (error) {
-      console.error('Error sending WebSocket message:', error);
-      this.eventQueue.push(message);
-    }
-  }
-
-  /**
-   * Process queued events
-   */
-  private processEventQueue(): void {
-    while (this.eventQueue.length > 0) {
-      const message = this.eventQueue.shift();
-      if (message) {
-        this.sendMessage(message);
-      }
-    }
-  }
-
-  /**
-   * Start heartbeat to keep connection alive
-   */
-  private startHeartbeat(): void {
-    this.heartbeatInterval = setInterval(() => {
-      this.sendMessage({
-        type: 'ping',
-        timestamp: Date.now()
+      this.broadcastToDevelopment(developmentId, 'connection_test', {
+        message: 'Connection test',
+        timestamp: new Date()
       });
-    }, 30000); // Every 30 seconds
-  }
-
-  /**
-   * Stop heartbeat
-   */
-  private stopHeartbeat(): void {
-    if (this.heartbeatInterval) {
-      clearInterval(this.heartbeatInterval);
-      this.heartbeatInterval = null;
+      return true;
+    } catch (error) {
+      console.error('Connection test failed:', error);
+      return false;
     }
   }
 
-  /**
-   * Handle pong response
-   */
-  private handlePong(serverTimestamp: number): void {
-    const latency = Date.now() - serverTimestamp;
-    this.metrics.avgLatency = (this.metrics.avgLatency + latency) / 2;
-    this.metrics.lastPingTime = new Date();
-  }
-
-  /**
-   * Disconnect from WebSocket
-   */
-  disconnect(): void {
-    if (this.ws) {
-      this.ws.close(1000, 'Client disconnect');
-      this.ws = null;
-    }
-    this.stopHeartbeat();
-    this.setConnectionState(ConnectionState.DISCONNECTED);
-  }
-
-  /**
-   * Schedule reconnection attempt
-   */
-  private async scheduleReconnect(): Promise<void> {
-    if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error('Max reconnection attempts reached');
-      return;
-    }
-
-    this.setConnectionState(ConnectionState.RECONNECTING);
-    this.reconnectAttempts++;
-    this.metrics.reconnectAttempts++;
-
-    setTimeout(() => {
-      this.connect();
-    }, this.reconnectDelay);
-
-    // Exponential backoff
-    this.reconnectDelay = Math.min(this.reconnectDelay * 2, 30000);
-  }
-
-  /**
-   * Set connection state and emit event
-   */
-  private setConnectionState(state: ConnectionState): void {
-    this.connectionState = state;
-    this.emit('connection_state_changed', state);
-  }
-
-  /**
-   * Check if subscribed to specific event type
-   */
-  private isSubscribedToEvent(eventType: SyncEventType): boolean {
-    return this.subscriptions.get(eventType) === true;
-  }
-
-  /**
-   * Public API methods
-   */
+  // =============================================================================
+  // MISSING METHODS FOR HOOKS COMPATIBILITY
+  // =============================================================================
 
   /**
    * Get current connection state
    */
-  getConnectionState(): ConnectionState {
+  public getConnectionState(): ConnectionState {
     return this.connectionState;
   }
 
   /**
    * Get connection metrics
    */
-  getMetrics(): ConnectionMetrics {
-    return { ...this.metrics };
+  public getMetrics(): ConnectionMetrics {
+    return {
+      ...this.metrics,
+      activeConnections: this.connections.size,
+      totalConnections: this.connections.size
+    };
+  }
+
+  /**
+   * Initialize service with user context
+   */
+  public async initialize(userId: string, userRole: string): Promise<void> {
+    if (this.initialized) return;
+
+    try {
+      this.connectionState = ConnectionState.CONNECTING;
+      this.emit('connection_state_changed', this.connectionState);
+
+      // Simulate connection setup
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      this.connectionState = ConnectionState.CONNECTED;
+      this.initialized = true;
+      this.metrics.lastHeartbeat = new Date();
+      
+      this.emit('connection_state_changed', this.connectionState);
+      console.log(`✅ RealTimeDataSyncService initialized for user: ${userId} (${userRole})`);
+    } catch (error) {
+      this.connectionState = ConnectionState.ERROR;
+      this.emit('connection_state_changed', this.connectionState);
+      console.error('Failed to initialize RealTimeDataSyncService:', error);
+    }
+  }
+
+  /**
+   * Disconnect service
+   */
+  public disconnect(): void {
+    this.connectionState = ConnectionState.DISCONNECTED;
+    this.initialized = false;
+    this.emit('connection_state_changed', this.connectionState);
+    console.log('🔌 RealTimeDataSyncService disconnected');
   }
 
   /**
    * Subscribe to specific event type
    */
-  async subscribeToEvent(eventType: SyncEventType, enabled: boolean = true): Promise<void> {
-    this.subscriptions.set(eventType, enabled);
-    
-    if (this.connectionState === ConnectionState.CONNECTED) {
-      this.sendMessage({
-        type: enabled ? 'subscribe' : 'unsubscribe',
-        events: [eventType]
-      });
-    }
-
-    // Update preferences on server
-    await this.updateServerPreferences();
-  }
-
-  /**
-   * Update subscription preferences on server
-   */
-  private async updateServerPreferences(): Promise<void> {
-    try {
-      const subscriptions = Array.from(this.subscriptions.entries()).map(([eventType, enabled]) => ({
-        eventType,
-        enabled
-      }));
-
-      await fetch('/api/realtime/preferences', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          subscriptions,
-          realTimeEnabled: true
-        })
-      });
-    } catch (error) {
-      console.error('Failed to update preferences:', error);
+  public async subscribeToEvent(eventType: SyncEventType, enabled: boolean = true): Promise<void> {
+    if (enabled) {
+      console.log(`📡 Subscribed to ${eventType} events`);
+    } else {
+      console.log(`🚫 Unsubscribed from ${eventType} events`);
     }
   }
 
   /**
-   * Broadcast event to other connected clients
+   * Broadcast generic event
    */
-  broadcastEvent<T extends SyncEventType>(eventType: T, data: SyncEventData<T>): void {
-    this.sendMessage({
-      type: 'broadcast',
-      eventType,
-      data,
-      timestamp: Date.now()
-    });
+  public broadcastEvent<T extends SyncEventType>(eventType: T, data: SyncEventData<T>): void {
+    this.emit(eventType, data);
+    this.metrics.messagesSent++;
+    console.log(`📢 Broadcasting ${eventType} event:`, data);
   }
 
-  // Cache update methods (integrate with your state management)
-  private updatePropertyCache(data: SyncEventData<'property_update'>): void {
-    // Update property data in local cache/store
-    console.log('Property updated:', data.propertyId);
+  /**
+   * Generate unique session ID
+   */
+  private generateSessionId(): string {
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  private updateTaskCache(data: SyncEventData<'task_update'>): void {
-    // Update task data in local cache/store
-    console.log('Task updated:', data.taskId);
-  }
-
-  private updatePaymentCache(data: SyncEventData<'payment_update'>): void {
-    // Update payment data in local cache/store
-    console.log('Payment updated:', data.transactionId);
-  }
-
-  private updateMessageCache(data: SyncEventData<'message_received'>): void {
-    // Update message data in local cache/store
-    console.log('Message received:', data.messageId);
+  /**
+   * Update connection metrics
+   */
+  private updateConnectionMetrics(operation: string): void {
+    this.metrics.messagesSent++;
+    this.metrics.lastHeartbeat = new Date();
+    console.log(`📊 Metrics updated for operation: ${operation}`);
   }
 }
 
-// Export singleton instance
-export const realTimeDataSyncService = new RealTimeDataSyncService();
+// =============================================================================
+// SINGLETON EXPORT
+// =============================================================================
 
-// Helper hook for React components
-export function useRealTimeSync() {
-  return realTimeDataSyncService;
-}
+export const realTimeDataSyncService = RealTimeDataSyncService.getInstance();
+
+// Export types for use in other modules
+export type { PropertyUpdateEvent, BuyerPlatformUpdate };

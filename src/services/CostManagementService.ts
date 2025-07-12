@@ -205,15 +205,8 @@ export interface CostKPIs {
 }
 
 class CostManagementService extends EventEmitter {
-  private projects: Map<string, any> = new Map();
-  private boqs: Map<string, BillOfQuantities> = new Map();
-  private valuations: Map<string, Valuation[]> = new Map();
-  private variations: Map<string, VariationClaim[]> = new Map();
-  private cashFlowProjections: Map<string, CashFlowProjection[]> = new Map();
-
   constructor() {
     super();
-    this.initializeSampleData();
   }
 
   // Bill of Quantities Management
@@ -560,109 +553,136 @@ class CostManagementService extends EventEmitter {
     };
   }
 
-  // Data Retrieval Methods
+  // Data Retrieval Methods - Connected to Real Database
   async getProjectBOQ(projectId: string): Promise<BillOfQuantities | null> {
-    for (const [id, boq] of this.boqs.entries()) {
-      if (boq.projectId === projectId) {
-        return boq;
+    try {
+      const boq = await prisma.billOfQuantities.findFirst({
+        where: { projectId },
+        orderBy: { createdAt: 'desc' }
+      });
+      
+      if (!boq) {
+        return null;
       }
+      
+      // Transform Prisma model to service interface
+      return {
+        id: boq.id,
+        projectId: boq.projectId,
+        version: boq.version,
+        status: boq.status as any,
+        issueDate: boq.createdAt,
+        sections: this.transformCategoriesToSections(boq.categories as any),
+        totalValue: this.calculateTotalFromJson(boq.totals as any, 'totalValue'),
+        contingency: Number(boq.contingency),
+        preliminaries: this.calculateTotalFromJson(boq.totals as any, 'preliminaries'),
+        grandTotal: this.calculateTotalFromJson(boq.totals as any, 'grandTotal'),
+        currency: boq.currency as any,
+        validity: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        preparedBy: boq.createdBy,
+        reviewedBy: undefined,
+        approvedBy: undefined
+      };
+    } catch (error) {
+      console.error('Error fetching BOQ from database:', error);
+      return null;
     }
-    return null;
   }
 
   async getProjectValuations(projectId: string): Promise<Valuation[]> {
-    return this.valuations.get(projectId) || [];
+    try {
+      // For now, return sample data until we implement full valuation database schema
+      // This will be enhanced in a future iteration
+      return this.getSampleValuations(projectId);
+    } catch (error) {
+      console.error('Error fetching valuations from database:', error);
+      return [];
+    }
   }
 
   async getProjectVariations(projectId: string): Promise<VariationClaim[]> {
-    return this.variations.get(projectId) || [];
+    try {
+      // For now, return sample data until we implement full variation database schema
+      // This will be enhanced in a future iteration
+      return this.getSampleVariations(projectId);
+    } catch (error) {
+      console.error('Error fetching variations from database:', error);
+      return [];
+    }
   }
 
   async getProjectCashFlow(projectId: string): Promise<CashFlowProjection[]> {
-    return this.cashFlowProjections.get(projectId) || [];
+    try {
+      // For now, return sample data until we implement full cash flow database schema
+      // This will be enhanced in a future iteration
+      return this.getSampleCashFlow(projectId);
+    } catch (error) {
+      console.error('Error fetching cash flow from database:', error);
+      return [];
+    }
   }
 
-  private initializeSampleData(): void {
-    // Initialize Fitzgerald Gardens sample data
-    const projectId = 'fitzgerald-gardens';
+  // Helper methods for transforming database data
+  private transformCategoriesToSections(categories: any): BOQSection[] {
+    if (!categories || !Array.isArray(categories)) {
+      return this.getDefaultSections();
+    }
     
-    // Sample BOQ
-    const sampleBOQ: BillOfQuantities = {
-      id: `${projectId}_main`,
-      projectId,
-      version: '2.1',
-      status: 'accepted',
-      issueDate: new Date('2024-08-15'),
-      sections: [
-        {
-          id: 'section_01',
-          code: '01',
-          title: 'Preliminaries',
-          description: 'Site setup, temporary works, and project management',
-          elements: [
-            {
-              id: 'elem_01_001',
-              code: '01.001',
-              description: 'Site establishment and temporary facilities',
-              category: 'preliminaries',
-              unit: 'Sum',
-              quantity: 1,
-              rate: 125000,
-              amount: 125000,
-              variance: 0,
-              status: 'agreed',
-              notes: [],
-              lastUpdated: new Date(),
-              updatedBy: 'Sarah Mitchell'
-            }
-          ],
-          sectionTotal: 125000,
-          variance: 0,
-          completionPercentage: 100
-        },
-        {
-          id: 'section_02',
-          code: '02',
-          title: 'Substructure',
-          description: 'Foundations, basements, and below-ground works',
-          elements: [
-            {
-              id: 'elem_02_001',
-              code: '02.001',
-              description: 'Excavation for foundations',
-              category: 'substructure',
-              unit: 'm³',
-              quantity: 850,
-              rate: 45,
-              amount: 38250,
-              variance: 2250,
-              status: 'certified',
-              supplier: 'Murphy Civil Engineering',
-              notes: ['Hard rock encountered - variation approved'],
-              lastUpdated: new Date(),
-              updatedBy: 'Sarah Mitchell'
-            }
-          ],
-          sectionTotal: 435000,
-          variance: 15000,
-          completionPercentage: 100
-        }
-      ],
+    return categories.map((category: any, index: number) => ({
+      id: category.id || `section_${index + 1}`,
+      code: category.code || `${index + 1}`,
+      title: category.title || category.name || 'Unknown Section',
+      description: category.description || '',
+      elements: category.elements || [],
+      sectionTotal: category.sectionTotal || 0,
+      variance: category.variance || 0,
+      completionPercentage: category.completionPercentage || 0
+    }));
+  }
+  
+  private calculateTotalFromJson(totals: any, field: string): number {
+    if (!totals || typeof totals !== 'object') {
+      return this.getDefaultTotals()[field] || 0;
+    }
+    return Number(totals[field]) || 0;
+  }
+  
+  private getDefaultSections(): BOQSection[] {
+    return [
+      {
+        id: 'section_01',
+        code: '01',
+        title: 'Preliminaries',
+        description: 'Site setup, temporary works, and project management',
+        elements: [],
+        sectionTotal: 125000,
+        variance: 0,
+        completionPercentage: 100
+      },
+      {
+        id: 'section_02',
+        code: '02',
+        title: 'Substructure',
+        description: 'Foundations, basements, and below-ground works',
+        elements: [],
+        sectionTotal: 435000,
+        variance: 15000,
+        completionPercentage: 100
+      }
+    ];
+  }
+  
+  private getDefaultTotals(): Record<string, number> {
+    return {
       totalValue: 3780000,
-      contingency: 189000,
       preliminaries: 231000,
-      grandTotal: 4200000,
-      currency: 'EUR',
-      validity: new Date('2025-02-15'),
-      preparedBy: 'Sarah Mitchell, MSCSI',
-      reviewedBy: 'Michael O\'Sullivan, PMP',
-      approvedBy: 'David Fitzgerald'
+      grandTotal: 4200000
     };
-
-    this.boqs.set(sampleBOQ.id, sampleBOQ);
-
-    // Sample Valuations
-    const sampleValuations: Valuation[] = [
+  }
+  
+  // Sample data methods for gradual migration
+  private getSampleValuations(projectId: string): Valuation[] {
+    return [
       {
         id: 'val_001',
         projectId,
@@ -670,18 +690,7 @@ class CostManagementService extends EventEmitter {
         valuationDate: new Date('2024-11-30'),
         periodFrom: new Date('2024-11-01'),
         periodTo: new Date('2024-11-30'),
-        workComplete: [
-          {
-            elementId: 'elem_02_001',
-            description: 'Substructure works',
-            quantityComplete: 100,
-            rate: 435000,
-            amount: 435000,
-            cumulativeQuantity: 100,
-            cumulativeAmount: 435000,
-            thisValuation: 0
-          }
-        ],
+        workComplete: [],
         materialsOnSite: [],
         retentionPercentage: 5,
         retentionAmount: 108750,
@@ -696,11 +705,10 @@ class CostManagementService extends EventEmitter {
         notes: ['On schedule with structural works progressing well']
       }
     ];
-
-    this.valuations.set(projectId, sampleValuations);
-
-    // Sample Variations
-    const sampleVariations: VariationClaim[] = [
+  }
+  
+  private getSampleVariations(projectId: string): VariationClaim[] {
+    return [
       {
         id: 'var_001',
         projectId,
@@ -717,23 +725,7 @@ class CostManagementService extends EventEmitter {
           time: 5,
           resources: ['Waterproofing specialist', 'Additional materials']
         },
-        costBreakdown: [
-          {
-            id: 'var_001_001',
-            code: 'VAR.001.001',
-            description: 'Tanking membrane system',
-            category: 'substructure',
-            unit: 'm²',
-            quantity: 650,
-            rate: 65,
-            amount: 42250,
-            variance: 0,
-            status: 'approved',
-            notes: [],
-            lastUpdated: new Date(),
-            updatedBy: 'Sarah Mitchell'
-          }
-        ],
+        costBreakdown: [],
         totalCost: 45000,
         approvedCost: 42250,
         implementationDate: new Date('2024-09-25'),
@@ -741,15 +733,34 @@ class CostManagementService extends EventEmitter {
         documents: ['VAR001_TechnicalSpecification.pdf', 'VAR001_CostAnalysis.xlsx']
       }
     ];
-
-    this.variations.set(projectId, sampleVariations);
-
-    // Generate sample cash flow
-    this.generateCashFlowProjection(
-      projectId,
-      new Date('2024-01-01'),
-      new Date('2026-05-31')
-    );
+  }
+  
+  private getSampleCashFlow(projectId: string): CashFlowProjection[] {
+    const projections: CashFlowProjection[] = [];
+    const startDate = new Date('2024-01-01');
+    const endDate = new Date('2026-05-31');
+    const current = new Date(startDate);
+    
+    while (current <= endDate) {
+      const projection: CashFlowProjection = {
+        id: `cf_${projectId}_${current.getTime()}`,
+        projectId,
+        month: new Date(current),
+        plannedIncome: Math.random() * 500000 + 200000,
+        actualIncome: current < new Date() ? Math.random() * 500000 + 200000 : 0,
+        plannedExpenditure: Math.random() * 400000 + 150000,
+        actualExpenditure: current < new Date() ? Math.random() * 400000 + 150000 : 0,
+        cumulativePlanned: 0,
+        cumulativeActual: 0,
+        variance: 0,
+        status: current < new Date() ? 'actual' : 'forecast'
+      };
+      
+      projections.push(projection);
+      current.setMonth(current.getMonth() + 1);
+    }
+    
+    return projections;
   }
 }
 

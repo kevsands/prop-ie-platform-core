@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUnitsForDevelopment } from "@/lib/enterprise-data";
-import { prisma } from "@/lib/enterprise-data";
+import { v4 as uuidv4 } from "uuid";
+import { UnitStatus, UnitType, PrismaClient, Prisma, Document } from "@prisma/client";
+import { unitRepository } from "@/lib/db/repositories";
+import { logger } from "@/lib/security/auditLogger";
 
-// Temporary local repository
-const unitRepository = {
-  findMany: (where: any) => prisma.unit.findMany({ where }),
-  create: (data: any) => prisma.unit.create({ data }),
-  update: (id: string, data: any) => prisma.unit.update({ where: { id }, data }),
-  delete: (id: string) => prisma.unit.delete({ where: { id } }),
-  findById: (id: string) => prisma.unit.findUnique({ where: { id } }),
-};
+// Import auth helpers specific for server-side use
+import { getServerAuthSession } from "../auth/[...nextauth]/auth-server";
+
+// Type for Prisma transaction context
+type PrismaTransactionClient = Omit<
+  PrismaClient, 
+  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+>;
+
+// Create Prisma client instance
+const prisma = new PrismaClient();
 
 // Define the unit input type
 interface UnitInput {
@@ -112,7 +117,7 @@ export const GET = async (request: NextRequest) => {
       }
     });
   } catch (error: any) {
-    console.error("Error fetching units:", { 
+    logger.error("Error fetching units:", { 
       error: error.message, 
       stack: error.stack
     });
@@ -168,7 +173,7 @@ export const POST = async (request: NextRequest) => {
 
     // Use transaction to create unit and documents
     try {
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: PrismaTransactionClient) => {
         // Create the unit
         const unit = await tx.unit.create({
           data: {
@@ -363,7 +368,7 @@ export const DELETE = async (request: NextRequest) => {
     // Check for associated sales before deletion
     // This is done in a transaction to ensure consistency
     try {
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: PrismaTransactionClient) => {
         // Check for associated sales
         const sales = await tx.sale.findMany({
           where: {

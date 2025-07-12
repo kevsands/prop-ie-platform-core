@@ -398,13 +398,13 @@ export class DocumentWorkflowEngine extends EventEmitter {
 
     // Calculate average completion time
     const completedWorkflows = await prisma.enterpriseWorkflowInstance.findMany({
-      where: { ...where, status: 'completed', completedAt: { not: null } },
-      select: { createdAt: true, completedAt: true }
+      where: { ...where, status: 'completed', actualEndDate: { not: null } },
+      select: { createdAt: true, actualEndDate: true }
     });
 
     const avgCompletionTime = completedWorkflows.length > 0
       ? completedWorkflows.reduce((sum, wf) => {
-          const duration = wf.completedAt!.getTime() - wf.createdAt.getTime();
+          const duration = wf.actualEndDate!.getTime() - wf.createdAt.getTime();
           return sum + duration;
         }, 0) / completedWorkflows.length / (1000 * 60 * 60 * 24) // Convert to days
       : 0;

@@ -104,21 +104,70 @@ export async function GET(request: NextRequest) {
           id: 'notif_001',
           userId: currentUser.id,
           type: 'success',
-          title: 'Payment Successful',
-          content: 'Your property reservation payment of €5,000 has been processed successfully.',
+          title: 'Payment Certificate Issued',
+          content: 'Payment certificate #9 for €617,500 has been issued for Fitzgerald Gardens contractor valuation.',
           priority: 'high',
           status: 'unread',
-          createdAt: '2025-06-18T16:30:00Z',
-          actionUrl: '/buyer/payments',
-          actionLabel: 'View Payment',
+          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+          actionUrl: '/developer/finance/dashboard',
+          actionLabel: 'View Dashboard',
           category: 'financial',
           metadata: {
-            transactionId: 'txn_001',
-            propertyId: 'prop_001'
+            amount: 617500,
+            certificateNumber: 9,
+            projectId: 'fitzgerald-gardens'
           },
           deliveryChannels: {
             inApp: true,
             email: true,
+            sms: false,
+            push: true
+          }
+        },
+        {
+          id: 'notif_001a',
+          userId: currentUser.id,
+          type: 'warning',
+          title: 'VAT Return Due Soon',
+          content: 'Monthly VAT return for July 2025 is due on July 23rd. Total VAT liable: €156,750.',
+          priority: 'urgent',
+          status: 'unread',
+          createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago
+          actionUrl: '/developer/finance/tax-compliance',
+          actionLabel: 'File Return',
+          category: 'financial',
+          metadata: {
+            dueDate: '2025-07-23',
+            vatAmount: 156750,
+            returnType: 'monthly'
+          },
+          deliveryChannels: {
+            inApp: true,
+            email: true,
+            sms: true,
+            push: true
+          }
+        },
+        {
+          id: 'notif_001b',
+          userId: currentUser.id,
+          type: 'info',
+          title: 'New Contractor Valuation',
+          content: 'John Murphy has submitted valuation #10 for €425,000. Awaiting QS review.',
+          priority: 'normal',
+          status: 'unread',
+          createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
+          actionUrl: '/quantity-surveyor/valuation-review',
+          actionLabel: 'Review Valuation',
+          category: 'financial',
+          metadata: {
+            amount: 425000,
+            submittedBy: 'John Murphy',
+            valuationNumber: 10
+          },
+          deliveryChannels: {
+            inApp: true,
+            email: false,
             sms: false,
             push: true
           }

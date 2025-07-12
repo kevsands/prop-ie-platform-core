@@ -99,92 +99,84 @@ export const developmentsService = {
     city?: string;
   }): Promise<DevelopmentData[]> => {
     try {
-      // Try to fetch from database using enterprise schema, fallback to mock data if needed
-      let developments;
-      try {
-        developments = await prisma.development.findMany({
-          select: {
-            id: true,
-            name: true,
-            description: true,
-            mainImage: true,
-            isPublished: true,
-            created: true,
-            updated: true,
-            status: true,
-            Location: {
-              select: {
-                address: true,
-                city: true,
-                county: true,
-                eircode: true
-              }
-            },
-            Unit: {
-              select: {
-                id: true,
-                basePrice: true
-              }
+      // Fetch from enterprise database with full relationships
+      const developments = await prisma.development.findMany({
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          shortDescription: true,
+          mainImage: true,
+          images: true,
+          features: true,
+          amenities: true,
+          isPublished: true,
+          created: true,
+          updated: true,
+          status: true,
+          startDate: true,
+          completionDate: true,
+          Location: {
+            select: {
+              address: true,
+              city: true,
+              county: true,
+              eircode: true,
+              latitude: true,
+              longitude: true
             }
           },
-          where: {
-            isPublished: filters?.isPublished !== false,
-            ...(filters?.search && {
-              OR: [
-                { name: { contains: filters.search, mode: 'insensitive' } },
-                { description: { contains: filters.search, mode: 'insensitive' } }
-              ]
-            }),
-            ...(filters?.city && {
-              location: {
-                city: { contains: filters.city, mode: 'insensitive' }
-              }
-            })
-          },
-          orderBy: { created: 'desc' }
-        });
-      } catch (dbError) {
-        console.warn('Database schema mismatch, using fallback data:', dbError);
-        // Return mock data for development purposes
-        return [
-          {
-            id: 'fitzgerald-gardens',
-            name: 'Fitzgerald Gardens',
-            description: 'Premium residential development featuring 96 modern units',
-            location: 'Ballymakenny Road, Drogheda, Co. Louth',
-            city: 'Drogheda',
-            county: 'Louth',
-            status: 'active',
-            mainImage: '/images/developments/fitzgerald-gardens/hero.jpeg',
-            startingPrice: 295000,
-            totalUnits: 96,
-            isPublished: true,
-            createdAt: new Date('2024-01-15'),
-            updatedAt: new Date()
+          Unit: {
+            select: {
+              id: true,
+              name: true,
+              unitNumber: true,
+              type: true,
+              bedrooms: true,
+              bathrooms: true,
+              size: true,
+              basePrice: true,
+              status: true,
+              primaryImage: true,
+              berRating: true
+            }
           }
-        ];
-      }
+        },
+        where: {
+          isPublished: filters?.isPublished !== false,
+          ...(filters?.search && {
+            OR: [
+              { name: { contains: filters.search, mode: 'insensitive' } },
+              { description: { contains: filters.search, mode: 'insensitive' } }
+            ]
+          }),
+          ...(filters?.city && {
+            Location: {
+              city: { contains: filters.city, mode: 'insensitive' }
+            }
+          })
+        },
+        orderBy: { created: 'desc' }
+      });
 
-      // Map to expected format with real data from seed script
+      // Map enterprise data to expected format
       return developments.map(dev => {
-        // Use real data from seed script based on development ID
-        const realData = getRealDevelopmentData(dev.id);
         const locationString = `${dev.Location?.address || ''}, ${dev.Location?.city || ''}, ${dev.Location?.county || ''}`.replace(/^,\s*|,\s*$/g, '');
         const units = dev.Unit || [];
         const prices = units.map(u => u.basePrice || 0).filter(p => p > 0);
-        const startingPrice = prices.length > 0 ? Math.min(...prices) : realData.startingPrice;
+        const startingPrice = prices.length > 0 ? Math.min(...prices) : 300000;
         
         return {
           id: dev.id,
           name: dev.name,
-          description: dev.description || realData.description,
-          location: locationString || extractLocationFromRealData(dev.id),
-          city: dev.Location?.city || extractCityFromLocation(locationString || extractLocationFromRealData(dev.id)),
-          county: dev.Location?.county || extractCountyFromLocation(locationString || extractLocationFromRealData(dev.id)),
-          status: dev.status === 'ACTIVE' ? 'active' : realData.status,
-          mainImage: dev.mainImage || realData.mainImage,
+          description: dev.description,
+          location: locationString,
+          city: dev.Location?.city || 'Drogheda',
+          county: dev.Location?.county || 'Co. Louth',
+          status: dev.status.toLowerCase().replace('_', '-'),
+          mainImage: dev.mainImage,
           startingPrice: startingPrice,
-          totalUnits: units.length || realData.totalUnits,
+          totalUnits: units.length,
           isPublished: dev.isPublished,
           createdAt: dev.created,
           updatedAt: dev.updated
@@ -201,30 +193,47 @@ export const developmentsService = {
    */
   getDevelopmentById: async (id: string): Promise<DevelopmentData | null> => {
     try {
-      // Try to fetch from database first
+      // Fetch from enterprise database with full relationships
       const development = await prisma.development.findUnique({
         where: { id },
         select: {
           id: true,
           name: true,
           description: true,
+          shortDescription: true,
           mainImage: true,
+          images: true,
+          features: true,
+          amenities: true,
           isPublished: true,
           created: true,
           updated: true,
           status: true,
+          startDate: true,
+          completionDate: true,
           Location: {
             select: {
               address: true,
               city: true,
               county: true,
-              eircode: true
+              eircode: true,
+              latitude: true,
+              longitude: true
             }
           },
           Unit: {
             select: {
               id: true,
-              basePrice: true
+              name: true,
+              unitNumber: true,
+              type: true,
+              bedrooms: true,
+              bathrooms: true,
+              size: true,
+              basePrice: true,
+              status: true,
+              primaryImage: true,
+              berRating: true
             }
           }
         }
@@ -241,10 +250,10 @@ export const developmentsService = {
           name: development.name,
           description: development.description,
           location: locationString,
-          city: development.Location?.city || 'Dublin',
-          county: development.Location?.county || 'Dublin',
-          status: development.status === 'ACTIVE' ? 'active' : 'inactive',
-          mainImage: development.mainImage || '/images/development-placeholder.jpg',
+          city: development.Location?.city || 'Drogheda',
+          county: development.Location?.county || 'Co. Louth',
+          status: development.status.toLowerCase().replace('_', '-'),
+          mainImage: development.mainImage,
           startingPrice: startingPrice,
           totalUnits: units.length,
           isPublished: development.isPublished,
@@ -253,29 +262,11 @@ export const developmentsService = {
         };
       }
     } catch (dbError) {
-      console.warn('Database error, falling back to mock data for development:', id, dbError);
+      console.error('Database error fetching development:', id, dbError);
+      throw new Error(`Failed to fetch development: ${id}`);
     }
 
-    // Fallback to mock data for known developments
-    if (id === 'fitzgerald-gardens') {
-      return {
-        id: 'fitzgerald-gardens',
-        name: 'Fitzgerald Gardens',
-        description: 'Premium residential development featuring 96 modern units with contemporary design and high-quality finishes. Located in the sought-after area of Drogheda.',
-        location: 'Ballymakenny Road, Drogheda, Co. Louth',
-        city: 'Drogheda',
-        county: 'Louth',
-        status: 'active',
-        mainImage: '/images/developments/fitzgerald-gardens/hero.jpeg',
-        startingPrice: 295000,
-        totalUnits: 96,
-        isPublished: true,
-        createdAt: new Date('2024-01-15'),
-        updatedAt: new Date()
-      };
-    }
-
-    // Return null if development not found in fallback data
+    // Return null if development not found
     return null;
   },
 

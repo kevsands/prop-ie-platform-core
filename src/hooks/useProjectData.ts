@@ -10,6 +10,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { projectDataService } from '@/services/ProjectDataService';
 import { realDataService } from '@/services/RealDataService';
+import { metricsEngine } from '@/services/MetricsCalculationEngine';
+import { realTimeDataSyncService } from '@/services/RealTimeDataSyncService';
 import { 
   Project, 
   Unit, 
@@ -98,7 +100,7 @@ export interface SitePlanUnit {
 // MAIN HOOK IMPLEMENTATION
 // =============================================================================
 
-export function useProjectData(projectId: string = 'fitzgerald-gardens'): UseProjectDataResult {
+export function useProjectData(projectSlug: string = 'fitzgerald-gardens'): UseProjectDataResult {
   // Core state management
   const [project, setProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -110,6 +112,18 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
     building: 'all',
     floor: 'all'
   });
+
+  // Convert URL slug to project ID for backward compatibility
+  const projectId = useMemo(() => {
+    // Map URL-friendly slugs to internal project IDs
+    const slugToIdMap: Record<string, string> = {
+      'fitzgerald-gardens': 'fitzgerald-gardens',
+      'ballymakenny-view': 'ballymakenny-view', 
+      'ellwood': 'ellwood'
+    };
+    
+    return slugToIdMap[projectSlug] || projectSlug;
+  }, [projectSlug]);
 
   // Initialize project data with API-first approach and graceful fallback
   useEffect(() => {
@@ -131,56 +145,66 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
               projectData = {
                 id: apiData.id,
                 name: apiData.name,
-                status: apiData.status,
+                status: apiData.status || 'active',
                 type: 'residential',
-                location: {
-                  address: apiData.location.address,
-                  city: apiData.location.city,
-                  county: apiData.location.county,
-                  coordinates: apiData.location.coordinates
+                location: typeof apiData.location === 'string' ? apiData.location : {
+                  address: apiData.location?.address || apiData.location || '',
+                  city: apiData.location?.city || '',
+                  county: apiData.location?.county || '',
+                  coordinates: apiData.location?.coordinates || { lat: 0, lng: 0 }
                 },
                 timeline: {
-                  startDate: new Date(apiData.timeline.startDate),
-                  completionDate: new Date(apiData.timeline.completionDate),
-                  currentPhase: 'construction',
-                  milestones: apiData.timeline.milestones || []
+                  startDate: apiData.timeline?.projectStart ? new Date(apiData.timeline.projectStart) : new Date(),
+                  plannedCompletion: apiData.timeline?.plannedCompletion ? new Date(apiData.timeline.plannedCompletion) : new Date(),
+                  currentPhase: apiData.timeline?.currentPhase || 'Phase 1',
+                  progressPercentage: apiData.timeline?.progressPercentage || 68,
+                  milestones: apiData.timeline?.milestones || []
                 },
-                units: Object.values(apiData.units.byType).flat().map((unit: any) => ({
+                units: (apiData.units || []).map((unit: any) => ({
                   id: unit.id,
-                  number: unit.name,
+                  number: unit.number,
                   type: unit.type,
                   status: unit.status,
                   pricing: {
-                    basePrice: unit.price,
-                    currentPrice: unit.price,
-                    priceHistory: []
+                    basePrice: unit.pricing?.basePrice || unit.pricing?.currentPrice || 0,
+                    currentPrice: unit.pricing?.currentPrice || unit.pricing?.basePrice || 0,
+                    priceHistory: unit.pricing?.priceHistory || []
                   },
                   features: {
-                    bedrooms: unit.bedrooms,
-                    bathrooms: unit.bathrooms,
-                    sqft: unit.size,
-                    floor: unit.floor,
-                    building: unit.block || 'TBD'
+                    bedrooms: unit.physical?.bedrooms || unit.features?.bedrooms || 0,
+                    bathrooms: unit.physical?.bathrooms || unit.features?.bathrooms || 0,
+                    sqft: unit.physical?.sqft || unit.features?.sqft || 0,
+                    sqm: unit.physical?.sqm || unit.features?.sqm || 0,
+                    floor: unit.physical?.floor || unit.features?.floor || 1,
+                    building: unit.physical?.building || unit.features?.building || 1,
+                    balcony: unit.features?.balcony || false,
+                    garden: unit.features?.garden || false,
+                    parking: unit.features?.parking || false,
+                    storage: unit.features?.storage || false,
+                    orientation: unit.physical?.aspect || unit.features?.orientation || 'N',
+                    amenities: unit.amenities || unit.features?.amenities || []
                   },
-                  buyer: null,
-                  reservationDate: null,
-                  saleDate: null,
+                  buyer: unit.buyer,
+                  reservationDate: unit.reservationDate,
+                  saleDate: unit.saleDate,
                   images: unit.images || [],
-                  floorPlan: unit.floorPlan
+                  floorPlan: unit.floorPlan,
+                  unitFeatures: unit.features || []
                 })),
                 metrics: {
-                  totalUnits: apiData.units.total,
-                  soldUnits: apiData.units.sold,
-                  reservedUnits: apiData.units.reserved,
-                  availableUnits: apiData.units.available,
-                  totalRevenue: apiData.salesMetrics.totalRevenue,
-                  averageUnitPrice: apiData.salesMetrics.averagePrice,
-                  salesVelocity: apiData.salesMetrics.salesRate || 0,
-                  conversionRate: apiData.units.total > 0 ? (apiData.units.sold / apiData.units.total) * 100 : 0
+                  totalUnits: (apiData.units || []).length,
+                  soldUnits: (apiData.units || []).filter((u: any) => u.status === 'sold').length,
+                  reservedUnits: (apiData.units || []).filter((u: any) => u.status === 'reserved').length,
+                  availableUnits: (apiData.units || []).filter((u: any) => u.status === 'available').length,
+                  totalRevenue: apiData.analytics?.sales?.totalRevenue || apiData.metrics?.totalRevenue || 0,
+                  averageUnitPrice: apiData.analytics?.sales?.averageUnitPrice || apiData.metrics?.averageUnitPrice || 0,
+                  salesVelocity: apiData.analytics?.sales?.salesVelocity || apiData.metrics?.salesVelocity || 0,
+                  conversionRate: apiData.analytics?.sales?.conversionRate || apiData.metrics?.conversionRate || 0,
+                  projectedRevenue: apiData.analytics?.projectedRevenue || apiData.metrics?.projectedRevenue || 0
                 },
                 progress: {
-                  overall: apiData.progress.overall,
-                  phases: apiData.progress.phases
+                  overall: apiData.timeline?.progressPercentage || 0,
+                  phases: apiData.progress?.phases || []
                 },
                 images: apiData.images || [],
                 description: apiData.description || '',
@@ -194,24 +218,16 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
           console.log('API unavailable, falling back to service layer');
         }
 
-        // Fallback to service layer if API fails (maintains existing functionality)
+        // Fallback to UnifiedProjectService for enterprise data consistency
         if (!projectData) {
-          projectData = projectDataService.getProject(projectId);
-          if (!projectData) {
-            // Initialize project based on projectId
-            switch (projectId) {
-              case 'fitzgerald-gardens':
-                projectData = projectDataService.initializeFitzgeraldGardens();
-                break;
-              case 'ellwood':
-                projectData = projectDataService.initializeEllwood();
-                break;
-              case 'ballymakenny-view':
-                projectData = projectDataService.initializeBallymakenny();
-                break;
-              default:
-                projectData = projectDataService.initializeFitzgeraldGardens(); // fallback
-            }
+          console.log('API data not available, using UnifiedProjectService for enterprise consistency');
+          
+          // Import UnifiedProjectService dynamically
+          const { unifiedProjectService } = await import('@/services/UnifiedProjectService');
+          projectData = await unifiedProjectService.getProject(projectId);
+          
+          if (projectData) {
+            console.log('✅ Loaded project data from UnifiedProjectService:', projectData.name, `(${projectData.units.length} units)`);
           }
         }
 
@@ -225,7 +241,7 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
     };
 
     initializeProject();
-  }, [projectId]);
+  }, [projectId, projectSlug]);
 
   // Subscribe to real-time updates
   useEffect(() => {
@@ -246,16 +262,26 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
   // Derived data (memoized for performance)
   const units = useMemo(() => project?.units || [], [project]);
   
-  const metrics = useMemo(() => ({
-    totalUnits: project?.metrics.totalUnits || 0,
-    soldUnits: project?.metrics.soldUnits || 0,
-    reservedUnits: project?.metrics.reservedUnits || 0,
-    availableUnits: project?.metrics.availableUnits || 0,
-    totalRevenue: project?.metrics.totalRevenue || 0,
-    averageUnitPrice: project?.metrics.averageUnitPrice || 0,
-    salesVelocity: project?.metrics.salesVelocity || 0,
-    conversionRate: project?.metrics.conversionRate || 0
-  }), [project]);
+  // Calculate metrics using unified engine for consistency across all routes
+  const metrics = useMemo(() => {
+    if (!units.length) {
+      return {
+        totalUnits: 0,
+        soldUnits: 0,
+        reservedUnits: 0,
+        availableUnits: 0,
+        heldUnits: 0,
+        withdrawnUnits: 0,
+        totalRevenue: 0,
+        averageUnitPrice: 0,
+        salesVelocity: 0,
+        conversionRate: 0
+      };
+    }
+    
+    // Use unified metrics engine for consistent calculations
+    return metricsEngine.calculateUnitMetrics(units);
+  }, [units]);
 
   // Filtered units based on current filter options
   const filteredUnits = useMemo(() => {
@@ -347,7 +373,11 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
         console.log('API update failed, falling back to service layer');
       }
 
-      // Fallback to service layer
+      // Get current unit status for broadcasting
+      const currentUnit = projectDataService.getUnitById(projectId, unitId);
+      const previousStatus = currentUnit?.status || 'unknown';
+
+      // Update via service layer
       const success = projectDataService.updateUnitStatus(
         projectId, 
         unitId, 
@@ -357,6 +387,18 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
       );
 
       if (success) {
+        // 🚀 CRITICAL: Broadcast change to buyer platform in real-time
+        realTimeDataSyncService.broadcastUnitStatusChange(
+          projectId, // This will be 'fitzgerald-gardens'
+          unitId,
+          previousStatus,
+          newStatus,
+          'Developer User',
+          reason
+        );
+
+        console.log(`🏢 Developer portal → 👥 Buyer platform: Unit ${unitId} status changed from ${previousStatus} to ${newStatus}`);
+
         // Data will be automatically updated via subscription
         return true;
       } else {
@@ -403,7 +445,11 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
         console.log('API price update failed, falling back to service layer');
       }
 
-      // Fallback to service layer
+      // Get current unit price for broadcasting
+      const currentUnit = projectDataService.getUnitById(projectId, unitId);
+      const previousPrice = currentUnit?.pricing?.currentPrice || 0;
+
+      // Update via service layer
       const success = projectDataService.updateUnitPrice(
         projectId, 
         unitId, 
@@ -413,6 +459,18 @@ export function useProjectData(projectId: string = 'fitzgerald-gardens'): UsePro
       );
 
       if (success) {
+        // 🚀 CRITICAL: Broadcast price change to buyer platform in real-time
+        realTimeDataSyncService.broadcastUnitPriceUpdate(
+          projectId, // This will be 'fitzgerald-gardens'
+          unitId,
+          previousPrice,
+          newPrice,
+          'Developer User',
+          reason
+        );
+
+        console.log(`🏢 Developer portal → 👥 Buyer platform: Unit ${unitId} price changed from €${previousPrice} to €${newPrice}`);
+
         // Data will be automatically updated via subscription
         return true;
       } else {
