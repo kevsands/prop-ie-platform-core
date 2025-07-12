@@ -1516,6 +1516,11 @@ model Project {
   workflowInstances    EnterpriseWorkflowInstance[]
   billOfQuantities     BillOfQuantities[]
   financialTrackers    FinancialTracker[]
+  
+  // QS workflow relations
+  contractorValuations ContractorValuation[]
+  professionalInvoices ProfessionalInvoice[]
+  paymentCertificates  PaymentCertificate[]
 }
 
 model ProjectIssue {
@@ -3181,6 +3186,149 @@ model FinancialTracker {
   document              Document?           @relation(fields: [documentId], references: [id])
   
   @@map("financial_trackers")
+}
+
+// Contractor monthly valuations for progress payments
+model ContractorValuation {
+  id                    String              @id @default(cuid())
+  projectId             String
+  contractorId          String
+  valuationNumber       Int
+  period                Json                // { from: Date, to: Date }
+  
+  // Financial Details
+  workCompleted         Json                // Array of work completed items
+  materialsOnSite       Json                // Array of materials on site
+  variations            Json                // Array of variation claims
+  grossValuation        Decimal             @db.Decimal(12, 2)
+  retentionPercentage   Decimal             @db.Decimal(5, 2) @default(5.0)
+  retentionAmount       Decimal             @db.Decimal(12, 2)
+  previousCertificates  Decimal             @db.Decimal(12, 2)
+  netAmount             Decimal             @db.Decimal(12, 2)
+  
+  // Status and workflow
+  status                String              @default("draft") // draft, submitted, under_review, approved, rejected, paid
+  submittedAt           DateTime?
+  submittedBy           String
+  reviewedAt            DateTime?
+  reviewedBy            String?
+  approvedAt            DateTime?
+  approvedBy            String?
+  
+  // Supporting documents and notes
+  supportingDocuments   Json                // Array of uploaded document references
+  contractorNotes       String?
+  qsComments            String?
+  rejectionReason       String?
+  
+  // Metadata
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  
+  // Relations
+  project               Project             @relation(fields: [projectId], references: [id])
+  
+  @@map("contractor_valuations")
+  @@unique([projectId, valuationNumber])
+}
+
+// Professional invoices from design team (architects, engineers, QS, etc.)
+model ProfessionalInvoice {
+  id                    String              @id @default(cuid())
+  projectId             String
+  professionalId        String              // References User with professional role
+  appointmentId         String?             // Link to professional appointment
+  
+  // Invoice Details
+  invoiceNumber         String
+  invoiceDate           DateTime
+  dueDate               DateTime
+  servicesPeriod        Json                // { from: Date, to: Date }
+  
+  // Financial
+  subtotal              Decimal             @db.Decimal(12, 2)
+  vatRate               Decimal             @db.Decimal(5, 2) @default(23.0) // Irish VAT
+  vatAmount             Decimal             @db.Decimal(12, 2)
+  total                 Decimal             @db.Decimal(12, 2)
+  currency              String              @default("EUR")
+  
+  // Services provided
+  serviceItems          Json                // Array of service line items
+  professionalRole      String              // architect, engineer, qs, solicitor, etc.
+  
+  // Payment
+  paymentTerms          Int                 @default(30) // days
+  status                String              @default("submitted") // submitted, approved, paid, disputed, overdue
+  paidDate              DateTime?
+  paidAmount            Decimal?            @db.Decimal(12, 2)
+  
+  // Documents and approval
+  attachments           Json                // Array of supporting documents
+  approvedBy            String?
+  approvedAt            DateTime?
+  rejectionReason       String?
+  
+  // Notes
+  description           String?
+  internalNotes         String?
+  
+  // Metadata
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  
+  // Relations
+  project               Project             @relation(fields: [projectId], references: [id])
+  
+  @@map("professional_invoices")
+  @@unique([projectId, invoiceNumber])
+}
+
+// Payment certificates issued by QS for approved valuations
+model PaymentCertificate {
+  id                    String              @id @default(cuid())
+  projectId             String
+  certificateNumber     Int
+  valuationId           String?             // Link to contractor valuation
+  
+  // Certificate Details
+  issueDate             DateTime            @default(now())
+  period                Json                // { from: Date, to: Date }
+  
+  // Financial
+  grossAmount           Decimal             @db.Decimal(12, 2)
+  retentionAmount       Decimal             @db.Decimal(12, 2)
+  netAmount             Decimal             @db.Decimal(12, 2)
+  
+  // Irish tax compliance
+  rctDeduction          Decimal?            @db.Decimal(12, 2) // Relevant Contracts Tax
+  vatAmount             Decimal?            @db.Decimal(12, 2)
+  
+  // Status
+  status                String              @default("issued") // issued, paid, cancelled
+  paymentDate           DateTime?
+  
+  // Professional details
+  certifiedBy           String              // QS who issued certificate
+  approvedBy            String?             // Project manager/developer approval
+  
+  // Documents
+  pdfUrl                String?             // Generated certificate PDF
+  attachments           Json?               // Supporting documents
+  
+  // Notes
+  description           String?
+  conditions            String?             // Special conditions or notes
+  
+  // Metadata
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  
+  // Relations
+  project               Project             @relation(fields: [projectId], references: [id])
+  contractorValuation   ContractorValuation? @relation(fields: [valuationId], references: [id])
+  
+  @@map("payment_certificates")
+  @@unique([projectId, certificateNumber])
 }
 
 // ================================================================================
