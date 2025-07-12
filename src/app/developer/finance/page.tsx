@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import useProjectData from '@/hooks/useProjectData';
+import { metricsEngine } from '@/services/MetricsCalculationEngine';
 import { 
   Building2, 
   DollarSign, 
@@ -32,6 +33,7 @@ export default function DeveloperFinancePage() {
   // Enterprise data integration with real-time financial metrics
   const {
     project,
+    units,
     totalRevenue,
     averageUnitPrice,
     soldUnits,
@@ -44,46 +46,33 @@ export default function DeveloperFinancePage() {
     feeProposals
   } = useProjectData(selectedProject);
 
-  // Enhanced financial calculations from enterprise data
-  const financialMetrics = {
-    totalRevenue: totalRevenue || 0,
-    projectedRevenue: (totalUnits || 96) * (averageUnitPrice || 385000),
-    completedRevenue: (soldUnits || 23) * (averageUnitPrice || 385000),
-    pendingRevenue: (reservedUnits || 15) * (averageUnitPrice || 385000),
-    remainingRevenue: ((totalUnits || 96) - (soldUnits || 23) - (reservedUnits || 15)) * (averageUnitPrice || 385000),
-    
-    // Cost calculations
-    totalCosts: invoices.reduce((sum, inv) => sum + inv.amount, 0),
-    pendingInvoices: invoices.filter(inv => inv.status === 'pending').reduce((sum, inv) => sum + inv.amount, 0),
-    paidInvoices: invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.amount, 0),
-    
-    // Profit calculations
-    grossProfit: (totalRevenue || 0) - invoices.reduce((sum, inv) => sum + inv.amount, 0),
-    profitMargin: (totalRevenue || 0) > 0 ? (((totalRevenue || 0) - invoices.reduce((sum, inv) => sum + inv.amount, 0)) / (totalRevenue || 0)) * 100 : 0,
-    
-    // Cash flow
-    cashInflow: (soldUnits || 23) * (averageUnitPrice || 385000) * 0.3, // 30% deposits received
-    cashOutflow: invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.amount, 0),
-    netCashFlow: ((soldUnits || 23) * (averageUnitPrice || 385000) * 0.3) - invoices.filter(inv => inv.status === 'paid').reduce((sum, inv) => sum + inv.amount, 0)
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IE', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount);
-  };
-
-  const formatCompactCurrency = (amount: number) => {
-    if (amount >= 1000000) {
-      return `€${(amount / 1000000).toFixed(1)}M`;
-    } else if (amount >= 1000) {
-      return `€${(amount / 1000).toFixed(0)}K`;
+  // Use unified metrics engine for consistent financial calculations across all routes
+  const financialMetrics = React.useMemo(() => {
+    if (!units.length || !invoices.length) {
+      return {
+        totalRevenue: 0,
+        projectedRevenue: 0,
+        completedRevenue: 0,
+        pendingRevenue: 0,
+        remainingRevenue: 0,
+        totalCosts: 0,
+        pendingInvoices: 0,
+        paidInvoices: 0,
+        grossProfit: 0,
+        profitMargin: 0,
+        cashInflow: 0,
+        cashOutflow: 0,
+        netCashFlow: 0
+      };
     }
-    return formatCurrency(amount);
-  };
+
+    // Calculate using unified engine for consistency with other routes
+    return metricsEngine.calculateFinancialMetrics(units, invoices);
+  }, [units, invoices]);
+
+  // Use unified formatting methods for consistency across all routes
+  const formatCurrency = metricsEngine.formatCurrency.bind(metricsEngine);
+  const formatCompactCurrency = metricsEngine.formatCompactCurrency.bind(metricsEngine);
 
   if (isLoading) {
     return (

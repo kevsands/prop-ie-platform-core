@@ -11,7 +11,8 @@ import {
   Home, 
   Eye, 
   Heart, 
-  MapPin
+  MapPin,
+  Calendar
 } from 'lucide-react';
 import { Unit } from '@/lib/services/units';
 import { 
@@ -56,6 +57,12 @@ const UnitCard: React.FC<UnitCardProps> = ({
   const StatusIcon = statusInfo.icon;
   const developmentSlug = getDevelopmentSlug(developmentId, developmentName);
   const unitIdentifier = getUnitIdentifier(unit);
+  
+  // Validate unitIdentifier to prevent undefined URLs
+  if (!unitIdentifier || unitIdentifier === 'undefined' || unitIdentifier.includes('undefined')) {
+    console.warn('Invalid unit identifier generated:', { unit, unitIdentifier });
+    return null; // Don't render card if we can't generate valid URL
+  }
   
   return (
     <div 

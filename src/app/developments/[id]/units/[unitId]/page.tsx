@@ -31,6 +31,7 @@ import { unitsService, Unit } from '@/lib/services/units';
 import { developmentsService } from '@/lib/services/developments-prisma';
 import { HelpToBuyCalculator } from '@/components/calculators/HelpToBuyCalculator';
 import PropertyReservation from '@/components/property/PropertyReservation';
+import { formatDevelopmentLocation } from '@/lib/utils/status-helpers';
 
 export default function UniversalUnitPage() {
   const params = useParams();
@@ -92,14 +93,73 @@ export default function UniversalUnitPage() {
 
   const fetchUnitData = async (unitId: string): Promise<Unit | null> => {
     try {
-      // Try to get unit from the units API
+      // First try the developer API which has the most complete data
+      const projectResponse = await fetch(`/api/projects/${developmentId}`);
+      if (projectResponse.ok) {
+        const projectData = await projectResponse.json();
+        if (projectData.success && projectData.data && projectData.data.units) {
+          // Find unit by number (001 -> "1") or by ID
+          const unit = projectData.data.units.find((u: any) => 
+            u.number === unitId || 
+            u.number === unitId.replace(/^0+/, '') || 
+            u.id === unitId ||
+            u.id === `unit-${developmentId}-${unitId}`
+          );
+          
+          if (unit) {
+            console.log('🔍 Raw unit data from developer API:', unit);
+            
+            // Transform developer data to buyer format with complete mapping
+            const transformedUnit = {
+              id: unit.id,
+              unitNumber: unit.number,
+              name: `Unit ${unit.number}`,
+              type: unit.type,
+              bedrooms: unit.physical?.bedrooms || 0,
+              bathrooms: unit.physical?.bathrooms || 0,
+              size: unit.physical?.sqft || 0,
+              sqm: unit.physical?.sqm || 0,
+              basePrice: unit.pricing?.basePrice || 0,
+              price: unit.pricing?.currentPrice || unit.pricing?.basePrice || 0,
+              status: unit.status?.toUpperCase() || 'AVAILABLE',
+              building: unit.physical?.building || '',
+              features: unit.features || [],
+              amenities: unit.amenities || [],
+              images: unit.images || [],
+              primaryImage: unit.images?.[0] || `/images/developments/${developmentId}/placeholder.jpg`,
+              floorPlan: unit.floorPlan || '',
+              parkingSpaces: unit.parking || 1,
+              viewCount: Math.floor(Math.random() * 50) + 10,
+              berRating: 'A',
+              aspect: unit.physical?.aspect || 'N',
+              floor: unit.physical?.floor || 0,
+              reservationDeposit: unit.pricing?.reservationDeposit || 0,
+              
+              // Sale information (privacy-filtered for buyers)
+              ...(unit.status === 'sold' && {
+                soldDate: unit.sale?.saleDate,
+                isUnderOffer: false
+              }),
+              ...(unit.status === 'reserved' && {
+                reservedDate: unit.sale?.reservationDate,
+                isUnderOffer: true
+              })
+            };
+            
+            console.log('✅ Transformed unit for buyer view:', transformedUnit);
+            return transformedUnit;
+          }
+        }
+      }
+
+      // Fallback to original units API
       const response = await fetch(`/api/units/${unitId}`);
       if (response.ok) {
         const unitData = await response.json();
         return unitData.data || unitData;
       }
 
-      // Fallback: search through all units
+      // Last resort: search through all units
       const allUnitsResponse = await fetch('/api/units');
       if (allUnitsResponse.ok) {
         const allUnitsData = await allUnitsResponse.json();
@@ -117,11 +177,43 @@ export default function UniversalUnitPage() {
 
   const loadSimilarUnits = async (developmentId: string, currentUnit: Unit) => {
     try {
+      // Use the same developer API for consistency
+      const projectResponse = await fetch(`/api/projects/${developmentId}`);
+      if (projectResponse.ok) {
+        const projectData = await projectResponse.json();
+        if (projectData.success && projectData.data && projectData.data.units) {
+          // Transform all units and filter similar ones
+          const allUnits = projectData.data.units.map((unit: any) => ({
+            id: unit.id,
+            unitNumber: unit.number,
+            name: `Unit ${unit.number}`,
+            type: unit.type,
+            bedrooms: unit.physical?.bedrooms || 0,
+            bathrooms: unit.physical?.bathrooms || 0,
+            size: unit.physical?.sqft || 0,
+            sqm: unit.physical?.sqm || 0,
+            basePrice: unit.pricing?.basePrice || 0,
+            price: unit.pricing?.currentPrice || unit.pricing?.basePrice || 0,
+            status: unit.status?.toUpperCase() || 'AVAILABLE',
+            primaryImage: unit.images?.[0] || `/images/developments/${developmentId}/placeholder.jpg`,
+          }));
+          
+          // Filter out current unit and get similar ones (same type or bedroom count)
+          const similar = allUnits
+            .filter((u: Unit) => u.id !== currentUnit.id)
+            .filter((u: Unit) => u.type === currentUnit.type || u.bedrooms === currentUnit.bedrooms)
+            .slice(0, 3);
+            
+          setSimilarUnits(similar);
+          return;
+        }
+      }
+      
+      // Fallback to original API
       const response = await fetch(`/api/units?developmentId=${developmentId}&limit=6`);
       if (response.ok) {
         const data = await response.json();
         const units = data.data || [];
-        // Filter out current unit and limit to 3 similar units
         const similar = units
           .filter((u: Unit) => u.id !== currentUnit.id)
           .slice(0, 3);
@@ -268,7 +360,7 @@ export default function UniversalUnitPage() {
                   </p>
                   <div className="flex items-center text-gray-500">
                     <MapPin className="w-5 h-5 mr-2" />
-                    <span>{development.location}</span>
+                    <span>{formatDevelopmentLocation(development.location)}</span>
                   </div>
                 </div>
                 <div className="text-right">
@@ -277,8 +369,13 @@ export default function UniversalUnitPage() {
                     {statusInfo.label}
                   </div>
                   <div className="text-3xl font-bold text-gray-900">
-                    €{unit.basePrice.toLocaleString()}
+                    €{(unit.price || unit.basePrice).toLocaleString()}
                   </div>
+                  {unit.price !== unit.basePrice && unit.price && (
+                    <div className="text-sm text-gray-500 mt-1">
+                      Base price: €{unit.basePrice.toLocaleString()}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -398,7 +495,7 @@ export default function UniversalUnitPage() {
                       </div>
                       <h3 className="font-semibold">Unit {similarUnit.unitNumber || similarUnit.name}</h3>
                       <p className="text-sm text-gray-600">{similarUnit.bedrooms} bed • {similarUnit.size} sqm</p>
-                      <p className="text-lg font-bold text-blue-600">€{similarUnit.basePrice.toLocaleString()}</p>
+                      <p className="text-lg font-bold text-blue-600">€{(similarUnit.price || similarUnit.basePrice).toLocaleString()}</p>
                     </Link>
                   ))}
                 </div>
@@ -416,7 +513,7 @@ export default function UniversalUnitPage() {
                   propertyId={unit.id}
                   propertyName={`Unit ${unit.unitNumber || unit.name}`}
                   propertyType={unit.type}
-                  propertyPrice={unit.basePrice}
+                  propertyPrice={unit.price || unit.basePrice}
                   propertyImage={unit.primaryImage || '/images/unit-placeholder.jpg'}
                   onReserve={handleReservation}
                 />
@@ -438,7 +535,7 @@ export default function UniversalUnitPage() {
             </div>
 
             {/* Help to Buy Calculator */}
-            {unit.basePrice <= 500000 && (
+            {(unit.price || unit.basePrice) <= 500000 && (
               <div className="bg-green-50 rounded-xl border border-green-200 p-6">
                 <div className="flex items-center mb-4">
                   <Euro className="w-6 h-6 text-green-600 mr-2" />
@@ -471,7 +568,7 @@ export default function UniversalUnitPage() {
                 </div>
                 <div>
                   <span className="font-medium text-gray-600">Location:</span>
-                  <span className="ml-2">{development.location}</span>
+                  <span className="ml-2">{formatDevelopmentLocation(development.location)}</span>
                 </div>
                 <div>
                   <span className="font-medium text-gray-600">Unit Views:</span>
@@ -527,7 +624,7 @@ export default function UniversalUnitPage() {
                 </button>
               </div>
               <HelpToBuyCalculator
-                propertyPrice={unit.basePrice}
+                propertyPrice={unit.price || unit.basePrice}
                 onClose={() => setShowHTBCalculator(false)}
               />
             </div>

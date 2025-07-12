@@ -15,6 +15,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -31,7 +32,8 @@ import {
 import {
   Building2, FileText, Users, Calendar, CheckCircle, Clock,
   AlertTriangle, Ruler, PenTool, Eye, Upload, Download,
-  MapPin, Layers, Settings, Bell, Target, Award
+  MapPin, Layers, Settings, Bell, Target, Award, ArrowUpRight,
+  Home
 } from 'lucide-react';
 
 interface DesignStage {
@@ -214,6 +216,12 @@ export default function ArchitectWorkflowDashboard({
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/developer/team/architects">
+              <Button variant="outline">
+                <Home className="h-4 w-4 mr-2" />
+                Developer Dashboard
+              </Button>
+            </Link>
             <Badge className="bg-blue-100 text-blue-800">
               <Award className="h-3 w-3 mr-1" />
               RIAI Registered

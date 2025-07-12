@@ -13,7 +13,7 @@ interface DevelopmentCTAProps {
   developmentName: string;
   status: string;
   unitsAvailable: number;
-  startingPrice: string;
+  startingPrice: string | number;
   startingPriceNumber?: number; // Numeric version for calculations
   htbEligible?: boolean;
 }
@@ -32,7 +32,9 @@ export default function DevelopmentCTA({
   const [showPurchaseFlow, setShowPurchaseFlow] = useState(false);
   
   // Calculate standardized reservation amount
-  const priceNumber = startingPriceNumber || parseFloat(startingPrice.replace(/[€,]/g, '')) || 320000;
+  const priceNumber = startingPriceNumber || 
+    (typeof startingPrice === 'string' ? parseFloat(startingPrice.replace(/[€,]/g, '')) : 
+     typeof startingPrice === 'number' ? startingPrice : 320000);
   const paymentBreakdown = calculatePaymentBreakdown({
     propertyPrice: priceNumber,
     htbEligible

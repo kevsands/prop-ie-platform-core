@@ -165,7 +165,7 @@ const getNavigationItems = (): NavigationItem[] => [
         items: [
           {
             label: 'Developer Platform',
-            href: '/solutions/developer-platform',
+            href: '/solutions/developers',
             description: 'End-to-end development management',
             icon: <Building className="h-5 w-5" />
           },

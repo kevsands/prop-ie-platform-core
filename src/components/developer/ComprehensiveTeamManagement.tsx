@@ -939,7 +939,7 @@ export default function ComprehensiveTeamManagement({
                     <span className="font-medium">€{Math.round(category.averageFee).toLocaleString()}</span>
                   </div>
                   
-                  <div className="pt-3 border-t">
+                  <div className="pt-3 border-t space-y-2">
                     <button 
                       onClick={() => {
                         setSelectedCategory(category.key);
@@ -949,6 +949,42 @@ export default function ComprehensiveTeamManagement({
                     >
                       View Specialists <ChevronRight size={14} />
                     </button>
+                    {category.key === 'DESIGN' && (
+                      <button 
+                        onClick={() => window.open('/architect/coordination', '_blank')}
+                        className="w-full text-gray-600 hover:text-gray-700 text-xs flex items-center justify-center gap-1 mt-1"
+                      >
+                        <Globe size={12} />
+                        Architect Dashboard
+                      </button>
+                    )}
+                    {category.key === 'ENGINEERING' && (
+                      <button 
+                        onClick={() => window.open('/engineer/coordination', '_blank')}
+                        className="w-full text-gray-600 hover:text-gray-700 text-xs flex items-center justify-center gap-1 mt-1"
+                      >
+                        <Globe size={12} />
+                        Engineer Dashboard
+                      </button>
+                    )}
+                    {category.key === 'LEGAL_FINANCIAL' && (
+                      <button 
+                        onClick={() => window.open('/quantity-surveyor/cost-management', '_blank')}
+                        className="w-full text-gray-600 hover:text-gray-700 text-xs flex items-center justify-center gap-1 mt-1"
+                      >
+                        <Globe size={12} />
+                        QS Dashboard
+                      </button>
+                    )}
+                    {category.key === 'CONSTRUCTION' && (
+                      <button 
+                        onClick={() => window.open('/project-manager/coordination', '_blank')}
+                        className="w-full text-gray-600 hover:text-gray-700 text-xs flex items-center justify-center gap-1 mt-1"
+                      >
+                        <Globe size={12} />
+                        PM Dashboard
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -989,6 +1025,61 @@ export default function ComprehensiveTeamManagement({
                   <div className="font-medium">View Analytics</div>
                   <div className="text-sm text-gray-600">Performance insights</div>
                 </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Professional Dashboard Navigation */}
+          <div className="bg-white rounded-lg border p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Professional Dashboards</h2>
+            <p className="text-gray-600 mb-4">Access specialized dashboards for each professional category</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <button 
+                onClick={() => window.open('/architect/coordination', '_blank')}
+                className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors group"
+              >
+                <Building className="text-blue-600 group-hover:text-blue-700" size={20} />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 group-hover:text-blue-700">Architect Dashboard</div>
+                  <div className="text-sm text-gray-600">Design coordination</div>
+                </div>
+                <ChevronRight className="text-gray-400 group-hover:text-blue-600 ml-auto" size={16} />
+              </button>
+              
+              <button 
+                onClick={() => window.open('/engineer/coordination', '_blank')}
+                className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors group"
+              >
+                <Wrench className="text-green-600 group-hover:text-green-700" size={20} />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 group-hover:text-green-700">Engineer Dashboard</div>
+                  <div className="text-sm text-gray-600">Engineering coordination</div>
+                </div>
+                <ChevronRight className="text-gray-400 group-hover:text-green-600 ml-auto" size={16} />
+              </button>
+              
+              <button 
+                onClick={() => window.open('/quantity-surveyor/cost-management', '_blank')}
+                className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:bg-purple-50 transition-colors group"
+              >
+                <Calculator className="text-purple-600 group-hover:text-purple-700" size={20} />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 group-hover:text-purple-700">QS Dashboard</div>
+                  <div className="text-sm text-gray-600">Cost management</div>
+                </div>
+                <ChevronRight className="text-gray-400 group-hover:text-purple-600 ml-auto" size={16} />
+              </button>
+              
+              <button 
+                onClick={() => window.open('/project-manager/coordination', '_blank')}
+                className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-orange-300 hover:bg-orange-50 transition-colors group"
+              >
+                <Target className="text-orange-600 group-hover:text-orange-700" size={20} />
+                <div className="text-left">
+                  <div className="font-medium text-gray-900 group-hover:text-orange-700">PM Dashboard</div>
+                  <div className="text-sm text-gray-600">Project coordination</div>
+                </div>
+                <ChevronRight className="text-gray-400 group-hover:text-orange-600 ml-auto" size={16} />
               </button>
             </div>
           </div>
@@ -1076,8 +1167,12 @@ export default function ComprehensiveTeamManagement({
 
                   <div className="pt-4 border-t mt-4">
                     <div className="flex gap-2">
-                      <button className="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
-                        Find Specialists
+                      <button 
+                        onClick={() => window.open(specialist.dashboardUrl, '_blank')}
+                        className="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 flex items-center justify-center gap-1"
+                      >
+                        <Globe size={14} />
+                        Professional Dashboard
                       </button>
                       <button className="px-3 py-2 border border-gray-300 text-gray-700 rounded text-sm hover:bg-gray-50">
                         View Details

@@ -16,6 +16,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -40,7 +41,8 @@ import {
   Droplets,
   Thermometer,
   Shield,
-  Activity
+  Activity,
+  Home
 } from 'lucide-react';
 
 export interface EngineeringDiscipline {
@@ -264,6 +266,12 @@ const EngineerCoordinationDashboard: React.FC = () => {
               <p className="text-gray-600 mt-1">{projectData.projectName} - Multi-Discipline Engineering</p>
             </div>
             <div className="flex gap-3">
+              <Link href="/developer/team/engineers">
+                <Button variant="outline">
+                  <Home className="h-4 w-4 mr-2" />
+                  Developer Dashboard
+                </Button>
+              </Link>
               <Button variant="outline">
                 <MessageSquare className="h-4 w-4 mr-2" />
                 Coordinate Team

@@ -335,7 +335,7 @@ export const EnhancedMainNavigation: React.FC<EnhancedMainNavigationProps> = ({
         { 
           section: "Developers", 
           links: [
-            { href: "/solutions/developer-platform", label: "Developer Platform", icon: <Building size={18} />, tag: "End-to-end development management" },
+            { href: "/solutions/developers", label: "Developer Platform", icon: <Building size={18} />, tag: "End-to-end development management" },
             { href: "/solutions/sales-management", label: "Sales Management", icon: <BarChart2 size={18} />, tag: "Track and manage property sales" },
             { href: "/solutions/analytics-insights", label: "Analytics & Insights", icon: <BarChart2 size={18} />, tag: "Performance data for developments" },
             { href: "/solutions/marketing-tools", label: "Marketing Tools", icon: <Megaphone size={18} />, tag: "Promote your developments" }

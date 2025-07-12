@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import useProjectData from '@/hooks/useProjectData';
+import { metricsEngine } from '@/services/MetricsCalculationEngine';
 import { 
   Building2, 
   Users, 

@@ -1,7 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import useProjectData from '@/hooks/useProjectData';
+import { metricsEngine } from '@/services/MetricsCalculationEngine';
+import { logger } from '@/lib/security/auditLogger';
+import { realTimeDataSyncService } from '@/services/RealTimeDataSyncService';
+import { useEnterpriseAuth } from '@/context/EnterpriseAuthContext';
+import { authService } from '@/lib/auth/AuthService';
 import { 
   Building2, 
   Home, 
@@ -36,7 +41,8 @@ import {
   RefreshCw,
   Zap,
   Target,
-  Settings
+  Settings,
+  Loader2
 } from 'lucide-react';
 import { UnitStatus } from '@/types/project';
 
@@ -47,6 +53,12 @@ export default function FitzgeraldGardensSalesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<UnitStatus | 'all'>('all');
   const [editingTab, setEditingTab] = useState<'details' | 'media' | 'floorplans' | 'sales' | 'legal'>('details');
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  
+  // Enterprise Authentication
+  const { user, isAuthenticated, hasRole } = useEnterpriseAuth();
 
   // Enterprise data integration
   const {
@@ -59,7 +71,9 @@ export default function FitzgeraldGardensSalesPage() {
     isLoading,
     lastUpdated,
     updateUnitStatus,
-    getUnitById
+    updateUnitPrice,
+    getUnitById,
+    refreshData
   } = useProjectData('fitzgerald-gardens');
 
   // Filter units based on search and status
@@ -82,17 +96,274 @@ export default function FitzgeraldGardensSalesPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IE', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0
-    }).format(amount);
-  };
+  // Use unified formatting for consistency across all routes
+  const formatCurrency = metricsEngine.formatCurrency.bind(metricsEngine);
 
   const handleStatusChange = async (unitId: string, newStatus: UnitStatus) => {
     await updateUnitStatus(unitId, newStatus, `Status changed to ${newStatus} by developer`);
   };
+
+  // Enterprise-grade unit save functionality
+  const handleUnitSave = useCallback(async (unitId: string, formData: any) => {
+    try {
+      setIsSaving(true);
+      setSaveError(null);
+      setSaveSuccess(false);
+
+      // Get current unit for comparison
+      const currentUnit = getUnitById(unitId);
+      if (!currentUnit) {
+        throw new Error('Unit not found');
+      }
+
+      // Enterprise business rule validation
+      const validationErrors = validateUnitData(formData, currentUnit);
+      if (validationErrors.length > 0) {
+        throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
+      }
+
+      // Prepare update payload with comprehensive data structure
+      const updatePayload = {
+        type: 'unit_update',
+        unitId,
+        updates: {
+          // Basic details
+          number: formData.number || currentUnit.number,
+          type: formData.type || currentUnit.type,
+          
+          // Features
+          features: {
+            bedrooms: parseInt(formData.bedrooms) || currentUnit.features.bedrooms,
+            bathrooms: parseInt(formData.bathrooms) || currentUnit.features.bathrooms,
+            sqft: parseInt(formData.floorArea) || currentUnit.features.sqft,
+            building: formData.building || currentUnit.features.building,
+            floor: currentUnit.features.floor
+          },
+          
+          // Pricing
+          pricing: {
+            basePrice: parseFloat(formData.currentPrice) || currentUnit.pricing.currentPrice,
+            currentPrice: parseFloat(formData.currentPrice) || currentUnit.pricing.currentPrice
+          },
+          
+          // Status
+          status: formData.status || currentUnit.status,
+          
+          // Buyer information (if provided)
+          ...(formData.buyerName && {
+            buyer: {
+              name: formData.buyerName,
+              email: formData.buyerEmail,
+              phone: formData.buyerPhone,
+              solicitor: formData.buyerSolicitor
+            }
+          }),
+          
+          // Audit trail with real user
+          updatedAt: new Date().toISOString(),
+          updatedBy: user?.email || user?.username || 'Unknown User',
+          userId: user?.id
+        },
+        reason: 'Unit details updated via developer portal'
+      };
+
+      // Call enterprise API endpoint with proper authentication
+      let headers: any = {
+        'Content-Type': 'application/json'
+      };
+      
+      // Add auth token if not in bypass mode
+      if (!DEV_BYPASS_AUTH) {
+        const token = await authService.getAccessToken();
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+      }
+      
+      const response = await fetch(`/api/projects/fitzgerald-gardens`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify(updatePayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save unit');
+      }
+
+      const result = await response.json();
+      
+      if (result.success) {
+        // Enterprise audit logging with actual user
+        logger.info('Unit updated via developer portal', {
+          unitId,
+          updates: Object.keys(updatePayload.updates),
+          updatedBy: DEV_BYPASS_AUTH ? 'Development Testing User' : (user?.email || user?.username || 'Unknown User'),
+          userId: DEV_BYPASS_AUTH ? 'dev-test-user' : user?.id,
+          userRole: DEV_BYPASS_AUTH ? 'DEVELOPER' : user?.role,
+          developmentMode: DEV_BYPASS_AUTH,
+          timestamp: new Date().toISOString()
+        });
+
+        // Real-time sync to buyer platform and other stakeholders
+        realTimeDataSyncService.broadcastUnitUpdate(
+          'fitzgerald-gardens',
+          unitId,
+          updatePayload.updates,
+          DEV_BYPASS_AUTH ? 'Development Testing User' : (user?.email || user?.username || 'Unknown User')
+        );
+
+        // Refresh local data to ensure consistency
+        refreshData();
+        
+        setSaveSuccess(true);
+        
+        // Auto-close edit mode after successful save
+        setTimeout(() => {
+          setIsEditingUnit(false);
+          setSaveSuccess(false);
+        }, 1500);
+        
+        console.log(`✅ Unit ${currentUnit.number} saved successfully with enterprise audit trail`);
+      } else {
+        throw new Error(result.error || 'Save operation failed');
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setSaveError(errorMessage);
+      
+      // Enterprise error logging
+      logger.error('Unit save failed', {
+        unitId,
+        error: errorMessage,
+        timestamp: new Date().toISOString()
+      });
+      
+      console.error('❌ Unit save failed:', errorMessage);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [getUnitById, refreshData]);
+
+  // Enterprise business rule validation
+  const validateUnitData = (formData: any, currentUnit: any): string[] => {
+    const errors: string[] = [];
+
+    // Unit number validation
+    if (!formData.number || formData.number.trim() === '') {
+      errors.push('Unit number is required');
+    }
+
+    // Bedroom/bathroom validation
+    if (formData.bedrooms < 0 || formData.bedrooms > 10) {
+      errors.push('Bedrooms must be between 0 and 10');
+    }
+    if (formData.bathrooms < 0 || formData.bathrooms > 10) {
+      errors.push('Bathrooms must be between 0 and 10');
+    }
+
+    // Floor area validation
+    if (formData.floorArea < 100 || formData.floorArea > 5000) {
+      errors.push('Floor area must be between 100 and 5000 sq ft');
+    }
+
+    // Price validation
+    if (formData.currentPrice < 50000 || formData.currentPrice > 2000000) {
+      errors.push('Price must be between €50,000 and €2,000,000');
+    }
+
+    // Price increase validation (enterprise rule: >10% increase requires approval)
+    const currentPrice = currentUnit.pricing?.currentPrice || 0;
+    const priceIncrease = ((formData.currentPrice - currentPrice) / currentPrice) * 100;
+    if (priceIncrease > 10) {
+      errors.push('Price increases over 10% require management approval');
+    }
+
+    // Status transition validation
+    const validTransitions: { [key: string]: string[] } = {
+      available: ['reserved', 'on-hold', 'withdrawn'],
+      reserved: ['sold', 'available', 'withdrawn'],
+      sold: [], // Sold units cannot change status
+      'on-hold': ['available', 'withdrawn'],
+      withdrawn: ['available']
+    };
+
+    const currentStatus = currentUnit.status;
+    const newStatus = formData.status;
+    if (currentStatus !== newStatus) {
+      const allowedTransitions = validTransitions[currentStatus] || [];
+      if (!allowedTransitions.includes(newStatus)) {
+        errors.push(`Cannot change status from ${currentStatus} to ${newStatus}`);
+      }
+    }
+
+    // Buyer information validation (when status is reserved or sold)
+    if ((formData.status === 'reserved' || formData.status === 'sold') && 
+        (!formData.buyerName || !formData.buyerEmail)) {
+      errors.push('Buyer name and email are required when unit is reserved or sold');
+    }
+
+    // Email validation
+    if (formData.buyerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.buyerEmail)) {
+      errors.push('Please enter a valid email address');
+    }
+
+    return errors;
+  };
+
+  // Authentication and permission checks
+  // 🔧 DEVELOPMENT TESTING MODE - Remove for production
+  const DEV_BYPASS_AUTH = process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === 'true';
+  
+  if (!isAuthenticated && !DEV_BYPASS_AUTH) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center max-w-md mx-auto">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+            <AlertTriangle className="h-12 w-12 text-red-600 mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-red-800 mb-2">Authentication Required</h2>
+            <p className="text-red-600 mb-4">
+              You must be signed in to access the developer sales portal.
+            </p>
+            <div className="space-y-3">
+              <button 
+                onClick={() => window.location.href = '/auth/signin'}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors w-full"
+              >
+                Sign In
+              </button>
+              {process.env.NODE_ENV === 'development' && (
+                <div className="text-xs text-gray-500 border-t pt-3">
+                  <p>🔧 Development Mode:</p>
+                  <p>Add NEXT_PUBLIC_DEV_BYPASS_AUTH=true to .env.local to test save functionality</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!DEV_BYPASS_AUTH && !hasRole('DEVELOPER') && !hasRole('ADMIN') && !hasRole('PROJECT_MANAGER') && !hasRole('SALES_MANAGER')) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center max-w-md mx-auto">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <AlertTriangle className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
+            <h2 className="text-lg font-semibold text-yellow-800 mb-2">Insufficient Permissions</h2>
+            <p className="text-yellow-600 mb-4">
+              You don't have the required permissions to access the sales management portal.
+            </p>
+            <div className="text-sm text-yellow-700">
+              <p><strong>Your Role:</strong> {user?.role || 'None'}</p>
+              <p><strong>Required:</strong> Developer, Admin, Project Manager, or Sales Manager</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -100,6 +371,9 @@ export default function FitzgeraldGardensSalesPage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading Fitzgerald Gardens sales data...</p>
+          <p className="text-sm text-gray-500 mt-2">
+            {DEV_BYPASS_AUTH ? '🔧 Development Mode - Auth Bypassed' : `Authenticated as: ${user?.email}`}
+          </p>
         </div>
       </div>
     );
@@ -381,8 +655,15 @@ export default function FitzgeraldGardensSalesPage() {
                   unit={selectedUnitData} 
                   activeTab={editingTab}
                   setActiveTab={setEditingTab}
-                  onSave={() => setIsEditingUnit(false)}
-                  onCancel={() => setIsEditingUnit(false)}
+                  onSave={(formData) => handleUnitSave(selectedUnit, formData)}
+                  onCancel={() => {
+                    setIsEditingUnit(false);
+                    setSaveError(null);
+                    setSaveSuccess(false);
+                  }}
+                  isSaving={isSaving}
+                  saveError={saveError}
+                  saveSuccess={saveSuccess}
                 />
               ) : (
                 <UnitDetailsView unit={selectedUnitData} />
@@ -447,7 +728,7 @@ function UnitDetailsView({ unit }: { unit: any }) {
       <div>
         <h4 className="font-medium text-gray-900 mb-3">Unit Features</h4>
         <div className="grid grid-cols-2 gap-2">
-          {unit.features.features.map((feature: string, index: number) => (
+          {(unit.features?.features || unit.features || []).map((feature: string, index: number) => (
             <div key={index} className="flex items-center text-sm text-gray-600">
               <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
               {feature}
@@ -503,14 +784,51 @@ function UnitEditForm({
   activeTab, 
   setActiveTab, 
   onSave, 
-  onCancel 
+  onCancel,
+  isSaving,
+  saveError,
+  saveSuccess
 }: { 
   unit: any; 
   activeTab: string; 
   setActiveTab: (tab: string) => void; 
-  onSave: () => void; 
-  onCancel: () => void; 
+  onSave: (formData: any) => void; 
+  onCancel: () => void;
+  isSaving?: boolean;
+  saveError?: string | null;
+  saveSuccess?: boolean;
 }) {
+  // Form state management
+  const [formData, setFormData] = useState({
+    // Basic details
+    number: unit.number || '',
+    type: unit.type || '1 Bed Apartment',
+    bedrooms: unit.features?.bedrooms || 1,
+    bathrooms: unit.features?.bathrooms || 1,
+    floorArea: unit.features?.sqft || unit.features?.floorArea || 0,
+    building: unit.features?.building || 1,
+    
+    // Pricing and status
+    currentPrice: unit.pricing?.currentPrice || unit.pricing?.basePrice || 0,
+    status: unit.status || 'available',
+    
+    // Buyer information
+    buyerName: unit.buyer?.name || '',
+    buyerEmail: unit.buyer?.email || '',
+    buyerPhone: unit.buyer?.phone || '',
+    buyerSolicitor: unit.buyer?.solicitor || '',
+    
+    // Media
+    virtualTourUrl: unit.virtualTourUrl || ''
+  });
+  
+  const handleInputChange = (field: string, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const handleSave = () => {
+    onSave(formData);
+  };
   const tabs = [
     { id: 'details', label: 'Details', icon: FileText },
     { id: 'media', label: 'Media', icon: Camera },
@@ -541,35 +859,80 @@ function UnitEditForm({
 
       {/* Tab Content */}
       <div className="min-h-[400px]">
-        {activeTab === 'details' && <DetailsTab unit={unit} />}
-        {activeTab === 'media' && <MediaTab unit={unit} />}
+        {activeTab === 'details' && <DetailsTab unit={unit} formData={formData} onInputChange={handleInputChange} />}
+        {activeTab === 'media' && <MediaTab unit={unit} formData={formData} onInputChange={handleInputChange} />}
         {activeTab === 'floorplans' && <FloorPlansTab unit={unit} />}
-        {activeTab === 'sales' && <SalesTab unit={unit} />}
+        {activeTab === 'sales' && <SalesTab unit={unit} formData={formData} onInputChange={handleInputChange} />}
         {activeTab === 'legal' && <LegalTab unit={unit} />}
       </div>
 
-      {/* Save/Cancel */}
-      <div className="flex gap-3 pt-4 border-t">
-        <button
-          onClick={onSave}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
-        >
-          <Save className="h-4 w-4" />
-          Save Changes
-        </button>
-        <button
-          onClick={onCancel}
-          className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-        >
-          Cancel
-        </button>
+      {/* Save/Cancel with Enterprise Feedback */}
+      <div className="flex flex-col gap-3 pt-4 border-t">
+        {/* Status Messages */}
+        {saveError && (
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <AlertTriangle className="h-4 w-4" />
+              <span className="text-sm font-medium">Save Failed</span>
+            </div>
+            <div className="text-sm">
+              {saveError.includes('Validation failed:') ? (
+                <div>
+                  <p className="mb-1">Please fix the following issues:</p>
+                  <ul className="list-disc list-inside space-y-1">
+                    {saveError.replace('Validation failed: ', '').split(', ').map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p>{saveError}</p>
+              )}
+            </div>
+          </div>
+        )}
+        
+        {saveSuccess && (
+          <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-2">
+            <CheckCircle className="h-4 w-4" />
+            <span className="text-sm">Unit saved successfully! Real-time sync in progress...</span>
+          </div>
+        )}
+        
+        {/* Action Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isSaving ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                Save Changes
+              </>
+            )}
+          </button>
+          <button
+            onClick={onCancel}
+            disabled={isSaving}
+            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 // Individual Tab Components
-function DetailsTab({ unit }: { unit: any }) {
+function DetailsTab({ unit, formData, onInputChange }: { unit: any; formData: any; onInputChange: (field: string, value: any) => void }) {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -577,13 +940,18 @@ function DetailsTab({ unit }: { unit: any }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">Unit Number</label>
           <input
             type="text"
-            defaultValue={unit.number}
+            value={formData.number}
+            onChange={(e) => onInputChange('number', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Unit Type</label>
-          <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <select 
+            value={formData.type}
+            onChange={(e) => onInputChange('type', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
             <option value="1 Bed Apartment">1 Bed Apartment</option>
             <option value="2 Bed Apartment">2 Bed Apartment</option>
             <option value="3 Bed Apartment">3 Bed Apartment</option>
@@ -594,7 +962,8 @@ function DetailsTab({ unit }: { unit: any }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
           <input
             type="number"
-            defaultValue={unit.features.bedrooms}
+            value={formData.bedrooms}
+            onChange={(e) => onInputChange('bedrooms', parseInt(e.target.value) || 0)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -602,7 +971,8 @@ function DetailsTab({ unit }: { unit: any }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">Bathrooms</label>
           <input
             type="number"
-            defaultValue={unit.features.bathrooms}
+            value={formData.bathrooms}
+            onChange={(e) => onInputChange('bathrooms', parseInt(e.target.value) || 0)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -610,7 +980,8 @@ function DetailsTab({ unit }: { unit: any }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">Floor Area (sq ft)</label>
           <input
             type="number"
-            defaultValue={unit.features.floorArea}
+            value={formData.floorArea}
+            onChange={(e) => onInputChange('floorArea', parseInt(e.target.value) || 0)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -618,7 +989,8 @@ function DetailsTab({ unit }: { unit: any }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">Building</label>
           <input
             type="number"
-            defaultValue={unit.features.building}
+            value={formData.building}
+            onChange={(e) => onInputChange('building', parseInt(e.target.value) || 0)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -639,7 +1011,7 @@ function DetailsTab({ unit }: { unit: any }) {
   );
 }
 
-function MediaTab({ unit }: { unit: any }) {
+function MediaTab({ unit, formData, onInputChange }: { unit: any; formData: any; onInputChange: (field: string, value: any) => void }) {
   return (
     <div className="space-y-4">
       <div>
@@ -658,6 +1030,8 @@ function MediaTab({ unit }: { unit: any }) {
         <input
           type="url"
           placeholder="https://..."
+          value={formData.virtualTourUrl}
+          onChange={(e) => onInputChange('virtualTourUrl', e.target.value)}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
@@ -682,7 +1056,7 @@ function FloorPlansTab({ unit }: { unit: any }) {
   );
 }
 
-function SalesTab({ unit }: { unit: any }) {
+function SalesTab({ unit, formData, onInputChange }: { unit: any; formData: any; onInputChange: (field: string, value: any) => void }) {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -690,14 +1064,16 @@ function SalesTab({ unit }: { unit: any }) {
           <label className="block text-sm font-medium text-gray-700 mb-1">Current Price (€)</label>
           <input
             type="number"
-            defaultValue={unit.pricing.currentPrice}
+            value={formData.currentPrice}
+            onChange={(e) => onInputChange('currentPrice', parseFloat(e.target.value) || 0)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
           <select 
-            defaultValue={unit.status}
+            value={formData.status}
+            onChange={(e) => onInputChange('status', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="available">Available</option>
@@ -709,45 +1085,51 @@ function SalesTab({ unit }: { unit: any }) {
         </div>
       </div>
 
-      {unit.buyer && (
-        <div>
-          <h4 className="font-medium text-gray-900 mb-3">Buyer Information</h4>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Buyer Name</label>
-              <input
-                type="text"
-                defaultValue={unit.buyer.name}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input
-                type="email"
-                defaultValue={unit.buyer.email}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-              <input
-                type="tel"
-                defaultValue={unit.buyer.phone}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Solicitor</label>
-              <input
-                type="text"
-                defaultValue={unit.buyer.solicitor}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+      <div>
+        <h4 className="font-medium text-gray-900 mb-3">Buyer Information</h4>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Buyer Name</label>
+            <input
+              type="text"
+              value={formData.buyerName}
+              onChange={(e) => onInputChange('buyerName', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter buyer name..."
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              value={formData.buyerEmail}
+              onChange={(e) => onInputChange('buyerEmail', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="buyer@example.com"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <input
+              type="tel"
+              value={formData.buyerPhone}
+              onChange={(e) => onInputChange('buyerPhone', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="+353 XX XXX XXXX"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Solicitor</label>
+            <input
+              type="text"
+              value={formData.buyerSolicitor}
+              onChange={(e) => onInputChange('buyerSolicitor', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Solicitor name or firm"
+            />
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

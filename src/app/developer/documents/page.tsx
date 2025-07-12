@@ -25,7 +25,11 @@ import {
   BookOpen,
   Scale,
   ClipboardList,
-  Zap
+  Zap,
+  Calculator,
+  Wrench,
+  Award,
+  Home
 } from 'lucide-react';
 import EnterpriseDocumentTemplateManager from '@/components/documents/EnterpriseDocumentTemplateManager';
 import RFPTemplateBuilder from '@/components/documents/templates/RFPTemplateBuilder';
@@ -123,6 +127,12 @@ const DOCUMENT_CATEGORIES = {
     description: 'Building control, safety certificates, and compliance docs',
     icon: <CheckCircle className="w-5 h-5" />,
     count: 18
+  },
+  professional: {
+    name: 'Professional Services',
+    description: 'QS cost reports, architect plans, engineer deliverables',
+    icon: <Award className="w-5 h-5" />,
+    count: 24
   }
 };
 
@@ -235,6 +245,111 @@ export default function DocumentsPage() {
             onSave={handleSaveTemplate}
             onClose={handleCancelTemplate}
           />
+        );
+      case 'quantity_surveyor':
+        return (
+          <div className="container mx-auto py-6">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Calculator className="w-8 h-8 text-blue-600" />
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900">Quantity Surveyor Template Builder</h1>
+                    <p className="text-gray-600">Create professional QS documents and cost reports</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleCancelTemplate}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleSaveTemplate({ type: 'quantity_surveyor', template: 'created' })}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Save Template
+                  </button>
+                </div>
+              </div>
+              <div className="text-center py-12">
+                <Calculator className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Quantity Surveyor Template Builder</h3>
+                <p className="text-gray-600">Professional QS templates including BOQ, cost estimates, and valuation reports</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'architect':
+        return (
+          <div className="container mx-auto py-6">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Home className="w-8 h-8 text-blue-600" />
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900">Architect Template Builder</h1>
+                    <p className="text-gray-600">Create professional architectural documents and plans</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleCancelTemplate}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleSaveTemplate({ type: 'architect', template: 'created' })}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Save Template
+                  </button>
+                </div>
+              </div>
+              <div className="text-center py-12">
+                <Home className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Architect Template Builder</h3>
+                <p className="text-gray-600">Professional architectural templates including drawings, specifications, and design documents</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'engineer':
+        return (
+          <div className="container mx-auto py-6">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Wrench className="w-8 h-8 text-blue-600" />
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900">Engineer Template Builder</h1>
+                    <p className="text-gray-600">Create professional engineering documents and reports</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleCancelTemplate}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleSaveTemplate({ type: 'engineer', template: 'created' })}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Save Template
+                  </button>
+                </div>
+              </div>
+              <div className="text-center py-12">
+                <Wrench className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Engineer Template Builder</h3>
+                <p className="text-gray-600">Professional engineering templates including structural, civil, and M&E documentation</p>
+              </div>
+            </div>
+          </div>
         );
       default:
         return <div>Unknown template type</div>;
@@ -359,6 +474,28 @@ export default function DocumentsPage() {
                 <Shield className="w-4 h-4" />
                 Compliance Tracker
               </button>
+              <div className="border-t border-gray-200 my-1"></div>
+              <button
+                onClick={() => handleCreateTemplate('quantity_surveyor')}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 w-full text-left"
+              >
+                <Calculator className="w-4 h-4" />
+                Quantity Surveyor
+              </button>
+              <button
+                onClick={() => handleCreateTemplate('architect')}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 w-full text-left"
+              >
+                <Home className="w-4 h-4" />
+                Architect
+              </button>
+              <button
+                onClick={() => handleCreateTemplate('engineer')}
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 w-full text-left"
+              >
+                <Wrench className="w-4 h-4" />
+                Engineer
+              </button>
             </div>
           </div>
         </div>
@@ -470,6 +607,88 @@ export default function DocumentsPage() {
                   <p className="text-sm text-gray-600">{category.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+          
+          {/* Professional Services */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Professional Services</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <a 
+                href="/developer/team/quantity-surveyors"
+                className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                      <Calculator className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">Quantity Surveyors</h4>
+                      <p className="text-sm text-gray-600">Cost management</p>
+                    </div>
+                  </div>
+                  <Eye className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                </div>
+                <p className="text-sm text-gray-600">Professional QS team for cost estimates, BOQ, and valuation reports</p>
+              </a>
+              
+              <a 
+                href="/developer/team/architects"
+                className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                      <Home className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">Architects</h4>
+                      <p className="text-sm text-gray-600">Design & planning</p>
+                    </div>
+                  </div>
+                  <Eye className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                </div>
+                <p className="text-sm text-gray-600">Architectural design team for drawings, specifications, and planning</p>
+              </a>
+              
+              <a 
+                href="/developer/team/engineers"
+                className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                      <Wrench className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">Engineers</h4>
+                      <p className="text-sm text-gray-600">Technical services</p>
+                    </div>
+                  </div>
+                  <Eye className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                </div>
+                <p className="text-sm text-gray-600">Engineering team for structural, civil, and M&E documentation</p>
+              </a>
+              
+              <a 
+                href="/developer/team/professionals"
+                className="bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center group-hover:bg-amber-200 transition-colors">
+                      <Award className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">Other Professionals</h4>
+                      <p className="text-sm text-gray-600">Specialist services</p>
+                    </div>
+                  </div>
+                  <Eye className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                </div>
+                <p className="text-sm text-gray-600">Specialist professionals including legal, financial, and planning experts</p>
+              </a>
             </div>
           </div>
           

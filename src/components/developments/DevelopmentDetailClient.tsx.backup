@@ -1,0 +1,575 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import { 
+  Search, 
+  Filter, 
+  MapPin, 
+  Bed, 
+  Bath, 
+  Car, 
+  Maximize,
+  Calendar,
+  Euro,
+  Eye,
+  Heart,
+  Share2,
+  LayoutGrid,
+  List,
+  ChevronDown,
+  CheckCircle,
+  AlertCircle,
+  Home,
+  TrendingUp,
+  Users,
+  Star,
+  FileText
+} from 'lucide-react';
+
+// Removed direct Prisma import - using API routes instead
+import { Unit } from '@/lib/services/units';
+import DevelopmentCTA from '@/components/buyer/DevelopmentCTA';
+import { UnitCard } from '@/components/units';
+import { getStatusInfo, formatPrice, sortByStatusAndPrice } from '@/lib/utils/status-helpers';
+import { useDevelopmentUnitsRealTimeSync } from '@/hooks/useUnitRealTimeSync';
+import UnitSyncIndicator from '@/components/units/UnitSyncIndicator';
+
+// Filter helpers
+const filterUnits = (units: Unit[], filters: any) => {
+  return units.filter(unit => {
+    if (filters.status && filters.status !== 'All' && unit.status !== filters.status) {
+      return false;
+    }
+    if (filters.bedrooms && filters.bedrooms !== 'Any' && unit.bedrooms !== parseInt(filters.bedrooms)) {
+      return false;
+    }
+    if (filters.type && filters.type !== 'All' && unit.type !== filters.type) {
+      return false;
+    }
+    if (filters.priceRange) {
+      const [min, max] = filters.priceRange;
+      if (min && unit.basePrice < min) return false;
+      if (max && unit.basePrice > max) return false;
+    }
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      return (
+        unit.name?.toLowerCase().includes(searchLower) ||
+        unit.unitNumber?.toLowerCase().includes(searchLower) ||
+        unit.type?.toLowerCase().includes(searchLower)
+      );
+    }
+    return true;
+  });
+};
+
+interface DevelopmentDetailClientProps {
+  initialDevelopmentId: string;
+}
+
+export default function DevelopmentDetailClient({ initialDevelopmentId }: DevelopmentDetailClientProps) {
+  const params = useParams();
+  const developmentId = params.id as string || initialDevelopmentId;
+
+  // State management
+  const [development, setDevelopment] = useState<any>(null);
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [filteredUnits, setFilteredUnits] = useState<Unit[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Real-time sync
+  const {
+    units: syncedUnits,
+    lastUpdate,
+    isLive,
+    initializeUnits,
+    refreshUnits,
+    hasActiveUpdate,
+    getActiveUpdate,
+    isConnected
+  } = useDevelopmentUnitsRealTimeSync(developmentId);
+  
+  // Filter and display state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
+  const [bedroomFilter, setBedroomFilter] = useState('Any');
+  const [typeFilter, setTypeFilter] = useState('All');
+  const [priceRangeFilter, setPriceRangeFilter] = useState<[number, number] | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState('price-asc');
+
+  // Apply filtering whenever dependencies change
+  useEffect(() => {
+    const filtered = filterUnits(units, {
+      status: statusFilter,
+      bedrooms: bedroomFilter,
+      type: typeFilter,
+      priceRange: priceRangeFilter,
+      search: searchQuery
+    });
+    
+    // Apply sorting
+    const sorted = sortByStatusAndPrice(filtered, sortBy);
+    setFilteredUnits(sorted);
+  }, [units, statusFilter, bedroomFilter, typeFilter, priceRangeFilter, searchQuery, sortBy]);
+
+  // Sync units from real-time service
+  useEffect(() => {
+    if (syncedUnits.length > 0) {
+      setUnits(syncedUnits);
+      initializeUnits(syncedUnits);
+    }
+  }, [syncedUnits, initializeUnits]);
+
+  // Load development and units data
+  useEffect(() => {
+    const loadDevelopmentData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Load development details via API
+        const response = await fetch(`/api/developments/${developmentId}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('Development not found');
+          } else {
+            setError('Failed to load development data');
+          }
+          return;
+        }
+        
+        const result = await response.json();
+        if (result.data) {
+          setDevelopment(result.data);
+          // Units data is included in the API response
+          setUnits(result.data.units || []);
+        } else {
+          setError('Invalid development data received');
+        }
+        
+      } catch (err) {
+        console.error('Error loading development data:', err);
+        setError('Failed to load development data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (developmentId) {
+      loadDevelopmentData();
+    }
+  }, [developmentId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading development details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Error Loading Development</h1>
+          <p className="text-gray-600">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!development) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Home className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Development Not Found</h1>
+          <p className="text-gray-600">The requested development could not be found.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const hasUpdate = hasActiveUpdate();
+  const activeUpdate = getActiveUpdate();
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="relative h-[70vh] bg-gray-900">
+        <div className="absolute inset-0">
+          {development.mainImage && (
+            <img 
+              src={development.mainImage} 
+              alt={development.name}
+              className="w-full h-full object-cover opacity-80"
+            />
+          )}
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/20"></div>
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+          <div className="text-white max-w-3xl">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">{development.name}</h1>
+            <div className="flex items-center mb-6">
+              <MapPin className="h-6 w-6 mr-3" />
+              <span className="text-xl">
+                {development.location ? 
+                  `${development.location.address}, ${development.location.city}, ${development.location.county}` :
+                  'Premium Location'
+                }
+              </span>
+            </div>
+            <p className="text-xl md:text-2xl mb-8 font-light leading-relaxed">
+              {development.shortDescription || development.description}
+            </p>
+            <div className="flex flex-wrap gap-6 text-lg">
+              <div className="flex items-center">
+                <Home className="h-5 w-5 mr-2" />
+                <span>{development.totalUnits} Premium Units</span>
+              </div>
+              <div className="flex items-center">
+                <Euro className="h-5 w-5 mr-2" />
+                <span>From {formatPrice(development.startingPrice)}</span>
+              </div>
+              {development.completionDate && (
+                <div className="flex items-center">
+                  <Calendar className="h-5 w-5 mr-2" />
+                  <span>Completion {new Date(development.completionDate).getFullYear()}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Navigation */}
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex space-x-8 overflow-x-auto">
+            {['Overview', 'Gallery', 'Units', 'Features', 'Location', 'Specifications', 'Plans'].map((item) => (
+              <a 
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="py-4 px-2 border-b-2 border-transparent hover:border-blue-500 text-gray-700 hover:text-blue-600 font-medium whitespace-nowrap transition-colors"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      {/* Overview Section */}
+      <section id="overview" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">About {development.name}</h2>
+              <div className="prose prose-lg text-gray-600 mb-8">
+                <p className="text-xl leading-relaxed">{development.description}</p>
+              </div>
+              
+              {development.features && development.features.length > 0 && (
+                <div className="mb-12">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Premium Features</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {development.features.map((feature: string, index: number) => (
+                      <div key={index} className="flex items-center p-4 bg-gray-50 rounded-lg">
+                        <CheckCircle className="h-6 w-6 text-green-500 mr-3 flex-shrink-0" />
+                        <span className="text-gray-800 font-medium">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {development.amenities && development.amenities.length > 0 && (
+                <div className="mb-12">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">Amenities & Services</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {development.amenities.map((amenity: string, index: number) => (
+                      <div key={index} className="flex items-center p-3 bg-blue-50 rounded-lg">
+                        <Star className="h-5 w-5 text-blue-500 mr-2" />
+                        <span className="text-gray-700">{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-2xl shadow-xl p-8 sticky top-24 border border-gray-100">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Development Details</h3>
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                    <span className="text-gray-600 font-medium">Starting Price</span>
+                    <span className="text-xl font-bold text-green-600">{formatPrice(development.startingPrice)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                    <span className="text-gray-600 font-medium">Units Available</span>
+                    <span className="font-semibold text-gray-900">{development.unitsAvailable} / {development.totalUnits}</span>
+                  </div>
+                  {development.completionDate && (
+                    <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                      <span className="text-gray-600 font-medium">Completion</span>
+                      <span className="font-semibold text-gray-900">{new Date(development.completionDate).toLocaleDateString()}</span>
+                    </div>
+                  )}
+                  {development.buildingType && (
+                    <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                      <span className="text-gray-600 font-medium">Building Type</span>
+                      <span className="font-semibold text-gray-900">{development.buildingType}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center py-3">
+                    <span className="text-gray-600 font-medium">Status</span>
+                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                      {development.status}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="mt-8">
+                  <DevelopmentCTA 
+                    developmentId={developmentId}
+                    developmentName={development.name}
+                    unitsAvailable={development.unitsAvailable}
+                    startingPrice={development.startingPrice}
+                  />
+                </div>
+
+                {/* Quick Links */}
+                <div className="mt-6 space-y-3">
+                  {development.brochureUrl && (
+                    <a 
+                      href={development.brochureUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      <FileText className="h-5 w-5 mr-2" />
+                      Download Brochure
+                    </a>
+                  )}
+                  {development.virtualTourUrl && (
+                    <a 
+                      href={development.virtualTourUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center w-full px-4 py-3 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                    >
+                      <Eye className="h-5 w-5 mr-2" />
+                      Virtual Tour
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      {development.images && development.images.length > 0 && (
+        <section id="gallery" className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Gallery</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {development.images.map((image: string, index: number) => (
+                <div key={index} className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-shadow group">
+                  <img 
+                    src={image} 
+                    alt={`${development.name} - Image ${index + 1}`}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Site Plan Section */}
+      {development.sitePlanUrl && (
+        <section id="plans" className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Site Plan</h2>
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-gray-100 rounded-2xl p-8 shadow-lg">
+                <img 
+                  src={development.sitePlanUrl} 
+                  alt={`${development.name} Site Plan`}
+                  className="w-full h-auto rounded-lg shadow-md"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Building Specifications */}
+      {development.buildingSpecs && Object.keys(development.buildingSpecs).length > 0 && (
+        <section id="specifications" className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Specifications</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Object.entries(development.buildingSpecs).map(([key, value]) => (
+                <div key={key} className="bg-white rounded-lg shadow-lg p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 capitalize">
+                    {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
+                  </h3>
+                  <p className="text-gray-600">{String(value)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Units Section */}
+      <section id="units" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Available Units</h2>
+              <p className="text-xl text-gray-600">
+                Choose from {development.unitsAvailable} available units out of {development.totalUnits} total units
+              </p>
+            </div>
+            <div className="flex items-center space-x-4 mt-6 lg:mt-0">
+              <UnitSyncIndicator 
+                isLive={isLive}
+                lastUpdate={lastUpdate}
+                isConnected={isConnected}
+              />
+              <button
+                onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                className="flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                {viewMode === 'grid' ? <List className="h-5 w-5 mr-2" /> : <LayoutGrid className="h-5 w-5 mr-2" />}
+                {viewMode === 'grid' ? 'List View' : 'Grid View'}
+              </button>
+            </div>
+          </div>
+
+          {/* Filters */}
+          <div className="bg-gray-50 rounded-2xl p-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search units..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="All">All Status</option>
+                    <option value="Available">Available</option>
+                    <option value="Reserved">Reserved</option>
+                    <option value="Sold">Sold</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+                  <select
+                    value={bedroomFilter}
+                    onChange={(e) => setBedroomFilter(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="Any">Any Bedrooms</option>
+                    <option value="1">1 Bedroom</option>
+                    <option value="2">2 Bedrooms</option>
+                    <option value="3">3 Bedrooms</option>
+                    <option value="4">4+ Bedrooms</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                  <select
+                    value={typeFilter}
+                    onChange={(e) => setTypeFilter(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="All">All Types</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="House">House</option>
+                    <option value="Duplex">Duplex</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="bedrooms-asc">Bedrooms: Low to High</option>
+                    <option value="bedrooms-desc">Bedrooms: High to Low</option>
+                    <option value="status">Status</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Units Grid/List */}
+            {filteredUnits.length === 0 ? (
+              <div className="text-center py-12">
+                <Home className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No Units Found</h3>
+                <p className="text-gray-600">Try adjusting your filters to see more units.</p>
+              </div>
+            ) : (
+              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6`}>
+                {filteredUnits.map((unit) => {
+                  const hasUpdate = hasActiveUpdate();
+                  const activeUpdate = getActiveUpdate();
+                  return (
+                    <UnitCard
+                      key={unit.id}
+                      unit={unit}
+                      developmentId={developmentId}
+                      showSyncIndicator={isLive}
+                      syncStatus={hasUpdate ? 'syncing' : (isConnected ? 'synced' : 'offline')}
+                      isLive={isLive}
+                      lastUpdate={activeUpdate?.timestamp ? new Date(activeUpdate.timestamp) : lastUpdate}
+                      updateType={activeUpdate?.updateType}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

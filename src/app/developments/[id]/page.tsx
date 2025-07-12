@@ -1,39 +1,12 @@
 /**
  * Universal Development Detail Page
  * Shows detailed information about any development with real-time unit listings
- * Data synchronized with developer portal and database
+ * Data synchronized with developer portal and enterprise database
  */
 
 import { Metadata } from 'next';
-import DevelopmentDetailClient from '@/components/developments/DevelopmentDetailClient';
-
-// Sample developments data for static generation
-const developmentsData = {
-  'ellwood-bloom': {
-    id: 'ellwood-bloom',
-    name: 'Ellwood Bloom',
-    location: 'Celbridge, Co. Kildare',
-    description: 'Modern apartments in the heart of Celbridge',
-    startingPrice: 285000,
-    unitsAvailable: 8,
-    totalUnits: 68,
-    completionDate: 'Q2 2025',
-    heroImage: '/images/developments/ellwood-bloom/hero.jpg'
-  },
-  'fitzgerald-gardens': {
-    id: 'fitzgerald-gardens',
-    name: 'Fitzgerald Gardens',
-    location: 'Dublin 8',
-    description: 'Contemporary living in Dublin city',
-    startingPrice: 350000,
-    unitsAvailable: 12,
-    totalUnits: 45,
-    completionDate: 'Q3 2025',
-    heroImage: '/images/developments/fitzgerald-gardens/hero.jpg'
-  }
-};
-
-// Using shared UnitCard component from '@/components/units'
+import { developmentsService } from '@/lib/services/developments-prisma';
+import DevelopmentDetailClient from '@/components/developments/DevelopmentDetailClientSimple';
 
 interface Props {
   params: {
@@ -41,32 +14,36 @@ interface Props {
   };
 }
 
-export async function generateStaticParams() {
-  return Object.keys(developmentsData).map((id) => ({
-    id: id,
-  }));
-}
-
+// Dynamic route - no static generation needed
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
-  const development = developmentsData[resolvedParams.id as keyof typeof developmentsData];
   
-  if (!development) {
+  try {
+    const development = await developmentsService.getDevelopmentById(resolvedParams.id);
+    
+    if (!development) {
+      return {
+        title: 'Development Not Found - PROP.ie',
+        description: 'The requested development could not be found.',
+      };
+    }
+
     return {
-      title: 'Development Not Found - PROP.ie',
-      description: 'The requested development could not be found.',
+      title: `${development.name} - ${development.location} | PROP.ie`,
+      description: `${development.description}. Starting from €${development.startingPrice?.toLocaleString() || 'TBD'}. ${development.totalUnits} units available.`,
+      openGraph: {
+        title: `${development.name} - ${development.location}`,
+        description: development.description,
+        images: development.mainImage ? [development.mainImage] : undefined,
+      },
+    };
+  } catch (error) {
+    console.error('Error generating metadata for development:', resolvedParams.id, error);
+    return {
+      title: 'Development - PROP.ie',
+      description: 'Premium residential development in Ireland.',
     };
   }
-
-  return {
-    title: `${development.name} - ${development.location} | PROP.ie`,
-    description: `${development.description}. Starting from €${development.startingPrice.toLocaleString()}. ${development.unitsAvailable} units available.`,
-    openGraph: {
-      title: `${development.name} - ${development.location}`,
-      description: development.description,
-      images: development.heroImage ? [development.heroImage] : undefined,
-    },
-  };
 }
 
 export default async function UniversalDevelopmentPage({ params }: Props) {
